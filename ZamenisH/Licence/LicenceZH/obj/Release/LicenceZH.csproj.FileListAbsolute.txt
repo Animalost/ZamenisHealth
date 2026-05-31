@@ -1,0 +1,12 @@
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Licence\LicenceZH\bin\Release\LicenceZH.dll
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Licence\LicenceZH\bin\Release\LicenceZH.pdb
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Licence\LicenceZH\bin\Release\Domain.dll
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Licence\LicenceZH\bin\Release\Newtonsoft.Json.dll
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Licence\LicenceZH\bin\Release\Domain.pdb
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Licence\LicenceZH\bin\Release\Domain.dll.config
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Licence\LicenceZH\bin\Release\Newtonsoft.Json.xml
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Licence\LicenceZH\obj\Release\LicenceZH.csproj.AssemblyReference.cache
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Licence\LicenceZH\obj\Release\LicenceZH.csproj.CoreCompileInputs.cache
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Licence\LicenceZH\obj\Release\LicenceZH.csproj.Up2Date
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Licence\LicenceZH\obj\Release\LicenceZH.dll
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Licence\LicenceZH\obj\Release\LicenceZH.pdb

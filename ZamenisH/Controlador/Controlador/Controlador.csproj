@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E71AFEA2-9183-4B3A-B8B2-1CB9CE11C8CA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Controlador</RootNamespace>
+    <AssemblyName>Controlador</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>estetoscopio.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>Zamenis.pfx</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\ZamenisHealth\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="APIController.cs" />
+    <Compile Include="Clases\AESHelper.cs" />
+    <Compile Include="Clases\BooleanResponse.cs" />
+    <Compile Include="Clases\ListaResponse.cs" />
+    <Compile Include="Clases\MensajeroRequest.cs" />
+    <Compile Include="ControladorConfiguracion.cs" />
+    <Compile Include="Controllers\AdmisionesController.cs" />
+    <Compile Include="Controllers\AgendaController.cs" />
+    <Compile Include="Controllers\AgendarCitaController.cs" />
+    <Compile Include="Controllers\AsistenciaController.cs" />
+    <Compile Include="Controllers\ClavesController.cs" />
+    <Compile Include="Controllers\ConsultaAdmisionController.cs" />
+    <Compile Include="Controllers\ContenedorController.cs" />
+    <Compile Include="Controllers\Contenedor\ConfigGenController.cs" />
+    <Compile Include="Controllers\Contenedor\MisDatosController.cs" />
+    <Compile Include="Controllers\Contenedor\SMSDisponiblesController.cs" />
+    <Compile Include="Controllers\CrearEditarPacienteController.cs" />
+    <Compile Include="Controllers\DisponibilidadController.cs" />
+    <Compile Include="Controllers\DocumentosCopiasController.cs" />
+    <Compile Include="Controllers\Gerencial\GerencialController.cs" />
+    <Compile Include="Controllers\Images\ImagesController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\MensajeroSendController.cs" />
+    <Compile Include="Controllers\NoticiasController.cs" />
+    <Compile Include="Controllers\NovedadesAdmisionController.cs" />
+    <Compile Include="Controllers\PacientesController.cs" />
+    <Compile Include="Controllers\ParticularesController.cs" />
+    <Compile Include="Controllers\RecepcionExtras\ActivarProfesionalesController.cs" />
+    <Compile Include="Controllers\RecepcionExtras\AgendadosDiaController.cs" />
+    <Compile Include="Controllers\RecepcionExtras\BloqueoDiasController.cs" />
+    <Compile Include="Controllers\RecepcionExtras\BusquedaController.cs" />
+    <Compile Include="Controllers\RecepcionExtras\CancelacionesWEBController.cs" />
+    <Compile Include="Controllers\RecepcionExtras\CAsistenciaController.cs" />
+    <Compile Include="Controllers\RecepcionExtras\Circular016Controller.cs" />
+    <Compile Include="Controllers\RecepcionExtras\CitasMailPDFController.cs" />
+    <Compile Include="Controllers\RecepcionExtras\CrearClienteController.cs" />
+    <Compile Include="Controllers\RecepcionExtras\CrearPacienteFast.cs" />
+    <Compile Include="Controllers\RecepcionExtras\DatosCitaController.cs" />
+    <Compile Include="Controllers\RecepcionExtras\EmailrecordatorioController.cs" />
+    <Compile Include="Controllers\RecepcionExtras\EncuestaQRController.cs" />
+    <Compile Include="Controllers\RecepcionExtras\GeneratedPController.cs" />
+    <Compile Include="Controllers\RecepcionExtras\inputAutorizationController.cs" />
+    <Compile Include="Controllers\RecepcionExtras\MoverAgendaController.cs" />
+    <Compile Include="Controllers\RecepcionExtras\OrdenesPendientesController.cs" />
+    <Compile Include="Controllers\RecepcionExtras\ParticularesPreviosController.cs" />
+    <Compile Include="Controllers\RecepcionExtras\PreciosController.cs" />
+    <Compile Include="Controllers\RecepcionExtras\PrintAgendasController.cs" />
+    <Compile Include="Controllers\RecepcionExtras\PrintTicketsController.cs" />
+    <Compile Include="Controllers\RecepcionExtras\RcCajaController.cs" />
+    <Compile Include="Controllers\RecepcionExtras\SMSPersonzalizaController.cs" />
+    <Compile Include="Controllers\RecepcionExtras\Ventas2Controller.cs" />
+    <Compile Include="Controllers\RecepcionExtras\ZonasController.cs" />
+    <Compile Include="Controllers\TyCController.cs" />
+    <Compile Include="Controllers\VentasController.cs" />
+    <Compile Include="HttpClientExtensions.cs" />
+    <Compile Include="InicioController.cs" />
+    <Compile Include="InicioService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\AdmisionesService.cs" />
+    <Compile Include="Services\AgendarCitaService.cs" />
+    <Compile Include="Services\AgendaService.cs" />
+    <Compile Include="Services\AseguradoraService.cs" />
+    <Compile Include="Services\AsistenciaService.cs" />
+    <Compile Include="Services\BodegaService.cs" />
+    <Compile Include="Services\CalendarioService.cs" />
+    <Compile Include="Services\CargosService.cs" />
+    <Compile Include="Services\CompañiaService.cs" />
+    <Compile Include="Services\ConfSystemService.cs" />
+    <Compile Include="Services\ContenedorService.cs" />
+    <Compile Include="Services\ConveniosService.cs" />
+    <Compile Include="Services\DisponibilidadService.cs" />
+    <Compile Include="Services\EmailService.cs" />
+    <Compile Include="Services\EncuestasService.cs" />
+    <Compile Include="Services\EstadisticaService.cs" />
+    <Compile Include="Services\FacturacionService.cs" />
+    <Compile Include="Services\GerenciaService.cs" />
+    <Compile Include="Services\HCMGService.cs" />
+    <Compile Include="Services\ImagesService.cs" />
+    <Compile Include="Services\LoginService.cs" />
+    <Compile Include="Services\LogService.cs" />
+    <Compile Include="Services\MensajeroService.cs" />
+    <Compile Include="Services\OMService.cs" />
+    <Compile Include="Services\PacientesService.cs" />
+    <Compile Include="Services\ParticularesService.cs" />
+    <Compile Include="Services\PlanosService.cs" />
+    <Compile Include="Services\ProductosService.cs" />
+    <Compile Include="Services\RcCajaService.cs" />
+    <Compile Include="Services\ReportesService.cs" />
+    <Compile Include="Services\VentasService.cs" />
+    <Compile Include="Services\ZonasService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Domain\Domain.csproj">
+      <Project>{96aa9a39-89b9-48cd-9d05-65651d1c5790}</Project>
+      <Name>Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Persistence\Persistence.csproj">
+      <Project>{caa3bcaa-05ff-454f-ae92-8f8d357de428}</Project>
+      <Name>Persistence</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+    <None Include="Zamenis.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="estetoscopio.ico" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

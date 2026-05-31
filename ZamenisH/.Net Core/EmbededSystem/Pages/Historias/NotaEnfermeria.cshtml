@@ -1,0 +1,516 @@
+﻿@page
+@model EmbededSystem.Pages.Historias.NotaEnfermeriaModel
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Nota de Enfermeria";
+    ViewData["script"] = "JSNotaEnfermeria.js";
+    @Html.AntiForgeryToken();
+}
+
+<style>
+    table.dataTable tbody tr:hover {
+        background-color: #f0f0f0;
+        cursor: pointer;
+    }
+</style>
+
+<input type="hidden" id="Err" value="@Model.ErrorGrave" />
+<input type="button" class="btn btn-danger btn-sm" id="closeErr" name="closeErr" value="Cerrar" />
+
+<input type="hidden" id="arrastra" value="@Model.arrastra" />
+<input type="hidden" id="Paciente" value="@Model.Paciente.ToString().Trim()" />
+<input type="hidden" id="Cia" value="@Model.Cia.ToString().Trim()" />
+<input type="hidden" id="Ase" value="@Model.Ase.ToString().Trim()" />
+<input type="hidden" id="Prof" value="@Model.Prof.ToString().Trim()" />
+<input type="hidden" id="CUP" value="@Model.CUP" />
+<input type="hidden" id="TSERV" value="@Model.TSERV" />
+<input type="hidden" id="Fecha_Serv" value="@Convert.ToDateTime(Model.Fecha_Serv).ToString("yyyy/MM/dd")" />
+<input type="hidden" id="Reg_RIP" value="@Model.Reg_RIP" />
+<input type="hidden" id="CMANID" value="@Model.CMANID" />
+<input type="hidden" id="CMANTID" value="@Model.CMANTID" />
+<input type="hidden" id="textBox23" value="@Model.textBox23" />
+<input type="hidden" id="PACSAL" value="@Model.PACSAL" />
+<input type="hidden" id="Valor" value="@Model.Valor" />
+<input type="hidden" id="Serv" value="@Model.Serv" />
+<input type="hidden" id="textBox12" value="@Model.textBox12" />
+<input type="hidden" id="textBox13" value="@Model.textBox13" />
+<input type="hidden" id="toolStripButton9" value="@Model.toolStripButton9" />
+
+<h5><b style="color:blue;">@Model.MensajeGeneral</b></h5>
+
+@if (string.IsNullOrEmpty(Model.Errores))
+{
+    <div style="padding-left:10px;padding-right:10px;">
+        <label class="text-center align-content-center align-items-center form-control w-100;" style="background-color:navy; color:white; padding:5px;"><b>NOTA DE ENFERMERIA</b></label>
+
+        <!-- aqui va el menu -->
+        <div class="row">
+            <div class="col-4">
+                <input type="button" id="btnDatoPaciente" class="btn btn-sm btn-primary form-control m-1" value="Datos Pacientes" />
+            </div>
+            <div class="col-4">
+                <input type="button" id="btnAdherencia" class="btn btn-sm btn-primary form-control m-1" value="Adherencia" />
+            </div>
+            @if (Model.toolStripButton9 == "A")
+            {
+                <div class="col-4">
+                    <input type="button" id="btnDocWeb" class="btn btn-sm btn-primary form-control m-1" value="Documentos Web" />
+                </div>
+            }
+            <div class="col-4">
+                <input type="button" id="btnGrabar" class="btn btn-sm btn-success form-control m-1" value="Grabar" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                <input type="button" id="btnHC" class="btn btn-sm btn-primary form-control m-1" value="Historia Clinica" />
+            </div>
+            <div class="col-4">
+                <input type="button" id="btnResumenHC" class="btn btn-sm btn-primary form-control m-1" value="Resumen Historia" />
+            </div>
+            <div class="col-4">
+                <input type="button" id="btnCManejo" class="btn btn-sm btn-primary form-control m-1" value="Cambios de Manejo" />
+            </div>
+            <div class="col-4">
+                <input type="button" id="btnTraerUltima" class="btn btn-sm btn-primary form-control m-1" value="Traer Ultima" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                <input type="button" id="btnCargaPlantilla" class="btn btn-sm btn-primary form-control m-1" value="Cargar Plantilla" />
+            </div>
+            <div class="col-4">
+                <input type="button" id="btnTratamiento" class="btn btn-sm btn-primary form-control m-1" value="Tratamiento" />
+            </div>
+            <div class="col-4">
+                <input type="button" id="btnMensajero" class="btn btn-sm btn-primary form-control m-1" value="Mensajero" />
+            </div>
+            <div class="col-4">
+                <input type="button" id="btnCancelar" class="btn btn-sm btn-danger form-control m-1" value="Cancelar" />
+            </div>
+        </div>
+        @if (Model.button2 == "A")
+        {
+            <div class="row">
+                <div class="col-4">
+                    <input type="button" id="btnCargos" class="btn btn-sm btn-primary form-control" value="Cargos" />
+                </div>
+            </div>
+        }
+
+        <br />
+        <div class="container text-center d-flex flex-column justify-content-center align-items-center"">
+            <div class="row align-content-center  w-100">
+                <div class="row w-100">
+                    <label class="form-control border-0" style="color:blue; font-size:15px;">En este espacio puede seleccionar el motivo por el cual el paciente requiere aconmpañante o la condicion especial del paciente si la tiene</label>
+                </div>
+                <div class="col-4">
+                    @if(Model.CaidaTxt == "A")
+                    {
+                        <label id="btnCaida" class="form-control text-wrap" style="cursor:pointer; background-color:DodgerBlue; color:navy;">CAIDA</label>
+                    }
+                    else
+                    {
+                        <label id="btnCaida" class="form-control text-wrap" style="cursor:pointer;">CAIDA</label>
+                    }                    
+                </div>
+                <div class="col-4">
+                    @if(Model.infeccionTxt == "A")
+                    {
+                        <label id="btnInfeccion" class="form-control text-wrap" style="cursor:pointer; background-color:lightgreen; color:green;">INFECCION</label>
+                    }
+                    else
+                    {
+                        <label id="btnInfeccion" class="form-control text-wrap" style="cursor:pointer;">INFECCION</label>
+                    }
+                </div>
+                <div class="col-4">
+                    @if(Model.deterioroTxt == "A")
+                    {
+                        <label id="btnDeterioro" class="form-control text-wrap" style="cursor:pointer; background-color:violet; color:darkviolet;">DETERIORO DE LA PIEL</label>
+                    }
+                    else
+                    {
+                        <label id="btnDeterioro" class="form-control text-wrap" style="cursor:pointer;">DETERIORO DE LA PIEL</label>
+                    }
+                </div>        
+            </div>
+
+            <div class="row align-content-center  w-100">
+                <div class="col-4">
+                    @if(Model.alergiaTxt == "A")
+                    {
+                        <label id="btnAlergia" class="form-control text-wrap" style="cursor:pointer; background-color:red; color:white;">ALERGIA</label>
+                    }
+                    else
+                    {
+                        <label id="btnAlergia" class="form-control text-wrap" style="cursor:pointer;">ALERGIA</label>
+                    }                    
+                </div>
+                <div class="col-4">
+                    @if(Model.dificultadTxt == "A")
+                    {
+                        <label id="btnComunicacion" class="form-control text-wrap" style="cursor:pointer; background-color:yellow; color:black;">DIFICULTAD DE COMUNICACION</label>
+                    }
+                    else
+                    {
+                        <label id="btnComunicacion" class="form-control text-wrap" style="cursor:pointer;">DIFICULTAD DE COMUNICACION</label>                        
+                    }                    
+                </div>
+                <div class="col-4">
+                    @if(Model.psiquiatricoTxt == "A")
+                    {
+                        <label id="btnPsiquiatrico" class="form-control text-wrap" style="cursor:pointer; background-color:darkviolet; color:thistle;">PACIENTE PSIQUIATRICO</label>
+                    }
+                    else
+                    {
+                        <label id="btnPsiquiatrico" class="form-control text-wrap" style="cursor:pointer;">PACIENTE PSIQUIATRICO</label>
+                    }
+                </div>
+            </div>
+
+            <div class="row align-content-center  w-100">
+       
+                <div class="col-4">
+                    @if(Model.mayorTxt == "A")
+                    {
+                        <label id="btnMayor" class="form-control text-wrap" style="cursor:pointer; background-color:darkturquoise; color:blue;">MAYOR DE 70 AÑOS</label>
+                    }
+                    else
+                    {
+                        <label id="btnMayor" class="form-control text-wrap" style="cursor:pointer;">MAYOR DE 70 AÑOS</label>
+                    }
+                </div>
+                <div class="col-4">
+                    @if(Model.dificilTxt == "A")
+                    {
+                        <label id="btnDificil" class="form-control text-wrap" style="cursor:pointer;background-color:orange; color:antiquewhite;">PACIENTE DIFICIL</label>
+                    }
+                    else
+                    {
+                        <label id="btnDificil" class="form-control text-wrap" style="cursor:pointer;">PACIENTE DIFICIL</label>
+                    }
+                </div>
+                <div class="col-4">
+                    @if(Model.requiereTxt == "A")
+                    {
+                        <label id="btnMedico" class="form-control text-wrap" style="cursor:pointer;background-color:gray; color:white;">MEDICO LO REQUIERE</label>
+                    }
+                    else
+                    {
+                        <label id="btnMedico" class="form-control text-wrap" style="cursor:pointer;">MEDICO LO REQUIERE</label>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-6">
+                <label>Paciente</label>
+                <input type="text" id="textBox2" class="form-control" readonly value="@Model.textBox2" />
+            </div>
+            <div class="col-6">
+                <label>Admision</label>
+                <input type="text" id="textBox1" class="form-control" readonly value="@Model.textBox1" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <label>Identificacion</label>
+                <input type="text" id="textBox5" class="form-control" readonly value="@Model.textBox5" />
+            </div>
+            <div class="col-6">
+                <label>Edad</label>
+                <input type="text" id="textBox4" class="form-control" readonly value="@Model.textBox4" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <label>Aseguradora</label>
+                <input type="text" id="textBox17" class="form-control" readonly value="@Model.textBox17" />
+            </div>
+            <div class="col-6">
+                <label>Fecha Nacimiento</label>
+                <input type="text" id="textBox3" class="form-control" readonly value="@Model.textBox3" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <label>Servicio CUP</label>
+                <input type="text" id="textBox22" class="form-control" readonly value="@Model.textBox22" />
+            </div>
+            <div class="col-6">
+                <label>Servicio Nombre</label>
+                <input type="text" id="textBox20" class="form-control" readonly value="@Model.textBox20" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <label>Patologia</label>
+                <input type="text" id="textBox13" class="form-control" readonly value="@Model.textBox13" />
+            </div>
+            <div class="col-6">
+                <label>Impresion Diagnostica</label>
+                <input type="text" id="textBox12" class="form-control" readonly value="@Model.textBox12" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <label>Sesiones</label>
+                <input type="text" id="textBox21" class="form-control" readonly value="@Model.textBox21" />
+            </div>
+            <div class="col-3">
+                <label><b style="color:red";>VIH</b></label>
+                <select id="selVIH" class="form-control">
+                    @if(Model.VIH == "S")
+                    {
+                        <option value="S" selected><b style="color:red;">Positivo</b></option>
+                    }
+                    else
+                    {
+                        <option value="N" selected><b style="color:green;">Negativo</b></option>
+                    }
+                    <option value="S" style="color:red;">Positivo</option>
+                    <option value="N" style="color:green;">Negativo</option>
+                </select>
+            </div>
+            <div class="col-3">
+                <label><b style="color:red" ;>Hepatitis</b></label>
+                <select id="selHepatitis" class="form-control">
+                    @if (Model.Hepatitis == "S")
+                    {
+                        <option value="S" selected><b style="color:red;">Positivo</b></option>
+                    }
+                    else
+                    {
+                        <option value="N" selected><b style="color:green;">Negativo</b></option>
+                    }
+                    <option value="S" style="color:red;">Positivo</option>
+                    <option value="N" style="color:green;">Negativo</option>
+                </select>
+            </div>
+        </div>
+        <hr />
+        <label class="text-center align-content-center align-items-center form-control w-100;" style="background-color:navy; color:white; padding:3px;"><b>Atencion !! Observaciones a tener en cuenta en esta cita</b></label>
+        <textarea class="form-control" readonly style="height:35px;" id="textBox23">@Model.textBox23</textarea>
+
+        <div class="row">
+            <div class="col-4">
+                <label>Acompañante *</label>
+                <input type="text" id="textBox19" required class="form-control text-uppercase" />
+            </div>
+            <div class="col-4">
+                <label>Telefono *</label>
+                <input type="text" id="textBox24" required class="form-control text-uppercase" />
+            </div>
+            <div class="col-4">
+                <label>¿Mismo paciente?</label>
+                <select id="checkBox5" class="form-control">
+                    <option value="NO" selected>NO</option>
+                    <option value="SI">SI</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-4">
+                <label>CIE10 Diagnostico Principal *</label>
+                <input type="text" id="textBox6" readonly required class="form-control text-uppercase" style="cursor:pointer;" />
+            </div>
+            <div class="col-6">
+                <label>Diagnostico Principal *</label>
+                <input type="text" id="textBox7" readonly required class="form-control text-uppercase" />
+            </div>
+            <div class="col-2">
+                <label>Limpiar</label>
+                <input type="button" id="btnCleanDX1" class="form-control btn btn-warning btn-sm" value="Limpiar"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                <label>CIE10 Diagnostico Secundario</label>
+                <input type="text" id="textBox8" readonly required class="form-control text-uppercase" style="cursor:pointer;" />
+            </div>
+            <div class="col-6">
+                <label>Diagnostico Secundario</label>
+                <input type="text" id="textBox10" readonly required class="form-control text-uppercase" />
+            </div>
+            <div class="col-2">
+                <label>Limpiar</label>
+                <input type="button" id="btnCleanDX2" class="form-control btn btn-warning btn-sm" value="Limpiar" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                <label>CIE10 Diagnostico Tercero</label>
+                <input type="text" id="textBox9" readonly required class="form-control text-uppercase" style="cursor:pointer;" />
+            </div>
+            <div class="col-6">
+                <label>Diagnostico Tercero</label>
+                <input type="text" id="textBox11" readonly required class="form-control text-uppercase" />
+            </div>
+            <div class="col-2">
+                <label>Limpiar</label>
+                <input type="button" id="btnCleanDX3" class="form-control btn btn-warning btn-sm" value="Limpiar" />
+            </div>
+        </div>
+
+        <label class="text-center align-content-center align-items-center form-control w-100;" style="background-color:navy; color:white; padding:3px;"><b>NOTAS DE CURACION</b></label>
+        <textarea class="form-control text-uppercase" style="height:150px;" id="textBox14"></textarea>
+        <hr />
+        <div>
+            <h6 style="color:blue;">Debe realizar un ingreso por cada una de las heridas que tenga el paciente</h6>
+            <div class="row">
+                <div class="col-3">
+                    <label>Profundidad</label>
+                    <input type="number" step="0.01" min="0" required class="form-control" id="txtProfundidad" title="Este valor puede ser un entero o un decimal separado por punto" />
+                </div>
+                <div class="col-3">
+                    <label>Ancho</label>
+                    <input type="number" step="0.01" min="0" required class="form-control" id="txtAncho" title="Este valor puede ser un entero o un decimal separado por punto" />
+                </div>
+                <div class="col-3">
+                    <label>Largo</label>
+                    <input type="number" step="0.01" min="0" required class="form-control" id="txtLargo" title="Este valor puede ser un entero o un decimal separado por punto" />
+                </div>
+                <div class="col-3">
+                    <label>Agregar</label>
+                    <input type="button" required class="form-control btn btn-primary btn-sm" id="btnAddHerida" value="Agregar Herida" />
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-6">
+                    <label>Evolucion de la herida</label>
+                    <select id="selEvolucionHerida" class="form-control">
+                        <option selected value="En Evolucion">En Evolucion</option>
+                        <option value="Sin Evolucion">Sin Evolucion</option>
+                    </select>
+                    <label>En caso que la herida no evolucion, escriba la razon por la cual no evoluciona</label>
+                    <textarea class="form-control text-uppercase" style="height:100px;" id="SinEvolucion"></textarea>
+                </div>
+                <div class="col-6">
+                    <label>Seleccione el estado de la herida</label>
+                    <select id="selEstadoHerida" class="form-control">
+                        <option selected value="Fibrina">Fibrina</option>
+                        <option value="Necrotico Humedo">Necrotico Humedo</option>
+                        <option value="Necrotico Seco">Necrotico Seco</option>
+                        <option value="Granulada">Granulada</option>
+                        <option value="Epitelizada">Epitelizada</option>
+                        <option value="Otro Estado">Otro Estado</option>
+                    </select>
+                    <label>En caso de seleccionar Otro Estado, describalo a continuacion, (este registro es por cada herida)</label>
+                    <textarea class="form-control text-uppercase" style="height:100px;" id="OtroEstado"></textarea>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <label>En caso de encontrar alguna novedad en la herida, describala a continuacion (Este campo es opcional)</label>
+                <textarea class="form-control text-uppercase" style="height:100px;" id="NovedadHerida" placeholder="Aqui puede diligenciar cualquier novedad de la herida, en cuanto a que halla sido manipulada o situaciones similares ajenas al tratamiendo medico"></textarea>
+            </div>
+            <br />
+            <table class="table data-page-length='30' class='table table-hover display compact cursor-pointer" id="tableMedidas">
+                <thead>
+                    <tr>
+                        <th scope="col">Identificador</th>
+                        <th title="Haga doble click para eliminar este ingreso">Profundidad</th>
+                        <th title="Haga doble click para eliminar este ingreso">Ancho</th>
+                        <th title="Haga doble click para eliminar este ingreso">Largo</th>
+                        <th title="Haga doble click para eliminar este ingreso">Resultado</th>
+                    </tr>
+                </thead>
+                <tbody id="tableMedidasTR">
+                    @if (Model.MEDPUBLIC != null)
+                    {
+                        foreach (var i in Model.MEDPUBLIC)
+                        {
+                            <tr>
+                                <td title="Este es el numero identificador unico de cada medida ingresada">@i.Id</td>
+                                <td title="Haga doble click para eliminar este ingreso">@i.Profundidad</td>
+                                <td title="Haga doble click para eliminar este ingreso">@i.Ancho</td>
+                                <td title="Haga doble click para eliminar este ingreso">@i.Largo</td>
+                                <td title="Haga doble click para eliminar este ingreso">@i.Total</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+        <hr />
+        <label class="text-center align-content-center align-items-center form-control w-100;" style="background-color:navy; color:white; padding:3px;"><b>OBSERVACIONES DE CURACION</b></label>
+        <textarea class="form-control text-uppercase" style="height:150px;" id="textBox15"></textarea>
+        <label class="text-center align-content-center align-items-center form-control w-100"
+               style="background-color:navy; color:white; padding:3px;">
+            <b>ADHERENCIA DE APOSITOS</b>
+            <input type="button" id="btnCleanAdAp" class="btn btn-sm btn-warning float-end" value="Limpiar Adherencia" />
+            <input type="button" id="btnNoApositos" class="btn btn-sm btn-success float-end" value="Sin Apositos" />
+        </label>
+        <textarea class="form-control text-uppercase" readonly style="height:150px;" id="richTextBox1"></textarea>
+        <label class="text-center align-content-center align-items-center form-control w-100;" style="background-color:navy; color:white; padding:3px;"><b>OBSERVACIONES DE CONTROL EPIDEMIOLOGICO</b></label>
+        <textarea class="form-control text-uppercase" style="height:150px;" id="textBox18">Paciente atendidio con medidas de precaucion contingencia de Covid-19.  Lavado de manos clinico por 60 segundos segun la OMS, previo al inicio de la atencion.  Se pregunta al paciente si ha presentado tos, fiebre o dificultad para respirar, no fatiga, no rinorea, no conjuntivitis, no diarrea, no perdida de peso no explicado, no diaforesis nocturna, no perdida de gusto y olfato.</textarea>
+        <label class="text-center align-content-center align-items-center form-control w-100;" style="background-color:navy; color:white; padding:3px;"><b>RECOMENDACIONES DE CURACION</b></label>
+        <textarea class="form-control text-uppercase" style="height:150px;" id="textBox16"></textarea>
+
+        <div class="row">
+            <div class="col-4">
+                <label>¿Paciente de doble espacio?</label>
+                <select id="selDobleEspacio" class="form-control">
+                    @if (Model.checkBox1 == "S")
+                    {
+                        <option value="S" selected>SI</option>
+                    }
+                    else
+                    {
+                        <option value="N" selected>NO</option>
+                    }
+                    <option value="N">NO</option>
+                    <option value="S">SI</option>
+                </select>
+            </div>
+            <div class="col-4">
+                <label>¿Dos veces por Semana?</label>
+                <select id="selDosVecesSemana" class="form-control">
+                    @if (Model.checkBox2 == "S")
+                    {
+                        <option value="S" selected>SI</option>
+                    }
+                    else
+                    {
+                        <option value="N" selected>NO</option>
+                    }
+                    <option value="N">NO</option>
+                    <option value="S">SI</option>
+                </select>
+            </div>
+            <div class="col-4">
+                <label>¿Condicion especial?</label>
+                <select id="selCondicionEspecial" class="form-control">
+                    @if (Model.checkBox4 == "S")
+                    {
+                        <option value="S" selected>SI</option>
+                    }
+                    else
+                    {
+                        <option value="N" selected>NO</option>
+                    }
+                    <option value="N">NO</option>
+                    <option value="S">SI</option>
+                </select>
+            </div>
+            @if (Model.checkBox3 == "S")
+            {
+            <div class="col-4">
+                <label>¿Arrastrar Historia?</label>
+                <select id="selTraerHistoria" class="form-control">
+                    <option value="SI" selected>SI</option>
+                    <option value="NO">NO</option>
+                </select>
+            </div>
+            }
+        </div>
+    </div>
+}
+else
+{
+    <h5>@Model.Errores</h5>
+}

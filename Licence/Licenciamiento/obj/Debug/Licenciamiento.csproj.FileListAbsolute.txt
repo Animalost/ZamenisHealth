@@ -1,0 +1,66 @@
+C:\Users\fagb-\source\repos\VS2022-Copia\Licence\Licenciamiento\bin\Debug\Licenciamiento.dll
+C:\Users\fagb-\source\repos\VS2022-Copia\Licence\Licenciamiento\bin\Debug\Licenciamiento.pdb
+C:\Users\fagb-\source\repos\VS2022-Copia\Licence\Licenciamiento\bin\Debug\Domain.dll
+C:\Users\fagb-\source\repos\VS2022-Copia\Licence\Licenciamiento\bin\Debug\Persistence.dll
+C:\Users\fagb-\source\repos\VS2022-Copia\Licence\Licenciamiento\bin\Debug\MySql.Data.dll
+C:\Users\fagb-\source\repos\VS2022-Copia\Licence\Licenciamiento\bin\Debug\itextsharp.dll
+C:\Users\fagb-\source\repos\VS2022-Copia\Licence\Licenciamiento\bin\Debug\SMSSender.dll
+C:\Users\fagb-\source\repos\VS2022-Copia\Licence\Licenciamiento\bin\Debug\Newtonsoft.Json.dll
+C:\Users\fagb-\source\repos\VS2022-Copia\Licence\Licenciamiento\bin\Debug\CodeBarras.dll
+C:\Users\fagb-\source\repos\VS2022-Copia\Licence\Licenciamiento\bin\Debug\BouncyCastle.Crypto.dll
+C:\Users\fagb-\source\repos\VS2022-Copia\Licence\Licenciamiento\bin\Debug\zxing.dll
+C:\Users\fagb-\source\repos\VS2022-Copia\Licence\Licenciamiento\bin\Debug\Domain.pdb
+C:\Users\fagb-\source\repos\VS2022-Copia\Licence\Licenciamiento\bin\Debug\Persistence.pdb
+C:\Users\fagb-\source\repos\VS2022-Copia\Licence\Licenciamiento\bin\Debug\itextsharp.xml
+C:\Users\fagb-\source\repos\VS2022-Copia\Licence\Licenciamiento\bin\Debug\SMSSender.pdb
+C:\Users\fagb-\source\repos\VS2022-Copia\Licence\Licenciamiento\bin\Debug\CodeBarras.pdb
+C:\Users\fagb-\source\repos\VS2022-Copia\Licence\Licenciamiento\bin\Debug\zxing.xml
+C:\Users\fagb-\source\repos\VS2022-Copia\Licence\Licenciamiento\obj\Debug\Licenciamiento.csproj.AssemblyReference.cache
+C:\Users\fagb-\source\repos\VS2022-Copia\Licence\Licenciamiento\obj\Debug\Licenciamiento.csproj.CoreCompileInputs.cache
+C:\Users\fagb-\source\repos\VS2022-Copia\Licence\Licenciamiento\obj\Debug\Licenciamiento.csproj.CopyComplete
+C:\Users\fagb-\source\repos\VS2022-Copia\Licence\Licenciamiento\obj\Debug\Licenciamiento.dll
+C:\Users\fagb-\source\repos\VS2022-Copia\Licence\Licenciamiento\obj\Debug\Licenciamiento.pdb
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\Licence\Licenciamiento\bin\Debug\Licenciamiento.dll
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\Licence\Licenciamiento\bin\Debug\Licenciamiento.pdb
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\Licence\Licenciamiento\bin\Debug\Domain.dll
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\Licence\Licenciamiento\bin\Debug\Persistence.dll
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\Licence\Licenciamiento\bin\Debug\MySql.Data.dll
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\Licence\Licenciamiento\bin\Debug\itextsharp.dll
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\Licence\Licenciamiento\bin\Debug\SMSSender.dll
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\Licence\Licenciamiento\bin\Debug\Newtonsoft.Json.dll
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\Licence\Licenciamiento\bin\Debug\CodeBarras.dll
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\Licence\Licenciamiento\bin\Debug\BouncyCastle.Crypto.dll
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\Licence\Licenciamiento\bin\Debug\zxing.dll
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\Licence\Licenciamiento\bin\Debug\Domain.pdb
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\Licence\Licenciamiento\bin\Debug\Persistence.pdb
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\Licence\Licenciamiento\bin\Debug\itextsharp.xml
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\Licence\Licenciamiento\bin\Debug\SMSSender.pdb
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\Licence\Licenciamiento\bin\Debug\CodeBarras.pdb
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\Licence\Licenciamiento\bin\Debug\zxing.xml
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\Licence\Licenciamiento\obj\Debug\Licenciamiento.csproj.AssemblyReference.cache
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\Licence\Licenciamiento\obj\Debug\Licenciamiento.csproj.CoreCompileInputs.cache
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\Licence\Licenciamiento\obj\Debug\Licenciamiento.csproj.CopyComplete
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\Licence\Licenciamiento\obj\Debug\Licenciamiento.dll
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\Licence\Licenciamiento\obj\Debug\Licenciamiento.pdb
+P:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\Licence\Licenciamiento\bin\Debug\Licenciamiento.dll
+P:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\Licence\Licenciamiento\bin\Debug\Licenciamiento.pdb
+P:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\Licence\Licenciamiento\bin\Debug\Domain.dll
+P:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\Licence\Licenciamiento\bin\Debug\Persistence.dll
+P:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\Licence\Licenciamiento\bin\Debug\MySql.Data.dll
+P:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\Licence\Licenciamiento\bin\Debug\itextsharp.dll
+P:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\Licence\Licenciamiento\bin\Debug\SMSSender.dll
+P:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\Licence\Licenciamiento\bin\Debug\Newtonsoft.Json.dll
+P:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\Licence\Licenciamiento\bin\Debug\CodeBarras.dll
+P:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\Licence\Licenciamiento\bin\Debug\BouncyCastle.Crypto.dll
+P:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\Licence\Licenciamiento\bin\Debug\zxing.dll
+P:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\Licence\Licenciamiento\bin\Debug\Domain.pdb
+P:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\Licence\Licenciamiento\bin\Debug\Persistence.pdb
+P:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\Licence\Licenciamiento\bin\Debug\itextsharp.xml
+P:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\Licence\Licenciamiento\bin\Debug\SMSSender.pdb
+P:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\Licence\Licenciamiento\bin\Debug\CodeBarras.pdb
+P:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\Licence\Licenciamiento\bin\Debug\zxing.xml
+P:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\Licence\Licenciamiento\obj\Debug\Licenciamiento.csproj.AssemblyReference.cache
+P:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\Licence\Licenciamiento\obj\Debug\Licenciamiento.csproj.CoreCompileInputs.cache
+P:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\Licence\Licenciamiento\obj\Debug\Licencia.9A79D375.Up2Date
+P:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\Licence\Licenciamiento\obj\Debug\Licenciamiento.dll
+P:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\Licence\Licenciamiento\obj\Debug\Licenciamiento.pdb

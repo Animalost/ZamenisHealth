@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:tns="https://slsoft.net/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" targetNamespace="https://slsoft.net/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="https://slsoft.net/">
+      <s:element name="GenerarShortLink">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="URLDestino" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Usuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Contraseña" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Nombre" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GenerarShortLinkResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GenerarShortLinkResult" type="tns:ValueTupleOfInt32String" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ValueTupleOfInt32String">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Item1" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Item2" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GenerarShortLinkPersonzalizado">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="URLDestino" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Usuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Contraseña" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="NombrePersonalizado" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GenerarShortLinkPersonzalizadoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GenerarShortLinkPersonzalizadoResult" type="tns:ValueTupleOfInt32String" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="EnviarSMS">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Mensaje" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Usuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Contraseña" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Destino" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Nombre" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="EnviarSMSResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="EnviarSMSResult" type="tns:ValueTupleOfInt32String" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetLicence">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Serial" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetLicenceResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetLicenceResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GenerarShortLinkSoapIn">
+    <wsdl:part name="parameters" element="tns:GenerarShortLink" />
+  </wsdl:message>
+  <wsdl:message name="GenerarShortLinkSoapOut">
+    <wsdl:part name="parameters" element="tns:GenerarShortLinkResponse" />
+  </wsdl:message>
+  <wsdl:message name="GenerarShortLinkPersonzalizadoSoapIn">
+    <wsdl:part name="parameters" element="tns:GenerarShortLinkPersonzalizado" />
+  </wsdl:message>
+  <wsdl:message name="GenerarShortLinkPersonzalizadoSoapOut">
+    <wsdl:part name="parameters" element="tns:GenerarShortLinkPersonzalizadoResponse" />
+  </wsdl:message>
+  <wsdl:message name="EnviarSMSSoapIn">
+    <wsdl:part name="parameters" element="tns:EnviarSMS" />
+  </wsdl:message>
+  <wsdl:message name="EnviarSMSSoapOut">
+    <wsdl:part name="parameters" element="tns:EnviarSMSResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetLicenceSoapIn">
+    <wsdl:part name="parameters" element="tns:GetLicence" />
+  </wsdl:message>
+  <wsdl:message name="GetLicenceSoapOut">
+    <wsdl:part name="parameters" element="tns:GetLicenceResponse" />
+  </wsdl:message>
+  <wsdl:portType name="WebServiceSoap">
+    <wsdl:operation name="GenerarShortLink">
+      <wsdl:input message="tns:GenerarShortLinkSoapIn" />
+      <wsdl:output message="tns:GenerarShortLinkSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GenerarShortLinkPersonzalizado">
+      <wsdl:input message="tns:GenerarShortLinkPersonzalizadoSoapIn" />
+      <wsdl:output message="tns:GenerarShortLinkPersonzalizadoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="EnviarSMS">
+      <wsdl:input message="tns:EnviarSMSSoapIn" />
+      <wsdl:output message="tns:EnviarSMSSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetLicence">
+      <wsdl:input message="tns:GetLicenceSoapIn" />
+      <wsdl:output message="tns:GetLicenceSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WebServiceSoap" type="tns:WebServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GenerarShortLink">
+      <soap:operation soapAction="https://slsoft.net/GenerarShortLink" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GenerarShortLinkPersonzalizado">
+      <soap:operation soapAction="https://slsoft.net/GenerarShortLinkPersonzalizado" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EnviarSMS">
+      <soap:operation soapAction="https://slsoft.net/EnviarSMS" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLicence">
+      <soap:operation soapAction="https://slsoft.net/GetLicence" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="WebServiceSoap12" type="tns:WebServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GenerarShortLink">
+      <soap12:operation soapAction="https://slsoft.net/GenerarShortLink" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GenerarShortLinkPersonzalizado">
+      <soap12:operation soapAction="https://slsoft.net/GenerarShortLinkPersonzalizado" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EnviarSMS">
+      <soap12:operation soapAction="https://slsoft.net/EnviarSMS" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLicence">
+      <soap12:operation soapAction="https://slsoft.net/GetLicence" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="WebService">
+    <wsdl:port name="WebServiceSoap" binding="tns:WebServiceSoap">
+      <soap:address location="https://slsoft.net:5017/WSShortLinks.asmx" />
+    </wsdl:port>
+    <wsdl:port name="WebServiceSoap12" binding="tns:WebServiceSoap12">
+      <soap12:address location="https://slsoft.net:5017/WSShortLinks.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,1244 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <Body>
+    <ReportItems>
+      <Textbox Name="Textbox2">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>CONTRATO DE ALQUILER SOFTWARE ZAMENIS HEALTH</Value>
+                <Style>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Center</TextAlign>
+            </Style>
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>
+Esta modalidad es por “Alquiler”, la cual es la única forma de adquisición del sistema de información objeto del presente contrato denominado Zamenis Health el cual no está a la venta sino únicamente en modalidad de alquiler como se mencionó anteriormente:</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Left</TextAlign>
+            </Style>
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>
+Por parte de su propietario quien figura como Fabian Adolfo Gamba Barbosa y el cliente quien figura como se encuentra en el apartado inferior de este recuadro de licencias, se establecen las siguientes directrices de gestión comercial de alquiler de Software:</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Left</TextAlign>
+            </Style>
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox2</rd:DefaultName>
+        <Top>0.55245cm</Top>
+        <Left>0.26458cm</Left>
+        <Height>3.98667cm</Height>
+        <Width>18.79516cm</Width>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="Textbox3">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>1.  El sistema de información se entrega con las características mencionadas en este documento en la sección </Value>
+                <Style />
+              </TextRun>
+              <TextRun>
+                <Value>ALCANCE DEL PROYECTO – Zamenis Health.</Value>
+                <Style>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>
+2.  Los desarrollos adicionales a lo existente siempre y cuando sean requisitos de mejora visual existente o modificación de cualquier tipo de elementos visuales existentes en el sistema, estarán libres de costo. Si por otra parte el desarrollo tiene que ver con alguna funcionalidad inexistente y sea necesario un desarrollo (planeación, diagramación, codificación, implementación) nuevo de algún elemento, modulo o componente o reconstrucción total o parcial de lo existente que incluya elementos nuevos o alteraciones de las versiones de los componentes actuales del Framework usado en el ambiente de desarrollo o sus derivados incluyendo la base de datos, será puesto en debate entre el cliente y el propietario para establecer costos nuevos por dicha funcionalidad, desarrollo o nueva recodificación programática de software.</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>
+3.  Cualquier modificación o alteración del presente documento debe ser plasmada de manera escrita y firmada por parte del cliente y del propietario y anexado al presente documento.</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>
+4.  Toda autorización o modificación de términos y condiciones o contratos o licencias, se debe realizar de manera escrita.</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>
+5.  El valor del canon de arrendamiento se pactará de manera escrita entre en cliente y el propietario de pago mes anticipado. Una vez se haya cumplido el primer año de alquiler del Software, el ultimo valor pactado será puesto en debate entre el cliente y el propietario y así sucesivamente año tras año con el fin de realizar un incremento porcentual anual, si no se logra acuerdo de nuevos valores se mantendrá el ultimo valor pactado o alguna otra medida que se disponga en el momento. Este valor deberá ser cancelado al propietario a través de transferencia bancaria en el cual el cliente deberá asumir todos los impuestos relacionados con el tema legal de alquiler de software y/o movimientos bancarios. El valor deberá ser cancelado a más tardar dentro de los primeros cinco (5) días del mes siguiente, el no pago del valor generará la suspensión completa e inmediata y automática del sistema Zamenis Health e intereses de mora.</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>
+6.  Zamenis Health, únicamente funcionara en equipos con las siguientes características:</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>
+     a.  Computadores de Mesa, Portátiles, All-In-One cuyo sistema operativo sea únicamente Microsoft Windows desde    su versión 7 Service Pack 3 hasta la versión 11 que soporten el componente .NET Framework V.4.7.2 Para versiones posteriores a Windows 11, se evaluará los requerimientos y se determinara si es o no posible la instalación. (Preferiblemente Windows 10).</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>
+     b.  Memoria RAM desde 4 Gb Mb en adelante. (Preferiblemente 6 Gb o superior).</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>
+     c.  El sistema no podrá ser instalado en equipos MAC, Linux, Ubuntu, Android u otros sistemas operativos ajenos a Microsoft Windows.</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>
+     d.  El cliente debe disponer obligatoriamente de internet con un mínimo de 50 Mb preferiblemente conectado por cable ethernet, no se asegura el correcto funcionamiento por redes inalámbricas como Wifi. En caso de manejar una red de dominios, la aplicación debe estar autorizada para manipulación del registro de Windows y a cadenas de validación de licencias por medio de Web Services JSON, Web Services REST SOAP. Esto corresponde al área de tecnología del cliente.</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>
+     e.  Resolución mínima 800 X 600 Pixeles.</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>
+     f.  Tarjeta gráfica superior a 128Mb de alta definición (HD).</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value xml:space="preserve">
+</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>7.  No se establece tiempos de alquiler, el contrato de arrendamiento puede ser cancelado unilateralmente por parte del cliente o de su propietario, sin establecer ningún tipo de cláusula de permanencia dejando libre el tiempo de alquiler que el cliente desee obtener o que el propietario desee brindar.</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>
+8.  Para dar por terminado el contrato de alquiler el cliente debe estar a paz y salvo en cuanto a temas legales, informáticos o económicos con el propietario y debe ser informado con mínimo 30 días de anticipación de la fecha estimada de terminación de contrato.</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>
+9.  El equipo servidor de la aplicación será puesto por el cliente al igual que el Motor de bases de datos que requiera la aplicación para su funcionamiento, el propietario instalará una base de datos en el equipo servidor y motor de bases de datos que disponga el cliente.</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>
+10.  La información sostenida de la base de datos será almacenada localmente en el equipo servidor dispuesto por el cliente haciéndola como única copia de información. El cliente puede realizar copias de seguridad cuando lo desee con el fin de preservar la información únicamente sin replicarla o romper la cláusula de confidencialidad. Debido a esto, el propietario no se responsabiliza por la pérdida de información de la base de datos ya que esta acción de respaldo debe ser gestionada por el cliente de la manera que el propietario le autorice generar.</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>
+11.  El sistema de información Zamenis Health no está a la venta, únicamente alquiler. Esto implica que sin importar el tiempo que se lleve en alquiler la aplicación, no habrá manera en que el cliente pueda disponer de la aplicación como “propia” sin que el propietario acceda a esta acción.</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>
+12.  Las tareas de mantenimiento y soporte están a cargo del propietario de Zamenis Health o de sus delegados autorizados por medio escrito por parte del propietario. No está permitido manipular las bases de datos o componentes primarios de la aplicación Zamenis Health por parte de personal no autorizado.</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value xml:space="preserve">
+</Value>
+                <Style />
+              </TextRun>
+              <TextRun>
+                <Value>Nota: </Value>
+                <Style>
+                  <FontStyle>Italic</FontStyle>
+                  <FontWeight>SemiBold</FontWeight>
+                </Style>
+              </TextRun>
+              <TextRun>
+                <Value>Para las labores de mantenimientos generales por algún tipo de inconveniente generado directamente por la aplicación o base de datos que sea ajena al cliente y que corresponda a funcionamiento erróneo de la aplicación no tendrá costo; de lo contrario la reparación de la aplicación o bases de datos por manipulación no autorizada por el propietario generara costos de acuerdo con el nivel de daño encontrado. El tiempo de respuesta para alguna eventualidad reportada por el cliente, será de acuerdo con disponibilidad del propietario quien informara al cliente la fecha de solución y el cliente deberá reportarlo vía email al correo fgamba00@gmail.com al igual que cualquier otro tipo de inquietud generado ya sea de esta índole u otra.</Value>
+                <Style>
+                  <FontStyle>Italic</FontStyle>
+                  <FontWeight>Normal</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>
+13.  Se considera faltas para terminación de contrato unilateralmente lo siguiente:</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>
+     a.  Manipulación de los elementos que componen la aplicación de manera no autorizada por el propietario.</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>
+     b.  Reventa de la aplicación sin autorización del propietario.</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>
+     c.  Manipulación indebida de licencias autorizadas por el propietario.</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>
+     d.  Copia por cualquier medio magnético o fotográfico de la aplicación sin autorización del propietario ya que esto puede incurrir al plagio y/o exposición de datos personales.</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>
+     e.  Reutilización o reventa de las licencias de terceros que apliquen en Zamenis Health sin seguir estrictamente las instrucciones de Licenciamiento del componente del Tercero incluido en la aplicación Zamenis Health.</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>
+14.  El sistema de información solo podrá ser usado en la empresa cliente únicamente y no podrá albergar razones sociales diferentes, para este paso se creará un nuevo contrato y una nueva licencia para la nueva razón social.</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>
+15.  El cliente debe permitir que el propietario efectúe u ordene en cualquier momento inspecciones a las instalaciones o máquinas de computación que posea a fin de verificar el cumplimiento de lo estipulado en el presente contrato.
+</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>16.  El cliente debe tomar medidas preventivas usuales en la actividad de computación, con el fin de evitar que se produzcan fallas que le causen cualquier tipo de daño o perjuicio, ya sea al propietario o a terceros.
+</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>17.  Exonerar, en cualquier caso, al propietario de toda responsabilidad derivada de los daños o perjuicios que pueda sufrir el cliente como consecuencia directa o indirecta del uso inadecuado que se haga del software.
+</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>18.  El Producto de Software se entrega tal cual, por lo tanto, su propietario no se hace responsable de daños de Software o Hardware ajenos al Producto de Software durante y después de que el producto exista en el equipo.</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>
+19.  Mantener la confidencialidad en el uso de la información que le sea revelada, durante la vigencia del contrato, subsistiendo dicha obligación una vez terminado el mismo. A este apartado se le agrega el documento </Value>
+                <Style />
+              </TextRun>
+              <TextRun>
+                <Value>ACUERDO DE CONFIDENCIALIDAD.</Value>
+                <Style>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>
+20.  El propietario se compromete a que el sistema de software objeto del presente contrato deberá funcionar dentro de los parámetros estipulados en el presente contrato, el propietario no se responsabilizará si la aplicación deja de funcionar por temas ajenos al mismo software tales como, cortes de energía, perdida de internet, equipos sin cable ethernet, cambios de sistema operativos diferentes a los mencionados en el presente contrato, manipulaciones indebidas a la base de datos o componentes del software (como ingeniería inversa, hacking, entre otros) además que esto incurrirá a la terminación inmediata del contrato, entre otras razones legales derivadas.</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>
+21.  El presente contrato no puede ser cedido por el cliente total ni parcialmente, salvo autorización previa y escrita por parte del propietario.</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>
+22.  En caso de que se dé la terminación del Contrato, el cliente deberá cesar totalmente en el uso del software, así como el uso de cualquier material de propiedad del propietario que éste le haya otorgado en virtud del presente Contrato, dentro de los 30 días hábiles siguientes contados a partir de la fecha de recibo de la notificación enviada por la parte que solicita la terminación del contrato. El propietario entregara la base de datos de productos al cliente con fines informativos de sus movimientos.</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>
+23.  El presente documento anula totalmente cualquier otro tipo de contrato realizado anteriormente ya sea de manera verbal o escrita y será sustituido por el presente contrato de alquiler.</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>
+Si en alguno de los términos de la presente licencia usted no se encuentra de acuerdo, debe eliminar el producto de software por completo de su(s) equipo(s) en los cuales se encuentre instalado.</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value />
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value />
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value />
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value xml:space="preserve">
+</Value>
+                <Style />
+              </TextRun>
+              <TextRun>
+                <Value>Cxn System - Zamenis Health
+© Copyright 2018 - Fabian Gamba, Todos los derechos reservados.
+Correo electrónico: fagamba9@misena.edu.co</Value>
+                <Style>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>
+DNDA - Dirección Nacional de Derechos de Autor Colombia. Ministerio del Interior
+Registro: Libro 13 Tomo 69 Partida 244</Value>
+                <Style>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox3</rd:DefaultName>
+        <Top>4.89162cm</Top>
+        <Left>0.26458cm</Left>
+        <Height>62.97401cm</Height>
+        <Width>18.79516cm</Width>
+        <ZIndex>1</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Image Name="Image2">
+        <Source>Embedded</Source>
+        <Value>Logo</Value>
+        <Sizing>FitProportional</Sizing>
+        <Top>65.41313cm</Top>
+        <Left>16.15745cm</Left>
+        <Height>2.4525cm</Height>
+        <Width>2.90229cm</Width>
+        <ZIndex>2</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Image>
+      <Textbox Name="Textbox6">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>CERTIFICACION DE CUMPLIMIENTO RESOLUCION 1995 DE 1999 - COLOMBIA</Value>
+                <Style>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Center</TextAlign>
+            </Style>
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>
+Por la cual se establecen normas para el manejo de la Historia Clínica</Value>
+                <Style>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Center</TextAlign>
+            </Style>
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>
+El presente documento dicta como constancia de normas legales el cumplimiento de los requerimientos mínimos de preservación de las historias clínicas para el sistema de información Zamenis Health, indicando lo siguiente: </Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value />
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>El registro integral y cronológico de las condiciones de salud del paciente, que se encuentra contenido en sistemas de información y aplicaciones de software con capacidad de comunicarse, intercambiar datos y brindar herramientas para la utilización de la información refrendada con firma digital del profesional tratante. </Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value />
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>Su almacenamiento, actualización y uso se efectúa en estrictas condiciones de seguridad, integridad, autenticidad, confiabilidad, exactitud, inteligibilidad, conservación, disponibilidad y acceso, de conformidad con la normatividad vigente.</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value />
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>CARACTERÍSTICAS DE LA HISTORIA CLÍNICA </Value>
+                <Style>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value />
+                <Style>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>Integralidad: </Value>
+                <Style>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value />
+                <Style>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>La historia clínica reunir la información de los aspectos científicos, técnicos y administrativos relativos a la atención en salud en las fases de fomento, diagnóstico, tratamiento y rehabilitación de la enfermedad. </Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value />
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>Secuencialidad: </Value>
+                <Style>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value />
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>Los registros de la prestación de los servicios en salud deben consignarse en la secuencia cronológica en que ocurrió la atención. </Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value />
+                <Style>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>Racionalidad científica: </Value>
+                <Style>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value />
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>Se evidencie en forma lógica, clara y completa, el procedimiento que se realizó en la atención del paciente. </Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value />
+                <Style>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>Disponibilidad: </Value>
+                <Style>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value />
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>Esta siempre la historia clínica en el momento en que se necesita, con las limitaciones que impone la Ley.</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value />
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value />
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox6</rd:DefaultName>
+        <Top>68.84141cm</Top>
+        <Left>0.26458cm</Left>
+        <Height>14.3848cm</Height>
+        <Width>18.79516cm</Width>
+        <ZIndex>3</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="Textbox7">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>Zamenis Health</Value>
+                <Style>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Right</TextAlign>
+            </Style>
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>
+Acuerdo de Confidencialidad</Value>
+                <Style>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Right</TextAlign>
+            </Style>
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value />
+                <Style>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>CLAÚSULAS</Value>
+                <Style>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Center</TextAlign>
+            </Style>
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>
+Entre las partes Propietario de sistema de información Zamenis Health Fabian Adolfo Gamba Barbosa y el cliente adquiriente del servicio de alquiler de se obligan a cumplir el presente acuerdo de confidencialidad de la información objeto del contrato de alquiler de Zamenis Health con Identificador </Value>
+                <Style />
+              </TextRun>
+              <TextRun>
+                <Value>Zam-2018-06:</Value>
+                <Style>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value xml:space="preserve">
+</Value>
+                <Style />
+              </TextRun>
+              <TextRun>
+                <Value>PRIMERA.</Value>
+                <Style>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+              <TextRun>
+                <Value> Las partes se obliga a no divulgar a terceras partes, la “Información confidencial”, que se genere reciba por parte del sistema de información Zamenis Health, y a darle a dicha información el mismo tratamiento que le darían a la información confidencial de su propiedad. Para efectos de la presente acta, “Información Confidencial” comprende toda la información divulgada por ya sea en forma oral, visual, escrita, grabada en medios magnéticos o en cualquier otra forma tangible y que se encuentre claramente marcada como tal al ser entregada a la parte receptora.</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value xml:space="preserve">
+</Value>
+                <Style />
+              </TextRun>
+              <TextRun>
+                <Value>SEGUNDA. </Value>
+                <Style>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+              <TextRun>
+                <Value>El cliente adquiriente se obliga a mantener de manera confidencial la “Información confidencial” que reciba de Zamenis Health y su propietario y a no darla a una tercera parte diferente de su equipo de trabajo y asesores que tengan la necesidad de conocer dicha información para los propósitos autorizados, y quienes deberán estar de acuerdo en mantener de manera confidencial dicha información.</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value xml:space="preserve">
+</Value>
+                <Style />
+              </TextRun>
+              <TextRun>
+                <Value>TERCERA. </Value>
+                <Style>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+              <TextRun>
+                <Value>Es obligación de las partes de no divulgar la “Información confidencial”, incluyendo, mas no limitando, el informar a sus empleados que la manejen, que dicha información es confidencial y que no deberá ser divulgada a terceras partes.</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value xml:space="preserve">
+</Value>
+                <Style />
+              </TextRun>
+              <TextRun>
+                <Value>CUARTA. </Value>
+                <Style>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+              <TextRun>
+                <Value>Las partes se obliga a utilizar la “Información confidencial” recibida, únicamente para el desarrollo el objeto del contrato del identificador mencionado anteriormente.</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value xml:space="preserve">
+</Value>
+                <Style />
+              </TextRun>
+              <TextRun>
+                <Value>QUINTA.</Value>
+                <Style>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+              <TextRun>
+                <Value> Las partes se compromete a efectuar una adecuada custodia y reserva de la información y gestión -es decir tratamiento- de los datos suministrados por el sistema de información al interior de las redes y bases de datos (físicas y/o electrónicas) en donde se realice su recepción y tratamiento en general.</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value xml:space="preserve">
+</Value>
+                <Style />
+              </TextRun>
+              <TextRun>
+                <Value>SEXTA. </Value>
+                <Style>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+              <TextRun>
+                <Value>Para el caso del manejo de información que incluya datos personales, las partes darán estricto cumplimiento a las disposiciones constitucionales y legales sobre la protección del derecho fundamental de habeas data, en particular lo dispuesto en el artículo 15 de la Constitución Política y la ley 1581 de 2012.</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value xml:space="preserve">
+</Value>
+                <Style />
+              </TextRun>
+              <TextRun>
+                <Value>SÉPTIMA. </Value>
+                <Style>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+              <TextRun>
+                <Value>En caso de que el cliente adquiriente incumpla parcial o totalmente con las obligaciones establecidas en la presente acta éste será responsable de los daños y perjuicios que dicho incumplimiento llegase a ocasionar a su propietario.</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value xml:space="preserve">
+</Value>
+                <Style />
+              </TextRun>
+              <TextRun>
+                <Value>OCTAVA.</Value>
+                <Style>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+              <TextRun>
+                <Value> La vigencia de la presente acta será indefinida y permanecerá vigente mientras exista relación comercial entre el cliente y el propietario, se hará acreedora a la Pena Convencional establecida en la Cláusula Séptima del presente Contrato.</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox7</rd:DefaultName>
+        <Top>84.21371cm</Top>
+        <Left>0.26458cm</Left>
+        <Height>18.61812cm</Height>
+        <Width>18.79516cm</Width>
+        <ZIndex>4</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Image Name="Image3">
+        <Source>Embedded</Source>
+        <Value>Logo</Value>
+        <Sizing>FitProportional</Sizing>
+        <Top>84.21371cm</Top>
+        <Left>0.82427cm</Left>
+        <Height>2.4525cm</Height>
+        <Width>2.90229cm</Width>
+        <ZIndex>5</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Image>
+      <Textbox Name="Textbox171">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>Software Medico Zamenis Health - https://slsoft.net</Value>
+                <Style>
+                  <FontFamily>Times New Roman</FontFamily>
+                  <FontSize>8pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Right</TextAlign>
+            </Style>
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox8</rd:DefaultName>
+        <Top>103.0404cm</Top>
+        <Left>5.99959cm</Left>
+        <Height>0.44125cm</Height>
+        <Width>7.31542cm</Width>
+        <ZIndex>6</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Textbox>
+    </ReportItems>
+    <Height>40.80789in</Height>
+    <Style />
+  </Body>
+  <Width>7.66667in</Width>
+  <Page>
+    <PageHeader>
+      <Height>1.44349cm</Height>
+      <PrintOnFirstPage>true</PrintOnFirstPage>
+      <PrintOnLastPage>true</PrintOnLastPage>
+      <ReportItems>
+        <Textbox Name="Textbox1">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>Zamenis Health - Fabian Adolfo Gamba Barbosa</Value>
+                  <Style>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Center</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>Textbox1</rd:DefaultName>
+          <Top>0.34078cm</Top>
+          <Left>0.52599cm</Left>
+          <Height>0.6cm</Height>
+          <Width>18.53375cm</Width>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Line Name="Line1">
+          <Top>1.25828cm</Top>
+          <Height>0cm</Height>
+          <Width>19.47333cm</Width>
+          <ZIndex>1</ZIndex>
+          <Style>
+            <Border>
+              <Style>Solid</Style>
+            </Border>
+          </Style>
+        </Line>
+      </ReportItems>
+      <Style>
+        <Border>
+          <Style>None</Style>
+        </Border>
+      </Style>
+    </PageHeader>
+    <PageHeight>27.94cm</PageHeight>
+    <PageWidth>21.59cm</PageWidth>
+    <LeftMargin>1cm</LeftMargin>
+    <RightMargin>1cm</RightMargin>
+    <TopMargin>1cm</TopMargin>
+    <BottomMargin>1cm</BottomMargin>
+    <ColumnSpacing>0.13cm</ColumnSpacing>
+    <Style />
+  </Page>
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="Domain">
+      <ConnectionProperties>
+        <DataProvider>System.Data.DataSet</DataProvider>
+        <ConnectString>/* Local Connection */</ConnectString>
+      </ConnectionProperties>
+      <rd:DataSourceID>331ceb82-6436-4981-a88c-cb901bb16689</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <EmbeddedImages>
+    <EmbeddedImage Name="Logo">
+      <MIMEType>image/png</MIMEType>
+      <ImageData>iVBORw0KGgoAAAANSUhEUgAAAJsAAAChCAIAAABf4loQAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAADV1SURBVHhe7V0HeFzVmZULGBs3wGB6x5hiYkwPSQgloQaSACEkCwshG5YFUhdICAsEAgkECAFsS1OkUZcsWZJtWbbcZbn3bsm2XDXvvem9F+35730zGk2RRtKoOZzvYkZv3rxyz/3bLf/NavsaJxdOWkZ9wbAvlKIEw/JJJyOGPKPhcBv4AUclRzzZTa7sA26Uu+rNF8/RXzzXkLzM0d+7xMzPxE/Kj3hwBSonBdFDklG7P1zQ4kF5dq3tqkr9VTWGq6oNWWoxK0fIUrCCD9mdltgzc0W6Akql/oV1Nly2sMXjCgxVeocMo3pPqOKw57N9rmk1xsurDESGsiNzuWKWRszKE/HhzsWmJ1ZZOym315moBeBk/AQ/jF4EF8RllcKV1YZp84xf7HdVHPGYfUOJ3cHO6HLR9/5Oxy3zjZfMZSyqxKhgod6vqDY8tNyC8sgKS73Wt8nop6L3h7qiwB9qw2n8/IWtXn4RlEvRVsAoLs6FmN3u8moDHuDvu5yrJJ/8+0GMQcroMWew7rj3vqVmqlwVoxAFUqUUrq02PLXa2iD5GgSfwROSf5AhSJ4QLgvmHl9luZqzy5U5Ch4jTwTr9Se8WleG75tBDDpGa1u9Dywzn1ehp9pEgZSoxGnzjXcsNCkPuhef8MKIyqf2MSy+EG43u9l9R63p2vlGYpS3LaVwUaUe1C4WvPKpgwmDhdGjzuDrm+13LzLJGg9cKoRxhdKL623Vx70IOeTzBgjuYLj6mOcXa23XQHC55kfJE+9dZHpzq+O4KyifNwgw8IyiOl7fYp9UqqM6Yr7JxBLdTQtNec3uXeaAfNKgAQyw5pB7+gLjuBKd7EwphMllevDaOjhU8UAyqnWHXt/iOJNziaIWb60zqZpc
++60ZIBIO6mF78LAjodiD1kzo7d2WgHK/a0YttLEssueU6d7c5hDdA8zrwDAKLfrGZnssl7cvNJUd8chfpw1ITKszCOE47gr93w7Hqxtsr26y84LwY2S+NLIooeRLU+cZo6dRWWdbpPXiIq2uoNBNPtA0ig57bl7QzuvZZfq3tjkGkNX+ZhQGEQbpboSDMJbEpQC/o/Qw9dqkCU8wDBe3sMXzxib7nYvNpxVIpxXrUOhq2dr2sLKTMltLBR/4yfisYRcpksaX6l7daH9jm+OALZi+I42XwvPcEuU1R/j+YlPtce+AGP9+ZRRyQAEJf+1sLYK8ksMgiH/ZGXCSzRdWHHC/u90xvdY4vliSuwU4Q+zD6GId+JBLse4/1ljf2eFIVa6qMeCc6Pnsaozj2KuV6F7aYMMdd1kCNl/X7AbCbQUwsfMMdCnWWB9ZbkE4JH/dX+g/RgsOeSZCkhDeqcTTi3Uvb7AZvF2/7Qa9/+Ndzqk1xkll7LdcqlAgVQXSvUvMr211vLbF8fpWx0F7EBeUS1f16AiQoEfPz2/xvLbRjkv9ZpP9zHI9hJW1OZlgiO+kEt3za6w5B9zerrxu2NEX19lG8TdVi/hhefetSW/QH4zCON1XH+krUAp31Ztb7F24+w4/SeR/NFpH5UtUrQhmUL/50oh86ZEVlpfX2epavbCgfaHWIFUnnMG3tjteXm87t0KPO9Ld8QzgWClcXWP4fLdzg8Hf+b2bbME7YFmU7JVzxQeWWXT9Jax9zmhOs3syHH1oWpU4pkAqPNRFM2/U+Z9cYbm4XE91ARZRj7niZVUGiEiD5Gux9WvkB3Zxx/d2Oh+FsQC1pCTIVI8q0k2pMf5rvwstTz41AQhhlc1uapHs3c8r1eW3uOXv+hJ9yKjeG/pgh5N6w5nhvH+p+ZAjJR9mb6jssOeJBusIDbeyJBBTqo1Pr7aukXy4lHzewGGvJfD33RFqIyKLpvbFXidaoXxSAvbbAt+FfsLJaKAa
+6aNdTlMf9/v3FaNQMuT7MWJGMdFM5QKZvKHP9rguq2TdfnhtvHyB9Ei9+bM9TnwlnzSYsE7vf7LBenU16/XF0yqE4Rrp8RWWtfrkvDoD4dwD7pFoqcx2fKvOZErDz+ox+oTRL/a7LiW1Sa7B9Gpj9fHk/Z9GcLnbeQXvwmWteFi+9FSDZYtx0HUVJQKi9vke19W8IbLnH6aRfrzSst6QnNfSI55pVWwQVy1eMUcPJ0v+ItPIPKOgk7jES+YIjy23eFOI5kaD/+ZaI6kvvKRSmFpleGqVdaMxpfoanDD7QstavU/BWEAVM3mFlfnXXqjWJFLoCoQfgNLmjp5ahOsnf5FRZJjRz4lOkrbTinTwC5JqWri+P15hoaFmnKkURhZIs/a7+m1EpY8A7/epVZZTuGMMl7hC/1WTS/4uBtDAeNlTCuEuEal9IamZZJTRSTzBcC5qTaJp0XJhHadAUzHPAu+PWoBZkr8e+qg+5r08Og6oEX/SYN2UTOvgNOKekZqdaVIzxug/98l0IvBfpE0y1t/iCE7hY8iI0rKFJ1acVFxGAWWDlo3wRlbCueKHu53ydzGoOe4dyUnNFWfuczkyN60pA4yCqmcarXDNQdXoFHQidLuq0kAvoBDGluj+tW8wjSj2Adbo/E+tsJxKnNFspp81WFFL8ncR1JwAqeQood5uWmA87sxMlWSA0ScbLFmztBA+0FkvxNOJ1vf2dge1VkhnjvCT1F7+yYcVgm9cEQtes4Upcw0zEyzrvBPeU5gk4IRn11jlo71Dbxn9bJ9reB71CXxnoWlFwsSq/bagPOivFM4q0/1zbxJn4eRGo97/+HKL3KAVAhq3/EUEkIE7ELgrhREacVZzBmxqrxgFnaRIVcLp+dJmU3wQucscuAyaFm+iFi8u18cFaqFwG17gw51OmJm48t4u5192Ov+wxf77zVTe3Ob4cE/8OZ2Uv+10HsuQBssUPtrtpEkazBX61RpbU8e+TLA+inv+6gyQ
+2nNGP424QqcXSkvFeOl8fatjDKwIizVfWm+zJHR9BUJtE/CSUNfcg+CtOFvI+ooUOBzFJxqsTzdaf9bI5tbOjjmt8zJTe908YwYdjUwBDXoS79/OFi6r0MeROr/Ve1rE++0lqT1k9IsmTqc4tkBakmA739jq4KKJ8tIGm3y0I8DoZVDIuWJWgSQXpXB6kQ5N4YidpiXI57W1/XkHu1r0tE4KKiVXXJzMNRsMAKnnlel5K7+0Qt/ccQCqttUXJVVxsOek9oRR0RM6l3XyTSxK4gqBEpIVpTC5XL8s4dso4hlViXctNCaScdgRHAvnAkopSlsnRSV8t948mNc3CJ4QNBY10GSkLuCSmiNcXKE39LRPu9uM6r2hGTR5leZg5h2Kb0qvcekEnWW6rQmWNRYdGFUITzdYkxLxK/7+sbSlKiSgwmLtYJxDGwcilTV6MJdc/SqFOxaaTD2a1tJtRt/a7qQxQrX4+EpL3HKf17bYqfZVwtllum2mLkKUdkbVIuhM2vt7yBGEkU5fQO+qN3e9QGJwAMYoSup+W4emD9eBBCZbgJcnH+oOuscojPYIxCpK4fp5xrhZ0f8LOtkjnkN0dj14IjOaI9xSa0yqJ3Hwv3hbjmMuVVGLi1Mr+UGI/wapTJ9dPKcDqc5A+CrUjEI8RSPmHur2jJZuMGrwhscVkQs+pkBacKKDckOMwR5OnFym35betOkoo3OPJdeTnkDbBPgRaEBxzCUtKuHbi8245tDC/8iSKl5Uod8bM0u58pjs+p5Vqrd30y9Il1HJE7q11kh+mkIoiZkKBW35+4iyPbdMvyPtWfCo/bPK9bimt4MdaUfFUc+p0Ml4sTjykpZccclgdXE7x8sbZd12wRz9Xkt77akOuum4Wvx2XfcMarqM/g60IShUCQ8vt8SOka3R+0npKwX45TtiHqhLgNHTS3QPr7DIf3eEP9T2DWpA6ancPGlCma4369Qc/vAza6w/b+xQfrrSkpvg+vUFoqRe
+WGmwREYVoXu/t8RMojJb+9aO+J6mTpAWoxDQ8YiOFcJNtcZYOvdYAwiWcddL5uh3dodOwBcMn1ehV6YIvMqPetB64plLVRTCWwm9a93C7GY3tVdm1eTCxqXX6vtJ7l8BqSxO/ePW9hex+8PT5hnxdpPKdIldNKnQNaNgED4kF8SaGPOJqBR+Gnt5beHhbhtwtAwI1m5LEpcYPte0BSxAimMuacmTJpbpu7u6IRYtjuCllR37OlBytM+sSd430kcgrwKVqRA+2tPe+w0DR+KrEu9fnlyZJaJrRsEi3UklfH9Zh9iAzKdCGJYrvrrR3oOQAQ0FnnPSdT9lJKDp0YmiEP7cCwHFg/94lQX8dbimWrymxtjPa5I2Gf1ns4VAcEeiPQ9o998hcSKDWp/ectUuGDV6QzfVmnAbaF19xFCBP1QiVbpCuLbGwA9mCt4gE1CooNgqTlU04hmlOmgL+cfdx2ajf0R+gv+lFApa+nUiPMdmUwBxBGr1yrmGfRHX94QryOf437nIlM6qui4YfWWjjSxKthYSKR9io3qIlsDoOaW6VFPfeoyyo95uWdA3e2dBn2xAON/xdmpx6jyjK8Zd6E+8sol5SQrhW4tN0SegyJXN/H49xsqmQmeMHnIE+JqvW2tNsZ7knYtJas8o1mV86h6UzA0LWBaT2CpOVfLEM0v1vVkqtNkYoPk+mo6XVQ2MgEbxbKMV1TsiF2pW9sug/78xn1yk8aX61q5mf3TG6K83sfhXJdbFhHof7HYOhxORI/xmc7vUZgqlcARgs2Prt5OiEP60rVcC+hMIqLJj61GJU+cb3QMkoBzw1MYX6fBg02oMUY9v7jHmWyg6OMNJkZLRQ/bg6UxA71hkkg+xbAm82wg2vMvVSN0F6pFaYrourjipVB817T2ApsU9CtIZa0HzpWFqsQd+e8bxKnQv6iFb+78R/oKh8I3MoRlXqus87UNKRn/NFDresC5mNGMGLgqroxBSTZPvDchTT19A
+lb0SULgYFHrFqXeF8Mv1/RqxpII/1HYjrA8pSCHa4Vp5jHkYENNtnWnH5IxCQMcxAb1zsVk+1NYGFoeh4SgFKPpUM+V7DHcgPJ1c3PQYzRPPLmv3vWOxQvL/cl3XrNB8Gjh3sdfUiKMLpYOZVjw9xlLBN6GYGtntER2Jt52xkGieCDF1plROyRklqVdoR2vE6FRNEHhzHV1uQomuL/IzFbW4401aJwUWNIWL+/YO57XzjPIfKWDzhy+bm9CloBBeGBwCGgX1vOaQmqyNTGefe4wJVafWNAmjTbbABAioSri0qj3WhIByy/z61sw7RLCg02FB03ZxIaCpFtheMtdwe1274U8KmiEVp9414phCCZpJPmNw4LBD1pRRMQXwGQ9/ZgnENPnTJmGUddlQr+bvNssNIRQOk4DmCGO7Mss9A5yRdB0iFGXKTiJXIHzBHP03Y94/EbAXl0JA4wbplINOQDl+t5mFp2pxfsSaftnk5n3OUacpDvGMolJuJWUtnhWjXauOy65zOhFud+GULWi6AnpOmS5VDEod7rO031vabvsT8XiDhdprx2ueVjDoBJTjiDM4pkQHCm9bJHc4NNtYbKMQQFPSKCue0dU6H1WuUvhjRA4C4babmEGG33yiDwR0ieDrhoCmHmbBy9HQf7bQCaMbDf6RkM6OXQowVNGXHYSIimnU6f3NZprMNSxPTLpMKp5R6n9XiafkissiU3Cr2i1on7z2q3jiNBnNEy+ak3KY5bl1NhI+ldgJo4+stKAuOlxTLd64oAtPamBxzBk8nQ1l3lpn4jJZ2+obiaBAJSa1Ph0YRRh0zTxapQt3kc/wsPvlwHZCqa4v8t61IEyiuWExVdxJoUGl5Gw16Pyn5LP0x6kZhYDSJKm4Tnm10INcZ/2M33IxVcliCpooZ3S2MGOBKXEiTgdGl4u+kfDpFQKiF37kkD2A6h6mEF7rGwFF7EjPGlvFqQvU48Jky1IbdL4JRSxnFU5LzegjK5II
+KFVKEmM0uAAxpTRaCuGWhSa+XAB+HP48RSOtN8SPyXdglE+ePr9Mf4QtjcNPf7/ZDjpPLdSd6JuVJJdVG+PjwlRFJd61WFY7sQCd40Fn1LFKwegKyU8rruIEVCWWDnoB5XhxAxsEy5c9uGZ74BzG8fu74meAdmCU8veTZyEPlwvu4GhocCVNs8t4JxFw0BE8t0yf1nRcMJHb3t0RBeik5XyxfnIyRi2+0KRyfXzTUYnfmJ98YukgBM2jyxOHKYW3I3OO7lxMSXUmR8QvinZGF7R6R6EVq8U5R+VmixiIaiFH+EfMPIlMAc9Bc5TSDFrUwj1LzLGNyhMMZx9wjUWDi7tCMkY/2uPCy3c4TSNNLNJ1kodosAFRJc11zRG+E5llnt/ixsvivWo69rG3M1qEMJ95yQhg8KfVH74t0u13OHVmqR6DZldnd5wLkqpAQPPElZHFqesN/tn7XVN4OqG4jgIUlXhfR0bNvvC5FQl9fnnSzQtNiMqm1hhRps03Tq9Nq1w33zh1jv7L/dTES454plbocSTunFTlhgV0LyoV+miPQZpAa/4fPmVQLVYdJ5FbrPVSv6lK+KCj4m1n9N4llJjl9oUmG5v6sMcawGvjEr/ug3HQ7WZcnJ6GKrrLAimkeQUG1DsKaWm+RjHuNF5m0+i/fBsGEtA4hyhPnFii22TwIxTmhabGsaUfXZRsLRriklYvN2bHXSF8/uM2B01TijszseRo8fDyHVu9PZjqdgRhDExMtvDzRloNDlOCuIsHJvwEjnZGL4eTMrvdiNLUkzwRergvBs4O2ILLWr0rRF/6BY0a6gWlXvDBJ4/7tr0IPjQX+TYs+po8J2FivlL4dcSZ50h3vZRSSExChIgivhMqaVEJj6aYnJwmIKYIScHo95eancz+fwumNEe4Ym6HiRwyo3Va3+kICtViYWRCxuOrrPjxeZWGEPm8QxKoAhrlTejzG1cc3+f3/Np0Gf2C6dtYwO1Ik9GH0p6hmQo0
+CAiPVyPtt9Lzo3mRWuq4ykFmVHGQ9f+qhS1sTRns8H1QwtkCjE1gyG4ntkpi/YtxEUtOe7QdxVBhtKDFcwoUuEp8azvZzkYdXpBGxT+NSXBBjKItP7zcgle9udbIF6Lu5HYuR+h9WoCBAl7q/mVspmtstarFm2tNifnNhgqj/nD4/EoDjOOPV5IphbK9gU26v6q63ZQSo3CGydhkC080yLd8i6bjCmgOseI8tACbSo0yvksh3tfnGCqMQl/SZGalcHmlgYehD0IUZwtX13Rk1OoLXwj/Pqc9pQ6CP/h1V1QZezBZfjAAj/1AMgFFuOJP5mMOFUYBGh+lGEbYwGZKPwF3B85RlSG6OpsY/bLJNQzvky9tZqMzgVAbgnQwOr22i8kAgxYrRP8wuAyxAorPKjGpgAJDiNH8Fs8IPGokQG/U+fF5uFJQRZbREaOf7GVdKvnSbra+rFHvY4mwknjqQwUPkoDGRSwkoIkjFRxDiFFvKHwl4sxs7Y9XkUKFEJJxUQjRjJHEKA39s4B9C1ttD/IpIlYKRYNg5moP8Mk+14h4ARVHadpHjBMxhBgFptQQow8so6ttMviHa4jRmREfNgsmB+YTuviqasMJNgK6AoyiRgZoNU8vofOEaFACzx9bmwrhDzHrdhIxtBidyhjlV/OFwuQxZAvT5stD2lnwFCaU0aZuv4hMc6W+hRxharWBdwcOLbyz00n6JrYq88QJJV0M1w8tRj9ncxlPL5Q2MueIMm1mCxdUGLjTR4yeW0GhC+8tBO5cRJzfWDuo52okhd4TouG5uD6/rgQUGFqMyquD1OJyNnPoR6uI0UvmRhjFf+dV6hHTPL5Kvh/tZpEtfGNwz75Jind2OOOJ0VCnvNbdxdhR+owqE7zFha3p9utmilFYQ3raXJHvQv2DFcTXZZHJ1VnHnKEzaVhbjM6x44xOzfRS376G0RuanCigHVe+pkK6jKrFF9bZqo55Ywslcooz20lL5hhVH2Tjnrni
+OqZ1aUxFLZ5TpueDnlkzEbFm08tEB0Fps7rZQqosJoMW9+Cx42RFLU6fn9bi+3QZzZfOr9TfsIBGOqOFtoyP65lKWjLHqNYdou1xFHBdSWE02YL0ADlyAocs6r/PoZdpZmmvtplY0lCFUHNiKDm68457qdki6IK48EI92kKaW22nr3VnN8fb0Rqanp7GbzPHKDBjIe2OBI8Hn3eZA8SoQvhsX0dGmxijNBOFjYxXHhsyjAbCbVCGUyv11843XjsvUqoMj61MtwbTZ5TPXohFRb97RgC8HDB6V30ajC7SklLG7SuGDqOIsXo5sS19RgeDrwtwRuHx4PNJyGjv8TWjJxu+ZvRkw9eMnmw4mRmt+5rRTsqQltHo2v9/Bww5RmkNdbZwG8tPEM/ol00ufJdVKPFdbxyB8C21NCn03Z19shhtcGLoyWgtMfrKRurglBnNEf7G8tpnLdb6Tsuj3drmRQaEaXJ9tjBlqPXr9gZDi9HaVt9oDXWK8alGtPpBI43WSHzODY29nH+yjL30GEOL0WhPPR97+c1mSpITTWyTZHz0a0ZTlsHBaNxo2sPLia/28VH878xymsPwn2tlRmlJWrYwY+G/EaPpr3tJ3KeZesLTY/QHGRrOmnNUzmHNt7yijM+xjAZCbTSpN7t9S4Gv2J5oEwulBonU9MkKqz+8Xu9fb6DCZ7O2j9ukKtnaX2+yr9f5ec4YyRPC57/sZGvT4s5MLDnaGbUmfjv8qsebaAE/XGnF1W5cYOR59H66mlYonTNH3z6H4Z/75dmdfFUX7C17AiHVtgAnBxp1/svn6C+vMqBcWW24qiatckW14fIy3ecsTig67MFnHIk7J1XBXfjt8KtUM4fTwcVzDWhbj7GFEi324CUwmjnCy5Hc8oxRSntIjPLdWpYIPhJqpVCZYm+dkwN4feinQJgK6gJ/plOgxfArXnf4F59xJPaETgqdz0uorTfLw66dD52q/T6b3blW5yedrxDyIxM3idEP
+djshttD1B+SFrsFrqg2Q62f7dzOFr5EO1hn8Z7KcY082kIzuschrztrn6+K/dXr/RMqDLEJY+dEfrLRkzdZeWvVv5BwNFdC6UGbyVzNH90NIo1oYoRLyIjusEaMAohmEpA9G8j89BkYVwqSStPa0i2Kt3v/X7Y6P9jjRMj7Y5ewkB6wvFH5vpzPpDG+4DL9db+PzFruEOxj+bK8LOoYvIIRrkHvI/eU+19xj3gMdd4GE0/f2DgciDXyG3usxVoi+9zfbeUI23O7L/a6/73TE5Sm0+cMf7XZ+ts9l9Yf+d4ujJMXSBFi3v262d2ufemj4Z9ZQarWRGpHvHsnyDQhXVhujY/7EKJ6M57D64UoLP7wUphSynK1NdNY7QZMtwHoqrMedwSyN9MAyuX0kovSI53db7Jpke1g5AmEwigeQ/+4UsEw/g6c3S8tbj+KAGy+y2ej//RZ7XHJyVOtrW4nRN7Y6+IyqnmGrKQAVN6pYFwyxebOft96WLOMiahKOiMUXwk1TLTahDcq+aP1jNzN5n8P8oIeWWcAa7nr/Ugpd4CvJX3NG8cXfWX6YMYWyc7SFr49RCS9u6MbuPHZ/aFSR7t4l5vxD7knlenjVOU2uBSe8qMcmWxC6PXufCxXtDIQfXWn54TIzFABcvrwDbsjlMWcwZ78L8dJqnX/uIc8JV2i3JYDzIccbDX7FPlddq7fiqKfimAePA2+87JCb19Q7OxxZapFPmcctLirXn1es+3iP0xUII1zDFUqOeNBKHlhmeW6NlbapUVKuyNnNbjTW7P2u2lbvIq2v2RbEE5Yf8uBkRBe4Xb3WB8K07lCd1pfX5GqJTJSEb/nbzfYxJbr/Xm//dK/rvHI9yMPxeXiRJheasisYxpXvWWyaUKpfKfoqD7n3WwN4u+w9TtwL4ltxxKNuduE6Ok8INfxeQoqpTgC5PLOYUnk+xYwoamY0i3SfjvQOAbLWRaBC7m6u3FVIWwGxrA2TK/T8hHSAlxle
+KD3ZYEHNoo5Qp+eW688o1mUfcEMZZmnEp1ZZcYvZza6/7iLtTzvAqYTrqg348MV+1yiNCKuA32Z9pX1jq/3sOfoHl5pRd483WM6fo7+iysA9ODyh8oD75xCCWVrQPBPRs1o0RHb/M/vD7253TCiS6BYa8WcNVnybd8j9fyA+T6TNWnNpzeGZ5bopiCiqDBfNNfz3BttRZwj8/QInK4RfbbCNL9ZdM8+IOvkX4jqVeH2V4ZFI58B+a7DquBctY4RShI65rNrw7FrrZiMJ7nVVhv9YY3t2jXVsie5HKy0TymhXUTQgOJg31pqurTbgh7ssgZfW2SYWS7fVUU4aXByyxK+cDqDJyYfVSNwqyWvOcgQ8PD8BkBk1ekOXVNKi4OfWyv7tuzQ/XZxUqkMT40e6xFo9hT33LTXz2oV1OadMh1aMWB6N/ewS3SNLLSOLpPKjnlfZxm+I1k8vlH62wqI+6IY8PbHUPHWeEQ0Z1fr4KsvV84xo6WeX659ba51crr+1zkRjt9kCROSaeYbr4Y2rRVTf09C6OQLfAHz+Ce8nu521x70vbbTPanajTTzG7lh93Eu9QvkSpQbMESA6kO/TNNIfttiz8iToIQjxN+Ybp1bqUVnfqTePK9XfspAy1kFXjckTf7jU/HGk3suOeH653gYlf94cPUzD6CJwY4QtnFggPbbEjBYArY7mQuYtX5rZ7EIEgc+315luqDFCJ/1pm2NckXRhhX5cqQ4ijur6yWpr3N68qYDnoVxyCCw10j62LpT6FpTihEIJio2fA8iMAlfQqsT27Dd7eT6jHOGTmKwNneOQPbhB51ut83G7AkbXSr61kp93bUCRrtL6oNXxHapgg+TD+RDlNaIPjQbH14q+fdbAXktgg84PcyW6Qw2Cb6vRD42KqAtW54gjuEHvx5lQWet0fggr/BS0U5zPB3dxx8UnvItOeL2sjo46g7gjxAJ/rcH5ev8qdjJuh0rEswnuEK7Dtw2EYlyHbw3+
+BskHPYE64jkVm+1BPFg0ow5+u0Ly4RvIH5wv/Bw+J1Qa1DJO28lOo5+zS0F1r8ebGvx4sEb2Lc7kHVWogXqBzsGHNHeq9oTCE8tI5d69xMxXdH8benS2gPCUn8DRzii8UwgH1DR/elT3GaWUFDCa1vVrDCxg42mLXYXwDhu6RmugmFMpxE1LbmcUPyBTqhYbI5tuku1RUedR+ZDNr3EygeXdI89GYAuz6mGDFLTMNy6FWDuj8NPOL6fVFNF0PwcouS4Z3hfX2/pZTKFpVwk+aNrtRnKy5KPdB7TcGsmXmIwdqnu7wb/HEoCexy22mFIulYWqxJlcM0M7QqPCCe9/pQVtPwYSmS38IuLo/IJyfoun5MlrDqNoZxT4/jLaZnh8kQ6vij8Rtn+HbXo3sUzv7k1Y3n3AG3putZVa5VetlUd73r0MYzytypC4RJD8vlna3INuGgubLbyyyZ7q9T7a48ya2QprDe7x74PLLHB5oolJ+g1/2emEaMGz4TmjQQ2lzs0Rok54FB0YpZAZildB7j4/8n8I4HKEU/PE6v7ttee2/O5680NLzJAMiMguU+CQI4hYtskaQCQH5xzH4bzwDHmBUNsBS8DsC0EcDzuC+IDTcByyfsgawDneYLjZHIjujgHfOCtbW3zYg2AUDZ+Htvgh35PJ5A3hdvC/8BkuFeoE9XBxhf4fe11vbncML5AO2oL82/6BP9R2K9vmBaKFV8ORhVC5zCCiRfJzoujAKF7pwjmkeOHB8yNQxXDlcWRG6kQjfQSEsBOKaaMeqDgo3j9tsiOGQXB160LT5RWGGxYYoVGgQu5YZLb5Qw8ut1xToYcT+Mt1tpF5IsKS6fONiCyXCL5Rapp48JMGy4wKfTQpOo+REEtQvyhLUVt1zDuhRDel2lB42ANx/ONG+/hi6fP9rh1mP3wLSl+mpITTr291jNGI7+504OR+G22EH4O7D2Mb3XDlwFNiX1ZpSNx+pwOjwPfw6Arh3FIdohd+
+5LWtctp7vDM/0g+g2GlmK+Kt0sMUvCLIu2auYVShdHmV4aZa0znlepo6U8Diy1na7Sb/hDIdnADQiTOzPm8tOewhC5JPSX+yZmpf3mj7qsl1bQWdwK8/q8md9c8TCChhFHH+zCY3/XC29hcNViiqF9bZboBOyxPRbkhvzaIkrJDpL5vc1K2ao91o8EMBfrPOxASmb4FAi+cZg27gqU/gBIwtkKBKky6+i2eUNrlXkoucx1abAq3u0ASEMTmUmSHNyKn3ABNvbbZ/vNf57lYHBAgB3Ac7SJ5gTt7f4YD4onl9vs8Fnfn2JvsmI8V8H+105rd4Pt3nemerA+5fxVHPX7Y5EEy/w36Yc8D96W5nVcQt1BzyvLPZXnHUC631zha76qAb2uD93U5NsxuNCUx/uMPxwW4nhPIfe538CvgXNpU+bHMgZsXd/7rTmf4W+D0GMcIU7DcXyR3IX/G0Y6okKheIZ/SgPXAWy01/e137rsMRMRXm/jtNtB8MgK9OAgpG1eKiyLaht9SRTb20Un8k2XYQ8YwCMP7QscNVApowP6J1Bycyawox5d0xX6N/UAadzwQ0um1oiyNIIpej/RHLOZaIJIxuNLJ5RirxdrYonOM1tnEIrj6E1n4PdSBivIE2TeYCKgedv4RFBxG5Yl2KZSxJGIWvD5uPn50dsw+T4A5NZBuMzKg19cVOIb1Eky1403zjj1ZauHN/coB68eDTKIVv1cspNxG/nV5IS1zuqTenCj2SMArAGclS03ykV2O2HYiIqTgIOwX/Qf0AWrz8LstJMiPV4WdbPqqEkTGb7kcFNHokEckZhcfMxXR8cft+hqI7NJamIwlji9pT5QwSZPNklXkiXFz5UFeAR/Bso/Vb84yK7szT6Df8ar0dDRQhE9wafuSgPTiaCSjCbn9qTZScUYCJKYUxsdsufNHE0mIqhZ+ssibd/HKg8O16E7P9wv2pp8LEoY71FmXNFs6d041R/f4ByBtbSBHHLQvk
+PPNAVECXdJrSJyWj8Glpg2GFMK5YxxcictCOFLDVCqE4xfSZ/sdRZ3B8CSWMw4PBlMpHuwJNS6aVsuIjmVsEmBFAVJ5cRUPZw9TCCjbhDzhgC4wGxwrKeNP5XhApGQWoF5uJ6W9irCl8pcllzEVaYBwkQvrxXtaLXSDB9t9dL48GdwnqTmKMPrU6eRgwUKDts/A6CuHtHe1TkH61QRbQLmdJdsYorCltGaMg4xzbt/DnHQ7SV2rxmUbrgHuWCI/f2EbzwYjRfMq9uia9+ZK0XTkYVYuXR9bpDQZAc9DcMJU4uUzP534ARS2e4WzdCgS0y+6AzhgFcIOxzBpPrzVFZR0u0rV827Ic4b8GekNz+AiTK1iCR2hdDTEauycTB8KtxB7tu2B6wWiuOG0wrau8Yi6rWJX4eWRZoz8UnjrPAAomFun4lnadowtGAdoXDPKuFmN9QpiuaTXwrcXR+VKaMtFHgGkYpZGG5UtnletHovGpxXci+zlyIJKG3z4KbnDMSAO8hFsWsu3gNdJZxbqkG2L3P6Dz6JFy5HknHGw+IinhNOeBds2o1h0ajaCF1JqICFc+yvdwx0G1eEaxFB2o6X+APzIBbBnWDJZB4puLOmyB8eIGe9ZsLcKAl1nWAo5FWt8I1B0UNUqOMCshf2P/43m+XbJSuKbaEPVv2Yp8Ci4mlOrTXKDYNaMAmRw2Z+l/YioFCv39Xc5hbBkNfDP5aP/CEww/xFY4wy13BMIsJT8thJW/ZlAf9ND23TkCzK18qK2t4hjrjuGmVyloIgNNA4XVev+IPJpLfX21AfpPPkpzOYjm4Xkp9zVJRFqMAt+upwnZowqkuDn/Dy2zoPmjUl6IzH/pT4ieEGna2XLQTO+fI1xdZYgNt/6y0zkM4ki5zdsZRZBO+q1AGoafKwXVgK6UbYysJMMjbY1ZaISnOhWeQY7w/bSDbCBdRpcKPtoTB3fVdNgYcJ81cDk35grhhch4cr/hk32u4UoBfiCn
+hMItPIlSqGtt9yBI6+JgnjS5on0vBTh6qKnv1pv5nOwZC40D1V/SqPNPIDrpsd/b6Yy6sjQUzxaqjEzbe+dIl1Gg6AjzoVXC/UvNsR3iB+1BSsnMSI3OVOsHIO6kXcOUtK7IxFZJFPBITi3ytWMcr2xkjOZLwzQSn3q/qNVLCX9U1Dv63Fpa8n7RXMOAMLqa00kJjUXQKR9tazN4Qt9lPTmnaMS53VwN3g1Gge8tpVWIULNxi4VBKpNUUm7P9xepkieYxSIr3JH3c67R+SeSFhWjW/oBv9nEGIXJVAi/Wk/KmQYdyQcRt5j8TzXQTnJXDkTyJtpWvphsJx4PHol8lOHJBmpnaJ18aX630D1GobW+xQbQxxRIcWv64QZfEZHU/iF1lc53CnjKFt7Y2m4gaXw/W7i1Tg4xta7Q+YhWYY1wpkaCLJq9oUfZUsBJJbpmW+BtuMoK4dxyOW0/vJJFx72LtL0ox7003a0rNEigU1a2f+1IJ63JIX9NvK/ezFdqdAvdYxSATh+mpuZzVZUBrqZ8lAGkXhmxqVC/fa3GaKfybGFkvsR3weW4bh65u3ctkQOYg5SVn/m0iAFQTRoJcsxY196zhNyNPZYgn2XOExVdydIVkNPU45KtvXmhKdgpp6sk33hOpyqeTmcgfNEcCIaIIHuzsScxYbcZBdSHmA+mEh9eavZ07JU67AxeNTciqWusfUcqouRLqqj1XD3PGDsK9AN4OkrxjCLderZs8oQzNIJ1O0AuKRFXrjh5jv7MMnpCvgpvizHAAzO+6n0U1CAIZi5JD8ts7bQFxk4YXQk6i2Rl+yHL5BeFKxi+l/dk5Qj/SkiFlSZ6wihAFcd6kx9eFj9r4AiRKksqSI2NrjIIyRMi4csR4tZfsv10wJDIjcI6vX84BDRHeH2rnfIdgjywheaoFiGsOAG++kS2d8ZHe5zQlqdDdBTkA8895u1hOeJJXJTBgXqqYbOC6QlVcmLGKNAu70WICAOvEO5a
+ZLL2dIuzHjKKCr19IXXioxCpHe8OUqeAVHyrEs8q0fFkZ7HAu5Ue8fx8peXnjdaeFcjcMFClpHGhWN0PIml9j0pcytzd/6TptcK4It0Be5CS/PAhGo00tlCKRn4/bSQ35Op5BlyW6jqN8Y0eAK9My5PR0BmdcdIJZRtLp6UXO9b1kFFA72WkMll8eJklbo4g1O9tC4wkEypxYrFu0YnIImwGZzB8CpThzFZUZQ8LuIG0qQXwGuuJQCVcUUmNiQ8hUMK/bOFsNqa9yxIYh5uS1ZSNKAdbV8uYZk3k7qXmjEcyoif0NFtADt1wRqEuTjqB+5fJOq+XdAI9ZxQwgFSE6ozUBxNsKv7Ao7MmSa3y6dUWQ0RBw4N7cb3t3BIdbFuvSonu6cb42RQ0qJItXM/WyfIVemeU6fnyGDK9M7VnFEmxa5uY6eWDceJIjbz3bqaAuy484T27lGlahXB9jTG2f4aj/Kicpfq7i3tLJ9ArRgGQOgX+IXvcB5fJmQVjAfUyBk4m8wPPLdXFTnly+mkdUq9KsvfnGb+n19IM9GfWkEa9sNLA0+PArH643RHbRwjkHHCTLgGjeeKkOTL3GQGu9CM0F9ag8fo3zzce73hr3KnssGckczOhPPhm671EbxkFCg+z5KCM1AeWmuMkBthvDdxI09poDGFMsQ7RtLEXeQ67xJ+2UfaUEfniB7uc0LfQZu/tlBcAJQWsPgU2KGwNWm/yu8WiXut7EKYRNaMWR+VL/9zrinMh0cju493LqJlcUZ2hvuUMMAoUtHhumU+rbVAp9y81wwuXv4gAsotXoqaKc5S0Uqrvli8iYqZqyhXf3OYYz1bsfLo33m7FAu4unT9TO7ZYF5020BtAb723yzmSTQsibbHAuN8aL3w2f5gWYzHLOqZAii7v7D0ywyhg8sFRMtIjgtRlySf7KA64p9dARVPcNlwj/mCpeUl6mai6BXlKWJ745+0OnooCkYn8XTL4Q22zmt0vNVh6v1wA
+PL2/w4mQlzdcONUvrLVJCZsr4rS7F0c823rzwYxOlc0YowAjVQ5poH6tydZtwUrN3Ociy8FOg677aHeGlTAa052LTFBlZ5brh7OOX9xC/q4vsVTw3Y37ZmvpvZTC9GpDbjLJw8vezVbOo8AV4gY+g8gko4DZH/omJ1UtXjZHH5s5KRYIJJ5fYx3GTBde/uIK/Ue7nBnReBy0gJd8DXJ2zinXtaYI+TMFxK+I3yiaYnZnRo1B1exO6mFpDrkvKdeTClEI4LUH3bZdIsOMAlZ/mEhFdKWEeyJ9sdcVHZWMA1yqG1hPHuf1kgpKMpaR4IFMFBhl7uuFc/XBTHk7HSG4QwuOeWhED1wymTu1UHouIZrigAL7bI9zGHdrc0CnOYNOdSwyzygAUmfud8FSElv09JQxTf6uI/BWyibXtGrmCaNSYGLzxIeWWXrJazHcbwQk0AEUkOgSY6peotUVem+74yJIG7eXCuG0Aum5NVaeoSoRZh9Ul5G1chpaUDa7+kI6OfqEUY78Fs+UCsr1hnLtXD0UjvxFAmD58JLXyU4To1Yj3V1n+ssOShMon9QdbOL972A0V7yN1tZnpvoQyC4+4X1ouQUBLj0ko3M0uGy07kjBJbDVFLiDTXtGPUydayhPe2VOz9CHjAIQ1nvg1GXTm8NqPrPa2kmfCJTVvOPe59fa4M3T++NXzGW9p8705nbH1u5MwFwpslzfYFQpZB/o7Tw/BP61x72PLrecBycWl8WzMXqurTI832jtJAUxXh9GhybXsV/BpvSdaEbRt4wC0LdkP7gTlCNQdqGuQultJv8LjdYpkAPIK9Pb9AHULjE/tdJSc9y71xzovGbgZN3Ee5W7CkZT4bAjuNcS+N1mO+54FvdlmM7Ev+NKdAgx8w55Os9KMbPJfS0fg1IKp2ikJ1ZaEsP0vkCfM8qxUvQ9QJt30axBaNRnYXJYEqxOEAiROXxpve1yNq4pSwYEl41f3rnY9HyDteiwp8VOqYWi
++W+joJzFOcIZJbrErxKBZtdiowRG+6yBVzbaYRHHlujIVYZsMQWDS00o0d200KRucu3u6smhZp9utFKeTEbnhXP00D3yd32PfmIUQAv9kPeksEGGERrxkz3OdJptkFH76432C8r1E8uoV4+oRWWxdO0jCiWUkUXSM2usL2+0U1lv22j0U66wHOHna6wGbwiOTGL5224nzuQ/uW6eEc+D61D8iuuDRc5lnnjBHD0s8Vd7XTzlVeeAUv1gJyXy5QppdLHuk72uHo909gz9xyjHMtH36FKzbFpU4g01BkWzO6m7nwhPgJKefrzb+cZWx6RyPQpZSvAKDjgN/F8cYYsmEL1MKNWhWk9LKKP4KgGcyX8VLQrhjDLdpBLd3UvMH+9yVhz14Kbp+FVomjObXLQcSE2tYXie+OPl5oaMDuOkif5mlGNRq/c8tmSRikqcBl4PuLuVhQV6EqW21fvuVse7O53v7HBeNNcwvlg3vpQKiRqoYoKSpIBIlTiOnUmlSHqywYqLvMvyFonukK07zjFCo1kwmTQAxe6oEBDVrOiD3s00MTCMAiYfKeHzWdK6CK+USBwyIZ/RTUC5GTwh6FiU7ebAG5spU1nystmOBsTPpJLQ75om3IFwdrN7aiyXFfqPdjv7Wc3GYcAY5UCFvr/TAVsl86oWYSyfX2MDtYMwIwsHouecA+5nGq0XwKiz/jyUSyr0f9/lROQrnzRwGGBGOSiDG9Qm5xVakbmIV9cYvtzjXD+gSxnj0Kjzf77HeQWEkj0hPapCuKxC/7ddTjRN+aSBxqBglENivD6CIAf+Dto+c1tOLdJNrTH+a7+rpMUTP0Gtv7BS8n262zm1xkCrphiL9Hj50mNLzZDLwcMlxyBiNApYQcQeD9czark2ZobqskrDoyst1cc8K/pgrl4clgk+3Oih5Zbp84zU488fA3KpEq+u1P9zrytVF+6AYzAyGsV6g/+JlZaruZbjvTZcJ+dLdywy3bHA+PYOx2Kt
+b/EJb+J0rG6hyUYdtrjUn7Y5cNnb60zUj8H1KnxmFcVa8GZ/utq6VvINBmPZCQY1oxxmX2iF1jur2f2dOtP1fO4LCsWd7APzTRCbIoKkssj0y3U2BIJdlv9ca8XJ/FfUcRG5lHxlCpeFGxYYcVO4aXiAVMNHgw1DgNFYuIPhhSe8eYfctyw0ofDEvyRDUSZgffE5l23L23kh+WM9DCj4CS6SI5xZpsNlb60zFbZ4cKOhmKh0iDEah73WQMVh2kztta2OadWGafONKBewzaVkUU5awJ+Cdo/j5+OHf97uwEVwqd5skjdIMLQZTQr4zAUH3QUtns7KIXefzjAdQJyEjP6b42tGTzZ8zejJhba2/wfo6Z1RX1Fi5QAAAABJRU5ErkJggg==</ImageData>
+    </EmbeddedImage>
+  </EmbeddedImages>
+  <rd:ReportUnitType>Cm</rd:ReportUnitType>
+  <rd:ReportID>cb0a4682-6b86-451b-97ef-a1e41a054f12</rd:ReportID>
+</Report>

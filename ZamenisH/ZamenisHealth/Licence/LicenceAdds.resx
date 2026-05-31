@@ -1,0 +1,876 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="richTextBox12.Text" xml:space="preserve">
+    <value>The MIT License (MIT)
+
+Copyright (c) 2016 Soroush
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.</value>
+  </data>
+  <data name="richTextBox11.Text" xml:space="preserve">
+    <value>Pdfium.Net.SDK 4.86.2704
+License file
+PDFIUM.NET SDK v. 4
+
+SOFTWARE LICENSE AGREEMENT AND LIMITED WARRANTY
+ii Software License Agreement and Limited Warranty Nov. 23 ,
+PDFIUM.NET SDK v.4
+SOFTWARE LICENSE AGREEMENT AND LIMITED WARRANTY
+DEFINITIONS
+GRANT OF LICENSE
+OTHER RIGHTS AND LIMITATIONS
+PROHIBITED USES
+ACKNOWLEDGEMENT
+CONTENT
+SOFTWARE UPDATES
+SUPPORT
+NO WARRANTY ON LICENSED SOFTWARE
+LIMITATION OF LIABILITY
+ADDITIONAL TERMS FOR BETA SOFTWARE
+SURVIVAL OF DISCLAIMERS
+INTELLECTUAL PROPERTY OWNERSHIP
+RESERVATION OF RIGHTS
+COMPLETE AGREEMENT
+MODIFICATION
+SEVER ABILITY
+WAIVER
+U.S. GOVERNMENT USERS
+PROOF OF COMPLIANCE
+TERMINATION
+REPUTATION AND FURTHER CONFIDENTIALITY
+MARKETING
+NOTES
+IMPORTANT - READ CAREFULLY
+THIS PDFIUM.NET SDK SOFTWARE LICENSE AGREEMENT ("LICENSE AGREEMENT") IS A LEGAL
+AGREEMENT BETWEEN "YOU" (EITHER AN INDIVIDUAL OR AN ENTITY) AND PATAGAMES
+SOFTWARE ("PATAGAMES") GOVERNING YOUR USE OF PDFIUM.NET SDK SOFTWARE ("PATAGAMES
+PRODUCT"). THE PATAGAMES PRODUCT INCLUDES THE SAID SOFTWARE AND ANY ASSOCIATED
+MEDIA, PRINTED MATERIALS, AND ONLINE/OFFLINE ELECTRONIC DOCUMENTATION. THE
+PATAGAMES PRODUCT ALSO INCLUDES ANY UPDATES AND SUPPLEMENTS TO THE ORIGINAL
+PATAGAMES PRODUCT PROVIDED TO YOU BY PATAGAMES.
+BY INSTALLING AND USING THE LICENSED SOFTWARE, YOU AGREE TO BE BOUND BY ALL OF THE
+TERMS AND CONDITIONS OF THIS EULA. IF YOU DO NOT AGREE TO THE TERMS OF THIS EULA, YOU
+MAY NOT INSTALL OR USE THE LICENSED SOFTWARE. THE LICENSEE ACKNOWLEDGES THAT THIS
+IS LEGALLY BINDING AGREEMENT AND THE LICENSEE WILL TAKE ANY NECESSARY ADVICE IN
+RELATION TO THIS AGREEMENT PRIOR TO INSTALLING AND USING THE LICENSED SOFTWARE.
+THIS LICENSE SHALL GOVERN ALL AND ANY USE OF THE LICENSED SOFTWARE SAVES SET OUT
+HEREIN.
+THE SOFTWARE THAT IS SUBJECT TO THIS END USER’S LICENSE AGREEMENT (EULA) IS LICENSED,
+NOT SOLD, TO THE LICENSEE BY PATAGAMES ON THE TERMS AND CONDITIONS CONTAINED
+HEREIN.
+DEFINITIONS
+“LICENSEE” – you (in your individual capacity or on behalf of an incorporated company only).
+“LICENSED SOFTWARE” – the Pdfium.Net SDK software product and version specified at the time of sale which includes:
+o Computer software, associated source code;
+o Printed or electronic documentation;
+o Files, disk(s), CD-ROM(s), DVDs, or other media for which this EULA is provided;
+o Third party computer information or software that PATAGAMES has licensed for inclusion in the
+LICENSED SOFTWARE;
+o Written materials, code samples or files relating to the LICENSED SOFTWARE(“Documentation”);
+o Fonts;
+o Upgrades, modified versions, updates, additions, and copies of the LICENSED SOFTWARE, if any
+(collectively, “Updates”);
+o License keys.
+“DEVELOPED SOFTWARE” – the computer applications LICENSEE creates (web or forms applications, services and console applications) that use the LICENSED SOFTWARE – whether created/altered by the LICENSEE themselves or an agent/employee/developer or other person or entity permitted in accordance with the LICENSEE’s license.
+"AUTHORIZED USER" - every person (software developer or automatic system like build server or other person) who will use the LICENSED SOFTWARE.
+GRANT OF LICENSE
+This license agreement grants YOU the following rights:
+
+This is a license agreement and not an agreement for sale. PATAGAMES grants to YOU a limited, non- exclusive, non-competing and non-transferable license to use the LICENSED SOFTWARE for the sole purposes of designing, developing and compiling DEVELOPED SOFTWARE as purchased in one of the following ways. If no purchase or insufficient purchase has been made, then the Free Trial License terms apply. o Free Trial License. Notwithstanding other sections of this EULA, you may install the LICENSED SOFTWARE for internal evaluation purposes only for no more than 30 days on up to two computers for your personal use only. If the licensee is an organization, it must designate one individual within the organization the right to use the LICENSED SOFTWARE in this manner. You must not make the LICENSED SOFTWARE available through any server or file sharing apparatus for use on more computers or by more users than is set out in this clause. o Single Project License. Grants the use of the LICENSED SOFTWARE by a specified number of AUTHORIZED USER to develop one DEVELOPED SOFTWARE. Valid for OEM redistribution. o Single Developer License. Grants the use of the LICENSED SOFTWARE for one AUTHORIZED USER. The LICENSED SOFTWARE is licensed for use within an agreed number of DEVELOPED SOFTWARE. Valid for OEM redistribution. o Organization License. Grants the use of the LICENSED SOFTWARE by a specified number of AUTHORIZED USER to create and deploy an unlimited number of DEVELOPED SOFTWARE. Valid for OEM redistribution. o OEM Redistribution License. Grants the right to distribute the LICENSED SOFTWARE (without royalty) as part of ONE distinct packaged commercial product, provided that your application is not a software development system or tool, nor a PDF generation application in its self. o Source Code License. This section is applicable only to LICENSED SOFTWARE distributed with source code. You may modify the source code for your own needs as part of a non-competing compiled solution but may not redistribute it in non-compiled form. Source code is subject to the following conditions: ▪ PATAGAMES shall retain all rights, title and interest in and to all corrections, modifications and derivative works of the source code created by you, including all copyrights subsisting therein, to the extent such corrections, modifications or derivative works contain copyrightable code or expression derived from the source code; ▪ You also agree to acknowledge and deliver to PATAGAMES all related information for said corrections, modifications, or derivatives; ▪ You may not distribute or disclose the source code, or any portions or modifications or derivative works thereof, to any third party, in source code form; ▪ You acknowledge that the source code contains valuable and proprietary trade secrets of PATAGAMES, and is disclosed pursuant to this license subject to the agreement of the LICENSEE to treat it as “Confidential Information”. LICENSEE warrants that it applies reasonable safeguards against the unauthorized disclosure of Confidential Information and agrees to advise all of its employees having access to Confidential Information of the obligations hereunder and shall be not used save as set out in this agreement nor be copied or distributed, disclosed or disseminated in any way or form by the receiving party to anyone except its own advisers and employees, who have a reasonable need to know said Confidential Information.; The LICENSEE agrees that money damages wouldn’t be a sufficient remedy for any breach of this term and PATAGAMES may be entitled to seek injunction or other equitable relief to remedy or prevent any breach or threatened breach of this clause. Such remedy shall not be the exclusive remedy for any breach of this clause, but shall be in addition to all other rights and remedies available at law or in equity; ▪ If you distribute a compiled version of the corrected source code or portions thereof, you must distribute it in accordance with the conditions listed in section regarding the distribution of Redistributable Files; ▪ You understand and acknowledge that source code is licensed as is, and that PATAGAMES does not provide any technical support for source code;
+
+To use the LICENSED SOFTWARE LICENSEE need to purchase an appropriate license from PATAGAMES for LICENSEE that covers the requisite number of AUTHORIZED USER and DEVELOPED SOFTWARE.
+
+An AUTHORIZED USER can install the LICENSED SOFTWARE on only one computer.
+
+For the sake of flexibility, the licenses permit the AUTHORIZED USER to install the LICENSED SOFTWARE on a laptop computer that the AUTHORIZED USER uses if the original installation was on a desktop. Similarly, if the original installation was on a laptop, the AUTHORIZED USER can install and use the LICENSED SOFTWARE on desktop computer that the AUTHORIZED USER uses. However, the AUTHORIZED USER should not install the LICENSED SOFTWARE on two desktop computers or two laptop computers.
+
+The AUTHORIZED USER can "move" the installation to another computer by first uninstalling the LICENSED SOFTWARE on the original computer and permanently removing any traces of its existence on that computer and then installing the LICENSED SOFTWARE on the other computer.
+
+OTHER RIGHTS AND LIMITATIONS
+Activation. The LICENSED SOFTWARE contains technological measures that are designed to prevent its unlicensed or illegal use. The LICENSED SOFTWARE may contain enforcement technology that limits LICENSEE’s ability to install and uninstall the LICENSED SOFTWARE on a machine to no more than a finite number of times, and for a finite number of machines. If any such applicable activation procedure(s) are not followed, then the LICENSED SOFTWARE may only operate for a finite period of time. If LICENSEE has any problem with the activation process, LICENSEE should contact PATAGAMES customer support. The absence of any activation measures shall not be taken to mean that PATAGAMES consent to any use of the LICENSED SOFTWARE beyond the uses permitted in this Agreement.
+Ceases Operations. In the event that PATAGAMES ceases product support or business operations and no surviving entity owns the rights to the source code, then you may retain and continue to use the Code only under the terms outlined in this EULA.
+Copies. LICENSEE may make one copy of the LICENSED SOFTWARE for backup or archival purposes only, provided that such copies shall be used only for internal purposes and are not republished or distributed to any third party.
+Transfer. LICENSEE may not sell, assign, or transfer the LICENSED SOFTWARE or the License granted by this EULA without prior written consent of PATAGAMES.
+Redistributable Compiled Files. PATAGAMES grants you a non-exclusive right to reproduce and distribute the compiled code included in the LICENSED SOFTWARE only to the extent necessary for its inclusion in the DEVELOPED SOFTWARE.
+Redistributable Compiled Source Files. PATAGAMES grants you a non-exclusive right to reproduce and distribute the compiled code produced from the Source Code outside your company or organization on the condition that the filename does not begin with “Pdfium” or “PATAGAMES” only to the extent necessary for its inclusion in the DEVELOPED SOFTWARE.
+The LICENSED SOFTWARE may be used on any server, as long as access to the functionality of LICENSED SOFTWARE is via your DEVELOPED SOFTWARE only. Non-LICENSEEs will not be permitted direct access to the LICENSED SOFTWARE.
+The LICENSED SOFTWARE may be installed on a third-party hosting server as long as each person using the LICENSED SOFTWARE is an AUTHORIZED USER. The LICENSED SOFTWARE may not be installed on a hosting provider’s server with a single license key used by all the hosting provider’s customers.
+PROHIBITED USES
+LICENSEE may not translate, sub-license, rent, lease, transfer or loan all or any portion of the LICENSED SOFTWARE or Documentation;
+LICENSEE may not create any derivative works from all or any portion of the LICENSED SOFTWARE or Documentation without prior written consent of PATAGAMES. LICENSEE may not use the LICENSED SOFTWARE to develop software toolkits, libraries or components except as authorized in writing by a duly authorized officer of PATAGAMES.
+LICENSEE may not reverse engineer, decompile, disassemble, or otherwise attempt to discover the source code of the License Software the LICENSED SOFTWARE except, and then: only to the extent expressly permitted by applicable law; after notification to PATAGAMES; upon payment of a reasonable fee; and execution of a confidentiality agreement to protect the Code from disclosure to any third parties;
+LICENSEE may not use a previous version of the LICENSED SOFTWARE after receiving a media replacement or upgraded version as a replacement to a prior version (in such case you must destroy the prior version);
+LICENSEE may not use the LICENSED SOFTWARE in the operation of aircraft, ship, nuclear facilities, life support machines, communication systems, or any other equipment in which the failure of the software could lead to personal injury, death, or environmental damage;
+LICENSEE may not remove or obscure PATAGAMES copyright or trademark notices, or the copyright and trademark notices of third parties that PATAGAMES has included in the LICENSED SOFTWARE or Documentation;
+LICENSEE may not use the LICENSED SOFTWARE to host applications for third parties, as part of a facility management, timesharing, service provider, or service bureau arrangement;
+LICENSEE may not use the LICENSED SOFTWARE in any manner not expressly authorized by this EULA.
+ALL LICENSES ARE SUBJECT TO THE FOLLOWING CONDITION: Under no circumstances may the compiled version or source code or any modification or variation thereof whatsoever(“the Code”) be used, in whole or in part, as the basis for creating a product which is in any way competitive with a PATAGAMES product except by a writing signed by an authorized officer of PATAGAMES. To avoid any doubt you may not solicit, canvas, approach or accept any approach from any person with a view to utilizing the Code to compete with the business of PATAGAMES in any way or otherwise be concerned with or interested in (whether as trustee, principal, agent, shareholder, unit holder or in any other capacity) any business which uses the Code to carry on the same, substantially similar to or competitive with the business of PATAGAMES or be employed by, work for or contract or consult to (directly or indirectly, whether or not for remuneration, and in any capacity) any business which uses the Code to carry on business the same, substantially similar to or competitive with the business of PATAGAMES.
+ACKNOWLEDGEMENT
+The LICENSEE acknowledges that the LICENSED SOFTWARE is designed to interact with and modify the properties of documents, although unlikely, this may cause errors and the LICENSEE acknowledges that PATAGAMES recommends that the LICENSEE backs up their documents. PATAGAMES will not be liable for any loss associated with such an issue nor shall it be considered as a defect of the LICENSED SOFTWARE.
+
+CONTENT
+LICENSEE may use any clip art, photographs, icons, fonts, shapes, animations, sounds, music, video clips, and all other graphic content (collectively, “Content”) included with the LICENSED SOFTWARE, if any, only as stated in the Documentation. If the Documentation does not permit LICENSEE to use the Content, then LICENSEE may not display, modify, reproduce, or distribute any of the Content; and even if the Documentation permits LICENSEE to use the Content, LICENSEE may not distribute the Content on a stand- alone basis such as where the Content constitutes the primary value of whatever LICENSEE is distributing.
+
+Certain portions of the Content may consist of the copyrights, trademarks, service marks, trade names, or other intellectual property of third parties. PATAGAMES has provided these portions of the Content for LICENSEEs’ convenience in using the LICENSED SOFTWARE, pursuant to authorization of their owners. Except for this limited use, LICENSEE may not use any third-party intellectual property identified as belonging to others without the owners’ express authorization. Furthermore:
+
+LICENSEE may not sell, license, distribute (commercially or otherwise), or make available the Content as stand-alone images or sounds, or in catalogs, design books, compilations, collections, templates, designs, stock engravings, products, services, or the like;
+LICENSEE may not sell, license, distribute (commercially or otherwise), or make available electronic copies of the Content to third parties in any manner, including without limitation, via the Internet, on any tangible media or by broadcast, that is intended or designed to enable a third party to copy the Content for its own use;
+LICENSEE may not sell, license, distribute (commercially or otherwise), or make available electronic copies of the Content that includes representations of identifiable individuals, governments, logos, initials, emblems, trademarks, or entities that expresses or implies any endorsement or association with any product, service, entity, or activity;
+Under no circumstances may the Content be used in the production of defamatory, fraudulent, infringing, lewd, obscene, or pornographic material, or in any otherwise illegal manner.
+LICENSEE is solely responsible for LICENSEE’s use of the Content. LICENSEE may only use the Content responsibly, in a manner consistent with the exercise of good judgment. If LICENSEE is having difficulty deciding whether Licensee’s intended use is appropriate, or whether LICENSEE needs written permission, or whether other legal issues should be considered, PATAGAMES strongly encourages LICENSEE to seek competent legal counsel. PATAGAMES will not assist LICENSEE in making this determination, nor can PATAGAMES provide LICENSEE with legal advice as to intellectual property rights.
+
+If LICENSEE or Licensee’s attorney determines that LICENSEE is required by law to obtain written permission to use portions of the Content, LICENSEE must request permission in writing for reproduction, redistribution, or modification of the Content from the appropriate owner of the subject materials (as may be cited in the LICENSED SOFTWARE). If, on the other hand, LICENSEE or LICENSEE’s attorney determines it is permissible to proceed and include Content from the LICENSED SOFTWARE, PATAGAMES asks LICENSEE to correctly designate PATAGAMES trademark(s) when referring to the LICENSED SOFTWARE in the notice or copyright portion of Licensee’s paper, project, or product.
+
+LICENSEE shall indemnify, hold harmless, and defend PATAGAMES and PATAGAMES suppliers from all claims, damages, attorneys’ fees, costs, and lawsuits that arise from, or result from, Licensee’s use or distribution of Content without limitation and howsoever arising.
+
+SOFTWARE UPDATES
+If a new release of the software is produced within 12 months from the date of purchase, then LICENSEE will be entitled to a free upgrade. This agreement may be extended by explicit purchase of additional lights. The license does not grant you any right to any enhancement or update beyond the initial 12 - month period, commencing from the date of purchase. The license does not indicate a Service Level Agreement, nor does it imply that PATAGAMES is responsible for successful deployment, maintenance nor business function of the LICENSED SOFTWARE.
+
+If the LICENSED SOFTWARE is an Update to previous version, LICENSEE must possess a valid License to the previous version. Any Update provided to LICENSEE is made on a License exchange basis such that LICENSEE agrees, as a condition for receiving an Update, that LICENSEE will terminate all of LICENSEE’s rights to use any previous version of the LICENSED SOFTWARE. However, LICENSEE may continue to use the previous version only to assist in transitioning to the Updated version. Once an Update has been released, PATAGAMES may cease support for prior versions, without any notice to LICENSEE. The terms of this LICENSE AGREEMENT shall survive any update save for any new term agreed between the LICENSEE and PATAGAMES which directly replaces any term of this LICENSE AGREEMENT.
+
+SUPPORT
+PATAGAMES is not obligated by this EULA to provide LICENSEE with any technical support services relating to the LICENSED SOFTWARE; however, LICENSEE may order additional support services for an additional charge as PATAGAMES may offer from time to time during the term of this EULA.
+
+NO WARRANTY ON LICENSED SOFTWARE
+The LICENSED SOFTWARE is provided to LICENSEE “AS IS.” PATAGAMES, and PATAGAMES suppliers, make no warranty as to its use or performance. PATAGAMES, and PATAGAMES suppliers, make no warranties, conditions, representations, or terms (express or implied whether by statute, common law, custom, usage, or otherwise) as to any matter including without limitation non-infringement of third party rights, merchantability, integration, satisfactory quality, or fitness for any particular purpose, except for, and to the extent, that a warranty may not be excluded or limited by applicable law in licensee’s jurisdiction.
+
+LIMITATION OF LIABILITY
+In no event will PATAGAMES, or PATAGAMES suppliers, be liable to licensee for any damages, claims, or costs whatsoever, or for any consequential, indirect, incidental damages, or any lost profits or lost savings, even if a representative of PATAGAMES or one of PATAGAMES suppliers has been advised of the possibility of such loss, damages, claims, or costs, or for any claim by any third party. These limitations and exclusions apply to the extent permitted by applicable law in licensee’s jurisdiction. The aggregate liability of PATAGAMES, and PATAGAMES suppliers, under or in connection with this EULA, shall be limited to the amount paid for the licensed software, if any.
+
+ADDITIONAL TERMS FOR BETA SOFTWARE
+If the LICENSED SOFTWARE that LICENSEE receives with this EULA is pre-commercial release or “BETA” software (“Pre-release-Software”), then, to the extent that any provision in this section is in conflict with any other term or condition in this EULA, this section supersedes such conflicting term(s) and condition(s) as to the Pre-release Software, but only to the extent necessary to resolve the conflict.
+
+LICENSEE acknowledges that the Pre-release Software does not represent the final product from PATAGAMES, and may contain bugs, errors, and other problems that could cause system or other failures and data loss. Consequently, PATAGAMES disclaims any warranty or liability obligations to LICENSEE of any kind whatsoever.
+
+IN APPLICABLE JURISDICTIONS WHERE LIABILITY CANNOT BE SO EXCLUDED FOR PRE-RELEASE
+SOFTWARE,BUT MAY BE LIMITED, PATAGAMES LIABILITY, AND THAT OF ITS SUPPLIERS, SHALL BE
+LIMITED TO THE TOTAL OF FIFTY DOLLARS (U.S. $50.00).
+LICENSEE acknowledges that PATAGAMES has not promised or guaranteed to LICENSEE that the Pre- release Software will be announced or made available to anyone in the future, and that PATAGAMES has no express or implied obligation to LICENSEE to announce or introduce the Pre-release Software. PATAGAMES may decide not to introduce a product similar to, or compatible with, the Pre-release Software. Accordingly, LICENSEE acknowledges that any research or development that LICENSEE performs regarding the Pre- release Software, or any product associated with the Pre-release Software, is done entirely at LICENSEE’s own risk.
+
+During the term of this EULA, if requested by PATAGAMES, LICENSEE will provide feedback to PATAGAMES regarding testing and use of the Pre-release Software, including error or bug reports.
+
+If LICENSEE has been provided the Pre-release Software pursuant to a separate written agreement, then LICENSEE’s use of the Pre-release Software is also governed by that agreement. Notwithstanding anything in this EULA to the contrary, LICENSEE will return or destroy all unreleased versions of the Pre-release Software within 30 days of the completion of Licensee’s testing of the Pre-release Software if that date is earlier than the date scheduled for PATAGAMES first commercial shipment of the publicly released(commercial) Software.
+
+SURVIVAL OF DISCLAIMERS
+The exclusions of warranties and liability limitations shall survive the termination of this EULA, howsoever caused; but this survival shall not imply or create any continued right to use the LICENSED SOFTWARE after termination of this EULA.
+
+INTELLECTUAL PROPERTY OWNERSHIP
+The LICENSED SOFTWARE and any authorized copies that LICENSEE makes are the intellectual property of, and are owned by PATAGAMES, and by third parties whose intellectual property has been licensed by PATAGAMES. The structure, organization, and code of the LICENSED SOFTWARE are the valuable trade secrets and confidential information of PATAGAMES and such third parties. The LICENSED SOFTWARE is protected by law, including without limitation, the copyright laws of Australia, the United States and other countries, and by international treaty provisions. Except as expressly provided in this EULA, LICENSEE is not granted any intellectual property rights in the LICENSED SOFTWARE.
+
+RESERVATION OF RIGHTS
+PATAGAMES reserves all rights not expressly granted to LICENSEE by this EULA. The rights granted to LICENSEE are limited to PATAGAMES’s intellectual property rights, and to the intellectual property rights of third parties licensed by PATAGAMES, and do not include any intellectual property rights.
+
+COMPLETE AGREEMENT
+This EULA constitutes the entire agreement between the LICENSEE and PATAGAMES relating to the LICENSED SOFTWARE, and it supersedes all prior or contemporaneous representations, discussions, undertakings, communications, agreements, arrangements, advertisements, and understandings regulating to the LICENSED SOFTWARE.
+
+MODIFICATION
+This EULA may only be modified or amended by a writing signed by an authorized officer of PATAGAMES.
+
+SEVER ABILITY
+If any provision of this EULA is determined by a court of competent jurisdiction to be contrary to law, that provision will be enforced to the maximum extent permissible, and the remaining provisions of this EULA will remain in full force and effect.
+
+WAIVER
+No failure or delay by PATAGAMES in exercising its rights or remedies shall operate as waiver unless made by specific written notice. No single or partial exercise of any right or remedy of PATAGAMES shall operate as a waiver or preclude any other, or further, exercise of that, or any other right, or remedy.
+
+U.S. GOVERNMENT USERS
+The LICENSED SOFTWARE and Documentation are ”Commercial Items” as that term is defined at48 CFR §2.101, consisting of “Commercial Computer Software” and “Commercial Computer Software Documentation” as such terms are used in 48 CFR §12.212 or 48 CFR§227.7202, as applicable. Consistent with48 CFR §12. or 48 CFR§§227.720 2 - 1 through 227.7202-4, as applicable, the Commercial Computer Software and Commercial Computer Software Documentation are being licensed to U.S. Government end users:
+
+only as Commercial Items; and
+with only those rights as are granted to all other end users pursuant to the terms and conditions herein;
+For U.S. Government End Users, PATAGAMES agrees to comply with all applicable equal opportunity laws including, if appropriate, the provisions of Executive Order 11246, as amended, Section402 of the Vietnam Era Veterans Readjustment Assistance Act of 1974 (38 USC 4212), and Section 503 of the Rehabilitation Act of 1973, as amended, and the regulations at 41 CFR Parts60-1 through 60-60, 60-250, and 60-741. The affirmative action clause and regulations contained in the preceding sentence shall be incorporated by reference in this EULA.
+
+PROOF OF COMPLIANCE
+Within 30 calendar days after request from PATAGAMES, or PATAGAMES authorized representative, LICENSEE will provide full documentation, and certify under penalty of perjury, that LICENSEE’s use of any and all LICENSED SOFTWARE is in conformity with this EULA.
+
+TERMINATION
+If LICENSEE breaches this EULA, and fails to cure any breach within 30 calendar days after request from PATAGAMES, or PATAGAMES authorized representative, PATAGAMES may terminate this EULA, whereupon all rights granted to LICENSEE shall immediately cease. Furthermore, upon termination, LICENSEE shall return to PATAGAMES all copies of the LICENSED SOFTWARE, or verify in writing that all copies of the LICENSED SOFTWARE have been destroyed and shall be liable to PATAGAMES for any and all losses suffered by PATAGAMES as a result of such breach or otherwise recoverable under the terms of this LICENSE AGREEMENT.
+
+REPUTATION AND FURTHER CONFIDENTIALITY
+LICENSEE agrees that the reputation of PATAGAMES is of paramount importance agrees not to do any act or make any public statement that would endanger, harm or diminish the reputation of PATAGAMES or cause PATAGAMES any commercial damage. This term shall apply to all agents, servants or related entities of the LICENSEE as if they were the actions of the LICENSEE themselves.
+
+MARKETING
+YOU also agree that PATAGAMES may identify YOU or YOUR company/organization as a PATAGAMES customer or a user of PATAGAMES product(s) in its marketing material and/or Website. YOU hereby grant PATAGAMES permission to use YOUR name, trade name or trademark in this way. If for any reason YOU do not wish to be bound by this clause, PATAGAMES will cease such use upon YOUR request</value>
+  </data>
+  <data name="richTextBox10.Text" xml:space="preserve">
+    <value>MICROSOFT SOFTWARE LICENSE TERMS
+MICROSOFT SQL SERVER MANAGEMENT STUDIO
+
+These license terms are an agreement between Microsoft Corporation (or based on where you live, one of its affiliates) and you. Please read them. They apply to the software named above, which includes the media on which you received it, if any. The terms also apply to any Microsoft
+
+updates,
+supplements,
+Internet-based services, and
+support services
+for this software, unless other terms accompany those items. If so, those terms apply.
+
+By using the software, you accept these terms. If you do not accept them, do not use the software.
+As described below, using some features also operates as your consent to the transmission of certain standard computer information for Internet-based services.
+
+If you comply with these license terms, you have the perpetual rights below.
+1. INSTALLATION AND USE RIGHTS.
+
+  a. Installation and Use. You may install and use one copy of the software on your device.
+
+  b. Third Party Programs. The software may include third party programs that Microsoft, not the third party, licenses to you under this agreement. Notices, if any, for the third party program are included for your information only.
+
+2. ADDITIONAL LICENSING REQUIREMENTS AND/OR USE RIGHTS.
+
+  a. Distributable Code. The software contains code that you are permitted to distribute in programs you develop if you comply with the terms below.
+
+    i. Right to Use and Distribute. The code and text files listed below are "Distributable Code."
+
+Sample Code. You may modify, copy, and distribute the source and object code form of code marked as "sample."
+Third Party Distribution. You may permit distributors of your programs to copy and distribute the Distributable Code as part of those programs.
+    ii. Distribution Requirements. For any Distributable Code you distribute, you must
+
+add significant primary functionality to it in your programs;
+for any Distributable Code having a filename extension of .lib, distribute only the results of running such Distributable Code through a linker with your program;
+distribute Distributable Code included in a setup program only as part of that setup program without modification;
+require distributors and external end users to agree to terms that protect it at least as much as this agreement;
+display your valid copyright notice on your programs; and
+indemnify, defend, and hold harmless Microsoft from any claims, including attorneys' fees, related to the distribution or use of your programs.
+    iii. Distribution Restrictions. You may not
+
+alter any copyright, trademark or patent notice in the Distributable Code;
+use Microsoft's trademarks in your programs' names or in a way that suggests your programs come from or are endorsed by Microsoft;
+distribute Distributable Code to run on a platform other than the Windows platform;
+include Distributable Code in malicious, deceptive or unlawful programs; or
+modify or distribute the source code of any Distributable Code so that any part of it becomes subject to an Excluded License. An Excluded License is one that requires, as a condition of use, modification or distribution, that
+the code be disclosed or distributed in source code form; or
+others have the right to modify it.
+3. INTERNET-BASED SERVICES. Microsoft provides Internet-based services with the software. It may change or cancel them at any time.
+
+  a. Consent for Internet-Based Services. The software feature described below and in the SQL Server Privacy Statement connects to Microsoft or service provider computer systems over the Internet. In some cases, you will not receive a separate notice when they connect. You may switch off this feature or not use it. For more information about this feature, see https://go.microsoft.com/fwlink/?LinkID=398120. By using this feature, you consent to the transmission of this information. Microsoft does not use the information to identify or contact you.
+
+  i. Computer Information. The following feature uses Internet protocols, which send to the appropriate systems computer information, such as your Internet protocol address, the type of operating system, browser and name and version of the software you are using, and the language code of the device where you installed the software. Microsoft uses this information to make the Internet-based service available to you.
+
+Web Content Features. Features in the software can retrieve related content from Microsoft and provide it to you. To provide the content, these features send to Microsoft the type of operating system, name and version of the software you are using, type of browser and language code of the device where you installed the software. Examples of these features are clip art, templates, online training, online assistance, help and Appshelp. You may choose not to use these web content features.
+  ii. Use of Information. We may use the computer information, to improve our software and services. We may also share it with others, such as hardware and software vendors. They may use the information to improve how their products run with Microsoft software.
+
+4. SCOPE OF LICENSE. The software is licensed, not sold. This agreement only gives you some rights to use the software. Microsoft reserves all other rights. Unless applicable law gives you more rights despite this limitation, you may use the software only as expressly permitted in this agreement. In doing so, you must comply with any technical limitations in the software that only allow you to use it in certain ways. You may not
+
+work around any technical limitations in the software;
+reverse engineer, decompile or disassemble the software, except and only to the extent that applicable law expressly permits, despite this limitation;
+make more copies of the software than specified in this agreement or allowed by applicable law, despite this limitation;
+publish the software for others to copy;
+rent, lease or lend the software;
+transfer the software or this agreement to any third party; or
+use the software for commercial software hosting services.
+5. BACKUP COPY. You may make one backup copy of the software. You may use it only to reinstall the software.
+
+6. DOCUMENTATION. Any person that has valid access to your computer or internal network may copy and use the documentation for your internal, reference purposes.
+
+7. EXPORT RESTRICTIONS. The software is subject to United States export laws and regulations. You must comply with all domestic and international export laws and regulations that apply to the software. These laws include restrictions on destinations, end users and end use. For additional information, see https://www.microsoft.com/exporting.
+
+8. SUPPORT SERVICES. Because this software is "as is," we may not provide support services for it.
+
+9. ENTIRE AGREEMENT. This agreement, and the terms for supplements, updates, Internet-based services and support services that you use, are the entire agreement for the software and support services.
+
+10. APPLICABLE LAW.
+
+  a. United States. If you acquired the software in the United States, Washington state law governs the interpretation of this agreement and applies to claims for breach of it, regardless of conflict of laws principles. The laws of the state where you live govern all other claims, including claims under state consumer protection laws, unfair competition laws, and in tort.
+
+  b. Outside the United States. If you acquired the software in any other country, the laws of that country apply.
+
+11. LEGAL EFFECT. This agreement describes certain legal rights. You may have other rights under the laws of your country. You may also have rights with respect to the party from whom you acquired the software. This agreement does not change your rights under the laws of your country if the laws of your country do not permit it to do so.
+
+12. The software may include preview, beta, or other pre-release features, or software, offered by Microsoft, as described in the documentation. PREVIEWS ARE PROVIDED "AS-IS," "WITH ALL FAULTS," AND "AS AVAILABLE," AND ARE EXCLUDED FROM THE SERVICE LEVEL AGREEMENTS AND LIMITED WARRANTY. Previews may not be covered by customer support. Previews may be subject to reduced or different security, compliance and privacy commitments. We may change or discontinue Previews at any time without notice. We also may choose not to release a Preview into "General Availability."
+
+13. DISCLAIMER OF WARRANTY. The software is licensed "as-is." You bear the risk of using it. Microsoft gives no express warranties, guarantees or conditions. You may have additional consumer rights or statutory guarantees under your local laws which this agreement cannot change. To the extent permitted under your local laws, Microsoft excludes the implied warranties of merchantability, fitness for a particular purpose and non-infringement.
+
+FOR AUSTRALIA - You have statutory guarantees under the Australian Consumer Law and nothing in these terms is intended to affect those rights.
+
+14. LIMITATION ON AND EXCLUSION OF REMEDIES AND DAMAGES. You can recover from Microsoft and its suppliers only direct damages up to U.S. $5.00. You cannot recover any other damages, including consequential, lost profits, special, indirect or incidental damages.
+This limitation applies to
+
+anything related to the software, services, content (including code) on third party Internet sites, or third party programs; and
+claims for breach of contract, breach of warranty, guarantee or condition, strict liability, negligence, or other tort to the extent permitted by applicable law.
+It also applies even if Microsoft knew or should have known about the possibility of the damages. The above limitation or exclusion may not apply to you because your country may not allow the exclusion or limitation of incidental, consequential or other damages.</value>
+  </data>
+  <data name="richTextBox9.Text" xml:space="preserve">
+    <value>DEFINICIONES 
+A los efectos del presente contrato se definen los siguientes términos:
+Aplicación Informática: los programas informáticos propiedad de Altiria, que 
+pondrá a disposición del Cliente para la utilización de los Servicios.
+Cliente: la persona física o jurídica referenciada en este contrato y que suscribe 
+todos sus términos.
+Partes: el Cliente y Altiria TIC, S.L.U. (en adelante, Altiria).
+Servicios: los servicios contratados por el Cliente a Altiria, marcados, descritos o 
+reseñados en el anverso de este documento o en cualquier otro medio o soporte 
+que haga referencia a este contrato y condiciones, que formarán parte inseparable 
+del mismo.
+Servicios de mensajería: servicios de comunicaciones electrónicas prestados tanto 
+mediante mensajes cortos de texto (siglas en inglés SMS), como mediante 
+mensajes multimedia (siglas en inglés MMS), de acuerdo con los parámetros y 
+estándares internacionalmente admitidos.</value>
+  </data>
+  <data name="richTextBox8.Text" xml:space="preserve">
+    <value>FREE LICENSE (WITH ATTRIBUTION)
+This license allows you to use for free any of Flaticon contents for your projects as long as they are attributed to their
+author in the definitive project.
+How to attribute contents?
+For web usage: By placing a link with the text "designed by Freepik from Flaticon" in a visible spot, so the author's
+authorship is noticeable
+Uses different to web: If possible, the text "designed by Freepik from Flaticon" must be written next to Flaticon
+Contents, if it's not possible, the attribution must be placed in the credits or acknowledgements section
+Where you can use Flaticon's content*:
+Website.
+Software, applications, mobile, Multimedia.
+Printed and digital media (magazines, newspapers, books, cards, labels, CD, television, video, e-mail).
+Advertisement and promotional items.
+Presentation of products and public events.
+What you CAN DO:
+You have the non-exclusive, non-transferable, non-sublicensable right to use the licensed material an unlimited
+number of times in any and all media for the commercial or personal purposes listed above.
+You may alter and create derivative works.
+You can use Flaticon's Contents during the rights period world widely.
+What you CANNOT DO:
+Sublicense, sell or rent any contents (or a modified version of them)
+Distribute Flaticon Contents unless it has been expressly authorized by Flaticon
+Offering Flaticon Contents designs (or modified Flaticon Contents versions) for download
+* The complete content of licenses can be consulted in the Terms of Use, that will prevail over the content of this
+document.
+Freepik Company, S.L Commercial Registry of Málaga, volume 4994, sheet 217, page number MA-113059, with Tax
+Number B-93183366 and registered office at 13 Molina Lario Street, 5th floor, 29015 Málaga, Spain.</value>
+  </data>
+  <data name="richTextBox7.Text" xml:space="preserve">
+    <value>TÉRMINOS DE LICENCIA DEL SOFTWARE DE MICROSOFT
+
+MICROSOFT VISUAL STUDIO COMMUNITY 2022
+
+Los términos de esta licencia son un contrato entre usted y Microsoft Corporation (o, en función de donde viva, una de las sociedades del grupo). Se aplican al software mencionado anteriormente. Los términos también se aplican a los servicios o actualizaciones de software de Microsoft, excepto en la medida en que sus términos sean diferentes.
+
+SI USTED CUMPLE LOS PRESENTES TÉRMINOS DE ESTA LICENCIA, DISPONDRÁ DE LOS DERECHOS QUE A CONTINUACIÓN SE DESCRIBEN.
+
+1. DERECHOS DE INSTALACIÓN Y USO.
+
+a. Licencia individual. Si usted es un particular que trabaja con sus propias aplicaciones tanto para venta como para cualquier otro propósito, puede utilizar el software para desarrollar y probar esas aplicaciones.
+
+b. Licencia de organización.Si usted es una organización, sus usuarios pueden utilizar el software tal como se indica a continuación:
+
+i. Si el software se utiliza para desarrollar y probar aplicaciones publicadas mediante las licencias de software de código abierto Open Source Initiative (OSI), puede utilizarlo una cantidad ilimitada de usuarios.
+
+ii. Si se utiliza para desarrollar y probar extensiones de Visual Studio, puede utilizarlo una cantidad ilimitada de usuarios.
+
+iii. Si se utiliza para desarrollar y probar controladores de dispositivos para el sistema operativo Windows, puede utilizarlo una cantidad ilimitada de usuarios..
+
+iv. Cualquier número de usuarios puede utilizar el software únicamente para el desarrollo de Microsoft SQL Server cuando utilice SQL Server Data Tools o las extensiones “Microsoft Analysis Services Projects”, “Microsoft Reporting Services Projects” o “SQL Server Integration Services Projects” para desarrollar proyectos de bases de datos de Microsoft SQL Server o servicios de análisis, servicios de informes, servidor de informes de Power BI o proyectos de servicios de integración.
+
+v. Si el software se utiliza para desarrollar y probar aplicaciones en el ámbito de formación o enseñanza por Internet o presencial, o para la realización de investigaciones académicas, puede utilizarlo una cantidad ilimitada de usuarios.
+
+vi. Si no es aplicable ninguna de las opciones anteriores y usted no es una empresa (tal como se define a continuación), podrán utilizar el software para desarrollar y probar las aplicaciones 5 personas al mismo tiempo.
+
+vii. Si es una empresa, sus empleados y contratistas no podrán utilizar el software para desarrollar o probar sus aplicaciones, excepto para: (i) usos con código abierto, (ii) extensiones de Visual Studio, (iii) controladores de dispositivo para el sistema operativo Windows; (iv) desarrollo de SQL Server; y (v) los fines educativos explicados anteriormente.
+
+Una “empresa” es una organización y sus filiales que posean, de forma conjunta, bien (a) más de 250 ordenadores (PC) o usuarios o (b) un millón de dólares (o su equivalente en otras monedas) en ingresos anuales, y “filiales” hace referencia a aquellas entidades que dirigen una
+
+organización (por propiedad mayoritaria), están dirigidas por otra organización o comparten la dirección común junto con la misma.
+
+c. Cargas de trabajo. Los términos de esta licencia se aplican al uso que realice de las cargas de trabajo que se encuentren disponibles en el software, excepto cuando una carga de trabajo o el componente de una carga de trabajo se rija por términos de licencia y políticas de soporte diferentes.
+
+d. Copia de seguridad. Usted puede realizar una única copia de seguridad del software para reinstalarlo.
+
+e. Servicios online en el software.Algunas funciones del software utilizan servicios online para proporcionarle información sobre actualizaciones del software o extensiones, o para permitirle recuperar contenido, colaborar con otras personas o complementar su experiencia de desarrollo. Según se usa a lo largo de este contrato, el término “software” incluye estas características de servicio online y, al usarlas, usted da su consentimiento a la transmisión de la información tal como se describe en el apartado 6, DATOS.
+
+f. Uso de demostración. Los fines explicados anteriormente comprenden el uso del software para la demostración de sus aplicaciones.
+
+g. Versiones preliminares.Puede utilizar cualquier número de copias de software, componentes o funciones (“software de canal de versión preliminar”) que Microsoft pueda poner a su disposición a través del Canal de versión preliminar solo para fines de evaluación interna. Microsoft también puede poner a su disposición funciones o componentes de versión preliminar (“funciones de versión preliminar”) a través del Canal actual. Las funciones de versión preliminar pueden utilizarse de forma coherente con sus derechos de uso de Visual Studio Community. El software del Canal de versión preliminar y las características de versión preliminar (colectivamente, “versiones preliminares”), el Canal de versión preliminar y el Canal actual se describen con más detalle en https://aka.ms/vs/17/channels-overview. Las versiones preliminares son experimentales y pueden ser considerablemente diferentes de la versión lanzada comercialmente. Es posible que no funcionen correctamente o igual que una versión final. Microsoft podría sustituir las versiones preliminares por la versión comercial final, si la hubiera. Microsoft no tiene obligación de proporcionar mantenimiento, soporte técnico ni actualizaciones para las versiones preliminares.
+
+2. SERVICIO VISUAL STUDIO INTELLICODE.
+
+a. Servicio IntelliSense asistido por IA. Este servicio proporciona un modelo base entrenado en código fuente abierto disponible públicamente que le permite recibir sugerencias de IntelliSense asistidas por IA. El modelo base le permitirá recibir sugerencias de IntelliSense asistidas por IA para tipos y componentes comunes. Puede utilizar el modelo base, en su totalidad o en parte, solo con el software. El servicio también proporciona la instalación para entrenar cualquier número de modelos de finalización de equipos en sus propias aplicaciones. Estos modelos de finalización de equipo son para su uso y el uso por parte de aquellos con quienes desea compartirlos. (Véase 2.c. a continuación para ver la definición de un modelo de finalización de equipo.)
+
+b. Sus datos. El sistema IntelliSense asistido por IA analiza la aplicación localmente para generar un archivo de resumen con metadatos sobre los tipos y su uso en toda la aplicación que ilustra sus patrones de uso. El archivo de resumen contiene información sobre los nombres de las clases, los métodos y la frecuencia con la que se utilizan en su aplicación (“Sus datos”). Usted conserva la propiedad de todos los aspectos de Sus datos, incluidos, entre otros, todos los derechos, títulos e intereses en y sobre el código de la aplicación subyacente.
+
+c. Modelo de finalización del equipo.
+
+i. Puede enviar Sus datos a Microsoft a través del servicio IntelliSense asistido por IA con el único fin de permitir que Microsoft cree un modelo de finalización de equipo. El modelo de finalización del
+
+equipo es un conjunto de recomendaciones de IntelliSense asistidas por IA basado en sus datos. Al enviar Sus datos a Microsoft, otorga a Microsoft el derecho y la licencia para copiar, modificar, crear obras derivadas y transformar Sus datos para crear un modelo de finalización de equipo. Microsoft no utilizará Sus datos ni el aprendizaje automático formado resultante del modelo de finalización del equipo para ningún otro fin.
+
+ii. Puede utilizar el modelo de finalización de equipo, en su totalidad o en parte, solo con el software.
+
+3. TÉRMINOS PARA COMPONENTES ESPECÍFICOS.
+
+a. Utilidades. El software contiene algunos elementos en la Lista de utilidades en https://aka.ms/vs/17/utilities. Podrá copiar e instalar estos elementos en sus dispositivos para depurar e implementar sus aplicaciones y las bases de datos que desarrolle con el software. Las Utilidades están diseñadas para uso temporal. Es posible que Microsoft no pueda realizar el parche o actualizar las Utilidades por separado del resto del software. Algunas Utilidades por su naturaleza pueden hacer posible que terceros accedan a los dispositivos en los que se instalan las Utilidades. Debe eliminar todas las Utilidades que haya instalado tras terminar de depurar o implementar sus aplicaciones y bases de datos. Microsoft no se hace responsable del uso de los dispositivos o acceso a estos por parte de terceros, o de las aplicaciones o bases de datos en los dispositivos en los que se hayan instalado Utilidades.
+
+b. Dispositivos de compilación y herramientas de compilación de Visual Studio.Usted podrá copiar e instalar archivos del software o de las herramientas de compilación de Visual Studio en sus dispositivos de compilación, incluidos dispositivos físicos y máquinas virtuales o contenedores en esas máquinas, ya sean máquinas locales o remotas que sean de su propiedad, estén alojadas en Microsoft Azure para usted, o estén dedicadas únicamente al uso que usted realice de las mismas (a las que en conjunto se denomina los “Dispositivos de compilación”). Usted y otras personas de su organización podrán utilizar estos archivos en sus Dispositivos de compilación con el único fin de compilar, crear y verificar aplicaciones desarrolladas mediante el uso del software, o realizar pruebas de calidad o rendimiento de dichas aplicaciones como parte del proceso de compilación.
+
+c. Inspección del código. Este software incluye una funcionalidad que le permite inspeccionar el código binario y reproducir el código fuente del código binario original. El uso de estas funciones del software es totalmente opcional. Al utilizar esta funcionalidad, usted reconoce que el código binario y el código fuente pueden estar protegidos por las leyes de derechos de autor y marcas comerciales. También acepta no infringir ninguna ley de derechos de autor y marcas comerciales o acuerdos de licencia aplicables, y manifiesta que ha obtenido o tiene permiso para inspeccionar código binario y reproducir código fuente si usa esta funcionalidad. Microsoft no es responsable de ningún uso que usted haga que infrinja las leyes aplicables o los contratos de licencia.
+
+d. Fuentes. Mientras se esté ejecutando el software, podrá utilizar sus fuentes para mostrar e imprimir el contenido. Usted solo podrá (i) incrustar las fuentes en el contenido, de acuerdo con lo que permitan las restricciones de incrustación de fuentes; y (ii) descargarlas temporalmente en una impresora o en otro dispositivo de salida para poder imprimir el contenido.
+
+e. Licencias para otros componentes.
+
+i. Plataformas de Microsoft. El software puede incluir componentes de Microsoft Windows, Microsoft Windows Server, Microsoft SQL Server, Microsoft Exchange, Microsoft Office y Microsoft SharePoint, u otro software de Microsoft. Estos componentes se rigen por acuerdos independientes y por sus propias políticas de soporte del producto, tal como se describe en la carpeta «Licencias» de Microsoft que acompaña al software, excepto en el caso de que los términos de la licencia de estos componentes también estén incluidos en el directorio de instalación asociado, que se regirán por esos términos de licencia.
+
+ii. Componentes de terceros. El software puede incluir componentes de terceros con distintos avisos legales o que estén regidos por otros contratos, tal como puedan describirse en los archivos de notificaciones que acompañen el software.
+
+f. Gestores de paquetes. El software incluye gestores de paquetes, como NuGet, que ofrecen la opción de descargar otros paquetes de software de Microsoft o de terceros para usar con sus aplicaciones. Dichos paquetes cuentan con sus propias licencias y no se rigen por estos términos. Microsoft no distribuye los paquetes de terceros ni proporciona licencias ni garantías para estos.
+
+4. CÓDIGO DISTRIBUIBLE. El software contiene código que usted puede distribuir en aplicaciones que desarrolle, tal como se ha descrito en este apartado. A los efectos del presente apartado 4, el término “distribución” hace referencia también a la implementación de las aplicaciones de terceros para acceder a través de Internet.
+
+a. Derecho de uso y distribución. El código y los archivos de texto enumerados a continuación son “Código distribuible”.
+
+i. Lista distribuible. Puede copiar y distribuir el código objeto del código que aparece en la Lista distribuible ubicada en https://aka.ms/vs/17/redistribution.
+
+ii. Código de muestra, plantillas y estilos. Podrá copiar, modificar y distribuir el código objeto y el código fuente de cualquier código que se identifique como “muestra”, “plantilla”, “estilos simples” y “estilos boceto”.
+
+iii. Distribución por terceros. Podrá permitir a los distribuidores de aplicaciones copiar y distribuir el Código distribuible como parte de dichas aplicaciones.
+
+b. Requisitos de distribución. Para cualquier Código distribuible, deberá:
+
+· agregar al mismo una funcionalidad principal importante en sus aplicaciones; y
+
+· exigir a los distribuidores y a los usuarios finales externos que acepten los términos que protegen el Código distribuible, al menos en la misma medida que se estipula en el presente contrato.
+
+c. Restricciones de distribución. No podrá:
+
+· distribuir componentes o tiempos de ejecución marcados como “Versión preliminar”, “Prelanzamiento” o “Beta”;
+
+· utilizar las marcas de Microsoft en los nombres de las aplicaciones de usted o sugerir de alguna manera que las aplicaciones de usted proceden de Microsoft o están respaldadas por Microsoft; o
+
+· modificar o distribuir el código fuente de cualquier Código distribuible de un modo tal que alguna parte del mismo pase a estar sujeta a una Licencia excluida. “Licencia excluida” es aquella que requiera, como condición para su uso, modificación o distribución, que (i) sea divulgado o distribuido en forma de código fuente o que (ii) otros tengan el derecho de modificarlo.
+
+5. DESARROLLO DE EXTENSIONES.
+
+a. Límites sobre las extensiones. No puede desarrollar ni permitir que otros desarrollen extensiones para el software (o cualquier otro componente de la familia de productos de Visual Studio) para eludir las limitaciones técnicas implementadas en el software. Si Microsoft limita o deshabilita técnicamente la ampliación del software, no podrá ampliar el software mediante, entre otros, la carga o adición al software de cualquier complemento, macro o paquete que no pertenezca a Microsoft; la modificación de la configuración del registro del software; o la adición de características o funcionalidades equivalentes a las que se pueden encontrar en la familia de productos de Visual Studio.
+
+b. No degradación del software. Si desarrolla una extensión para el software (o cualquier otro componente de la familia de productos de Visual Studio), debe probar la instalación, la desinstalación y el funcionamiento de su extensión para garantizar que dichos procesos no deshabilitan ninguna característica ni afectan negativamente a la funcionalidad del software (o de dicho componente) o de cualquier versión anterior o edición del mismo.
+
+6. DATOS.
+
+a. Recopilación de datos. El software puede recopilar información acerca de usted y su uso del software y enviarla a Microsoft. Microsoft puede utilizar esta información para proporcionar servicios y mejorar nuestros productos y servicios. Tiene la posibilidad de cancelar muchas de estas circunstancias pero no todas, tal como se describe en la documentación del software. También existen algunas funciones en el software que le pueden permitir a usted y a Microsoft recopilar datos de los usuarios de sus aplicaciones. Si utiliza estas funciones, deberá cumplir las leyes vigentes, incluidas las notificaciones correspondientes a los usuarios de sus aplicaciones junto con una copia de la declaración de privacidad de Microsoft. Nuestra declaración de privacidad se encuentra en https://aka.ms/privacy. Puede obtener más información sobre la recopilación de datos y su uso en la documentación del software y en nuestra declaración de privacidad. El uso del software implica su consentimiento a estas prácticas.
+
+b. Tratamiento de datos personales. En la medida en que Microsoft es un encargado o subencargado del tratamiento de datos personales relacionados con el software, Microsoft asume los compromisos contemplados en los términos del Reglamento general de protección de datos de la Unión Europea de la Adenda de protección de datos en productos y servicios de Microsoft aplicables a todos los clientes, y que entró en vigor el 25 de mayo de 2018, en https://docs.microsoft.com/legal/gdpr.
+
+7. COBERTURA DE LA LICENCIA. El software se cede bajo licencia y no es objeto de venta. Estos términos de licencia solo le ofrecen algunos derechos para utilizar el software. Microsoft se reserva todos los derechos restantes. A menos que la legislación aplicable le otorgue más derechos a pesar de esta limitación, solo podrá utilizar el software tal como se permite expresamente en estos términos de licencia. En ese caso, deberá ajustarse a las limitaciones técnicas del software que sólo permiten utilizarlo de determinadas formas. Además, usted no puede:
+
+· eludir las limitaciones técnicas del software;
+
+· aplicar técnicas de ingeniería inversa, descompilar o desensamblar el software o intentar extraer el código fuente del software, excepto y únicamente en la medida en que lo requieran los términos de licencia de terceros que regulen el uso de determinados componentes de código abierto que puedan incluirse con el software;
+
+· quitar, minimizar, bloquear o modificar cualquier notificación de Microsoft o sus proveedores en el software;
+
+· utilizar el software de manera que vaya contra la ley;
+
+· compartir, publicar, alquilar o arrendar el software, o
+
+· proporcionar el software como solución alojada autónoma o combinarlo con cualquiera de sus aplicaciones para el uso de terceros, o transferir el software o este contrato a cualquier tercero. 8. SOPORTE. Debido a que el software es "tal cual", no podemos ofrecer servicios de soporte técnico para él.
+
+9. CONTRATO COMPLETO. Este contrato y los términos aplicables a suplementos, actualizaciones, servicios basados en Internet y servicios de soporte técnico, constituyen el contrato completo respecto al software y a los servicios de soporte técnico.
+
+10. RESTRICCIONES EN MATERIA DE EXPORTACIÓN. Usted debe cumplir todas las leyes y reglamentos nacionales e internacionales que sean de aplicación al software, lo que incluye restricciones respecto a destinos, usuarios finales y uso final. Para obtener más información sobre las restricciones de exportación, visite www.microsoft.com/exporting.
+
+11. LEGISLACIÓN APLICABLE. Si adquirió el software en los Estados Unidos de América, la interpretación y reclamaciones por el incumplimiento del presente contrato se regirán por la legislación del Estado de Washington, y las leyes del estado donde usted viva se aplicarán a todas las demás reclamaciones. Si adquirió el software en otro país, se aplicarán sus leyes.
+
+12. DERECHOS DEL CONSUMIDOR; VARIACIONES REGIONALES. Estos términos de licencia describen determinados derechos legales. Puede que usted tenga otros derechos, lo que incluye sus derechos de consumidor, en virtud de la legislación de su estado o país. Asimismo, pueden asistirle determinados derechos con respecto a la parte a la que adquirió el software. Este contrato no modifica esos otros derechos si la legislación de su estado o país no permite tal cosa. Por ejemplo, si adquirió el software en una de las siguientes regiones, o si la legislación obligatoria del país se aplica, entonces las siguientes disposiciones se aplican a usted:
+
+a. Australia. Tiene garantías legales de acuerdo con la Ley del Consumidor de Australia y nada en estos términos de licencia tiene la intención de afectar esos derechos.
+
+b. Canadá. Puede dejar de recibir actualizaciones en su dispositivo desactivando su acceso a Internet. Si se vuelve a conectar a Internet, el software reanudará la comprobación y la instalación de actualizaciones.
+
+c. Alemania y Austria.
+
+(i) Garantía. El software con licencia de uso adecuada se ejecutará sustancialmente como se describe en los materiales de Microsoft que los acompañan. Sin embargo, Microsoft no otorga ninguna garantía contractual en relación con el software.
+
+(ii) Limitación de responsabilidad. En caso de conducta intencional, negligencia grave o reclamaciones según la Ley de Responsabilidad sobre Productos, así como en caso de muerte o lesiones personales o físicas, Microsoft es responsable según la legislación.
+
+Sujeto a la oración anterior (ii), Microsoft únicamente será responsable de negligencia leve si Microsoft ha incumplido aquellas obligaciones contractuales materiales, cuyo cumplimiento facilite la ejecución correcta de este contrato, cuyo incumplimiento constituya una amenaza contra el objeto de este contrato y el cumplimiento en el que una parte confía de manera permanente (denominadas “obligaciones fundamentales”). En otros casos de negligencia leve, Microsoft no será responsable de negligencia leve.
+
+13. EXCLUSIÓN DE GARANTÍAS. EL SOFTWARE SE CEDE BAJO LICENCIA “TAL CUAL”. ACEPTA EL RIESGO DE UTILIZARLO. MICROSOFT NO OTORGA NINGUNA GARANTÍA, CONDICIÓN NI GARANTÍAS EXPRESAS. EN LA MEDIDA EN QUE ASÍ LO PERMITA LA LEGISLACIÓN LOCAL, MICROSOFT EXCLUYE LAS GARANTÍAS IMPLÍCITAS DE COMERCIABILIDAD O IDONEIDAD PARA UN PROPÓSITO GENÉRICO Y AUSENCIA DE INFRACCIÓN.
+
+14. LIMITACIÓN DE DAÑOS. PODRÁ OBTENER DE MICROSOFT Y DE SUS PROVEEDORES ÚNICAMENTE LA INDEMNIZACIÓN POR DAÑOS DIRECTOS HASTA LA CANTIDAD DE 5,00 USD. NO PODRÁ OBTENER INDEMNIZACIÓN ALGUNA POR DAÑOS DE OTRA ÍNDOLE, INCLUIDOS LOS EMERGENTES, ESPECIALES, INDIRECTOS O INCIDENTALES, ASÍ COMO TAMPOCO POR LOS DERIVADOS DE LUCRO CESANTE.
+
+Esta limitación se aplica a (a) todo lo relacionado con el software, los servicios, el contenido (lo que incluye el código) en sitios de Internet de terceros, o aplicaciones de terceros; y (b) las reclamaciones por
+
+incumplimiento de contrato, incumplimiento de garantía o condición, responsabilidad objetiva, negligencia u otra responsabilidad extracontractual, en la medida permitida por la legislación aplicable.
+
+También se aplica incluso si Microsoft conocía o debería haber conocido la posibilidad de que se produjesen dichos daños. La limitación o exclusión precedente puede no serle de aplicación a usted en caso de que su país o estado de residencia no admita la exclusión o limitación de daños consecuenciales, incidentales o de otra índole.
+
+EULAID: VS_Comm_2022_ESN.3082</value>
+  </data>
+  <data name="richTextBox6.Text" xml:space="preserve">
+    <value>MICROSOFT SOFTWARE LICENSE TERMS
+MICROSOFT REPORT VIEWER RUNTIME FOR MICROSOFT SQL SERVER
+These license terms are an agreement between Microsoft Corporation (or based on where you live, one of its affiliates) and you. Please read them. They apply to the software named above, which includes the media on which you received it, if any. The terms also apply to any Microsoft
+·	updates,
+·	supplements,
+·	Internet-based services, and
+·	support services
+for this software, unless other terms accompany those items. If so, those terms apply.
+BY USING THE SOFTWARE, YOU ACCEPT THESE TERMS. IF YOU DO NOT ACCEPT THEM, DO NOT USE THE SOFTWARE.
+If you comply with these license terms, you have the rights below.
+1.	INSTALLATION AND USE RIGHTS. You may install and use any number of copies of the software on your devices to design, develop and test your programs.
+2.	DATA COLLECTION. The software may collect information about you and your use of the software and send that to Microsoft. Microsoft may use this information to provide services and improve Microsoft’s products and services. Your opt-out rights, if any, are described in the product documentation. Some features in the software may enable collection of data from users of your applications that access or use the software. If you use these features to enable data collection in your applications, you must comply with applicable law, including getting any required user consent, and maintain a prominent privacy policy that accurately informs users about how you use, collect, and share their data. You can learn more about Microsoft’s data collection and use in the product documentation and at http://go.microsoft.com/fwlink/?LinkId=825925, and the Microsoft Privacy Statement at http://go.microsoft.com/fwlink/?LinkId=825924. You agree to comply with all applicable provisions of the Microsoft Privacy Statement.
+3.	ADDITIONAL LICENSING REQUIREMENTS AND/OR USE RIGHTS.
+a.	Distributable Code.
+i.	Right to Use and Distribute. If you comply with the terms below:
+·	You may copy and distribute the object code form of the software (“Distributable Code”) in programs you develop; and
+·	You may permit distributors of your programs to copy and distribute the Distributable Code as part of those programs.
+ii.	Distribution Requirements. For any Distributable Code you distribute, you must
+·	add significant primary functionality to it in your programs;
+·	for any Distributable Code having a filename extension of .lib, distribute only the results of running such Distributable Code through a linker with your program;
+·	distribute Distributable Code included in a setup program only as part of that setup program without modification;
+·	require distributors and external end users to agree to terms that protect it at least as much as this agreement; 
+·	display your valid copyright notice on your programs; and
+·	indemnify, defend, and hold harmless Microsoft from any claims, including attorneys’ fees, related to the distribution or use of your programs.
+iii.	Distribution Restrictions. You may not
+·	alter any copyright, trademark or patent notice in the Distributable Code;
+·	use Microsoft’s trademarks in your programs’ names or in a way that suggests your programs come from or are endorsed by Microsoft;
+·	distribute Distributable Code to run on a platform other than the Windows platform;
+·	include Distributable Code in malicious, deceptive or unlawful programs; or
+·	modify or distribute the source code of any Distributable Code so that any part of it becomes subject to an Excluded License. An Excluded License is one that requires, as a condition of use, modification or distribution, that
+·	the code be disclosed or distributed in source code form; or
+·	others have the right to modify it.
+4.	SCOPE OF LICENSE. The software is licensed, not sold. Unless applicable law gives you more rights, Microsoft reserves all other rights not expressly granted under this agreement, whether by implication, estoppel or otherwise. You may use the software only as expressly permitted in this agreement. In doing so, you must comply with any technical limitations in the software that only allow you to use it in certain ways. You may not
+·	work around any technical limitations in the software;
+·	reverse engineer, decompile or disassemble the software, except and only to the extent that applicable law expressly permits, despite this limitation;
+·	make more copies of the software than specified in this agreement or allowed by applicable law, despite this limitation;
+·	publish the software for others to copy;
+·	rent, lease or lend the software;
+·	transfer the software or this agreement to any third party; or
+·	use the software for commercial software hosting services.
+5.	THIRD PARTY NOTICES. The software may include third party components with separate legal notices or governed by other agreements, as may be described in the ThirdPartyNotices file accompanying the software.  Even if such components are governed by other agreements, the disclaimers and the limitations on and exclusions of damages below also apply.
+6.	BACKUP COPY. You may make one backup copy of the software. You may use it only to reinstall the software.
+7.	DOCUMENTATION. Any person that has valid access to your computer or internal network may copy and use the documentation for your internal, reference purposes.
+8.	EXPORT RESTRICTIONS. The software is subject to United States export laws and regulations. You must comply with all domestic and international export laws and regulations that apply to the software. These laws include restrictions on destinations, end users and end use. For additional information, see www.microsoft.com/exporting.
+9.	SUPPORT SERVICES. Because this software is “as is,” we may not provide support services for it.
+10.	ENTIRE AGREEMENT. This agreement, and the terms for supplements, updates, Internet-based services and support services that you use, are the entire agreement for the software and support services.
+11.	APPLICABLE LAW.
+a.	United States. If you acquired the software in the United States, Washington state law governs the interpretation of this agreement and applies to claims for breach of it, regardless of conflict of laws principles. The laws of the state where you live govern all other claims, including claims under state consumer protection laws, unfair competition laws, and in tort.
+b.	Outside the United States. If you acquired the software in any other country, the laws of that country apply.
+12.	LEGAL EFFECT. This agreement describes certain legal rights. You may have other rights under the laws of your country. You may also have rights with respect to the party from whom you acquired the software. This agreement does not change your rights under the laws of your country if the laws of your country do not permit it to do so.
+13.	DISCLAIMER OF WARRANTY. THE SOFTWARE IS LICENSED “AS-IS.” YOU BEAR THE RISK OF USING IT. MICROSOFT GIVES NO EXPRESS WARRANTIES, GUARANTEES OR CONDITIONS. YOU MAY HAVE ADDITIONAL CONSUMER RIGHTS OR STATUTORY GUARANTEES UNDER YOUR LOCAL LAWS WHICH THIS AGREEMENT CANNOT CHANGE. TO THE EXTENT PERMITTED UNDER YOUR LOCAL LAWS, MICROSOFT EXCLUDES THE IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT.
+FOR AUSTRALIA – You have statutory guarantees under the Australian Consumer Law and nothing in these terms is intended to affect those rights.
+14.	LIMITATION ON AND EXCLUSION OF REMEDIES AND DAMAGES. YOU CAN RECOVER FROM MICROSOFT AND ITS SUPPLIERS ONLY DIRECT DAMAGES UP TO U.S. $5.00. YOU CANNOT RECOVER ANY OTHER DAMAGES, INCLUDING CONSEQUENTIAL, LOST PROFITS, SPECIAL, INDIRECT OR INCIDENTAL DAMAGES.
+This limitation applies to
+·	anything related to the software, services, content (including code) on third party Internet sites, or third party programs; and
+·	claims for breach of contract, breach of warranty, guarantee or condition, strict liability, negligence, or other tort to the extent permitted by applicable law.
+It also applies even if Microsoft knew or should have known about the possibility of the damages. The above limitation or exclusion may not apply to you because your country may not allow the exclusion or limitation of incidental, consequential or other damages.
+
+</value>
+  </data>
+  <data name="richTextBox5.Text" xml:space="preserve">
+    <value>MICROSOFT SOFTWARE LICENSE TERMS
+MICROSOFT SYSTEM CLR TYPES FOR MICROSOFT SQL SERVER 2017
+These license terms are an agreement between Microsoft Corporation (or based on where you live, one of its affiliates) and you. Please read them. They apply to the software named above, which includes the media on which you received it, if any. The terms also apply to any Microsoft
+·	updates,
+·	supplements,
+·	Internet-based services, and
+·	support services
+for this software, unless other terms accompany those items. If so, those terms apply.
+BY USING THE SOFTWARE, YOU ACCEPT THESE TERMS. IF YOU DO NOT ACCEPT THEM, DO NOT USE THE SOFTWARE.
+If you comply with these license terms, you have the rights below.
+1.	INSTALLATION AND USE RIGHTS. You may install and use any number of copies of the software on your devices to design, develop and test your programs.
+2.	ADDITIONAL LICENSING REQUIREMENTS AND/OR USE RIGHTS.
+a.	Distributable Code.
+i.	Right to Use and Distribute. If you comply with the terms below:
+·	You may copy and distribute the object code form of the software (“Distributable Code”) in programs you develop; and
+·	You may permit distributors of your programs to copy and distribute the Distributable Code as part of those programs.
+ii.	Distribution Requirements. For any Distributable Code you distribute, you must
+·	add significant primary functionality to it in your programs;
+·	for any Distributable Code having a filename extension of .lib, distribute only the results of running such Distributable Code through a linker with your program;
+·	distribute Distributable Code included in a setup program only as part of that setup program without modification;
+·	require distributors and external end users to agree to terms that protect it at least as much as this agreement; 
+·	display your valid copyright notice on your programs; and
+·	indemnify, defend, and hold harmless Microsoft from any claims, including attorneys’ fees, related to the distribution or use of your programs.
+iii.	Distribution Restrictions. You may not
+·	alter any copyright, trademark or patent notice in the Distributable Code;
+·	use Microsoft’s trademarks in your programs’ names or in a way that suggests your programs come from or are endorsed by Microsoft;
+·	distribute Distributable Code to run on a platform other than the Windows platform;
+·	include Distributable Code in malicious, deceptive or unlawful programs; or
+·	modify or distribute the source code of any Distributable Code so that any part of it becomes subject to an Excluded License. An Excluded License is one that requires, as a condition of use, modification or distribution, that
+·	the code be disclosed or distributed in source code form; or
+·	others have the right to modify it.
+3.	SCOPE OF LICENSE. The software is licensed, not sold. Unless applicable law gives you more rights, Microsoft reserves all other rights not expressly granted under this agreement, whether by implication, estoppel or otherwise. You may use the software only as expressly permitted in this agreement. In doing so, you must comply with any technical limitations in the software that only allow you to use it in certain ways. You may not
+·	work around any technical limitations in the software;
+·	reverse engineer, decompile or disassemble the software, except and only to the extent that applicable law expressly permits, despite this limitation;
+·	make more copies of the software than specified in this agreement or allowed by applicable law, despite this limitation;
+·	publish the software for others to copy;
+·	rent, lease or lend the software;
+·	transfer the software or this agreement to any third party; or
+·	use the software for commercial software hosting services.
+4.	THIRD PARTY NOTICES. The software may include third party components with separate legal notices or governed by other agreements, as may be described in the ThirdPartyNotices file accompanying the software.  Even if such components are governed by other agreements, the disclaimers and the limitations on and exclusions of damages below also apply.
+5.	BACKUP COPY. You may make one backup copy of the software. You may use it only to reinstall the software.
+6.	DOCUMENTATION. Any person that has valid access to your computer or internal network may copy and use the documentation for your internal, reference purposes.
+7.	EXPORT RESTRICTIONS. The software is subject to United States export laws and regulations. You must comply with all domestic and international export laws and regulations that apply to the software. These laws include restrictions on destinations, end users and end use. For additional information, see www.microsoft.com/exporting.
+8.	SUPPORT SERVICES. Because this software is “as is,” we may not provide support services for it.
+9.	ENTIRE AGREEMENT. This agreement, and the terms for supplements, updates, Internet-based services and support services that you use, are the entire agreement for the software and support services.
+10.	APPLICABLE LAW.
+a.	United States. If you acquired the software in the United States, Washington state law governs the interpretation of this agreement and applies to claims for breach of it, regardless of conflict of laws principles. The laws of the state where you live govern all other claims, including claims under state consumer protection laws, unfair competition laws, and in tort.
+b.	Outside the United States. If you acquired the software in any other country, the laws of that country apply.
+11.	LEGAL EFFECT. This agreement describes certain legal rights. You may have other rights under the laws of your country. You may also have rights with respect to the party from whom you acquired the software. This agreement does not change your rights under the laws of your country if the laws of your country do not permit it to do so.
+12.	DISCLAIMER OF WARRANTY. THE SOFTWARE IS LICENSED “AS-IS.” YOU BEAR THE RISK OF USING IT. MICROSOFT GIVES NO EXPRESS WARRANTIES, GUARANTEES OR CONDITIONS. YOU MAY HAVE ADDITIONAL CONSUMER RIGHTS OR STATUTORY GUARANTEES UNDER YOUR LOCAL LAWS WHICH THIS AGREEMENT CANNOT CHANGE. TO THE EXTENT PERMITTED UNDER YOUR LOCAL LAWS, MICROSOFT EXCLUDES THE IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT.
+FOR AUSTRALIA – You have statutory guarantees under the Australian Consumer Law and nothing in these terms is intended to affect those rights.
+13.	LIMITATION ON AND EXCLUSION OF REMEDIES AND DAMAGES. YOU CAN RECOVER FROM MICROSOFT AND ITS SUPPLIERS ONLY DIRECT DAMAGES UP TO U.S. $5.00. YOU CANNOT RECOVER ANY OTHER DAMAGES, INCLUDING CONSEQUENTIAL, LOST PROFITS, SPECIAL, INDIRECT OR INCIDENTAL DAMAGES.
+This limitation applies to
+·	anything related to the software, services, content (including code) on third party Internet sites, or third party programs; and
+·	claims for breach of contract, breach of warranty, guarantee or condition, strict liability, negligence, or other tort to the extent permitted by applicable law.
+It also applies even if Microsoft knew or should have known about the possibility of the damages. The above limitation or exclusion may not apply to you because your country may not allow the exclusion or limitation of incidental, consequential or other damages.
+
+</value>
+  </data>
+  <data name="richTextBox4.Text" xml:space="preserve">
+    <value>The MIT License (MIT)
+
+Copyright (c) .NET Foundation and Contributors
+
+All rights reserved.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.</value>
+  </data>
+  <data name="richTextBox3.Text" xml:space="preserve">
+    <value>The MIT License (MIT)
+
+Copyright (c) 2016 Soroush
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.</value>
+  </data>
+  <data name="richTextBox2.Text" xml:space="preserve">
+    <value>The MIT License (MIT)
+
+Copyright (c) 2016 Soroush
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.</value>
+  </data>
+  <data name="richTextBox1.Text" xml:space="preserve">
+    <value>Preamble
+This License governs Your use of the Work. This License is intended to allow developers to use the Source Code and Executable Files provided as part of the Work in any application in any form.
+
+The main points subject to the terms of the License are:
+
+Source Code and Executable Files can be used in commercial applications;
+Source Code and Executable Files can be redistributed; and
+Source Code can be modified to create derivative works.
+No claim of suitability, guarantee, or any warranty whatsoever is provided. The software is provided "as-is".
+The Article accompanying the Work may not be distributed or republished without the Author's consent
+This License is entered between You, the individual or other entity reading or otherwise making use of the Work licensed pursuant to this License and the individual or other entity which offers the Work under the terms of this License ("Author").
+
+License
+THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS OF THIS CODE PROJECT OPEN LICENSE ("LICENSE"). THE WORK IS PROTECTED BY COPYRIGHT AND/OR OTHER APPLICABLE LAW. ANY USE OF THE WORK OTHER THAN AS AUTHORIZED UNDER THIS LICENSE OR COPYRIGHT LAW IS PROHIBITED.
+
+BY EXERCISING ANY RIGHTS TO THE WORK PROVIDED HEREIN, YOU ACCEPT AND AGREE TO BE BOUND BY THE TERMS OF THIS LICENSE. THE AUTHOR GRANTS YOU THE RIGHTS CONTAINED HEREIN IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS. IF YOU DO NOT AGREE TO ACCEPT AND BE BOUND BY THE TERMS OF THIS LICENSE, YOU CANNOT MAKE ANY USE OF THE WORK.
+
+Definitions.
+"Articles" means, collectively, all articles written by Author which describes how the Source Code and Executable Files for the Work may be used by a user.
+"Author" means the individual or entity that offers the Work under the terms of this License.
+"Derivative Work" means a work based upon the Work or upon the Work and other pre-existing works.
+"Executable Files" refer to the executables, binary files, configuration and any required data files included in the Work.
+"Publisher" means the provider of the website, magazine, CD-ROM, DVD or other medium from or by which the Work is obtained by You.
+"Source Code" refers to the collection of source code and configuration files used to create the Executable Files.
+"Standard Version" refers to such a Work if it has not been modified, or has been modified in accordance with the consent of the Author, such consent being in the full discretion of the Author.
+"Work" refers to the collection of files distributed by the Publisher, including the Source Code, Executable Files, binaries, data files, documentation, whitepapers and the Articles.
+"You" is you, an individual or entity wishing to use the Work and exercise your rights under this License.
+Fair Use/Fair Use Rights. Nothing in this License is intended to reduce, limit, or restrict any rights arising from fair use, fair dealing, first sale or other limitations on the exclusive rights of the copyright owner under copyright law or other applicable laws.
+License Grant. Subject to the terms and conditions of this License, the Author hereby grants You a worldwide, royalty-free, non-exclusive, perpetual (for the duration of the applicable copyright) license to exercise the rights in the Work as stated below:
+You may use the standard version of the Source Code or Executable Files in Your own applications.
+You may apply bug fixes, portability fixes and other modifications obtained from the Public Domain or from the Author. A Work modified in such a way shall still be considered the standard version and will be subject to this License.
+You may otherwise modify Your copy of this Work (excluding the Articles) in any way to create a Derivative Work, provided that You insert a prominent notice in each changed file stating how, when and where You changed that file.
+You may distribute the standard version of the Executable Files and Source Code or Derivative Work in aggregate with other (possibly commercial) programs as part of a larger (possibly commercial) software distribution.
+The Articles discussing the Work published in any form by the author may not be distributed or republished without the Author's consent. The author retains copyright to any such Articles. You may use the Executable Files and Source Code pursuant to this License but you may not repost or republish or otherwise distribute or make available the Articles, without the prior written consent of the Author.
+Any subroutines or modules supplied by You and linked into the Source Code or Executable Files of this Work shall not be considered part of this Work and will not be subject to the terms of this License.
+Patent License. Subject to the terms and conditions of this License, each Author hereby grants to You a perpetual, worldwide, non-exclusive, no-charge, royalty-free, irrevocable (except as stated in this section) patent license to make, have made, use, import, and otherwise transfer the Work.
+Restrictions. The license granted in Section 3 above is expressly made subject to and limited by the following restrictions:
+You agree not to remove any of the original copyright, patent, trademark, and attribution notices and associated disclaimers that may appear in the Source Code or Executable Files.
+You agree not to advertise or in any way imply that this Work is a product of Your own.
+The name of the Author may not be used to endorse or promote products derived from the Work without the prior written consent of the Author.
+You agree not to sell, lease, or rent any part of the Work. This does not restrict you from including the Work or any part of the Work inside a larger software distribution that itself is being sold. The Work by itself, though, cannot be sold, leased or rented.
+You may distribute the Executable Files and Source Code only under the terms of this License, and You must include a copy of, or the Uniform Resource Identifier for, this License with every copy of the Executable Files or Source Code You distribute and ensure that anyone receiving such Executable Files and Source Code agrees that the terms of this License apply to such Executable Files and/or Source Code. You may not offer or impose any terms on the Work that alter or restrict the terms of this License or the recipients' exercise of the rights granted hereunder. You may not sublicense the Work. You must keep intact all notices that refer to this License and to the disclaimer of warranties. You may not distribute the Executable Files or Source Code with any technological measures that control access or use of the Work in a manner inconsistent with the terms of this License.
+You agree not to use the Work for illegal, immoral or improper purposes, or on pages containing illegal, immoral or improper material. The Work is subject to applicable export laws. You agree to comply with all such laws and regulations that may apply to the Work after Your receipt of the Work.
+Representations, Warranties and Disclaimer. THIS WORK IS PROVIDED "AS IS", "WHERE IS" AND "AS AVAILABLE", WITHOUT ANY EXPRESS OR IMPLIED WARRANTIES OR CONDITIONS OR GUARANTEES. YOU, THE USER, ASSUME ALL RISK IN ITS USE, INCLUDING COPYRIGHT INFRINGEMENT, PATENT INFRINGEMENT, SUITABILITY, ETC. AUTHOR EXPRESSLY DISCLAIMS ALL EXPRESS, IMPLIED OR STATUTORY WARRANTIES OR CONDITIONS, INCLUDING WITHOUT LIMITATION, WARRANTIES OR CONDITIONS OF MERCHANTABILITY, MERCHANTABLE QUALITY OR FITNESS FOR A PARTICULAR PURPOSE, OR ANY WARRANTY OF TITLE OR NON-INFRINGEMENT, OR THAT THE WORK (OR ANY PORTION THEREOF) IS CORRECT, USEFUL, BUG-FREE OR FREE OF VIRUSES. YOU MUST PASS THIS DISCLAIMER ON WHENEVER YOU DISTRIBUTE THE WORK OR DERIVATIVE WORKS.
+Indemnity. You agree to defend, indemnify and hold harmless the Author and the Publisher from and against any claims, suits, losses, damages, liabilities, costs, and expenses (including reasonable legal or attorneys’ fees) resulting from or relating to any use of the Work by You.
+Limitation on Liability. EXCEPT TO THE EXTENT REQUIRED BY APPLICABLE LAW, IN NO EVENT WILL THE AUTHOR OR THE PUBLISHER BE LIABLE TO YOU ON ANY LEGAL THEORY FOR ANY SPECIAL, INCIDENTAL, CONSEQUENTIAL, PUNITIVE OR EXEMPLARY DAMAGES ARISING OUT OF THIS LICENSE OR THE USE OF THE WORK OR OTHERWISE, EVEN IF THE AUTHOR OR THE PUBLISHER HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+Termination.
+This License and the rights granted hereunder will terminate automatically upon any breach by You of any term of this License. Individuals or entities who have received Derivative Works from You under this License, however, will not have their licenses terminated provided such individuals or entities remain in full compliance with those licenses. Sections 1, 2, 6, 7, 8, 9, 10 and 11 will survive any termination of this License.
+If You bring a copyright, trademark, patent or any other infringement claim against any contributor over infringements You claim are made by the Work, your License from such contributor to the Work ends automatically.
+Subject to the above terms and conditions, this License is perpetual (for the duration of the applicable copyright in the Work). Notwithstanding the above, the Author reserves the right to release the Work under different license terms or to stop distributing the Work at any time; provided, however that any such election will not serve to withdraw this License (or any other license that has been, or is required to be, granted under the terms of this License), and this License will continue in full force and effect unless terminated as stated above.
+Publisher. The parties hereby confirm that the Publisher shall not, under any circumstances, be responsible for and shall not have any liability in respect of the subject matter of this License. The Publisher makes no warranty whatsoever in connection with the Work and shall not be liable to You or any party on any legal theory for any damages whatsoever, including without limitation any general, special, incidental or consequential damages arising in connection to this license. The Publisher reserves the right to cease making the Work available to You at any time without notice
+Miscellaneous
+This License shall be governed by the laws of the location of the head office of the Author or if the Author is an individual, the laws of location of the principal place of residence of the Author.
+If any provision of this License is invalid or unenforceable under applicable law, it shall not affect the validity or enforceability of the remainder of the terms of this License, and without further action by the parties to this License, such provision shall be reformed to the minimum extent necessary to make such provision valid and enforceable.
+No term or provision of this License shall be deemed waived and no breach consented to unless such waiver or consent shall be in writing and signed by the party to be charged with such waiver or consent.
+This License constitutes the entire agreement between the parties with respect to the Work licensed herein. There are no understandings, agreements or representations with respect to the Work not specified herein. The Author shall not be bound by any additional provisions that may appear in any communication from You. This License may not be modified without the mutual written agreement of the Author and You.</value>
+  </data>
+</root>

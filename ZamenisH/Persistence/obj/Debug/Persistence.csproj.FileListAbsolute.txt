@@ -1,0 +1,530 @@
+C:\Users\fagb-\source\repos\VS2022\Persistence\bin\Debug\Persistence.dll
+C:\Users\fagb-\source\repos\VS2022\Persistence\bin\Debug\Persistence.pdb
+C:\Users\fagb-\source\repos\VS2022\Persistence\bin\Debug\BouncyCastle.Crypto.dll
+C:\Users\fagb-\source\repos\VS2022\Persistence\bin\Debug\Domain.dll
+C:\Users\fagb-\source\repos\VS2022\Persistence\bin\Debug\Gma.QrCodeNet.Encoding.dll
+C:\Users\fagb-\source\repos\VS2022\Persistence\bin\Debug\itextsharp.dll
+C:\Users\fagb-\source\repos\VS2022\Persistence\bin\Debug\MySql.Data.dll
+C:\Users\fagb-\source\repos\VS2022\Persistence\bin\Debug\Newtonsoft.Json.dll
+C:\Users\fagb-\source\repos\VS2022\Persistence\bin\Debug\System.ValueTuple.dll
+C:\Users\fagb-\source\repos\VS2022\Persistence\bin\Debug\Domain.pdb
+C:\Users\fagb-\source\repos\VS2022\Persistence\bin\Debug\Gma.QrCodeNet.Encoding.pdb
+C:\Users\fagb-\source\repos\VS2022\Persistence\bin\Debug\Gma.QrCodeNet.Encoding.xml
+C:\Users\fagb-\source\repos\VS2022\Persistence\bin\Debug\itextsharp.xml
+C:\Users\fagb-\source\repos\VS2022\Persistence\bin\Debug\System.ValueTuple.xml
+C:\Users\fagb-\source\repos\VS2022\Persistence\obj\Debug\Persistence.csproj.AssemblyReference.cache
+C:\Users\fagb-\source\repos\VS2022\Persistence\obj\Debug\Persistence.csproj.CoreCompileInputs.cache
+C:\Users\fagb-\source\repos\VS2022\Persistence\obj\Debug\Persistence.csproj.CopyComplete
+C:\Users\fagb-\source\repos\VS2022\Persistence\obj\Debug\Persistence.dll
+C:\Users\fagb-\source\repos\VS2022\Persistence\obj\Debug\Persistence.pdb
+C:\Users\fagb-\source\repos\VS2022-Copia\Persistence\bin\Debug\Persistence.dll
+C:\Users\fagb-\source\repos\VS2022-Copia\Persistence\bin\Debug\Persistence.pdb
+C:\Users\fagb-\source\repos\VS2022-Copia\Persistence\bin\Debug\BouncyCastle.Crypto.dll
+C:\Users\fagb-\source\repos\VS2022-Copia\Persistence\bin\Debug\Domain.dll
+C:\Users\fagb-\source\repos\VS2022-Copia\Persistence\bin\Debug\Gma.QrCodeNet.Encoding.dll
+C:\Users\fagb-\source\repos\VS2022-Copia\Persistence\bin\Debug\itextsharp.dll
+C:\Users\fagb-\source\repos\VS2022-Copia\Persistence\bin\Debug\MySql.Data.dll
+C:\Users\fagb-\source\repos\VS2022-Copia\Persistence\bin\Debug\Newtonsoft.Json.dll
+C:\Users\fagb-\source\repos\VS2022-Copia\Persistence\bin\Debug\System.ValueTuple.dll
+C:\Users\fagb-\source\repos\VS2022-Copia\Persistence\bin\Debug\Domain.pdb
+C:\Users\fagb-\source\repos\VS2022-Copia\Persistence\bin\Debug\Gma.QrCodeNet.Encoding.pdb
+C:\Users\fagb-\source\repos\VS2022-Copia\Persistence\bin\Debug\Gma.QrCodeNet.Encoding.xml
+C:\Users\fagb-\source\repos\VS2022-Copia\Persistence\bin\Debug\itextsharp.xml
+C:\Users\fagb-\source\repos\VS2022-Copia\Persistence\bin\Debug\System.ValueTuple.xml
+C:\Users\fagb-\source\repos\VS2022-Copia\Persistence\obj\Debug\Persistence.csproj.AssemblyReference.cache
+C:\Users\fagb-\source\repos\VS2022-Copia\Persistence\obj\Debug\Persistence.csproj.CoreCompileInputs.cache
+C:\Users\fagb-\source\repos\VS2022-Copia\Persistence\obj\Debug\Persistence.csproj.CopyComplete
+C:\Users\fagb-\source\repos\VS2022-Copia\Persistence\obj\Debug\Persistence.dll
+C:\Users\fagb-\source\repos\VS2022-Copia\Persistence\obj\Debug\Persistence.pdb
+C:\Users\fagb-\source\repos\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Persistence.dll
+C:\Users\fagb-\source\repos\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Persistence.pdb
+C:\Users\fagb-\source\repos\VS2022-Copia\ZamenisH\Persistence\bin\Debug\BouncyCastle.Crypto.dll
+C:\Users\fagb-\source\repos\VS2022-Copia\ZamenisH\Persistence\bin\Debug\CodeBarras.dll
+C:\Users\fagb-\source\repos\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Domain.dll
+C:\Users\fagb-\source\repos\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itextsharp.dll
+C:\Users\fagb-\source\repos\VS2022-Copia\ZamenisH\Persistence\bin\Debug\MySql.Data.dll
+C:\Users\fagb-\source\repos\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Newtonsoft.Json.dll
+C:\Users\fagb-\source\repos\VS2022-Copia\ZamenisH\Persistence\bin\Debug\SMSSender.dll
+C:\Users\fagb-\source\repos\VS2022-Copia\ZamenisH\Persistence\bin\Debug\System.ValueTuple.dll
+C:\Users\fagb-\source\repos\VS2022-Copia\ZamenisH\Persistence\bin\Debug\zxing.dll
+C:\Users\fagb-\source\repos\VS2022-Copia\ZamenisH\Persistence\bin\Debug\CodeBarras.pdb
+C:\Users\fagb-\source\repos\VS2022-Copia\ZamenisH\Persistence\bin\Debug\SMSSender.pdb
+C:\Users\fagb-\source\repos\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Domain.pdb
+C:\Users\fagb-\source\repos\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itextsharp.xml
+C:\Users\fagb-\source\repos\VS2022-Copia\ZamenisH\Persistence\bin\Debug\System.ValueTuple.xml
+C:\Users\fagb-\source\repos\VS2022-Copia\ZamenisH\Persistence\bin\Debug\zxing.xml
+C:\Users\fagb-\source\repos\VS2022-Copia\ZamenisH\Persistence\obj\Debug\Persistence.csproj.AssemblyReference.cache
+C:\Users\fagb-\source\repos\VS2022-Copia\ZamenisH\Persistence\obj\Debug\Persistence.csproj.CoreCompileInputs.cache
+C:\Users\fagb-\source\repos\VS2022-Copia\ZamenisH\Persistence\obj\Debug\Persistence.csproj.CopyComplete
+C:\Users\fagb-\source\repos\VS2022-Copia\ZamenisH\Persistence\obj\Debug\Persistence.dll
+C:\Users\fagb-\source\repos\VS2022-Copia\ZamenisH\Persistence\obj\Debug\Persistence.pdb
+P:\temporales\VS2022-Temporal\ZamenisH\Persistence\bin\Debug\Persistence.dll
+P:\temporales\VS2022-Temporal\ZamenisH\Persistence\bin\Debug\Persistence.pdb
+P:\temporales\VS2022-Temporal\ZamenisH\Persistence\bin\Debug\BouncyCastle.Crypto.dll
+P:\temporales\VS2022-Temporal\ZamenisH\Persistence\bin\Debug\CodeBarras.dll
+P:\temporales\VS2022-Temporal\ZamenisH\Persistence\bin\Debug\Domain.dll
+P:\temporales\VS2022-Temporal\ZamenisH\Persistence\bin\Debug\IronPython.dll
+P:\temporales\VS2022-Temporal\ZamenisH\Persistence\bin\Debug\IronPython.Modules.dll
+P:\temporales\VS2022-Temporal\ZamenisH\Persistence\bin\Debug\IronPython.SQLite.dll
+P:\temporales\VS2022-Temporal\ZamenisH\Persistence\bin\Debug\IronPython.Wpf.dll
+P:\temporales\VS2022-Temporal\ZamenisH\Persistence\bin\Debug\itextsharp.dll
+P:\temporales\VS2022-Temporal\ZamenisH\Persistence\bin\Debug\Microsoft.Dynamic.dll
+P:\temporales\VS2022-Temporal\ZamenisH\Persistence\bin\Debug\Microsoft.Scripting.dll
+P:\temporales\VS2022-Temporal\ZamenisH\Persistence\bin\Debug\Microsoft.Scripting.Metadata.dll
+P:\temporales\VS2022-Temporal\ZamenisH\Persistence\bin\Debug\MySql.Data.dll
+P:\temporales\VS2022-Temporal\ZamenisH\Persistence\bin\Debug\Newtonsoft.Json.dll
+P:\temporales\VS2022-Temporal\ZamenisH\Persistence\bin\Debug\SMSSender.dll
+P:\temporales\VS2022-Temporal\ZamenisH\Persistence\bin\Debug\System.Buffers.dll
+P:\temporales\VS2022-Temporal\ZamenisH\Persistence\bin\Debug\System.Memory.dll
+P:\temporales\VS2022-Temporal\ZamenisH\Persistence\bin\Debug\System.Numerics.Vectors.dll
+P:\temporales\VS2022-Temporal\ZamenisH\Persistence\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
+P:\temporales\VS2022-Temporal\ZamenisH\Persistence\bin\Debug\System.ValueTuple.dll
+P:\temporales\VS2022-Temporal\ZamenisH\Persistence\bin\Debug\zxing.dll
+P:\temporales\VS2022-Temporal\ZamenisH\Persistence\bin\Debug\CodeBarras.pdb
+P:\temporales\VS2022-Temporal\ZamenisH\Persistence\bin\Debug\SMSSender.pdb
+P:\temporales\VS2022-Temporal\ZamenisH\Persistence\bin\Debug\Domain.pdb
+P:\temporales\VS2022-Temporal\ZamenisH\Persistence\bin\Debug\IronPython.xml
+P:\temporales\VS2022-Temporal\ZamenisH\Persistence\bin\Debug\IronPython.Modules.xml
+P:\temporales\VS2022-Temporal\ZamenisH\Persistence\bin\Debug\IronPython.SQLite.xml
+P:\temporales\VS2022-Temporal\ZamenisH\Persistence\bin\Debug\IronPython.Wpf.xml
+P:\temporales\VS2022-Temporal\ZamenisH\Persistence\bin\Debug\itextsharp.xml
+P:\temporales\VS2022-Temporal\ZamenisH\Persistence\bin\Debug\Microsoft.Dynamic.xml
+P:\temporales\VS2022-Temporal\ZamenisH\Persistence\bin\Debug\Microsoft.Scripting.xml
+P:\temporales\VS2022-Temporal\ZamenisH\Persistence\bin\Debug\Microsoft.Scripting.Metadata.xml
+P:\temporales\VS2022-Temporal\ZamenisH\Persistence\bin\Debug\System.Buffers.xml
+P:\temporales\VS2022-Temporal\ZamenisH\Persistence\bin\Debug\System.Memory.xml
+P:\temporales\VS2022-Temporal\ZamenisH\Persistence\bin\Debug\System.Numerics.Vectors.xml
+P:\temporales\VS2022-Temporal\ZamenisH\Persistence\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
+P:\temporales\VS2022-Temporal\ZamenisH\Persistence\bin\Debug\System.ValueTuple.xml
+P:\temporales\VS2022-Temporal\ZamenisH\Persistence\bin\Debug\zxing.xml
+P:\temporales\VS2022-Temporal\ZamenisH\Persistence\obj\Debug\Persistence.csproj.AssemblyReference.cache
+P:\temporales\VS2022-Temporal\ZamenisH\Persistence\obj\Debug\Persistence.csproj.CoreCompileInputs.cache
+P:\temporales\VS2022-Temporal\ZamenisH\Persistence\obj\Debug\Persiste.61C28332.Up2Date
+P:\temporales\VS2022-Temporal\ZamenisH\Persistence\obj\Debug\Persistence.dll
+P:\temporales\VS2022-Temporal\ZamenisH\Persistence\obj\Debug\Persistence.pdb
+P:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Persistence.dll
+P:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Persistence.pdb
+P:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\BouncyCastle.Crypto.dll
+P:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\CodeBarras.dll
+P:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Domain.dll
+P:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\IronPython.dll
+P:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\IronPython.Modules.dll
+P:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\IronPython.SQLite.dll
+P:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\IronPython.Wpf.dll
+P:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itextsharp.dll
+P:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Dynamic.dll
+P:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Scripting.dll
+P:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Scripting.Metadata.dll
+P:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\MySql.Data.dll
+P:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Newtonsoft.Json.dll
+P:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\SMSSender.dll
+P:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\System.Buffers.dll
+P:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\System.Memory.dll
+P:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\System.Numerics.Vectors.dll
+P:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
+P:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\System.ValueTuple.dll
+P:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\zxing.dll
+P:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\CodeBarras.pdb
+P:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\SMSSender.pdb
+P:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Domain.pdb
+P:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\IronPython.xml
+P:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\IronPython.Modules.xml
+P:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\IronPython.SQLite.xml
+P:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\IronPython.Wpf.xml
+P:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itextsharp.xml
+P:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Dynamic.xml
+P:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Scripting.xml
+P:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Scripting.Metadata.xml
+P:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\System.Buffers.xml
+P:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\System.Memory.xml
+P:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\System.Numerics.Vectors.xml
+P:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
+P:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\System.ValueTuple.xml
+P:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\zxing.xml
+P:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\obj\Debug\Persistence.csproj.AssemblyReference.cache
+P:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\obj\Debug\Persistence.csproj.CoreCompileInputs.cache
+P:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\obj\Debug\Persiste.61C28332.Up2Date
+P:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\obj\Debug\Persistence.dll
+P:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\obj\Debug\Persistence.pdb
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Persistence.dll.config
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Persistence.dll
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Persistence.pdb
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\bc-fips-1.0.2.dll
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\bcpkix-fips-1.0.2.dll
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\BouncyCastle.Crypto.dll
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\BouncyCastle.Cryptography.dll
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\CodeBarras.dll
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Domain.dll
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\IronPython.dll
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\IronPython.Modules.dll
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\IronPython.SQLite.dll
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\IronPython.Wpf.dll
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.barcodes.dll
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.bouncy-castle-adapter.dll
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.bouncy-castle-connector.dll
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.bouncy-castle-fips-adapter.dll
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.commons.dll
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.forms.dll
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.io.dll
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.kernel.dll
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.layout.dll
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.pdfa.dll
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.pdfua.dll
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.sign.dll
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.styledxmlparser.dll
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.svg.dll
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itextsharp.dll
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Bcl.AsyncInterfaces.dll
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Dynamic.dll
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Extensions.DependencyInjection.dll
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Extensions.Logging.Abstractions.dll
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Extensions.Logging.dll
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Extensions.Options.dll
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Extensions.Primitives.dll
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Scripting.dll
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Scripting.Metadata.dll
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\MySql.Data.dll
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Newtonsoft.Json.dll
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\SMSSender.dll
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\System.Buffers.dll
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\System.Diagnostics.DiagnosticSource.dll
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\System.Memory.dll
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\System.Numerics.Vectors.dll
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\System.Threading.Tasks.Extensions.dll
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\System.ValueTuple.dll
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\zxing.dll
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\CodeBarras.pdb
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\CodeBarras.dll.config
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\SMSSender.pdb
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\SMSSender.dll.config
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Domain.pdb
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Domain.dll.config
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\BouncyCastle.Cryptography.xml
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\IronPython.xml
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\IronPython.Modules.xml
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\IronPython.SQLite.xml
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\IronPython.Wpf.xml
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.barcodes.xml
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.bouncy-castle-adapter.xml
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.bouncy-castle-connector.xml
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.bouncy-castle-fips-adapter.xml
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.commons.xml
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.forms.xml
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.io.xml
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.kernel.xml
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.layout.xml
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.pdfa.xml
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.pdfua.xml
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.sign.xml
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.styledxmlparser.xml
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.svg.xml
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itextsharp.xml
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Bcl.AsyncInterfaces.xml
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Dynamic.xml
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Extensions.DependencyInjection.xml
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Extensions.DependencyInjection.Abstractions.xml
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Extensions.Logging.xml
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Extensions.Logging.Abstractions.xml
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Extensions.Options.xml
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Extensions.Primitives.xml
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Scripting.xml
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Scripting.Metadata.xml
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Newtonsoft.Json.xml
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\System.Buffers.xml
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\System.Diagnostics.DiagnosticSource.xml
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\System.Memory.xml
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\System.Numerics.Vectors.xml
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\System.Threading.Tasks.Extensions.xml
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\System.ValueTuple.xml
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\zxing.xml
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\obj\Debug\Persistence.csproj.AssemblyReference.cache
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\obj\Debug\Persistence.csproj.CoreCompileInputs.cache
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\obj\Debug\Persiste.61C28332.Up2Date
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\obj\Debug\Persistence.dll
+C:\PROGRAMACION\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\obj\Debug\Persistence.pdb
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Persistence.dll.config
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Persistence.dll
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Persistence.pdb
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\bc-fips-1.0.2.dll
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\bcpkix-fips-1.0.2.dll
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\BouncyCastle.Crypto.dll
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\BouncyCastle.Cryptography.dll
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\CodeBarras.dll
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Domain.dll
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\IronPython.dll
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\IronPython.Modules.dll
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\IronPython.SQLite.dll
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\IronPython.Wpf.dll
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.barcodes.dll
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.bouncy-castle-adapter.dll
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.bouncy-castle-connector.dll
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.bouncy-castle-fips-adapter.dll
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.commons.dll
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.forms.dll
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.io.dll
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.kernel.dll
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.layout.dll
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.pdfa.dll
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.pdfua.dll
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.sign.dll
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.styledxmlparser.dll
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.svg.dll
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itextsharp.dll
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Bcl.AsyncInterfaces.dll
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Dynamic.dll
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Extensions.DependencyInjection.dll
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Extensions.Logging.Abstractions.dll
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Extensions.Logging.dll
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Extensions.Options.dll
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Extensions.Primitives.dll
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Scripting.dll
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Scripting.Metadata.dll
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Newtonsoft.Json.dll
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\SMSSender.dll
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\System.Buffers.dll
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\System.Diagnostics.DiagnosticSource.dll
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\System.Memory.dll
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\System.Numerics.Vectors.dll
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\System.Threading.Tasks.Extensions.dll
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\System.ValueTuple.dll
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\zxing.dll
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\CodeBarras.pdb
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\CodeBarras.dll.config
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\SMSSender.pdb
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\SMSSender.dll.config
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Domain.pdb
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Domain.dll.config
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\BouncyCastle.Cryptography.xml
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\IronPython.xml
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\IronPython.Modules.xml
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\IronPython.SQLite.xml
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\IronPython.Wpf.xml
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.barcodes.xml
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.bouncy-castle-adapter.xml
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.bouncy-castle-connector.xml
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.bouncy-castle-fips-adapter.xml
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.commons.xml
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.forms.xml
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.io.xml
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.kernel.xml
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.layout.xml
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.pdfa.xml
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.pdfua.xml
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.sign.xml
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.styledxmlparser.xml
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.svg.xml
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itextsharp.xml
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Bcl.AsyncInterfaces.xml
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Dynamic.xml
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Extensions.DependencyInjection.xml
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Extensions.DependencyInjection.Abstractions.xml
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Extensions.Logging.xml
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Extensions.Logging.Abstractions.xml
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Extensions.Options.xml
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Extensions.Primitives.xml
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Scripting.xml
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Scripting.Metadata.xml
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Newtonsoft.Json.xml
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\System.Buffers.xml
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\System.Diagnostics.DiagnosticSource.xml
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\System.Memory.xml
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\System.Numerics.Vectors.xml
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\System.Threading.Tasks.Extensions.xml
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\System.ValueTuple.xml
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\zxing.xml
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\obj\Debug\Persistence.csproj.AssemblyReference.cache
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\obj\Debug\Persistence.csproj.CoreCompileInputs.cache
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\obj\Debug\Persiste.61C28332.Up2Date
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\obj\Debug\Persistence.dll
+R:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\obj\Debug\Persistence.pdb
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Persistence.dll.config
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Persistence.dll
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Persistence.pdb
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\bc-fips-1.0.2.dll
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\bcpkix-fips-1.0.2.dll
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\BouncyCastle.Crypto.dll
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\BouncyCastle.Cryptography.dll
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\CodeBarras.dll
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Domain.dll
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\IronPython.dll
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\IronPython.Modules.dll
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\IronPython.SQLite.dll
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\IronPython.Wpf.dll
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.barcodes.dll
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.bouncy-castle-adapter.dll
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.bouncy-castle-connector.dll
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.bouncy-castle-fips-adapter.dll
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.commons.dll
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.forms.dll
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.io.dll
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.kernel.dll
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.layout.dll
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.pdfa.dll
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.pdfua.dll
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.sign.dll
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.styledxmlparser.dll
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.svg.dll
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itextsharp.dll
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Bcl.AsyncInterfaces.dll
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Dynamic.dll
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Extensions.DependencyInjection.dll
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Extensions.Logging.Abstractions.dll
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Extensions.Logging.dll
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Extensions.Options.dll
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Extensions.Primitives.dll
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Scripting.dll
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Scripting.Metadata.dll
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Newtonsoft.Json.dll
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\System.Buffers.dll
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\System.Diagnostics.DiagnosticSource.dll
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\System.Memory.dll
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\System.Numerics.Vectors.dll
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\System.Threading.Tasks.Extensions.dll
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\zxing.dll
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\CodeBarras.pdb
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\CodeBarras.dll.config
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Domain.pdb
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Domain.dll.config
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\BouncyCastle.Cryptography.xml
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\IronPython.xml
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\IronPython.Modules.xml
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\IronPython.SQLite.xml
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\IronPython.Wpf.xml
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.barcodes.xml
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.bouncy-castle-adapter.xml
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.bouncy-castle-connector.xml
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.bouncy-castle-fips-adapter.xml
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.commons.xml
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.forms.xml
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.io.xml
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.kernel.xml
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.layout.xml
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.pdfa.xml
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.pdfua.xml
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.sign.xml
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.styledxmlparser.xml
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.svg.xml
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itextsharp.xml
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Bcl.AsyncInterfaces.xml
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Dynamic.xml
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Extensions.DependencyInjection.xml
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Extensions.DependencyInjection.Abstractions.xml
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Extensions.Logging.xml
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Extensions.Logging.Abstractions.xml
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Extensions.Options.xml
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Extensions.Primitives.xml
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Scripting.xml
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Scripting.Metadata.xml
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Newtonsoft.Json.xml
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\System.Buffers.xml
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\System.Diagnostics.DiagnosticSource.xml
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\System.Memory.xml
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\System.Numerics.Vectors.xml
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\System.Threading.Tasks.Extensions.xml
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\zxing.xml
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\obj\Debug\Persistence.csproj.AssemblyReference.cache
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\obj\Debug\Persistence.csproj.CoreCompileInputs.cache
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\obj\Debug\Persiste.61C28332.Up2Date
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\obj\Debug\Persistence.dll
+Z:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\obj\Debug\Persistence.pdb
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Persistence.dll.config
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Persistence.dll
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Persistence.pdb
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\bc-fips-1.0.2.dll
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\bcpkix-fips-1.0.2.dll
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\BouncyCastle.Crypto.dll
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\BouncyCastle.Cryptography.dll
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Domain.dll
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\IronPython.dll
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\IronPython.Modules.dll
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\IronPython.SQLite.dll
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\IronPython.Wpf.dll
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.barcodes.dll
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.bouncy-castle-adapter.dll
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.bouncy-castle-connector.dll
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.bouncy-castle-fips-adapter.dll
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.commons.dll
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.forms.dll
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.io.dll
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.kernel.dll
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.layout.dll
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.pdfa.dll
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.pdfua.dll
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.sign.dll
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.styledxmlparser.dll
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.svg.dll
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itextsharp.dll
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Bcl.AsyncInterfaces.dll
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Dynamic.dll
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Extensions.DependencyInjection.dll
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Extensions.Logging.Abstractions.dll
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Extensions.Logging.dll
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Extensions.Options.dll
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Extensions.Primitives.dll
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Scripting.dll
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Scripting.Metadata.dll
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Newtonsoft.Json.dll
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\System.Buffers.dll
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\System.Diagnostics.DiagnosticSource.dll
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\System.Memory.dll
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\System.Numerics.Vectors.dll
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\System.Threading.Tasks.Extensions.dll
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\zxing.dll
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\zxing.presentation.dll
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Domain.pdb
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Domain.dll.config
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\BouncyCastle.Cryptography.xml
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\IronPython.xml
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\IronPython.Modules.xml
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\IronPython.SQLite.xml
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\IronPython.Wpf.xml
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.barcodes.xml
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.bouncy-castle-adapter.xml
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.bouncy-castle-connector.xml
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.bouncy-castle-fips-adapter.xml
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.commons.xml
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.forms.xml
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.io.xml
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.kernel.xml
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.layout.xml
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.pdfa.xml
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.pdfua.xml
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.sign.xml
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.styledxmlparser.xml
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itext.svg.xml
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\itextsharp.xml
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Bcl.AsyncInterfaces.xml
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Dynamic.xml
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Extensions.DependencyInjection.xml
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Extensions.DependencyInjection.Abstractions.xml
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Extensions.Logging.xml
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Extensions.Logging.Abstractions.xml
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Extensions.Options.xml
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Extensions.Primitives.xml
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Scripting.xml
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Microsoft.Scripting.Metadata.xml
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\Newtonsoft.Json.xml
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\System.Buffers.xml
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\System.Diagnostics.DiagnosticSource.xml
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\System.Memory.xml
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\System.Numerics.Vectors.xml
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\System.Threading.Tasks.Extensions.xml
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\zxing.xml
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\bin\Debug\zxing.presentation.xml
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\obj\Debug\Persistence.csproj.AssemblyReference.cache
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\obj\Debug\Persistence.csproj.CoreCompileInputs.cache
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\obj\Debug\Persiste.61C28332.Up2Date
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\obj\Debug\Persistence.dll
+J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Persistence\obj\Debug\Persistence.pdb
