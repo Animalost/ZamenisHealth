@@ -105,7 +105,6 @@ namespace Persistence.CXN.Metodos
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         List<CXN_LOG_SENDER> ILogSender.Historial(DateTime Desde, DateTime Hasta)
         {
             try
@@ -153,7 +152,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }            
         }
-
         List<CXN_LOG_SENDER> ILogSender.Historial(DateTime Desde, DateTime Hasta, string Criterio)
         {
             try

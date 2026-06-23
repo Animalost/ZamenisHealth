@@ -14,7 +14,6 @@ namespace Persistence.CXN.Interfaces
         bool AddHomologoRecepcion(string Homologo, int Pos, DateTime Fecha, DateTime Hora, string CUFE, string Resolucion);
         bool ConsultarFactura(int FZ, string FC);
         bool Verifica_Homologo(string FH, string FC);
-        bool Verifica_HomologoRec(string FH, string FC);
         bool ActualizarMasivo(string FH, int FZ, string FC, DateTime FF, string CUFE, DateTime HORA, string RESOLUCION);
         bool ActualizarMasivoRec(string FH, int FZ, string FC, DateTime FF, string CUFE, DateTime HORA, string RESOLUCION);
         DataView ImportarDatos(string nombrearchivo);

@@ -53,80 +53,88 @@ namespace Persistence.CXN.Metodos
         }
         CXN_PACIENTES IPacientes.LlamarPacienteNumDoc(string NId)
         {
-            var getConect = Conexion.Conection();
-
-            using (SqlConnection con = new SqlConnection(getConect["Conexion"]))
+            try
             {
-                if (con != null && con.State == ConnectionState.Closed)
+                var getConect = Conexion.Conection();
+
+                using (SqlConnection con = new SqlConnection(getConect["Conexion"]))
                 {
-                    con.Open();
-                }
-
-                String Query = "SELECT * " +
-                               "FROM CXN_PACIENTES " +
-                               "WHERE Pac_IdNum = @param1";
-
-                using (SqlCommand Command = new SqlCommand(Query, con))
-                {
-                    Command.Parameters.AddWithValue("@param1", NId);
-
-                    using (SqlDataReader Reader = (Command.ExecuteReader()))
+                    if (con != null && con.State == ConnectionState.Closed)
                     {
-                        if (Reader.Read() == true)
-                        {
-                            CXN_PACIENTES DP = new CXN_PACIENTES
-                            {
-                                Pac_TipoId = (Reader["Pac_TipoId"] == DBNull.Value ? "" : Reader["Pac_TipoId"].ToString()),
-                                Pac_IdNum = (Reader["Pac_IdNum"] == DBNull.Value ? "" : Reader["Pac_IdNum"].ToString()),
-                                Pac_FechaNto = (Reader["Pac_FechaNto"] == DBNull.Value ? DateTime.Now.Date : Convert.ToDateTime(Reader["Pac_FechaNto"])),
-                                Pac_PrimerN = (Reader["Pac_PrimerN"] == DBNull.Value ? "" : Reader["Pac_PrimerN"].ToString()),
-                                Pac_SegundoN = (Reader["Pac_SegundoN"] == DBNull.Value ? "" : Reader["Pac_SegundoN"].ToString()),
-                                Pac_PrimerA = (Reader["Pac_PrimerA"] == DBNull.Value ? "" : Reader["Pac_PrimerA"].ToString()),
-                                Pac_SegundoA = (Reader["Pac_SegundoA"] == DBNull.Value ? "" : Reader["Pac_SegundoA"].ToString()),
-                                Pac_Sexo = (Reader["Pac_Sexo"] == DBNull.Value ? "" : Reader["Pac_Sexo"].ToString()),
-                                Pac_Telefono = (Reader["Pac_Telefono"] == DBNull.Value ? "" : Reader["Pac_Telefono"].ToString()),
-                                Pac_TelefonoAux = (Reader["Pac_TelefonoAux"] == DBNull.Value ? "" : Reader["Pac_TelefonoAux"].ToString()),
-                                Pac_Direccion = (Reader["Pac_Direccion"] == DBNull.Value ? "" : Reader["Pac_Direccion"].ToString()),
-                                Pac_Email = (Reader["Pac_Email"] == DBNull.Value ? "" : Reader["Pac_Email"].ToString()),
-                                Pac_Mun_Cod = (Reader["Pac_Mun_Cod"] == DBNull.Value ? "" : Reader["Pac_Mun_Cod"].ToString()),
-                                Pac_Zona = (Reader["Pac_Zona"] == DBNull.Value ? "" : Reader["Pac_Zona"].ToString()),
-                                Pac_Localidad = (Reader["Pac_Localidad"] == DBNull.Value ? "" : Reader["Pac_Localidad"].ToString()),
-                                Pac_Acudiente = (Reader["Pac_Acudiente"] == DBNull.Value ? "" : Reader["Pac_Acudiente"].ToString()),
-                                Pac_Parentesco = (Reader["Pac_Parentesco"] == DBNull.Value ? "" : Reader["Pac_Parentesco"].ToString()),
-                                Pac_DireccionAcu = (Reader["Pac_DireccionAcu"] == DBNull.Value ? "" : Reader["Pac_DireccionAcu"].ToString()),
-                                Pac_TelefonoAcu = (Reader["Pac_TelefonoAcu"] == DBNull.Value ? "" : Reader["Pac_TelefonoAcu"].ToString()),
-                                Pac_CorreoAcu = (Reader["Pac_CorreoAcu"] == DBNull.Value ? "" : Reader["Pac_CorreoAcu"].ToString()),
-                                Pac_Dep_Cod = (Reader["Pac_Dep_Cod"] == DBNull.Value ? "" : Reader["Pac_Dep_Cod"].ToString()),
-                                Pac_Id = Convert.ToInt32(Reader["Pac_Id"]),
-                                Pac_Doble = (Reader["Pac_Doble"] == DBNull.Value ? "" : Reader["Pac_Doble"].ToString()),
-                                Pac_2VXS = (Reader["Pac_2VXS"] == DBNull.Value ? "" : Reader["Pac_2VXS"].ToString()),
-                                Pac_Especial = (Reader["Pac_Especial"] == DBNull.Value ? "N" : Reader["Pac_Especial"].ToString()),
-                                Pac_Contrato = (Reader["Pac_Contrato"] == DBNull.Value ? "" : Reader["Pac_Contrato"].ToString()),
-                                Pac_Aseguradora = (Reader["Pac_Aseguradora"] == DBNull.Value ? 0 : Convert.ToInt32(Reader["Pac_Aseguradora"])),
-                                Pac_Regimen = (Reader["Pac_Regimen"] == DBNull.Value ? "01" : Reader["Pac_Regimen"].ToString()),
-                                Pac_FibInf = (Reader["Pac_FibInf"] == DBNull.Value ? "Incluido" : "Excluido"),
-                                Pac_PaisOrigen = (Reader["Pac_PaisOrigen"] == DBNull.Value ? "" : Reader["Pac_PaisOrigen"].ToString()),
-                                Pac_Categoria = (Reader["Pac_Categoria"] == DBNull.Value ? "" : Reader["Pac_Categoria"].ToString()),
-                                Pac_Residencia = (Reader["Pac_Residencia"] == DBNull.Value ? "" : Reader["Pac_Residencia"].ToString()),
-                                Pac_ECivil = (Reader["Pac_ECivil"] == DBNull.Value ? "" : Reader["Pac_ECivil"].ToString()),
-                                Pac_Ocupacion = (Reader["Pac_Ocupacion"] == DBNull.Value ? "" : Reader["Pac_Ocupacion"].ToString()),
-                                Discapacidad = (Reader["Discapacidad"] == DBNull.Value ? "" : Reader["Discapacidad"].ToString()),
-                                Etnia = (Reader["Etnia"] == DBNull.Value ? "" : Reader["Etnia"].ToString()),
-                                VIH = (Reader["VIH"] == DBNull.Value ? "" : Reader["VIH"].ToString()),
-                                Hepatitis = (Reader["Hepatitis"] == DBNull.Value ? "" : Reader["Hepatitis"].ToString()),
-                                HoraNto = (Reader["HoraNto"] == DBNull.Value ? DateTime.Now : Convert.ToDateTime(Reader["HoraNto"])),
-                                IdentidadGenero = (Reader["IdentidadGenero"] == DBNull.Value ? "04" : Reader["IdentidadGenero"].ToString())
-                            };
+                        con.Open();
+                    }
 
-                            return DP;
-                        }
-                        else
+                    String Query = "SELECT * " +
+                                   "FROM CXN_PACIENTES " +
+                                   "WHERE Pac_IdNum = @param1";
+
+                    using (SqlCommand Command = new SqlCommand(Query, con))
+                    {
+                        Command.Parameters.AddWithValue("@param1", NId);
+
+                        using (SqlDataReader Reader = (Command.ExecuteReader()))
                         {
-                            return null;
+                            if (Reader.Read() == true)
+                            {
+                                CXN_PACIENTES DP = new CXN_PACIENTES
+                                {
+                                    Pac_TipoId = (Reader["Pac_TipoId"] == DBNull.Value ? "" : Reader["Pac_TipoId"].ToString()),
+                                    Pac_IdNum = (Reader["Pac_IdNum"] == DBNull.Value ? "" : Reader["Pac_IdNum"].ToString()),
+                                    Pac_FechaNto = (Reader["Pac_FechaNto"] == DBNull.Value ? DateTime.Now.Date : Convert.ToDateTime(Reader["Pac_FechaNto"])),
+                                    Pac_PrimerN = (Reader["Pac_PrimerN"] == DBNull.Value ? "" : Reader["Pac_PrimerN"].ToString()),
+                                    Pac_SegundoN = (Reader["Pac_SegundoN"] == DBNull.Value ? "" : Reader["Pac_SegundoN"].ToString()),
+                                    Pac_PrimerA = (Reader["Pac_PrimerA"] == DBNull.Value ? "" : Reader["Pac_PrimerA"].ToString()),
+                                    Pac_SegundoA = (Reader["Pac_SegundoA"] == DBNull.Value ? "" : Reader["Pac_SegundoA"].ToString()),
+                                    Pac_Sexo = (Reader["Pac_Sexo"] == DBNull.Value ? "" : Reader["Pac_Sexo"].ToString()),
+                                    Pac_Telefono = (Reader["Pac_Telefono"] == DBNull.Value ? "" : Reader["Pac_Telefono"].ToString()),
+                                    Pac_TelefonoAux = (Reader["Pac_TelefonoAux"] == DBNull.Value ? "" : Reader["Pac_TelefonoAux"].ToString()),
+                                    Pac_Direccion = (Reader["Pac_Direccion"] == DBNull.Value ? "" : Reader["Pac_Direccion"].ToString()),
+                                    Pac_Email = (Reader["Pac_Email"] == DBNull.Value ? "" : Reader["Pac_Email"].ToString()),
+                                    Pac_Mun_Cod = (Reader["Pac_Mun_Cod"] == DBNull.Value ? "" : Reader["Pac_Mun_Cod"].ToString()),
+                                    Pac_Zona = (Reader["Pac_Zona"] == DBNull.Value ? "" : Reader["Pac_Zona"].ToString()),
+                                    Pac_Localidad = (Reader["Pac_Localidad"] == DBNull.Value ? "" : Reader["Pac_Localidad"].ToString()),
+                                    Pac_Acudiente = (Reader["Pac_Acudiente"] == DBNull.Value ? "" : Reader["Pac_Acudiente"].ToString()),
+                                    Pac_Parentesco = (Reader["Pac_Parentesco"] == DBNull.Value ? "" : Reader["Pac_Parentesco"].ToString()),
+                                    Pac_DireccionAcu = (Reader["Pac_DireccionAcu"] == DBNull.Value ? "" : Reader["Pac_DireccionAcu"].ToString()),
+                                    Pac_TelefonoAcu = (Reader["Pac_TelefonoAcu"] == DBNull.Value ? "" : Reader["Pac_TelefonoAcu"].ToString()),
+                                    Pac_CorreoAcu = (Reader["Pac_CorreoAcu"] == DBNull.Value ? "" : Reader["Pac_CorreoAcu"].ToString()),
+                                    Pac_Dep_Cod = (Reader["Pac_Dep_Cod"] == DBNull.Value ? "" : Reader["Pac_Dep_Cod"].ToString()),
+                                    Pac_Id = Convert.ToInt32(Reader["Pac_Id"]),
+                                    Pac_Doble = (Reader["Pac_Doble"] == DBNull.Value ? "" : Reader["Pac_Doble"].ToString()),
+                                    Pac_2VXS = (Reader["Pac_2VXS"] == DBNull.Value ? "" : Reader["Pac_2VXS"].ToString()),
+                                    Pac_Especial = (Reader["Pac_Especial"] == DBNull.Value ? "N" : Reader["Pac_Especial"].ToString()),
+                                    Pac_Contrato = (Reader["Pac_Contrato"] == DBNull.Value ? "" : Reader["Pac_Contrato"].ToString()),
+                                    Pac_Aseguradora = (Reader["Pac_Aseguradora"] == DBNull.Value ? 0 : Convert.ToInt32(Reader["Pac_Aseguradora"])),
+                                    Pac_Regimen = (Reader["Pac_Regimen"] == DBNull.Value ? "01" : Reader["Pac_Regimen"].ToString()),
+                                    Pac_FibInf = (Reader["Pac_FibInf"] == DBNull.Value ? "Incluido" : "Excluido"),
+                                    Pac_PaisOrigen = (Reader["Pac_PaisOrigen"] == DBNull.Value ? "" : Reader["Pac_PaisOrigen"].ToString()),
+                                    Pac_Categoria = (Reader["Pac_Categoria"] == DBNull.Value ? "" : Reader["Pac_Categoria"].ToString()),
+                                    Pac_Residencia = (Reader["Pac_Residencia"] == DBNull.Value ? "" : Reader["Pac_Residencia"].ToString()),
+                                    Pac_ECivil = (Reader["Pac_ECivil"] == DBNull.Value ? "" : Reader["Pac_ECivil"].ToString()),
+                                    Pac_Ocupacion = (Reader["Pac_Ocupacion"] == DBNull.Value ? "" : Reader["Pac_Ocupacion"].ToString()),
+                                    Discapacidad = (Reader["Discapacidad"] == DBNull.Value ? "" : Reader["Discapacidad"].ToString()),
+                                    Etnia = (Reader["Etnia"] == DBNull.Value ? "" : Reader["Etnia"].ToString()),
+                                    VIH = (Reader["VIH"] == DBNull.Value ? "" : Reader["VIH"].ToString()),
+                                    Hepatitis = (Reader["Hepatitis"] == DBNull.Value ? "" : Reader["Hepatitis"].ToString()),
+                                    HoraNto = (Reader["HoraNto"] == DBNull.Value ? DateTime.Now : Convert.ToDateTime(Reader["HoraNto"])),
+                                    IdentidadGenero = (Reader["IdentidadGenero"] == DBNull.Value ? "04" : Reader["IdentidadGenero"].ToString())
+                                };
+
+                                return DP;
+                            }
+                            else
+                            {
+                                return null;
+                            }
                         }
                     }
-                }                
+                }
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }            
         }
         CXN_PACIENTES IPacientes.LlamarPacienteDOC(string TipoId, string NId)
         {
@@ -1144,6 +1152,40 @@ namespace Persistence.CXN.Metodos
                 Console.WriteLine(ex.Message);
             }            
         }
+        void IPacientes.Actualiza_Pac3(CXN_PACIENTES P)
+        {
+            var getConect = Conexion.Conection();
+
+            using (SqlConnection con = new SqlConnection(getConect["Conexion"]))
+            {
+                if (con != null && con.State == ConnectionState.Closed)
+                {
+                    con.Open();
+                }
+
+                SqlCommand Busqueda = new SqlCommand(@"UPDATE CXN_PACIENTES " +
+                                      "SET  " +
+                                      "Pac_Acudiente = @param1, " +
+                                      "Pac_Parentesco = @param2, " +
+                                      "Pac_DireccionAcu = @param3, " +
+                                      "Pac_TelefonoAcu = @param4, " +
+                                      "Pac_CorreoAcu = @param5, " +
+                                      "Discapacidad = @param6, " +
+                                      "Pac_Ocupacion = @param7  " +
+                                      "WHERE Pac_Id = @param8", con);
+
+                Busqueda.Parameters.AddWithValue("@param1", P.Pac_Acudiente);
+                Busqueda.Parameters.AddWithValue("@param2", P.Pac_Parentesco);
+                Busqueda.Parameters.AddWithValue("@param3", P.Pac_DireccionAcu);
+                Busqueda.Parameters.AddWithValue("@param4", P.Pac_TelefonoAcu);
+                Busqueda.Parameters.AddWithValue("@param5", P.Pac_CorreoAcu);
+                Busqueda.Parameters.AddWithValue("@param6", P.Discapacidad);
+                Busqueda.Parameters.AddWithValue("@param7", P.Pac_Ocupacion);
+                Busqueda.Parameters.AddWithValue("@param8", P.Pac_Id);
+
+                Busqueda.ExecuteNonQuery();
+            }
+        }
         void IPacientes.Rpt_Atenciones2(DateTime Desde, DateTime Hasta)
         {
             var getConect = Conexion.Conection();
@@ -1392,92 +1434,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
-       /* bool IPacientes.ComprobarEdad(DateTime FechaSeleccionada, string TipoId)
-        {
-            try
-            {
-                DateTime Hoy = DateTime.Now.Date;
-                TimeSpan difFechas = Hoy - FechaSeleccionada;
-                int dias = difFechas.Days;
-                int Años = dias / 365;
-
-                if (Años < 3)
-                {
-                    if (TipoId == "Registro Civil" || TipoId == "NUIP" || TipoId == "Permiso Especial de Permanencia" || TipoId == "Menor sin Identificar" || TipoId == "Pasaporte" || TipoId == "OTRO")
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-
-                if (Años >= 3 && Años <= 6)
-                {
-                    if (TipoId == "Certificado Nacido Vivo" || TipoId == "Pasaporte" || TipoId == "Carne Diplomatico" || TipoId == "Salvoconducto" || TipoId == "Documento Extranjero" ||
-                        TipoId == "Permiso Especial de Permanencia" || TipoId == "Menor sin Identificar" || TipoId == "OTRO" || TipoId == "Registro Civil") //registro civil no deberia estar aqui
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-
-                }
-
-                if (Años >= 7 && Años <= 17)
-                {
-                    if (TipoId == "Tarjeta de Identificacion" || TipoId == "Documento Extranjero" || TipoId == "Pasaporte" || TipoId == "Carne Diplomatico" || TipoId == "Salvoconducto" || 
-                           TipoId == "Permiso Especial de Permanencia" || TipoId == "Menor sin Identificar" || TipoId == "OTRO")
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-
-                if (Años >= 18 && Años <= 19)
-                {
-                    if (TipoId == "Tarjeta de Identificacion" || TipoId == "Cedula de Extranjeria" || TipoId == "Pasaporte" || TipoId == "Carne Diplomatico" || TipoId == "Salvoconducto" || TipoId == "Cedula de Ciudadania" ||
-                        TipoId == "Permiso Especial de Permanencia" || TipoId == "Documento Extranjero" || TipoId == "Adulto sin Identificar" || TipoId == "Proteccion Temporal"
-                        || TipoId == "OTRO" || TipoId == "Numero de Identificacion Tributario")
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-
-                if (Años >= 20)
-                {
-                    if (TipoId == "Cedula de Extranjeria" || TipoId == "Pasaporte" || TipoId == "Carne Diplomatico" || TipoId == "Salvoconducto" || TipoId == "Cedula de Ciudadania" ||
-                        TipoId == "Permiso Especial de Permanencia" || TipoId == "Documento Extranjero" || TipoId == "Adulto sin Identificar" || TipoId == "Proteccion Temporal"
-                        || TipoId == "OTRO" || TipoId == "Numero de Identificacion Tributario")
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-
-                return true;
-            }
-            catch (Exception ex)
-            {
-                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
-                return false;
-            }
-        }*/
-
         void IPacientes.RptCancelaciones(DateTime Desde, DateTime Hasta)
         {
             try
@@ -1671,51 +1627,6 @@ namespace Persistence.CXN.Metodos
             catch (Exception ex)
             {
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
-            }
-        }
-        CXN_PACIENTES IPacientes.getCodumentVC(int Admision)
-        {
-            var getConect = Conexion.Conection();
-
-            using (SqlConnection con = new SqlConnection(getConect["Conexion"]))
-            {
-                if (con != null && con.State == ConnectionState.Closed)
-                {
-                    con.Open();
-                }
-
-                String Query = "SELECT P.Pac_IdNum, P.Pac_PrimerN, P.Pac_SegundoN, P.Pac_PrimerA, P.Pac_SegundoA, P.Pac_Email, P.Pac_Telefono " +
-                               "FROM CXN_PACIENTES P " +
-                               "INNER JOIN CXN_HORARIO H ON P.Pac_Id = H.Hor_Pac_Id " +
-                               "WHERE H.Hor_Id = @param1";
-
-                using (SqlCommand Command = new SqlCommand(Query, con))
-                {
-                    Command.Parameters.Add(new SqlParameter("@param1", Admision));
-
-                    using (SqlDataReader Reader = (Command.ExecuteReader()))
-                    {
-                        if (Reader.Read() == true)
-                        {
-                            CXN_PACIENTES P = new CXN_PACIENTES
-                            {
-                                Pac_IdNum = Reader["Pac_IdNum"].ToString(),
-                                Pac_Telefono = Reader["Pac_Telefono"].ToString(),
-                                Pac_Email = Reader["Pac_Email"].ToString(),
-                                Pac_PrimerN = Reader["Pac_PrimerN"].ToString(),
-                                Pac_SegundoN = Reader["Pac_SegundoN"].ToString(),
-                                Pac_PrimerA = Reader["Pac_PrimerA"].ToString(),
-                                Pac_SegundoA = Reader["Pac_SegundoA"].ToString()
-                            };
-
-                            return P;
-                        }
-                        else
-                        {
-                            return null;
-                        }
-                    }
-                }                                   
             }
         }
         void IPacientes.setEnfermedades(int Paciente, string vih, string hepatitis)

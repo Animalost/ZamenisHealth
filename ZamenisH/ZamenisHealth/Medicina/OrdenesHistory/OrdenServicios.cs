@@ -59,7 +59,7 @@ namespace ZamenisHealth.Medicina.OrdenesHistory
                 if (!string.IsNullOrEmpty(textBox1.Text) && !string.IsNullOrEmpty(textBox2.Text) && 
                     !string.IsNullOrEmpty(textBox3.Text) && textBox3.Text != "0")
                 {
-                    dataGridView1.Rows.Add(textBox1.Text, textBox2.Text, textBox3.Text);
+                    dataGridView1.Rows.Add(textBox1.Text, textBox2.Text, textBox3.Text, checkBox1.Checked == true ? "S" : "N");
                     textBox1.Text = "";
                     textBox2.Text = "";
                 }
@@ -100,7 +100,8 @@ namespace ZamenisHealth.Medicina.OrdenesHistory
                                 string cup = fila.Cells["CUP"].Value?.ToString();
                                 string servicio = fila.Cells["SERVICIO"].Value?.ToString();
                                 string canti = fila.Cells["CANTIDAD"].Value?.ToString();
-                                
+                                string bilateral = fila.Cells["BILATERAL"].Value?.ToString();
+
                                 Historia_MedicinaGeneral f1 = null;
                                 Historia_Fisiatria f2 = null;
 
@@ -124,13 +125,13 @@ namespace ZamenisHealth.Medicina.OrdenesHistory
                                     OM_Cia = datosAdm.Hor_Pac_Cia,
                                     OM_Prof = Comunes.Contenedor.UsuarioLogueado,
                                     OM_Desc = $"{cup} - {servicio}{Environment.NewLine + Environment.NewLine} CANTIDAD: {canti}",
-                                    OM_DX1 = f1.textBox39.Text,
-                                    OM_DX2 = f1.textBox37.Text,
-                                    OM_DX3 = f1.textBox35.Text,
-                                    OM_DX1T = f1.textBox38.Text,
-                                    OM_DX2T = f1.textBox36.Text,
-                                    OM_DX3T = f1.textBox34.Text,
-                                    OM_Edad = f1.edad.ToString(),
+                                    OM_DX1 = Forma == "MEDGEN" ? f1.textBox39.Text : Forma == "FISIATRIA" ? f2.textBox52.Text : "",
+                                    OM_DX2 = Forma == "MEDGEN" ? f1.textBox37.Text : Forma == "FISIATRIA" ? f2.textBox50.Text : "",
+                                    OM_DX3 = Forma == "MEDGEN" ? f1.textBox35.Text : Forma == "FISIATRIA" ? f2.textBox48.Text : "",
+                                    OM_DX1T = Forma == "MEDGEN" ? f1.textBox38.Text : Forma == "FISIATRIA" ? f2.textBox51.Text : "",
+                                    OM_DX2T = Forma == "MEDGEN" ? f1.textBox36.Text : Forma == "FISIATRIA" ? f2.textBox49.Text : "",
+                                    OM_DX3T = Forma == "MEDGEN" ? f1.textBox34.Text : Forma == "FISIATRIA" ? f2.textBox47.Text : "",
+                                    OM_Edad = Forma == "MEDGEN" ? f1.edad.ToString() : Forma == "FISIATRIA" ? f2.edad.ToString() : "",
                                     OM_Genero = datosAdm.Pac_Sexo == "M" ? "Masculino" : datosAdm.Pac_Sexo == "F" ? "Femenino" : "Indeterminado",
                                     OM_Direccion = datosAdm.PacienteDireccion,
                                     OM_Telefono = datosAdm.Pac_Telefono,
@@ -140,7 +141,8 @@ namespace ZamenisHealth.Medicina.OrdenesHistory
                                     OM_Clasificacion = "ORDEN DE SERVICIOS",
                                     OM_FHIR_INC = "",
                                     OM_Dias = 0,
-                                    OM_Planillar = Planillar
+                                    OM_Planillar = Planillar,
+                                    OM_Bilateral = bilateral
                                 };
 
                                 repositorioOrdenes.CrearOrden(OM);
@@ -159,9 +161,9 @@ namespace ZamenisHealth.Medicina.OrdenesHistory
                                     Servicio = servicio,
                                     Tipo = "ORDEN DE SERVICIOS",
                                     Paciente = datosAdm.Hor_Pac_Id,
-                                    DX1 = f1.textBox39.Text,
-                                    DX2 = f1.textBox37.Text,
-                                    DX3 = f1.textBox35.Text,
+                                    DX1 = OM.OM_DX1,
+                                    DX2 = OM.OM_DX2,
+                                    DX3 = OM.OM_DX3,
                                     Medico = Comunes.Contenedor.UsuarioLogueado
                                 };
 

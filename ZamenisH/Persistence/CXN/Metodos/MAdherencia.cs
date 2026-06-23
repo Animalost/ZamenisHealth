@@ -55,7 +55,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         string IAdherencia.DescripcionAposito(string Aposito)
         {
             try
@@ -69,27 +68,34 @@ namespace Persistence.CXN.Metodos
                         con.Open();
                     }
 
-                    String Cargar_Hora = "Select Adh_Descripcion " +
+                    String Cargar_Hora = "SELECT Adh_Descripcion " +
                                          "FROM CXN_ADHERENCIA " +
-                                         "WHERE Adh_Aposito = '" + Aposito + "'";
-                    SqlCommand Carga_Command = new SqlCommand(Cargar_Hora, con);
-                    SqlDataReader Lectura_Hora = (Carga_Command.ExecuteReader());
-                    if (Lectura_Hora.Read() == true)
+                                         "WHERE Adh_Aposito = @param1";
+
+                    using (SqlCommand Carga_Command = new SqlCommand(Cargar_Hora, con))
                     {
-                        return Lectura_Hora["Adh_Descripcion"].ToString();
-                    }
-                    else
-                    {
-                        return "";
-                    }
+                        Carga_Command.Parameters.AddWithValue("@param1", Aposito);
+
+                        using (SqlDataReader Lectura_Hora = (Carga_Command.ExecuteReader()))
+                        {
+                            if (Lectura_Hora.Read() == true)
+                            {
+                                return Lectura_Hora["Adh_Descripcion"].ToString();
+                            }
+                            else
+                            {
+                                return "";
+                            }
+                        }
+                    }                    
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 return "";
             }
         }
-
         bool IAdherencia.Crea(CXN_ADHERENCIA A)
         {
             try
@@ -119,7 +125,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
         bool IAdherencia.Actualiza(CXN_ADHERENCIA A)
         {
             try

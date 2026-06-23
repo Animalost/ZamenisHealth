@@ -59,7 +59,6 @@ namespace Persistence.CXN.Metodos
                 }                
             }
         }
-
         void IAgendaC.CancelacionInterna(string Razon, string User, int HorId, string Motivo)
         {
             var getCon = Conexion.Conection();
@@ -84,7 +83,6 @@ namespace Persistence.CXN.Metodos
                 Guarda = Accion.ExecuteNonQuery();
             }
         }
-
         Dictionary<string, string> IAgendaC.SugerenciaServicio(int Paciente)
         {
             try
@@ -121,7 +119,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         string IAgendaC.Calcular2(int Paciente, string TipoServicio)
         {
             try
@@ -136,14 +133,18 @@ namespace Persistence.CXN.Metodos
                     }
                     String Query = "SELECT TOP 1 Hor_Id, Hor_CantSesion " +
                                     "FROM CXN_HORARIO " +
-                                    "WHERE Hor_Pac_Id = '" + Paciente + "' " +
-                                    "AND Hor_Pac_Tipo_Serv = '" + TipoServicio + "' " +
+                                    "WHERE Hor_Pac_Id = @param1 " +
+                                    "AND Hor_Pac_Tipo_Serv = @param2 " +
                                     "AND Hor_IniciaSesion = 'S' " +
                                     "AND Hor_Estado IN ('P', 'H') " +
+                                    "AND Hor_CantSesion <> '0' " +
                                     "ORDER BY Hor_Id DESC";
 
                     using (SqlCommand Commando = new SqlCommand(Query, con))
                     {
+                        Commando.Parameters.AddWithValue("@param1", Paciente);
+                        Commando.Parameters.AddWithValue("@param2", TipoServicio);
+
                         using (SqlDataReader Reader = (Commando.ExecuteReader()))
                         {
                             if (Reader.Read() == true)
@@ -170,8 +171,7 @@ namespace Persistence.CXN.Metodos
             {
                 return ex.Message;
             }
-        }
-        
+        }    
         int Cantidad(int Hor_Id, int Hor_Pac_Id)
         {
             try
@@ -207,12 +207,10 @@ namespace Persistence.CXN.Metodos
                 return 0;
             }
         }
-
         void IAgendaC.setRecepcion(string _valor)
         {
             this.Recepcion = _valor;
         }
-
         (string Autorizacion, string Cantidad, string Estado) IAgendaC.CitaMismoDiaGetAutorizacion(int PacId, DateTime fecha, int Bodega)
         {
             try
@@ -268,7 +266,6 @@ namespace Persistence.CXN.Metodos
                 return ("", "", "");
             }
         }
-
         List<CXN_HORARIO> IAgendaC.ListarCitasXPaciente(int PacId, DateTime fecha)
         {
             try
@@ -326,7 +323,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         List<CXN_HORARIO> IAgendaC.ListarCitasXPaciente(int PacId, DateTime fecha, int Bodega)
         {
             try
@@ -385,7 +381,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         string IAgendaC.Extract(string input, int len, int ini)
         {
             if (string.IsNullOrEmpty(input) || input.Length < len)
@@ -395,43 +390,6 @@ namespace Persistence.CXN.Metodos
 
             return input.Substring(ini, len);
         }
-
-        string IAgendaC.Festivo(DateTime fecha)
-        {
-            try
-            {
-                var getCon = Conexion.Conection();
-
-                using (SqlConnection con = new SqlConnection(getCon["Conexion"]))
-                {
-                    con.Open();
-
-                    if (con != null && con.State == ConnectionState.Closed)
-                    {
-                        con.Open();
-                    }
-
-                    String Cargar_Agenda = "SELECT * " +
-                                           "FROM CXN_FECHAS " +
-                                           "WHERE F_Fecha = '" + Convert.ToDateTime(fecha).ToString(getCon["Format_Fecha"]) + "'";
-                    SqlCommand Carga_Agenda = new SqlCommand(Cargar_Agenda, con);
-                    SqlDataReader Lectura_Agenda = (Carga_Agenda.ExecuteReader());
-                    if (Lectura_Agenda.Read() == true)
-                    {
-                        return Lectura_Agenda["F_Razon"].ToString();
-                    }
-                    else
-                    {
-                        return "";
-                    }
-                }
-            }
-            catch
-            {
-                return "";
-            }
-        }
-
         int IAgendaC.ConsultarFecha(DateTime _fecha, int IdProf)
         {
             try
@@ -473,7 +431,77 @@ namespace Persistence.CXN.Metodos
                 return 0;
             }
         }
+        List<CXN_HORARIO> IAgendaC.ObtenerCitasDelDia(int Prestador, DateTime FechaCita, int Profesional)
+        {
+            try
+            {
+                var getCon = Conexion.Conection();
 
+                using (SqlConnection con = new SqlConnection(getCon["Conexion"]))
+                {
+                    if (con != null && con.State == ConnectionState.Closed)
+                    {
+                        con.Open();
+                    }
+
+                    String Cargar_Hora = "SELECT A.Ase_Descripcion, H.Hor_Pac_Id_Hora, H.Hor_Estado, H.Hor_Id, " +
+                                         "H.Hor_Pac_Id, H.Hor_Pac_Tipo_Serv, H.Hor_Color, H.Hor_BloqEspaces, " +
+                                         "P.Pac_Doble, P.Pac_PrimerA + ' ' + P.Pac_SegundoA + ' ' + P.Pac_PrimerN + ' ' + P.Pac_SegundoN AS PacNombre " +
+                                         "FROM CXN_HORARIO H " +
+                                         "INNER JOIN CXN_ASEGURADORA A ON H.Hor_Pac_Ase = A.Ase_Identificador " +
+                                         "INNER JOIN CXN_PACIENTES P ON H.Hor_Pac_Id = P.Pac_Id " +
+                                         "WHERE H.Hor_Pac_Cia = @param1 " +
+                                         "AND H.Hor_Pac_Bod = @param2 " +
+                                         "AND H.Hor_Estado <> @param3 " +
+                                         "AND H.Hor_Pac_Fecha_Cita BETWEEN @param4 AND @param5";
+
+                    using (SqlCommand Carga_Command = new SqlCommand(Cargar_Hora, con))
+                    {
+                        Carga_Command.Parameters.AddWithValue("@param1", Prestador);
+                        Carga_Command.Parameters.AddWithValue("@param2", Profesional);
+                        Carga_Command.Parameters.AddWithValue("@param3", "C");
+                        Carga_Command.Parameters.AddWithValue("@param4", new DateTime(FechaCita.Year, FechaCita.Month, FechaCita.Day, 00, 00, 00));
+                        Carga_Command.Parameters.AddWithValue("@param5", new DateTime(FechaCita.Year, FechaCita.Month, FechaCita.Day, 23, 59, 59));
+
+                        using (SqlDataReader Lectura_Hora = (Carga_Command.ExecuteReader()))
+                        {
+                            if (Lectura_Hora.HasRows)
+                            {
+                                List<CXN_HORARIO> Lista = new List<CXN_HORARIO>();
+
+                                while (Lectura_Hora.Read() == true)
+                                {
+                                    Lista.Add(new CXN_HORARIO
+                                    {
+                                        Hor_Imp_Age = Lectura_Hora["PacNombre"].ToString(),
+                                        Hor_Pac_Id_Hora = Lectura_Hora["Hor_Pac_Id_Hora"].ToString(),
+                                        Hor_Estado = Lectura_Hora["Hor_Estado"].ToString(),
+                                        PacienteAseguradora = Lectura_Hora["Ase_Descripcion"].ToString(),
+                                        Hor_Id = Convert.ToInt32(Lectura_Hora["Hor_Id"]),
+                                        Hor_Pac_Id = Convert.ToInt32(Lectura_Hora["Hor_Pac_Id"]),
+                                        Hor_Pac_Tipo_Serv = Lectura_Hora["Hor_Pac_Tipo_Serv"].ToString(),
+                                        Hor_Color = Lectura_Hora["Hor_Color"] == DBNull.Value ? "" : Lectura_Hora["Hor_Color"].ToString(),
+                                        Hor_BloqEspaces = Lectura_Hora["Hor_BloqEspaces"] == DBNull.Value ? 0 : Convert.ToInt32(Lectura_Hora["Hor_BloqEspaces"]),
+                                        Hor_Valida = Lectura_Hora["Pac_Doble"] == DBNull.Value ? "" : Lectura_Hora["Pac_Doble"].ToString(),
+                                    });
+                                }
+
+                                return Lista;
+                            }
+                            else
+                            {
+                                return null;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
+        }
         otrosDatosPacienteHorario IAgendaC.cargarAdmision(int Admision, string filter)
         {
             try
@@ -491,7 +519,7 @@ namespace Persistence.CXN.Metodos
                                          "P.Pac_Email, P.Pac_Telefono, P.Pac_TelefonoAux, P.Pac_Id, H.Hor_Observacion, H.Hor_Autoriza, H.Hor_Imp_Age, P.Pac_Dep_Cod, P.Pac_Mun_Cod, P.Pac_Sexo, P.Pac_Regimen, P.Pac_FechaNto, H.Hor_Pac_Ase, " +
                                          "P.Pac_PrimerN, P.Pac_SegundoN, P.Pac_PrimerA, P.Pac_SegundoA, H.Hor_Vales, H.Hor_Pac_Tipo_Serv, H.Hor_Pac_Cup, H.Hor_Pac_Fecha_Cita, H.Hor_ValDerechos, H.Hor_RcCaja, H.Hor_RegAtn, H.Hor_Usr_Admisiona, " +
                                          "H.Hor_Pac_Fecha, H.Hor_Pac_Hora, H.HorTecnoSalud, H.Hor_Pac_Cia, H.Hor_CantSesion, H.Hor_Pac_Atendido, H.Hor_Estado, H.Hor_Pac_Llegada, H.Hor_Pac_Sal, P.Pac_Zona, P.Pac_Contrato, P.Pac_PaisOrigen, P.Pac_Residencia, H.Hor_Pac_UsrGraba, H.HorObservaTemp, P.Pac_Categoria, P.Pac_ECivil, P.Pac_Acudiente, P.Pac_Parentesco, P.Pac_Direccion, P.Pac_DireccionAcu, Pac_TelefonoAcu, Pac_CorreoAcu, P.VIH, P.Hepatitis, P.Pac_Ocupacion, " +
-                                         "P.Pac_PrimerA, P.Pac_SegundoA, P.Pac_PrimerN, P.Pac_SegundoN, B.Bod_Reg_Med, H.Hor_Pac_Modalidad, H.Hor_GrupoServicios, A.Ase_Cod_Emp, C.Con_CodServicio, H.Hor_AvisoCurInicio " +
+                                         "P.Pac_PrimerA, P.Pac_SegundoA, P.Pac_PrimerN, P.Pac_SegundoN, B.Bod_Reg_Med, H.Hor_Pac_Modalidad, H.Hor_GrupoServicios, A.Ase_Cod_Emp, C.Con_CodServicio, H.Hor_AvisoCurInicio, H.Hor_Pac_Id_Hora " +
                                          "FROM CXN_HORARIO H  " +
                                          "INNER JOIN CXN_PACIENTES P ON H.Hor_Pac_Id = P.Pac_Id " +
                                          "INNER JOIN CXN_CONVENIOS C ON H.Hor_Pac_Cup = C.Con_Id_Serv " +
@@ -514,7 +542,7 @@ namespace Persistence.CXN.Metodos
                                 otrosDatosPacienteHorario H = new otrosDatosPacienteHorario
                                 {
                                     Hor_AvisoCurInicio = Lectura_Hora["Hor_AvisoCurInicio"] == DBNull.Value ? false : (bool)Lectura_Hora["Hor_AvisoCurInicio"],
-
+                                    Hor_Estado = Lectura_Hora["Hor_Estado"] == DBNull.Value ? "" : Lectura_Hora["Hor_Estado"].ToString(),
                                     Hor_GrupoServicios = Lectura_Hora["Hor_GrupoServicios"].ToString(),
                                     Hor_Pac_Modalidad = Lectura_Hora["Hor_Pac_Modalidad"].ToString(),
                                     PrimerApellido = Lectura_Hora["Pac_PrimerA"].ToString(),
@@ -523,6 +551,7 @@ namespace Persistence.CXN.Metodos
                                     SegundoNombre = Lectura_Hora["Pac_SegundoN"].ToString(),
                                     IdentificacionProfesional = Lectura_Hora["Bod_Reg_Med"].ToString(),
 
+                                    Hor_Pac_Id_Hora = Lectura_Hora["Hor_Pac_Id_Hora"] == DBNull.Value ? "" : Lectura_Hora["Hor_Pac_Id_Hora"].ToString(),
                                     Hor_Pac_Tipo_Serv = Lectura_Hora["Hor_Pac_Tipo_Serv"].ToString(),
                                     Hor_Pac_Ase = Convert.ToInt32(Lectura_Hora["Hor_Pac_Ase"]),
                                     Hor_Pac_Cup = Lectura_Hora["Hor_Pac_Cup"].ToString(),
@@ -636,7 +665,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         bool IAgendaC.addAutroizacion(int horid, string autroizacion, int Cantidad)
         {
             try
@@ -666,7 +694,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
         bool IAgendaC.addValidacionPin(int horid, string validaPin)
         {
             try
@@ -694,7 +721,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
         bool IAgendaC.addRegAtn(int Admision, string Reg)
         {
             try
@@ -722,7 +748,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
         int IAgendaC.getIdPacByAdmition(int Admition, string Estado)
         {
             var getCon = Conexion.Conection();
@@ -750,7 +775,6 @@ namespace Persistence.CXN.Metodos
                 }
             }
         }
-
         string IAgendaC.getNameServicioFHIR(int CodeServ)
         {
             var getCon = Conexion.Conection();
@@ -784,7 +808,6 @@ namespace Persistence.CXN.Metodos
                 }                                 
             }
         }
-
         CXN_HORARIO IAgendaC.getIdPacByAdmitionReportCitas(int Admition)
         {
             var getCon = Conexion.Conection();
@@ -817,75 +840,6 @@ namespace Persistence.CXN.Metodos
                 }
             }
         }
-
-        (string TipoId, string IdNum) IAgendaC.getIdbyAdmision(int Admision)
-        {
-            var getCon = Conexion.Conection();
-
-            using (SqlConnection con = new SqlConnection(getCon["Conexion"]))
-            {
-                if (con != null && con.State == ConnectionState.Closed)
-                {
-                    con.Open();
-                }
-
-                String Cargar_Hora = "SELECT P.Pac_TipoId, P.Pac_IdNum " +
-                                     "FROM CXN_PACIENTES P " +
-                                     "INNER JOIN CXN_HORARIO H ON P.Pac_Id = H.Hor_Pac_Id " +
-                                     "WHERE H.Hor_Id = '" + Admision + "'";
-                SqlCommand Carga_Command = new SqlCommand(Cargar_Hora, con);
-                SqlDataReader Lectura_Hora = (Carga_Command.ExecuteReader());
-                if (Lectura_Hora.Read() == true)
-                {
-                    return (Lectura_Hora["Pac_TipoId"].ToString(), Lectura_Hora["Pac_IdNum"].ToString());
-                }
-                else
-                {
-                    return ("0", "0");
-                }
-            }
-        }
-
-        List<DiasAgenda> IAgendaC.getCalendario()
-        {
-            var getCon = Conexion.Conection();
-
-            using (SqlConnection con = new SqlConnection(getCon["Conexion"]))
-            {
-                con.Open();
-
-                if (con != null && con.State == ConnectionState.Closed)
-                {
-                    con.Open();
-                }
-
-                String Cargar_Agenda = "SELECT * " +
-                                       "FROM CXN_FECHAS";
-                SqlCommand Carga_Agenda = new SqlCommand(Cargar_Agenda, con);
-                SqlDataReader Lectura_Agenda = (Carga_Agenda.ExecuteReader());
-                if (Lectura_Agenda.HasRows)
-                {
-                    List<DiasAgenda> _dias = new List<DiasAgenda>();
-
-                    while (Lectura_Agenda.Read() == true)
-                    {
-                        _dias.Add(new DiasAgenda
-                        {
-                            aOr = Convert.ToDateTime(Lectura_Agenda["F_Fecha"]).ToString(getCon["Format_Fecha"]),
-                            oAño = Convert.ToDateTime(Lectura_Agenda["F_Fecha"]).ToString("yyyy"),
-                            oMes = Convert.ToDateTime(Lectura_Agenda["F_Fecha"]).ToString("MM"),
-                            oDia = Convert.ToDateTime(Lectura_Agenda["F_Fecha"]).ToString("dd")
-                        });
-                    }
-                    return _dias;
-                }
-                else
-                {
-                    return null;
-                }
-            }
-        }
-
         List<CXN_DIAS_WEB> IAgendaC.CargarList(int Prof)
         {
             try
@@ -934,58 +888,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
-        List<CXN_DIAS_WEB> IAgendaC.CargarListBlocked(int Prof)
-        {
-            try
-            {
-                var getCon = Conexion.Conection();
-
-                using (SqlConnection con = new SqlConnection(getCon["Conexion"]))
-                {
-                    if (con != null && con.State == ConnectionState.Closed)
-                    {
-                        con.Open();
-                    }
-
-                    String Query = "SELECT * " +
-                                   "FROM CXN_DIAS_WEB " +
-                                   "WHERE F_Prof = '" + Prof + "' " +
-                                   "AND F_Estado = 'B' " +
-                                   "ORDER BY F_Fecha DESC";
-                    SqlCommand Commando = new SqlCommand(Query, con);
-                    SqlDataReader Reader = (Commando.ExecuteReader());
-                    if (Reader.HasRows)
-                    {
-                        List<CXN_DIAS_WEB> L = new List<CXN_DIAS_WEB>();
-
-                        while (Reader.Read() == true)
-                        {
-                            L.Add(new CXN_DIAS_WEB
-                            {
-                                F_Id = Convert.ToInt32(Reader["F_Id"]),
-                                F_Fecha = Convert.ToDateTime(Reader["F_Fecha"]),
-                                F_Estado = Reader["F_Estado"].ToString(),
-                                F_Bloquea = Reader["F_Bloquea"].ToString(),
-                                F_Desbloquea = Reader["F_Desbloquea"].ToString(),
-                                R_Razon = Reader["R_Razon"].ToString()
-                            });
-                        }
-
-                        return L;
-                    }
-                    else
-                    {
-                        return null;
-                    }
-                }
-            }
-            catch
-            {
-                return null;
-            }
-        }
-
         bool IAgendaC.Grabar(CXN_DIAS_WEB dias)
         {
             try
@@ -1029,7 +931,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
         bool IAgendaC.Desbloquear(int Position, string User)
         {
             try
@@ -1064,7 +965,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
         Dictionary<string, string> IAgendaC.ConsultaDatosAutorizacionMedGen(int Paciente, DateTime FechaCita)
         {
             try
@@ -1115,7 +1015,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         string IAgendaC.consultarCitasMismoDia(int Paciente, int Bodega, DateTime Fecha)
         {
             try
@@ -1154,7 +1053,6 @@ namespace Persistence.CXN.Metodos
                 return "";
             }
         }
-
         bool IAgendaC.ConsultarNavyEnfermeria(int Paciente, int Bodega, DateTime Fecha)
         {
             try
@@ -1219,7 +1117,6 @@ namespace Persistence.CXN.Metodos
 
             return false;
         }
-
         List<string> IAgendaC.CargarRazones()
         {
             try
@@ -1260,7 +1157,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         (DateTime limite, string observa, string tiposerv, string text) IAgendaC.searchAdmition(int Admision)
         {
             try
@@ -1410,7 +1306,6 @@ namespace Persistence.CXN.Metodos
                 return ex.Message;
             }
         }
-
         string IAgendaC.CrearHistorias(int Adm, string user)
         {
             try
@@ -1505,7 +1400,6 @@ namespace Persistence.CXN.Metodos
                 return "";
             }
         }
-
         List<CXN_HORARIO> IAgendaC.CargarGrilla(string Tipo)
         {
             try
@@ -1644,7 +1538,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         List<CXN_HORARIO> IAgendaC.consultaCancelaWEB(DateTime Fecha)
         {
             try
@@ -1704,7 +1597,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         bool IAgendaC.EspacioRobado(int Cia, int Bod, string IdHora, DateTime Fecha)
         {
             try
@@ -1742,41 +1634,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
-        int IAgendaC.getOcupados(DateTime fecha, int Prof)
-        {
-            var getCon = Conexion.Conection();
-
-            using (SqlConnection con = new SqlConnection(getCon["Conexion"]))
-            {
-                con.Open();
-
-                if (con != null && con.State == ConnectionState.Closed)
-                {
-                    con.Open();
-                }
-
-                String Cargar_Agenda = "SELECT COUNT(*) AS Cantidad " +
-                                       "FROM CXN_HORARIO H " +
-                                       "INNER JOIN CXN_DISPONIBILIDAD_2 D ON H.Hor_Pac_Id_Hora = D.Ide " +
-                                       "WHERE D.Habilita = 'A' " +
-                                       "AND D.Med = '" + Prof + "' " +
-                                       "AND D.Med = H.Hor_Pac_Bod " +
-                                       "AND H.Hor_Pac_Fecha_Cita = '" + Convert.ToDateTime(fecha).ToString(Conexion.ConectionDictionary["Format_Fecha"]) + "' " +
-                                       "AND H.Hor_Estado<> 'C'";
-                SqlCommand Carga_Agenda = new SqlCommand(Cargar_Agenda, con);
-                SqlDataReader Lectura_Agenda = (Carga_Agenda.ExecuteReader());
-                if (Lectura_Agenda.Read() == true)
-                {
-                    return Convert.ToInt32(Lectura_Agenda["Cantidad"]);
-                }
-                else
-                {
-                    return 0;
-                }
-            }
-        }
-
         void IAgendaC.updateServicoFromFactura(int Admision, string CUP)
         {
             try
@@ -1807,74 +1664,6 @@ namespace Persistence.CXN.Metodos
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
-        (int Cantidad, string Clase) IAgendaC.GenerarImprentaAutomatica(int Admision)
-        {
-            try
-            {
-                Dictionary<string, string> getData = Conexion.Conection();
-
-                using (SqlConnection con = new SqlConnection(getData["Conexion"]))
-                {
-                    if (con != null && con.State == ConnectionState.Closed)
-                    {
-                        con.Open();
-                    }
-
-                    String Query = "SELECT TOP 1 Hor_Pac_Cup, Hor_CantSesion " +
-                                   "FROM CXN_HORARIO " +
-                                   "WHERE Hor_Id = '" + Admision + "'";
-                    SqlCommand Commando = new SqlCommand(Query, con);
-                    SqlDataReader Reader = (Commando.ExecuteReader());
-                    if (Reader.Read() == true)
-                    {
-                        string getCUP = repoConvenios.NameServiceCUP(Reader["Hor_Pac_Cup"].ToString());
-
-                        if (Reader["Hor_CantSesion"] != DBNull.Value && Reader["Hor_CantSesion"].ToString() != "")
-                        {
-                            if (getCUP == "CURACION COMPLEJIDAD BAJA")
-                            {
-                                return (Convert.ToInt32(Reader["Hor_CantSesion"]), "B");
-                            }
-                            else if (getCUP == "CURACION COMPLEJIDAD MEDIA")
-                            {
-                                return (Convert.ToInt32(Reader["Hor_CantSesion"]), "M");
-                            }
-                            else if (getCUP == "CURACION COMPLEJIDAD ALTA")
-                            {
-                                return (Convert.ToInt32(Reader["Hor_CantSesion"]), "A");
-                            }
-                            else if (getCUP == "CURACION DE LESION EN PIEL O TEJIDO CELULAR SUBCUTANEO SOD")
-                            {
-                                return (Convert.ToInt32(Reader["Hor_CantSesion"]), "C");
-                            }
-                            else if (getCUP == "CONSULTA DE PRIMERA VEZ POR MEDICINA GENERAL")
-                            {
-                                return (Convert.ToInt32(Reader["Hor_CantSesion"]), "C");
-                            }
-                            else
-                            {
-                                return (0, "");
-                            }
-                        }
-                        else
-                        {
-                            return (0, "");
-                        }                        
-                    }
-                    else
-                    {
-                        return (0, "");
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
-                return (0, "");
-            }
-        }
-
         string IAgendaC.UltimaAdmisionValidaVales(int Admision, int Paciente, DateTime FechaActual)
         {
             try

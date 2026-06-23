@@ -100,6 +100,7 @@
             this.toolStripButton9 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton13 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton8 = new System.Windows.Forms.ToolStripButton();
             this.CaidaTxt = new System.Windows.Forms.Label();
             this.infeccionTxt = new System.Windows.Forms.Label();
@@ -114,7 +115,7 @@
             this.label30 = new System.Windows.Forms.Label();
             this.label29 = new System.Windows.Forms.Label();
             this.pictureBox6 = new System.Windows.Forms.PictureBox();
-            this.toolStripButton13 = new System.Windows.Forms.ToolStripButton();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.panel1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -1028,6 +1029,24 @@
             this.toolStripButton2.ToolTipText = "Consultar Historias Clinicas";
             this.toolStripButton2.Click += new System.EventHandler(this.toolStripButton2_Click);
             // 
+            // toolStripButton13
+            // 
+            this.toolStripButton13.AutoSize = false;
+            this.toolStripButton13.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(85)))), ((int)(((byte)(120)))));
+            this.toolStripButton13.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.toolStripButton13.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.toolStripButton13.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton13.Image")));
+            this.toolStripButton13.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.toolStripButton13.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton13.Margin = new System.Windows.Forms.Padding(1, 1, 0, 2);
+            this.toolStripButton13.Name = "toolStripButton13";
+            this.toolStripButton13.Padding = new System.Windows.Forms.Padding(0, 0, 10, 10);
+            this.toolStripButton13.Size = new System.Drawing.Size(180, 45);
+            this.toolStripButton13.Text = "Ver IHCE";
+            this.toolStripButton13.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.toolStripButton13.ToolTipText = "Cancela esta nota de curacion y no guarda ningun dato";
+            this.toolStripButton13.Click += new System.EventHandler(this.toolStripButton13_Click);
+            // 
             // toolStripButton8
             // 
             this.toolStripButton8.AutoSize = false;
@@ -1220,23 +1239,19 @@
             this.pictureBox6.TabIndex = 333;
             this.pictureBox6.TabStop = false;
             // 
-            // toolStripButton13
+            // linkLabel1
             // 
-            this.toolStripButton13.AutoSize = false;
-            this.toolStripButton13.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(85)))), ((int)(((byte)(120)))));
-            this.toolStripButton13.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.toolStripButton13.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.toolStripButton13.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton13.Image")));
-            this.toolStripButton13.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.toolStripButton13.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton13.Margin = new System.Windows.Forms.Padding(1, 1, 0, 2);
-            this.toolStripButton13.Name = "toolStripButton13";
-            this.toolStripButton13.Padding = new System.Windows.Forms.Padding(0, 0, 10, 10);
-            this.toolStripButton13.Size = new System.Drawing.Size(180, 45);
-            this.toolStripButton13.Text = "Ver IHCE";
-            this.toolStripButton13.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.toolStripButton13.ToolTipText = "Cancela esta nota de curacion y no guarda ningun dato";
-            this.toolStripButton13.Click += new System.EventHandler(this.toolStripButton13_Click);
+            this.linkLabel1.AutoSize = true;
+            this.linkLabel1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.linkLabel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.linkLabel1.Location = new System.Drawing.Point(1092, 94);
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Size = new System.Drawing.Size(158, 20);
+            this.linkLabel1.TabIndex = 334;
+            this.linkLabel1.TabStop = true;
+            this.linkLabel1.Text = "EVENTO ADVERSO";
+            this.linkLabel1.Visible = false;
+            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
             // Historia_NotaEnfermeria
             // 
@@ -1244,6 +1259,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1282, 676);
+            this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.pictureBox6);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.label5);
@@ -1380,5 +1396,6 @@
         private System.Windows.Forms.Label label29;
         private System.Windows.Forms.PictureBox pictureBox6;
         private System.Windows.Forms.ToolStripButton toolStripButton13;
+        private System.Windows.Forms.LinkLabel linkLabel1;
     }
 }

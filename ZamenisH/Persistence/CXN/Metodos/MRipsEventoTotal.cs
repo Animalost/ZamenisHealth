@@ -36,8 +36,6 @@ namespace Persistence.CXN.Metodos
             this.RegimenFacturado = _regimen;
             REvento();
         }
-
-       
         void REvento()
         {
             dataCompany = new CXN_CIA();
@@ -57,7 +55,6 @@ namespace Persistence.CXN.Metodos
             AT();
             CT();
         }
-
         string tipoDocR2000(string Tipo)
         {
             switch (Tipo)
@@ -71,7 +68,6 @@ namespace Persistence.CXN.Metodos
 
             return Tipo;
         }
-
         private void Ap()
         {
             try
@@ -159,7 +155,6 @@ namespace Persistence.CXN.Metodos
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = "AP: -->" + ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         private void US()
         {
             try
@@ -457,7 +452,6 @@ namespace Persistence.CXN.Metodos
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = "AC: -->" + ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         private void AF()
         {
             try
@@ -586,7 +580,6 @@ namespace Persistence.CXN.Metodos
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = "AF: -->" + ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         private void AT()
         {
             try

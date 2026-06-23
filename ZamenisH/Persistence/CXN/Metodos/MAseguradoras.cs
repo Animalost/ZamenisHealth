@@ -65,7 +65,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         CXN_ASEGURADORA IAseguradoras.getInfoFromAsebyName(string Name)
         {
             try
@@ -121,7 +120,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         List<CXN_ASEGURADORA> IAseguradoras.getAseguradoras()
         {
             try
@@ -171,7 +169,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         List<string> IAseguradoras.CargarAseguradorasXServ(string TipoServ)
         {
             try
@@ -214,7 +211,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         bool IAseguradoras.updateAse(CXN_ASEGURADORA A)
         {
             try
@@ -252,7 +248,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
         bool IAseguradoras.createAse(CXN_ASEGURADORA A)
         {
             try

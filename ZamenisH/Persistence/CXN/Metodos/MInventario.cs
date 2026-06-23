@@ -72,7 +72,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         Domain.CXN.CXN_INVENTARIO IInventario.getProductbyCode(string Code)
         {
             try
@@ -89,6 +88,7 @@ namespace Persistence.CXN.Metodos
                                    "FROM CXN_INVENTARIO " +
                                    "WHERE InvCod = '" + Code + "' " +
                                    "AND InvConvenio = '88'";
+
                     SqlCommand Commando = new SqlCommand(Query, con);
                     SqlDataReader Reader = (Commando.ExecuteReader());
                     if (Reader.Read() == true)
@@ -114,7 +114,58 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
+        Domain.CXN.CXN_INVENTARIO IInventario.getProductbyId(int Pos)
+        {
+            try
+            {
+                var dataConection = Conexion.Conection();
+                using (SqlConnection con = new SqlConnection(dataConection["Conexion"]))
+                {
+                    if (con != null && con.State == ConnectionState.Closed)
+                    {
+                        con.Open();
+                    }
 
+                    String Query = "SELECT * " +
+                                   "FROM CXN_INVENTARIO " +
+                                   "WHERE InvId = @param1";
+
+                    using (SqlCommand Commando = new SqlCommand(Query, con))
+                    {
+                        Commando.Parameters.AddWithValue("@param1", Pos);
+
+                        using (SqlDataReader Reader = (Commando.ExecuteReader()))
+                        {
+                            if (Reader.Read() == true)
+                            {
+                                Domain.CXN.CXN_INVENTARIO V = new Domain.CXN.CXN_INVENTARIO
+                                {
+                                    InvCod = Reader["InvCod"].ToString(),
+                                    InvItem = Reader["InvItem"].ToString(),
+                                    InvPrecio = Convert.ToInt32(Reader["InvPrecio"]),
+                                    InvCobro = Reader["InvCobro"].ToString(),
+                                    InvConvenio = Convert.ToInt32(Reader["InvConvenio"]),
+                                    InvDetalle = Reader["InvDetalle"].ToString(),
+                                    InvInvima = Reader["InvInvima"].ToString(),
+                                    InvTipo = Reader["InvTipo"].ToString(),
+                                };
+
+                                return V;
+                            }
+                            else
+                            {
+                                return null;
+                            }
+                        }
+                    }                                           
+                }
+            }
+            catch (Exception ex)
+            {
+                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
+                return null;
+            }
+        }
         (int valor, string item, string detalle) IInventario.ConsultarValor(int Ase, string Cod)
         {
             try
@@ -129,28 +180,36 @@ namespace Persistence.CXN.Metodos
                     }
                     String Query = "SELECT InvPrecio, InvItem, InvDetalle " +
                                    "FROM CXN_INVENTARIO " +
-                                   "WHERE InvCod = '" + Cod + "' " +
-                                   "AND InvConvenio = '" + Ase + "'";
-                    SqlCommand Commando = new SqlCommand(Query, con);
-                    SqlDataReader Reader = (Commando.ExecuteReader());
-                    if (Reader.Read() == true)
+                                   "WHERE InvCod = @param1 " +
+                                   "AND InvConvenio = @param2";
+
+                    using (SqlCommand Commando = new SqlCommand(Query, con))
                     {
-                        return (Convert.ToInt32(Reader["InvPrecio"]),
-                                Reader["InvItem"].ToString(),
-                                Reader["InvDetalle"].ToString());
-                    }
-                    else
-                    {
-                        return (0, "", "");
-                    }
+                        Commando.Parameters.AddWithValue("@param1", Cod);
+                        Commando.Parameters.AddWithValue("@param2", Ase);
+
+                        using (SqlDataReader Reader = (Commando.ExecuteReader()))
+                        {
+                            if (Reader.Read() == true)
+                            {
+                                return (Convert.ToInt32(Reader["InvPrecio"]),
+                                        Reader["InvItem"].ToString(),
+                                        Reader["InvDetalle"].ToString());
+                            }
+                            else
+                            {
+                                return (0, "", "");
+                            }
+                        }
+                    }                                           
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 return (0, "", "");
             }
         }
-
         CXN_INVENTARIO IInventario.ConsultarValor2(string Item, int Ase)
         {
             try
@@ -193,7 +252,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         List<Domain.CXN.CXN_INVENTARIO> IInventario.getAllElements(int Convenio, string Dato)
         {
             try
@@ -242,7 +300,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         string IInventario.listaPrecios(int Convenio)
         {
             try
@@ -289,7 +346,6 @@ namespace Persistence.CXN.Metodos
                 return ex.Message;
             }
         }
-
         bool IInventario.CrearProducto(Domain.CXN.CXN_INVENTARIO I)
         {
             try
@@ -304,15 +360,15 @@ namespace Persistence.CXN.Metodos
                     }
 
                     SqlCommand cmd = new SqlCommand(@"Insert into CXN_INVENTARIO (InvItem, " + //param1
-                                                              "InvCod, " + //param2
-                                                              "InvTipo, " + //param3
-                                                              "InvCobro, " + //param4
-                                                              "InvInvima, " + //param5
-                                                              "InvUsrGraba, " + //param6
-                                                              "InvPrecio, " + //param7
-                                                              "InvDetalle, " + //param8
-                                                              "InvConvenio, " + //param9
-                                                              "InvFechaCre, " +
+                                                               "InvCod, " + //param2
+                                                               "InvTipo, " + //param3
+                                                               "InvCobro, " + //param4
+                                                               "InvInvima, " + //param5
+                                                               "InvUsrGraba, " + //param6
+                                                               "InvPrecio, " + //param7
+                                                               "InvDetalle, " + //param8
+                                                               "InvConvenio, " + //param9
+                                                               "InvFechaCre, " +
                                                               "InvCodBar) " + //param16
                                      "values                  (@param1, " + // Hor_Estado
                                                               "@param2, " + // Hor_Pac_Id
@@ -337,9 +393,7 @@ namespace Persistence.CXN.Metodos
                     cmd.Parameters.AddWithValue("@param9", I.InvConvenio);
                     cmd.Parameters.Add(new SqlParameter("@param11", SqlDbType.DateTime)).Value = I.InvFechaCre;
                     cmd.Parameters.AddWithValue("@param12", I.InvCodBar);
-                    cmd.ExecuteNonQuery();
-
-                    return true;
+                    return cmd.ExecuteNonQuery() > 0 ? true : false;
                 }
             }
             catch (Exception ex)
@@ -348,7 +402,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
         List<Domain.CXN.CXN_INVENTARIO> IInventario.getAllProducts()
         {
             try
@@ -398,7 +451,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         List<Domain.CXN.CXN_INVENTARIO> IInventario.getAllProducts(int Aseguradora)
         {
             try
@@ -412,7 +464,7 @@ namespace Persistence.CXN.Metodos
                         con.Open();
                     }
 
-                    String Cargar_Hora = "SELECT InvId, InvItem, InvCod, InvPrecio, InvTipo, InvDetalle " +
+                    String Cargar_Hora = "SELECT * " +
                                          "FROM CXN_INVENTARIO " +
                                          "WHERE InvConvenio = @Aseguradora " +
                                          "ORDER BY InvItem ASC";
@@ -436,7 +488,11 @@ namespace Persistence.CXN.Metodos
                                         InvItem = Lectura_Hora["InvItem"].ToString(),
                                         InvPrecio = Convert.ToInt32(Lectura_Hora["InvPrecio"]),
                                         InvTipo = Lectura_Hora["InvTipo"].ToString(),
-                                        InvDetalle = Lectura_Hora["InvDetalle"].ToString()
+                                        InvDetalle = Lectura_Hora["InvDetalle"].ToString(),
+                                        InvCobro = Lectura_Hora["InvCobro"].ToString(),
+                                        InvConvenio = Convert.ToInt32(Lectura_Hora["InvConvenio"]),
+                                        InvUsrGraba = Lectura_Hora["InvUsrGraba"].ToString(),
+                                        InvInvima = Lectura_Hora["InvInvima"].ToString(),
                                     });
                                 }
 
@@ -456,7 +512,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         bool IInventario.updateProducto(Domain.CXN.CXN_INVENTARIO I)
         {
             try
@@ -471,20 +526,30 @@ namespace Persistence.CXN.Metodos
                     }
 
                     string Busqueda = "UPDATE CXN_INVENTARIO " +
-                                      "SET InvItem = '" + I.InvItem + "', " +
-                                      "InvDetalle = '" + I.InvDetalle + "', " +
-                                      "InvInvima = '" + I.InvInvima + "', " +
-                                      "InvPrecio = '" + I.InvPrecio + "', " +
-                                      "InvTipo = '" + I.InvTipo + "', " +
-                                      "InvUsrGraba = '" + I.InvUsrGraba + "', " +
-                                      "InvCobro = '" + I.InvCobro + "', " +
-                                      "InvCodBar = '" + I.InvCodBar + "' " +
-                                      "WHERE InvId = '" + I.InvId + "'";
-                    SqlCommand Accion = new SqlCommand(Busqueda, con);
-                    int Guarda;
-                    Guarda = Accion.ExecuteNonQuery();
+                                      "SET InvItem = @param1, " +
+                                      "InvDetalle = @param2, " +
+                                      "InvInvima = @param3, " +
+                                      "InvPrecio = @param4, " +
+                                      "InvTipo = @param5, " +
+                                      "InvUsrGraba = @param6, " +
+                                      "InvCobro = @param7, " +
+                                      "InvCodBar = @param8 " +
+                                      "WHERE InvId = @param9";
 
-                    return true;
+                    using (SqlCommand Accion = new SqlCommand(Busqueda, con))
+                    {
+                        Accion.Parameters.AddWithValue("@param1", I.InvItem);
+                        Accion.Parameters.AddWithValue("@param2", I.InvDetalle);
+                        Accion.Parameters.AddWithValue("@param3", I.InvInvima);
+                        Accion.Parameters.AddWithValue("@param4", I.InvPrecio);
+                        Accion.Parameters.AddWithValue("@param5", I.InvTipo);
+                        Accion.Parameters.AddWithValue("@param6", I.InvUsrGraba);
+                        Accion.Parameters.AddWithValue("@param7", I.InvCobro);
+                        Accion.Parameters.AddWithValue("@param8", I.InvCodBar);
+                        Accion.Parameters.AddWithValue("@param9", I.InvId);
+
+                        return Accion.ExecuteNonQuery() > 0 ? true : false;
+                    }
                 }
             }
             catch (Exception ex)
@@ -493,54 +558,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
-        Domain.CXN.CXN_INVENTARIO IInventario.getProductForEdit(int Pos)
-        {
-            try
-            {
-                var dataConection = Conexion.Conection();
-                using (SqlConnection con = new SqlConnection(dataConection["Conexion"]))
-                {
-                    if (con != null && con.State == ConnectionState.Closed)
-                    {
-                        con.Open();
-                    }
-
-                    String Query = "SELECT I.InvItem, I.InvDetalle, I.InvInvima, I.InvPrecio, I.InvCodBar, I.InvCobro, I.InvTipo, A.Ase_Descripcion " +
-                                   "FROM CXN_INVENTARIO I " +
-                                   "INNER JOIN CXN_ASEGURADORA A ON I.InvConvenio = A.Ase_Identificador " +
-                                   "WHERE I.InvId = '" + Pos + "'";
-                    SqlCommand Commando = new SqlCommand(Query, con);
-                    SqlDataReader Reader = (Commando.ExecuteReader());
-                    if (Reader.Read() == true)
-                    {
-                        Domain.CXN.CXN_INVENTARIO V = new Domain.CXN.CXN_INVENTARIO
-                        {
-                            InvItem = Reader["InvItem"].ToString(),
-                            InvDetalle = Reader["InvDetalle"].ToString(),
-                            InvInvima = Reader["InvInvima"].ToString(),
-                            InvPrecio = Convert.ToInt32(Reader["InvPrecio"]),
-                            InvCobro = Reader["InvCobro"].ToString(),
-                            InvTipo = Reader["InvTipo"].ToString(),
-                            InvCod = Reader["Ase_Descripcion"].ToString(),
-                            InvCodBar = Reader["InvCodBar"].ToString()
-                        };
-
-                        return V;
-                    }
-                    else
-                    {
-                        return null;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
-                return null;
-            }
-        }
-
         List<Domain.CXN.CXN_INVENTARIO> IInventario.getAllProductsByType(int Aseguradora, string Tipo)
         {
             try

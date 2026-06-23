@@ -1,14 +1,12 @@
 ﻿using Domain;
 using Domain.CXN;
-
 using Persistence;
 using Persistence.CXN.Interfaces;
 using Persistence.CXN.Metodos;
-
 using System;
 using System.Windows.Forms;
-
 using ZamenisHealth.AdminSystem;
+using ZamenisHealth.AdminSystem.Profesionales;
 using ZamenisHealth.Comunes.Extras;
 using ZamenisHealth.PagosApp;
 
@@ -25,7 +23,7 @@ namespace ZamenisHealth.Comunes.ConfigContenedor
         }
         private void pictureBox38_Click(object sender, EventArgs e)
         {
-            AdminSystem.Compañias A = new AdminSystem.Compañias();
+            AdminSystem.Prestadores.Prestador A = new AdminSystem.Prestadores.Prestador();
             A.ShowDialog();
         }
 
@@ -67,7 +65,7 @@ namespace ZamenisHealth.Comunes.ConfigContenedor
 
         private void pictureBox45_Click(object sender, EventArgs e)
         {
-            Bodegas f = new Bodegas();
+            UsuariosSistema f = new UsuariosSistema();
             f.ShowDialog();
         }
 

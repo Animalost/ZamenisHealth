@@ -1,15 +1,20 @@
 ﻿using Domain;
 using Domain.CXN;
+
 using FormAndControls;
+
 using Persistence;
 using Persistence.CXN.Interfaces;
 using Persistence.CXN.Metodos;
+
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+
 using ZamenisHealth.Comunes;
+using ZamenisHealth.Recepcion.AgendaDiaria;
 
 namespace ZamenisHealth.Recepcion.Extras
 {
@@ -222,34 +227,31 @@ namespace ZamenisHealth.Recepcion.Extras
                 MensajesGeneral MG = new MensajesGeneral();
 
                 string Admision = listView1.SelectedItems[0].SubItems[0].Text;
-                string _consEstadoAdmision = "";
+                otrosDatosPacienteHorario dataCita = repositorioFechasAgendaa.cargarAdmision(Convert.ToInt32(Admision), "'A','P','H'");
+                if (dataCita == null)
+                {
+                    MG.TipoImagen = 1000;
+                    MG.Mensaje = "No hay datos pasra esta admision";
+                    MG.ShowDialog();
+                    return;
+                }
 
+                string _consEstadoAdmision = dataCita.Hor_Estado;
                 
-                    _consEstadoAdmision = repositorioHorario.consularAdmisionEstado(Convert.ToInt32(Admision));
-                
-
                 if (_consEstadoAdmision != "0")
                 {
                     if (_consEstadoAdmision == "A")
                     {
-                        CXN_CIA getCompany = new CXN_CIA();
-
-                        
-                            getCompany = repositorioCompañia.getPrestadorbyName(listView1.SelectedItems[0].SubItems[5].Text);
-                        
+                        CXN_CIA getCompany =  repositorioCompañia.getPrestadorbyName(listView1.SelectedItems[0].SubItems[5].Text);
 
                         if (getCompany != null)
                         {
-                            CXN_BODEGAS getBodega = new CXN_BODEGAS();
-
+                            CXN_BODEGAS getBodega = repositorioBodegas.getDatosName(listView1.SelectedItems[0].SubItems[3].Text);
                             
-                                getBodega = repositorioBodegas.getDatosName(listView1.SelectedItems[0].SubItems[3].Text);
-                            
-
                             if (getBodega != null)
                             {
-                                ConsultaAdmision f = new ConsultaAdmision(Admision);
-                                f.ShowDialog();
+                                MenuOpcionesAgenda menuOpcionesAgenda = new MenuOpcionesAgenda(Admision.ToString(), dataCita.Hor_Pac_Id_Hora, dataCita.Hor_Pac_Cia, dataCita.Hor_Pac_Hora_Cita.ToString(), dataCita.Hor_Pac_Bod);
+                                menuOpcionesAgenda.ShowDialog();
                             }
                             else
                             {
@@ -278,9 +280,8 @@ namespace ZamenisHealth.Recepcion.Extras
                         f.ShowDialog();
                     }
 
-                    Agenda f1 = Application.OpenForms.OfType<Agenda>().SingleOrDefault();
-
-                    f1.RechargeTrueCheck();
+                    Agendamiento f1 = Application.OpenForms.OfType<Agendamiento>().FirstOrDefault();
+                    f1.EventoInicial();
 
                     Buscar_X_Docs();
                 }

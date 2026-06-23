@@ -6,14 +6,17 @@ using FormAndControls;
 using Persistence;
 using Persistence.CXN.Interfaces;
 using Persistence.CXN.Metodos;
+
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
+
 using ZamenisHealth.Clases;
 using ZamenisHealth.Comunes;
+using ZamenisHealth.Recepcion.AgendaDiaria;
 
 namespace ZamenisHealth.Recepcion.Extras
 {
@@ -138,9 +141,8 @@ namespace ZamenisHealth.Recepcion.Extras
                     {
                         MessageBox.Show("Reasignado con exito", "Hecho", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
-                        Agenda f7 = Application.OpenForms.OfType<Agenda>().SingleOrDefault();
-
-                        f7.RechargeTrueCheck();
+                        Agendamiento f7 = Application.OpenForms.OfType<Agendamiento>().FirstOrDefault();
+                        f7.EventoInicial();
 
                         this.Dispose();
                         this.Close();

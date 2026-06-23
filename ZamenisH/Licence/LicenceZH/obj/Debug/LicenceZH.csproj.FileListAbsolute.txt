@@ -79,11 +79,6 @@ J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Licence\Licen
 J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Licence\LicenceZH\bin\Debug\System.Threading.Tasks.Extensions.dll
 J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Licence\LicenceZH\bin\Debug\ZstdSharp.dll
 J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Licence\LicenceZH\bin\Debug\zxing.dll
-J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Licence\LicenceZH\bin\Debug\itextsharp.dll
-J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Licence\LicenceZH\bin\Debug\IronPython.dll
-J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Licence\LicenceZH\bin\Debug\Microsoft.Scripting.dll
-J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Licence\LicenceZH\bin\Debug\Microsoft.Dynamic.dll
-J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Licence\LicenceZH\bin\Debug\Microsoft.Scripting.Metadata.dll
 J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Licence\LicenceZH\bin\Debug\Domain.pdb
 J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Licence\LicenceZH\bin\Debug\Domain.dll.config
 J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Licence\LicenceZH\bin\Debug\Persistence.pdb
@@ -107,11 +102,6 @@ J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Licence\Licen
 J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Licence\LicenceZH\bin\Debug\System.Text.Json.xml
 J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Licence\LicenceZH\bin\Debug\System.Threading.Tasks.Extensions.xml
 J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Licence\LicenceZH\bin\Debug\zxing.xml
-J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Licence\LicenceZH\bin\Debug\itextsharp.xml
-J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Licence\LicenceZH\bin\Debug\IronPython.xml
-J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Licence\LicenceZH\bin\Debug\Microsoft.Scripting.xml
-J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Licence\LicenceZH\bin\Debug\Microsoft.Dynamic.xml
-J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Licence\LicenceZH\bin\Debug\Microsoft.Scripting.Metadata.xml
 J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Licence\LicenceZH\obj\Debug\LicenceZH.csproj.AssemblyReference.cache
 J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Licence\LicenceZH\obj\Debug\LicenceZH.csproj.CoreCompileInputs.cache
 J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\Licence\LicenceZH\obj\Debug\LicenceZH.csproj.Up2Date

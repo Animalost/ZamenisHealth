@@ -63,7 +63,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         CXN_CONVENIOS IConvenios.DatosServicioXNameAse(int Ase, string Name)
         {
             try
@@ -102,7 +101,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         List<string> IConvenios.CargarServiciosxASE(int Ase)
         {
             try
@@ -151,7 +149,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         string IConvenios.NameServiceCUP(string Name)
         {
             try
@@ -185,7 +182,6 @@ namespace Persistence.CXN.Metodos
                 return "NO REGISTRA SERVICIO";
             }
         }
-
         CXN_CONVENIOS IConvenios.ServicioCUP(string Nombre, int Ase)
         {
             try
@@ -235,7 +231,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         List<string> IConvenios.CargarServicios(string TipoMed, int Ase)
         {
             try
@@ -276,50 +271,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
-        List<string> IConvenios.CargarServicios()
-        {
-            try
-            {
-                var dataConection = Conexion.Conection();
-
-                using (SqlConnection con = new SqlConnection(dataConection["Conexion"]))
-                {
-                    if (con != null && con.State == ConnectionState.Closed)
-                    {
-                        con.Open();
-                    }
-
-                    String Query = "SELECT DISTINCT Con_Nombre, Con_Id_Serv + ' - ' + Con_Nombre AS SERV " +
-                                   "FROM CXN_CONVENIOS " +
-                                   "GROUP BY Con_Id_Serv, Con_Nombre " +
-                                   "ORDER BY Con_Nombre ASC";
-                    SqlCommand Commando = new SqlCommand(Query, con);
-                    SqlDataReader Reader = (Commando.ExecuteReader());
-                    if (Reader.HasRows)
-                    {
-                        List<string> L = new List<string>();
-
-                        while (Reader.Read() == true)
-                        {
-                            L.Add(Reader["Serv"].ToString());
-                        }
-
-                        return L;
-                    }
-                    else
-                    {
-                        return null;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
-                return null;
-            }
-        }
-
         List<CXN_CONVENIOS> IConvenios.getConvenios()
         {
             try
@@ -431,7 +382,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         CXN_CONVENIOS IConvenios.getConvenio(int Posision)
         {
             try
@@ -482,7 +432,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         bool IConvenios.updateConvenio(CXN_CONVENIOS C)
         {
             try
@@ -516,7 +465,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
         bool IConvenios.createConvenio(CXN_CONVENIOS C)
         {
             try
@@ -566,7 +514,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
         List<CXN_CONVENIOS> IConvenios.getServicesXAseServ(int Ase, string Serv)
         {
             try
@@ -614,7 +561,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         List<string> IConvenios.CargarCUPS(int Posision)
         {
             try

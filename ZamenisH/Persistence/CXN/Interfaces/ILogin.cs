@@ -13,7 +13,7 @@ namespace Persistence.CXN.Interfaces
         bool ActualizarFuncionario(CXN_LOGIN L);
         bool Graba_Funcionario(CXN_LOGIN L);
         bool resetClave(string User);
-        List<string> getUsersforSendMessage();
+        List<CXN_LOGIN> getUsersforSendMessage();
         void saveAvatar(byte[] _avatar, string user);
         byte[] getAvatar(string User);
         bool AcceptTyC(string User);

@@ -8,7 +8,6 @@ using System.Data.SqlClient;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace Persistence.CXN.Metodos
@@ -17,43 +16,7 @@ namespace Persistence.CXN.Metodos
     {
         private static readonly IGenerales repositorioGenerales = new MGenerales();
         private static readonly IFacturacion repositorioFacturacion = new MFacturacion();
-        private static readonly IPacientes repositorioPacientes = new MPacientes();
 
-        void IRcCaja.anularRcCaja(int Admision)
-        {
-            try
-            {
-                var getCon = Conexion.Conection();
-
-                using (SqlConnection con = new SqlConnection(getCon["Conexion"]))
-                {
-                    if (con != null && con.State == ConnectionState.Closed)
-                    {
-                        con.Open();
-                    }
-
-                    string Busqueda2 = @"
-                                        DELETE FROM CXN_RC_CAJA 
-                                        WHERE Rc_Id IN ( 
-                                            SELECT TOP 1 Rc_Id 
-                                            FROM CXN_RC_CAJA 
-                                            WHERE Rc_Caja_Adm = @param1 
-                                            AND Hor_DocFEModerador IS NULL 
-                                            ORDER BY Rc_Id DESC 
-                                        )";
-
-                    SqlCommand Accion2 = new SqlCommand(Busqueda2, con);
-                    Accion2.Parameters.AddWithValue("@param1", Admision);
-                    Accion2.ExecuteNonQuery();
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }            
-        }
-
-        //HOMOLOGO
         List<RCCAJA> IRcCaja.ReciboRpt(string Admition)
         {
             try
@@ -184,7 +147,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         int IRcCaja.getLastAdmition(int Admision)
         {
             try
@@ -423,7 +385,6 @@ namespace Persistence.CXN.Metodos
                 return 0;
             }
         }
-
         List<CXN_RC_CAJA> IRcCaja.RCCAJAS(string TID, string ID)
         {
             try
@@ -474,40 +435,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
-        bool IRcCaja.updateReciboHorario(int valor, int admision, string conRecaudo, string DocFE, string FPago) 
-        {
-            try
-            {
-                var getCon = Conexion.Conection();
-
-                using (SqlConnection con = new SqlConnection(getCon["Conexion"]))
-                {
-                    if (con != null && con.State == ConnectionState.Closed)
-                    {
-                        con.Open();
-                    }
-
-                    string Busqueda = "UPDATE CXN_HORARIO " +
-                                      "SET Hor_RcCaja = '" + valor + "', " +
-                                      "Hor_ConceptoRecaudo = '" + conRecaudo + "', " +
-                                      "Hor_DocFEModerador = '" + DocFE + "', " +
-                                      "FormaPago = '" + FPago + "' " +
-                                      "WHERE Hor_Id = '" + admision + "'";
-                    SqlCommand Accion = new SqlCommand(Busqueda, con);
-                    int Guarda;
-                    Guarda = Accion.ExecuteNonQuery();
-
-                    return true;
-                }
-            }
-            catch (Exception ex)
-            {
-                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
-                return false;
-            }
-        }
-
         (int Valor, string Concepto) IRcCaja.getValRcCaja(int Admision)
         {
             try
@@ -550,7 +477,6 @@ namespace Persistence.CXN.Metodos
                 return (0, null);
             }
         }
-
         bool IRcCaja.EsConsulta(int Admision, string TipoServicio)
         {
             try
@@ -587,92 +513,6 @@ namespace Persistence.CXN.Metodos
                 Console.WriteLine(ex.Message);
                 return false;
             }
-        }
-
-        List<CXN_PACIENTES> IRcCaja.getRecibosFE(DateTime Fecha, int Cia)
-        {
-            try
-            {
-                List<CXN_PACIENTES> P = new List<CXN_PACIENTES>();
-                var getCon = Conexion.Conection();
-
-                using (SqlConnection con = new SqlConnection(getCon["Conexion"]))
-                {
-                    if (con != null && con.State == ConnectionState.Closed)
-                    {
-                        con.Open();
-                    }
-
-                    String Cargar_Hora2 = "SELECT H.Hor_Id, H.Hor_RcCaja, P.Pac_Telefono, P.Pac_Email, H.Hor_Pac_Cia " +
-                                          "FROM CXN_HORARIO H " +
-                                          "INNER JOIN CXN_PACIENTES P ON H.Hor_Pac_Id = P.Pac_Id " +
-                                          "WHERE H.Hor_Pac_Fecha_Cita = @param1 " +
-                                          "AND H.Hor_RcCaja >= '1' " +
-                                          "AND H.Hor_Estado = 'H' " +
-                                          "AND H.Hor_Pac_Cia = @param2";
-                    using (SqlCommand Carga_Command2 = new SqlCommand(Cargar_Hora2, con))
-                    {
-                        Carga_Command2.Parameters.Add(new SqlParameter("@param1", SqlDbType.DateTime)).Value = Convert.ToDateTime(Fecha.Date);
-                        Carga_Command2.Parameters.AddWithValue("@param2", Cia);
-
-                        using (SqlDataReader Lectura_Hora2 = (Carga_Command2.ExecuteReader()))
-                        {
-                            if (Lectura_Hora2.HasRows)
-                            {
-                                while (Lectura_Hora2.Read() == true)
-                                {
-                                    string Tel = "";
-                                    string Email = "";
-
-                                    if (Lectura_Hora2["Hor_RcCaja"] != DBNull.Value)
-                                    {
-                                        if (ValidarNumeros(Lectura_Hora2["Hor_RcCaja"].ToString()) == true)
-                                        {
-                                            if (repositorioPacientes.ValidaCelular(Lectura_Hora2["Pac_Telefono"].ToString()) == true)
-                                            {
-                                                Tel = Lectura_Hora2["Pac_Telefono"].ToString();
-                                            }
-
-                                            if (repositorioPacientes.ValidaEmail(Lectura_Hora2["Pac_Email"].ToString()) == true)
-                                            {
-                                                Email = Lectura_Hora2["Pac_Email"].ToString();
-                                            }
-
-                                            P.Add(new CXN_PACIENTES
-                                            {
-                                                Pac_Telefono = Tel,
-                                                Pac_Email = Email,
-                                                Pac_Id = Convert.ToInt32(Lectura_Hora2["Hor_Id"]) //hor id
-                                            });
-                                        }
-                                    }
-                                }
-
-                                return P;
-                            }
-                            else
-                            {
-                                return null;
-                            }
-                        }
-                    }                                           
-                }
-            }
-            catch (Exception ex)
-            {
-                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
-                return null;
-            }
-        }
-
-        static bool ValidarNumeros(string Cadena)
-        {
-            if (!Regex.IsMatch(Cadena, "^[0-9]+$"))
-            {
-                return false;
-            }
-
-            return true;
         }
     }
 }

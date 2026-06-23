@@ -321,14 +321,7 @@ namespace Persistence.CXN.Metodos
             }
         }
 
-        
-        
-        
-        
-        
-        
         #region MINSALUD DOCKER
-
         //GRUPAL MINSALUD
         TransaccionDocker IRIPSJSON.GenrateTotalMinSalud(int ciaRIPS, string fac, string xmlB64)
         {
@@ -377,7 +370,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         private Usuario ObtenerDatosPaciente(SqlConnection con, int idPaciente)
         {
             string query = "SELECT Pac_Mun_Cod, Pac_PaisOrigen, Pac_Sexo, Pac_Zona, Pac_FechaNto, Pac_IdNum, Pac_TipoId, Pac_Regimen, Pac_Dep_Cod FROM CXN_PACIENTES WHERE Pac_Id = @id_pac";
@@ -628,17 +620,7 @@ namespace Persistence.CXN.Metodos
 
             return otrosServicios;
         }
-
         #endregion
-
-
-
-
-
-
-
-
-
 
         //GRUPAL
         Dictionary<string, Transaccion> IRIPSJSON.GenrateTotal(RIPS_Class R)
@@ -1081,6 +1063,5 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
     }
 }

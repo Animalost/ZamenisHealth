@@ -9,7 +9,6 @@ namespace Persistence.Informes.Interfaces
     {
         List<CXN_HORARIO> getCitasAsistidas(int Pac, string Tipo);
         string getClase(int Admision);
-        string getClaseCU(int Admision);
         void updateTable(string Table, string Tipe, int Adm);
         List<ExportInExcel> RptRecPaciente(DateTime Desde, DateTime Hasta, string tipoReporte);
     }

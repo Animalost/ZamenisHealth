@@ -84,6 +84,8 @@ namespace ZamenisHealth.Comunes
                 //this.ImageClose.Visible = false;
                 this.ImageMinimize.Visible = false;
 
+                gridZH1.dataGridView1.CellClick += dataGridView1_CellClick;
+                gridZH1.CeldaHeight = true;
                 LogoMain.Image = Properties.Resources.Splash;
 
                 ToolStripButton btnEnviar = new ToolStripButton();
@@ -116,18 +118,18 @@ namespace ZamenisHealth.Comunes
                     }
 
                     Contador = 1;
-                    Estilos(dataGridView1, dt);
+                    Estilos(gridZH1.dataGridView1, dt);
                 }
 
                 if (persona != "")
                 {
-                    foreach (DataGridViewRow fila in dataGridView1.Rows)
+                    foreach (DataGridViewRow fila in gridZH1.dataGridView1.Rows)
                     {
                         if (fila.Cells["Persona"].Value != null &&
                             fila.Cells["Persona"].Value.ToString().Contains(persona))
                         {
                             fila.Selected = true;
-                            dataGridView1.FirstDisplayedScrollingRowIndex = fila.Index; // Para hacer scroll hasta ahí
+                            gridZH1.dataGridView1.FirstDisplayedScrollingRowIndex = fila.Index; // Para hacer scroll hasta ahí
                      
                             personaUser = fila.Cells["Usuario"].Value.ToString();
 
@@ -147,46 +149,13 @@ namespace ZamenisHealth.Comunes
         }
         void Estilos(DataGridView D, DataTable t)
         {
-            D.EnableHeadersVisualStyles = false;
-            D.ScrollBars = ScrollBars.Both;
-
             D.DataSource = t;
-
-            D.Columns["Usuario"].Width = 200;
-            D.Columns["Persona"].Width = 470;
-
-            D.ColumnHeadersDefaultCellStyle.Font = new Font(D.Font, FontStyle.Bold);
-            D.ColumnHeadersDefaultCellStyle.Font = new Font("Arial", 8, FontStyle.Bold);
-            D.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#bfdbff");
-            D.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
-            D.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
-
-            D.Columns["Usuario"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            D.Columns["Persona"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
-            D.Columns["Usuario"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            D.Columns["Persona"].SortMode = DataGridViewColumnSortMode.NotSortable;
-
             D.Columns["POS"].Visible = false;
-
-            foreach (DataGridViewRow row in D.Rows)
-            {
-                int Numero = Convert.ToInt32(row.Cells["POS"].Value.ToString());
-
-                if ((Numero % 2) == 0)
-                {
-                    row.DefaultCellStyle.BackColor = Color.Aquamarine;
-                }
-                else
-                {
-                    row.DefaultCellStyle.BackColor = Color.MediumAquamarine;
-                }
-            }
-
             D.ClearSelection();
         }
         void Encabezados()
         {
+            gridZH1.dataGridView1.DataSource = null;
             dt = new DataTable();
             POS = dt.Columns.Add("POS", typeof(int));
             Usuario = dt.Columns.Add("Usuario", typeof(string));
@@ -281,9 +250,16 @@ namespace ZamenisHealth.Comunes
         }
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            persona = dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString();
-            personaUser = dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString();
-            CargarMensajes();
+            try
+            {
+                persona = gridZH1.dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString();
+                personaUser = gridZH1.dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString();
+                CargarMensajes();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }            
         }
         private void MensajeroSend_FormClosing(object sender, FormClosingEventArgs e)
         {

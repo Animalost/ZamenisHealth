@@ -73,7 +73,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         CXN_HCJUNTAS IJuntas.getJuntaCompleta(int Admision)
         {
             try
@@ -148,7 +147,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         void IJuntas.Firmar(int admision, string Med)
         {
             Dictionary<string,string> getData = Conexion.Conection();
@@ -175,7 +173,6 @@ namespace Persistence.CXN.Metodos
                 Busqueda.ExecuteNonQuery();
             }
         }
-
         bool IJuntas.InsertarJunta(CXN_HCJUNTAS H)
         {
             try
@@ -289,7 +286,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
         List<CXN_HCJUNTAS> IJuntas.getJuntasForComplete(string TID, string NID, bool Informe)
         {
             try
@@ -369,68 +365,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
-        Dictionary<string, string> IJuntas.getObservations(int Admision)
-        {
-            try
-            {
-                Dictionary<string,string> getData = Conexion.Conection();
-
-                using (SqlConnection con = new SqlConnection(getData["Conexion"]))
-                {
-                    if (con != null && con.State == ConnectionState.Closed)
-                    {
-                        con.Open();
-                    }
-                    String Query = "SELECT Jun_Observa_TO, Jun_Observa_PS, Jun_Egresa, Jun_Observa, Jun_Tipo, " +
-                                   "Jun_DX_FI, Jun_DX_TO, Jun_DX_PS, Jun_DX_TF, " +
-                                   "Jun_Pro_TO, Jun_Pro_PS, Jun_Pro_TF, " +
-                                   "Jun_Con_FI, Jun_Con_TO, Jun_Con_PS, Jun_Con_TF " +
-                                   "FROM CXN_HCJUNTAS " +
-                                   "WHERE Jun_Adm = '" + Admision + "'";
-
-                    using (SqlCommand Commando = new SqlCommand(Query, con))
-                    {
-                        using (SqlDataReader Reader = (Commando.ExecuteReader()))
-                        {
-                            if (Reader.Read() == true)
-                            {
-                                Dictionary<string, string> D = new Dictionary<string, string>();
-                                D.Add("Jun_Observa_TO", Reader["Jun_Observa_TO"].ToString());
-                                D.Add("Jun_Observa_PS", Reader["Jun_Observa_PS"].ToString());
-                                D.Add("Jun_Egresa", Reader["Jun_Egresa"].ToString());
-                                D.Add("Jun_Observa", Reader["Jun_Observa"].ToString());
-
-                                D.Add("Jun_DX_FI", Reader["Jun_DX_FI"].ToString());
-                                D.Add("Jun_DX_TO", Reader["Jun_DX_TO"].ToString());
-                                D.Add("Jun_DX_TF", Reader["Jun_DX_TF"].ToString());
-                                D.Add("Jun_DX_PS", Reader["Jun_DX_PS"].ToString());
-                                D.Add("Jun_Pro_TO", Reader["Jun_Pro_TO"].ToString());
-                                D.Add("Jun_Pro_TF", Reader["Jun_Pro_TF"].ToString());
-                                D.Add("Jun_Pro_PS", Reader["Jun_Pro_PS"].ToString());
-                                D.Add("Jun_Con_FI", Reader["Jun_Con_FI"].ToString());
-                                D.Add("Jun_Con_TO", Reader["Jun_Con_TO"].ToString());
-                                D.Add("Jun_Con_TF", Reader["Jun_Con_TF"].ToString());
-                                D.Add("Jun_Con_PS", Reader["Jun_Con_PS"].ToString());
-
-                                D.Add("Jun_Tipo", Reader["Jun_Tipo"].ToString());
-                                return D;
-                            }
-                            else
-                            {
-                                return null;
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
-                return null;
-            }
-        }
-
         bool IJuntas.UpdateObservations(CXN_HCJUNTAS H)
         {
             try
@@ -503,7 +437,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
         bool IJuntas.UpdateEgreso(int Admision, string Seleccion)
         {
             try
@@ -533,7 +466,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
         void IJuntas.updateJuntaMedica(CXN_HCJUNTAS H)
         {
             try

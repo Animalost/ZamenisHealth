@@ -46,7 +46,7 @@ namespace ZamenisHealth.HistoriasClinicas
         DateTime Fecha_Serv;
         int Paciente, Cia, Ase, Prof, Valor, ValorCatalogo;
         private string INGSAL = "";
-        string CUP, TSERV, Reg_RIP, CMANTID, CMANID, Serv;
+        string CUP, TSERV, Reg_RIP, CMANTID, CMANID, Serv, UrlEvento;
 
         private ToolStripButton btnDatosPaciente, btnGuardarEgreso, btnGuardarNoEgreso,
                                 btnVerHistorias, btnVerIHCE, btnVerImagenes, btnCrearOrdenes,
@@ -1464,6 +1464,14 @@ namespace ZamenisHealth.HistoriasClinicas
         {
             try
             {
+                var data = repoConfSystem.getListado()["EVENTOSADVERSOS"];
+                if (data != "X")
+                {
+                    UrlEvento = data;
+                    linkLabel1.Visible = true;
+                }
+
+
                 ImageClose.Visible = false;
                 ImageMinimize.Visible = false;
 
@@ -1720,6 +1728,19 @@ namespace ZamenisHealth.HistoriasClinicas
                 MessageBox.Show(ex.Message);
             }           
         }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            try
+            {
+                System.Diagnostics.Process.Start(UrlEvento);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
         private void boton5_Click(object sender, EventArgs e)
         {
             CargarGrillaINSITE();

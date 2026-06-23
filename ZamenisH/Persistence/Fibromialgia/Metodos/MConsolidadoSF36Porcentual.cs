@@ -40,7 +40,6 @@ namespace Persistence.Fibromialgia.Metodos
             }
             return res;
         }
-
         double Consulta2(double Valor)
         {
             double res = 0;
@@ -59,7 +58,6 @@ namespace Persistence.Fibromialgia.Metodos
             }
             return res;
         }
-
         double Consulta3(double Valor)
         {
             double res = 0;
@@ -75,7 +73,6 @@ namespace Persistence.Fibromialgia.Metodos
             }
             return res;
         }
-
         double Consulta4(double Valor)
         {
             double res = 0;
@@ -103,7 +100,6 @@ namespace Persistence.Fibromialgia.Metodos
             }
             return res;
         }
-
         double Consulta5(double Valor)
         {
             double res = 0;
@@ -131,7 +127,6 @@ namespace Persistence.Fibromialgia.Metodos
             }
             return res;
         }
-
         double Consulta6(double Valor)
         {
             double res = 0;
@@ -156,12 +151,10 @@ namespace Persistence.Fibromialgia.Metodos
             }
             return res;
         }
-
         double ConsultaDias(double Valor)
         {
             return 7 - Valor;
         }
-
         public class E1RespuestasPorcentual
         {
             public double FIQ1 { get; set; }
@@ -506,7 +499,6 @@ namespace Persistence.Fibromialgia.Metodos
                 return null;
             }
         }
-
         List<int> getIdPacientePorcentual(DateTime Desde, DateTime Hasta, string Tabla)
         {
             try
@@ -562,7 +554,6 @@ namespace Persistence.Fibromialgia.Metodos
                 return null;
             }
         }
-
         int contarAplicaciones(DateTime Desde, DateTime Hasta, int IdPaciente)
         {
             try
@@ -598,7 +589,6 @@ namespace Persistence.Fibromialgia.Metodos
                 return 0;
             }
         }
-
         List<CSF36_1> IConsolidadoSF36Porcentual.getInformeRDLC(DateTime Desde, DateTime Hasta)
         {
             try

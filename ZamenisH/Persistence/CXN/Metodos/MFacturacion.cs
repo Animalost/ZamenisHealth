@@ -8,7 +8,6 @@ using System.Data.SqlClient;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
 using System.Windows.Forms;
 
 namespace Persistence.CXN.Metodos
@@ -245,82 +244,6 @@ namespace Persistence.CXN.Metodos
             }
             catch
             {
-                return null;
-            }
-        }
-        List<CXN_FACTURA> IFacturacion.GetOtrasFacturasForConvertElectron(int Cia, DateTime Desde, DateTime Hasta)
-        {
-            try
-            {
-                var datCone = Conexion.Conection();
-
-                using (SqlConnection con = new SqlConnection(datCone["Conexion"]))
-                {
-                    if (con != null && con.State == ConnectionState.Closed)
-                    {
-                        con.Open();
-                    }
-
-                    String Cargar_Hora2 = "SELECT F.Fac_Num_Fac, F.Homologo, F.Fac_Fecha, F.Fac_Fecha_Des, F.Fac_Fecha_Has, F.Fac_Usr_Graba, " +
-                                          "A.Ase_Descripcion, SUM(Car_Val_Tot) AS Valor " +
-                                          "FROM CXN_FACTURA F " +
-                                          "INNER JOIN CXN_ASEGURADORA A ON F.Fac_Ase = A.Ase_Identificador " +
-                                          "INNER JOIN CXN_CARGOS C ON F.Fac_Num_Fac = C.Car_Factura " +
-                                          "WHERE F.Fac_Cia = @param1 " +
-                                          "AND F.Fac_Tipo_Doc = @param2 " +
-                                          "AND F.Fac_Fecha BETWEEN @param3 AND @param4 " +
-                                          "AND F.Fac_Estado = @param5 " +
-                                          "AND F.Fac_Pac = @param6 " +
-                                          "GROUP BY F.Fac_Num_Fac, F.Homologo, F.Fac_Fecha, F.Fac_Fecha_Des, F.Fac_Fecha_Has, F.Fac_Usr_Graba, " +
-                                          "A.Ase_Descripcion " +
-                                          "ORDER BY F.Fac_Num_Fac ASC";
-
-                    using (SqlCommand Carga_Command2 = new SqlCommand(Cargar_Hora2, con))
-                    {
-                        Carga_Command2.Parameters.AddWithValue("@param1", Cia);
-                        Carga_Command2.Parameters.AddWithValue("@param2", "OP");
-                        Carga_Command2.Parameters.AddWithValue("@param3", Convert.ToDateTime(Desde).ToString(datCone["Format_Fecha"]));
-                        Carga_Command2.Parameters.AddWithValue("@param4", Convert.ToDateTime(Hasta).ToString(datCone["Format_Fecha"]));
-                        Carga_Command2.Parameters.AddWithValue("@param5", "F");
-                        Carga_Command2.Parameters.AddWithValue("@param6", 0);
-
-                        using (SqlDataReader Lectura_Hora2 = (Carga_Command2.ExecuteReader()))
-                        {
-                            if (Lectura_Hora2.HasRows)
-                            {
-                                List<CXN_FACTURA> F = new List<CXN_FACTURA>();
-
-                                while (Lectura_Hora2.Read() == true)
-                                {
-                                    if (Lectura_Hora2["Homologo"].ToString() == Lectura_Hora2["Fac_Num_Fac"].ToString())
-                                    {
-                                        F.Add(new CXN_FACTURA
-                                        {
-                                            Fac_Num_Fac = Convert.ToInt32(Lectura_Hora2["Fac_Num_Fac"]),
-                                            Fac_Fecha = Convert.ToDateTime(Lectura_Hora2["Fac_Fecha"]),
-                                            Fac_Fecha_Des = Convert.ToDateTime(Lectura_Hora2["Fac_Fecha_Des"]),
-                                            Fac_Fecha_Has = Convert.ToDateTime(Lectura_Hora2["Fac_Fecha_Has"]),
-                                            Fac_Usr_Graba = Lectura_Hora2["Fac_Usr_Graba"].ToString(),
-                                            Fac_Observa = Lectura_Hora2["Ase_Descripcion"].ToString(),
-                                            Cobertura = Lectura_Hora2["Ase_Descripcion"].ToString(),
-                                            VrCompartido = Convert.ToInt32(Lectura_Hora2["Valor"])
-                                        });
-                                    }
-                                }
-
-                                return F;
-                            }
-                            else
-                            {
-                                return null;
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
                 return null;
             }
         }
@@ -977,155 +900,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-        List<FacturasR> IFacturacion.Fac_ExportRec(int Numero_Fac, int cia, string Tipo)
-        {
-            try
-            {
-                var datCone = Conexion.Conection();
-
-                using (SqlConnection con = new SqlConnection(datCone["Conexion"]))
-                {
-                    if (con != null && con.State == ConnectionState.Closed)
-                    {
-                        con.Open();
-                    }
-                    String Cargar_Hora = "SELECT Com_Nombre, Com_Identificador, Com_Direccion, Com_Telefono, Com_Logo, Com_Identificacion, Ven_Res AS Fac_Res, " +
-                                         "Pac_PrimerN, Pac_SegundoN, Pac_PrimerA, Pac_SegundoA, Pac_Direccion, Pac_Telefono, Pac_TelefonoAux, Pac_TipoId, " +
-                                         "Pac_IdNum, 'VENTAS' AS Ase_Descripcion, '' AS Ase_NitCia, '' AS Ase_DVNitCia, '' AS Ase_Telefono, '' AS Ase_Direccion, Ven_Factura AS Fac_Num_Fac, Ven_Fecha AS Fac_Fecha_Des, Ven_Fecha AS Fac_Fecha_Has, Ven_Fecha AS Fac_Fecha, " +
-                                         "'' AS Fac_Num_Aut, Ven_Deducciones AS Fac_Descuento, '' AS Fac_Observa, Ven_Cod_Pac AS Fac_Pac, Ven_Cod_Cia AS Fac_Cia, '99' AS Fac_Ase, Ven_Estado AS Fac_Estado, Ven_Factura AS Car_Factura, Ven_Estado AS Car_Estado, Ven_Cod AS Car_Cod, Ven_Usr_Graba AS Fac_Usr_Graba, " +
-                                         "Ven_Item AS Car_Item, Ven_Precio AS Car_Val_Un, sum(cast(Ven_Cantidad as int)) as Cantidad, sum(cast(Ven_Total as int)) as Total, " +
-                                         "Cufe, '' AS QRCufe, '0' AS VrCompartido, '0' AS Copago, '0' AS Anticipo, '' AS CodPrestador, '' AS ContratoPoliza, '' AS Cobertura, '' AS ModPago, Ven_Homologo AS Homologo, Hora " +
-                                         "FROM CXN_VENTAS " +
-                                         "INNER JOIN CXN_CIA ON CXN_VENTAS.Ven_Cod_Cia = CXN_CIA.Com_Identificador " +
-                                         "INNER JOIN CXN_PACIENTES ON CXN_VENTAS.Ven_Cod_Pac = CXN_PACIENTES.Pac_Id " +
-                                         "WHERE CXN_VENTAS.Ven_Factura = @param1 " +
-                                         "AND CXN_VENTAS.Ven_Tipo_Doc = @param2 " +
-                                         "AND CXN_VENTAS.Ven_Cod_Cia = @param3 " +
-                                         "GROUP BY Com_Nombre, Com_Identificador, Com_Direccion, Com_Telefono, Com_Logo, Com_Identificacion, Ven_Res, Pac_PrimerN, " +
-                                         "Pac_SegundoN, Pac_PrimerA, Pac_SegundoA, Pac_Direccion, Pac_Telefono, Pac_TelefonoAux, Pac_TipoId, Pac_IdNum, " +
-                                         "Ven_Factura, Ven_Fecha, Ven_Deducciones, " +
-                                         "Ven_Cod_Pac, Ven_Cod_Cia, Ven_Estado, " +
-                                         "Cufe, Ven_Homologo, Hora, Ven_Cod, Ven_Usr_Graba, Ven_Item, Ven_Precio, Ven_Cantidad";
-
-                    using (SqlCommand Carga_Command = new SqlCommand(Cargar_Hora, con))
-                    {
-                        Carga_Command.Parameters.AddWithValue("@param1", Numero_Fac);
-                        Carga_Command.Parameters.AddWithValue("@param2", Tipo);
-                        Carga_Command.Parameters.AddWithValue("@param3", cia);
-
-                        using (SqlDataReader Lectura_Hora = (Carga_Command.ExecuteReader()))
-                        {
-                            if (Lectura_Hora.HasRows)
-                            {
-                                List<FacturasR> Class_FacServ1 = new List<FacturasR>();
-                                int Total = SubTotalRec(Numero_Fac, cia, Tipo);
-
-                                string QrElectron = "Vacio";
-
-                                while (Lectura_Hora.Read() == true)
-                                {
-                                    //qrcufe 
-                                    if (Lectura_Hora["Cufe"] != DBNull.Value)
-                                    {
-                                        QrElectron = "NumFac:" + Lectura_Hora["Homologo"].ToString() + "\r\n" +
-                                            "FecFac:" + Convert.ToDateTime(Lectura_Hora["Fac_Fecha"]).ToString("yyyy-MM-dd") + "\r\n" +
-                                            "HorFac:" + Convert.ToDateTime(Lectura_Hora["Hora"]).ToString("hh:mm:ss tt") + "\r\n" +
-                                            "NitFac:" + Lectura_Hora["Com_Identificacion"].ToString() + "\r\n" +
-                                            "DocAdq:" + Lectura_Hora["Ase_NitCia"].ToString() + "\r\n" +
-                                            "ValFac:" + Convert.ToInt32(Total) + "\r\n" + //total antes de iva
-                                            "ValIva" + "0" + "\r\n" + //Total IVA 
-                                            "ValOtroIm:" + "0" + "\r\n" +
-                                            "ValTolFac" + Convert.ToInt32(Total) + "\r\n" +
-                                            "CUFE:" + Lectura_Hora["Cufe"].ToString() + "\r\n" +
-                                            "https://catalogo-vpfe.dian.gov.co/document/searchqr?documentkey=" + Lectura_Hora["Cufe"].ToString();
-                                    }
-
-                                    Image Code_QR_Fac_CUFE = repositorioGenerales.CodifyQR(QrElectron);
-
-                                    string Bod_Firma1 = Lectura_Hora["Com_Logo"].ToString(); //trae base64
-                                    Byte[] bytes = Convert.FromBase64String(Bod_Firma1); //convierte a bytes
-                                    MemoryStream stmBLOBData = new MemoryStream(bytes);
-                                    PictureBox pic = new PictureBox();
-                                    pic.Image = Image.FromStream(stmBLOBData);
-
-                                    string Letra, Desc;
-                                    int Neto;
-                                    if (Lectura_Hora["Fac_Descuento"].ToString() == "")
-                                    {
-                                        Desc = "0";
-                                        Neto = Convert.ToInt32(Total);
-                                        Letra = repositorioFacturacion.enletras(Convert.ToInt32(Neto).ToString()).ToUpper() + " PESOS";
-                                    }
-                                    else
-                                    {
-                                        Desc = Convert.ToInt32(Lectura_Hora["Fac_Descuento"]).ToString();
-                                        Neto = Convert.ToInt32(Total) - Convert.ToInt32(Lectura_Hora["Fac_Descuento"]);
-                                        Letra = repositorioFacturacion.enletras(Convert.ToInt32(Neto).ToString()).ToUpper() + " PESOS";
-                                    }
-
-                                    string TID = repoPacs.getTipoDoc(Lectura_Hora["Pac_TipoId"].ToString());
-
-                                    Class_FacServ1.Add(new FacturasR
-                                    {
-                                        Letras = Letra,
-                                        Car_Cod = Lectura_Hora["Car_Cod"].ToString(),
-                                        Car_Item = Lectura_Hora["Car_Item"].ToString(),
-                                        Cantidad = Convert.ToInt32(Lectura_Hora["Cantidad"]),
-                                        Car_Val_Un = Convert.ToInt32(Lectura_Hora["Car_Val_Un"]),
-                                        Total = Convert.ToInt32(Lectura_Hora["Total"]),
-                                        EmpresaDireccion = Lectura_Hora["Com_Direccion"].ToString(),
-                                        EmpresaTelefono = Lectura_Hora["Com_Telefono"].ToString(),
-                                        EmpresaIdentificacion = Lectura_Hora["Com_Identificacion"].ToString(),
-                                        Fac_Num_Fac = Convert.ToInt32(Lectura_Hora["Fac_Num_Fac"]),
-                                        PacienteNombre = Lectura_Hora["Pac_PrimerA"].ToString() + " " + Lectura_Hora["Pac_SegundoA"].ToString() + " " + Lectura_Hora["Pac_PrimerN"].ToString() + " " + Lectura_Hora["Pac_SegundoN"].ToString(),
-                                        PacienteDireccion = Lectura_Hora["Pac_Direccion"].ToString(),
-                                        PacienteIdentificacion = TID.ToString() + " " + Lectura_Hora["Pac_IdNum"].ToString(),
-                                        PacienteTelefono = Lectura_Hora["Pac_Telefono"].ToString(),
-                                        PacienteAseguradora = Lectura_Hora["Ase_Descripcion"].ToString(),
-                                        Ase_NitCia = Lectura_Hora["Ase_NitCia"].ToString(),
-                                        Ase_DVNitCia = Lectura_Hora["Ase_DVNitCia"].ToString(),
-                                        FechaBase = Convert.ToDateTime(Lectura_Hora["Fac_Fecha"]),
-                                        Fac_Fecha_Des = Convert.ToDateTime(Lectura_Hora["Fac_Fecha_Des"]),
-                                        Fac_Fecha_Has = Convert.ToDateTime(Lectura_Hora["Fac_Fecha_Has"]),
-                                        Fac_Num_Aut = Lectura_Hora["Fac_Num_Aut"].ToString(),
-                                        Ase_Telefono = Lectura_Hora["Ase_Telefono"].ToString(),
-                                        Ase_Direccion = Lectura_Hora["Ase_Direccion"].ToString(),
-                                        Fac_Res = Lectura_Hora["Fac_Res"].ToString(),
-                                        Fac_Observa = Lectura_Hora["Fac_Observa"].ToString(),
-                                        Fac_Descuento = Convert.ToInt32(Desc),
-                                        Fac_Total = Convert.ToInt32(Total),
-                                        Fac_Neto = Convert.ToInt32(Neto),
-                                        Usuario = Lectura_Hora["Fac_Usr_Graba"].ToString(),
-                                        Code_QR = null,
-                                        Com_Logo = repositorioGenerales.GetBytes(pic.Image),
-                                        Cufe = Lectura_Hora["Cufe"].ToString(),
-                                        VrCompartido = (Lectura_Hora["VrCompartido"] == DBNull.Value ? 0 : Convert.ToInt32(Lectura_Hora["VrCompartido"])),
-                                        Copago = (Lectura_Hora["Copago"] == DBNull.Value ? 0 : Convert.ToInt32(Lectura_Hora["Copago"])),
-                                        Anticipo = (Lectura_Hora["Anticipo"] == DBNull.Value ? 0 : Convert.ToInt32(Lectura_Hora["Anticipo"])),
-                                        CodPrestador = Lectura_Hora["CodPrestador"].ToString(),
-                                        ContratoPoliza = Lectura_Hora["ContratoPoliza"].ToString(),
-                                        Cobertura = Lectura_Hora["Cobertura"].ToString(),
-                                        ModPago = Lectura_Hora["ModPago"].ToString(),
-                                        QRCufe = repositorioGenerales.GetBytes(Code_QR_Fac_CUFE),
-                                        EmpresaNombre = Lectura_Hora["Homologo"].ToString()
-                                    });
-                                }
-                                return Class_FacServ1;
-                            }
-                            else
-                            {
-                                return null;
-                            }
-                        }
-                    }                    
-                }
-            }
-            catch (Exception ex)
-            {
-                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
-                return null;
-            }
-        }
         int SubTotal(int Numero_Fac, int cia, string Tipo)
         {
             try
@@ -1168,41 +942,6 @@ namespace Persistence.CXN.Metodos
             catch (Exception ex)
             {
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
-                return 0;
-            }
-        }
-        int SubTotalRec(int Numero_Fac, int cia, string Tipo)
-        {
-            try
-            {
-                var datCone = Conexion.Conection();
-
-                using (SqlConnection con = new SqlConnection(datCone["Conexion"]))
-                {
-                    if (con != null && con.State == ConnectionState.Closed)
-                    {
-                        con.Open();
-                    }
-                    String Cargar_Hora = "SELECT Ven_Factura, sum(cast(Ven_Total as int)) as Total " +
-                                         "FROM CXN_VENTAS " +
-                                         "WHERE Ven_Factura = '" + Numero_Fac + "' " +
-                                         "AND Ven_Tipo_Doc = '" + Tipo + "' " +
-                                         "AND Ven_Cod_Cia = '" + cia + "' " +
-                                         "GROUP BY Ven_Factura";
-                    SqlCommand Carga_Command = new SqlCommand(Cargar_Hora, con);
-                    SqlDataReader Lectura_Hora = (Carga_Command.ExecuteReader());
-                    if (Lectura_Hora.Read() == true)
-                    {
-                        return Convert.ToInt32(Lectura_Hora["Total"]);
-                    }
-                    else
-                    {
-                        return 0;
-                    }
-                }
-            }
-            catch
-            {
                 return 0;
             }
         }
@@ -1353,54 +1092,6 @@ namespace Persistence.CXN.Metodos
             }
             catch
             {
-                return null;
-            }
-        }
-        CXN_FACTURA IFacturacion.GetFacElectronica(CXN_FACTURA F)
-        {
-            try
-            {
-                Dictionary<string,string> datCone = Conexion.Conection();
-
-                using (SqlConnection con = new SqlConnection(datCone["Conexion"]))
-                {
-                    if (con != null && con.State == ConnectionState.Closed)
-                    {
-                        con.Open();
-                    }
-
-                    String Query = "SELECT * " +
-                                    "FROM CXN_FACTURA " +
-                                    "WHERE Fac_Num_Fac = '" + F.Fac_Num_Fac + "' " +
-                                    "AND Fac_Tipo_Doc = '" + F.Fac_Tipo_Doc + "' " +
-                                    "AND Fac_Cia = '" + F.Fac_Cia + "' " +
-                                    "AND Fac_Estado = 'F'";
-
-                    using (SqlCommand Commando = new SqlCommand(Query, con))
-                    {
-                        using (SqlDataReader Reader = (Commando.ExecuteReader()))
-                        {
-                            if (Reader.Read() == true)
-                            {
-                                CXN_FACTURA F2 = new CXN_FACTURA
-                                {
-                                    Homologo = Reader["Homologo"].ToString(),
-                                    Fac_Fecha = Convert.ToDateTime(Reader["Fac_Fecha"])
-                                };
-
-                                return F2;
-                            }
-                            else
-                            {
-                                return null;
-                            }
-                        }
-                    }                    
-                }
-            }
-            catch (Exception ex)
-            {
-                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
                 return null;
             }
         }
@@ -2123,46 +1814,6 @@ namespace Persistence.CXN.Metodos
                 return (null, 0);
             }
         }
-        bool IFacturacion.updateDE(CXN_FACTURA F)
-        {
-            try
-            {
-                Dictionary<string,string> getData = Conexion.Conection();
-
-                using (SqlConnection con = new SqlConnection(getData["Conexion"]))
-                {
-                    if (con != null && con.State == ConnectionState.Closed)
-                    {
-                        con.Open();
-                    }
-
-                    string Busqueda = "UPDATE CXN_FACTURA " +
-                                           "SET " +
-                                           "DocE_1 = '" + F.DocE_1 + "', " +
-                                           "DocE_2 = '" + F.DocE_2 + "', " +
-                                           "DocE_3 = '" + F.DocE_3 + "', " +
-                                           "DocE_4 = '" + F.DocE_4 + "', " +
-                                           "DocE_5 = '" + F.DocE_5 + "', " +
-                                           "DocE_6 = '" + F.DocE_6 + "', " +
-                                           "Fac_Observa = '" + F.Fac_Observa + "', " +
-                                           "DocE_7 = '" + Convert.ToDateTime(F.DocE_7).ToString(getData["Format_Fecha"]) + "', " +
-                                           "DocE_8 = '" + Convert.ToDateTime(F.DocE_8).ToString(getData["Format_Fecha"]) + "' " +
-                                           "WHERE Fac_Num_Fac = '" + F.Fac_Num_Fac + "' " +
-                                           "AND Fac_Tipo_Doc = 'DE' " +
-                                           "AND Fac_Cia = '" + F.Fac_Cia + "' " +
-                                           "AND Fac_Estado = 'F'";
-                    SqlCommand Accion = new SqlCommand(Busqueda, con);
-                    int Guarda;
-                    Guarda = Accion.ExecuteNonQuery();
-                    return true;
-                }
-            }
-            catch (Exception ex)
-            {
-                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
-                return false;
-            }
-        }
         (int Cantidad, int Total) Sumatoria(int factura)
         {
             try
@@ -2340,92 +1991,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }             
-        List<string> IFacturacion.getHomologos(DateTime Desde, DateTime Hasta, int Cia, int Ase)
-        {
-            try
-            {
-                Dictionary<string, string> getData = Conexion.Conection();
-
-                using (SqlConnection con = new SqlConnection(getData["Conexion"]))
-                {
-                    if (con != null && con.State == ConnectionState.Closed)
-                    {
-                        con.Open();
-                    }
-                    String Cargar_Hora = "SELECT Homologo " +
-                                         "FROM CXN_FACTURA " +
-                                         "WHERE Fac_Fecha BETWEEN '" + Convert.ToDateTime(Desde).ToString(Conexion.ConectionDictionary["Format_Fecha"]) + "' AND '" + Convert.ToDateTime(Hasta).ToString(Conexion.ConectionDictionary["Format_Fecha"]) + "' " +
-                                         "AND Fac_Estado = 'F' " +
-                                         "AND Fac_Cia = '" + Cia + "' " +
-                                         "AND Fac_Ase = '" + Ase + "'";
-                    SqlCommand Carga_Command = new SqlCommand(Cargar_Hora, con);
-                    SqlDataReader Lectura_Hora = (Carga_Command.ExecuteReader());
-                    if (Lectura_Hora.HasRows)
-                    {
-                        List<string> L = new List<string>();
-
-                        while (Lectura_Hora.Read() == true)
-                        {
-                            L.Add(Lectura_Hora["Homologo"].ToString());
-                        }
-
-                        return L;
-                    }
-                    else
-                    {
-                        return null;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
-                return null;
-            }
-        }
-        Dictionary<int, string> IFacturacion.getNumFacs(DateTime Desde, DateTime Hasta, int Cia, int Ase)
-        {
-            try
-            {
-                Dictionary<string, string> getData = Conexion.Conection();
-
-                using (SqlConnection con = new SqlConnection(getData["Conexion"]))
-                {
-                    if (con != null && con.State == ConnectionState.Closed)
-                    {
-                        con.Open();
-                    }
-                    String Cargar_Hora = "SELECT Fac_Num_Fac, Homologo " +
-                                         "FROM CXN_FACTURA " +
-                                         "WHERE Fac_Fecha BETWEEN '" + Convert.ToDateTime(Desde).ToString(Conexion.ConectionDictionary["Format_Fecha"]) + "' AND '" + Convert.ToDateTime(Hasta).ToString(Conexion.ConectionDictionary["Format_Fecha"]) + "' " +
-                                         "AND Fac_Estado = 'F' " +
-                                         "AND Fac_Cia = '" + Cia + "' " +
-                                         "AND Fac_Ase = '" + Ase + "'";
-                    SqlCommand Carga_Command = new SqlCommand(Cargar_Hora, con);
-                    SqlDataReader Lectura_Hora = (Carga_Command.ExecuteReader());
-                    if (Lectura_Hora.HasRows)
-                    {
-                        Dictionary<int, string> Dic = new Dictionary<int, string>();
-
-                        while (Lectura_Hora.Read() == true)
-                        {
-                            Dic.Add(Convert.ToInt32(Lectura_Hora["Fac_Num_Fac"]), Lectura_Hora["Homologo"].ToString());
-                        }
-
-                        return Dic;
-                    }
-                    else
-                    {
-                        return null;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
-                return null;
-            }
-        }
         CXN_FACTURA IFacturacion.consAutorizacion(string Numeero)
         {
             try
@@ -2507,66 +2072,6 @@ namespace Persistence.CXN.Metodos
                                 };
 
                                 return f;
-                            }
-                            else
-                            {
-                                return null;
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
-                return null;
-            }
-        }
-        List<CXN_FACTURA> IFacturacion.getFacsParticulares(DateTime Fecha, int Cia)
-        {
-            try
-            {
-                Dictionary<string, string> getData = Conexion.Conection();
-
-                using (SqlConnection con = new SqlConnection(getData["Conexion"]))
-                {
-                    if (con != null && con.State == ConnectionState.Closed)
-                    {
-                        con.Open();
-                    }
-
-                    String Query = "SELECT * " +
-                                   "FROM CXN_FACTURA " +
-                                   "WHERE Fac_Fecha = @param1 " +
-                                   "AND Fac_Cia = @param2 " +
-                                   "AND Fac_Tipo_Doc = 'OP' " +
-                                   "AND Fac_Ase = '99'";
-                    using (SqlCommand Commando = new SqlCommand(Query, con))
-                    {
-                        Commando.Parameters.Add(new SqlParameter("@param1", SqlDbType.DateTime)).Value = Convert.ToDateTime(Fecha).ToString("yyyy-MM-dd");
-                        Commando.Parameters.AddWithValue("@param2", Cia);
-
-                        using (SqlDataReader Reader = (Commando.ExecuteReader()))
-                        {
-                            if (Reader.HasRows)
-                            {
-                                List<CXN_FACTURA> F = new List<CXN_FACTURA>();
-
-                                while (Reader.Read() == true)
-                                {
-                                    if (!string.IsNullOrEmpty(Reader["Homologo"].ToString()))
-                                    {
-                                        F.Add(new CXN_FACTURA
-                                        {
-                                            Fac_Num_Fac = Convert.ToInt32(Reader["Fac_Num_Fac"]),
-                                            Fac_Pac = Convert.ToInt32(Reader["Fac_Pac"]),
-                                            Fac_Tipo_Doc = Reader["Fac_Tipo_Doc"].ToString(),
-                                            Fac_Cia = Convert.ToInt32(Reader["Fac_Cia"])
-                                        });
-                                    }                                    
-                                }
-                               
-                                return F;
                             }
                             else
                             {

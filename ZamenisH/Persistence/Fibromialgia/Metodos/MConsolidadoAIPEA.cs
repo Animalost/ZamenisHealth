@@ -81,7 +81,6 @@ namespace Persistence.Fibromialgia.Metodos
                 return null;
             }
         }
-
         List<InformeFibromialgia> IConsolidadoAIPEA.getAdherencia(DateTime Desde, DateTime Hasta)
         {
             try
@@ -150,7 +149,6 @@ namespace Persistence.Fibromialgia.Metodos
                 return null;
             }
         }
-
         int ConteoAdherencia(DateTime Desde, DateTime Hasta)
         {
             try
@@ -188,7 +186,6 @@ namespace Persistence.Fibromialgia.Metodos
                 return 0;
             }
         }
-
         List<InformeFibromialgia> IConsolidadoAIPEA.getActivosYbase(DateTime Desde, DateTime Hasta)
         {
             try
@@ -298,7 +295,6 @@ namespace Persistence.Fibromialgia.Metodos
                 return null;
             }
         }
-
         List<InformeFibromialgia> IConsolidadoAIPEA.getPrevalentes(DateTime Desde, DateTime Hasta)
         {
             try
@@ -369,7 +365,6 @@ namespace Persistence.Fibromialgia.Metodos
                 return null;
             }
         }
-
         string getFDXbyPac(int Paciente)
         {
             try
@@ -409,7 +404,6 @@ namespace Persistence.Fibromialgia.Metodos
                 return "";
             }
         }
-
         DateTime? getFIngresobyPac(int Paciente)
         {
             try
@@ -449,7 +443,6 @@ namespace Persistence.Fibromialgia.Metodos
                 return null;
             }
         }
-
         List<InformeFibromialgia> IConsolidadoAIPEA.getIngresos(DateTime Desde, DateTime Hasta)
         {
             try
@@ -517,7 +510,6 @@ namespace Persistence.Fibromialgia.Metodos
                 return null;
             }
         }
-
         int Conteo(DateTime Desde, DateTime Hasta)
         {
             try
@@ -556,7 +548,6 @@ namespace Persistence.Fibromialgia.Metodos
                 return 0;
             }
         }
-
         int ConteoIngresos(DateTime Desde, DateTime Hasta)
         {
             try

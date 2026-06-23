@@ -7,7 +7,6 @@ using Persistence.CXN.Metodos;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using ZamenisHealth.FrontFHIR.VisorZamenis;
@@ -16,7 +15,7 @@ using ZamenisHealth.Medicina.OrdenesExtra;
 
 namespace ZamenisHealth.Comunes
 {
-    public partial class BuscarPacientes : Forma
+    public partial class BuscarPacientes : Forma2
     {
         private static readonly IPacientes repositorioPacientes = new MPacientes();
 
@@ -29,14 +28,12 @@ namespace ZamenisHealth.Comunes
 
         public BuscarPacientes()
         {
-            InitializeComponent();
-            
+            InitializeComponent();            
         }
 
         public BuscarPacientes(string _tipo_Busca_Pac)
         {
-            InitializeComponent();
-            
+            InitializeComponent();            
             this.Tipo_Busca_Pac = _tipo_Busca_Pac;
         }
 
@@ -44,23 +41,16 @@ namespace ZamenisHealth.Comunes
         {
             Titulo.Text = "Buscar Paciente";
             SubTitulo.Text = $"Zamenis Health {Conexion.VersionApp}";
-            LogoMain.Image = Properties.Resources.Splash;
-
-            ToolStripButton btnBuscar = new ToolStripButton();
-            btnBuscar = createToolButton("Buscar");
-            MenuLateral.Items.Add(btnBuscar);
-            btnBuscar.Click += toolStripButton2_Click;
-                      
-            
+            gridZH1.dataGridView1.CellClick += dataGridView1_CellClick;
+            gridZH1.CeldaHeight = true;
         }
-
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
             Buscar();
         }
-
         private void Encabezados()
         {
+            gridZH1.dataGridView1.DataSource = null;
             dt = new DataTable();
             POS = dt.Columns.Add("POS", typeof(int));
             Tipo = dt.Columns.Add("Tipo", typeof(string));
@@ -69,50 +59,14 @@ namespace ZamenisHealth.Comunes
         }
         void Estilos()
         {
-            dataGridView1.EnableHeadersVisualStyles = false;
-            dataGridView1.ScrollBars = ScrollBars.Both;
-
-            dataGridView1.DataSource = dt;
-
-            dataGridView1.Columns["Tipo"].Width = 80;
-            dataGridView1.Columns["Identificacion"].Width = 150;
-            dataGridView1.Columns["Paciente"].Width = 320;
-
-            dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font(dataGridView1.Font, FontStyle.Bold);
-            dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Arial", 8, FontStyle.Bold);
-            dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#bfdbff");
-            dataGridView1.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
-            dataGridView1.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
-
-            dataGridView1.Columns["Tipo"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridView1.Columns["Identificacion"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridView1.Columns["Paciente"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
-            dataGridView1.Columns["Tipo"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            dataGridView1.Columns["Identificacion"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            dataGridView1.Columns["Paciente"].SortMode = DataGridViewColumnSortMode.NotSortable;
-
-            dataGridView1.Columns["POS"].Visible = false;
-
-            foreach (DataGridViewRow row in dataGridView1.Rows)
-            {
-                int Numero = Convert.ToInt32(row.Cells["POS"].Value.ToString());
-
-                if ((Numero % 2) == 0)
-                {
-                    row.DefaultCellStyle.BackColor = Color.Aquamarine;
-                }
-                else
-                {
-                    row.DefaultCellStyle.BackColor = Color.MediumAquamarine;
-                }
-            }
+            gridZH1.dataGridView1.DataSource = dt;
+            gridZH1.dataGridView1.Columns["POS"].Visible = false;
         }
         private void Buscar()
         {
             try
             {
-                if (textBox1.Text == "")
+                if (string.IsNullOrEmpty(textBox1.Text))
                 {
                     MensajesGeneral MG = new MensajesGeneral
                     {
@@ -120,53 +74,51 @@ namespace ZamenisHealth.Comunes
                         TipoImagen = 1000
                     };
                     MG.ShowDialog();
-                    return;
-                }
-
-                List<CXN_PACIENTES> _DatosPacientes = repositorioPacientes.LlamarPacienteDOCSimilares(textBox1.Text, textBox2.Text);
-                               
-                if (_DatosPacientes != null)
-                {
-                    Encabezados();
-                    int Contador = 1;
-
-                    foreach (var i in _DatosPacientes)
-                    {
-                        DataRow row = dt.NewRow();
-
-                        row["POS"] = Contador;
-                        row["Tipo"] = i.Pac_TipoId.ToString();
-                        row["Identificacion"] = i.Pac_IdNum.ToString().Trim();
-                        row["Paciente"] = i.Pac_PrimerN.ToString();
-
-                        dt.Rows.Add(row);
-                        dt.AcceptChanges();
-
-                        Contador = Contador + 1;
-                    }
-
-                    Contador = 1;
-                    Estilos();
                 }
                 else
                 {
-                    MensajesGeneral MG = new MensajesGeneral
+                    List<CXN_PACIENTES> _DatosPacientes = repositorioPacientes.LlamarPacienteDOCSimilares(textBox1.Text, textBox2.Text);
+                    if (_DatosPacientes != null)
                     {
-                        Mensaje = "No se encontraron coincidencias con los criterios de busqueda ingresados",
-                        TipoImagen = 1000
-                    };
-                    MG.ShowDialog();
+                        Encabezados();
+                        int Contador = 1;
 
-                    dataGridView1.DataSource = null;
-                    Encabezados();
-                }
+                        foreach (var i in _DatosPacientes)
+                        {
+                            DataRow row = dt.NewRow();
+
+                            row["POS"] = Contador;
+                            row["Tipo"] = i.Pac_TipoId.ToString();
+                            row["Identificacion"] = i.Pac_IdNum.ToString().Trim();
+                            row["Paciente"] = i.Pac_PrimerN.ToString();
+
+                            dt.Rows.Add(row);
+                            dt.AcceptChanges();
+
+                            Contador = Contador + 1;
+                        }
+
+                        Contador = 1;
+                        Estilos();
+                    }
+                    else
+                    {
+                        MensajesGeneral MG = new MensajesGeneral
+                        {
+                            Mensaje = "No se encontraron coincidencias con los criterios de busqueda ingresados",
+                            TipoImagen = 1000
+                        };
+                        MG.ShowDialog();
+
+                        Encabezados();
+                    }
+                }                
             }
             catch (Exception ex)
             {
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         private void BuscarPacientes_KeyDown(object sender, KeyEventArgs e)
         {
             try
@@ -181,23 +133,20 @@ namespace ZamenisHealth.Comunes
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
             textBox1.CharacterCasing = CharacterCasing.Upper;
         }
-
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
             textBox2.CharacterCasing = CharacterCasing.Upper;
         }        
-
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             try
             {
-                string TipoId = dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString();
-                string Identidad = dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString();
+                string TipoId = gridZH1.dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString();
+                string Identidad = gridZH1.dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString();
 
                 switch (Tipo_Busca_Pac)
                 {
@@ -319,14 +268,6 @@ namespace ZamenisHealth.Comunes
                         this.Close();
                         break;
 
-                    case "ArreglosPac":
-                        AdminSystem.GestionP f25 = Application.OpenForms.OfType<AdminSystem.GestionP>().LastOrDefault();
-                        f25.comboBox1.Text =TipoId;
-                        f25.textBox1.Text =Identidad;
-                        this.Dispose();
-                        this.Close();
-                        break;
-
                     case "FirmaDocs":
                         Medicina.FirmaHistorias f26 = Application.OpenForms.OfType<Medicina.FirmaHistorias>().LastOrDefault();
                         f26.comboBox2.Text =TipoId;
@@ -426,7 +367,7 @@ namespace ZamenisHealth.Comunes
             }
             catch (Exception ex)
             {
-                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
+                Console.WriteLine(ex.ToString());
             }
         }
     }

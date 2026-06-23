@@ -60,7 +60,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         bool IMedidasHerida.insertarHerida(CXN_HCMED H)
         {
             try
@@ -112,7 +111,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
         void IMedidasHerida.deleteMedida(int Posision)
         {
             try
@@ -138,6 +136,5 @@ namespace Persistence.CXN.Metodos
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
     }
 }

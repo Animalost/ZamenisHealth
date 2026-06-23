@@ -165,7 +165,7 @@ namespace ZamenisHealth.AdminSystem
                 {
                     foreach (var i in getUsers)
                     {
-                        comboBox1.Items.Add(i);
+                        comboBox1.Items.Add(i.Log_PrimerA + " " + i.Log_SegundoA + " " + i.Log_PrimerN + " " + i.Log_SegundoN);
                     }
                 }
             }

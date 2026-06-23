@@ -98,7 +98,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }          
         }
-
         bool IRoles.updateRoles(CXN_ROLES R)
         {
             try
@@ -214,7 +213,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }          
         }
-
         bool IRoles.insertRoles(CXN_ROLES R)
         {
             try
@@ -375,6 +373,5 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
     }
 }

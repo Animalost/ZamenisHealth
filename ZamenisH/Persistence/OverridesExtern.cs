@@ -44,7 +44,6 @@ namespace Persistence
                 Escriba.Close();
             }
         }
-
         public static void GenerarTXT(TXTException T)
         {
             FileStream Query = new FileStream("C:/Cxn/Reportes/Log.txt", FileMode.Append, FileAccess.Write);

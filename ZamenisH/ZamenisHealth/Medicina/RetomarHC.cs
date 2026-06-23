@@ -171,13 +171,6 @@ namespace ZamenisHealth.Medicina
                     HCFI.ShowDialog();
                 }
 
-                if (Tipo == "RA")
-                {
-                    HistoriasClinicas.Historia_Radiologia HCRA = new HistoriasClinicas.Historia_Radiologia(Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString()));
-                    HCRA.Retoma = true;
-                    HCRA.ShowDialog();
-                }
-
                 this.Dispose();
                 this.Close();
             }

@@ -40,7 +40,6 @@ namespace Persistence.Fibromialgia.Metodos
             }
             return res;
         }
-
         double Consulta2(double Valor)
         {
             double res = 0;
@@ -59,7 +58,6 @@ namespace Persistence.Fibromialgia.Metodos
             }
             return res;
         }
-
         double Consulta3(double Valor)
         {
             double res = 0;
@@ -75,7 +73,6 @@ namespace Persistence.Fibromialgia.Metodos
             }
             return res;
         }
-
         double Consulta4(double Valor)
         {
             double res = 0;
@@ -103,7 +100,6 @@ namespace Persistence.Fibromialgia.Metodos
             }
             return res;
         }
-
         double Consulta5(double Valor)
         {
             double res = 0;
@@ -131,7 +127,6 @@ namespace Persistence.Fibromialgia.Metodos
             }
             return res;
         }
-
         double Consulta6(double Valor)
         {
             double res = 0;
@@ -156,12 +151,10 @@ namespace Persistence.Fibromialgia.Metodos
             }
             return res;
         }
-
         double ConsultaDias(double Valor)
         {
             return 7 - Valor;
         }
-
         List<E1Respuestas> IConsolidadoSF36.getInformeRDL(DateTime Desde, DateTime Hasta)
         {
             try
@@ -193,7 +186,6 @@ namespace Persistence.Fibromialgia.Metodos
                 return null;
             }
         }
-
         List<int> getIdPaciente(DateTime Desde, DateTime Hasta, string Tabla)
         {
             try
@@ -249,7 +241,6 @@ namespace Persistence.Fibromialgia.Metodos
                 return null;
             }
         }
-
         List<E1Respuestas> getResultPacE1(DateTime desde,
                                                  DateTime hasta,
                                                  int Paciente)

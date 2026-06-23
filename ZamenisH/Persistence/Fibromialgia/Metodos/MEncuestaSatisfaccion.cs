@@ -99,7 +99,6 @@ namespace Persistence.Fibromialgia.Metodos
                 return null;
             }
         }
-
         Preguntas3 ListaRespuestas(DateTime desde, DateTime hasta, int Paci)
         {
             try
@@ -148,7 +147,6 @@ namespace Persistence.Fibromialgia.Metodos
                 return null;
             }
         }
-
         List<Preguntas3> IEncuestaSatisfaccion.ExportarResGlobalGeneral(DateTime desde,
                                                                        DateTime hasta)
         {

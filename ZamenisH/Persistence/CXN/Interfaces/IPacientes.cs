@@ -26,6 +26,7 @@ namespace Persistence.CXN.Interfaces
         bool ActualizarCelular(string Celular, int Admision);
         void Actualiza_Email(int Paciente, string Email);
         void Actualiza_Pac(CXN_PACIENTES P);
+        void Actualiza_Pac3(CXN_PACIENTES P);
         void Rpt_Atenciones2(DateTime Desde, DateTime Hasta);
         List<string> ListaDocs();
         void VariasHeridas(int IdPac, string Heridas);
@@ -41,7 +42,6 @@ namespace Persistence.CXN.Interfaces
         void updateEmail(int IdPac, string Email);
         void SexAndDate(int IdPac, string Sex, DateTime Date);
         void setEnfermedades(int Paciente, string vih, string hepatitis);
-        CXN_PACIENTES getCodumentVC(int Admision);
         List<CXN_GENDERIDENTITY> ListaIdentidadGenero();
         string NameIdentidadGenero(string Code);
         string CodeIdentidadGenero(string Name);

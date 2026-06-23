@@ -37,10 +37,10 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
+    <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>Zam2026.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>FirmaZamenis.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="bc-fips-1.0.2, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
@@ -241,6 +241,7 @@
     <Compile Include="CXN\CXN_RDA_LOG.cs" />
     <Compile Include="CXN\CXN_REGIMEN.cs" />
     <Compile Include="CXN\CXN_REPORTECAJA.cs" />
+    <Compile Include="CXN\CXN_REPORTECAJA2.cs" />
     <Compile Include="CXN\CXN_RESTOREPASS.cs" />
     <Compile Include="CXN\CXN_RISK.cs" />
     <Compile Include="CXN\CXN_ROLES.cs" />
@@ -294,11 +295,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="FirmaZamenis.pfx" />
     <None Include="packages.config" />
     <None Include="Zam2026.pfx" />
-    <None Include="ZamenisHealth2026.pfx" />
-    <None Include="ZamenisProject.pfx" />
-    <None Include="ZH2026.pfx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -10,11 +10,11 @@ namespace Persistence.CXN.Metodos
 {
     public class MDisponibilidad : IDisponibilidad
     {
-        List<CXN_DISPONIBILIDAD_2> IDisponibilidad.getHorariosHabilitados(int Bodega, string Dia)
+        List<CXN_DISPONIBILIDAD_2> IDisponibilidad.GetHorarioByMedAndDay(int Bodega, string Dia)
         {
             try
             {
-                Dictionary<string,string> getData = Conexion.Conection();
+                Dictionary<string, string> getData = Conexion.Conection();
 
                 using (SqlConnection con = new SqlConnection(getData["Conexion"]))
                 {
@@ -25,34 +25,41 @@ namespace Persistence.CXN.Metodos
 
                     String Query = "SELECT * " +
                                    "FROM CXN_DISPONIBILIDAD_2 " +
-                                   "WHERE Med = '" + Bodega + "' " +
-                                   "AND Dia = '" + Dia + "' " +
-                                   "AND Habilita = 'A'";
-                    SqlCommand Commando = new SqlCommand(Query, con);
-                    SqlDataReader Reader = (Commando.ExecuteReader());
-                    if (Reader.HasRows)
-                    {
-                        List<CXN_DISPONIBILIDAD_2> D = new List<CXN_DISPONIBILIDAD_2>();
+                                   "WHERE Med = @param1  " +
+                                   "AND Dia = @param2 " +
+                                   "ORDER BY Hora ASC";
 
-                        while (Reader.Read() == true)
+                    using (SqlCommand Commando = new SqlCommand(Query, con))
+                    {
+                        Commando.Parameters.AddWithValue("@param1", Bodega);
+                        Commando.Parameters.AddWithValue("@param2", Dia);
+
+                        using (SqlDataReader Reader = (Commando.ExecuteReader()))
                         {
-                            D.Add(new CXN_DISPONIBILIDAD_2
+                            if (Reader.HasRows)
                             {
-                                Id = Convert.ToInt32(Reader["Id"]),
-                                Med = Convert.ToInt32(Reader["Med"]),
-                                Dia = Reader["Dia"].ToString(),
-                                Hora = Convert.ToDateTime(Reader["Hora"]),
-                                Habilita = Reader["Habilita"].ToString(),
-                                Ide = Reader["Ide"].ToString()
-                            });
-                        }
-                        return D;
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                                List<CXN_DISPONIBILIDAD_2> D = new List<CXN_DISPONIBILIDAD_2>();
 
+                                while (Reader.Read() == true)
+                                {
+                                    D.Add(new CXN_DISPONIBILIDAD_2
+                                    {
+                                        Id = Convert.ToInt32(Reader["Id"]),
+                                        Med = Convert.ToInt32(Reader["Med"]),
+                                        Dia = Reader["Dia"].ToString(),
+                                        Hora = Convert.ToDateTime(Reader["Hora"]),
+                                        Habilita = Reader["Habilita"].ToString(),
+                                        Ide = Reader["Ide"].ToString()
+                                    });
+                                }
+                                return D;
+                            }
+                            else
+                            {
+                                return null;
+                            }
+                        }
+                    }
                 }
             }
             catch (Exception ex)
@@ -61,7 +68,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         List<CXN_DISPONIBILIDAD_2> IDisponibilidad.getHorariosByCodeMed(int Bodega)
         {
             try
@@ -112,7 +118,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         bool IDisponibilidad.ConsultarCodigo(CXN_DISPONIBILIDAD_2 D)
         {
             try
@@ -149,7 +154,6 @@ namespace Persistence.CXN.Metodos
                 return true;
             }
         }
-
         bool IDisponibilidad.CrearHora(CXN_DISPONIBILIDAD_2 D)
         {
             try
@@ -192,7 +196,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
         (string Habilita, DateTime Hora) IDisponibilidad.ConsultarHora(int Posision)
         {
             try
@@ -227,7 +230,6 @@ namespace Persistence.CXN.Metodos
                 return ("", d);
             }
         }
-
         bool IDisponibilidad.UpdateHora(CXN_DISPONIBILIDAD_2 D)
         {
             try

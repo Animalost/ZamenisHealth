@@ -59,7 +59,7 @@ namespace Domain.CXN
         public string Hor_ArrastraHistoria { get; set; }
         public string FormaPago { get; set; }
         public bool? Hor_AvisoCurInicio { get; set; }
-
+        public string Hor_Color { get; set; }
         public string Hor_UsrCruce { get; set; }
         public string Hor_Cruce { get; set; }
         public DateTime Hor_FechaCruce { get; set; }

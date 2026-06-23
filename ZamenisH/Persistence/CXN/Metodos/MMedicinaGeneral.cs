@@ -100,7 +100,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         CXN_HCMG IMedicinaGeneral.getLastHistory(int Paciente, DateTime Fecha)
         {
             try
@@ -194,7 +193,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         bool IMedicinaGeneral.ActualizaHCMG(CXN_HCMG H)
         {
             try
@@ -355,7 +353,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
         bool IMedicinaGeneral.GrabaHCMG(CXN_HCMG H)
         {
             try
@@ -531,7 +528,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
         List<CXN_HCMG> IMedicinaGeneral.ResumenHCMGNotas(int Paciente)
         {
             Dictionary<string,string> getData = Conexion.Conection();
@@ -583,7 +579,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         CXN_HCMG IMedicinaGeneral.getResumen(int Admision)
         {
             Dictionary<string,string> getData = Conexion.Conection();
@@ -642,7 +637,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         CXN_HCMG IMedicinaGeneral.getLastHistoryToCopy(int Paciente)
         {
             try
@@ -749,7 +743,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         List<CXN_HCMG> IMedicinaGeneral.ListaUltimasCitas(int Paciente, DateTime Fecha, int Medico)
         {
             Dictionary<string, string> getData = Conexion.Conection();

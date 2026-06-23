@@ -12,6 +12,75 @@ namespace Persistence.CXN.Metodos
     {
         private string Query;
 
+        List<CXN_BODEGAS> IBodegas.GetAllProfesionales(string Tipo)
+        {
+            try
+            {
+                var getCon = Conexion.Conection();
+
+                using (SqlConnection con = new SqlConnection(getCon["Conexion"]))
+                {
+                    if (con != null && con.State == ConnectionState.Closed)
+                    {
+                        con.Open();
+                    }
+
+                    String QueryCons = "";
+
+                    if (Tipo == "" || Tipo == "Todos")
+                    {
+                        QueryCons = "SELECT Bod_Responsable, Bod_Numero, Bod_Usuario " +
+                                    "FROM CXN_BODEGAS " +
+                                    "WHERE Bod_Estado = 'A' " +
+                                    "ORDER BY Bod_Responsable ASC";
+                    }
+                    else
+                    {
+                        QueryCons = "SELECT Bod_Responsable, Bod_Numero, Bod_Usuario " +
+                                    "FROM CXN_BODEGAS " +
+                                    "WHERE Bod_Estado = 'A' " +
+                                    "AND Bod_Tipo = @param1 " +
+                                    "ORDER BY Bod_Responsable ASC";
+                    }
+
+                    using (SqlCommand Command = new SqlCommand(QueryCons, con))
+                    {
+                        if (Tipo.Length == 2)
+                        {
+                            Command.Parameters.AddWithValue("@param1", Tipo);
+                        }
+                        
+                        using (SqlDataReader Reader = (Command.ExecuteReader()))
+                        {
+                            if (Reader.HasRows)
+                            {
+                                List<CXN_BODEGAS> L = new List<CXN_BODEGAS>();
+
+                                while (Reader.Read() == true)
+                                {
+                                    L.Add(new CXN_BODEGAS 
+                                    { 
+                                        Bod_Responsable = Reader["Bod_Responsable"].ToString(),
+                                        Bod_Numero = Convert.ToInt32(Reader["Bod_Numero"]),
+                                        Bod_Usuario = Reader["Bod_Usuario"].ToString(),
+                                    });
+                                }
+                                return L;
+                            }
+                            else
+                            {
+                                return null;
+                            }
+                        }
+                    }                    
+                }
+            }
+            catch (Exception x)
+            {
+                Console.WriteLine(x.Message);
+                return null;
+            }
+        }
         List<string> IBodegas.Profesionales(string SeleccionProfesional)
         {
             try
@@ -106,7 +175,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         (int CodProf, string TipoBod) IBodegas.ProfesionalId(string IdProf)
         {
             try
@@ -140,7 +208,6 @@ namespace Persistence.CXN.Metodos
                 return (0, "");
             }
         }
-
         string IBodegas.ProfesionalNombre(int Code)
         {
             try
@@ -174,7 +241,6 @@ namespace Persistence.CXN.Metodos
                 return "";
             }
         }
-
         List<CXN_BODEGAS> IBodegas.Filtrar()
         {
             try
@@ -227,7 +293,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         void IBodegas.ActivarDesactivarBodega(int Bode, string Estado)
         {
             var getCon = Conexion.Conection();
@@ -246,7 +311,6 @@ namespace Persistence.CXN.Metodos
                 Guarda = Accion.ExecuteNonQuery();
             }
         }
-
         bool IBodegas.EsProfesional(string Tipo, string User)
         {
             try
@@ -295,7 +359,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
         string IBodegas.NombreProfesionalXUser(string User)
         {
             try
@@ -329,7 +392,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         List<string> IBodegas.getProfByTipo(string Tipo)
         {
             try
@@ -371,7 +433,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         CXN_BODEGAS IBodegas.getDatosName(string Responsable)
         {
             try
@@ -417,7 +478,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         CXN_BODEGAS IBodegas.getDatosCode(int Code)
         {
             try
@@ -433,37 +493,44 @@ namespace Persistence.CXN.Metodos
 
                     String Query = "SELECT * " +
                                    "FROM CXN_BODEGAS " +
-                                   "WHERE Bod_Numero = '" + Code + "'";
-                    SqlCommand Command = new SqlCommand(Query, con);
-                    SqlDataReader Reader = (Command.ExecuteReader());
-                    if (Reader.Read() == true)
-                    {
-                        CXN_BODEGAS B = new CXN_BODEGAS
-                        {
-                            Bod_Id = Convert.ToInt32(Reader["Bod_Id"]),
-                            Bod_Usuario = Reader["Bod_Usuario"].ToString(),
-                            Bod_Responsable = Reader["Bod_Responsable"].ToString(),
-                            Bod_Reg_Med = Reader["Bod_Reg_Med"].ToString(),
-                            Bod_Tipo = Reader["Bod_Tipo"].ToString(),
-                            Bod_Estado = Reader["Bod_Estado"].ToString(),
-                            Bod_Firma = Reader["Bod_Firma"].ToString(),
-                            Bod_Numero = Convert.ToInt32(Reader["Bod_Numero"])
-                        };
+                                   "WHERE Bod_Numero = @param1";
 
-                        return B;
-                    }
-                    else
+                    using (SqlCommand Command = new SqlCommand(Query, con))
                     {
-                        return null;
-                    }
+                        Command.Parameters.AddWithValue("@param1", Code);
+
+                        using (SqlDataReader Reader = (Command.ExecuteReader()))
+                        {
+                            if (Reader.Read() == true)
+                            {
+                                CXN_BODEGAS B = new CXN_BODEGAS
+                                {
+                                    Bod_Id = Convert.ToInt32(Reader["Bod_Id"]),
+                                    Bod_Usuario = Reader["Bod_Usuario"].ToString(),
+                                    Bod_Responsable = Reader["Bod_Responsable"].ToString(),
+                                    Bod_Reg_Med = Reader["Bod_Reg_Med"].ToString(),
+                                    Bod_Tipo = Reader["Bod_Tipo"].ToString(),
+                                    Bod_Estado = Reader["Bod_Estado"].ToString(),
+                                    Bod_Firma = Reader["Bod_Firma"].ToString(),
+                                    Bod_Numero = Convert.ToInt32(Reader["Bod_Numero"])
+                                };
+
+                                return B;
+                            }
+                            else
+                            {
+                                return null;
+                            }
+                        }
+                    }                    
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 return null;
             }
         }
-
         CXN_BODEGAS IBodegas.getDatosUser(string User)
         {
             try
@@ -516,7 +583,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         bool IBodegas.updateUser(CXN_BODEGAS B)
         {
             try
@@ -531,22 +597,28 @@ namespace Persistence.CXN.Metodos
                     }
 
                     string Busqueda = "UPDATE CXN_BODEGAS " +
-                                             "SET Bod_Reg_Med = '" + B.Bod_Reg_Med + "', " +
-                                             "Bod_Tipo = '" + B.Bod_Tipo + "', " +
-                                             "Bod_Estado = '" + B.Bod_Estado + "' " +
-                                             "WHERE Bod_Numero = '" + B.Bod_Numero + "'";
-                    SqlCommand Accion = new SqlCommand(Busqueda, con);
-                    int Guarda;
-                    Guarda = Accion.ExecuteNonQuery();
-                    return true;
+                                      "SET Bod_Firma = @param1, " +
+                                      "Bod_Estado = @param2, " +
+                                      "Bod_Reg_Med = @param3 " +
+                                      "WHERE Bod_Numero = @param4";
+
+                    using (SqlCommand Accion = new SqlCommand(Busqueda, con))
+                    {
+                        Accion.Parameters.AddWithValue("@param1", B.Bod_Firma);
+                        Accion.Parameters.AddWithValue("@param2", B.Bod_Estado);
+                        Accion.Parameters.AddWithValue("@param3", B.Bod_Reg_Med);
+                        Accion.Parameters.AddWithValue("@param4", B.Bod_Numero);
+
+                        return Accion.ExecuteNonQuery() > 0 ? true : false;
+                    }
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.ToString());
                 return false;
             }
         }
-
         bool IBodegas.createUser(CXN_BODEGAS B)
         {
             try
@@ -566,12 +638,14 @@ namespace Persistence.CXN.Metodos
                                                              "Bod_Responsable, " +
                                                              "Bod_Reg_Med, " +
                                                              "Bod_Tipo, " +
+                                                             "Bod_Firma, " +
                                                              "Bod_Estado) " +
                                          "values             (@param1, " +
                                                              "@param2, " +
                                                              "@param3, " +
                                                              "@param4, " +
                                                              "@param5, " +
+                                                             "@param6, " +
                                                              "@param7)", con);
 
                     cmd.Parameters.AddWithValue("@param1", B.Bod_Numero);
@@ -579,48 +653,17 @@ namespace Persistence.CXN.Metodos
                     cmd.Parameters.AddWithValue("@param3", B.Bod_Responsable);
                     cmd.Parameters.AddWithValue("@param4", B.Bod_Reg_Med);
                     cmd.Parameters.AddWithValue("@param5", B.Bod_Tipo);
+                    cmd.Parameters.AddWithValue("@param6", B.Bod_Firma);
                     cmd.Parameters.AddWithValue("@param7", B.Bod_Estado);
-                    cmd.ExecuteNonQuery();
-
-                    return true;
+                    return cmd.ExecuteNonQuery() > 0 ? true : false;                    
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 return false;
             }
         }
-
-        bool IBodegas.registerFirma(CXN_BODEGAS B)
-        {
-            try
-            {
-                var getCon = Conexion.Conection();
-
-                using (SqlConnection con = new SqlConnection(getCon["Conexion"]))
-                {
-                    if (con != null && con.State == ConnectionState.Closed)
-                    {
-                        con.Open();
-                    }
-
-                    SqlCommand Busqueda = new SqlCommand(@"UPDATE CXN_BODEGAS " +
-                                      "SET  " +
-                                      "Bod_Firma = @param1 " +
-                                      "WHERE Bod_Numero = '" + B.Bod_Numero + "'", con);
-
-                    Busqueda.Parameters.AddWithValue("@param1", B.Bod_Firma);
-                    Busqueda.ExecuteNonQuery();
-
-                    return true;
-                }
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
         List<string> IBodegas.getTipos()
         {
             try
@@ -661,7 +704,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         List<string> IBodegas.getBodegas()
         {
             try
@@ -702,7 +744,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         DataTable IBodegas.Profesionales2(string SeleccionProfesional)
         {
             try
@@ -787,7 +828,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         List<int> IBodegas.FiltrarCodesByTipose(string Tipo)
         {
             try

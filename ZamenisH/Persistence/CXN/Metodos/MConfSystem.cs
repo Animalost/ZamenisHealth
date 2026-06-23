@@ -44,7 +44,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
         Dictionary<string, string> IConfSystem.getListado()
         {
             try
@@ -70,6 +69,23 @@ namespace Persistence.CXN.Metodos
 
                                 while (Lectura_Hora.Read() == true)
                                 {
+                                    if (Lectura_Hora["Tab_Nombre"].ToString() == "INFECCIONES")
+                                    {
+                                        D.Add(Lectura_Hora["Tab_Nombre"].ToString(), 
+                                              Lectura_Hora["Tab_Config"].ToString() == "A" ? 
+                                              Lectura_Hora["Tab_Clave"].ToString() : 
+                                              "X");
+                                        continue;
+                                    }
+                                    if (Lectura_Hora["Tab_Nombre"].ToString() == "EVENTOSADVERSOS")
+                                    {
+                                        D.Add(Lectura_Hora["Tab_Nombre"].ToString(), 
+                                              Lectura_Hora["Tab_Config"].ToString() == "A" ? 
+                                              Lectura_Hora["Tab_Clave"].ToString() : 
+                                              "X");
+                                        continue;
+                                    }                                    
+
                                     //debe ser en este orden
                                     if (Lectura_Hora["Tab_Nombre"].ToString() == "RellenarVaciosMG" && Lectura_Hora["Tab_Clave"].ToString() == "A")
                                     {
@@ -120,7 +136,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         string IConfSystem.getURLConsentimientos(string TipoCon)
         {
             try
@@ -160,7 +175,6 @@ namespace Persistence.CXN.Metodos
                 return "";
             }
         }
-
         (bool Noticia, string Ruta) IConfSystem.getDatoNoticias()
         {
             try

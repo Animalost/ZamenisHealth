@@ -24,25 +24,32 @@ namespace Persistence.CXN.Metodos
 
                     String Query = "SELECT Zon_Dep " +
                                    "FROM CXN_ZONAS " +
-                                   "WHERE Zon_Dep_Cod = '" + CodDep + "'";
-                    SqlCommand Command = new SqlCommand(Query, con);
-                    SqlDataReader Reader = (Command.ExecuteReader());
-                    if (Reader.Read() == true)
+                                   "WHERE Zon_Dep_Cod = @param1";
+
+                    using (SqlCommand Command = new SqlCommand(Query, con))
                     {
-                        return Reader["Zon_Dep"].ToString();
-                    }
-                    else
-                    {
-                        return "";
-                    }
+                        Command.Parameters.AddWithValue("@param1", CodDep);
+
+                        using (SqlDataReader Reader = (Command.ExecuteReader()))
+                        {
+                            if (Reader.Read() == true)
+                            {
+                                return Reader["Zon_Dep"].ToString();
+                            }
+                            else
+                            {
+                                return "";
+                            }
+                        }
+                    }                   
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 return "";
             }
         }
-
         string IZonas.DepartamentoCodigo(string NomDep)
         {
             try
@@ -57,25 +64,32 @@ namespace Persistence.CXN.Metodos
                     }
                     String Query = "SELECT Zon_Dep_Cod " +
                                    "FROM CXN_ZONAS " +
-                                   "WHERE Zon_Dep = '" + NomDep + "'";
-                    SqlCommand Commando = new SqlCommand(Query, con);
-                    SqlDataReader Reader = (Commando.ExecuteReader());
-                    if (Reader.Read() == true)
+                                   "WHERE Zon_Dep = @param1";
+
+                    using (SqlCommand Commando = new SqlCommand(Query, con))
                     {
-                        return Reader["Zon_Dep_Cod"].ToString();
-                    }
-                    else
-                    {
-                        return "";
-                    }
+                        Commando.Parameters.AddWithValue("@param1", NomDep);
+
+                        using (SqlDataReader Reader = (Commando.ExecuteReader()))
+                        {
+                            if (Reader.Read() == true)
+                            {
+                                return Reader["Zon_Dep_Cod"].ToString();
+                            }
+                            else
+                            {
+                                return "";
+                            }
+                        }
+                    }                                           
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 return "";
             }
         }
-
         string IZonas.MunicipioCodigo(string NomMun, string NomDep)
         {
             try
@@ -90,26 +104,34 @@ namespace Persistence.CXN.Metodos
                     }
                     String Query = "SELECT Zon_Mun_Cod " +
                                    "FROM CXN_ZONAS " +
-                                   "WHERE Zon_Mun = '" + NomMun + "' " +
-                                   "AND Zon_Dep = '" + NomDep + "'";
-                    SqlCommand Commando = new SqlCommand(Query, con);
-                    SqlDataReader Reader = (Commando.ExecuteReader());
-                    if (Reader.Read() == true)
+                                   "WHERE Zon_Mun = @param1 " +
+                                   "AND Zon_Dep = @param2";
+
+                    using (SqlCommand Commando = new SqlCommand(Query, con))
                     {
-                        return Reader["Zon_Mun_Cod"].ToString();
-                    }
-                    else
-                    {
-                        return "";
-                    }
+                        Commando.Parameters.AddWithValue("@param1", NomMun);
+                        Commando.Parameters.AddWithValue("@param2", NomDep);
+
+                        using (SqlDataReader Reader = (Commando.ExecuteReader()))
+                        {
+                            if (Reader.Read() == true)
+                            {
+                                return Reader["Zon_Mun_Cod"].ToString();
+                            }
+                            else
+                            {
+                                return "";
+                            }
+                        }
+                    }                   
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 return "";
             }
         }
-
         string IZonas.MunicipioNombre(string CodMun, string DepCod)
         {
             try
@@ -125,26 +147,34 @@ namespace Persistence.CXN.Metodos
 
                     String Query = "SELECT Zon_Mun " +
                                    "FROM CXN_ZONAS " +
-                                   "WHERE Zon_Mun_Cod = '" + CodMun + "' " +
-                                   "AND Zon_Dep_Cod = '" + DepCod + "'";
-                    SqlCommand Command = new SqlCommand(Query, con);
-                    SqlDataReader Reader = (Command.ExecuteReader());
-                    if (Reader.Read() == true)
+                                   "WHERE Zon_Mun_Cod = @param1 " +
+                                   "AND Zon_Dep_Cod = @param2";
+
+                    using (SqlCommand Command = new SqlCommand(Query, con))
                     {
-                        return Reader["Zon_Mun"].ToString();
-                    }
-                    else
-                    {
-                        return "";
+                        Command.Parameters.AddWithValue("@param1", CodMun);
+                        Command.Parameters.AddWithValue("@param2", DepCod);
+
+                        using (SqlDataReader Reader = (Command.ExecuteReader()))
+                        {
+                            if (Reader.Read() == true)
+                            {
+                                return Reader["Zon_Mun"].ToString();
+                            }
+                            else
+                            {
+                                return "";
+                            }
+                        }
                     }
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 return "";
             }
         }
-
         List<CXN_ZONAS> IZonas._listadoCodigos(string DatoDep, string DatoMun, string Filtro)
         {
             try
@@ -172,34 +202,38 @@ namespace Persistence.CXN.Metodos
                         Query = "SELECT Zon_Mun_Cod as CODIGO, Zon_Mun as NOMBRE FROM CXN_ZONAS WHERE Zon_Mun Like '%" + DatoMun + "%' AND Zon_Dep_Cod = '" + DatoDep + "'";
                     }
 
-                    SqlCommand Carga_Command2 = new SqlCommand(Query, con);
-                    SqlDataReader Lectura_Hora2 = (Carga_Command2.ExecuteReader());
-                    if (Lectura_Hora2.HasRows)
+                    using (SqlCommand Carga_Command2 = new SqlCommand(Query, con))
                     {
-                        List<CXN_ZONAS> L = new List<CXN_ZONAS>();
-
-                        while (Lectura_Hora2.Read() == true)
+                        using (SqlDataReader Lectura_Hora2 = (Carga_Command2.ExecuteReader()))
                         {
-                            L.Add(new CXN_ZONAS
+                            if (Lectura_Hora2.HasRows)
                             {
-                                Zon_Dep_Cod = Lectura_Hora2["CODIGO"].ToString(), //GENERAL
-                                Zon_Mun = Lectura_Hora2["NOMBRE"].ToString() //GENERAL
-                            });
-                        }
+                                List<CXN_ZONAS> L = new List<CXN_ZONAS>();
 
-                        return L;
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                                while (Lectura_Hora2.Read() == true)
+                                {
+                                    L.Add(new CXN_ZONAS
+                                    {
+                                        Zon_Dep_Cod = Lectura_Hora2["CODIGO"].ToString(), //GENERAL
+                                        Zon_Mun = Lectura_Hora2["NOMBRE"].ToString() //GENERAL
+                                    });
+                                }
+
+                                return L;
+                            }
+                            else
+                            {
+                                return null;
+                            }
+                        }
+                    }                    
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 return null;
             }
         }
-
     }
 }

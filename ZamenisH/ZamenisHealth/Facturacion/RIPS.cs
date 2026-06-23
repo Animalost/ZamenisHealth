@@ -154,7 +154,7 @@ namespace ZamenisHealth.Facturacion
                 btnRes2000and2275.Click += btnZamenis6_ButtonClick;
 
                 ToolStripButton btn3275 = new ToolStripButton();
-                btn3275 = createToolButton("Res 3375/2024");
+                btn3275 = createToolButton("Res 2275/2024");
                 MenuLateral.Items.Add(btn3275);
                 btn3275.Click += btnZamenis3_ButtonClick;
 

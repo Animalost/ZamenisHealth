@@ -15,7 +15,6 @@ namespace Persistence.CXN.Metodos
     {
         private static readonly IConvenios repositorioConvenios = new MConvenios();
         private static readonly IGenerales repositorioGenerales = new MGenerales();
-        private static readonly IConfSystem repositorioConfSystem = new MConfSystem();
         private static readonly IPacientes repositorioPacientes = new MPacientes();
         private static readonly IAgenda repositorioAgenda = new MAgenda();
 
@@ -139,7 +138,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         DateTime? getLastDateIniciaSesion(string Documento)
         {
             try
@@ -177,7 +175,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         List<CXN_HORARIO> IAgenda.AsistenciaLastAut(string ID)
         {
             try
@@ -309,7 +306,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         string IAgenda.SearchCuracionForMG(int Paciente, DateTime Fecha, int Medico)
         {
             try
@@ -361,7 +357,6 @@ namespace Persistence.CXN.Metodos
                 return "";
             }
         }
-
         List<CXN_HORARIO> IAgenda.CitasProximas(int PacId, DateTime Fecha)
         {
             try
@@ -417,7 +412,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         List<CXN_HORARIO> IAgenda.CargarPrevios(int PacId)
         {
             try
@@ -482,7 +476,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         int IAgenda.AgendarPaciente(CXN_HORARIO horario)
         {
             try
@@ -600,7 +593,6 @@ namespace Persistence.CXN.Metodos
                 return 0;
             }
         }
-
         int IAgenda.AgendarPacienteJuntas(CXN_HORARIO horario)
         {
             try
@@ -725,7 +717,6 @@ namespace Persistence.CXN.Metodos
                 return 0;
             }
         }
-
         CXN_HORARIO IAgenda.getLastHorToCopy(int Admision)
         {
             try
@@ -779,7 +770,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         int IAgenda.getLastIDToCopy(int Paciente)
         {
             try
@@ -816,7 +806,6 @@ namespace Persistence.CXN.Metodos
                 return 0;
             }
         }
-
         string IAgenda.Observacioprevia(int Admision)
         {
             var getDataConection = Conexion.Conection();
@@ -910,7 +899,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         void IAgenda.desbloquearEspacio(string Usuario, int Admision)
         {
             var getDataConection = Conexion.Conection();
@@ -934,7 +922,6 @@ namespace Persistence.CXN.Metodos
                 Guarda = Accion.ExecuteNonQuery();
             }
         }
-
         void IAgenda.InicioControlCuraciones(int Admision, string estado)
         {
             try
@@ -961,7 +948,6 @@ namespace Persistence.CXN.Metodos
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         string IAgenda.consularAdmisionEstado(int Admision)
         {
             var getDataConection = Conexion.Conection();
@@ -975,20 +961,25 @@ namespace Persistence.CXN.Metodos
 
                 String Cargar_Hora = "SELECT Hor_Estado " +
                                      "FROM CXN_HORARIO " +
-                                     "WHERE Hor_id = '" + Admision + "'";
-                SqlCommand Carga_Command = new SqlCommand(Cargar_Hora, con);
-                SqlDataReader Lectura_Hora = (Carga_Command.ExecuteReader());
-                if (Lectura_Hora.Read() == true)
+                                     "WHERE Hor_Id = @param1";
+                using (SqlCommand Carga_Command = new SqlCommand(Cargar_Hora, con))
                 {
-                    return Lectura_Hora["Hor_Estado"].ToString();
-                }
-                else
-                {
-                    return "0";
-                }
+                    Carga_Command.Parameters.AddWithValue("@param1", Admision);
+
+                    using (SqlDataReader Lectura_Hora = (Carga_Command.ExecuteReader()))
+                    {
+                        if (Lectura_Hora.Read() == true)
+                        {
+                            return Lectura_Hora["Hor_Estado"].ToString();
+                        }
+                        else
+                        {
+                            return "0";
+                        }
+                    }
+                }                
             }
         }
-
         int IAgenda.consularMGMismoDia(int Pacientes, DateTime Fecha)
         {
             try
@@ -1034,7 +1025,6 @@ namespace Persistence.CXN.Metodos
                 return 0;
             }
         }
-
         void IAgenda.anularAdmision(int Admision, string UserLogged)
         {
             var getDataConection = Conexion.Conection();
@@ -1049,25 +1039,32 @@ namespace Persistence.CXN.Metodos
                 string getObPrev = repositorioAgenda.Observacioprevia(Admision) + " ||| ADMISION ANULADA POR " + UserLogged;
 
                 string Busqueda = "UPDATE CXN_HORARIO " +
-                                          "SET Hor_Estado = 'A', " +
-                                          "Hor_RcCaja = '', " +
-                                          "Hor_ValDerechos = '', " +
-                                          "Hor_Autoriza = '', " +
-                                          "Hor_CantSesion = '" + DBNull.Value + "', " +
-                                          "Hor_IniciaSesion = '" + DBNull.Value + "', " +
-                                          "Hor_RegAtn = '', " +
-                                          "Hor_Valida = '', " +
-                                          "Hor_Observacion = '" + getObPrev + "' " +
-                                          "WHERE Hor_Id = '" + Admision + "' " +
-                                          "AND Hor_Estado = 'P'";
-                SqlCommand Accion = new SqlCommand(Busqueda, con);
-                int Guarda;
-                Guarda = Accion.ExecuteNonQuery();
+                                  "SET Hor_Estado = @param1, " +
+                                  "Hor_RcCaja = @param2, " +
+                                  "Hor_ValDerechos = @param2, " +
+                                  "Hor_Autoriza = @param2, " +
+                                  "Hor_CantSesion = @param3, " +
+                                  "Hor_IniciaSesion = @param3, " +
+                                  "Hor_RegAtn = @param2, " +
+                                  "Hor_Valida = @param2, " +
+                                  "Hor_Observacion = @param4 " +
+                                  "WHERE Hor_Id = @param5 " +
+                                  "AND Hor_Estado = @param6";
 
-                ConsultarPacSal_A(Admision);
+                using (SqlCommand Accion = new SqlCommand(Busqueda, con))
+                {
+                    Accion.Parameters.AddWithValue("@param1", "A");
+                    Accion.Parameters.AddWithValue("@param2", "");
+                    Accion.Parameters.AddWithValue("@param3", DBNull.Value);
+                    Accion.Parameters.AddWithValue("@param4", getObPrev);
+                    Accion.Parameters.AddWithValue("@param5", Admision);
+                    Accion.Parameters.AddWithValue("@param6", "P");
+                    Accion.ExecuteNonQuery();
+
+                    ConsultarPacSal_A(Admision);
+                }                    
             }
         }
-
         void IAgenda.ActualizarAutorizacionMG(int Admision, string Autoriza, int Cantidad)
         {
             var getDataConection = Conexion.Conection();
@@ -1093,7 +1090,6 @@ namespace Persistence.CXN.Metodos
                 }
             }
         }
-
         void ConsultarPacSal_A(int Adm)
         {
             var getDataConection = Conexion.Conection();
@@ -1106,15 +1102,19 @@ namespace Persistence.CXN.Metodos
                 }
 
                 string Busqueda = "UPDATE CXN_HORARIO " +
-                                  "SET Hor_Pac_Sal = '' " +
-                                  "WHERE Hor_Id = '" + Adm + "' " +
-                                  "AND Hor_Pac_Sal = 'A'";
-                SqlCommand Accion = new SqlCommand(Busqueda, con);
-                int Guarda;
-                Guarda = Accion.ExecuteNonQuery();
+                                  "SET Hor_Pac_Sal = @param1 " +
+                                  "WHERE Hor_Id = @param2 " +
+                                  "AND Hor_Pac_Sal = @param3";
+
+                using (SqlCommand Accion = new SqlCommand(Busqueda, con))
+                {
+                    Accion.Parameters.AddWithValue("@param1", "");
+                    Accion.Parameters.AddWithValue("@param2", Adm);
+                    Accion.Parameters.AddWithValue("@param3", "A");
+                    Accion.ExecuteNonQuery();
+                }                
             }
         }
-
         List<CXN_CIA> HistoricoCitas(int Admision)
         {
             try
@@ -1195,7 +1195,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         List<CXN_CIA> IAgenda.certificadoAsistencia(int Admision, string Texto)
         {
             try
@@ -1275,37 +1274,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }          
         }
-
-        void IAgenda.Images_Adress()
-        {
-            try
-            {
-                Dictionary<string, string> getImagesToAgend = repositorioConfSystem.getListado();
-                if (getImagesToAgend != null)
-                {
-                    string Bloqueo = getImagesToAgend["Bloqueo"];
-                    string SMS = getImagesToAgend["Email"];
-                    string Email = getImagesToAgend["SMS"];
-
-                    Byte[] bBloqueo = Convert.FromBase64String(Bloqueo);
-                    Byte[] bSMS = Convert.FromBase64String(SMS);
-                    Byte[] bEmail = Convert.FromBase64String(Email);
-
-                    Conexion.BloqueosAgenda = Bloqueo;
-                    Conexion.SMSAgenda = SMS;
-                    Conexion.EmailAgenda= Email;
-                }
-                else
-                {
-                    MessageBox.Show("Error general en agenda para imagenes, contacte a soporte de inmediato", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
         List<CXN_HORARIO> IAgenda.CargarAgenda(int Medico, int Compañia, DateTime Desde, string Dia)
         {
             try
@@ -1433,7 +1401,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }  
-
         Dictionary<string, string> IAgenda.SugerenciaServicio(int Paciente)
         {
             try
@@ -1470,7 +1437,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         bool IAgenda.changeProfesional(int Admision, int Bodega, string IdHora, string Observacion, DateTime fechaCita, DateTime hora)
         {
             try
@@ -1511,7 +1477,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
         void IAgenda._updateAseHorario(int Ase, string Pac, int Adm)
         {
             try
@@ -1544,7 +1509,6 @@ namespace Persistence.CXN.Metodos
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
             }            
         }
-
         void IAgenda.ActualizaAdmision(string Cup, int Adm)
         {
             try
@@ -1573,7 +1537,6 @@ namespace Persistence.CXN.Metodos
                 MessageBox.Show(ex.Message);
             }
         }
-
         bool IAgenda.updateCitaAdmisionar(CXN_HORARIO H)
         {
             try
@@ -1607,7 +1570,8 @@ namespace Persistence.CXN.Metodos
                                           "Hor_IniciaSesion = @param14, " +
                                           "Hor_Observacion = @param15, " +
                                           "Hor_ValDerechos = @param16, " +
-                                          "Hor_Vales = @param17 " +
+                                          "Hor_Vales = @param17, " +
+                                          "Hor_Color = @param20 " +
                                           "WHERE Hor_Id = @param18 " +
                                           "AND Hor_Estado = @param19";
 
@@ -1631,6 +1595,7 @@ namespace Persistence.CXN.Metodos
                     Accion.Parameters.AddWithValue("@param17", H.Hor_Vales);
                     Accion.Parameters.AddWithValue("@param18", H.Hor_Id);
                     Accion.Parameters.AddWithValue("@param19", "A");
+                    Accion.Parameters.AddWithValue("@param20", string.IsNullOrEmpty(H.Hor_Color) ? "" : H.Hor_Color);
 
                     int Guarda = Accion.ExecuteNonQuery();
                     return Guarda > 0 ? true : false;
@@ -1642,7 +1607,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
         void IAgenda.PendientesChecked(int Adm, string Estado)
         {
             try
@@ -1671,7 +1635,6 @@ namespace Persistence.CXN.Metodos
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         void IAgenda.CancelacionInterna(string Razon, string User, int HorId, string Motivo)
         {
             var getDataConection = Conexion.Conection();
@@ -1696,7 +1659,6 @@ namespace Persistence.CXN.Metodos
                 Guarda = Accion.ExecuteNonQuery();
             }
         }
-
         void IAgenda.Inasistencia_Cita(int horid, string razon)
         {
             var getDataConection = Conexion.Conection();
@@ -1715,7 +1677,6 @@ namespace Persistence.CXN.Metodos
                 Guarda = Accion.ExecuteNonQuery();
             }
         }
-
         void IAgenda.Retardo_Cita(string Minutos, string Razon, int horid)
         {
             var getDataConection = Conexion.Conection();
@@ -1735,7 +1696,6 @@ namespace Persistence.CXN.Metodos
                 Guarda = Accion.ExecuteNonQuery();
             }
         }
-
         void IAgenda.addObservation(int Admision, string Observacion)
         {
             var getDataConection = Conexion.Conection();
@@ -1756,7 +1716,6 @@ namespace Persistence.CXN.Metodos
                 Guarda2 = commandhorario.ExecuteNonQuery();
             }
         }
-
         void IAgenda.deleteHistoria(int Admision, string TipServ)
         {
             var getDataConection = Conexion.Conection();
@@ -1842,7 +1801,6 @@ namespace Persistence.CXN.Metodos
 
             }
         }
-
         void IAgenda.addFestivo(DateTime Fecha, string Motivo)
         {
             var getDataConection = Conexion.Conection();
@@ -1864,7 +1822,6 @@ namespace Persistence.CXN.Metodos
                 cmd.ExecuteNonQuery();
             }
         }
-
         void IAgenda.ConsumirAdmision(int Admition)
         {
             try
@@ -1892,7 +1849,6 @@ namespace Persistence.CXN.Metodos
                 MessageBox.Show(ex.Message);
             }
         }
-
         void IAgenda.Graba_Hora_Atencion(int Atention)
         {
             Dictionary<string,string> getData = Conexion.Conection();
@@ -1915,7 +1871,6 @@ namespace Persistence.CXN.Metodos
                 Guarda = Accion.ExecuteNonQuery();
             }
         }
-
         void IAgenda.Graba_Hora_Salida(int Atention)
         {
             Dictionary<string, string> getData = Conexion.Conection();
@@ -1938,7 +1893,6 @@ namespace Persistence.CXN.Metodos
                 Guarda = Accion.ExecuteNonQuery();
             }
         }
-
         void IAgenda.OPend(CXN_OPEND OP)
         {
             try
@@ -1970,42 +1924,6 @@ namespace Persistence.CXN.Metodos
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
-        bool IAgenda.getPendientes()
-        {
-            try
-            {
-                var getDataConection = Conexion.Conection();
-
-                using (SqlConnection con = new SqlConnection(getDataConection["Conexion"]))
-                {
-                    if (con != null && con.State == ConnectionState.Closed)
-                    {
-                        con.Open();
-                    }
-
-                    String Query = "SELECT * " +
-                                   "FROM CXN_OPEND " +
-                                   "WHERE OP_Estado = 'P'";
-                    SqlCommand Commando = new SqlCommand(Query, con);
-                    SqlDataReader Reader = (Commando.ExecuteReader());
-                    if (Reader.Read() == true)
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
-                return false;
-            }
-        }
-
         List<CXN_HORARIO> IAgenda.getListPendientes()
         {
             try
@@ -2056,7 +1974,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         void IAgenda.OPendUpdate(CXN_OPEND O)
         {
             try
@@ -2085,7 +2002,6 @@ namespace Persistence.CXN.Metodos
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         void IAgenda.OpenAdmition(int Admision, string Estado)
         {
             try
@@ -2112,44 +2028,6 @@ namespace Persistence.CXN.Metodos
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
-        bool IAgenda.OpenAdmition(int Admision)
-        {
-            try
-            {
-                var getDataConection = Conexion.Conection();
-
-                using (SqlConnection con = new SqlConnection(getDataConection["Conexion"]))
-                {
-                    if (con != null && con.State == ConnectionState.Closed)
-                    {
-                        con.Open();
-                    }
-
-                    String Query = "SELECT TOP 1 Hor_AdmOpnened " +
-                                   "FROM CXN_HORARIO " +
-                                   "WHERE Hor_Id = '" + Admision + "' " +
-                                   "ORDER BY Hor_Id DESC";
-                    SqlCommand Commando = new SqlCommand(Query, con);
-                    SqlDataReader Reader = (Commando.ExecuteReader());
-                    if (Reader.Read() == true)
-                    {
-                        // True si puede anular
-                        // False no puede anular
-                        return (Reader["Hor_AdmOpnened"] != DBNull.Value ? (Reader["Hor_AdmOpnened"].ToString() == "N" ? true : false) : true);
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
-                return false;
-            }
-        }
         void IAgenda.updateAseguradoraFromCargo(int Asegura, int Admision)
         {
             var getDataConection = Conexion.Conection();
@@ -2169,7 +2047,6 @@ namespace Persistence.CXN.Metodos
                 Guarda = Accion.ExecuteNonQuery();
             }
         }
-
         void IAgenda.updateObservaTemp(string ObTemp, int Admision)
         {
             var getDataConection = Conexion.Conection();
@@ -2189,93 +2066,6 @@ namespace Persistence.CXN.Metodos
                 Guarda = Accion.ExecuteNonQuery();
             }
         }
-
-        #region SALE CONSULTAS
-        Dictionary<int, string> IAgenda.getSaleConsultas(DateTime Fecha, string Tipo) 
-        {
-            try
-            {
-                var getDataConection = Conexion.Conection();
-
-                using (SqlConnection con = new SqlConnection(getDataConection["Conexion"]))
-                {
-                    if (con != null && con.State == ConnectionState.Closed)
-                    {
-                        con.Open();
-                    }
-
-                    DateTime fechaConsulta = new DateTime(Fecha.Year, Fecha.Month, Fecha.Day, 00,00,00,000);
-
-                    String Query = "SELECT DISTINCT Hor_Id, Hor_Imp_Age " +
-                                   "FROM CXN_HORARIO " +
-                                   "WHERE Hor_Pac_Fecha_Cita = @param1 " +
-                                   "AND SALECONSULTA = @param2";
-
-                    using (SqlCommand Commando = new SqlCommand(Query, con))
-                    {
-                        Commando.Parameters.Add(new SqlParameter("@param2", Tipo));
-                        Commando.Parameters.Add(new SqlParameter("@param1", SqlDbType.DateTime)).Value = Fecha; 
-
-                        using (SqlDataReader Reader = (Commando.ExecuteReader()))
-                        {
-                            if (Reader.HasRows)
-                            {
-                                Dictionary<int, string> dic = new Dictionary<int, string>();
-
-                                while (Reader.Read() == true)
-                                {
-                                    dic.Add(Convert.ToInt32(Reader["Hor_Id"]), Reader["Hor_Imp_Age"].ToString());
-                                }
-
-                                return dic;
-                            }
-                            else
-                            {
-                                return null;
-                            }
-                        }
-                    }                                           
-                }
-            }
-            catch (Exception ex)
-            {
-                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
-                return null;
-            }
-        }
-
-
-        void IAgenda.updateSALIERONCONSULTA(int Admition)
-        {
-            try
-            {
-                var getDataConection = Conexion.Conection();
-
-                using (SqlConnection con = new SqlConnection(getDataConection["Conexion"]))
-                {
-                    if (con != null && con.State == ConnectionState.Closed)
-                    {
-                        con.Open();
-                    }
-
-                    string Busqueda = (@"UPDATE CXN_HORARIO " +
-                                      "SET SALECONSULTA = @param1 " +
-                                      "WHERE Hor_Id = @param2 " +
-                                      "AND SALECONSULTA = @param3");
-                    SqlCommand Accion = new SqlCommand(Busqueda, con);
-
-                    Accion.Parameters.Add(new SqlParameter("@param1", "L"));
-                    Accion.Parameters.Add(new SqlParameter("@param2", Admition));
-                    Accion.Parameters.Add(new SqlParameter("@param3", "A"));
-                    Accion.ExecuteNonQuery();
-                }
-            }
-            catch (Exception ex)
-            {
-                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
-            }
-        }
-
         bool IAgenda.addSALECONSULTA(int Admision)
         {
             try
@@ -2306,46 +2096,35 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
-        #endregion
-
-        void IAgenda.updateTipoCitaMG(string Tipo, int Admision, string IniSesion)
+        void IAgenda.UpdatecolorCita(int Admision, string Color)
         {
-            var getDataConection = Conexion.Conection();
-
-            using (SqlConnection con = new SqlConnection(getDataConection["Conexion"]))
+            try
             {
-                if (con != null && con.State == ConnectionState.Closed)
+                var getDataConection = Conexion.Conection();
+
+                using (SqlConnection con = new SqlConnection(getDataConection["Conexion"]))
                 {
-                    con.Open();
+                    if (con != null && con.State == ConnectionState.Closed)
+                    {
+                        con.Open();
+                    }
+
+                    string Busqueda = "UPDATE CXN_HORARIO " +
+                                      "SET Hor_Color = @param1 " +
+                                      "WHERE Hor_Id = @param2";
+
+                    using (SqlCommand Accion = new SqlCommand(Busqueda, con))
+                    {
+                        Accion.Parameters.AddWithValue("@param1", Color);
+                        Accion.Parameters.AddWithValue("@param2", Admision);
+
+                        Accion.ExecuteNonQuery();
+                    }                        
                 }
-
-                SqlCommand Busqueda = new SqlCommand();
-
-                if (IniSesion == "")
-                {
-                    Busqueda = new SqlCommand(@"UPDATE CXN_HORARIO " +
-                                               "SET  " +
-                                               "Hor_Pac_Sal = @param1 " +
-                                               "WHERE Hor_Id = @param2 " +
-                                               "AND Hor_Estado <> @param3", con);
-                }
-                else
-                {
-                    Busqueda = new SqlCommand(@"UPDATE CXN_HORARIO " +
-                                               "SET  " +
-                                               "Hor_Pac_Sal = @param1, " +
-                                               "Hor_IniciaSesion = @param4 " +
-                                               "WHERE Hor_Id = @param2 " +
-                                               "AND Hor_Estado <> @param3", con);
-
-                    Busqueda.Parameters.AddWithValue("@param4", IniSesion);
-                }
-
-                Busqueda.Parameters.AddWithValue("@param1", Tipo);
-                Busqueda.Parameters.AddWithValue("@param2", Admision);
-                Busqueda.Parameters.AddWithValue("@param3", "H");               
-                Busqueda.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
             }
         }
     }

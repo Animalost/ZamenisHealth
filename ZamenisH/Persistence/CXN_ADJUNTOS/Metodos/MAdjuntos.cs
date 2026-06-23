@@ -15,41 +15,6 @@ namespace Persistence.CXN_ADJUNTOS.Metodos
     {
         private static readonly IPacientes repoPac = new MPacientes();
 
-        byte[] IAdjuntos.showImage(int Posision)
-        {
-            try
-            {
-                Dictionary<string, string> getData = Conexion.Conection();
-
-                using (SqlConnection con = new SqlConnection("Data Source=slsoft.net;Initial Catalog=CXN_ADJUNTOS;User ID=sa;Password=Sharon*55284;MultipleActiveResultSets=true;Connect Timeout=120;"))
-                {
-                    if (con != null && con.State == ConnectionState.Closed)
-                    {
-                        con.Open();
-                    }
-
-                    String Cargar_Hora = "SELECT Imagen " +
-                                         "FROM PDF " +
-                                         "WHERE Id = '" + Posision + "'";
-                    SqlCommand Carga_Command = new SqlCommand(Cargar_Hora, con);
-                    SqlDataReader Lectura_Hora = (Carga_Command.ExecuteReader());
-                    if (Lectura_Hora.Read() == true)
-                    {
-                        return  (byte[])Lectura_Hora["Imagen"];                        
-                    }
-                    else
-                    {
-                        return null;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
-                return null;
-            }
-        }
-
         int IAdjuntos.uploadFile(Adj_Archivos A)
         {
             try
@@ -103,7 +68,6 @@ namespace Persistence.CXN_ADJUNTOS.Metodos
                 return 0;
             }
         }
-
         List<CXN_HORARIO> IAdjuntos.getAdjuntos(int Paciente)
         {
             try
@@ -168,7 +132,6 @@ namespace Persistence.CXN_ADJUNTOS.Metodos
                 return null;
             }
         }
-
         byte[] IAdjuntos.getPDF(int Posision)
         {
             try

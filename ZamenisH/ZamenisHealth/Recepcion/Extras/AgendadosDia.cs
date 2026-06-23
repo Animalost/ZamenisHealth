@@ -1,16 +1,21 @@
 ﻿using Domain;
 using Domain.CXN;
+
 using FormAndControls;
+
 using Persistence;
 using Persistence.CXN.Interfaces;
 using Persistence.CXN.Metodos;
+
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+
 using ZamenisHealth.Comunes;
+using ZamenisHealth.Recepcion.AgendaDiaria;
 
 namespace ZamenisHealth.Recepcion.Extras
 {
@@ -181,13 +186,10 @@ namespace ZamenisHealth.Recepcion.Extras
                 }
                 else
                 {
-                    
-                        repositorioHorario.CancelacionInterna(RCancela, Comunes.Contenedor.UsuarioLogueado, Cancela, "CANCELACION INTERNA");
-                                        
+                    repositorioHorario.CancelacionInterna(RCancela, Comunes.Contenedor.UsuarioLogueado, Cancela, "CANCELACION INTERNA");
 
-                    Agenda f7 = Application.OpenForms.OfType<Agenda>().SingleOrDefault();
-
-                    f7.RechargeTrueCheck();
+                    Agendamiento f7 = Application.OpenForms.OfType<Agendamiento>().FirstOrDefault();
+                    f7.EventoInicial();
 
                     this.L.RemoveAll(item => item.Hor_Id == Cancela);
                     loadGrid();

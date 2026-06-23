@@ -61,7 +61,6 @@ namespace Persistence.Fibromialgia.Metodos
                 return null;
             }
         }
-
         List<FIB_ENCUESTA1> IEncuestas.getPreviosGeneralEncuesta1()
         {
             try
@@ -111,7 +110,6 @@ namespace Persistence.Fibromialgia.Metodos
                 return null;
             }
         }
-
         List<FIB_ENCUESTA2> IEncuestas.getPreviosXPacEncuesta2(string tdoc, string doc)
         {
             try
@@ -163,7 +161,6 @@ namespace Persistence.Fibromialgia.Metodos
                 return null;
             }
         }
-
         List<FIB_ENCUESTA2> IEncuestas.getPreviosGeneralEncuesta2()
         {
             try
@@ -213,7 +210,6 @@ namespace Persistence.Fibromialgia.Metodos
                 return null;
             }
         }
-
         List<FIB_ENCUESTA3> IEncuestas.getPreviosXPacEncuesta3(string tdoc, string doc)
         {
             try
@@ -265,7 +261,6 @@ namespace Persistence.Fibromialgia.Metodos
                 return null;
             }
         }
-
         List<FIB_ENCUESTA3> IEncuestas.getPreviosGeneralEncuesta3()
         {
             try
@@ -315,7 +310,6 @@ namespace Persistence.Fibromialgia.Metodos
                 return null;
             }
         }
-
         bool IEncuestas.ExcluirEncuesta(int Posision, string TipoEncuesta, string User)
         {
             try
@@ -375,6 +369,5 @@ namespace Persistence.Fibromialgia.Metodos
                 return false;
             }
         }
-
     }
 }

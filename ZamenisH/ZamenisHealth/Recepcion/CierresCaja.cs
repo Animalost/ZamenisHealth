@@ -1,14 +1,15 @@
 ﻿using Domain.CXN;
 using FormAndControls;
+using Microsoft.Reporting.WinForms;
 using Persistence.CXN;
 using Persistence.CXN.Interfaces;
 using Persistence.CXN.Metodos;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
-using ZamenisHealth.Clases;
 using ZamenisHealth.Comunes;
-using ZamenisHealth.INV.Consultorios;
 
 namespace ZamenisHealth.Recepcion
 {
@@ -22,21 +23,31 @@ namespace ZamenisHealth.Recepcion
         private DateTime Hasta;
         private int Cia;
 
-        private int CienMil = 100000;
-        private int CincuentaMil = 50000;
-        private int VeinteMil = 20000;
-        private int DiezMil = 10000;
-        private int CincoMil = 5000;
-        private int DosMil = 2000;
-        private int Mil = 1000;
-
-        private int mMil = 1000;
-        private int mQuinientos = 500;
-        private int mDoscientos = 200;
-        private int mCien = 100;
-        private int mCincuenta = 50;
-
         private int ConsecutivoCierre;
+
+        //CAJA
+        int ValTotalEfectivo = 0;
+        int ValTotalTC = 0;
+        int ValTotalTD = 0;
+        int ValTotalNequi = 0;
+        int ValTotalDaviplata = 0;
+        int ValTotalOtras = 0;
+
+        //VENTAS
+        int ValTotalEfectivoV = 0;
+        int ValTotalTCV = 0;
+        int ValTotalTDV = 0;
+        int ValTotalNequiV = 0;
+        int ValTotalDaviplataV = 0;
+        int ValTotalOtrasV = 0;
+
+        //PARTICULARES
+        int ValTotalEfectivoP = 0;
+        int ValTotalTCP = 0;
+        int ValTotalTDP = 0;
+        int ValTotalNequiP = 0;
+        int ValTotalDaviplataP = 0;
+        int ValTotalOtrasP = 0;
 
         public CierresCaja(DateTime desde, DateTime hasta, int cia)
         {
@@ -50,19 +61,6 @@ namespace ZamenisHealth.Recepcion
             SoloNumeros(textBox14);
             SoloNumeros(textBox13);
             SoloNumeros(textBox7);
-
-            SoloNumeros(textBox1);
-            SoloNumeros(textBox2);
-            SoloNumeros(textBox3);
-            SoloNumeros(textBox4);
-            SoloNumeros(textBox5);
-            SoloNumeros(textBox6);
-
-            SoloNumeros(textBox12);
-            SoloNumeros(textBox11);
-            SoloNumeros(textBox10);
-            SoloNumeros(textBox9);
-            SoloNumeros(textBox8);
         }
 
         private void CierresCaja_Load(object sender, EventArgs e)
@@ -83,54 +81,149 @@ namespace ZamenisHealth.Recepcion
         { 
             ConsecutivoCierre = iCompañia.getPrestadorbyCode(Cia).Com_Cierres;
         }
-
         void CargarValores()
         {
             try
             {
-                Dictionary<string, int> ingresos = iCIerresCaja.getIngresos(Cia, Desde, Hasta);
-                if (ingresos != null)
-                {
-                    label14.Text = ingresos.ContainsKey("Efectivo") ? "$ " + ingresos["Efectivo"].ToString("N2") : "$ 0";
-                    label13.Text = ingresos.ContainsKey("Tarjeta Credito") ? "$ " + ingresos["Tarjeta Credito"].ToString("N2") : "$ 0";
-                    label12.Text = ingresos.ContainsKey("Tarjeta Debito") ? "$ " + ingresos["Tarjeta Debito"].ToString("N2") : "$ 0";
-                    label11.Text = ingresos.ContainsKey("Nequi") ? "$ " + ingresos["Nequi"].ToString("N2") : "$ 0";
-                    label10.Text = ingresos.ContainsKey("Daviplata") ? "$ " + ingresos["Daviplata"].ToString("N2") : "$ 0";
-                    label9.Text = ingresos.ContainsKey("Otras Billeteras") ? "$ " + ingresos["Otras Billeteras"].ToString("N2") : "$ 0";
-                    label47.Text = ingresos.ContainsKey("Total") ? "$ " + ingresos["Total"].ToString("N2") : "$ 0";
+                (Dictionary<string, int> Ventas, 
+                    Dictionary<string, int> Caja, 
+                    Dictionary<string, int> Particulares) ingresos = iCIerresCaja.getIngresos(Cia, Desde, Hasta);            
 
-                    label59.Text = label47.Text;
-                }
-                else
+                if (ingresos.Caja != null)
                 {
-                    MG = new MensajesGeneral();
-                    MG.Mensaje = "No hay ventas en este rango de fechas";
-                    MG.TipoImagen = 3;
-                    MG.ShowDialog();
+                    if (ingresos.Caja.TryGetValue("Efectivo", out int valorE))
+                    {
+                        ValTotalEfectivo = valorE;
+                    }
+                    if (ingresos.Caja.TryGetValue("Tarjeta Credito", out int valorTC))
+                    {
+                        ValTotalTC = valorTC;
+                    }
+                    if (ingresos.Caja.TryGetValue("Tarjeta Debito", out int valorTD))
+                    {
+                        ValTotalTD = valorTD;
+                    }
+                    if (ingresos.Caja.TryGetValue("Nequi", out int valorN))
+                    {
+                        ValTotalNequi = valorN;
+                    }
+                    if (ingresos.Caja.TryGetValue("Daviplata", out int valorD))
+                    {
+                        ValTotalDaviplata = valorD;
+                    }
+                    if (ingresos.Caja.TryGetValue("Otras Billeteras", out int valorOB))
+                    {
+                        ValTotalOtras = valorOB;
+                    }
 
-                    this.Dispose();
-                    this.Dispose();
+                    label14.Text = $" $ {Convert.ToInt32(ValTotalEfectivo).ToString("N0")}";
+                    label13.Text = $" $ {Convert.ToInt32(ValTotalTC).ToString("N0")}";
+                    label12.Text = $" $ {Convert.ToInt32(ValTotalTD).ToString("N0")}";
+                    label11.Text = $" $ {Convert.ToInt32(ValTotalNequi).ToString("N0")}";
+                    label10.Text = $" $ {Convert.ToInt32(ValTotalDaviplata).ToString("N0")}";
+                    label19.Text = $" $ {Convert.ToInt32(ValTotalOtras).ToString("N0")}";
                 }
+
+                label47.Text = Convert.ToInt32(ValTotalEfectivo + ValTotalTC + ValTotalTD + ValTotalNequi + ValTotalDaviplata + ValTotalOtras).ToString("N0");
+
+                if (ingresos.Ventas != null)
+                {
+                    if (ingresos.Ventas.TryGetValue("Efectivo", out int valorE))
+                    {
+                        ValTotalEfectivoV = valorE;
+                    }
+                    if (ingresos.Ventas.TryGetValue("Tarjeta Credito", out int valorTC))
+                    {
+                        ValTotalTCV = valorTC;
+                    }
+                    if (ingresos.Ventas.TryGetValue("Tarjeta Debito", out int valorTD))
+                    {
+                        ValTotalTDV = valorTD;
+                    }
+                    if (ingresos.Ventas.TryGetValue("Nequi", out int valorN))
+                    {
+                        ValTotalNequiV = valorN;
+                    }
+                    if (ingresos.Ventas.TryGetValue("Daviplata", out int valorD))
+                    {
+                        ValTotalDaviplataV = valorD;
+                    }
+                    if (ingresos.Ventas.TryGetValue("Otras Billeteras", out int valorOB))
+                    {
+                        ValTotalOtrasV = valorOB;
+                    }
+
+                    label22.Text = $" $ {Convert.ToInt32(ValTotalEfectivoV).ToString("N0")}";
+                    label21.Text = $" $ {Convert.ToInt32(ValTotalTCV).ToString("N0")}";
+                    label20.Text = $" $ {Convert.ToInt32(ValTotalTDV).ToString("N0")}";
+                    label19.Text = $" $ {Convert.ToInt32(ValTotalNequiV).ToString("N0")}";
+                    label18.Text = $" $ {Convert.ToInt32(ValTotalDaviplataV).ToString("N0")}";
+                    label17.Text = $" $ {Convert.ToInt32(ValTotalOtrasV).ToString("N0")}";
+                }
+
+                label15.Text = Convert.ToInt32(ValTotalEfectivoV + ValTotalTCV + ValTotalTDV + ValTotalNequiV + ValTotalDaviplataV + ValTotalOtrasV).ToString("N0");
+
+                if (ingresos.Particulares != null)
+                {
+                    if (ingresos.Particulares.TryGetValue("Efectivo", out int valorE))
+                    {
+                        ValTotalEfectivoP = valorE;
+                    }
+                    if (ingresos.Particulares.TryGetValue("Tarjeta Credito", out int valorTC))
+                    {
+                        ValTotalTCP = valorTC;
+                    }
+                    if (ingresos.Particulares.TryGetValue("Tarjeta Debito", out int valorTD))
+                    {
+                        ValTotalTDP = valorTD;
+                    }
+                    if (ingresos.Particulares.TryGetValue("Nequi", out int valorN))
+                    {
+                        ValTotalNequiP = valorN;
+                    }
+                    if (ingresos.Particulares.TryGetValue("Daviplata", out int valorD))
+                    {
+                        ValTotalDaviplataP = valorD;
+                    }
+                    if (ingresos.Particulares.TryGetValue("Otras Billeteras", out int valorOB))
+                    {
+                        ValTotalOtrasP = valorOB;
+                    }
+
+                    label39.Text = $" $ {Convert.ToInt32(ValTotalEfectivoP).ToString("N0")}";
+                    label38.Text = $" $ {Convert.ToInt32(ValTotalTCP).ToString("N0")}";
+                    label36.Text = $" $ {Convert.ToInt32(ValTotalTDP).ToString("N0")}";
+                    label35.Text = $" $ {Convert.ToInt32(ValTotalNequiP).ToString("N0")}";
+                    label34.Text = $" $ {Convert.ToInt32(ValTotalDaviplataP).ToString("N0")}";
+                    label33.Text = $" $ {Convert.ToInt32(ValTotalOtrasP).ToString("N0")}";
+                }
+
+                label30.Text = Convert.ToInt32(ValTotalEfectivoP + ValTotalTCP + ValTotalTDP + ValTotalNequiP + ValTotalDaviplataP + ValTotalOtrasP).ToString("N0");
+
+                label49.Text = "0";
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error al cargar los valores: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
         void SumaEgresos()
         {
             try
             {
-                int Valor1 = string.IsNullOrEmpty(textBox16.Text) ? 0 : Convert.ToInt32(textBox16.Text);
-                int Valor2 = string.IsNullOrEmpty(textBox15.Text) ? 0 : Convert.ToInt32(textBox15.Text);
-                int Valor3 = string.IsNullOrEmpty(textBox14.Text) ? 0 : Convert.ToInt32(textBox14.Text);
-                int Valor4 = string.IsNullOrEmpty(textBox13.Text) ? 0 : Convert.ToInt32(textBox13.Text);
-                int Valor5 = string.IsNullOrEmpty(textBox7.Text) ? 0 : Convert.ToInt32(textBox7.Text);
+                int Sumatoria =  ValTotalEfectivo + ValTotalTC + ValTotalTD + ValTotalNequi + ValTotalDaviplata + ValTotalOtras +
+                                 ValTotalEfectivoV + ValTotalTCV + ValTotalTDV + ValTotalNequiV + ValTotalDaviplataV + ValTotalOtrasV +
+                                 ValTotalEfectivoP + ValTotalTCP + ValTotalTDP + ValTotalNequiP + ValTotalDaviplataP + ValTotalOtrasP;
 
-                label49.Text = Valor1 + Valor2 + Valor3 + Valor4 + Valor5 > 0
-                    ? "$ " + (Valor1 + Valor2 + Valor3 + Valor4 + Valor5).ToString("N2")
-                    : "$ 0";
+                int Resta = string.IsNullOrEmpty(textBox16.Text) ? 0 : Convert.ToInt32(textBox16.Text);
+                int Resta2 = string.IsNullOrEmpty(textBox15.Text) ? 0 : Convert.ToInt32(textBox15.Text);
+                int Resta3 = string.IsNullOrEmpty(textBox14.Text) ? 0 : Convert.ToInt32(textBox14.Text);
+                int Resta4 = string.IsNullOrEmpty(textBox13.Text) ? 0 : Convert.ToInt32(textBox13.Text);
+                int Resta5 = string.IsNullOrEmpty(textBox7.Text) ? 0 : Convert.ToInt32(textBox7.Text);
+
+                int SumRestaTemp = Resta + Resta2 + Resta3 + Resta4 + Resta5;
+
+                label49.Text = Convert.ToInt32(SumRestaTemp).ToString("N0");
             }
             catch (Exception ex)
             {
@@ -138,248 +231,10 @@ namespace ZamenisHealth.Recepcion
                 label49.Text = "$ 0";
             }
         }
-
         private void textBoxEgreso_TextChanged(object sender, EventArgs e)
         {
             SumaEgresos();
         }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                int Valor = string.IsNullOrEmpty(textBox1.Text) ? 0 : Convert.ToInt32(textBox1.Text);
-                label17.Text = "$ " + (Valor * CienMil).ToString("N2");
-                SumaBilletes();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error al procesar el texto: " + ex.Message);
-                label17.Text = "$ 0";
-            }
-        }
-
-        private void textBox2_TextChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                int Valor = string.IsNullOrEmpty(textBox2.Text) ? 0 : Convert.ToInt32(textBox2.Text);
-                label16.Text = "$ " + (Valor * CincuentaMil).ToString("N2");
-                SumaBilletes();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error al procesar el texto: " + ex.Message);
-                label16.Text = "$ 0";
-            }
-        }
-
-        private void textBox3_TextChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                int Valor = string.IsNullOrEmpty(textBox3.Text) ? 0 : Convert.ToInt32(textBox3.Text);
-                label15.Text = "$ " + (Valor * VeinteMil).ToString("N2");
-                SumaBilletes();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error al procesar el texto: " + ex.Message);
-                label15.Text = "$ 0";
-            }
-        }
-
-        private void textBox4_TextChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                int Valor = string.IsNullOrEmpty(textBox4.Text) ? 0 : Convert.ToInt32(textBox4.Text);
-                label30.Text = "$ " + (Valor * DiezMil).ToString("N2");
-                SumaBilletes();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error al procesar el texto: " + ex.Message);
-                label30.Text = "$ 0";
-            }
-        }
-
-        private void textBox5_TextChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                int Valor = string.IsNullOrEmpty(textBox5.Text) ? 0 : Convert.ToInt32(textBox5.Text);
-                label29.Text = "$ " + (Valor * CincoMil).ToString("N2");
-                SumaBilletes();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error al procesar el texto: " + ex.Message);
-                label29.Text = "$ 0";
-            }
-        }
-
-        private void textBox6_TextChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                int Valor = string.IsNullOrEmpty(textBox6.Text) ? 0 : Convert.ToInt32(textBox6.Text);
-                label28.Text = "$ " + (Valor * DosMil).ToString("N2");
-                SumaBilletes();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error al procesar el texto: " + ex.Message);
-                label28.Text = "$ 0";
-            }
-        }
-
-        private void textBox22_TextChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                int Valor = string.IsNullOrEmpty(textBox22.Text) ? 0 : Convert.ToInt32(textBox22.Text);
-                label53.Text = "$ " + (Valor * Mil).ToString("N2");
-                SumaBilletes();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error al procesar el texto: " + ex.Message);
-                label53.Text = "$ 0";
-            }
-        }
-        void SumaBilletes()
-        {
-            try
-            {
-                int Valor1 = string.IsNullOrEmpty(textBox1.Text) ? 0 : Convert.ToInt32(textBox1.Text);
-                int Valor2 = string.IsNullOrEmpty(textBox2.Text) ? 0 : Convert.ToInt32(textBox2.Text);
-                int Valor3 = string.IsNullOrEmpty(textBox3.Text) ? 0 : Convert.ToInt32(textBox3.Text);
-                int Valor4 = string.IsNullOrEmpty(textBox4.Text) ? 0 : Convert.ToInt32(textBox4.Text);
-                int Valor5 = string.IsNullOrEmpty(textBox5.Text) ? 0 : Convert.ToInt32(textBox5.Text);
-                int Valor6 = string.IsNullOrEmpty(textBox6.Text) ? 0 : Convert.ToInt32(textBox6.Text);
-                int Valor7 = string.IsNullOrEmpty(textBox22.Text) ? 0 : Convert.ToInt32(textBox22.Text);
-
-                int Vr1 = Valor1 * CienMil;
-                int Vr2 = Valor2 * CincuentaMil;
-                int Vr3 = Valor3 * VeinteMil;
-                int Vr4 = Valor4 * DiezMil;
-                int Vr5 = Valor5 * CincoMil;
-                int Vr6 = Valor6 * DosMil;
-                int Vr7 = Valor7 * Mil;
-
-                label55.Text = Vr1 + Vr2 + Vr3 + Vr4 + Vr5 + Vr6 + Vr7 > 0
-                    ? "$ " + (Vr1 + Vr2 + Vr3 + Vr4 + Vr5 + Vr6 + Vr7).ToString("N2")
-                    : "$ 0";
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                label55.Text = "$ 0";
-            }
-        }
-
-        private void textBox12_TextChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                int Valor = string.IsNullOrEmpty(textBox12.Text) ? 0 : Convert.ToInt32(textBox12.Text);
-                label36.Text = "$ " + (Valor * mMil).ToString("N2");
-                SumaMonedas();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error al procesar el texto: " + ex.Message);
-                label36.Text = "$ 0";
-            }
-        }
-
-        private void textBox11_TextChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                int Valor = string.IsNullOrEmpty(textBox11.Text) ? 0 : Convert.ToInt32(textBox11.Text);
-                label35.Text = "$ " + (Valor * mQuinientos).ToString("N2");
-                SumaMonedas();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error al procesar el texto: " + ex.Message);
-                label35.Text = "$ 0";
-            }
-        }
-
-        private void textBox10_TextChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                int Valor = string.IsNullOrEmpty(textBox10.Text) ? 0 : Convert.ToInt32(textBox10.Text);
-                label34.Text = "$ " + (Valor * mDoscientos).ToString("N2");
-                SumaMonedas();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error al procesar el texto: " + ex.Message);
-                label34.Text = "$ 0";
-            }
-        }
-
-        private void textBox9_TextChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                int Valor = string.IsNullOrEmpty(textBox9.Text) ? 0 : Convert.ToInt32(textBox9.Text);
-                label33.Text = "$ " + (Valor * mCien).ToString("N2");
-                SumaMonedas();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error al procesar el texto: " + ex.Message);
-                label33.Text = "$ 0";
-            }
-        }
-
-        private void textBox8_TextChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                int Valor = string.IsNullOrEmpty(textBox8.Text) ? 0 : Convert.ToInt32(textBox8.Text);
-                label32.Text = "$ " + (Valor * mCincuenta).ToString("N2");
-                SumaMonedas();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error al procesar el texto: " + ex.Message);
-                label32.Text = "$ 0";
-            }
-        }
-        void SumaMonedas()
-        {
-            try
-            {
-                int Valor1 = string.IsNullOrEmpty(textBox12.Text) ? 0 : Convert.ToInt32(textBox12.Text);
-                int Valor2 = string.IsNullOrEmpty(textBox11.Text) ? 0 : Convert.ToInt32(textBox11.Text);
-                int Valor3 = string.IsNullOrEmpty(textBox10.Text) ? 0 : Convert.ToInt32(textBox10.Text);
-                int Valor4 = string.IsNullOrEmpty(textBox9.Text) ? 0 : Convert.ToInt32(textBox9.Text);
-                int Valor5 = string.IsNullOrEmpty(textBox8.Text) ? 0 : Convert.ToInt32(textBox8.Text);
-
-                int Vr1 = Valor1 * mMil;
-                int Vr2 = Valor2 * mQuinientos;
-                int Vr3 = Valor3 * mDoscientos;
-                int Vr4 = Valor4 * mCien;
-                int Vr5 = Valor5 * mCincuenta;
-
-                label57.Text = Vr1 + Vr2 + Vr3 + Vr4 + Vr5 > 0
-                    ? "$ " + (Vr1 + Vr2 + Vr3 + Vr4 + Vr5 ).ToString("N2")
-                    : "$ 0";
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                label57.Text = "$ 0";
-            }
-        }
-
         private void button1_Click(object sender, EventArgs e)
         {
             try
@@ -391,94 +246,489 @@ namespace ZamenisHealth.Recepcion
 
                 if (result == DialogResult.Yes)
                 {
-                    Dictionary<string, int> ingresos = iCIerresCaja.getIngresos(Cia, Desde, Hasta);
-                    if (ingresos != null)
-                    {
-                        CXN_REPORTECAJA C = new CXN_REPORTECAJA
+                    List<CXN_REPORTECAJA2> Resultado = new List<CXN_REPORTECAJA2>();
+
+                    (Dictionary<string, int> Ventas,
+                     Dictionary<string, int> Caja,
+                     Dictionary<string, int> Particulares) ingresos = iCIerresCaja.getIngresos(Cia, Desde, Hasta);
+
+                    if (ingresos.Ventas != null || ingresos.Caja != null || ingresos.Particulares != null)
+                    {                        
+                        if (ingresos.Caja != null)
                         {
-                            BCien = 100000,
-                            BCienCantidad = (string.IsNullOrEmpty(textBox1.Text) ? 0 : Convert.ToInt32(textBox1.Text)),
-                            BCienValor = CienMil * (string.IsNullOrEmpty(textBox1.Text) ? 0 : Convert.ToInt32(textBox1.Text)),
-                            BCincuenta = 50000,
-                            BCincuentaCantidad = (string.IsNullOrEmpty(textBox2.Text) ? 0 : Convert.ToInt32(textBox2.Text)),
-                            BCincuentaValor = CincuentaMil * (string.IsNullOrEmpty(textBox2.Text) ? 0 : Convert.ToInt32(textBox2.Text)),
-                            BVeinte = 20000,
-                            BVeinteCantidad = (string.IsNullOrEmpty(textBox3.Text) ? 0 : Convert.ToInt32(textBox3.Text)),
-                            BVeinteValor = VeinteMil * (string.IsNullOrEmpty(textBox3.Text) ? 0 : Convert.ToInt32(textBox3.Text)),
-                            BDiez = 10000,
-                            BDiezCantidad = (string.IsNullOrEmpty(textBox4.Text) ? 0 : Convert.ToInt32(textBox4.Text)),
-                            BDiezValor = DiezMil * (string.IsNullOrEmpty(textBox4.Text) ? 0 : Convert.ToInt32(textBox4.Text)),
-                            BCinco = 5000,
-                            BCincoCantidad = (string.IsNullOrEmpty(textBox5.Text) ? 0 : Convert.ToInt32(textBox5.Text)),
-                            BCincoValor = CincoMil * (string.IsNullOrEmpty(textBox5.Text) ? 0 : Convert.ToInt32(textBox5.Text)),
-                            BDosMil = 2000,
-                            BDosMilCantidad = (string.IsNullOrEmpty(textBox6.Text) ? 0 : Convert.ToInt32(textBox6.Text)),
-                            BDosMilValor = DosMil * (string.IsNullOrEmpty(textBox6.Text) ? 0 : Convert.ToInt32(textBox6.Text)),
-                            BMil = 1000,
-                            BMilCantidad = (string.IsNullOrEmpty(textBox22.Text) ? 0 : Convert.ToInt32(textBox22.Text)),
-                            BMilValor = Mil * (string.IsNullOrEmpty(textBox22.Text) ? 0 : Convert.ToInt32(textBox22.Text)),
+                            if (ingresos.Caja.TryGetValue("Efectivo", out int valorE))
+                            {
+                                Resultado.Add(new CXN_REPORTECAJA2
+                                {
+                                    Consecutivo = ConsecutivoCierre,
+                                    Usuario = Contenedor.UsuarioLogueado,
+                                    Tipo = "CAJA",
+                                    Desde = Desde,
+                                    Hasta = Hasta,
+                                    Generacion = DateTime.Now.Date,
+                                    Clase = "Efectivo",
+                                    Valor = valorE,
+                                    Estado = "H",
+                                    Observacion = richTextBox1.Text,
+                                    Compañia = Cia
+                                });
+                            }
+                            if (ingresos.Caja.TryGetValue("Tarjeta Credito", out int valorTC))
+                            {
+                                Resultado.Add(new CXN_REPORTECAJA2
+                                {
+                                    Consecutivo = ConsecutivoCierre,
+                                    Usuario = Contenedor.UsuarioLogueado,
+                                    Tipo = "CAJA",
+                                    Desde = Desde,
+                                    Hasta = Hasta,
+                                    Generacion = DateTime.Now.Date,
+                                    Clase = "Tarjeta Credito",
+                                    Valor = valorTC,
+                                    Estado = "H",
+                                    Observacion = richTextBox1.Text,
+                                    Compañia = Cia
+                                });
+                            }
+                            if (ingresos.Caja.TryGetValue("Tarjeta Debito", out int valorTD))
+                            {
+                                Resultado.Add(new CXN_REPORTECAJA2
+                                {
+                                    Consecutivo = ConsecutivoCierre,
+                                    Usuario = Contenedor.UsuarioLogueado,
+                                    Tipo = "CAJA",
+                                    Desde = Desde,
+                                    Hasta = Hasta,
+                                    Generacion = DateTime.Now.Date,
+                                    Clase = "Tarjeta Debito",
+                                    Valor = valorTD,
+                                    Estado = "H",
+                                    Observacion = richTextBox1.Text,
+                                    Compañia = Cia
+                                });
+                            }
+                            if (ingresos.Caja.TryGetValue("Nequi", out int valorN))
+                            {
+                                Resultado.Add(new CXN_REPORTECAJA2
+                                {
+                                    Consecutivo = ConsecutivoCierre,
+                                    Usuario = Contenedor.UsuarioLogueado,
+                                    Tipo = "CAJA",
+                                    Desde = Desde,
+                                    Hasta = Hasta,
+                                    Generacion = DateTime.Now.Date,
+                                    Clase = "Nequi",
+                                    Valor = valorN,
+                                    Estado = "H",
+                                    Observacion = richTextBox1.Text,
+                                    Compañia = Cia
+                                });
+                            }
+                            if (ingresos.Caja.TryGetValue("Daviplata", out int valorD))
+                            {
+                                Resultado.Add(new CXN_REPORTECAJA2
+                                {
+                                    Consecutivo = ConsecutivoCierre,
+                                    Usuario = Contenedor.UsuarioLogueado,
+                                    Tipo = "CAJA",
+                                    Desde = Desde,
+                                    Hasta = Hasta,
+                                    Generacion = DateTime.Now.Date,
+                                    Clase = "Daviplata",
+                                    Valor = valorD,
+                                    Estado = "H",
+                                    Observacion = richTextBox1.Text,
+                                    Compañia = Cia
+                                });
+                            }
+                            if (ingresos.Caja.TryGetValue("Otras Billeteras", out int valorOB))
+                            {
+                                Resultado.Add(new CXN_REPORTECAJA2
+                                {
+                                    Consecutivo = ConsecutivoCierre,
+                                    Usuario = Contenedor.UsuarioLogueado,
+                                    Tipo = "CAJA",
+                                    Desde = Desde,
+                                    Hasta = Hasta,
+                                    Generacion = DateTime.Now.Date,
+                                    Clase = "Otras Billeteras",
+                                    Valor = valorOB,
+                                    Estado = "H",
+                                    Observacion = richTextBox1.Text,
+                                    Compañia = Cia
+                                });
+                            }
+                        }
 
-                            TipoPagoEfectivo = "Efectivo",
-                            TipoPagoEfectivoValor = (string.IsNullOrEmpty(label14.Text) ? 0 : Convert.ToInt32(Numero(label14.Text))),
-                            TipoPagoTC = "Tarjeta Credito",
-                            TipoPagoTCValor = (string.IsNullOrEmpty(label13.Text) ? 0 : Convert.ToInt32(Numero(label13.Text))),
-                            TipoPagoDB = "Tarjeta Debito",
-                            TipoPagoDBValor = (string.IsNullOrEmpty(label12.Text) ? 0 : Convert.ToInt32(Numero(label12.Text))),
-                            TipoPagoNequi = "Nequi",
-                            TipoPagoNequiValor = (string.IsNullOrEmpty(label11.Text) ? 0 : Convert.ToInt32(Numero(label11.Text))),
-                            TipoPagoDaviplata = "Daviplata",
-                            TipoPagoDaviplataValor = (string.IsNullOrEmpty(label10.Text) ? 0 : Convert.ToInt32(Numero(label10.Text))),
-                            TipoPagoOtraBilletera = "Otras Billeteras",
-                            TipoPagoOtraBilleteraValor = (string.IsNullOrEmpty(label9.Text) ? 0 : Convert.ToInt32(Numero(label9.Text))),
+                        if (ingresos.Ventas != null)
+                        {
+                            if (ingresos.Ventas.TryGetValue("Efectivo", out int valorE))
+                            {
+                                Resultado.Add(new CXN_REPORTECAJA2
+                                {
+                                    Consecutivo = ConsecutivoCierre,
+                                    Usuario = Contenedor.UsuarioLogueado,
+                                    Tipo = "VENTAS",
+                                    Desde = Desde,
+                                    Hasta = Hasta,
+                                    Generacion = DateTime.Now.Date,
+                                    Clase = "Efectivo",
+                                    Valor = valorE,
+                                    Estado = "H",
+                                    Observacion = richTextBox1.Text,
+                                    Compañia = Cia
+                                });
+                            }
+                            if (ingresos.Ventas.TryGetValue("Tarjeta Credito", out int valorTC))
+                            {
+                                Resultado.Add(new CXN_REPORTECAJA2
+                                {
+                                    Consecutivo = ConsecutivoCierre,
+                                    Usuario = Contenedor.UsuarioLogueado,
+                                    Tipo = "VENTAS",
+                                    Desde = Desde,
+                                    Hasta = Hasta,
+                                    Generacion = DateTime.Now.Date,
+                                    Clase = "Tarjeta Credito",
+                                    Valor = valorTC,
+                                    Estado = "H",
+                                    Observacion = richTextBox1.Text,
+                                    Compañia = Cia
+                                });
+                            }
+                            if (ingresos.Ventas.TryGetValue("Tarjeta Debito", out int valorTD))
+                            {
+                                Resultado.Add(new CXN_REPORTECAJA2
+                                {
+                                    Consecutivo = ConsecutivoCierre,
+                                    Usuario = Contenedor.UsuarioLogueado,
+                                    Tipo = "VENTAS",
+                                    Desde = Desde,
+                                    Hasta = Hasta,
+                                    Generacion = DateTime.Now.Date,
+                                    Clase = "Tarjeta Debito",
+                                    Valor = valorTD,
+                                    Estado = "H",
+                                    Observacion = richTextBox1.Text,
+                                    Compañia = Cia
+                                });
+                            }
+                            if (ingresos.Ventas.TryGetValue("Nequi", out int valorN))
+                            {
+                                Resultado.Add(new CXN_REPORTECAJA2
+                                {
+                                    Consecutivo = ConsecutivoCierre,
+                                    Usuario = Contenedor.UsuarioLogueado,
+                                    Tipo = "VENTAS",
+                                    Desde = Desde,
+                                    Hasta = Hasta,
+                                    Generacion = DateTime.Now.Date,
+                                    Clase = "Nequi",
+                                    Valor = valorN,
+                                    Estado = "H",
+                                    Observacion = richTextBox1.Text,
+                                    Compañia = Cia
+                                });
+                            }
+                            if (ingresos.Ventas.TryGetValue("Daviplata", out int valorD))
+                            {
+                                Resultado.Add(new CXN_REPORTECAJA2
+                                {
+                                    Consecutivo = ConsecutivoCierre,
+                                    Usuario = Contenedor.UsuarioLogueado,
+                                    Tipo = "VENTAS",
+                                    Desde = Desde,
+                                    Hasta = Hasta,
+                                    Generacion = DateTime.Now.Date,
+                                    Clase = "Daviplata",
+                                    Valor = valorD,
+                                    Estado = "H",
+                                    Observacion = richTextBox1.Text,
+                                    Compañia = Cia
+                                });
+                            }
+                            if (ingresos.Ventas.TryGetValue("Otras Billeteras", out int valorOB))
+                            {
+                                Resultado.Add(new CXN_REPORTECAJA2
+                                {
+                                    Consecutivo = ConsecutivoCierre,
+                                    Usuario = Contenedor.UsuarioLogueado,
+                                    Tipo = "VENTAS",
+                                    Desde = Desde,
+                                    Hasta = Hasta,
+                                    Generacion = DateTime.Now.Date,
+                                    Clase = "Otras Billeteras",
+                                    Valor = valorOB,
+                                    Estado = "H",
+                                    Observacion = richTextBox1.Text,
+                                    Compañia = Cia
+                                });
+                            }
+                        }
 
-                            MMil = mMil,
-                            MMilCantidad = (string.IsNullOrEmpty(textBox12.Text) ? 0 : Convert.ToInt32(textBox12.Text)),
-                            MMilValor = mMil * (string.IsNullOrEmpty(textBox12.Text) ? 0 : Convert.ToInt32(textBox12.Text)),
-                            MQuinientos = mQuinientos,
-                            MQuinientosCantidad = (string.IsNullOrEmpty(textBox11.Text) ? 0 : Convert.ToInt32(textBox11.Text)),
-                            MQuinientosValor = mMil * (string.IsNullOrEmpty(textBox11.Text) ? 0 : Convert.ToInt32(textBox11.Text)),
-                            MDoscientos = mDoscientos,
-                            MDoscientosCantidad = (string.IsNullOrEmpty(textBox10.Text) ? 0 : Convert.ToInt32(textBox10.Text)),
-                            MDoscientosValor = mMil * (string.IsNullOrEmpty(textBox10.Text) ? 0 : Convert.ToInt32(textBox10.Text)),
-                            MCien = mCien,
-                            MCienCantidad = (string.IsNullOrEmpty(textBox9.Text) ? 0 : Convert.ToInt32(textBox9.Text)),
-                            MCienValor = mMil * (string.IsNullOrEmpty(textBox9.Text) ? 0 : Convert.ToInt32(textBox9.Text)),
-                            MCincuenta = mCincuenta,
-                            MCincuentaCantidad = (string.IsNullOrEmpty(textBox8.Text) ? 0 : Convert.ToInt32(textBox8.Text)),
-                            MCincuentaValor = mMil * (string.IsNullOrEmpty(textBox8.Text) ? 0 : Convert.ToInt32(textBox8.Text)),
+                        if (ingresos.Particulares != null)
+                        {
+                            if (ingresos.Particulares.TryGetValue("Efectivo", out int valorE))
+                            {
+                                Resultado.Add(new CXN_REPORTECAJA2
+                                {
+                                    Consecutivo = ConsecutivoCierre,
+                                    Usuario = Contenedor.UsuarioLogueado,
+                                    Tipo = "PARTICULARES",
+                                    Desde = Desde,
+                                    Hasta = Hasta,
+                                    Generacion = DateTime.Now.Date,
+                                    Clase = "Efectivo",
+                                    Valor = valorE,
+                                    Estado = "H",
+                                    Observacion = richTextBox1.Text,
+                                    Compañia = Cia
+                                });
+                            }
+                            if (ingresos.Particulares.TryGetValue("Tarjeta Credito", out int valorTC))
+                            {
+                                Resultado.Add(new CXN_REPORTECAJA2
+                                {
+                                    Consecutivo = ConsecutivoCierre,
+                                    Usuario = Contenedor.UsuarioLogueado,
+                                    Tipo = "PARTICULARES",
+                                    Desde = Desde,
+                                    Hasta = Hasta,
+                                    Generacion = DateTime.Now.Date,
+                                    Clase = "Tarjeta Credito",
+                                    Valor = valorTC,
+                                    Estado = "H",
+                                    Observacion = richTextBox1.Text,
+                                    Compañia = Cia
+                                });
+                            }
+                            if (ingresos.Particulares.TryGetValue("Tarjeta Debito", out int valorTD))
+                            {
+                                Resultado.Add(new CXN_REPORTECAJA2
+                                {
+                                    Consecutivo = ConsecutivoCierre,
+                                    Usuario = Contenedor.UsuarioLogueado,
+                                    Tipo = "PARTICULARES",
+                                    Desde = Desde,
+                                    Hasta = Hasta,
+                                    Generacion = DateTime.Now.Date,
+                                    Clase = "Tarjeta Debito",
+                                    Valor = valorTD,
+                                    Estado = "H",
+                                    Observacion = richTextBox1.Text,
+                                    Compañia = Cia
+                                });
+                            }
+                            if (ingresos.Particulares.TryGetValue("Nequi", out int valorN))
+                            {
+                                Resultado.Add(new CXN_REPORTECAJA2
+                                {
+                                    Consecutivo = ConsecutivoCierre,
+                                    Usuario = Contenedor.UsuarioLogueado,
+                                    Tipo = "PARTICULARES",
+                                    Desde = Desde,
+                                    Hasta = Hasta,
+                                    Generacion = DateTime.Now.Date,
+                                    Clase = "Nequi",
+                                    Valor = valorN,
+                                    Estado = "H",
+                                    Observacion = richTextBox1.Text,
+                                    Compañia = Cia
+                                });
+                            }
+                            if (ingresos.Particulares.TryGetValue("Daviplata", out int valorD))
+                            {
+                                Resultado.Add(new CXN_REPORTECAJA2
+                                {
+                                    Consecutivo = ConsecutivoCierre,
+                                    Usuario = Contenedor.UsuarioLogueado,
+                                    Tipo = "PARTICULARES",
+                                    Desde = Desde,
+                                    Hasta = Hasta,
+                                    Generacion = DateTime.Now.Date,
+                                    Clase = "Daviplata",
+                                    Valor = valorD,
+                                    Estado = "H",
+                                    Observacion = richTextBox1.Text,
+                                    Compañia = Cia
+                                });
+                            }
+                            if (ingresos.Particulares.TryGetValue("Otras Billeteras", out int valorOB))
+                            {
+                                Resultado.Add(new CXN_REPORTECAJA2
+                                {
+                                    Consecutivo = ConsecutivoCierre,
+                                    Usuario = Contenedor.UsuarioLogueado,
+                                    Tipo = "PARTICULARES",
+                                    Desde = Desde,
+                                    Hasta = Hasta,
+                                    Generacion = DateTime.Now.Date,
+                                    Clase = "Otras Billeteras",
+                                    Valor = valorOB,
+                                    Estado = "H",
+                                    Observacion = richTextBox1.Text,
+                                    Compañia = Cia
+                                });
+                            }
+                        }
 
-                            EgresoRazon1 = textBox21.Text,
-                            EgresoValor1 = (string.IsNullOrEmpty(textBox16.Text) ? 0 : Convert.ToInt32(Numero(textBox16.Text))),
-                            EgresoRazon2 = textBox20.Text,
-                            EgresoValor2 = (string.IsNullOrEmpty(textBox15.Text) ? 0 : Convert.ToInt32(Numero(textBox15.Text))),
-                            EgresoRazon3 = textBox19.Text,
-                            EgresoValor3 = (string.IsNullOrEmpty(textBox14.Text) ? 0 : Convert.ToInt32(Numero(textBox14.Text))),
-                            EgresoRazon4 = textBox18.Text,
-                            EgresoValor4 = (string.IsNullOrEmpty(textBox13.Text) ? 0 : Convert.ToInt32(Numero(textBox13.Text))),
-                            EgresoRazon5 = textBox17.Text,
-                            EgresoValor5 = (string.IsNullOrEmpty(textBox7.Text) ? 0 : Convert.ToInt32(Numero(textBox7.Text))),
+                        #region EGRESOS
+                        if (!string.IsNullOrEmpty(textBox21.Text) && !string.IsNullOrEmpty(textBox16.Text))
+                        {
+                            Resultado.Add(new CXN_REPORTECAJA2
+                            {
+                                Consecutivo = ConsecutivoCierre,
+                                Usuario = Contenedor.UsuarioLogueado,
+                                Tipo = "EGRESOS",
+                                Desde = Desde,
+                                Hasta = Hasta,
+                                Generacion = DateTime.Now.Date,
+                                Clase = "Efectivo",
+                                Valor = Convert.ToInt32(textBox16.Text),
+                                Estado = "H",
+                                Observacion = textBox21.Text,
+                                Compañia = Cia
+                            });
+                        }
+                        if (!string.IsNullOrEmpty(textBox20.Text) && !string.IsNullOrEmpty(textBox15.Text))
+                        {
+                            Resultado.Add(new CXN_REPORTECAJA2
+                            {
+                                Consecutivo = ConsecutivoCierre,
+                                Usuario = Contenedor.UsuarioLogueado,
+                                Tipo = "EGRESOS",
+                                Desde = Desde,
+                                Hasta = Hasta,
+                                Generacion = DateTime.Now.Date,
+                                Clase = "Efectivo",
+                                Valor = Convert.ToInt32(textBox15.Text),
+                                Estado = "H",
+                                Observacion = textBox20.Text,
+                                Compañia = Cia
+                            });
+                        }
+                        if (!string.IsNullOrEmpty(textBox19.Text) && !string.IsNullOrEmpty(textBox14.Text))
+                        {
+                            Resultado.Add(new CXN_REPORTECAJA2
+                            {
+                                Consecutivo = ConsecutivoCierre,
+                                Usuario = Contenedor.UsuarioLogueado,
+                                Tipo = "EGRESOS",
+                                Desde = Desde,
+                                Hasta = Hasta,
+                                Generacion = DateTime.Now.Date,
+                                Clase = "Efectivo",
+                                Valor = Convert.ToInt32(textBox14.Text),
+                                Estado = "H",
+                                Observacion = textBox19.Text,
+                                Compañia = Cia
+                            });
+                        }
+                        if (!string.IsNullOrEmpty(textBox18.Text) && !string.IsNullOrEmpty(textBox13.Text))
+                        {
+                            Resultado.Add(new CXN_REPORTECAJA2
+                            {
+                                Consecutivo = ConsecutivoCierre,
+                                Usuario = Contenedor.UsuarioLogueado,
+                                Tipo = "EGRESOS",
+                                Desde = Desde,
+                                Hasta = Hasta,
+                                Generacion = DateTime.Now.Date,
+                                Clase = "Efectivo",
+                                Valor = Convert.ToInt32(textBox13.Text),
+                                Estado = "H",
+                                Observacion = textBox18.Text,
+                                Compañia = Cia
+                            });
+                        }
+                        if (!string.IsNullOrEmpty(textBox17.Text) && !string.IsNullOrEmpty(textBox7.Text))
+                        {
+                            Resultado.Add(new CXN_REPORTECAJA2
+                            {
+                                Consecutivo = ConsecutivoCierre,
+                                Usuario = Contenedor.UsuarioLogueado,
+                                Tipo = "EGRESOS",
+                                Desde = Desde,
+                                Hasta = Hasta,
+                                Generacion = DateTime.Now.Date,
+                                Clase = "Efectivo",
+                                Valor = Convert.ToInt32(textBox7.Text),
+                                Estado = "H",
+                                Observacion = textBox17.Text,
+                                Compañia = Cia
+                            });
+                        }
+                        #endregion
+                    
+                        foreach (CXN_REPORTECAJA2 i in Resultado)
+                        {
+                            CXN_REPORTECAJA2 R = new CXN_REPORTECAJA2()
+                            {
+                                Clase = i.Clase,
+                                Consecutivo = i.Consecutivo,
+                                Desde = i.Desde,
+                                Estado = i.Estado,
+                                Generacion = i.Generacion,
+                                Hasta = i.Hasta,
+                                Observacion = i.Observacion,
+                                Tipo = i.Tipo,
+                                Usuario = i.Usuario,
+                                Valor = i.Valor,
+                                Compañia = i.Compañia
+                            };
 
-                            Consecutivo = ConsecutivoCierre.ToString(),
-                            Cia = Cia,
-                            Desde = Convert.ToDateTime(Desde),
-                            Hasta = Convert.ToDateTime(Hasta),
-                            Observacion = richTextBox1.Text,
-                            Usuario = Contenedor.UsuarioLogueado
+                            iCIerresCaja.GrabarReporte2(R);
+                        }
+
+                        MG = new MensajesGeneral()
+                        {
+                            Mensaje = "Reporte " + ConsecutivoCierre.ToString() + " generado exitosamente",
+                            TipoImagen = 3
                         };
 
-                        iCIerresCaja.GrabarReporte(C);
+                        MG.ShowDialog();
+
                         iCompañia.ConsecutivoActualiza(Cia, "CIERRES", ConsecutivoCierre + 1);
                         iCIerresCaja.ActualizarNumCruce(ConsecutivoCierre, Cia, Convert.ToDateTime(Desde), Convert.ToDateTime(Hasta));
 
-                        List<CXN_REPORTECAJA> getReport = iCIerresCaja.GetReport(ConsecutivoCierre.ToString());
-                        if (getReport != null) 
-                        {                   
-                            ConfigForm.GenerarReportViewer("DataSet_CierreCaja", 
-                                "ZamenisHealth.Reportes.CierreCaja.rdlc", 
-                                getReport);
+                        List<CXN_REPORTECAJA2> getReport = iCIerresCaja.GetReport2(ConsecutivoCierre.ToString(), Cia);
+                        if (getReport != null)
+                        {
+                            int TotalIngreso = getReport.Where(x => x.Tipo != "EGRESOS" && x.Clase == "Efectivo").Sum(x => x.Valor);
+                            int TotalEgreso = getReport.Where(x => x.Tipo == "EGRESOS").Sum(x => x.Valor);
+                            int Entregar = TotalIngreso - TotalEgreso;
 
-                            this.Dispose();
-                            this.Close();
+                            foreach (var i in getReport)
+                            {
+                                i.Estado = i.Estado == "H" ? "VIGENTE" : "ANULADO";
+                                i.IdRC = Entregar;
+                                i.ObservacionGeneral = getReport[0].Observacion;
+                            }
+
+                            List<CXN_REPORTECAJA2> Caja = getReport.Where(x => x.Tipo == "CAJA").ToList();
+                            List<CXN_REPORTECAJA2> Ventas = getReport.Where(x => x.Tipo == "VENTAS").ToList();
+                            List<CXN_REPORTECAJA2> Particulares = getReport.Where(x => x.Tipo == "PARTICULARES").ToList();
+                            List<CXN_REPORTECAJA2> Egresos = getReport.Where(x => x.Tipo == "EGRESOS").ToList();
+
+                            Reportes.Maestro maestro = new Reportes.Maestro();
+                            maestro.Universal.LocalReport.DataSources.Clear();
+
+                            maestro.Universal.LocalReport.DataSources.Add(new ReportDataSource("DataSet_CierresEncabezado", getReport));
+                            maestro.Universal.LocalReport.DataSources.Add(new ReportDataSource("DataSet_CierresCaja", Caja));
+                            maestro.Universal.LocalReport.DataSources.Add(new ReportDataSource("DataSet_CierresVentas", Ventas));
+                            maestro.Universal.LocalReport.DataSources.Add(new ReportDataSource("DataSet_CierresParticulares", Particulares));
+                            maestro.Universal.LocalReport.DataSources.Add(new ReportDataSource("DataSet_CierresEgresos", Egresos));
+
+                            maestro.Universal.LocalReport.ReportEmbeddedResource = "ZamenisHealth.Reportes.CierreCaja2.rdlc";
+                            maestro.Universal.SetDisplayMode(DisplayMode.PrintLayout);
+                            maestro.Universal.ZoomMode = ZoomMode.Percent;
+                            maestro.Universal.ZoomPercent = 100;
+                            maestro.Universal.LocalReport.EnableExternalImages = true;
+                            maestro.Universal.Font = new Font("Arial", 8);
+                            maestro.Universal.RefreshReport();
+                            maestro.Universal.Visible = true;
+                            maestro.Universal.Dock = System.Windows.Forms.DockStyle.Fill;
+                            maestro.ShowDialog();                          
                         }
                         else
                         {
@@ -488,30 +738,22 @@ namespace ZamenisHealth.Recepcion
                             MG.ShowDialog();
                         }
                     }
+                    else
+                    {
+                        MG = new MensajesGeneral()
+                        {
+                            Mensaje = "No hay datos validos para generar un cierre de caja"
+                        };
+                        MG.ShowDialog();
+                    }
                 }
+
+                this.Close();
             }
             catch (Exception ex)
             { 
                 Console.WriteLine(ex.Message); 
             }
-        }
-
-        int Numero (string tNumero)
-        {
-            try
-            {
-                tNumero = tNumero.Replace("$", "").Trim();
-                int indiceComa = tNumero.IndexOf(',');
-                if (indiceComa != -1)
-                    tNumero = tNumero.Substring(0, indiceComa);
-                tNumero = tNumero.Replace(".", "");
-                return int.Parse(tNumero);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                return 0;
-            }           
         }
     }
 }

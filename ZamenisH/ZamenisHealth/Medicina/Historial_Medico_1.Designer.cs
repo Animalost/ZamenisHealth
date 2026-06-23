@@ -30,8 +30,7 @@
         {
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.gridZH1 = new ZamenisHealth.Clases.Controles.GridZH();
             this.SuspendLayout();
             // 
             // textBox1
@@ -56,22 +55,13 @@
             this.label3.TabIndex = 26;
             this.label3.Text = "Documento";
             // 
-            // dataGridView1
+            // gridZH1
             // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.AllowUserToResizeRows = false;
-            this.dataGridView1.BackgroundColor = System.Drawing.Color.White;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.GridColor = System.Drawing.Color.Blue;
-            this.dataGridView1.Location = new System.Drawing.Point(142, 93);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.RowHeadersVisible = false;
-            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(652, 377);
-            this.dataGridView1.TabIndex = 89;
-            this.dataGridView1.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView1_CellMouseClick);
+            this.gridZH1.BackColor = System.Drawing.Color.White;
+            this.gridZH1.Location = new System.Drawing.Point(141, 92);
+            this.gridZH1.Name = "gridZH1";
+            this.gridZH1.Size = new System.Drawing.Size(649, 374);
+            this.gridZH1.TabIndex = 90;
             // 
             // Historial_Medico_1
             // 
@@ -80,14 +70,13 @@
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(802, 478);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.gridZH1);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label3);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "Historial_Medico_1";
             this.Load += new System.EventHandler(this.Historial_Medico_1_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Historial_Medico_1_KeyDown);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -96,6 +85,6 @@
         #endregion
         public System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private Clases.Controles.GridZH gridZH1;
     }
 }

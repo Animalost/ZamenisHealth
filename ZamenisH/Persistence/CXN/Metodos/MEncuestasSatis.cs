@@ -61,7 +61,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
         bool IEncuestasSatis.getCantCitas(int Paciente, CXN_CONFENCUESTA C)
         {
             try
@@ -119,7 +118,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
         bool IEncuestasSatis.getCantEncuestasPaciente(int Paciente, CXN_CONFENCUESTA C)
         {
             try
@@ -173,7 +171,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
         int Capitalize(string Mes)
         {
             switch (Mes)
@@ -206,7 +203,6 @@ namespace Persistence.CXN.Metodos
                     return 0;
             }
         }
-
         bool IEncuestasSatis.GrabarNoRealizacionEncuesta(CXN_ENCUESTASATIS E)
         {
             try
@@ -244,7 +240,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
         bool IEncuestasSatis.GrabarEncuesta(CXN_ENCUESTASATIS E)
         {
             try
@@ -304,7 +299,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
         Dictionary<int, List<CXN_ENCUESTASATIS>> IEncuestasSatis.getEncuestas(DateTime Fecha, string TServ)
         {
             try
@@ -413,7 +407,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         Dictionary<int, List<CXN_ENCUESTASATIS>> IEncuestasSatis.getEncuestas(int Paciente, DateTime Fecha, string TServ)
         {
             try
@@ -525,7 +518,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         string ValoresRespuesta(int Valor)
         {
             string Respuesta = "";
@@ -559,7 +551,6 @@ namespace Persistence.CXN.Metodos
 
             return Respuesta;
         }
-
         int IEncuestasSatis.getActual(CXN_CONFENCUESTA C)
         {
             try
@@ -605,7 +596,6 @@ namespace Persistence.CXN.Metodos
                 return 0;
             }
         }
-
         void IEncuestasSatis.updateActual(CXN_CONFENCUESTA C)
         {
             try
@@ -638,7 +628,6 @@ namespace Persistence.CXN.Metodos
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         List<CXN_ENCUESTASATIS> IEncuestasSatis.InformeMensual(DateTime Fecha, string Servicio, int Cia)
         {
             try
@@ -725,7 +714,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         CXN_ENCUESTASATIS IEncuestasSatis.getTrimestre(DateTime desde, DateTime hasta, string TServ, int Cia)
         {
             try

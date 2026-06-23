@@ -313,6 +313,16 @@ namespace Persistence.CXN.Metodos
                     Accion3.Parameters.AddWithValue("@param1", 0);
                     Accion3.Parameters.AddWithValue("@param2", Num_Cierre);
                     Accion3.ExecuteNonQuery();
+
+                    string Busqueda4 = "UPDATE CXN_REPORTECAJA2 " +
+                                      "SET " +
+                                      "Estado = @param1 " +
+                                      "WHERE Consecutivo = @param2";
+
+                    SqlCommand Accion4 = new SqlCommand(Busqueda4, con);
+                    Accion4.Parameters.AddWithValue("@param1", "A");
+                    Accion4.Parameters.AddWithValue("@param2", Num_Cierre);
+                    Accion4.ExecuteNonQuery();
                 }
             }
             catch (Exception ex)

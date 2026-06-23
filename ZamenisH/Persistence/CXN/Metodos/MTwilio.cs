@@ -10,11 +10,6 @@ namespace Persistence.CXN.Metodos
 {
     public class MTwilio : ITwilio
     {
-        public MTwilio() 
-        {
-        
-        }
-
         List<CXN_LINKSCORTOS> ITwilio.getUrlsGenerated(string Docunmento)
         {
             try

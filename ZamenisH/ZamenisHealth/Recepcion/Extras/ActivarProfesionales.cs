@@ -11,6 +11,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using ZamenisHealth.Comunes;
+using ZamenisHealth.Recepcion.AgendaDiaria;
 
 namespace ZamenisHealth.Recepcion.Extras
 {
@@ -160,8 +161,8 @@ namespace ZamenisHealth.Recepcion.Extras
             try
             {
                 Titulo.Text = "Activar Profesionales";
-                
-                
+                SubTitulo.Text = $"Zamenis Health {Conexion.VersionApp}";
+
                 Filtrar();              
             }
             catch (Exception ex)
@@ -210,12 +211,18 @@ namespace ZamenisHealth.Recepcion.Extras
         }
         private void ActivarProfesionales_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Agenda f2 = Application.OpenForms.OfType<Agenda>().SingleOrDefault();
+            /*Agenda f2 = Application.OpenForms.OfType<Agenda>().SingleOrDefault();
             f2.Dispose();
             f2.Close();
 
             Agenda F = new Agenda();
-            F.ShowDialog();
+            F.ShowDialog();*/
+
+            Agendamiento f2 = Application.OpenForms.OfType<Agendamiento>().SingleOrDefault();
+            f2.CargarProfesionales();
+
+            this.Dispose();
+            this.Close();
         }
     }
 }

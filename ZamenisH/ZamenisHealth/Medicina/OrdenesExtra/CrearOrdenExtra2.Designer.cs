@@ -42,9 +42,6 @@
             this.textBox8 = new System.Windows.Forms.TextBox();
             this.label24 = new System.Windows.Forms.Label();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
-            this.CUP = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.SERVICIO = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CANT = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label13 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
             this.label12 = new System.Windows.Forms.Label();
@@ -95,6 +92,11 @@
             this.label17 = new System.Windows.Forms.Label();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.label22 = new System.Windows.Forms.Label();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.CUP = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SERVICIO = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CANT = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.BILATERAL = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1.SuspendLayout();
             this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
@@ -148,6 +150,7 @@
             // panel4
             // 
             this.panel4.BackColor = System.Drawing.Color.White;
+            this.panel4.Controls.Add(this.checkBox1);
             this.panel4.Controls.Add(this.label14);
             this.panel4.Controls.Add(this.textBox6);
             this.panel4.Controls.Add(this.boton3);
@@ -270,7 +273,8 @@
             this.dataGridView2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.CUP,
             this.SERVICIO,
-            this.CANT});
+            this.CANT,
+            this.BILATERAL});
             this.dataGridView2.GridColor = System.Drawing.Color.Blue;
             this.dataGridView2.Location = new System.Drawing.Point(10, 148);
             this.dataGridView2.MultiSelect = false;
@@ -281,25 +285,6 @@
             this.dataGridView2.Size = new System.Drawing.Size(985, 413);
             this.dataGridView2.TabIndex = 406;
             this.dataGridView2.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellDoubleClick);
-            // 
-            // CUP
-            // 
-            this.CUP.HeaderText = "CUP";
-            this.CUP.Name = "CUP";
-            this.CUP.ReadOnly = true;
-            // 
-            // SERVICIO
-            // 
-            this.SERVICIO.HeaderText = "SERVICIO";
-            this.SERVICIO.Name = "SERVICIO";
-            this.SERVICIO.ReadOnly = true;
-            this.SERVICIO.Width = 750;
-            // 
-            // CANT
-            // 
-            this.CANT.HeaderText = "CANTIDAD";
-            this.CANT.Name = "CANT";
-            this.CANT.ReadOnly = true;
             // 
             // label13
             // 
@@ -877,6 +862,42 @@
             this.label22.Text = "Medicamento (Haga doble clic en el recuadro medicamento y seleccionelo de la list" +
     "a)";
             // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBox1.Location = new System.Drawing.Point(717, 55);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(85, 24);
+            this.checkBox1.TabIndex = 417;
+            this.checkBox1.Text = "Bilateral";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // CUP
+            // 
+            this.CUP.HeaderText = "CUP";
+            this.CUP.Name = "CUP";
+            this.CUP.ReadOnly = true;
+            // 
+            // SERVICIO
+            // 
+            this.SERVICIO.HeaderText = "SERVICIO";
+            this.SERVICIO.Name = "SERVICIO";
+            this.SERVICIO.ReadOnly = true;
+            this.SERVICIO.Width = 650;
+            // 
+            // CANT
+            // 
+            this.CANT.HeaderText = "CANTIDAD";
+            this.CANT.Name = "CANT";
+            this.CANT.ReadOnly = true;
+            // 
+            // BILATERAL
+            // 
+            this.BILATERAL.HeaderText = "BILATERAL";
+            this.BILATERAL.Name = "BILATERAL";
+            this.BILATERAL.ReadOnly = true;
+            // 
             // CrearOrdenExtra2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -965,8 +986,10 @@
         private System.Windows.Forms.DataGridView dataGridView2;
         private System.Windows.Forms.Label label25;
         private FormAndControls.Controles.Boton boton4;
+        private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.DataGridViewTextBoxColumn CUP;
         private System.Windows.Forms.DataGridViewTextBoxColumn SERVICIO;
         private System.Windows.Forms.DataGridViewTextBoxColumn CANT;
+        private System.Windows.Forms.DataGridViewTextBoxColumn BILATERAL;
     }
 }

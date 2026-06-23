@@ -11,6 +11,7 @@ using System.Linq;
 using System.Windows.Forms;
 using ZamenisHealth.Clases;
 using ZamenisHealth.Comunes;
+using ZamenisHealth.Recepcion.AgendaDiaria;
 
 namespace ZamenisHealth.Recepcion
 {
@@ -21,6 +22,7 @@ namespace ZamenisHealth.Recepcion
 
         private int Admi;
         private string Tipo_Seleccion;
+        private otrosDatosPacienteHorario dataCita;
 
         public NovedadesAdmision(int _admi, string _tipoadmision)
         {
@@ -51,8 +53,21 @@ namespace ZamenisHealth.Recepcion
         }
         private void Carga_Datos_Admision()
         {
-            try
+            try 
             {
+                dataCita = new otrosDatosPacienteHorario();
+                dataCita = repositorioFechasAgenda.cargarAdmision(Admi, "'A','P','H'");
+                if (dataCita == null)
+                {
+                    MessageBox.Show("Hay un error con esta admision, consulte con la administracion",
+                        "Error General",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                    this.Dispose();
+                    this.Close();
+                    return;
+                }
+
                 CXN_HORARIO _datos = repositorioHorario.DatosforMailSMS(Admi);
 
                 if (_datos != null)
@@ -152,12 +167,10 @@ namespace ZamenisHealth.Recepcion
                 }
 
                 repositorioHorario.CancelacionInterna(textBox16.Text, Comunes.Contenedor.UsuarioLogueado, Admi, comboBox4.Text);
-                               
-                Agenda f7 = Application.OpenForms.OfType<Agenda>().SingleOrDefault();
-                f7.RechargeTrueCheck();
 
-                MessageBox.Show("Cita cancelada exitosamente!!", "Cancelado", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                
+                Agendamiento f7 = Application.OpenForms.OfType<Agendamiento>().FirstOrDefault();
+                f7.EventoInicial();
+
                 this.Dispose();
                 this.Close();
             }
@@ -215,12 +228,8 @@ namespace ZamenisHealth.Recepcion
 
                 repositorioHorario.Inasistencia_Cita(Admi, comboBox6.Text);
 
-                ConsultaAdmision f = new ConsultaAdmision(textBox1.Text);
-
                 this.Dispose();
                 this.Close();
-                
-                f.ShowDialog();
             }
             catch (Exception ex)
             {
@@ -238,22 +247,15 @@ namespace ZamenisHealth.Recepcion
                     return;
                 }
 
-                
-                    repositorioHorario.Retardo_Cita(textBox17.Text, comboBox5.Text, Admi);
-                                
+                repositorioHorario.Retardo_Cita(textBox17.Text, comboBox5.Text, Admi);
 
-                Agenda f7 = Application.OpenForms.OfType<Agenda>().SingleOrDefault();
-
-                f7.RechargeTrueCheck();
+                Agendamiento f7 = Application.OpenForms.OfType<Agendamiento>().FirstOrDefault();
+                f7.EventoInicial();
 
                 MessageBox.Show("Retardo ingresado", "Correcto", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
-                ConsultaAdmision f = new ConsultaAdmision(textBox1.Text);
-
                 this.Dispose();
                 this.Close();
-                
-                f.ShowDialog();
             }
             catch (Exception ex)
             {
@@ -263,8 +265,8 @@ namespace ZamenisHealth.Recepcion
         }   
         private void NovedadesAdmision_FormClosing(object sender, FormClosingEventArgs e)
         {
-            ConsultaAdmision f = new ConsultaAdmision(textBox1.Text);
-            f.ShowDialog();
+            MenuOpcionesAgenda f8 = Application.OpenForms.OfType<MenuOpcionesAgenda>().FirstOrDefault();
+            f8.Close();
         }
     }
 }

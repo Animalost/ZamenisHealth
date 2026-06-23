@@ -1,8 +1,10 @@
 ﻿using Domain;
 using Domain.CXN;
+
 using Persistence;
 using Persistence.CXN.Interfaces;
 using Persistence.CXN.Metodos;
+
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -12,9 +14,12 @@ using System.Speech.Recognition;
 using System.Speech.Synthesis;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+
 using Tulpep.NotificationWindow;
+
 using ZamenisHealth.Clases;
 using ZamenisHealth.Comunes;
+using ZamenisHealth.Recepcion.AgendaDiaria;
 using ZamenisHealth.Recepcion.Extras;
 
 namespace ZamenisHealth.Recepcion
@@ -1280,11 +1285,10 @@ namespace ZamenisHealth.Recepcion
                         Hor_AvisoCurInicio = checkBox8.Checked ? true : false
                     };
 
-                    int admTemp = repositorioAgendar.AgendarPaciente(H);                    
+                    int admTemp = repositorioAgendar.AgendarPaciente(H);
 
-                    Agenda f1 = Application.OpenForms.OfType<Agenda>().SingleOrDefault();
-
-                    f1.RechargeTrueCheck();
+                    Agendamiento f1 = Application.OpenForms.OfType<Agendamiento>().FirstOrDefault();
+                    f1.EventoInicial();
 
                     if (Nuevo == true)
                     {
@@ -1391,11 +1395,10 @@ namespace ZamenisHealth.Recepcion
 
                 
                     repositorioAgendar.AgendarPaciente(H);
-                                
 
-                Agenda f1 = Application.OpenForms.OfType<Agenda>().SingleOrDefault();
 
-                f1.RechargeTrueCheck();
+                Agendamiento f1 = Application.OpenForms.OfType<Agendamiento>().FirstOrDefault();
+                f1.EventoInicial();
 
                 this.Dispose();
                 this.Close();

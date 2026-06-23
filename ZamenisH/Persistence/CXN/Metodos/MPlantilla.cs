@@ -55,7 +55,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         bool IPlantilla.savePlantillas(CXN_PLANTILLA P)
         {
             try

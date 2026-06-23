@@ -57,12 +57,6 @@ J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\APIIHCE\APIFh
 J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\APIIHCE\APIFhir\bin\Debug\System.Threading.Tasks.Extensions.dll
 J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\APIIHCE\APIFhir\bin\Debug\System.ValueTuple.dll
 J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\APIIHCE\APIFhir\bin\Debug\zxing.dll
-J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\APIIHCE\APIFhir\bin\Debug\itextsharp.dll
-J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\APIIHCE\APIFhir\bin\Debug\IronPython.dll
-J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\APIIHCE\APIFhir\bin\Debug\BouncyCastle.Cryptography.dll
-J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\APIIHCE\APIFhir\bin\Debug\Microsoft.Scripting.dll
-J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\APIIHCE\APIFhir\bin\Debug\Microsoft.Dynamic.dll
-J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\APIIHCE\APIFhir\bin\Debug\Microsoft.Scripting.Metadata.dll
 J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\APIIHCE\APIFhir\bin\Debug\Domain.pdb
 J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\APIIHCE\APIFhir\bin\Debug\Domain.dll.config
 J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\APIIHCE\APIFhir\bin\Debug\Persistence.pdb
@@ -78,12 +72,6 @@ J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\APIIHCE\APIFh
 J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\APIIHCE\APIFhir\bin\Debug\System.Threading.Tasks.Extensions.xml
 J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\APIIHCE\APIFhir\bin\Debug\System.ValueTuple.xml
 J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\APIIHCE\APIFhir\bin\Debug\zxing.xml
-J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\APIIHCE\APIFhir\bin\Debug\itextsharp.xml
-J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\APIIHCE\APIFhir\bin\Debug\IronPython.xml
-J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\APIIHCE\APIFhir\bin\Debug\BouncyCastle.Cryptography.xml
-J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\APIIHCE\APIFhir\bin\Debug\Microsoft.Scripting.xml
-J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\APIIHCE\APIFhir\bin\Debug\Microsoft.Dynamic.xml
-J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\APIIHCE\APIFhir\bin\Debug\Microsoft.Scripting.Metadata.xml
 J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\APIIHCE\APIFhir\obj\Debug\APIFhir.csproj.AssemblyReference.cache
 J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\APIIHCE\APIFhir\obj\Debug\APIFhir.csproj.CoreCompileInputs.cache
 J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\APIIHCE\APIFhir\obj\Debug\APIFhir.csproj.Up2Date

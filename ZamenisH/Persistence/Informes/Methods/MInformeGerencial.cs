@@ -378,7 +378,6 @@ namespace Persistence.Informes.Methods
                 return null;
             }
         }
-
         public static string getPatologia(InformeGerencia I)
         {
             try
@@ -435,7 +434,6 @@ namespace Persistence.Informes.Methods
                 return "";
             }
         }
-
         async Task<int> IInformeGerencial.sumarValorXFactura(InformeGerencia I)
         {
             try
@@ -490,7 +488,6 @@ namespace Persistence.Informes.Methods
                 return 0;
             }
         }
-
         async Task<BigInteger> IInformeGerencial.sumarValorGlobal(InformeGerencia I)
         {
             try
@@ -539,7 +536,6 @@ namespace Persistence.Informes.Methods
                 return 0;
             }
         }
-
         async Task<int> IInformeGerencial.sumarValorTotalFacturasXPac(InformeGerencia I)
         {
             try
@@ -614,7 +610,6 @@ namespace Persistence.Informes.Methods
                 return 0;
             }
         }
-
         int getMonthNumber(string Month)
         {
             int resut = 0;

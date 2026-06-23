@@ -1,13 +1,15 @@
 ﻿using Domain.CXN;
+using FormAndControls;
+using Persistence;
 using Persistence.CXN.Interfaces;
 using Persistence.CXN.Metodos;
 using System;
-using System.Data;
-using System.Windows.Forms;
 using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
-using Persistence;
-using FormAndControls;
+using System.Linq;
+using System.Windows.Forms;
+using ZamenisHealth.Recepcion.AgendaDiaria;
 
 namespace ZamenisHealth.Recepcion.Extras
 {
@@ -199,12 +201,8 @@ namespace ZamenisHealth.Recepcion.Extras
                 return;
             }
 
-            int bloq = 0;
-
+            int bloq =  repositorioFechasAgenda.ConsultarFecha(dateTimePicker1.Value.Date, Prof_Cod);
             
-                bloq = repositorioFechasAgenda.ConsultarFecha(dateTimePicker1.Value.Date, Prof_Cod);
-            
-
             if (bloq == 0)
             {
                 Comunes.MensajesGeneral mensajesGeneral = new Comunes.MensajesGeneral();
@@ -232,11 +230,7 @@ namespace ZamenisHealth.Recepcion.Extras
                 D.F_Bloquea = Comunes.Contenedor.UsuarioLogueado;
                 D.F_Estado = "B";
 
-                bool graba = false;
-
-                
-                    graba = repositorioFechasAgenda.Grabar(D);
-                
+                bool graba =  repositorioFechasAgenda.Grabar(D);
 
                 if (graba != true)
                 {
@@ -248,6 +242,10 @@ namespace ZamenisHealth.Recepcion.Extras
                 }
 
                 CargarList();
+
+                Agendamiento f1 = Application.OpenForms.OfType<Agendamiento>().FirstOrDefault();
+                f1.EventoInicial();
+
                 Comunes.MensajesGeneral mensajesGeneral1 = new Comunes.MensajesGeneral();
                 mensajesGeneral1.Mensaje = "El bloqueo de dias has sido grabado correctamente";
                 mensajesGeneral1.TipoImagen = 3;
@@ -276,12 +274,8 @@ namespace ZamenisHealth.Recepcion.Extras
 
             if (result == DialogResult.Yes)
             {
-                bool des = false;
-
+                bool des =  repositorioFechasAgenda.Desbloquear(Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString()), Comunes.Contenedor.UsuarioLogueado);
                 
-                    des = repositorioFechasAgenda.Desbloquear(Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString()), Comunes.Contenedor.UsuarioLogueado);
-                
-
                 if (des != true)
                 {
                     Comunes.MensajesGeneral mensajesGeneral1 = new Comunes.MensajesGeneral();
@@ -290,6 +284,9 @@ namespace ZamenisHealth.Recepcion.Extras
                     mensajesGeneral1.ShowDialog();
                     return;
                 }
+
+                Agendamiento f1 = Application.OpenForms.OfType<Agendamiento>().FirstOrDefault();
+                f1.EventoInicial();
 
                 CargarList();
 

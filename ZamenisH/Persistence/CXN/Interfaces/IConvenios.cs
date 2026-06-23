@@ -10,7 +10,6 @@ namespace Persistence.CXN.Interfaces
         CXN_CONVENIOS ServicioCUP(string Nombre, int Ase);
         List<string> CargarServicios(string TipoMed, int Ase);
         string NameServiceCUP(string Name);
-        List<string> CargarServicios();
         List<CXN_CONVENIOS> getConvenios();
         CXN_CONVENIOS getConvenio(int Posision);
         bool updateConvenio(CXN_CONVENIOS C);

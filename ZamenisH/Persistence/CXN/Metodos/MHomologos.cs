@@ -89,7 +89,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         bool IHomologos.ConsultarExistenciaGeneral(string Homologo, int Compañia)
         {
             try
@@ -127,7 +126,6 @@ namespace Persistence.CXN.Metodos
                 return true;
             }
         }
-
         bool IHomologos.ConsultarExistenciaVentas(string Homologo, int Compañia)
         {
             try
@@ -165,7 +163,6 @@ namespace Persistence.CXN.Metodos
                 return true;
             }
         }
-
         bool IHomologos.AddHomologoGeneral(string Homologo, int Pos, DateTime Fecha, DateTime Hora, string CUFE, string Resolucion)
         {
             try
@@ -210,7 +207,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
         bool IHomologos.AddHomologoRecepcion(string Homologo, int Facs, DateTime Fecha, DateTime Hora, string CUFE, string Resolucion)
         {
             try
@@ -255,7 +251,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
         bool IHomologos.ConsultarRecibo(int FZ, string FC)
         {
             try
@@ -290,7 +285,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
         bool IHomologos.ConsultarFactura(int FZ, string FC)
         {
             try
@@ -327,8 +321,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
-     
         bool IHomologos.Verifica_Homologo(string FH, string FC)
         {
             try
@@ -364,43 +356,6 @@ namespace Persistence.CXN.Metodos
                 return true;
             }
         }
-
-        bool IHomologos.Verifica_HomologoRec(string FH, string FC)
-        {
-            try
-            {
-                Dictionary<string, string> getData = Conexion.Conection();
-
-                using (SqlConnection con = new SqlConnection(getData["Conexion"]))
-                {
-                    if (con != null && con.State == ConnectionState.Closed)
-                    {
-                        con.Open();
-                    }
-                    String Cargar_Hora = "SELECT Ven_Homologo " +
-                                         "FROM Cxn_Ventas " +
-                                         "WHERE Ven_Homologo = '" + FH + "' " +
-                                         "AND Ven_Estado = 'F' " +
-                                         "AND Ven_Cod_Cia = '" + FC + "'";
-                    SqlCommand Carga_Command = new SqlCommand(Cargar_Hora, con);
-                    SqlDataReader Lectura_Hora = (Carga_Command.ExecuteReader());
-                    if (Lectura_Hora.Read() == true)
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
-                return true;
-            }
-        }
-
         bool IHomologos.ActualizarMasivo(string FH, int FZ, string FC, DateTime FF, string CUFE, DateTime HORA, string RESOLUCION)
         {
             try
@@ -448,7 +403,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
         bool IHomologos.ActualizarMasivoRecibo(int Recibo, string Homologo, string CUFE, string Resolucion)
         {
             try
@@ -492,7 +446,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
         bool IHomologos.ActualizarMasivoRec(string FH, int FZ, string FC, DateTime FF, string CUFE, DateTime HORA, string RESOLUCION)
         {
             try
@@ -540,7 +493,6 @@ namespace Persistence.CXN.Metodos
             return false;
             }
         }
-
         DataView IHomologos.ImportarDatos(string nombrearchivo)
         {
             try

@@ -9,7 +9,6 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using static IronPython.Modules._ast;
 
 namespace Persistence.CXN.Metodos
 {
@@ -42,47 +41,54 @@ namespace Persistence.CXN.Metodos
                                    "INNER JOIN CXN_PACIENTES P ON H.Hor_Pac_Id = P.Pac_Id " +
                                    "INNER JOIN CXN_ASEGURADORA A ON H.Hor_Pac_Ase = A.Ase_Identificador " +
                                    "INNER JOIN CXN_BODEGAS B ON H.Hor_Pac_Bod = B.Bod_Numero " +
-                                   "WHERE H.Hor_Id = '" + Adm_Selected + "'";
-                    SqlCommand Commando = new SqlCommand(Query, con);
-                    SqlDataReader Reader = (Commando.ExecuteReader());
-                    if (Reader.Read() == true)
+                                   "WHERE H.Hor_Id = @param1";
+
+                    using (SqlCommand Commando = new SqlCommand(Query, con))
                     {
-                        List<FirmasR> firmasR = new List<FirmasR>();
+                        Commando.Parameters.AddWithValue("@param1", Adm_Selected);
 
-                        Byte[] bytes = Convert.FromBase64String(F.Com_Logo); //convierte a bytes
-
-                        string Cur = ""; string Cons = "";
-
-                        if (Autocompletar == true)
+                        using (SqlDataReader Reader = (Commando.ExecuteReader()))
                         {
-                            Cur = "CURACION";
-                            Cons = "CONSULTA";
+                            if (Reader.Read() == true)
+                            {
+                                List<FirmasR> firmasR = new List<FirmasR>();
+
+                                Byte[] bytes = Convert.FromBase64String(F.Com_Logo); //convierte a bytes
+
+                                string Cur = ""; string Cons = "";
+
+                                if (Autocompletar == true)
+                                {
+                                    Cur = "CURACION";
+                                    Cons = "CONSULTA";
+                                }
+
+                                firmasR.Add(new FirmasR
+                                {
+                                    PacienteNombre = Reader["Pac_PrimerA"].ToString() + " " + Reader["Pac_SegundoA"].ToString() + " " + Reader["Pac_PrimerN"].ToString() + " " + Reader["Pac_SegundoN"].ToString(),
+                                    PacienteAseguradora = Reader["Ase_Descripcion"].ToString(),
+                                    PacienteIdentificacion = Reader["Pac_TipoId"].ToString() + " " + Reader["Pac_IdNum"].ToString(),
+                                    PacienteTelefono = Reader["Hor_Autoriza"].ToString(),
+                                    EmpresaNombre = F.Com_Nombre,
+                                    EmpresaDireccion = F.Com_Direccion,
+                                    EmpresaTelefono = F.Com_Telefono,
+                                    Logo = bytes,
+                                    PacienteDireccion = Reader["Bod_Responsable"].ToString(), //profesional
+                                    Com_Email = F.Com_Email, //fase de fibromialgia
+                                    Com_Nombre_SMS = F.Com_Nombre_SMS,
+                                    Com_Direccion = Reader["Hor_CantSesion"].ToString(), //cantidad de sesiones
+                                    Com_UsuarioGraba = Cur,
+                                    Com_Resolucion = Cons
+                                });
+
+                                return firmasR;
+                            }
+                            else
+                            {
+                                return null;
+                            }
                         }
-
-                        firmasR.Add(new FirmasR
-                        {
-                            PacienteNombre = Reader["Pac_PrimerA"].ToString() + " " + Reader["Pac_SegundoA"].ToString() + " " + Reader["Pac_PrimerN"].ToString() + " " + Reader["Pac_SegundoN"].ToString(),
-                            PacienteAseguradora = Reader["Ase_Descripcion"].ToString(),
-                            PacienteIdentificacion = Reader["Pac_TipoId"].ToString() + " " + Reader["Pac_IdNum"].ToString(),
-                            PacienteTelefono = Reader["Hor_Autoriza"].ToString(),
-                            EmpresaNombre = F.Com_Nombre,
-                            EmpresaDireccion = F.Com_Direccion,
-                            EmpresaTelefono = F.Com_Telefono,
-                            Logo = bytes,
-                            PacienteDireccion = Reader["Bod_Responsable"].ToString(), //profesional
-                            Com_Email = F.Com_Email, //fase de fibromialgia
-                            Com_Nombre_SMS = F.Com_Nombre_SMS,
-                            Com_Direccion = Reader["Hor_CantSesion"].ToString(), //cantidad de sesiones
-                            Com_UsuarioGraba = Cur,
-                            Com_Resolucion = Cons
-                        });
-
-                        return firmasR;
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                    }                   
                 }
             }
             catch (Exception ex)
@@ -91,7 +97,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         List<GerencialR> IReportes.Rpt_Atenciones(DateTime Desde, DateTime Hasta)
         {
             List<GerencialR> datos_asistencia = new List<GerencialR>();
@@ -171,7 +176,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         void IReportes.Rpt_Ing_Ger(DateTime Desde, DateTime Hasta)
         {
             try
@@ -243,7 +247,6 @@ namespace Persistence.CXN.Metodos
                 MessageBox.Show(ex.Message);
             }
         }
-
         void IReportes.Rpt_Rece_Ger(DateTime Desde, DateTime Hasta)
         {
             try
@@ -296,7 +299,6 @@ namespace Persistence.CXN.Metodos
                 MessageBox.Show(ex.Message);
             }
         }
-
         void Rpt_Rece_Ger_2(DateTime Desde, DateTime Hasta)
         {
             var getDataConection = Conexion.Conection();
@@ -342,7 +344,6 @@ namespace Persistence.CXN.Metodos
                 Rpt_Rece_Ger_3(Desde, Hasta);
             }
         }
-
         void Rpt_Rece_Ger_3(DateTime Desde, DateTime Hasta)
         {
             var getDataConection = Conexion.Conection();
@@ -386,7 +387,6 @@ namespace Persistence.CXN.Metodos
                 Escriba.Close();
             }
         }
-
         #region Notas de enfermeria
         List<CXN_NOTASMED> MedidasHeridas(int Admision)
         {
@@ -980,7 +980,6 @@ namespace Persistence.CXN.Metodos
             }
         }
         #endregion Notas de Enferemeria
-
         ListaNota Genera_QR_Notas(int Admi)
         {
             try
@@ -1020,203 +1019,6 @@ namespace Persistence.CXN.Metodos
                         L.DX3 = Lectura_Hora2["Car_Dx3"].ToString();
                         L.QRNota = repoGen.GetBytes(ImaRes);
                         return L;
-                    }
-                    else
-                    {
-                        return null;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
-                return null;
-            }
-        }
-        List<CXN_HORARIO> IReportes.BuscarHistorias(string Tipo, string TID, string NID)
-        {
-            try
-            {
-                Dictionary<string,string> getData = Conexion.Conection();
-
-                using (SqlConnection con = new SqlConnection(getData["Conexion"]))
-                {
-                    if (con != null && con.State == ConnectionState.Closed)
-                    {
-                        con.Open();
-                    }
-
-                    List<CXN_HORARIO> H = new List<CXN_HORARIO>();
-
-                    String Cargar_Hora2 = "";
-
-                    switch (Tipo)
-                    {
-                        case "Notas":
-                            Cargar_Hora2 = "SELECT '0' AS PacienteCom, P.Pac_PrimerA + ' ' + P.Pac_SegundoA + ' ' + P.Pac_PrimerN + ' ' + P.Pac_SegundoN AS PACIENTE, " +
-                                          "P.Pac_TipoId AS TID, P.Pac_IdNum AS ID, H.Hor_Pac_Fecha_Cita AS FECHA, B.Bod_Responsable AS PROF, Not_Adm AS ADM " +
-                                         " FROM CXN_NOTAS N " +
-                                         " INNER JOIN CXN_HORARIO H ON N.Not_Adm = H.Hor_Id " +
-                                         " INNER JOIN CXN_PACIENTES P ON H.Hor_Pac_Id = P.Pac_Id " +
-                                         " INNER JOIN CXN_BODEGAS B ON H.Hor_Pac_Bod = B.Bod_Numero " +
-                                         " WHERE P.Pac_IdNum = '" + NID + "' " +
-                                         " AND P.Pac_TipoId = '" + TID + "' " +
-                                         " ORDER BY H.Hor_Pac_Fecha_Cita DESC";
-                            break;
-
-                        case "HisMG":
-                            Cargar_Hora2 = "SELECT H.HC_Pacid AS PacienteCom, H.HC_Adm AS ADM, P.Pac_TipoId AS TID, P.Pac_IdNum AS ID, P.Pac_PrimerA + ' ' + P.Pac_SegundoA + ' ' + P.Pac_PrimerN + ' ' + P.Pac_SegundoN AS PACIENTE, " +
-                                          "B.Bod_Responsable AS PROF, H.HC_Fecha AS FECHA " +
-                                          "FROM CXN_HCMG H " +
-                                          "INNER JOIN CXN_PACIENTES P ON H.HC_PacId = P.Pac_Id " +
-                                          "INNER JOIN CXN_CIA C ON H.HC_Com = C.Com_Identificador " +
-                                          "INNER JOIN CXN_BODEGAS B ON H.HC_Prof = B.Bod_Numero " +
-                                          "INNER JOIN CXN_ASEGURADORA A ON H.HC_Ase = A.Ase_Identificador " +
-                                          "WHERE P.Pac_TipoId = '" + TID + "' " +
-                                          "AND P.Pac_IdNum = '" + NID + "' " +
-                                          "ORDER BY H.HC_Fecha DESC";
-                            break;
-
-                        case "CMan":
-                            Cargar_Hora2 = "SELECT '0' AS PacienteCom, P.Pac_PrimerA + ' ' + P.Pac_SegundoA + ' ' + P.Pac_PrimerN + ' ' + P.Pac_SegundoN AS PACIENTE, " +
-                                           "C.Cam_Id AS ADM, P.Pac_TipoId AS TID, P.Pac_IdNum AS ID, B.Bod_Responsable AS PROF, C.Cam_Fecha AS FECHA " +
-                                           "FROM CXN_PACIENTES P " +
-                                           "INNER JOIN CXN_CMAN C ON P.Pac_Id = C.Cam_IdPac " +
-                                           "INNER JOIN CXN_CIA CI ON C.Cam_Cia = CI.Com_Identificador " +
-                                           "INNER JOIN CXN_BODEGAS B ON C.Cam_UsrGenera = B.Bod_Usuario " +
-                                           "INNER JOIN CXN_ASEGURADORA A ON P.Pac_Aseguradora = A.Ase_Identificador " +
-                                           "WHERE P.Pac_TipoId = '" + TID + "' " +
-                                           "AND P.Pac_IdNum = '" + NID + "' " +
-                                           "ORDER BY C.Cam_Fecha DESC";
-                            break;
-
-                        case "FI":
-                            Cargar_Hora2 = "SELECT P.Pac_Id AS PacienteCom, P.Pac_PrimerA + ' ' + P.Pac_SegundoA + ' ' + P.Pac_PrimerN + ' ' + P.Pac_SegundoN AS PACIENTE, " +
-                                           "H.HC_Adm AS ADM, P.Pac_TipoId AS TID, P.Pac_IdNum AS ID, B.Bod_Responsable AS PROF, H.HC_Fecha AS FECHA " +
-                                         " FROM CXN_HCFI H " +
-                                         " INNER JOIN CXN_PACIENTES P ON H.HC_PacId = P.Pac_Id " +
-                                         " INNER JOIN CXN_CIA C ON H.HC_Cia = C.Com_Identificador " +
-                                         " INNER JOIN CXN_BODEGAS B ON H.HC_Prof = B.Bod_Numero " +
-                                         " INNER JOIN CXN_ASEGURADORA A ON H.HC_Ase = A.Ase_Identificador " +
-                                         " WHERE P.Pac_TipoId = '" + TID + "' " +
-                                         " AND P.Pac_IdNum = '" + NID + "' " +
-                                         " ORDER BY H.HC_Fecha DESC";
-                            break;
-
-                        case "TF":
-                            Cargar_Hora2 = "SELECT '0' AS PacienteCom, P.Pac_PrimerA + ' ' + P.Pac_SegundoA + ' ' + P.Pac_PrimerN + ' ' + P.Pac_SegundoN AS PACIENTE, " +
-                                           "H.HC_Adm AS ADM, P.Pac_TipoId AS TID, P.Pac_IdNum AS ID, B.Bod_Responsable AS PROF, H.HC_Fecha AS FECHA " +
-                                   " FROM CXN_HCTF H " +
-                                   " INNER JOIN CXN_PACIENTES P ON H.HC_PacId = P.Pac_Id " +
-                                   " INNER JOIN CXN_BODEGAS B ON H.HC_Prof = B.Bod_Numero " +
-                                   " WHERE P.Pac_TipoId = '" + TID + "' " +
-                                   " AND P.Pac_IdNum = '" + NID + "' " +
-                                   " ORDER BY H.HC_Fecha DESC";
-                            break;
-
-                        case "TO":
-                            Cargar_Hora2 = "SELECT '0' AS PacienteCom, P.Pac_PrimerA + ' ' + P.Pac_SegundoA + ' ' + P.Pac_PrimerN + ' ' + P.Pac_SegundoN AS PACIENTE, " +
-                                           "H.HC_Adm AS ADM, P.Pac_TipoId AS TID, P.Pac_IdNum AS ID, B.Bod_Responsable AS PROF, H.HC_Fecha AS FECHA " +
-                                   " FROM CXN_HCTO H " +
-                                   " INNER JOIN CXN_PACIENTES P ON H.HC_PacId = P.Pac_Id " +
-                                   " INNER JOIN CXN_BODEGAS B ON H.HC_Prof = B.Bod_Numero " +
-                                   " WHERE P.Pac_TipoId = '" + TID + "' " +
-                                   " AND P.Pac_IdNum = '" + NID + "' " +
-                                   " ORDER BY H.HC_Fecha DESC";
-                            break;
-
-                        case "PSI":
-                            Cargar_Hora2 = "SELECT '0' AS PacienteCom, P.Pac_PrimerA + ' ' + P.Pac_SegundoA + ' ' + P.Pac_PrimerN + ' ' + P.Pac_SegundoN AS PACIENTE, " +
-                                           "H.HC_Adm AS ADM, P.Pac_TipoId AS TID, P.Pac_IdNum AS ID, B.Bod_Responsable AS PROF, H.HC_Fecha AS FECHA " +
-                                         " FROM CXN_HCPSI H " +
-                                         " INNER JOIN CXN_PACIENTES P ON H.HC_Pac_Id = P.Pac_Id " +
-                                         " INNER JOIN CXN_BODEGAS B ON H.HC_Prof = B.Bod_Numero " +
-                                         " WHERE P.Pac_TipoId = '" + TID + "' " +
-                                         " AND P.Pac_IdNum = '" + NID + "' " +
-                                         " ORDER BY H.HC_Fecha DESC";
-                            break;
-
-                        case "HJ1":
-                            Cargar_Hora2 = "SELECT '0' AS PacienteCom, P.Pac_PrimerA + ' ' + P.Pac_SegundoA + ' ' + P.Pac_PrimerN + ' ' + P.Pac_SegundoN AS PACIENTE, " +
-                                           "P.Pac_TipoId AS TID, P.Pac_IdNum AS ID, Pac_Id, J.Jun_Adm AS ADM, J.Jun_Fecha AS FECHA, B.Bod_Responsable AS PROF " +
-                                         " FROM CXN_HCJUNTAS J " +
-                                         " INNER JOIN CXN_PACIENTES P ON J.Jun_Pac = P.Pac_Id " +
-                                         " INNER JOIN CXN_BODEGAS B ON J.Jun_Bodega = B.Bod_Numero " +
-                                         " WHERE P.Pac_TipoId = '" + TID + "' " +
-                                         " AND P.Pac_IdNum = '" + NID + "' " +
-                                         " AND J.Jun_Tipo = 'Junta1' " +
-                                         " ORDER BY J.Jun_Fecha DESC";
-                            break;
-
-                        case "HJ2":
-                            Cargar_Hora2 = "SELECT '0' AS PacienteCom, P.Pac_PrimerA + ' ' + P.Pac_SegundoA + ' ' + P.Pac_PrimerN + ' ' + P.Pac_SegundoN AS PACIENTE, " +
-                                           "P.Pac_TipoId AS TID, P.Pac_IdNum AS ID, Pac_Id, J.Jun_Adm AS ADM, J.Jun_Fecha AS FECHA, B.Bod_Responsable AS PROF " +
-                                         " FROM CXN_HCJUNTAS J " +
-                                         " INNER JOIN CXN_PACIENTES P ON J.Jun_Pac = P.Pac_Id " +
-                                         " INNER JOIN CXN_BODEGAS B ON J.Jun_Bodega = B.Bod_Numero " +
-                                         " WHERE P.Pac_TipoId = '" + TID + "' " +
-                                         " AND P.Pac_IdNum = '" + NID + "' " +
-                                         " AND J.Jun_Tipo = 'Junta2' " +
-                                         " ORDER BY J.Jun_Fecha DESC";
-                            break;
-
-                        case "HEVO":
-                            String Cargar_HoraEVO = "SELECT P.Pac_PrimerA + ' ' + P.Pac_SegundoA + ' ' + P.Pac_PrimerN + ' ' + P.Pac_SegundoN AS PACIENTE, " +
-                                          "P.Pac_TipoId AS TID, P.Pac_IdNum AS ID, E.Evo_Adm AS ADM, E.Evo_Fecha AS FECHA, B.Bod_Responsable AS PROF, E.Evo_Tipo " +
-                                          " FROM CXN_EVOFIB E " +
-                                          " INNER JOIN CXN_PACIENTES P ON E.Evo_Pac = P.Pac_Id " +
-                                          " INNER JOIN CXN_BODEGAS B ON E.Evo_Med = B.Bod_Usuario " +
-                                          " WHERE P.Pac_TipoId = '" + TID + "' " +
-                                          " AND P.Pac_IdNum = '" + NID + "' " +
-                                          " ORDER BY E.Evo_Fecha DESC";
-                            SqlCommand Carga_CommandEVO = new SqlCommand(Cargar_HoraEVO, con);
-                            SqlDataReader Lectura_HoraEVO = (Carga_CommandEVO.ExecuteReader());
-                            if (Lectura_HoraEVO.HasRows)
-                            {
-                                while (Lectura_HoraEVO.Read() == true)
-                                {
-                                    H.Add(new CXN_HORARIO
-                                    {
-                                        Hor_Id = Convert.ToInt32(Lectura_HoraEVO["ADM"]),
-                                        Com_Tipo_Doc = Lectura_HoraEVO["TID"].ToString(),
-                                        PacienteIdentificacion = Lectura_HoraEVO["ID"].ToString(),
-                                        Hor_Imp_Age = Lectura_HoraEVO["PACIENTE"].ToString(),
-                                        Hor_Observacion = Lectura_HoraEVO["PROF"].ToString(),
-                                        Hor_Pac_Fecha_Cita = Convert.ToDateTime(Lectura_HoraEVO["FECHA"]),
-                                        Hor_Pac_Tipo_Serv = Lectura_HoraEVO["Evo_Tipo"].ToString()
-                                    });
-                                }
-
-                                return H;
-                            }
-                            else
-                            {
-                                return null;
-                            }
-
-                        default:
-                            return null;
-                    }
-
-                    SqlCommand Carga_Command2 = new SqlCommand(Cargar_Hora2, con);
-                    SqlDataReader Lectura_Hora = (Carga_Command2.ExecuteReader());
-                    if (Lectura_Hora.HasRows)
-                    {
-                        while (Lectura_Hora.Read() == true)
-                        {
-                            H.Add(new CXN_HORARIO
-                            {
-                                Hor_Pac_Id = Convert.ToInt32(Lectura_Hora["PacienteCom"]),
-                                Hor_Id = Convert.ToInt32(Lectura_Hora["ADM"]),
-                                Com_Tipo_Doc = Lectura_Hora["TID"].ToString(),
-                                PacienteIdentificacion = Lectura_Hora["ID"].ToString(),
-                                Hor_Imp_Age = Lectura_Hora["PACIENTE"].ToString(),
-                                Hor_Observacion = Lectura_Hora["PROF"].ToString(),
-                                Hor_Pac_Fecha_Cita = Convert.ToDateTime(Lectura_Hora["FECHA"])
-                            });
-                        }
-
-                        return H;
                     }
                     else
                     {
@@ -1581,163 +1383,6 @@ namespace Persistence.CXN.Metodos
                             }
                         }
                     }                    
-                }
-            }
-            catch
-            {
-                return null;
-            }
-        }
-        List<HCMG> IReportes.MedicinaGeneralCompleto(int PacienteHCCompleto, DateTime FechaHC, string userGenera)
-        {
-            try
-            {
-                Dictionary<string,string> getData = Conexion.Conection();
-
-                using (SqlConnection con = new SqlConnection(getData["Conexion"]))
-                {
-                    if (con != null && con.State == ConnectionState.Closed)
-                    {
-                        con.Open();
-                    }
-
-                    String Cargar_Hora = "SELECT Com_Nombre,  Com_Identificacion, Com_Direccion, Com_Telefono, Com_Logo, Bod_Responsable, Bod_Reg_Med, HC_Pac, Pac_TipoId, Pac_IdNum, Pac_Direccion, Pac_FechaNto, Pac_Sexo, HC_Edad, Pac_Telefono, HC_SubPat, HC_Patologia, " +
-                                         " Ase_Descripcion, Pac_Email, HC_Ocupacion, Pac_Acudiente, Pac_Parentesco, Pac_DireccionAcu, Pac_TelefonoAcu, Pac_CorreoAcu, HC_Vez, HC_Fecha, HC_MotivoC, HC_EnfA, HC_Neurologico, HC_Cardiovascular, " +
-                                         " HC_Gastrourinario, HC_Piel, HC_Respiratorio, HC_Gastrointestinal, HC_Osteomuscular, HC_AntQui, HC_AntFam, HC_AntPat, HC_AntFarma, HC_AntAle, HC_Hematolin, HC_Nota_Acl, HC_Presart, HC_FreCar, " +
-                                         " HC_FreRes, HC_Temp, HC_Peso, HC_IMC, HC_Altura, HC_ITB, HC_AparienciaG, HC_EstadoEmo, HC_EstadoNut, HC_GradoC, HC_ActEje, HC_TipoLes, HC_DescHer, HC_CantHer, HC_Bolsillo, HC_Longitud, HC_Ancho, " +
-                                         " HC_Profundidad, HC_NumCav, HC_ConsCant,HC_TejCom,  HC_CaracTej, HC_Exudado, HC_SignosInf, HC_PielCirc, HC_TamañoHP, HC_Analisis, HC_PManejo, HC_ProtoInst, HC_Dx1T, HC_Dx2, HC_Dx3, HC_PruebasDiag, HC_Complicacion, " +
-                                         " HC_Dx1, Bod_Firma, Bod_Responsable, HC_Dolor, HC_Estado, ' ' AS Vacio, HC_PacId, Pac_Id, HC_Ase, Ase_Identificador, HC_Com, Com_Identificador, HC_Prof, Bod_Numero, HC_Adm, " +
-                                         " 'Motivo de Consulta' as MCONS, 'Enfermedad Actual' as ENFAC, 'Revision a Sistemas' as RSIST, 'Neurologico' as NEURO, 'Cardiovascular' as CARDIO, 'Gastrourinario' as GASTROU, 'OsteoMuscular' as OSTEO, " +
-                                         " 'GastroIntestinal' as GASTROI, 'Piel' as PIEL, 'Respiratorio' as RESPI, 'ANTECEDENTES' as ANT, 'Quirurgicos' as QUI, 'Familiares' as FAMI, 'Patologicos' as PATO, 'Farmacologicos' as FARMA, " +
-                                         " 'Alergicos' AS ALER, 'Hematologico y Linfatico' HEMA, 'Examen Fisico' AS EXAF, 'Presion Arterial' AS PRES, 'Frecuencia Cardiaca' AS FRECC, 'Frec. Respiratoria' AS FRECR, 'Temperatura' AS TEMP,  " +
-                                         " 'Peso' AS PESO, 'IMC' AS IMC, 'Talla' AS Talla, 'Indice Tobillo Brazo' AS ITB, 'Apariencia General' AS APAG, 'Estado Emocional' AS ESTE, 'Estado Nutricional' AS ESTN, 'Grado de Cuidado' AS GCUI, " +
-                                         " 'Actividad y Ejercicio' AS ACEJ, 'Tipo de Lesion' AS TLES, 'Descripcion de la Herida' AS DESH, 'Consistencia y Cantidad de Exudado' AS CONC, 'Tejidos Comprometidos' AS TCOM, " +
-                                         " 'Caracteristicas del Tejido' AS CTEJ, 'Exudado' AS EXUD, 'Signos de Infeccion' AS SINF, 'Piel Circundante' AS PCIR, 'Tamaño' AS TAMA, " +
-                                         " 'PLAN DE MANEJO' AS PMAN, 'Analisis' AS ANAL, 'Plan de Manejo' AS PMAN2, 'Diagnostico' AS DIAG, 'Pruebas Diagnosticas Complementarias' AS PDC, 'Complicaciones Durante el Tratamiento en esta Institucion' AS CTRA, " +
-                                         " 'Notas Aclaratorias' AS NOTAA, 'Firma y Sello' AS FIRMA, HC_Epidemia, HC_ServCatalogo, HC_CupCatalogo " +
-                                         " FROM CXN_HCMG " +
-                                         " INNER JOIN CXN_PACIENTES ON CXN_HCMG.HC_PacId = CXN_PACIENTES.Pac_Id " +
-                                         " INNER JOIN CXN_ASEGURADORA ON CXN_HCMG.HC_Ase = CXN_ASEGURADORA.Ase_Identificador " +
-                                         " INNER JOIN CXN_CIA ON CXN_HCMG.HC_Com = CXN_CIA.Com_Identificador " +
-                                         " INNER JOIN CXN_BODEGAS ON CXN_HCMG.HC_Prof = CXN_BODEGAS.Bod_Numero " +
-                                         " WHERE CXN_HCMG.HC_Fecha <= '" + Convert.ToDateTime(FechaHC).ToString(getData["Format_Fecha"]) + "' " +
-                                         " AND CXN_HCMG.HC_Pacid = '" + PacienteHCCompleto + "' " +
-                                         " ORDER BY CXN_HCMG.HC_Fecha DESC";
-                    SqlCommand Carga_Command = new SqlCommand(Cargar_Hora, con);
-                    SqlDataReader Lectura_Hora = (Carga_Command.ExecuteReader());
-                    if (Lectura_Hora.HasRows)
-                    {
-                        List<HCMG> sub_Class_HCMG = new List<HCMG>();
-                        DateTime Hoy = DateTime.Now.Date;
-
-                        while (Lectura_Hora.Read() == true)
-                        {
-                            string Bod_Firma1 = Lectura_Hora["Com_Logo"].ToString();
-                            Byte[] bytes = Convert.FromBase64String(Bod_Firma1);
-                            MemoryStream stmBLOBData = new MemoryStream(bytes);
-                            PictureBox pic = new PictureBox();
-                            pic.Image = Image.FromStream(stmBLOBData);
-
-                            var Diag1 = repoCIE10.BuscaDX(Lectura_Hora["HC_Dx1"].ToString());
-                            var Diag2 = repoCIE10.BuscaDX(Lectura_Hora["HC_Dx2"].ToString());
-                            var Diag3 = repoCIE10.BuscaDX(Lectura_Hora["HC_Dx3"].ToString());
-
-                            string Datos = "PACIENTE: " + Lectura_Hora["HC_Pac"].ToString() + "\n\r" +
-                                           "FECHA REPORTE: " + Convert.ToDateTime(Hoy).ToString(getData["Format_Fecha"]) + "\n\r" +
-                                           "IDENTIFICACION: " + Lectura_Hora["Pac_TipoId"].ToString() + " " + Lectura_Hora["Pac_IdNum"].ToString() + "\n\r" +
-                                           "CLINICA: " + Lectura_Hora["Com_Nombre"].ToString() + "\n\r" +
-                                           "USUARIO QUE GENERA COPIA: " + userGenera;
-                            var ImaRes = repoGen.CodifyQR(Datos);
-
-                            string CondicionesText = repoCondiciones.getCondicionesForPrint(Convert.ToInt32(Lectura_Hora["Pac_Id"]), Convert.ToDateTime(Lectura_Hora["HC_Fecha"]));
-
-                            sub_Class_HCMG.Add(new HCMG
-                            {
-                                Logo = repoGen.GetBytes(ImaRes),
-                                PacienteAseguradora = Lectura_Hora["Ase_Descripcion"].ToString(),
-                                Admision = Convert.ToInt32(Lectura_Hora["HC_Adm"]),
-                                Firma = repoGen.GetBytes(pic.Image), //
-                                Ocupacion = Lectura_Hora["HC_Ocupacion"].ToString(), //
-                                EmpresaNombre = Lectura_Hora["Com_Nombre"].ToString(), //
-                                EmpresaIdentificacion = Lectura_Hora["Com_Identificacion"].ToString(), //
-                                EmpresaDireccion = Lectura_Hora["Com_Direccion"].ToString(), //
-                                EmpresaTelefono = Lectura_Hora["Com_Telefono"].ToString(), //
-                                HC_Vez = Lectura_Hora["HC_Vez"].ToString(),
-                                FechaBase = Convert.ToDateTime(Lectura_Hora["HC_Fecha"].ToString()), //
-                                ProfesionalNombre = Lectura_Hora["Bod_Responsable"].ToString(), //
-                                RegistroMedico = Lectura_Hora["Bod_Reg_Med"].ToString(), //
-                                PacienteNombre = Lectura_Hora["HC_Pac"].ToString(), //
-                                PacienteIdentificacion = Lectura_Hora["Pac_TipoId"].ToString() + " " + Lectura_Hora["Pac_IdNum"].ToString(),
-                                Pac_Acudiente = Lectura_Hora["Pac_Acudiente"].ToString(),
-                                Pac_Parentesco = Lectura_Hora["Pac_Parentesco"].ToString(),
-                                Pac_DireccionAcu = Lectura_Hora["Pac_DireccionAcu"].ToString(),
-                                Pac_TelefonoAcu = Lectura_Hora["Pac_TelefonoAcu"].ToString(),
-                                Pac_CorreoAcu = Lectura_Hora["Pac_CorreoAcu"].ToString(),
-                                PacienteDireccion = Lectura_Hora["Pac_Direccion"].ToString(),
-                                FNto = Convert.ToDateTime(Lectura_Hora["Pac_FechaNto"].ToString()),
-                                Pac_Sexo = Lectura_Hora["Pac_Sexo"].ToString(),
-                                Edad = Lectura_Hora["HC_Edad"].ToString(), //
-                                PacienteTelefono = Lectura_Hora["Pac_Telefono"].ToString(),
-                                Pac_Email = Lectura_Hora["Pac_Email"].ToString(),
-                                HC_MotivoC = Lectura_Hora["HC_MotivoC"].ToString(),
-                                HC_EnfA = Lectura_Hora["HC_EnfA"].ToString(),
-                                HC_Neurologico = Lectura_Hora["HC_Neurologico"].ToString(),
-                                HC_Cardiovascular = Lectura_Hora["HC_Cardiovascular"].ToString(),
-                                HC_Gastrourinario = Lectura_Hora["HC_Gastrourinario"].ToString(),
-                                HC_Osteomuscular = Lectura_Hora["HC_Osteomuscular"].ToString(),
-                                HC_Gastrointestinal = Lectura_Hora["HC_Gastrointestinal"].ToString(),
-                                HC_Piel = Lectura_Hora["HC_Piel"].ToString(),
-                                HC_Respiratorio = Lectura_Hora["HC_Respiratorio"].ToString(),
-                                HC_AntQui = Lectura_Hora["HC_AntQui"].ToString(),
-                                HC_AntFam = Lectura_Hora["HC_AntFam"].ToString(),
-                                HC_AntPat = Lectura_Hora["HC_AntPat"].ToString(),
-                                HC_AntFarma = Lectura_Hora["HC_AntFarma"].ToString(),
-                                HC_AntAle = Lectura_Hora["HC_AntAle"].ToString(),
-                                HC_Hematolin = Lectura_Hora["HC_Hematolin"].ToString(),
-                                HC_Presart = Lectura_Hora["HC_Presart"].ToString(),
-                                HC_FreCar = Lectura_Hora["HC_FreCar"].ToString(),
-                                HC_FreRes = Lectura_Hora["HC_FreRes"].ToString(),
-                                HC_Temp = Lectura_Hora["HC_Temp"].ToString(),
-                                HC_Peso = Lectura_Hora["HC_Peso"].ToString(),
-                                HC_IMC = Lectura_Hora["HC_IMC"].ToString(),
-                                HC_Altura = Lectura_Hora["HC_Altura"].ToString(),
-                                HC_ITB = Lectura_Hora["HC_ITB"].ToString(),
-                                HC_AparienciaG = Lectura_Hora["HC_AparienciaG"].ToString(),
-                                HC_EstadoEmo = Lectura_Hora["HC_EstadoEmo"].ToString(),
-                                HC_EstadoNut = Lectura_Hora["HC_EstadoNut"].ToString(),
-                                HC_GradoC = Lectura_Hora["HC_GradoC"].ToString(),
-                                HC_ActEje = Lectura_Hora["HC_ActEje"].ToString(),
-                                HC_TipoLes = Lectura_Hora["HC_TipoLes"].ToString(),
-                                HC_DescHer = Lectura_Hora["HC_DescHer"].ToString(),
-                                HC_ConsCant = Lectura_Hora["HC_ConsCant"].ToString(),
-                                HC_TejCom = Lectura_Hora["HC_TejCom"].ToString(),
-                                HC_CaracTej = Lectura_Hora["HC_CaracTej"].ToString(),
-                                HC_Exudado = Lectura_Hora["HC_Exudado"].ToString(),
-                                HC_SignosInf = Lectura_Hora["HC_SignosInf"].ToString(),
-                                HC_PielCirc = Lectura_Hora["HC_PielCirc"].ToString(),
-                                HC_Analisis = Lectura_Hora["HC_Analisis"].ToString(),
-                                HC_PManejo = Lectura_Hora["HC_PManejo"].ToString(),
-                                Diagnostico1 = Lectura_Hora["HC_Dx1"].ToString() + " - " + Diag1.ToString(),
-                                Diagnostico_Rel2 = Lectura_Hora["HC_Dx2"].ToString() + " - " + Diag2.ToString(),
-                                Diagnostico_Rel3 = Lectura_Hora["HC_Dx3"].ToString() + " - " + Diag3.ToString(),
-                                HC_PruebasDiag = Lectura_Hora["HC_PruebasDiag"].ToString(),
-                                HC_Complicacion = Lectura_Hora["HC_Complicacion"].ToString(),
-                                NotaAclaratoria = Lectura_Hora["HC_Nota_Acl"].ToString(),
-                                HC_Dolor = Lectura_Hora["HC_Dolor"].ToString(),
-                                HC_Estado = Lectura_Hora["HC_Estado"].ToString(),
-                                Epidemia = Lectura_Hora["HC_Epidemia"].ToString(),
-                                HC_ServCatalogo = Lectura_Hora["HC_ServCatalogo"].ToString(),
-                                HC_CupCatalogo = Lectura_Hora["HC_CupCatalogo"].ToString(),
-                                HC_Patologia = Lectura_Hora["HC_Patologia"].ToString(),
-                                Med_Determinacion = CondicionesText
-                            });
-                        }
-                        return sub_Class_HCMG;
-                    }
-                    else
-                    {
-                        return null;
-                    }
                 }
             }
             catch
@@ -2116,6 +1761,9 @@ namespace Persistence.CXN.Metodos
                                     Diagnostico1 = Lectura_Hora["HC_DX1"].ToString() + " - " + DX1.ToString(), //
                                     Diagnostico_Rel2 = Lectura_Hora["HC_DX2"].ToString() + " - " + DX2.ToString(), //
                                     Diagnostico_Rel3 = Lectura_Hora["HC_DX3"].ToString() + " - " + DX3.ToString(), //
+                                    DX1Code = Lectura_Hora["HC_DX1"].ToString(),
+                                    DX2Code = Lectura_Hora["HC_DX2"].ToString(),
+                                    DX3Code = Lectura_Hora["HC_DX3"].ToString(),
                                     HC_RH = Lectura_Hora["HC_RH"].ToString(),
                                     HC_EAV = Lectura_Hora["HC_EAV"].ToString(),
                                     HC_Gastrointestinal = Lectura_Hora["HC_GastroI"].ToString(),
@@ -2712,82 +2360,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
-        List<ReportEVO> IReportes.ReporteEvoluciones(string TID,
-                                                     string ID,
-                                                     DateTime Desde,
-                                                     DateTime Hasta,
-                                                     string Tipo_Evo_Rep)
-        {
-            try
-            {
-                Dictionary<string,string> getData = Conexion.Conection();
-
-                using (SqlConnection con = new SqlConnection(getData["Conexion"]))
-                {
-                    if (con != null && con.State == ConnectionState.Closed)
-                    {
-                        con.Open();
-                    }
-                    String Cargar_Hora = "SELECT Evo_Hora, Evo_Fecha, Pac_PrimerA, Pac_SegundoA, Pac_PrimerN, Pac_SegundoN, Pac_TipoId, " +
-                                         "Pac_IdNum, Evo_Edad, Evo_Sesion, Bod_Responsable, Bod_Reg_Med, Evo_Evo, Evo_Fase, Com_Logo, Com_Nombre, Evo_Adm " +
-                                         "FROM CXN_EVOFIB " +
-                                         "INNER JOIN CXN_PACIENTES ON CXN_EVOFIB.Evo_Pac = CXN_PACIENTES.Pac_Id " +
-                                         "INNER JOIN CXN_ASEGURADORA ON CXN_EVOFIB.Evo_Ase = CXN_ASEGURADORA.Ase_Identificador " +
-                                         "INNER JOIN CXN_CIA ON CXN_EVOFIB.Evo_Cia = CXN_CIA.Com_Identificador " +
-                                         "INNER JOIN CXN_BODEGAS ON CXN_EVOFIB.Evo_Med = CXN_BODEGAS.Bod_Usuario " +
-                                         "WHERE Pac_TipoId = '" + TID + "' " +
-                                         "AND Pac_IdNum = '" + ID + "' " +
-                                         "AND Evo_Fecha BETWEEN '" + Convert.ToDateTime(Desde.Date).ToString(getData["Format_Fecha"]) + "' AND '" + Convert.ToDateTime(Hasta.Date).ToString(getData["Format_Fecha"]) + "' " +
-                                         "AND Evo_Tipo = '" + Tipo_Evo_Rep + "' " +
-                                         "ORDER BY Evo_Fecha, Evo_Sesion ASC";
-                    SqlCommand Carga_Command = new SqlCommand(Cargar_Hora, con);
-                    SqlDataReader Lectura_Hora = (Carga_Command.ExecuteReader());
-                    if (Lectura_Hora.HasRows)
-                    {
-                        List<ReportEVO> export_om_evoluciones = new List<ReportEVO>();
-
-                        while (Lectura_Hora.Read() == true)
-                        {
-                            string LogoCia = Lectura_Hora["Com_Logo"].ToString(); //trae base64
-                            Byte[] bytes = Convert.FromBase64String(LogoCia); //convierte a bytes
-                            MemoryStream stmBLOBData = new MemoryStream(bytes);
-                            PictureBox pic = new PictureBox();
-                            pic.Image = Image.FromStream(stmBLOBData);
-
-                            export_om_evoluciones.Add(new ReportEVO
-                            {
-                                Admision = Convert.ToInt32(Lectura_Hora["Evo_Adm"]),
-                                Evo_Hora = Lectura_Hora["Evo_Hora"].ToString(),
-                                FechaBase = Convert.ToDateTime(Lectura_Hora["Evo_Fecha"]),
-                                PacienteNombre = Lectura_Hora["Pac_PrimerA"].ToString() + " " + Lectura_Hora["Pac_SegundoA"].ToString() + " " + Lectura_Hora["Pac_PrimerN"].ToString() + " " + Lectura_Hora["Pac_SegundoN"].ToString(),
-                                PacienteIdentificacion = Lectura_Hora["Pac_TipoId"].ToString() + " " + Lectura_Hora["Pac_IdNum"].ToString(),
-                                Edad = Lectura_Hora["Evo_Edad"].ToString(),
-                                Evo_Sesion = Lectura_Hora["Evo_Sesion"].ToString(),
-                                ProfesionalNombre = Lectura_Hora["Bod_Responsable"].ToString(),
-                                RegistroMedico = Lectura_Hora["Bod_Reg_Med"].ToString(),
-                                Evo_Evo = Lectura_Hora["Evo_Evo"].ToString(),
-                                Evo_Fase = Lectura_Hora["Evo_Fase"].ToString(),
-                                Logo = repoGen.GetBytes(pic.Image),
-                                EmpresaNombre = Lectura_Hora["Com_Nombre"].ToString(),
-                                Evo_Texto = "FIBROMIALGIA - " + Tipo_Evo_Rep
-                            });
-                        }
-
-                        return export_om_evoluciones;
-                    }
-                    else
-                    {
-                        return null;
-                    }
-                }
-            }
-            catch
-            {
-                return null;
-            }
-        }
-
         List<ReportEVO> IReportes.ReporteEvoluciones(int Paciente,
                                                     DateTime Desde,
                                                     DateTime Hasta,
@@ -2864,7 +2436,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         List<ReportEVO> IReportes.ReporteEvoluciones(int Paciente,
                                                      int Admision,
                                                      string Tipo_Evo_Rep)
@@ -3048,7 +2619,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         List<ReportTF> IReportes.ReporteTerapiaFisica(int Admition)
         {
             try
@@ -3262,7 +2832,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         List<ReportTO> IReportes.ReporteTerapiaOcupacional(int Admition)
         {
             try
@@ -3507,151 +3076,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }        
-
-        List<EpicrisisReport> IReportes.ReporteEpicrisis(string TID, string NID, DateTime Desde, DateTime Hasta)
-        {
-            try
-            {
-                Dictionary<string,string> getData = Conexion.Conection();
-
-                using (SqlConnection con = new SqlConnection(getData["Conexion"]))
-                {
-                    if (con != null && con.State == ConnectionState.Closed)
-                    {
-                        con.Open();
-                    }
-                    String Cargar_Hora = "SELECT Pac_PrimerA, Pac_SegundoA, Pac_PrimerN, Pac_SegundoN, Pac_TipoId, Pac_IdNum, Pac_Id " +
-                                         "FROM CXN_PACIENTES " +
-                                         "WHERE Pac_IdNum = '" + NID + "' " +
-                                         "AND Pac_TipoId = '" + TID + "'";
-                    SqlCommand Carga_Command = new SqlCommand(Cargar_Hora, con);
-                    SqlDataReader Lectura_Hora = (Carga_Command.ExecuteReader());
-                    if (Lectura_Hora.Read() == true)
-                    {
-                        string Datos2 = "PACIENTE: " + Lectura_Hora["Pac_PrimerA"].ToString() + " " + Lectura_Hora["Pac_SegundoA"].ToString() + " " + Lectura_Hora["Pac_PrimerN"].ToString() + " " + Lectura_Hora["Pac_SegundoN"].ToString() +
-                                        "IDENTIFICACION: " + Lectura_Hora["Pac_TipoId"].ToString() + " " + Lectura_Hora["Pac_IdNum"].ToString() + " --> EPICRISIS"; ;
-
-                        var QR = repoGen.CodifyQR(Datos2);
-
-                        var Export = Genera_Export_Epicrisis(Convert.ToInt32(Lectura_Hora["Pac_Id"]),
-                                                                              Convert.ToDateTime(Desde),
-                                                                              Convert.ToDateTime(Hasta),
-                                                                              repoGen.GetBytes(QR));
-                        if (Export == null)
-                        {
-                            return null;
-                        }
-
-                        return Export;
-                    }
-                    else
-                    {
-                        return null;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
-                return null;
-            }
-        }
-
-        List<EpicrisisReport> Genera_Export_Epicrisis(int PACID,
-                DateTime Desde,
-                DateTime Hasta,
-                byte[] QR)
-        {
-            try
-            {
-                Dictionary<string,string> getData = Conexion.Conection();
-
-                DateTime Hoy = DateTime.Now.Date;
-
-                using (SqlConnection con = new SqlConnection(getData["Conexion"]))
-                {
-                    if (con != null && con.State == ConnectionState.Closed)
-                    {
-                        con.Open();
-                    }
-                    String Cargar_Hora2 = "SELECT HC_Analisis, HC_PManejo, Cie_Cod, Cie_Serv, HC_Adm, HC_DX1, HC_DX1T, HC_DX2, HC_DX3, " +
-                                          "HC_Ocupacion, Com_Nombre, Com_Identificacion, Com_Direccion, Com_Telefono, HC_Vez, HC_Fecha, Bod_Responsable, " +
-                                          "Bod_Reg_Med, HC_Pac, Pac_TipoId, Pac_IdNum, Pac_Acudiente, Pac_Parentesco, Pac_DireccionAcu, Pac_TelefonoAcu, " +
-                                          "Pac_CorreoAcu, Pac_Direccion, Pac_FechaNto, Pac_Sexo, HC_Edad, Pac_Telefono, Ase_Descripcion, Pac_Email, Com_Logo " +
-                                          "FROM CXN_HCMG " +
-                                          "INNER JOIN CXN_PACIENTES ON CXN_HCMG.HC_PacId = CXN_PACIENTES.Pac_Id " +
-                                          "INNER JOIN CXN_ASEGURADORA ON CXN_HCMG.HC_Ase = CXN_ASEGURADORA.Ase_Identificador " +
-                                          "INNER JOIN CXN_CIA ON CXN_HCMG.HC_Com = CXN_CIA.Com_Identificador " +
-                                          "INNER JOIN CXN_BODEGAS ON CXN_HCMG.HC_Prof = CXN_BODEGAS.Bod_Numero " +
-                                          "INNER JOIN CXN_CIE10 ON CXN_HCMG.HC_Dx1 = CXN_CIE10.Cie_Cod " +
-                                          "WHERE HC_PacId = '" + PACID + "' " +
-                                          "AND HC_Fecha BETWEEN '" + Convert.ToDateTime(Desde).ToString(getData["Format_Fecha"]) + "' AND '" + Convert.ToDateTime(Hasta).ToString(getData["Format_Fecha"]) + "' " +
-                                          "ORDER BY HC_Fecha DESC";
-                    SqlCommand Carga_Command2 = new SqlCommand(Cargar_Hora2, con);
-                    SqlDataReader Lectura_Hora = (Carga_Command2.ExecuteReader());
-                    if (Lectura_Hora.HasRows)
-                    {
-                        List<EpicrisisReport> sub_Class_Epicrisis = new List<EpicrisisReport>();
-
-                        while (Lectura_Hora.Read() == true)
-                        {
-                            string Bod_Firma1 = Lectura_Hora["Com_Logo"].ToString();
-                            Byte[] bytes = Convert.FromBase64String(Bod_Firma1);
-                            MemoryStream stmBLOBData = new MemoryStream(bytes);
-                            PictureBox pic = new PictureBox();
-                            pic.Image = Image.FromStream(stmBLOBData);
-
-                            var DX2 = repoCIE10.BuscaDX(Lectura_Hora["HC_Dx2"].ToString());
-                            var DX3 = repoCIE10.BuscaDX(Lectura_Hora["HC_Dx3"].ToString());
-
-                            sub_Class_Epicrisis.Add(new EpicrisisReport
-                            {
-                                Ocupacion = Lectura_Hora["HC_Ocupacion"].ToString(),
-                                EmpresaNombre = Lectura_Hora["Com_Nombre"].ToString(),
-                                EmpresaIdentificacion = Lectura_Hora["Com_Identificacion"].ToString(),
-                                EmpresaDireccion = Lectura_Hora["Com_Direccion"].ToString(),
-                                EmpresaTelefono = Lectura_Hora["Com_Telefono"].ToString(),
-                                HC_Vez = Convert.ToDateTime(Lectura_Hora["HC_Fecha"]),
-                                FechaBase = Convert.ToDateTime(Hoy),
-                                ProfesionalNombre = Lectura_Hora["Bod_Responsable"].ToString(),
-                                RegistroMedico = Lectura_Hora["Bod_Reg_Med"].ToString(),
-                                PacienteNombre = Lectura_Hora["HC_Pac"].ToString(),
-                                PacienteIdentificacion = Lectura_Hora["Pac_TipoId"].ToString() + " " + Lectura_Hora["Pac_IdNum"].ToString(),
-                                Pac_Acudiente = Lectura_Hora["Pac_Acudiente"].ToString(),
-                                Pac_Parentesco = Lectura_Hora["Pac_Parentesco"].ToString(),
-                                Pac_DireccionAcu = Lectura_Hora["Pac_DireccionAcu"].ToString(),
-                                Pac_TelefonoAcu = Lectura_Hora["Pac_TelefonoAcu"].ToString(),
-                                Pac_CorreoAcu = Lectura_Hora["Pac_CorreoAcu"].ToString(),
-                                PacienteDireccion = Lectura_Hora["Pac_Direccion"].ToString(),
-                                FNto = Convert.ToDateTime(Lectura_Hora["Pac_FechaNto"]),
-                                Pac_Sexo = Lectura_Hora["Pac_Sexo"].ToString(),
-                                Edad = Lectura_Hora["HC_Edad"].ToString(),
-                                PacienteTelefono = Lectura_Hora["Pac_Telefono"].ToString(),
-                                PacienteAseguradora = Lectura_Hora["Ase_Descripcion"].ToString(),
-                                Pac_Email = Lectura_Hora["Pac_Email"].ToString(),
-                                HC_Analisis = Lectura_Hora["HC_Analisis"].ToString(),
-                                HC_PManejo = Lectura_Hora["HC_PManejo"].ToString(),
-                                Diagnostico1 = Lectura_Hora["HC_Dx1"].ToString() + " - " + Lectura_Hora["HC_Dx1T"].ToString(),
-                                Diagnostico_Rel2 = Lectura_Hora["HC_Dx2"].ToString() + " - " + DX2.ToString(),
-                                Diagnostico_Rel3 = Lectura_Hora["HC_Dx3"].ToString() + " - " + DX3.ToString(),
-                                Logo = repoGen.GetBytes(pic.Image),
-                                Code_QR = QR
-                            });
-                        }
-                        return sub_Class_Epicrisis;
-                    }
-                    else
-                    {
-                        return null;
-                    }
-                }
-            }
-            catch
-            {
-                return null;
-            }
-        }
-
         List<OrdenesC> IReportes.ExportaOrdenCompra(int Orden)
         {
             try
@@ -3723,7 +3147,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         public class PrntAgendas : AgendasRecepcionImprime
         {
             public static List<PrntAgendas> Genera_Export_Citas(string tipo_reporte_citas,
@@ -3930,7 +3353,6 @@ namespace Persistence.CXN.Metodos
                 }
             }
         }
-
         List<FacturacionReports> IReportes.Exportar(DateTime Desde,
                                                         DateTime Hasta,
                                                         int Cia,
@@ -4066,86 +3488,11 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
-        List<FacturacionReports> IReportes.GetListOtrasFacturas(DateTime Desde,
-                                                                DateTime Hasta,
-                                                                int Cia,
-                                                                int Ase)
-        {
-            try
-            {
-                Dictionary<string, string> getData = Conexion.Conection();
-
-                using (SqlConnection con = new SqlConnection(getData["Conexion"]))
-                {
-                    if (con != null && con.State == ConnectionState.Closed)
-                    {
-                        con.Open();
-                    }
-                    String Cargar_Hora = "SELECT F.Fac_Num_Fac, F.Fac_Fecha, F.Fac_Usr_Graba, F.Homologo, " +
-                                         "A.Ase_Descripcion, SUM(C.Car_Val_Tot) as Valor " +
-                                         "FROM CXN_CARGOS C " +
-                                         "INNER JOIN CXN_FACTURA F ON C.Car_Factura = F.Fac_Num_Fac " +
-                                         "INNER JOIN CXN_ASEGURADORA A ON F.Fac_Ase = A.Ase_Identificador " +
-                                         "WHERE F.Fac_Fecha BETWEEN @Desde AND @Hasta " +
-                                         "AND F.Fac_Cia = @Cia " +
-                                         "AND F.Fac_Ase = @Ase " +
-                                         "AND F.Fac_Estado = @Estado " +
-                                         "AND F.Fac_Tipo_Doc = @Tipo " +
-                                         "AND C.Car_Tipo_Doc = @Tipo " +
-                                         "GROUP BY F.fac_num_fac, F.Fac_Fecha, F.Fac_Usr_Graba, F.Homologo, " +
-                                         "A.Ase_Descripcion " +
-                                         "ORDER BY F.Fac_Num_Fac DESC";
-
-                    using (SqlCommand Carga_Command = new SqlCommand(Cargar_Hora, con))
-                    {
-                        Carga_Command.Parameters.AddWithValue("@Desde", Convert.ToDateTime(Desde).ToString(getData["Format_Fecha"]));
-                        Carga_Command.Parameters.AddWithValue("@Hasta", Convert.ToDateTime(Hasta).ToString(getData["Format_Fecha"]));
-                        Carga_Command.Parameters.AddWithValue("@Cia", Cia);
-                        Carga_Command.Parameters.AddWithValue("@Ase", Ase);
-                        Carga_Command.Parameters.AddWithValue("@Tipo", "OP");
-                        Carga_Command.Parameters.AddWithValue("@Estado", "F");
-
-                        using (SqlDataReader Lectura_Hora = (Carga_Command.ExecuteReader()))
-                        {
-                            if (Lectura_Hora.HasRows)
-                            {
-                                List<FacturacionReports> Class_Fac_Serv1 = new List<FacturacionReports>();
-
-                                while (Lectura_Hora.Read() == true)
-                                {
-                                    Class_Fac_Serv1.Add(new FacturacionReports
-                                    {
-                                        FechaBase = Convert.ToDateTime(Lectura_Hora["Fac_Fecha"]),
-                                        Admision = Convert.ToInt32(Lectura_Hora["Fac_Num_Fac"]),
-                                        PacienteDireccion = Lectura_Hora["Fac_Usr_Graba"].ToString(), //USUARIO QUE GRABA
-                                        PacienteNombre = Lectura_Hora["Ase_Descripcion"].ToString(),
-                                        ValorReciboFactura = Convert.ToInt32(Lectura_Hora["Valor"]),
-                                        Homologo = Lectura_Hora["Homologo"].ToString()
-                                    });
-                                }
-                                return Class_Fac_Serv1;
-                            }
-                            else
-                            {
-                                return null;
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                return null;
-            }
-        }
-
         int Total_Fac_Serv(string Tips,
-                                          DateTime Desde1,
-                                          DateTime Hasta1,
-                                          int Cia1,
-                                          int Ase1)
+                           DateTime Desde1,
+                           DateTime Hasta1,
+                           int Cia1,
+                           int Ase1)
         {
             try
             {
@@ -4187,7 +3534,6 @@ namespace Persistence.CXN.Metodos
                 return 0;
             }
         }
-
         List<CXN_CIA> IReportes.ActasMedicos(int Admision)
         {
             try
@@ -4496,7 +3842,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         (Dictionary<int, string> DicNotas, Dictionary<int, string> DicHistorias) IReportes.getAdmitionByInvoiceZamenis(int FacZamenis)
         {
             try

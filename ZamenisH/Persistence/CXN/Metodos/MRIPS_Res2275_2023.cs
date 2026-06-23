@@ -1,8 +1,5 @@
 ﻿using Domain;
-using Domain.CXN;
-
 using Persistence.CXN.Interfaces;
-
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -11,10 +8,7 @@ using System.Data.SqlClient;
 namespace Persistence.CXN.Metodos
 {
     public class MRIPS_Res2275_2023 : IRIPS_Res2275_2023
-    {
-        private static readonly ICompañia repoCia = new MCompañia();
-        private static readonly IPacientes repoPacientes = new MPacientes();
-                
+    {               
         string IRIPS_Res2275_2023.getCodeGrupoServicios(string NombreServicios)
         {
             switch (NombreServicios)
@@ -33,7 +27,6 @@ namespace Persistence.CXN.Metodos
                     return "01";
             }
         }
-
         List<string> IRIPS_Res2275_2023.getTecSalud()
         {
             try
@@ -79,7 +72,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         void IRIPS_Res2275_2023.updateTecnoSalud(int Admision, string Valor)
         {
             try
@@ -108,7 +100,6 @@ namespace Persistence.CXN.Metodos
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         string IRIPS_Res2275_2023.getCodeTecnoSalud(string NombreServicios)
         {
             try
@@ -149,7 +140,6 @@ namespace Persistence.CXN.Metodos
                 return "15";
             }            
         }
-
         string IRIPS_Res2275_2023.getNameTecnoSalud(string Code)
         {
             try
@@ -190,7 +180,6 @@ namespace Persistence.CXN.Metodos
                 return "DIAGNOSTICO";
             }
         }
-
         List<string> IRIPS_Res2275_2023.getTecSaludCEXTERNA()
         {
             try
@@ -236,7 +225,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         string IRIPS_Res2275_2023.getCodeTecnoSaludCExterna(string NombreServicios)
         {
             try
@@ -277,7 +265,6 @@ namespace Persistence.CXN.Metodos
                 return "38";
             }
         }
-
         string IRIPS_Res2275_2023.getNameTecnoSaludCExterna(int Code)
         {
             try

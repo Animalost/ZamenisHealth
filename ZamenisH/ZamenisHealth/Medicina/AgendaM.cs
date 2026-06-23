@@ -1,5 +1,6 @@
 ﻿using Domain;
 using Domain.CXN;
+using FormAndControls;
 using Persistence;
 using Persistence.CXN.Interfaces;
 using Persistence.CXN.Metodos;
@@ -7,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
+using System.Reflection;
 using System.Windows.Forms;
 using Tulpep.NotificationWindow;
 using ZamenisHealth.Clases;
@@ -19,8 +21,12 @@ using Color = System.Drawing.Color;
 
 namespace ZamenisHealth.Medicina
 {
-    public partial class AgendaM : ConfigForm.BaseForm
+    public partial class AgendaM : Forma
     {
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        private static extern IntPtr SendMessage(IntPtr hWnd, int msg, bool wParam, int lParam);
+        private const int WM_SETREDRAW = 0x000B;
+
         private static readonly IAgendaC repoAgendaMedicaConsultas = new MAgendaC();
         private static readonly IAgendaProfesionales repoAgendaProfesionales = new MAgendaProfesionales();
         private static readonly IDisponibilidad repoDisponibilidad = new MDisponibilidad();
@@ -32,6 +38,8 @@ namespace ZamenisHealth.Medicina
         private bool Colorimetria;
         private bool MedGen;
         private int ad;
+        
+        ToolStripButton btnVideollamada;
 
         DataTable dt;
         DataColumn IDE;
@@ -46,49 +54,28 @@ namespace ZamenisHealth.Medicina
         DataColumn PacSal;
         DataColumn Aseguradora;
         DataColumn Arrastra;
+        DataColumn Colores;
 
         public AgendaM(bool _MedGen)
         {
             InitializeComponent();
             this.MedGen = _MedGen;
-
-            toolStripButton1.Click += btnZamenis1_ButtonClick;
-            toolStripButton2.Click += btnZamenis2_ButtonClick;
-            btnZamenis4.Click += btnZamenis3_ButtonClick;
-
-            ConfigForm.MoverForma(panel3, this);
-            ConfigForm.MoverForma(label1, this);
         }
-        private void btnZamenis1_ButtonClick(object sender, EventArgs e)
-        {
-            Historial_Medico_1 RM = new Historial_Medico_1();
-            RM.ShowDialog();
-        }
-        private void btnZamenis2_ButtonClick(object sender, EventArgs e)
-        {
-            Comunes.MensajeroSend M = new Comunes.MensajeroSend();
-            M.ShowDialog();
-        }
-        private void btnZamenis3_ButtonClick(object sender, EventArgs e)
-        {
-            Cargar_Agenda();
-        }
-
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            var NCia = repoCompañia.getPrestadorbyName(comboBox1.Text);
-            Cia = NCia.Com_Identificador;
-        }
-
         private void AgendaM_Load(object sender, EventArgs e)
         {
             try
             {
-                Titulo.Visible = false;
-                ImageClose.Visible = false;
-                
+                Titulo.Text = "Agenda Diaria";
+                LogoMain.Image = Properties.Resources.Splash;
+                SubTitulo.Text = $"Zamenis Health {Conexion.VersionApp}";
 
                 checkBox1.Checked = true;
+
+                typeof(DataGridView).InvokeMember("DoubleBuffered",
+                   BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty,
+                   null, dataGridView1, new object[] { true });
+
+                Botones();
 
                 var ValidaMed = repoBodegas.getDatosUser(Comunes.Contenedor.UsuarioLogueado);
                 if (ValidaMed != null)
@@ -106,19 +93,17 @@ namespace ZamenisHealth.Medicina
                             label8.Visible = false;
                             label7.Visible = false;
                             label21.Visible = false;
-                            label19.Visible = false;
-                            label2.Visible = false;
                         }
 
                         if (Conexion.ConectionDictionary["Videoconferencia"] == "A")
                         {
                             if (repoConfSystem.getListado()["Videoconferencia"] == "A")
                             {
-                                toolStripButton5.Visible = true;
+                                btnVideollamada.Visible = true;
                             }
                             else
                             {
-                                toolStripButton5.Visible = false;
+                                btnVideollamada.Visible = false;
                             }
                         }
 
@@ -152,7 +137,53 @@ namespace ZamenisHealth.Medicina
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
+        private void btnZamenis1_ButtonClick(object sender, EventArgs e)
+        {
+            Historial_Medico_1 RM = new Historial_Medico_1();
+            RM.ShowDialog();
+        }
+        private void btnZamenis2_ButtonClick(object sender, EventArgs e)
+        {
+            Comunes.MensajeroSend M = new Comunes.MensajeroSend();
+            M.ShowDialog();
+        }
+        private void btnZamenis3_ButtonClick(object sender, EventArgs e)
+        {
+            Cargar_Agenda();
+        }
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var NCia = repoCompañia.getPrestadorbyName(comboBox1.Text);
+            Cia = NCia.Com_Identificador;
+            Cargar_Agenda();
+        }
+        void Botones()
+        {
+            ToolStripButton btnHistorial = new ToolStripButton();
+            btnHistorial = createToolButton("Historial");
+            MenuLateral.Items.Add(btnHistorial);
+            btnHistorial.Click += btnZamenis1_ButtonClick;
 
+            ToolStripButton btnMensajero = new ToolStripButton();
+            btnMensajero = createToolButton("Mensajero");
+            MenuLateral.Items.Add(btnMensajero);
+            btnMensajero.Click += btnZamenis2_ButtonClick;
+
+            btnVideollamada = new ToolStripButton();
+            btnVideollamada = createToolButton("Videollamada");
+            MenuLateral.Items.Add(btnVideollamada);
+            btnVideollamada.Click += toolStripButton5_Click;
+
+            ToolStripButton btnVideollamadaH = new ToolStripButton();
+            btnVideollamadaH = createToolButton("Videollamada Historial");
+            MenuLateral.Items.Add(btnVideollamadaH);
+            btnVideollamadaH.Click += toolStripButton4_Click;
+
+            ToolStripButton btnUpdateAgenda = new ToolStripButton();
+            btnUpdateAgenda = createToolButton("Actualizar Agenda");
+            MenuLateral.Items.Add(btnUpdateAgenda);
+            btnUpdateAgenda.Click += btnZamenis3_ButtonClick;
+        }
         private void AgendaM_KeyDown(object sender, KeyEventArgs e)
         {
             try
@@ -172,13 +203,11 @@ namespace ZamenisHealth.Medicina
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         private void timer1_Tick(object sender, EventArgs e)
         {
             try
             {
                 timer1.Enabled = false;
-                label1.Visible = false;
             }
             catch (Exception ex)
             {
@@ -186,7 +215,6 @@ namespace ZamenisHealth.Medicina
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         private void timer2_Tick(object sender, EventArgs e)
         {
             try
@@ -200,7 +228,6 @@ namespace ZamenisHealth.Medicina
                     "o si lo desea puede seguir actualizando la agenda cuando se admisione un paciente con la tecla F5", "Error de Internet", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
-
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
         {
             try
@@ -212,7 +239,6 @@ namespace ZamenisHealth.Medicina
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         private void Selection_Active(string AdmString)
         {
             try
@@ -235,8 +261,6 @@ namespace ZamenisHealth.Medicina
                             DatosCita f = new DatosCita(Convert.ToInt32(AdmString), "AgendaM-A");
                             f.ShowDialog();
 
-                            label1.Visible = true;
-                            label1.Text = "Esta admision se encuentra en estado Agendado, este paciente aun no se ha admisionado";
                             timer1.Enabled = true;
                         }
                         else if (Estado == "H")
@@ -244,14 +268,10 @@ namespace ZamenisHealth.Medicina
                             DatosCita f = new DatosCita(Convert.ToInt32(AdmString), "AgendaM-A");
                             f.ShowDialog();
 
-                            label1.Visible = true;
-                            label1.Text = "Esta admision se encuentra en estado Agendado, este paciente aun no se ha admisionado";
                             timer1.Enabled = true;
                         }
                         else if (Estado == "B")
                         {
-                            label1.Visible = true;
-                            label1.Text = "BLOQUEADO";
                             timer1.Enabled = true;
                             MessageBox.Show("Este espacio esta bloquedo en su agenda, consulte con la Recepcion",
                                     "Bloqueado",
@@ -334,37 +354,24 @@ namespace ZamenisHealth.Medicina
                                         Hpsi.ShowDialog();
                                         break;
 
-                                    case "RADIOLOGIA":
-                                        HistoriasClinicas.Historia_Radiologia HRad = new HistoriasClinicas.Historia_Radiologia(Adm);
-                                        HRad.ShowDialog();
-                                        break;
-
                                     default:
-                                        label1.Visible = true;
-                                        label1.Text = "Admision con ERROR.  Contacte la administracion";
                                         timer1.Enabled = true;
                                         break;
                                 }
                             }
                             if (result == DialogResult.No)
                             {
-                                label1.Visible = true;
-                                label1.Text = "Accion Cancelada";
                                 timer1.Enabled = true;
                             }
                         }
                         else
                         {
-                            label1.Visible = true;
-                            label1.Text = "No hay paciente agendado aqui";
                             timer1.Enabled = true;
                         }
                     }                                        
                 }
                 else
                 {
-                    label1.Visible = true;
-                    label1.Text = "No hay paciente agendado aqui";
                     timer1.Enabled = true;
                 }
 
@@ -373,12 +380,9 @@ namespace ZamenisHealth.Medicina
             catch (Exception ex)
             {
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
-                label1.Visible = true;
-                label1.Text = "No hay paciente agendado aqui";
                 timer1.Enabled = true;
             }
         }
-
         void Pops()
         {
             try
@@ -412,7 +416,6 @@ namespace ZamenisHealth.Medicina
                 checkBox1.Checked = false;
             }
         }
-
         public void Cargar_Agenda()
         {
             try
@@ -428,6 +431,8 @@ namespace ZamenisHealth.Medicina
                     Hor_Pac_Fecha_Cita = Convert.ToDateTime(textBox1.Text),
                     Hor_Observacion = textBox2.Text
                 };
+
+                SendMessage(dataGridView1.Handle, WM_SETREDRAW, false, 0);                
 
                 List<CXN_HORARIO> getAgenda = repoAgendaProfesionales.Carga_Agenda(H);
                 if (getAgenda != null)
@@ -459,6 +464,7 @@ namespace ZamenisHealth.Medicina
                             row["PacSal"] = i.Hor_Pac_Sal.ToString();
                             row["Aseguradora"] = i.PacienteAseguradora.ToString();
                             row["Arrastra"] = i.Hor_ArrastraHistoria.ToString();
+                            row["Colores"] = i.Hor_Color.ToString();
 
                             dt.Rows.Add(row);
                             dt.AcceptChanges();
@@ -478,6 +484,7 @@ namespace ZamenisHealth.Medicina
                             row["InPaquete"] = i.Hor_IniciaSesion.ToString();
                             row["PacSal"] = i.Hor_Pac_Sal.ToString();
                             row["Arrastra"] = i.Hor_ArrastraHistoria.ToString();
+                            row["Colores"] = i.Hor_Color.ToString();
 
                             dt.Rows.Add(row);
                             dt.AcceptChanges();
@@ -490,25 +497,69 @@ namespace ZamenisHealth.Medicina
                     foreach (DataGridViewRow row in dataGridView1.Rows)
                     {
                         string Estado = dataGridView1.Rows[row.Index].Cells[5].Value.ToString();
-                        string Estado2 = dataGridView1.Rows[row.Index].Cells[9].Value.ToString();
-                        string Estado3 = dataGridView1.Rows[row.Index].Cells[8].Value.ToString();
-                        string Estado4 = dataGridView1.Rows[row.Index].Cells["Arrastra"].Value.ToString();
+                        string EstadoHora = dataGridView1.Rows[row.Index].Cells[1].Value.ToString();
+
+                        if (EstadoHora == "A")
+                        {
+                            row.Cells[2].Style.BackColor = Color.LightGray;
+                            row.Cells[3].Style.BackColor = Color.LightGray;
+                            row.Cells[2].Style.ForeColor = Color.Green;
+                        }
+                        else 
+                        {
+                            row.Cells[2].Style.BackColor = Color.LightGray;
+                            row.Cells[3].Style.BackColor = Color.LightGray;
+                            row.Cells[2].Style.ForeColor = Color.Red;
+                        }
 
                         if (this.Colorimetria == true)
                         {
                             if (Estado == "P")
-                            {
-                                row.Cells[4].Style.BackColor = Color.LightGreen;
-                                row.Cells[6].Style.BackColor = Color.LightGreen;
-                                row.Cells[7].Style.BackColor = Color.LightGreen;
-                                row.Cells[4].Style.ForeColor = Color.Green;
-                                row.Cells[6].Style.ForeColor = Color.Green;
-                                row.Cells[7].Style.ForeColor = Color.Green;
-
-                                if (this.MedGen == true)
+                            {                               
+                                if (row.Cells["Colores"].Value.ToString() == "N")
                                 {
-                                    row.Cells[10].Style.BackColor = Color.LightGreen;
-                                    row.Cells[10].Style.ForeColor = Color.Green;
+                                    row.Cells[4].Style.BackColor = Color.FromArgb(255, 192, 255);
+                                    row.Cells[6].Style.BackColor = Color.FromArgb(255, 192, 255);
+                                    row.Cells[7].Style.BackColor = Color.FromArgb(255, 192, 255);
+                                    row.Cells[4].Style.ForeColor = Color.Purple;
+                                    row.Cells[6].Style.ForeColor = Color.Purple;
+                                    row.Cells[7].Style.ForeColor = Color.Purple;
+
+                                    if (this.MedGen == true)
+                                    {
+                                        row.Cells[10].Style.BackColor = Color.FromArgb(255, 192, 255);
+                                        row.Cells[10].Style.ForeColor = Color.Purple;
+                                    }
+                                }
+                                else if (row.Cells["Colores"].Value.ToString() == "I")
+                                {
+                                    row.Cells[4].Style.BackColor = Color.DarkKhaki;
+                                    row.Cells[6].Style.BackColor = Color.DarkKhaki;
+                                    row.Cells[7].Style.BackColor = Color.DarkKhaki;
+                                    row.Cells[4].Style.ForeColor = Color.Sienna;
+                                    row.Cells[6].Style.ForeColor = Color.Sienna;
+                                    row.Cells[7].Style.ForeColor = Color.Sienna;
+
+                                    if (this.MedGen == true)
+                                    {
+                                        row.Cells[10].Style.BackColor = Color.DarkKhaki;
+                                        row.Cells[10].Style.ForeColor = Color.Sienna;
+                                    }
+                                }
+                                else
+                                {
+                                    row.Cells[4].Style.BackColor = Color.LightGreen;
+                                    row.Cells[6].Style.BackColor = Color.LightGreen;
+                                    row.Cells[7].Style.BackColor = Color.LightGreen;
+                                    row.Cells[4].Style.ForeColor = Color.Green;
+                                    row.Cells[6].Style.ForeColor = Color.Green;
+                                    row.Cells[7].Style.ForeColor = Color.Green;
+
+                                    if (this.MedGen == true)
+                                    {
+                                        row.Cells[10].Style.BackColor = Color.LightGreen;
+                                        row.Cells[10].Style.ForeColor = Color.Green;
+                                    }
                                 }
                             }
                             if (Estado == "A")
@@ -539,84 +590,6 @@ namespace ZamenisHealth.Medicina
                                 {
                                     row.Cells[10].Style.BackColor = Color.Orange;
                                     row.Cells[10].Style.ForeColor = Color.Red;
-                                }
-                            }
-                            if (Estado2 == "C" && Estado == "P")
-                            {
-                                row.Cells[4].Style.BackColor = Color.Yellow;
-                                row.Cells[6].Style.BackColor = Color.Yellow;
-                                row.Cells[7].Style.BackColor = Color.Yellow;
-                                row.Cells[4].Style.ForeColor = Color.Orange;
-                                row.Cells[6].Style.ForeColor = Color.Orange;
-                                row.Cells[7].Style.ForeColor = Color.Orange;
-
-                                if (this.MedGen == true)
-                                {
-                                    row.Cells[10].Style.BackColor = Color.Yellow;
-                                    row.Cells[10].Style.ForeColor = Color.Orange;
-                                }
-                            }
-                            if (Estado3 == "S" && Estado == "P") //Consume autorizacion
-                            {
-                                if (Estado2 == "N" && Estado == "P") //Consume autorizacion
-                                {
-                                    row.Cells[4].Style.BackColor = Color.LightPink;
-                                    row.Cells[6].Style.BackColor = Color.LightPink;
-                                    row.Cells[7].Style.BackColor = Color.LightPink;
-                                    row.Cells[4].Style.ForeColor = Color.Purple;
-                                    row.Cells[6].Style.ForeColor = Color.Purple;
-                                    row.Cells[7].Style.ForeColor = Color.Purple;
-
-                                    if (this.MedGen == true)
-                                    {
-                                        row.Cells[10].Style.BackColor = Color.LightPink;
-                                        row.Cells[10].Style.ForeColor = Color.Purple;
-                                    }
-                                }
-                                if (Estado2 == "A" && Estado == "P")
-                                {
-                                    row.Cells[4].Style.BackColor = Color.DarkKhaki;
-                                    row.Cells[6].Style.BackColor = Color.DarkKhaki;
-                                    row.Cells[7].Style.BackColor = Color.DarkKhaki;
-                                    row.Cells[4].Style.ForeColor = Color.Sienna;
-                                    row.Cells[6].Style.ForeColor = Color.Sienna;
-                                    row.Cells[7].Style.ForeColor = Color.Sienna;
-
-                                    if (this.MedGen == true)
-                                    {
-                                        row.Cells[10].Style.BackColor = Color.DarkKhaki;
-                                        row.Cells[10].Style.ForeColor = Color.Sienna;
-                                    }
-                                }
-                            }
-                            if (Estado3 == "Z" && Estado == "P") 
-                            {
-                                row.Cells[4].Style.BackColor = Color.Navy;
-                                row.Cells[6].Style.BackColor = Color.Navy;
-                                row.Cells[7].Style.BackColor = Color.Navy;
-                                row.Cells[4].Style.ForeColor = Color.White;
-                                row.Cells[6].Style.ForeColor = Color.White;
-                                row.Cells[7].Style.ForeColor = Color.White;
-
-                                if (this.MedGen == true)
-                                {
-                                    row.Cells[10].Style.BackColor = Color.Navy;
-                                    row.Cells[10].Style.ForeColor = Color.White;
-                                }
-                            }
-                            if (Estado4 == "S" && Estado == "P") //Contro Comun
-                            {
-                                row.Cells[4].Style.BackColor = Color.PapayaWhip;
-                                row.Cells[6].Style.BackColor = Color.PapayaWhip;
-                                row.Cells[7].Style.BackColor = Color.PapayaWhip;
-                                row.Cells[4].Style.ForeColor = Color.IndianRed;
-                                row.Cells[6].Style.ForeColor = Color.IndianRed;
-                                row.Cells[7].Style.ForeColor = Color.IndianRed;
-
-                                if (this.MedGen == true)
-                                {
-                                    row.Cells[10].Style.BackColor = Color.PapayaWhip;
-                                    row.Cells[10].Style.ForeColor = Color.IndianRed;
                                 }
                             }
                             if (Estado == "H")
@@ -699,37 +672,19 @@ namespace ZamenisHealth.Medicina
                             }
                         }
                     }
-
-                    //Horario
-                    foreach (DataGridViewRow row in dataGridView1.Rows)
-                    {
-                        string Estado4 = dataGridView1.Rows[row.Index].Cells[1].Value.ToString();
-
-                        if (Estado4 == "A")
-                        {
-                            row.Cells[2].Style.BackColor = Color.LightGray;
-                            row.Cells[3].Style.BackColor = Color.LightGray;
-                            row.Cells[2].Style.ForeColor = Color.Green;
-                        }
-                        if (Estado4 == "N")
-                        {
-                            row.Cells[2].Style.BackColor = Color.LightGray;
-                            row.Cells[3].Style.BackColor = Color.LightGray;
-                            row.Cells[2].Style.ForeColor = Color.Red;
-                        }
-                    }
                 }
                 else
                 {
                     Encabezados();
                 }
+
+                SendMessage(dataGridView1.Handle, WM_SETREDRAW, true, 0);
             }
             catch (Exception ex)
             {
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         void Estilos(DataGridView D, DataTable t)
         { 
             try
@@ -801,6 +756,7 @@ namespace ZamenisHealth.Medicina
                 D.Columns["InPaquete"].Visible = false;
                 D.Columns["PacSal"].Visible = false;
                 D.Columns["Arrastra"].Visible = false;
+                D.Columns["Colores"].Visible = false;
 
                 D.ClearSelection();
             }
@@ -809,7 +765,6 @@ namespace ZamenisHealth.Medicina
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         void Encabezados()
         {
             dataGridView1.DataSource = null;
@@ -829,6 +784,7 @@ namespace ZamenisHealth.Medicina
                 PacSal = dt.Columns.Add("PacSal", typeof(string));
                 Aseguradora = dt.Columns.Add("Aseguradora", typeof(string));
                 Arrastra = dt.Columns.Add("Arrastra", typeof(string));
+                Colores = dt.Columns.Add("Colores", typeof(string));
             }
             else
             {
@@ -843,9 +799,9 @@ namespace ZamenisHealth.Medicina
                 InPaquete = dt.Columns.Add("InPaquete", typeof(string));
                 PacSal = dt.Columns.Add("PacSal", typeof(string));
                 Arrastra = dt.Columns.Add("Arrastra", typeof(string));
+                Colores = dt.Columns.Add("Colores", typeof(string));
             }            
         }
-
         private void timer3_Tick(object sender, EventArgs e)
         {
             try
@@ -861,19 +817,16 @@ namespace ZamenisHealth.Medicina
                 checkBox1.Checked = false;
             }
         }
-
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
             if (checkBox1.Checked == true ) { timer3.Enabled = true; }
             if (checkBox1.Checked ==false ) { timer3.Enabled = false; }
         }
-
         void VirtualSala2(object sender, EventArgs e)
         {
             TwilioForm twilioForm = new TwilioForm(ad);
             twilioForm.ShowDialog();
         }
-
         private void dataGridView1_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             try
@@ -932,13 +885,6 @@ namespace ZamenisHealth.Medicina
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
-        private void pictureBox2_Click(object sender, EventArgs e)
-        {
-            this.Dispose();
-            this.Close();
-        }
-
         private void toolStripButton5_Click(object sender, EventArgs e)
         {
             try
@@ -976,7 +922,6 @@ namespace ZamenisHealth.Medicina
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         private void toolStripButton4_Click(object sender, EventArgs e)
         {
             try
@@ -1009,7 +954,6 @@ namespace ZamenisHealth.Medicina
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         private void Cargacia()
         {
             var cias = repoCompañia.getAllCompañias();
@@ -1023,6 +967,5 @@ namespace ZamenisHealth.Medicina
                 comboBox1.SelectedIndex = 0;
             }
         }
-
     }
 }

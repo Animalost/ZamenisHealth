@@ -6,125 +6,12 @@ using System.Data.SqlClient;
 using System.Data;
 using System.IO;
 using System.Windows.Forms;
-using Domain;
 
 namespace Persistence.CXN.Metodos
 {
     public class MPlanos : IPlanos
     {
         private static readonly IPacientes repoPac = new MPacientes();
-
-        void IPlanos.RNV(DateTime desde, DateTime hasta)
-        {
-            try
-            {
-                Dictionary<string,string> getData = Conexion.Conection();
-
-                using (SqlConnection con = new SqlConnection(getData["Conexion"]))
-                {
-                    if (con != null && con.State == ConnectionState.Closed)
-                    {
-                        con.Open();
-                    }
-
-                    DateTime Hoy = DateTime.Now;
-
-                    String getIdPacMes = "SELECT DISTINCT Hor_Pac_Id " + 
-                                         "FROM CXN_HORARIO " +
-                                         "WHERE Hor_Pac_Fecha_Cita = @param1 " +
-                                         "AND Hor_Pac_Tipo_Serv IN ('CU','MG')";
-
-                    using (SqlCommand comando = new SqlCommand(getIdPacMes, con))
-                    {
-                        comando.Parameters.AddWithValue("@param1", Convert.ToDateTime(desde).ToString(getData["Format_Fecha"]));
-
-                        using (SqlDataReader reader = (comando.ExecuteReader()))
-                        {
-                            if (reader.HasRows)
-                            {
-                                FileStream Query = new FileStream("C:/Cxn/Reportes/No_Volvieron_" + Convert.ToDateTime(Hoy).ToString("dd-MM-yyyy") + ".xls", FileMode.Append, FileAccess.Write);
-                                StreamWriter Escriba = new StreamWriter(Query);
-
-                                Escriba.Write("TIPO DOCUMENTO PACIENTE" + "," + "DOCUMENTO PACIENTE" + "," + "PACIENTE" + "," + "TELEFONO" + "," +
-                                   "TELEFONO 2" + "," + "EMAIL");
-                                Escriba.WriteLine();
-                                Escriba.Flush();
-
-                                List<int> L = new List<int>();
-
-                                DateTime resta = Hoy.AddDays(-15);
-
-                                while (reader.Read() == true)
-                                {
-                                    L.Add(Convert.ToInt32(reader["Hor_Pac_Id"]));
-                                }
-
-                                foreach (int i in L)
-                                {
-                                    String Cargar_Hora2c = "SELECT TOP 1 Hor_Pac_Fecha_Cita " +
-                                                           "FROM  CXN_HORARIO " +
-                                                           "WHERE Hor_Estado IN ('A','P','H') " +
-                                                           "AND Hor_Pac_Id = @param1 " +
-                                                           "AND Hor_Pac_Tipo_Serv IN ('CU','MG') " +
-                                                           "AND Hor_Pac_Fecha_Cita > @param2 " +
-                                                           "ORDER BY Hor_Pac_Fecha_Cita DESC";
-
-                                    using (SqlCommand Carga_Command2c = new SqlCommand(Cargar_Hora2c, con))
-                                    {
-                                        Carga_Command2c.Parameters.AddWithValue("@param1", i);
-                                        Carga_Command2c.Parameters.AddWithValue("@param2", Convert.ToDateTime(resta).ToString(getData["Format_Fecha"]));
-
-                                        using (SqlDataReader Lectura_Hora2c = (Carga_Command2c.ExecuteReader()))
-                                        {
-                                            if (Lectura_Hora2c.Read() == true)
-                                            {
-
-                                            }
-                                            else
-                                            {
-                                                var getPaciente = repoPac.LlamarPacientebyId(i);
-                                                if (getPaciente != null)
-                                                {
-                                                    Escriba.Write(getPaciente.Pac_TipoId.ToString() + ",");
-                                                    Escriba.Write(getPaciente.Pac_IdNum.ToString() + ",");
-                                                    Escriba.Write(getPaciente.Pac_PrimerA.ToString() + " " +
-                                                                  getPaciente.Pac_SegundoA.ToString() + " " +
-                                                                  getPaciente.Pac_PrimerN + " " +
-                                                                  getPaciente.Pac_SegundoN.ToString() + ",");
-                                                    Escriba.Write(getPaciente.Pac_Telefono.ToString() + ",");
-                                                    Escriba.Write(getPaciente.Pac_TelefonoAux.ToString() + ",");
-                                                    Escriba.Write(getPaciente.Pac_Email.ToString() + ",");
-                                                    Escriba.WriteLine();
-                                                    Escriba.Flush();
-                                                }
-                                                else
-                                                {
-                                                    Escriba.Write("Error en esta posision");
-                                                    Escriba.WriteLine();
-                                                    Escriba.Flush();
-                                                }
-
-                                            }
-                                        }
-                                    }                                    
-                                }
-
-                                Escriba.Close();
-                                MessageBox.Show("Generado en C CXN Reportes NO_VOLVIERON.txt");
-                            }
-                            else
-                            {
-                                MessageBox.Show("No hay resultados para este rango de fechas", "Sin resultados", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                            }
-                        }
-                    }                    
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
 
         void IPlanos.CA(DateTime desde, DateTime hasta)
         {
@@ -217,7 +104,6 @@ namespace Persistence.CXN.Metodos
                 MessageBox.Show(ex.Message);
             }
         }
-
         void IPlanos.RE(DateTime desde, DateTime hasta)
         {
             try
@@ -309,7 +195,6 @@ namespace Persistence.CXN.Metodos
                 MessageBox.Show(ex.Message);
             }
         }
-
         void IPlanos.ANCS(DateTime desde, DateTime hasta)
         {
             try
@@ -396,7 +281,6 @@ namespace Persistence.CXN.Metodos
                 MessageBox.Show(ex.Message);
             }
         }
-
         void IPlanos.RI(DateTime desde, DateTime hasta)
         {
             try
@@ -487,53 +371,6 @@ namespace Persistence.CXN.Metodos
                 MessageBox.Show(ex.Message);
             }
         }
-
-        void IPlanos.ExportarConvenios()
-        {
-            try
-            {
-                Dictionary<string,string> getData = Conexion.Conection();
-
-                using (SqlConnection con = new SqlConnection(getData["Conexion"]))
-                {
-                    if (con != null && con.State == ConnectionState.Closed)
-                    {
-                        con.Open();
-                    }
-
-                    FileStream Query = new FileStream("C:/Cxn/Reportes/Convenios.txt", FileMode.Append, FileAccess.Write);
-                    StreamWriter Escriba = new StreamWriter(Query);
-                    SqlCommand comando = new SqlCommand("SELECT * " +
-                                                        " FROM CXN_CONVENIOS INNER JOIN " +
-                                                        " CXN_ASEGURADORA ON CXN_CONVENIOS.Con_Aseguradora = CXN_ASEGURADORA.Ase_Identificador " +
-                                                        " ORDER BY CXN_ASEGURADORA.Ase_Descripcion ASC", con);
-                    SqlDataReader leer;
-                    leer = comando.ExecuteReader();
-
-                    Escriba.Write("CUP" + "," + "SERVICIO" + "," + "VALOR" + "," + "ASEGURADORA" + "," + "USUARIO");
-                    Escriba.WriteLine();
-                    Escriba.Flush();
-
-                    while (leer.Read())
-                    {
-                        Escriba.Write(leer["Con_Id_Serv"].ToString() + ",");
-                        Escriba.Write(leer["Con_Nombre"].ToString() + ",");
-                        Escriba.Write(Convert.ToInt32(leer["Con_Valor"]).ToString() + ",");
-                        Escriba.Write(leer["Ase_Descripcion"].ToString() + ",");
-                        Escriba.Write(leer["Con_UsuarioGraba"].ToString());
-                        Escriba.WriteLine();
-                        Escriba.Flush();
-                    }
-                    Escriba.Close();
-                    MessageBox.Show("Generado en C: Cxn Reportes Convenios.txt");
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
         void IPlanos.ExpPlanoFacturacion(CXN_FACTURA F)
         {
             try
@@ -669,7 +506,6 @@ namespace Persistence.CXN.Metodos
                 MessageBox.Show(ex.Message);
             }
         }
-
         void IPlanos.ExpPlanoOrdenesPendientes(DateTime Desde, DateTime Hasta)
         {
             try
@@ -748,6 +584,5 @@ namespace Persistence.CXN.Metodos
                 MessageBox.Show(ex.Message + "AP");
             }
         }
-
     }
 }

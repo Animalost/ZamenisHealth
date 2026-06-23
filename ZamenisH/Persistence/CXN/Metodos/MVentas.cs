@@ -706,7 +706,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         List<FacturacionReports> IVentas.Rpt_FacturasNC(DateTime Desde,
                                                  DateTime Hasta,
                                                  int Cia,
@@ -796,7 +795,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         int CalculoFacturas(DateTime Desde,
                             DateTime Hasta, int Compañia, string Tipo)
         {
@@ -833,7 +831,6 @@ namespace Persistence.CXN.Metodos
                 return 0;
             }
         }
-
         List<ReportesRecepcion> IVentas.Rpt_RecibosdeCaja(DateTime Desde,
                                                           DateTime Hasta,
                                                           int Cia,
@@ -970,7 +967,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         int CalculoRcCaja(DateTime Desde,
                           DateTime Hasta,
                           int Compañia)
@@ -1006,7 +1002,6 @@ namespace Persistence.CXN.Metodos
                 return 0;
             }
         }
-
         bool IVentas.Anula_Recepcion(CXN_VENTAS V)
         {
             try

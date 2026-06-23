@@ -13,6 +13,7 @@ using System.Windows.Forms;
 using Tulpep.NotificationWindow;
 using ZamenisHealth.Clases;
 using ZamenisHealth.Comunes;
+using ZamenisHealth.Recepcion.AgendaDiaria;
 using ZamenisHealth.Recepcion.Extras;
 
 namespace ZamenisHealth.Recepcion
@@ -893,8 +894,8 @@ namespace ZamenisHealth.Recepcion
                         repositorioHorario.InicioControlCuraciones(Admi, "Z");
                     }
 
-                    Agenda f7 = Application.OpenForms.OfType<Agenda>().FirstOrDefault();
-                    f7.RechargeTrueCheck();
+                    Agendamiento f7 = Application.OpenForms.OfType<Agendamiento>().FirstOrDefault();
+                    f7.EventoInicial();
 
                     //HOJA DE FIRMAS AUTOMATICA
                     /*if (checkBox1.Checked == true || checkBox2.Checked == true)

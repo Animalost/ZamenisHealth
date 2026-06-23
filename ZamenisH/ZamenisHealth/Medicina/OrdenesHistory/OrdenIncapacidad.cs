@@ -79,13 +79,13 @@ namespace ZamenisHealth.Medicina.OrdenesHistory
                         OM_Cia = datos.Com_Identificador,
                         OM_Prof = Comunes.Contenedor.UsuarioLogueado,
                         OM_Desc = textBox1.Text,
-                        OM_DX1 = f1.textBox39.Text,
-                        OM_DX2 = f1.textBox37.Text,
-                        OM_DX3 = f1.textBox35.Text,
-                        OM_DX1T = f1.textBox38.Text,
-                        OM_DX2T = f1.textBox36.Text,
-                        OM_DX3T = f1.textBox34.Text,
-                        OM_Edad = f1.edad.ToString(),
+                        OM_DX1 = Forma == "MEDGEN" ? f1.textBox39.Text : Forma == "FISIATRIA" ? f2.textBox52.Text : "",
+                        OM_DX2 = Forma == "MEDGEN" ? f1.textBox37.Text : Forma == "FISIATRIA" ? f2.textBox50.Text : "",
+                        OM_DX3 = Forma == "MEDGEN" ? f1.textBox35.Text : Forma == "FISIATRIA" ? f2.textBox48.Text : "",
+                        OM_DX1T = Forma == "MEDGEN" ? f1.textBox38.Text : Forma == "FISIATRIA" ? f2.textBox51.Text : "",
+                        OM_DX2T = Forma == "MEDGEN" ? f1.textBox36.Text : Forma == "FISIATRIA" ? f2.textBox49.Text : "",
+                        OM_DX3T = Forma == "MEDGEN" ? f1.textBox34.Text : Forma == "FISIATRIA" ? f2.textBox47.Text : "",
+                        OM_Edad = Forma == "MEDGEN" ? f1.edad.ToString() : Forma == "FISIATRIA" ? f2.edad.ToString() : "",
                         OM_Genero = datos.Pac_Sexo == "M" ? "Masculino" : "Femenino",
                         OM_Direccion = datos.PacienteDireccion,
                         OM_Telefono = datos.Pac_Telefono,
@@ -95,7 +95,8 @@ namespace ZamenisHealth.Medicina.OrdenesHistory
                         OM_Clasificacion = "INCAPACIDAD MEDICA",
                         OM_FHIR_INC = comboBox1.Text == "Nueva" ? "01" : "02",
                         OM_Dias = Convert.ToInt32(textBox2.Text),
-                        OM_Planillar = "N"
+                        OM_Planillar = "N",
+                        OM_Bilateral = ""
                     };
 
                     bool grabarOrden = ordenes.CrearOrden(OM);
@@ -130,9 +131,9 @@ namespace ZamenisHealth.Medicina.OrdenesHistory
                         Servicio = comboBox1.Text, //prorroga o nueva en este caso
                         Tipo = "INCAPACIDAD MEDICA",
                         Paciente = datos.Hor_Pac_Id,
-                        DX1 = f1.textBox39.Text,
-                        DX2 = f1.textBox37.Text,
-                        DX3 = f1.textBox35.Text,
+                        DX1 = OM.OM_DX1,
+                        DX2 = OM.OM_DX2,
+                        DX3 = OM.OM_DX3,
                         Medico = Comunes.Contenedor.UsuarioLogueado
                     };
 

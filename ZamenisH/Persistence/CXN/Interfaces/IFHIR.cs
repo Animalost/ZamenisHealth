@@ -26,7 +26,6 @@ namespace Persistence.CXN.Interfaces
         void InsertarEnvio_RDAPaciente(CXN_RDA Respuesta);
         void ActualizarEnvio_RDAPaciente(CXN_RDA Respuesta);
         string GrupoAlergias(string Code);
-        List<CXN_CONDICIONES> ConsultarMedicamentos(int Paciente, DateTime Fecha);
         List<string> CargarRISK();
         string GetCodeRisk(string Name);
         string GetDesctecnoSalud(string Code);
@@ -36,8 +35,6 @@ namespace Persistence.CXN.Interfaces
         void InsertarLOG_RDA(CXN_RDA_LOG Respuesta);
         List<CXN_RDA_LOG> GetLogs(DateTime Desde, DateTime Hasta);
         string GetLogFHIR(int Id);
-
-
         List<CXN_DATOS_FHIR> ListaDatosConfFHIR(int Prestador);
     }
 }

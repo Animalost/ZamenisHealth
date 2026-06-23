@@ -7,7 +7,6 @@ using Persistence.CXN.Metodos;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Drawing;
 using System.Windows.Forms;
 using ZamenisHealth.Comunes;
 
@@ -37,11 +36,6 @@ namespace ZamenisHealth.Medicina
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-        private void btnZamenis2_ButtonClick(object sender, EventArgs e)
-        {
-            this.Dispose();
-            this.Close();
-        }
         private void Historial_Medico_1_Load(object sender, EventArgs e)
         {
             try
@@ -59,6 +53,8 @@ namespace ZamenisHealth.Medicina
                 MenuLateral.Items.Add(btnIHCE);
                 btnIHCE.Click += button2_Click;
                 btnIHCE.Visible = false;
+
+                gridZH1.dataGridView1.CellMouseClick += dataGridView1_CellMouseClick;
             }
             catch (Exception ex)
             {
@@ -77,6 +73,7 @@ namespace ZamenisHealth.Medicina
         }
         void Encabezados()
         {
+            gridZH1.dataGridView1.DataSource = null;
             dt = new DataTable();
             POS = dt.Columns.Add("POS", typeof(int));
             IdPaciente = dt.Columns.Add("IdPaciente", typeof(int));
@@ -119,7 +116,7 @@ namespace ZamenisHealth.Medicina
                     }
 
                     Contador = 1;
-                    Estilos(dataGridView1, dt);
+                    Estilos(gridZH1.dataGridView1, dt);
                 }
                 else
                 {
@@ -133,41 +130,9 @@ namespace ZamenisHealth.Medicina
         }
         void Estilos(DataGridView D, DataTable t)
         {
-            D.EnableHeadersVisualStyles = false;
-            D.ScrollBars = ScrollBars.Both;
-
             D.DataSource = t;
-
-            D.Columns["Paciente"].Width = 600;
-
-            D.ColumnHeadersDefaultCellStyle.Font = new Font(D.Font, FontStyle.Bold);
-            D.ColumnHeadersDefaultCellStyle.Font = new Font("Arial", 8, FontStyle.Bold);
-            D.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#bfdbff");
-            D.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
-            D.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
-
-            D.Columns["Paciente"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
-            D.Columns["Paciente"].SortMode = DataGridViewColumnSortMode.NotSortable;
-
             D.Columns["POS"].Visible = false;
             D.Columns["IdPaciente"].Visible = false;
-
-            foreach (DataGridViewRow row in D.Rows)
-            {
-                int Numero = Convert.ToInt32(row.Cells["POS"].Value.ToString());
-
-                if ((Numero % 2) == 0)
-                {
-                    row.DefaultCellStyle.BackColor = Color.Aquamarine;
-                }
-                else
-                {
-                    row.DefaultCellStyle.BackColor = Color.MediumAquamarine;
-                }
-            }
-
-            D.ClearSelection();
         }
         private void Historial_Medico_1_KeyDown(object sender, KeyEventArgs e)
         {
@@ -192,13 +157,13 @@ namespace ZamenisHealth.Medicina
         {
             try
             {
-                Historial_Medico_2 m = new Historial_Medico_2(Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString()));
+                Historial_Medico_2 m = new Historial_Medico_2(Convert.ToInt32(gridZH1.dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString()));
                 m.ShowDialog();
-                dataGridView1.ClearSelection();
+                gridZH1.dataGridView1.ClearSelection();
             }
             catch (Exception ex)
             {
-                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
+                Console.WriteLine(ex.ToString());
             }
         }
         private void button2_Click(object sender, EventArgs e)

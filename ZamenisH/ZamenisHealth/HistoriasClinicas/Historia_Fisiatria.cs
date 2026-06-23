@@ -44,6 +44,7 @@ namespace ZamenisHealth.HistoriasClinicas
         public bool Retoma;
         DateTime Fecha_Serv;
         int Paciente, Cia, Ase, Prof, Valor;
+        public int edad;
 
         DataTable dt;
         DataColumn POS;
@@ -748,7 +749,7 @@ namespace ZamenisHealth.HistoriasClinicas
                 textBox2.Text = DatosAdmision.Pac_TipoId.ToString() + " " + DatosAdmision.Pac_IdNum.ToString();
 
                 DateTime nacimiento = Convert.ToDateTime(DatosAdmision.Pac_FechaNto);
-                int edad = DateTime.Today.AddTicks(-nacimiento.Ticks).Year - 1;
+                edad = DateTime.Today.AddTicks(-nacimiento.Ticks).Year - 1;
                 textBox4.Text = edad.ToString();
 
                 var Aseg = repoAseguradoras.getInfoFromAsebyCode(DatosAdmision.Hor_Pac_Ase);

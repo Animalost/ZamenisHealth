@@ -5,8 +5,8 @@ using Persistence.CXN.Metodos;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Drawing;
 using System.Windows.Forms;
+using ZamenisHealth.Recepcion.Admision;
 
 namespace ZamenisHealth.Medicina.Extras
 {
@@ -14,6 +14,8 @@ namespace ZamenisHealth.Medicina.Extras
     {
         private static readonly IFHIR rFHIR = new MFHIR();
         private ActualizarPaciente actualizarPaciente;
+        private OtrosDatosPac actualizarPaciente2;
+        private string FormaFrom;
 
         DataTable dt = new DataTable();
         DataColumn POS;
@@ -23,12 +25,22 @@ namespace ZamenisHealth.Medicina.Extras
         {
             InitializeComponent();
             actualizarPaciente = _actualizarPaciente;
+            FormaFrom = "ActualizarPaciente";
         }
 
+        public OcupacionPac(OtrosDatosPac _actualizarPaciente)
+        {
+            InitializeComponent();
+            actualizarPaciente2 = _actualizarPaciente;
+            FormaFrom = "OtrosDatosPac";
+        }
         private void OcupacionPac_Load(object sender, EventArgs e)
         {
             Titulo.Text = "Ocupaciones";
             SubTitulo.Text = $"Zamenis Health {Conexion.VersionApp}";
+
+            gridZH1.dataGridView1.CellDoubleClick += dataGridView1_CellDoubleClick;
+            gridZH1.CeldaHeight = true;
 
             cargarOcupacion("");
         }
@@ -55,50 +67,21 @@ namespace ZamenisHealth.Medicina.Extras
                 }
 
                 Contador = 1;
-                Estilos(dataGridView1, dt);
+                Estilos(gridZH1.dataGridView1, dt);
             }
             else
             {
-                dataGridView1.DataSource = null;
                 Encabezados();
             }
         }
         void Estilos(DataGridView D, DataTable t)
         {
-            D.EnableHeadersVisualStyles = false;
-            D.ScrollBars = ScrollBars.Both;
-
             D.DataSource = t;
-
-            D.Columns["Ocupacion"].Width = 720;
-
-            D.ColumnHeadersDefaultCellStyle.Font = new Font(D.Font, FontStyle.Bold);
-            D.ColumnHeadersDefaultCellStyle.Font = new Font("Arial", 12, FontStyle.Bold);
-            D.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#bfdbff");
-            D.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
-            D.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
-
-            D.Columns["Ocupacion"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            D.Columns["Ocupacion"].SortMode = DataGridViewColumnSortMode.NotSortable;
-
             D.Columns["POS"].Visible = false;
-
-            foreach (DataGridViewRow row in D.Rows)
-            {
-                int Numero = Convert.ToInt32(row.Cells["POS"].Value.ToString());
-
-                if ((Numero % 2) == 0)
-                {
-                    row.DefaultCellStyle.BackColor = Color.Aquamarine;
-                }
-                else
-                {
-                    row.DefaultCellStyle.BackColor = Color.MediumAquamarine;
-                }
-            }
         }
         void Encabezados()
         {
+            gridZH1.dataGridView1.DataSource = null;
             dt = new DataTable();
             POS = dt.Columns.Add("POS", typeof(int));
             Ocupacion = dt.Columns.Add("Ocupacion", typeof(string));
@@ -107,15 +90,23 @@ namespace ZamenisHealth.Medicina.Extras
         {
             try
             {
-                string Cod = dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString();
-                actualizarPaciente.textBox15.Text = Cod;
+                string Cod = gridZH1.dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString();
+
+                if (FormaFrom == "ActualizarPaciente")
+                {
+                    actualizarPaciente.textBox15.Text = Cod;
+                }
+                else if (FormaFrom == "OtrosDatosPac")
+                {
+                    actualizarPaciente2.textBox15.Text = Cod;
+                } 
 
                 this.Dispose();
                 this.Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                Console.WriteLine(ex.ToString());
             }            
         }
         private void textBox1_TextChanged(object sender, EventArgs e)

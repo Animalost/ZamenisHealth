@@ -4,6 +4,7 @@
   <Import Project="packages\Microsoft.SqlServer.Types.160.1000.6\build\net462\Microsoft.SqlServer.Types.props" Condition="Exists('packages\Microsoft.SqlServer.Types.160.1000.6\build\net462\Microsoft.SqlServer.Types.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{15A6F14B-A0F5-4083-BFB3-84F4121FF7B3}</ProjectGuid>
@@ -36,7 +37,7 @@
     <SuiteName>Zamenis</SuiteName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>479</ApplicationRevision>
+    <ApplicationRevision>489</ApplicationRevision>
     <ApplicationVersion>5.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -48,7 +49,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>C:\Cxn\Compilacion\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -68,10 +69,10 @@
     <ApplicationIcon>estetoscopio.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>B376013653C81DFCC01D86B3CF4DF2E175AA578A</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>1E2E21060A1D0BC86B55D9611C4DCD32BF9F0F28</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>Zam2026.pfx</ManifestKeyFile>
+    <ManifestKeyFile>FirmaZamenis.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -80,11 +81,10 @@
     <SignManifests>false</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
+    <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>
-    </AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>FirmaZamenis.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AForge">
@@ -111,8 +111,8 @@
     <Reference Include="CircularProgressBar, Version=2.8.0.16, Culture=neutral, PublicKeyToken=310fd07b25df79b3, processorArchitecture=MSIL">
       <HintPath>packages\CircularProgressBar.2.8.0.16\lib\net40\CircularProgressBar.dll</HintPath>
     </Reference>
-    <Reference Include="FormAndControls, Version=1.1.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\FormAndControls.1.1.3\lib\net472\FormAndControls.dll</HintPath>
+    <Reference Include="FormAndControls, Version=1.1.4.0, Culture=neutral, PublicKeyToken=7a0396217bc9abea, processorArchitecture=MSIL">
+      <HintPath>packages\FormAndControls.1.1.4\lib\net472\FormAndControls.dll</HintPath>
     </Reference>
     <Reference Include="itext.barcodes, Version=8.0.5.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
       <HintPath>packages\itext.8.0.5\lib\net461\itext.barcodes.dll</HintPath>
@@ -258,12 +258,16 @@
     </Reference>
     <Reference Include="Patagames.Pdf, Version=11.82.46.472, Culture=neutral, PublicKeyToken=60fd6cf9b15941cf, processorArchitecture=MSIL">
       <HintPath>packages\Pdfium.Net.SDK.4.92.2704\lib\net472\Patagames.Pdf.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Patagames.Pdf.WinForms, Version=4.28.18.472, Culture=neutral, PublicKeyToken=60fd6cf9b15941cf, processorArchitecture=MSIL">
       <HintPath>packages\Pdfium.Net.SDK.4.92.2704\lib\net472\Patagames.Pdf.WinForms.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Patagames.Pdf.Wpf, Version=4.28.20.472, Culture=neutral, PublicKeyToken=60fd6cf9b15941cf, processorArchitecture=MSIL">
       <HintPath>packages\Pdfium.Net.SDK.4.92.2704\lib\net472\Patagames.Pdf.Wpf.dll</HintPath>
+      <Private>False</Private>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="PdfSharp, Version=6.1.1.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
       <HintPath>packages\PDFsharp.6.1.1\lib\netstandard2.0\PdfSharp.dll</HintPath>
@@ -378,10 +382,16 @@
     <Compile Include="AdminSystem\Autorizaciones.Designer.cs">
       <DependentUpon>Autorizaciones.cs</DependentUpon>
     </Compile>
-    <Compile Include="AdminSystem\Bodegas.cs">
+    <Compile Include="AdminSystem\Material\EdicionProductos.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AdminSystem\Bodegas.Designer.cs">
+    <Compile Include="AdminSystem\Material\EdicionProductos.Designer.cs">
+      <DependentUpon>EdicionProductos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AdminSystem\Profesionales\Bodegas.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AdminSystem\Profesionales\Bodegas.Designer.cs">
       <DependentUpon>Bodegas.cs</DependentUpon>
     </Compile>
     <Compile Include="AdminSystem\Cie10Admin.cs">
@@ -390,10 +400,10 @@
     <Compile Include="AdminSystem\Cie10Admin.Designer.cs">
       <DependentUpon>Cie10Admin.cs</DependentUpon>
     </Compile>
-    <Compile Include="AdminSystem\Compañias.cs">
+    <Compile Include="AdminSystem\Prestadores\Compañias.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AdminSystem\Compañias.Designer.cs">
+    <Compile Include="AdminSystem\Prestadores\Compañias.Designer.cs">
       <DependentUpon>Compañias.cs</DependentUpon>
     </Compile>
     <Compile Include="AdminSystem\ConsAdmision.cs">
@@ -402,22 +412,22 @@
     <Compile Include="AdminSystem\ConsAdmision.Designer.cs">
       <DependentUpon>ConsAdmision.cs</DependentUpon>
     </Compile>
-    <Compile Include="AdminSystem\CyT.cs">
+    <Compile Include="AdminSystem\ConvTarifas\CyT.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AdminSystem\CyT.Designer.cs">
+    <Compile Include="AdminSystem\ConvTarifas\CyT.Designer.cs">
       <DependentUpon>CyT.cs</DependentUpon>
     </Compile>
-    <Compile Include="AdminSystem\CyT2.cs">
+    <Compile Include="AdminSystem\ConvTarifas\CyT2.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AdminSystem\CyT2.Designer.cs">
+    <Compile Include="AdminSystem\ConvTarifas\CyT2.Designer.cs">
       <DependentUpon>CyT2.cs</DependentUpon>
     </Compile>
-    <Compile Include="AdminSystem\CyT3.cs">
+    <Compile Include="AdminSystem\ConvTarifas\CyT3.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AdminSystem\CyT3.Designer.cs">
+    <Compile Include="AdminSystem\ConvTarifas\CyT3.Designer.cs">
       <DependentUpon>CyT3.cs</DependentUpon>
     </Compile>
     <Compile Include="AdminSystem\Extras\Autorizaciones2.cs">
@@ -437,12 +447,6 @@
     </Compile>
     <Compile Include="AdminSystem\Formatos.Designer.cs">
       <DependentUpon>Formatos.cs</DependentUpon>
-    </Compile>
-    <Compile Include="AdminSystem\GestionP.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="AdminSystem\GestionP.Designer.cs">
-      <DependentUpon>GestionP.cs</DependentUpon>
     </Compile>
     <Compile Include="AdminSystem\Homologos.cs">
       <SubType>Form</SubType>
@@ -480,11 +484,23 @@
     <Compile Include="AdminSystem\Horarios_3.Designer.cs">
       <DependentUpon>Horarios_3.cs</DependentUpon>
     </Compile>
-    <Compile Include="AdminSystem\Productos.cs">
+    <Compile Include="AdminSystem\Prestadores\Prestador.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AdminSystem\Productos.Designer.cs">
+    <Compile Include="AdminSystem\Prestadores\Prestador.Designer.cs">
+      <DependentUpon>Prestador.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AdminSystem\Material\Productos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AdminSystem\Material\Productos.Designer.cs">
       <DependentUpon>Productos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AdminSystem\Profesionales\UsuariosSistema.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AdminSystem\Profesionales\UsuariosSistema.Designer.cs">
+      <DependentUpon>UsuariosSistema.cs</DependentUpon>
     </Compile>
     <Compile Include="AdminSystem\Proveedores.cs">
       <SubType>Form</SubType>
@@ -519,10 +535,19 @@
     <Compile Include="Clases\CloseAppInactivity.cs" />
     <Compile Include="Clases\CodificadorVC.cs" />
     <Compile Include="Clases\ConfigForm.cs" />
-    <Compile Include="Clases\Controles\ModernPanel.cs">
-      <SubType>Component</SubType>
+    <Compile Include="Clases\Controles\CalendarHQ.cs">
+      <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Clases\Controles\ModernPanelWhite.cs">
+    <Compile Include="Clases\Controles\CalendarHQ.Designer.cs">
+      <DependentUpon>CalendarHQ.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Clases\Controles\GridZH.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Clases\Controles\GridZH.Designer.cs">
+      <DependentUpon>GridZH.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Clases\Controles\ModernPanel.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Clases\Controles\UIUtils.cs" />
@@ -698,12 +723,6 @@
     <Compile Include="Comunes\Extras\PatronRecovery.Designer.cs">
       <DependentUpon>PatronRecovery.cs</DependentUpon>
     </Compile>
-    <Compile Include="Comunes\Extras\SMSDisponibles.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Comunes\Extras\SMSDisponibles.Designer.cs">
-      <DependentUpon>SMSDisponibles.cs</DependentUpon>
-    </Compile>
     <Compile Include="Comunes\Inactivate.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -764,12 +783,6 @@
     </Compile>
     <Compile Include="ControlUser\Controles\btnZamenis.Designer.cs">
       <DependentUpon>btnZamenis.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ControlUser\Controles\CalZamenis.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="ControlUser\Controles\CalZamenis.Designer.cs">
-      <DependentUpon>CalZamenis.cs</DependentUpon>
     </Compile>
     <Compile Include="FacElectron\AjustesDIAN.cs">
       <SubType>Form</SubType>
@@ -1267,12 +1280,6 @@
     </Compile>
     <Compile Include="HistoriasClinicas\Historia_Psicologia.Designer.cs">
       <DependentUpon>Historia_Psicologia.cs</DependentUpon>
-    </Compile>
-    <Compile Include="HistoriasClinicas\Historia_Radiologia.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="HistoriasClinicas\Historia_Radiologia.Designer.cs">
-      <DependentUpon>Historia_Radiologia.cs</DependentUpon>
     </Compile>
     <Compile Include="HistoriasClinicas\Historia_TerFisica.cs">
       <SubType>Form</SubType>
@@ -1780,11 +1787,23 @@
     <Compile Include="Recepcion\Admision\AdmisionesCuraciones.Designer.cs">
       <DependentUpon>AdmisionesCuraciones.cs</DependentUpon>
     </Compile>
-    <Compile Include="Recepcion\Agenda.cs">
+    <Compile Include="Recepcion\Admision\OtrosDatosPac.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Recepcion\Agenda.Designer.cs">
-      <DependentUpon>Agenda.cs</DependentUpon>
+    <Compile Include="Recepcion\Admision\OtrosDatosPac.Designer.cs">
+      <DependentUpon>OtrosDatosPac.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Recepcion\AgendaDiaria\Agendamiento.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Recepcion\AgendaDiaria\Agendamiento.Designer.cs">
+      <DependentUpon>Agendamiento.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Recepcion\AgendaDiaria\MenuOpcionesAgenda.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Recepcion\AgendaDiaria\MenuOpcionesAgenda.Designer.cs">
+      <DependentUpon>MenuOpcionesAgenda.cs</DependentUpon>
     </Compile>
     <Compile Include="Recepcion\AgendarCita.cs">
       <SubType>Form</SubType>
@@ -1803,12 +1822,6 @@
     </Compile>
     <Compile Include="Recepcion\CierresCaja.Designer.cs">
       <DependentUpon>CierresCaja.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Recepcion\ConsultaAdmision.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Recepcion\ConsultaAdmision.Designer.cs">
-      <DependentUpon>ConsultaAdmision.cs</DependentUpon>
     </Compile>
     <Compile Include="Recepcion\CrearEditarPaciente.cs">
       <SubType>Form</SubType>
@@ -2056,25 +2069,28 @@
     <EmbeddedResource Include="AdminSystem\Autorizaciones.resx">
       <DependentUpon>Autorizaciones.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AdminSystem\Bodegas.resx">
+    <EmbeddedResource Include="AdminSystem\Material\EdicionProductos.resx">
+      <DependentUpon>EdicionProductos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AdminSystem\Profesionales\Bodegas.resx">
       <DependentUpon>Bodegas.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AdminSystem\Cie10Admin.resx">
       <DependentUpon>Cie10Admin.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AdminSystem\Compañias.resx">
+    <EmbeddedResource Include="AdminSystem\Prestadores\Compañias.resx">
       <DependentUpon>Compañias.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AdminSystem\ConsAdmision.resx">
       <DependentUpon>ConsAdmision.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AdminSystem\CyT.resx">
+    <EmbeddedResource Include="AdminSystem\ConvTarifas\CyT.resx">
       <DependentUpon>CyT.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AdminSystem\CyT2.resx">
+    <EmbeddedResource Include="AdminSystem\ConvTarifas\CyT2.resx">
       <DependentUpon>CyT2.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AdminSystem\CyT3.resx">
+    <EmbeddedResource Include="AdminSystem\ConvTarifas\CyT3.resx">
       <DependentUpon>CyT3.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AdminSystem\Extras\Autorizaciones2.resx">
@@ -2085,9 +2101,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AdminSystem\Formatos.resx">
       <DependentUpon>Formatos.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="AdminSystem\GestionP.resx">
-      <DependentUpon>GestionP.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AdminSystem\Homologos.resx">
       <DependentUpon>Homologos.cs</DependentUpon>
@@ -2107,8 +2120,14 @@
     <EmbeddedResource Include="AdminSystem\Horarios_3.resx">
       <DependentUpon>Horarios_3.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AdminSystem\Productos.resx">
+    <EmbeddedResource Include="AdminSystem\Prestadores\Prestador.resx">
+      <DependentUpon>Prestador.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AdminSystem\Material\Productos.resx">
       <DependentUpon>Productos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AdminSystem\Profesionales\UsuariosSistema.resx">
+      <DependentUpon>UsuariosSistema.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AdminSystem\Proveedores.resx">
       <DependentUpon>Proveedores.cs</DependentUpon>
@@ -2124,6 +2143,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AdminSystem\UsuariosSystem2.resx">
       <DependentUpon>UsuariosSystem2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Clases\Controles\CalendarHQ.resx">
+      <DependentUpon>CalendarHQ.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Clases\Controles\GridZH.resx">
+      <DependentUpon>GridZH.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Comunes\Analogo.resx">
       <DependentUpon>Analogo.cs</DependentUpon>
@@ -2206,9 +2231,6 @@
     <EmbeddedResource Include="Comunes\Extras\PatronRecovery.resx">
       <DependentUpon>PatronRecovery.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Comunes\Extras\SMSDisponibles.resx">
-      <DependentUpon>SMSDisponibles.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Comunes\Inactivate.resx">
       <DependentUpon>Inactivate.cs</DependentUpon>
     </EmbeddedResource>
@@ -2238,9 +2260,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ControlUser\Controles\btnZamenis.resx">
       <DependentUpon>btnZamenis.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ControlUser\Controles\CalZamenis.resx">
-      <DependentUpon>CalZamenis.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FacElectron\AjustesDIAN.resx">
       <DependentUpon>AjustesDIAN.cs</DependentUpon>
@@ -2484,9 +2503,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="HistoriasClinicas\Historia_Psicologia.resx">
       <DependentUpon>Historia_Psicologia.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="HistoriasClinicas\Historia_Radiologia.resx">
-      <DependentUpon>Historia_Radiologia.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="HistoriasClinicas\Historia_TerFisica.resx">
       <DependentUpon>Historia_TerFisica.cs</DependentUpon>
@@ -2746,8 +2762,14 @@
     <EmbeddedResource Include="Recepcion\Admision\AdmisionesCuraciones.resx">
       <DependentUpon>AdmisionesCuraciones.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Recepcion\Agenda.resx">
-      <DependentUpon>Agenda.cs</DependentUpon>
+    <EmbeddedResource Include="Recepcion\Admision\OtrosDatosPac.resx">
+      <DependentUpon>OtrosDatosPac.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Recepcion\AgendaDiaria\Agendamiento.resx">
+      <DependentUpon>Agendamiento.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Recepcion\AgendaDiaria\MenuOpcionesAgenda.resx">
+      <DependentUpon>MenuOpcionesAgenda.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Recepcion\AgendarCita.resx">
       <DependentUpon>AgendarCita.cs</DependentUpon>
@@ -2757,9 +2779,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Recepcion\CierresCaja.resx">
       <DependentUpon>CierresCaja.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Recepcion\ConsultaAdmision.resx">
-      <DependentUpon>ConsultaAdmision.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Recepcion\CrearEditarPaciente.resx">
       <DependentUpon>CrearEditarPaciente.cs</DependentUpon>
@@ -2870,6 +2889,7 @@
       <DependentUpon>Vender.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reportes\CierreCaja.rdlc" />
+    <EmbeddedResource Include="Reportes\CierreCaja2.rdlc" />
     <EmbeddedResource Include="Reportes\FacElectron\FacturaElectronicaDocSoporte.rdlc" />
     <EmbeddedResource Include="Reportes\FacElectron\FacturaElectronicaOtrasNC.rdlc" />
     <EmbeddedResource Include="Reportes\FacElectron\FacturaElectronicaSaludIMPUESTOS.rdlc" />
@@ -2979,6 +2999,7 @@
       <DependentUpon>Ingreso.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
+    <None Include="FirmaZamenis.pfx" />
     <None Include="libpdfium.dylib">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -2993,6 +3014,7 @@
     <None Include="Properties\DataSources\Domain.CXN.CXN_INVPPALCARGOS.datasource" />
     <None Include="Properties\DataSources\Domain.CXN.CXN_RC_CAJA.datasource" />
     <None Include="Properties\DataSources\Domain.CXN.CXN_REPORTECAJA.datasource" />
+    <None Include="Properties\DataSources\Domain.CXN.CXN_REPORTECAJA2.datasource" />
     <None Include="Properties\DataSources\Domain.CXN.CXN_TIPIFICADOR.datasource" />
     <None Include="Properties\DataSources\Domain.CXN.otrosDatosPacienteHorario.datasource" />
     <None Include="Properties\DataSources\Domain.CXN.RCCAJA.datasource" />
@@ -3067,17 +3089,18 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
+    <Content Include="FodyWeavers.xml" />
     <Content Include="icudt.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="LICENCE.txt" />
-    <None Include="Resources\logo-IHCE.png" />
     <Content Include="SqlServerTypes\readme.htm" />
     <Content Include="SqlServerTypes\x64\msvcr120.dll" />
     <Content Include="SqlServerTypes\x64\SqlServerSpatial140.dll" />
     <Content Include="SqlServerTypes\x86\msvcr120.dll" />
     <Content Include="SqlServerTypes\x86\SqlServerSpatial140.dll" />
     <Content Include="__TemplateIcon.ico" />
+    <None Include="Resources\logo-IHCE.png" />
     <None Include="Resources\maximizar.png" />
     <None Include="Resources\maximizar %281%29.png" />
     <None Include="Resources\Splash.png" />

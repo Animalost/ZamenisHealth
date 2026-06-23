@@ -40,6 +40,7 @@ namespace ZamenisHealth.HistoriasClinicas
         private string arrastra;
         private Extras.CondicionesP c;
         private MensajesGeneral MG;
+        private string UrlEvento;
 
         private void toolStripButton10_Click(object sender, EventArgs e)
         {
@@ -721,6 +722,13 @@ namespace ZamenisHealth.HistoriasClinicas
         {
             try
             {
+                var data = repoConfSystem.getListado()["EVENTOSADVERSOS"];
+                if (data != "X")
+                {
+                    UrlEvento = data;
+                    linkLabel1.Visible = true;
+                }
+
                 Titulo.Visible = false;
                 ImageClose.Visible = false;
 
@@ -1124,6 +1132,18 @@ namespace ZamenisHealth.HistoriasClinicas
         {
             FrontFHIR.VisorZamenis.VerRDA ass = new FrontFHIR.VisorZamenis.VerRDA(false, CMANTID, CMANID);
             ass.ShowDialog();
+        }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            try
+            {
+                System.Diagnostics.Process.Start(UrlEvento);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void label29_Click(object sender, EventArgs e)

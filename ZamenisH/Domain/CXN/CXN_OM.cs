@@ -39,6 +39,6 @@ namespace Domain.CXN
         public string OM_FHIR_INC { get; set; }
         public int OM_Dias { get; set; }
         public string OM_Tecnologia { get; set; }
-
+        public string OM_Bilateral { get; set; }
     }
 }

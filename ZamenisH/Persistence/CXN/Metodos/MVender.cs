@@ -56,8 +56,6 @@ namespace Persistence.CXN.Metodos
         {
             return repoCompañia.getPrestadorbyCode(code);
         }
-
-
         List<CXN_MEDIOSPAGO> IVender.ListaMediosPago()
         {
             return repoFacElectron.ListaMediosPago();

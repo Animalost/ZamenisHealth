@@ -77,7 +77,7 @@ namespace Persistence.CXN.Metodos
                                     Com_Prefijo_Soporte_NC = Reader["Com_Prefijo_Soporte"].ToString(),
                                     Com_Resolucion_Soporte = Reader["Com_Resolucion_Soporte"].ToString(),
                                     Diferenciador = Reader["Diferenciador"].ToString(),
-                                    Com_Cierres = Convert.ToInt32(Reader["Com_Cierres"]),
+                                    Com_Cierres = Convert.ToInt32(Reader["Com_Cierres"])
                                 };
 
                                 return L;
@@ -182,7 +182,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         List<CXN_CIA> ICompañia.getAllCompañias()
         {
             try
@@ -195,29 +194,36 @@ namespace Persistence.CXN.Metodos
                         con.Open();
                     }
 
-                    String Query = "SELECT Com_Nombre, Com_Identificador " +
+                    String Query = "SELECT * " +
                                    "FROM CXN_CIA ";
-                    SqlCommand Commando = new SqlCommand(Query, con);
-                    SqlDataReader Reader = (Commando.ExecuteReader());
-                    if (Reader.HasRows)
-                    {
-                        List<CXN_CIA> L = new List<CXN_CIA>();
 
-                        while (Reader.Read() == true)
+                    using (SqlCommand Commando = new SqlCommand(Query, con))
+                    {
+                        using (SqlDataReader Reader = (Commando.ExecuteReader()))
                         {
-                            L.Add(new CXN_CIA
+                            if (Reader.HasRows)
                             {
-                                Com_Nombre = Reader["Com_Nombre"].ToString(),
-                                Com_Identificador = Convert.ToInt32(Reader["Com_Identificador"])
-                            });
-                        }
+                                List<CXN_CIA> L = new List<CXN_CIA>();
 
-                        return L;
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                                while (Reader.Read() == true)
+                                {
+                                    L.Add(new CXN_CIA
+                                    {
+                                        Com_Nombre = Reader["Com_Nombre"].ToString(),
+                                        Com_Identificador = Convert.ToInt32(Reader["Com_Identificador"]),
+                                        Com_Identificacion = Reader["Com_Identificacion"].ToString(),
+                                        Com_DVerifica = Reader["Com_DVerifica"].ToString()
+                                    });
+                                }
+
+                                return L;
+                            }
+                            else
+                            {
+                                return null;
+                            }
+                        }
+                    }                    
                 }
             }
             catch (Exception ex)
@@ -226,7 +232,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         bool ICompañia.ConsecutivoActualiza(int Cia, string TipoDoc, int NuevoCons)
         {
             var getCone = Conexion.Conection();
@@ -344,32 +349,55 @@ namespace Persistence.CXN.Metodos
                     }
 
                     string Busqueda = "UPDATE CXN_CIA " +
-                                      "SET Com_Nombre = '" + C.Com_Nombre + "', " +
-                                      "Com_Identificacion = '" + C.Com_Identificacion + "', " +
-                                      "Com_Direccion = '" + C.Com_Direccion + "', " +
-                                      "Com_Telefono = '" + C.Com_Telefono + "', " +
-                                      "Com_Cod_Prestador = '" + C.Com_Cod_Prestador + "', " +
-                                      "Com_Cod_Prestador_2 = '" + C.Com_Cod_Prestador_2 + "', " +
-                                      "Com_Email = '" + C.Com_Email + "', " +
-                                      "Com_Resolucion = '" + C.Com_Resolucion + "', " +
-                                      "Com_Tipo_Doc = '" + C.Com_Tipo_Doc + "', " +
-                                      "Com_Nombre_SMS = '" + C.Com_Nombre_SMS + "', " +
-                                      "Com_Telefono_SMS = '" + C.Com_Telefono_SMS + "', " +
-                                      "Com_OP = '" + C.Com_OP + "', " +
-                                      "Com_Fac = '" + C.Com_Fac + "', " +
-                                      "Com_Cotiza = '" + C.Com_Cotiza + "', " +
-                                      "Com_DE = '" + C.Com_DE + "', " +
-                                      "Com_OM = '" + C.Com_OM + "', " +
-                                      "Com_UsuarioGraba = '" + C.Com_UsuarioGraba + "' " +
-                                      "WHERE Com_Identificador = '" + C.Com_Identificador + "'";
-                    SqlCommand Accion = new SqlCommand(Busqueda, con);
-                    int Guarda;
-                    Guarda = Accion.ExecuteNonQuery();
-                    return true;
+                                      "SET Com_Identificacion = @param1, " +
+                                      "Com_DVerifica = @param2, " +
+                                      "Com_Nombre = @param3, " +
+                                      "Com_Tipo_Doc = @param4, " +
+                                      "Com_Direccion = @param5, " +
+                                      "Com_Telefono = @param6, " +
+                                      "Com_Email = @param7, " +
+                                      "Com_Cod_Prestador = @param8, " +
+                                      "Com_Cod_Prestador_2 = @param9, " +
+                                      "Com_Nombre_SMS = @param10, " +
+                                      "Com_Telefono_SMS = @param11, " +
+                                      "Com_OP = @param12, " +
+                                      "Com_Cotiza = @param13, " +
+                                      "Com_OM = @param14, " +
+                                      "Com_RIP = @param15, " +
+                                      "Com_Cierres = @param16, " +
+                                      "Com_Logo = @param17, " +
+                                      "Com_UsuarioGraba = @param18 " +
+                                      "WHERE Com_Identificador = @param19";
+
+                    using (SqlCommand Accion = new SqlCommand(Busqueda, con))
+                    {
+                        Accion.Parameters.AddWithValue("@param1", C.Com_Identificacion);
+                        Accion.Parameters.AddWithValue("@param2", C.Com_DVerifica);
+                        Accion.Parameters.AddWithValue("@param3", C.Com_Nombre);
+                        Accion.Parameters.AddWithValue("@param4", C.Com_Tipo_Doc);
+                        Accion.Parameters.AddWithValue("@param5", C.Com_Direccion);
+                        Accion.Parameters.AddWithValue("@param6", C.Com_Telefono);
+                        Accion.Parameters.AddWithValue("@param7", C.Com_Email);
+                        Accion.Parameters.AddWithValue("@param8", C.Com_Cod_Prestador);
+                        Accion.Parameters.AddWithValue("@param9", C.Com_Cod_Prestador_2);
+                        Accion.Parameters.AddWithValue("@param10", C.Com_Nombre_SMS);
+                        Accion.Parameters.AddWithValue("@param11", C.Com_Telefono_SMS);
+                        Accion.Parameters.AddWithValue("@param12", C.Com_OP);
+                        Accion.Parameters.AddWithValue("@param13", C.Com_Cotiza);
+                        Accion.Parameters.AddWithValue("@param14", C.Com_OM);
+                        Accion.Parameters.AddWithValue("@param15", C.Com_RIP);
+                        Accion.Parameters.AddWithValue("@param16", C.Com_Cierres);
+                        Accion.Parameters.AddWithValue("@param17", C.Com_Logo);
+                        Accion.Parameters.AddWithValue("@param18", C.Com_UsuarioGraba);
+                        Accion.Parameters.AddWithValue("@param19", C.Com_Identificador);
+
+                        return Accion.ExecuteNonQuery() > 0 ? true : false;
+                    }                    
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.ToString());
                 return false;
             }
         }
@@ -386,34 +414,56 @@ namespace Persistence.CXN.Metodos
                         con.Open();
                     }
 
-                    SqlCommand cmd = new SqlCommand(@"Insert into CXN_CIA (Com_Nombre, " + //param2
-                                                          "Com_Identificacion, " + //param3
-                                                          "Com_Direccion, " + //param4
-                                                          "Com_Telefono, " + //param5
-                                                          "Com_Cod_Prestador, " + //param7
-                                                          "Com_Cod_Prestador_2, " + //param8
-                                                          "Com_Email, " + //param9
-                                                          "Com_Resolucion, " + //param10
-                                                          "Com_Tipo_Doc, " + //param11
-                                                          "Com_UsuarioGraba, " + //param12
-                                                          "Com_OP, " +
-                                                          "Com_Fac, " +
-                                                          "Com_Cotiza, " +
-                                                          "Com_DE, " +
-                                                          "Com_OM, " +
-                                                          "Com_Identificador, " +
+                    SqlCommand cmd = new SqlCommand(@"Insert into CXN_CIA (Com_Identificador, " + 
+                                                          "Com_Identificacion, " + 
+                                                          "Com_DVerifica, " + 
+                                                          "Com_Nombre, " + 
+                                                          "Com_Tipo_Doc, " + 
+                                                          "Com_Direccion, " + 
+                                                          "Com_Telefono, " + 
+                                                          "Com_Email, " + 
+                                                          "Com_Cod_Prestador, " + 
+                                                          "Com_Cod_Prestador_2, " +
                                                           "Com_Nombre_SMS, " +
-                                                          "Com_Telefono_SMS ) " + //param16
-                                 "values                  (@param1, " + // Hor_Estado
-                                                          "@param2, " + // Hor_Pac_Id
-                                                          "@param3, " + // Hor_Pac_Bod
-                                                          "@param4, " + // Hor_Pac_Tipo_Serv
-                                                          "@param6, " + // Hor_Pac_Ase
-                                                          "@param7, " + // Hor_Pac_Cup
-                                                          "@param8, " + // Hor_Pac_UsrGraba
-                                                          "@param9, " + // Hor_Imp_Age
-                                                          "@param10, " + // Hor_Pac_Fecha
-                                                          "@param11, " + // Hor_Pac_Fecha_Cita
+                                                          "Com_Telefono_SMS, " +
+                                                          "Com_OP, " +
+                                                          "Com_Cotiza, " +
+                                                          "Com_OM, " +
+                                                          "Com_RIP, " +
+                                                          "Com_Cierres, " +
+                                                          "Com_Logo, " +
+
+                                                          "Com_ConsContable," +
+                                                          "Com_DE," +
+                                                          "Com_Doc_Electron," +
+                                                          "Com_Doc_Electron_NC," +
+                                                          "Com_Doc_Soporte," +
+                                                          "Com_Doc_Soporte_NC," +
+                                                          "Com_Fac," +
+                                                          "Com_Fecha_Electron," +
+                                                          "Com_Fecha_Soporte," +
+                                                          "Com_Numeracion_Electron," +
+                                                          "Com_Numeracion_Soporte," +
+                                                          "Com_PedPro," +
+                                                          "Com_Prefijo_Electron," +
+                                                          "Com_Prefijo_Electron_NC," +
+                                                          "Com_Prefijo_Soporte," +
+                                                          "Com_Prefijo_Soporte_NC," +
+                                                          "Com_Resolucion," +
+                                                          "Com_Resolucion_Electron," +
+                                                          "Com_Resolucion_Soporte," +
+                                                          "Com_SMS," +
+                                                          "Com_UsuarioGraba) " + 
+                                 "values                  (@param1, " + 
+                                                          "@param2, " + 
+                                                          "@param3, " + 
+                                                          "@param4, " + 
+                                                          "@param6, " + 
+                                                          "@param7, " + 
+                                                          "@param8, " + 
+                                                          "@param9, " + 
+                                                          "@param10, " + 
+                                                          "@param11, " + 
                                                           "@param12, " +
                                                           "@param13, " +
                                                           "@param14, " +
@@ -421,62 +471,79 @@ namespace Persistence.CXN.Metodos
                                                           "@param16, " +
                                                           "@param17, " +
                                                           "@param18, " +
-                                                          "@param19)", con); // Hor_Pac_Sal
+                                                          "@param19, " +
 
-                    cmd.Parameters.AddWithValue("@param1", C.Com_Nombre);
+                                                          "@param20, " +
+                                                          "@param21, " +
+                                                          "@param22, " +
+                                                          "@param23, " +
+                                                          "@param24, " +
+                                                          "@param25, " +
+                                                          "@param26, " +
+                                                          "@param27, " +
+                                                          "@param28, " +
+                                                          "@param29, " +
+                                                          "@param30, " +
+                                                          "@param31, " +
+                                                          "@param32, " +
+                                                          "@param33, " +
+                                                          "@param34, " +
+                                                          "@param35, " +
+                                                          "@param36, " +
+                                                          "@param37, " +
+                                                          "@param38, " +
+                                                          "@param39, " +
+                                                          "@param40)", con); 
+
+                    cmd.Parameters.AddWithValue("@param1", C.Com_Identificador);
                     cmd.Parameters.AddWithValue("@param2", C.Com_Identificacion);
-                    cmd.Parameters.AddWithValue("@param3", C.Com_Direccion);
-                    cmd.Parameters.AddWithValue("@param4", C.Com_Telefono);
-                    cmd.Parameters.AddWithValue("@param6", C.Com_Cod_Prestador);
-                    cmd.Parameters.AddWithValue("@param7", C.Com_Cod_Prestador_2);
-                    cmd.Parameters.AddWithValue("@param8", C.Com_Email);
-                    cmd.Parameters.AddWithValue("@param9", C.Com_Resolucion);
-                    cmd.Parameters.AddWithValue("@param10", C.Com_Tipo_Doc);
-                    cmd.Parameters.AddWithValue("@param11", C.Com_UsuarioGraba);
-                    cmd.Parameters.AddWithValue("@param12", C.Com_OP);
-                    cmd.Parameters.AddWithValue("@param13", C.Com_Fac);
-                    cmd.Parameters.AddWithValue("@param14", C.Com_Cotiza);
-                    cmd.Parameters.AddWithValue("@param15", C.Com_DE);
+                    cmd.Parameters.AddWithValue("@param3", C.Com_DVerifica);
+                    cmd.Parameters.AddWithValue("@param4", C.Com_Nombre);
+                    cmd.Parameters.AddWithValue("@param6", C.Com_Tipo_Doc);
+                    cmd.Parameters.AddWithValue("@param7", C.Com_Direccion);
+                    cmd.Parameters.AddWithValue("@param8", C.Com_Telefono);
+                    cmd.Parameters.AddWithValue("@param9", C.Com_Email);
+                    cmd.Parameters.AddWithValue("@param10", C.Com_Cod_Prestador);
+                    cmd.Parameters.AddWithValue("@param11", C.Com_Cod_Prestador_2);
+                    cmd.Parameters.AddWithValue("@param12", C.Com_Nombre_SMS);
+                    cmd.Parameters.AddWithValue("@param13", C.Com_Telefono_SMS);
+                    cmd.Parameters.AddWithValue("@param14", C.Com_OP);
+                    cmd.Parameters.AddWithValue("@param15", C.Com_Cotiza);
                     cmd.Parameters.AddWithValue("@param16", C.Com_OM);
-                    cmd.Parameters.AddWithValue("@param17", C.Com_Identificador);
-                    cmd.Parameters.AddWithValue("@param18", C.Com_Nombre_SMS);
-                    cmd.Parameters.AddWithValue("@param19", C.Com_Telefono_SMS);
-                    cmd.ExecuteNonQuery();
+                    cmd.Parameters.AddWithValue("@param17", C.Com_RIP);
+                    cmd.Parameters.AddWithValue("@param18", C.Com_Cierres);
+                    cmd.Parameters.AddWithValue("@param19", C.Com_Logo);
 
-                    return true;
-                }
-            }
-            catch
-            {
-                return false;
-            }
-        }
-        void ICompañia.grabaLogo(CXN_CIA C)
-        {
-            try
-            {
-                var getCone = Conexion.Conection();
-
-                using (SqlConnection con = new SqlConnection(getCone["Conexion"]))
-                {
-                    if (con != null && con.State == ConnectionState.Closed)
-                    {
-                        con.Open();
-                    }
-
-                    string Busqueda = "UPDATE CXN_CIA " +
-                                      "SET Com_Logo = '" + C.Com_Logo + "' " +
-                                      "WHERE Com_Identificador = '" + C.Com_Identificador + "'";
-                    SqlCommand Accion = new SqlCommand(Busqueda, con);
-                    int Guarda;
-                    Guarda = Accion.ExecuteNonQuery();
+                    cmd.Parameters.AddWithValue("@param20", C.Com_ConsContable);
+                    cmd.Parameters.AddWithValue("@param21", C.Com_DE);
+                    cmd.Parameters.AddWithValue("@param22", C.Com_Doc_Electron);
+                    cmd.Parameters.AddWithValue("@param23", C.Com_Doc_Electron_NC);
+                    cmd.Parameters.AddWithValue("@param24", C.Com_Doc_Soporte);
+                    cmd.Parameters.AddWithValue("@param25", C.Com_Doc_Soporte_NC);
+                    cmd.Parameters.AddWithValue("@param26", C.Com_Fac);
+                    cmd.Parameters.AddWithValue("@param27", C.Com_Fecha_Electron);
+                    cmd.Parameters.AddWithValue("@param28", C.Com_Fecha_Soporte);
+                    cmd.Parameters.AddWithValue("@param29", C.Com_Numeracion_Electron);
+                    cmd.Parameters.AddWithValue("@param30", C.Com_Numeracion_Soporte);
+                    cmd.Parameters.AddWithValue("@param31", C.Com_PedPro);
+                    cmd.Parameters.AddWithValue("@param32", C.Com_Prefijo_Electron);
+                    cmd.Parameters.AddWithValue("@param33", C.Com_Prefijo_Electron_NC);
+                    cmd.Parameters.AddWithValue("@param34", C.Com_Prefijo_Soporte);
+                    cmd.Parameters.AddWithValue("@param35", C.Com_Prefijo_Soporte_NC);
+                    cmd.Parameters.AddWithValue("@param36", C.Com_Resolucion);
+                    cmd.Parameters.AddWithValue("@param37", C.Com_Resolucion_Electron);
+                    cmd.Parameters.AddWithValue("@param38", C.Com_Resolucion_Soporte);
+                    cmd.Parameters.AddWithValue("@param39", C.Com_SMS);
+                    cmd.Parameters.AddWithValue("@param40", C.Com_UsuarioGraba);
+                    return cmd.ExecuteNonQuery() > 0 ? true: false;
                 }
             }
             catch (Exception ex)
             {
-                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
+                Console.WriteLine(ex.Message);
+                return false;
             }
-        }
+        }        
         bool ICompañia.updateDataElectron(CXN_CIA C)
         {
             try

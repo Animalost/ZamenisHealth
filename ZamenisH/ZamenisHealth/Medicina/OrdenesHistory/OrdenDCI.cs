@@ -70,13 +70,11 @@ namespace ZamenisHealth.Medicina.OrdenesHistory
                 comboBox1.Text = "mg";
             }
         }
-
         private void textBox3_DoubleClick(object sender, EventArgs e)
         {
             OrdenesMedicasM2 ordenesMedicasM2 = new OrdenesMedicasM2("RECETAADMITION");
             ordenesMedicasM2.ShowDialog();
         }
-
         private void boton1_Click(object sender, EventArgs e)
         {
             try
@@ -129,7 +127,6 @@ namespace ZamenisHealth.Medicina.OrdenesHistory
                 MessageBox.Show(ex.Message);
             }
         }
-
         private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
@@ -142,7 +139,6 @@ namespace ZamenisHealth.Medicina.OrdenesHistory
                 }
             }
         }
-
         private void boton2_Click(object sender, EventArgs e)
         {
             try
@@ -206,17 +202,18 @@ namespace ZamenisHealth.Medicina.OrdenesHistory
                                     OM_Cia = dataAdmi.Hor_Pac_Cia,
                                     OM_Prof = Comunes.Contenedor.UsuarioLogueado,
                                     OM_Desc = "",
-                                    OM_DX1 = f1.textBox39.Text,
-                                    OM_DX2 = f1.textBox37.Text,
-                                    OM_DX3 = f1.textBox35.Text,
-                                    OM_DX1T = f1.textBox38.Text,
-                                    OM_DX2T = f1.textBox36.Text,
-                                    OM_DX3T = f1.textBox34.Text,
-                                    OM_Edad = f1.edad.ToString(),
+                                    OM_DX1 = Forma == "MEDGEN" ? f1.textBox39.Text : Forma == "FISIATRIA" ? f2.textBox52.Text : "",
+                                    OM_DX2 = Forma == "MEDGEN" ? f1.textBox37.Text : Forma == "FISIATRIA" ? f2.textBox50.Text : "",
+                                    OM_DX3 = Forma == "MEDGEN" ? f1.textBox35.Text : Forma == "FISIATRIA" ? f2.textBox48.Text : "",
+                                    OM_DX1T = Forma == "MEDGEN" ? f1.textBox38.Text : Forma == "FISIATRIA" ? f2.textBox51.Text : "",
+                                    OM_DX2T = Forma == "MEDGEN" ? f1.textBox36.Text : Forma == "FISIATRIA" ? f2.textBox49.Text : "",
+                                    OM_DX3T = Forma == "MEDGEN" ? f1.textBox34.Text : Forma == "FISIATRIA" ? f2.textBox47.Text : "",
+                                    OM_Edad = Forma == "MEDGEN" ? f1.edad.ToString() : Forma == "FISIATRIA" ? f2.edad.ToString() : "",
                                     OM_Num = NumOrden.Com_OM,
                                     OM_TEspecialidad = Especialidad,
                                     OM_Clasificacion = "ORDEN DE MEDICAMENTOS",
-                                    OM_Tipo = "M"
+                                    OM_Tipo = "M",
+                                    OM_Bilateral = ""
                                 };
 
                                 ordenes.CrearOrdenM(OM);
@@ -228,9 +225,9 @@ namespace ZamenisHealth.Medicina.OrdenesHistory
                                     Servicio = "", 
                                     Tipo = "ORDEN DE MEDICAMENTOS",
                                     Paciente = dataAdmi.Hor_Pac_Id,
-                                    DX1 = f1.textBox39.Text,
-                                    DX2 = f1.textBox37.Text,
-                                    DX3 = f1.textBox35.Text,
+                                    DX1 = OM.OM_DX1,
+                                    DX2 = OM.OM_DX2,
+                                    DX3 = OM.OM_DX3,
                                     Medico = Comunes.Contenedor.UsuarioLogueado,
 
                                     Medicamento = Medicamento,

@@ -6,6 +6,7 @@ namespace Persistence.CXN.Interfaces
 {
     public interface IBodegas
     {
+        List<CXN_BODEGAS> GetAllProfesionales(string Tipo);
         List<string> Profesionales(string SeleccionProfesional);
         (int CodProf, string TipoBod) ProfesionalId(string IdProf);
         string ProfesionalNombre(int Code);
@@ -17,7 +18,6 @@ namespace Persistence.CXN.Interfaces
         CXN_BODEGAS getDatosUser(string User);
         bool updateUser(CXN_BODEGAS B);
         bool createUser(CXN_BODEGAS B);
-        bool registerFirma(CXN_BODEGAS B);
         List<string> getTipos();
         DataTable Profesionales2(string SeleccionProfesional);
         List<string> getBodegas();

@@ -201,15 +201,18 @@ namespace ZamenisHealth.Recepcion.Extras
             {
                 if (!string.IsNullOrEmpty(textBox9.Text) && !string.IsNullOrEmpty(textBox15.Text))
                 {
-                    CXN_OPEND oP = new CXN_OPEND
+                    if (textBox9.Text != "PENDIENTE INGRESAR")
                     {
-                        OP_Estado = "H",
-                        OP_Cambia = Contenedor.UsuarioLogueado,
-                        OP_EstadoChange = DateTime.Now.Date,
-                        OP_Adm = this.admExport
-                    };
-                    
-                    repositorioHorario2.OPendUpdate(oP);                                        
+                        CXN_OPEND oP = new CXN_OPEND
+                        {
+                            OP_Estado = "H",
+                            OP_Cambia = Contenedor.UsuarioLogueado,
+                            OP_EstadoChange = DateTime.Now.Date,
+                            OP_Adm = this.admExport
+                        };
+
+                        repositorioHorario2.OPendUpdate(oP);
+                    }                                                            
                 }
             }
             

@@ -53,7 +53,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         List<CXN_CIE10> ICIE10.Ultimos(int Medico)
         {
             try
@@ -110,7 +109,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         List<CXN_CIE10> ICIE10.PorDesc(string servicio)
         {
             try
@@ -154,7 +152,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         CXN_OM ICIE10.CargaDX(int Paciente)
         {
             try
@@ -204,7 +201,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         string ICIE10.BuscaDX(string CodDX)
         {
             Dictionary<string,string> getData = Conexion.Conection();
@@ -238,7 +234,6 @@ namespace Persistence.CXN.Metodos
                 }                                  
             }
         }
-
         bool ICIE10.CreaCIE10(CXN_CIE10 C)
         {
             try
@@ -269,7 +264,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
         bool ICIE10.UpdateCIE10(CXN_CIE10 C)
         {
             try
@@ -298,7 +292,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
         CXN_OM ICIE10.CargaDXByAdmitionHCMG(int Admision)
         {
             try
@@ -347,7 +340,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         List<CXN_CUP> ICIE10.GetLista(string Servicio)
         {
             try

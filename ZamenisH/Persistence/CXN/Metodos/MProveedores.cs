@@ -60,7 +60,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         void IProveedores.deleteProds(int Num_Ord)
         {
             try
@@ -85,7 +84,6 @@ namespace Persistence.CXN.Metodos
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         bool IProveedores.AddProducto(CXN_PEDIDOS P)
         {
             try
@@ -146,7 +144,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
         List<CXN_PEDIDOS> IProveedores.getProdAdded(int Orden)
         {
             try
@@ -196,7 +193,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         bool IProveedores.InsertarPedido(CXN_PEDIDOSF F)
         {
             try
@@ -241,7 +237,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
         void changeEstadoProds(int Num_Ord)
         {
             try
@@ -269,7 +264,6 @@ namespace Persistence.CXN.Metodos
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         Inventario_Proveedores IProveedores.getProducto(string Cod_Pro, int Id_Pro)
         {
             try
@@ -312,7 +306,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         bool IProveedores.deleteProdFromOrder(int Num_Orden)
         {
             try
@@ -339,7 +332,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
         int IProveedores.getCodProvbyName(string name)
         {
             try
@@ -379,7 +371,6 @@ namespace Persistence.CXN.Metodos
                 return 0;
             }
         }
-
         string IProveedores.getNameProvbCode(int Code)
         {
             try
@@ -414,7 +405,6 @@ namespace Persistence.CXN.Metodos
                 return "";
             }
         }
-
         CXN_PROVEEDORES IProveedores.getProvByCode(int Code)
         {
             try
@@ -459,7 +449,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         bool IProveedores.updateProveedor(CXN_PROVEEDORES P)
         {
             try
@@ -494,7 +483,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
         bool IProveedores.createProveedor(CXN_PROVEEDORES P)
         {
             try
@@ -541,7 +529,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
         List<CXN_PEDIDOSF> IProveedores.getPedidos(DateTime Desde, DateTime Hasta)
         {
             try
@@ -593,7 +580,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         List<Inventario_Proveedores> IProveedores.getInventario()
         {
             try
@@ -644,7 +630,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         Inventario_Proveedores IProveedores.getProdById(int Id)
         {
             try
@@ -690,7 +675,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         bool IProveedores.updateInventario(Inventario_Proveedores P)
         {
             try
@@ -723,7 +707,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
         bool IProveedores.createInventario(Inventario_Proveedores P)
         {
             try
@@ -766,7 +749,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
         bool IProveedores.updateInventario2(Inventario_Proveedores P)
         {
             try

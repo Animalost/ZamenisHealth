@@ -12,6 +12,15 @@ namespace Persistence.CXN.Metodos
 {
     public class MFacElectron : IFacElectron
     {
+        class DatosNC
+        {
+            public string Identidad { get; set; }
+            public string IdentidadNombre { get; set; }
+            public string Identificador { get; set; }
+            public string Iva { get; set; }
+            public string Ica { get; set; }
+            public string RFuente { get; set; }
+        }
         List<CXN_MEDIOSPAGO> IFacElectron.ListaMediosPago()
         {
             try
@@ -266,7 +275,6 @@ namespace Persistence.CXN.Metodos
                 Console.WriteLine(ex.Message);
             }
         }
-
         List<ReporteContable> IFacElectron.getReportContableNC(int Cia, DateTime Desde, DateTime Hasta, string TipoLista)
         {
             try
@@ -279,7 +287,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         List<ReporteContable> IFacElectron.getReportContable(int Cia, DateTime Desde, DateTime Hasta, string TipoLista)
         {
             try
@@ -390,8 +397,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
-
         List<ReporteContable> getReportContable_NC(int Cia, DateTime Desde, DateTime Hasta, string Tipo)
         {
             try
@@ -470,17 +475,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
-        class DatosNC
-        {
-            public string Identidad { get; set; }
-            public string IdentidadNombre { get; set; }
-            public string Identificador { get; set; }
-            public string Iva { get; set; }
-            public string Ica { get; set; }
-            public string RFuente { get; set; }
-        }
-
         DatosNC gtDatosNC(int Cia, int Zamenis, string Tipo)
         {
             try
@@ -581,7 +575,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         List<ReporteContable> getReportContable_Bonos(int Cia, DateTime Desde, DateTime Hasta)
         {
             try
@@ -605,14 +598,15 @@ namespace Persistence.CXN.Metodos
                                         "GROUP BY H.Hor_DocFEModeradorFechaHora, H.Hor_DocFEModerador, P.Pac_IdNum, H.Hor_Imp_Age, H.Hor_Pac_Ase, Hor_RcCaja  " +
                                         "ORDER BY H.Hor_DocFEModerador ASC";*/
 
-                    String Cargar_Hora = "SELECT H.Hor_DocFEModeradorFechaHora, H.Hor_DocFEModerador, P.Pac_IdNum, P.Pac_PrimerA + ' ' + P.Pac_SegundoA + ' ' + P.Pac_PrimerN + ' ' + P.Pac_SegundoN AS Paciente, H.Rc_Caja_Valor AS Total " +
+                    String Cargar_Hora = "SELECT H.Hor_DocFEModeradorFechaHora, H.Hor_DocFEModerador, P.Pac_IdNum, P.Pac_PrimerA + ' ' + P.Pac_SegundoA + ' ' + P.Pac_PrimerN + ' ' + P.Pac_SegundoN AS Paciente, " +
+                                         "H.Rc_Caja_Ase, H.Rc_Caja_Valor AS Total " +
                                         "FROM CXN_RC_CAJA H " +
                                         "INNER JOIN CXN_PACIENTES P ON H.Rc_Caja_Pac = P.Pac_Id " +
                                         "WHERE H.RC_Caja_Cia = @param1 " +
                                         "AND H.Hor_DocFEModeradorCUFE IS NOT NULL " +
                                         "AND H.Hor_DocFEModeradorCUFE <> '' " +
                                         "AND H.Hor_DocFEModeradorFechaHora BETWEEN @param3 AND @param4 " +
-                                        "GROUP BY H.Hor_DocFEModeradorFechaHora, H.Hor_DocFEModerador, P.Pac_IdNum, P.Pac_PrimerA, P.Pac_SegundoA, P.Pac_PrimerN, P.Pac_SegundoN, H.Rc_Caja_Valor  " +
+                                        "GROUP BY H.Hor_DocFEModeradorFechaHora, H.Hor_DocFEModerador, H.Rc_Caja_Ase, P.Pac_IdNum, P.Pac_PrimerA, P.Pac_SegundoA, P.Pac_PrimerN, P.Pac_SegundoN, H.Rc_Caja_Valor  " +
                                         "ORDER BY H.Hor_DocFEModerador ASC";
 
                     using (SqlCommand Carga_Command = new SqlCommand(Cargar_Hora, con))
@@ -642,7 +636,7 @@ namespace Persistence.CXN.Metodos
                                         Descuentos = 0,
                                         IVA = "0",
                                         Tabla = "CXN_HORARIO",
-                                        IdentificadorAse = Convert.ToInt32(Lectura_Hora["Hor_Pac_Ase"]),
+                                        IdentificadorAse = Convert.ToInt32(Lectura_Hora["Rc_Caja_Ase"]),
                                         ClaseFactura = "BONOS",
                                         Clase = "BONOS",
                                         //Naturaleza = "Credito",
@@ -935,8 +929,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-    
-
         static string Numeros(string Cadena)
         {
             string numeros = new string(Cadena.Where(char.IsDigit).ToArray());
@@ -1256,7 +1248,6 @@ namespace Persistence.CXN.Metodos
             }
         }
     }
-
     public class UpdateFacturaElectronica
     {
         public string FacturaElectronica { get; set; }

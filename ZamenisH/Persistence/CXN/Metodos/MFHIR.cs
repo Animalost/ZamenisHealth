@@ -770,63 +770,6 @@ namespace Persistence.CXN.Metodos
                     return "Otra";
             }
         }
-        List<CXN_CONDICIONES> IFHIR.ConsultarMedicamentos(int Paciente, DateTime Fecha)
-        {
-            try
-            {
-                Dictionary<string, string> getData = Conexion.Conection();
-
-                using (SqlConnection con = new SqlConnection(getData["Conexion"]))
-                {
-                    if (con != null && con.State == ConnectionState.Closed)
-                    {
-                        con.Open();
-                    }
-
-                    String Cargar_Hora = "SELECT OM_Medicamento " +
-                                         "FROM CXN_OM " +
-                                         "WHERE OM_Pac = @param1 " +
-                                         "AND OM_Tipo = @param2 " +
-                                         "AND OM_Fecha = @param3 " +
-                                         "ORDER BY OM_Fecha DESC";
-
-                    using (SqlCommand Carga_Command = new SqlCommand(Cargar_Hora, con))
-                    {
-                        Carga_Command.Parameters.AddWithValue("@param1", Paciente);
-                        Carga_Command.Parameters.AddWithValue("@param2", "M");
-                        Carga_Command.Parameters.AddWithValue("@param3", Convert.ToDateTime(Fecha.Date));
-
-                        using (SqlDataReader Lectura_Hora = (Carga_Command.ExecuteReader()))
-                        {
-                            if (Lectura_Hora.HasRows)
-                            {
-                                List<CXN_CONDICIONES> a = new List<CXN_CONDICIONES>();
-
-                                while (Lectura_Hora.Read() == true)
-                                {
-                                    a.Add(new CXN_CONDICIONES
-                                    {
-                                        Detalle = Lectura_Hora["OM_Medicamento"].ToString(),
-                                        CodigoFHIR = GetCodeMedicamento(Lectura_Hora["OM_Medicamento"].ToString())
-                                    });
-                                }
-
-                                return a;
-                            }
-                            else
-                            {
-                                return null;
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
-                return null;
-            }
-        }
         string IFHIR.GetCodeMedicamento(string Name)
         {
             return GetCodeMedicamento(Name);
@@ -1370,7 +1313,6 @@ namespace Persistence.CXN.Metodos
                 return ex.Message;
             }
         }
-
         List<CXN_DATOS_FHIR> IFHIR.ListaDatosConfFHIR(int Prestador)
         {
             try

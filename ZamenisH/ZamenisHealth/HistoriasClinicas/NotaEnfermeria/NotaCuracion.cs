@@ -43,6 +43,7 @@ namespace ZamenisHealth.HistoriasClinicas.NotaEnfermeria
         private string arrastra, CUP, TSERV, Reg_RIP, CMANID, CMANTID, PACSAL, Serv;
         private DateTime Fecha_Serv;
         private bool Mayus;
+        private string UrlEvnto;
 
         private MensajesGeneral MG;
         private CondicionesP c;
@@ -78,6 +79,13 @@ namespace ZamenisHealth.HistoriasClinicas.NotaEnfermeria
 
         private void NotaCuracion_Load(object sender, EventArgs e)
         {
+            var data = repoConfSystem.getListado()["EVENTOSADVERSOS"];
+            if (data != "X")
+            {
+                UrlEvnto = data;
+                linkLabel1.Visible = true;
+            }
+
             Titulo.Text = "Notas de Curacion";
             LogoMain.Image = Properties.Resources.Splash;
             SubTitulo.Text = $"Zamenis Health {Conexion.VersionApp}";
@@ -1225,6 +1233,19 @@ namespace ZamenisHealth.HistoriasClinicas.NotaEnfermeria
                 NumeroTextBox++;
             }            
         }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            try
+            {
+                System.Diagnostics.Process.Start(UrlEvnto);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
         private void BotonbtnDel_Click(object sender, EventArgs e)
         {
             try

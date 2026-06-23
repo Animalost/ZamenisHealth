@@ -113,6 +113,7 @@
             this.label46 = new System.Windows.Forms.Label();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
             this.label47 = new System.Windows.Forms.Label();
+            this.boton3 = new FormAndControls.Controles.Boton();
             this.panel6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -204,7 +205,7 @@
             this.label8.ForeColor = System.Drawing.Color.White;
             this.label8.Location = new System.Drawing.Point(5, 194);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(731, 23);
+            this.label8.Size = new System.Drawing.Size(516, 23);
             this.label8.TabIndex = 8;
             this.label8.Text = "DATOS DEL PACIENTE";
             this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -651,7 +652,7 @@
             this.label41.AutoSize = true;
             this.label41.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label41.ForeColor = System.Drawing.Color.Black;
-            this.label41.Location = new System.Drawing.Point(389, 239);
+            this.label41.Location = new System.Drawing.Point(390, 239);
             this.label41.Name = "label41";
             this.label41.Size = new System.Drawing.Size(89, 17);
             this.label41.TabIndex = 107;
@@ -1171,11 +1172,28 @@
             this.label47.Text = "HISTORIAL DE CITAS";
             this.label47.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // boton3
+            // 
+            this.boton3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(55)))), ((int)(((byte)(90)))));
+            this.boton3.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.boton3.FlatAppearance.BorderSize = 3;
+            this.boton3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.boton3.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
+            this.boton3.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.boton3.Location = new System.Drawing.Point(524, 187);
+            this.boton3.Name = "boton3";
+            this.boton3.Size = new System.Drawing.Size(216, 32);
+            this.boton3.TabIndex = 130;
+            this.boton3.Text = "Otros Datos Paciente";
+            this.boton3.UseVisualStyleBackColor = false;
+            this.boton3.Click += new System.EventHandler(this.boton3_Click);
+            // 
             // AdmisionesCuraciones
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1167, 818);
+            this.Controls.Add(this.boton3);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label47);
             this.Controls.Add(this.dataGridView2);
@@ -1320,5 +1338,6 @@
         private System.Windows.Forms.Label label46;
         private System.Windows.Forms.DataGridView dataGridView2;
         private System.Windows.Forms.Label label47;
+        private FormAndControls.Controles.Boton boton3;
     }
 }

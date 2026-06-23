@@ -94,9 +94,11 @@ namespace Persistence.CXN.Metodos
                 //PRODUCCION SIN COMENTAR
                 var getCon = Conexion.Conection();
                 //MEDELLIN
-                //getCon["Conexion"] = "Data Source=slsoft.net,14330;Initial Catalog=sa;User ID=cxn_medellin;Password=Sharon*55284;MultipleActiveResultSets=true;Encrypt=True;TrustServerCertificate=True;";
+                //getCon["Conexion"] = "Data Source=slsoft.net,14330;Initial Catalog=cxn_medellin;User ID=sa;Password=Sharon*55284;MultipleActiveResultSets=true;Encrypt=True;TrustServerCertificate=True;";
+                //WOUND CLINIC
+                //getCon["Conexion"] = "Data Source=slsoft.net,14330;Initial Catalog=CXN_WOUND_CLINIC;User ID=sa;Password=Sharon*55284;MultipleActiveResultSets=true;Encrypt=True;TrustServerCertificate=True;";
                 //QA
-                //getCon["Conexion"] = "Data Source=slsoft.net,14330;Initial Catalog=CXN_PRUEBAS;User ID=sa;Password=Sharon*55284;MultipleActiveResultSets=true;Encrypt=True;TrustServerCertificate=True;";
+               // getCon["Conexion"] = "Data Source=slsoft.net,14330;Initial Catalog=CXN_PRUEBAS;User ID=sa;Password=Sharon*55284;MultipleActiveResultSets=true;Encrypt=True;TrustServerCertificate=True;";
 
                 using (SqlConnection con = new SqlConnection(getCon["Conexion"]))
                 {
@@ -553,7 +555,7 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-        List<string> ILogin.getUsersforSendMessage()
+        List<CXN_LOGIN> ILogin.getUsersforSendMessage()
         {
             try
             {
@@ -565,29 +567,39 @@ namespace Persistence.CXN.Metodos
                         con.Open();
                     }
 
-                    String Query = "SELECT Log_PrimerA, Log_SegundoA, Log_PrimerN, Log_SegundoN " +
+                    String Query = "SELECT Log_PrimerA, Log_SegundoA, Log_PrimerN, Log_SegundoN, Log_Usuario, Log_Habilitado " +
                                    "FROM CXN_LOGIN " +
                                    "ORDER BY Log_PrimerA ASC";
-                    SqlCommand Commando = new SqlCommand(Query, con);
-                    SqlDataReader Reader = (Commando.ExecuteReader());
-                    if (Reader.HasRows)
-                    {
-                        List<string> Lista = new List<string>();
 
-                        while (Reader.Read() == true)
+                    using (SqlCommand Commando = new SqlCommand(Query, con))
+                    {
+                        using (SqlDataReader Reader = (Commando.ExecuteReader()))
                         {
-                            Lista.Add(Reader["Log_PrimerA"].ToString() + " " +
-                                Reader["Log_SegundoA"].ToString() + " " +
-                                Reader["Log_PrimerN"].ToString() + " " +
-                                Reader["Log_SegundoN"].ToString());
-                        }
+                            if (Reader.HasRows)
+                            {
+                                List<CXN_LOGIN> Lista = new List<CXN_LOGIN>();
 
-                        return Lista;
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                                while (Reader.Read() == true)
+                                {
+                                    Lista.Add(new CXN_LOGIN 
+                                    {
+                                        Log_PrimerA = Reader["Log_PrimerA"].ToString(),
+                                        Log_SegundoA = Reader["Log_SegundoA"].ToString(),
+                                        Log_PrimerN = Reader["Log_PrimerN"].ToString(),
+                                        Log_SegundoN = Reader["Log_SegundoN"].ToString(),
+                                        Log_Usuario = Reader["Log_Usuario"].ToString(),
+                                        Log_Habilitado = Reader["Log_Habilitado"].ToString()
+                                    });    
+                                }
+
+                                return Lista;
+                            }
+                            else
+                            {
+                                return null;
+                            }
+                        }
+                    }                    
                 }
             }
             catch (Exception ex)

@@ -168,7 +168,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
         bool IFisiatria.GrabaHCFI(CXN_HCFI HC)
         {
             try
@@ -343,7 +342,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
         CXN_HCFI IFisiatria.getLastHistory(int Paciente, DateTime Fecha)
         {
             try
@@ -449,7 +447,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         CXN_HCFI IFisiatria.restoreHistory(int Admision)
         {
             try
@@ -552,7 +549,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         List<CXN_HCMG> IFisiatria.ListaUltimasCitas(int Paciente, DateTime Fecha, int Medico)
         {
             Dictionary<string, string> getData = Conexion.Conection();

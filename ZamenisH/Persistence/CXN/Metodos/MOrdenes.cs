@@ -67,7 +67,6 @@ namespace Persistence.CXN.Metodos
                 Escriba.Close();
             }
         }
-
         void Actualiza_Datos_Paciente(string Dir, string Tel, string Genero, int Pac)
         {
             try
@@ -113,7 +112,6 @@ namespace Persistence.CXN.Metodos
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         bool IOrdenes.CrearOrden(CXN_OM OM)
         {
             try
@@ -159,7 +157,8 @@ namespace Persistence.CXN.Metodos
                                                            "OM_Consumida, " +
                                                            "OM_Clasificacion, " +
                                                            "OM_FHIR_INC, " +
-                                                           "OM_Dias) " + //param16
+                                                           "OM_Dias, " +
+                                                           "OM_Bilateral) " + //param16
                                  "values                  (@param1, " + // Hor_Estado
                                                           "@param2, " + // Hor_Pac_Id
                                                           "@param3, " + // Hor_Pac_Bod
@@ -186,7 +185,8 @@ namespace Persistence.CXN.Metodos
                                                           "@param24, " +
                                                           "@param25, " +
                                                           "@param26, " +
-                                                          "@param27)", con); // Hor_Pac_Sal
+                                                          "@param27, " +
+                                                          "@param28)", con); // Hor_Pac_Sal
 
                     cmd.Parameters.AddWithValue("@param1", OM.OM_Pac);
                     cmd.Parameters.AddWithValue("@param2", OM.OM_Ase);
@@ -215,6 +215,7 @@ namespace Persistence.CXN.Metodos
                     cmd.Parameters.AddWithValue("@param25", OM.OM_Clasificacion);
                     cmd.Parameters.AddWithValue("@param26", OM.OM_FHIR_INC);
                     cmd.Parameters.AddWithValue("@param27", OM.OM_Dias);
+                    cmd.Parameters.AddWithValue("@param28", OM.OM_Bilateral);
                     int s = cmd.ExecuteNonQuery();
                     if (s > 0) { return true; }
                     return false;
@@ -226,7 +227,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
         bool IOrdenes.CrearOrdenFHIR(CXN_ORDENESFHIR OM)
         {
             try
@@ -411,7 +411,8 @@ namespace Persistence.CXN.Metodos
                                                               "OM_TEspecialidad, " +
                                                               "OM_Clasificacion, " +
                                                               "OM_Fecha, " +
-                                                              "OM_Tipo) " +
+                                                              "OM_Tipo, " +
+                                                              "OM_Bilateral) " +
                                      "values                  (@param1, " +
                                                               "@param2, " +
                                                               "@param3, " +
@@ -439,7 +440,8 @@ namespace Persistence.CXN.Metodos
                                                               "@param25, " +
                                                               "@param26, " +
                                                               "@param27, " +
-                                                              "@param28)", con);
+                                                              "@param28, " +
+                                                              "@param29)", con);
 
                     cmd.Parameters.AddWithValue("@param1", OM.OM_Duracion);
                     cmd.Parameters.AddWithValue("@param2", OM.OM_Cantidad);
@@ -469,19 +471,19 @@ namespace Persistence.CXN.Metodos
                     cmd.Parameters.AddWithValue("@param26", OM.OM_Clasificacion);
                     cmd.Parameters.AddWithValue("@param27", Convert.ToDateTime(DateTime.Now.Date));
                     cmd.Parameters.AddWithValue("@param28", OM.OM_Tipo);
+                    cmd.Parameters.AddWithValue("@param29", OM.OM_Bilateral);
                     int s = cmd.ExecuteNonQuery();
                     if (s > 0) { return true; }
                     return false;
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 return false;
             }
         }
-
-        List<Ordenes> IOrdenes.Generar_OrdenMedica(int Numero,
-            int Compañia, string UserImprime)
+        List<Ordenes> IOrdenes.Generar_OrdenMedica(int Numero, int Compañia, string UserImprime)
         {
             try
             {
@@ -496,7 +498,7 @@ namespace Persistence.CXN.Metodos
                     String Cargar_Hora = "SELECT  Com_Nombre, Com_Identificacion, Com_Telefono, Com_Direccion, Bod_Responsable, Pac_PrimerN, Pac_SegundoN, Pac_PrimerA, " +
                                          "Pac_SegundoA, OM_Num, OM_Fecha, Pac_TipoId, Pac_IdNum, Ase_Descripcion, Pac_Telefono, Bod_Responsable, OM_Desc, Com_Logo, " +
                                          "OM_DX1, OM_DX2, OM_DX3, OM_DX1T, OM_DX2T, OM_DX3T, OM_Edad, OM_Genero, OM_Direccion, OM_Telefono, OM_Firma, Bod_Firma, Bod_Reg_Med, Pac_Id, OM_Clasificacion, " +
-                                         "OM_FHIR_INC, OM_Dias " +
+                                         "OM_FHIR_INC, OM_Dias, OM_Bilateral " +
                                          "FROM CXN_OM " +
                                          "INNER JOIN CXN_PACIENTES ON CXN_OM.OM_Pac = CXN_PACIENTES.Pac_Id " +
                                          "INNER JOIN CXN_ASEGURADORA ON CXN_OM.OM_Ase = CXN_ASEGURADORA.Ase_Identificador " +
@@ -553,6 +555,10 @@ namespace Persistence.CXN.Metodos
                                         picFirmaDigital.Image = Image.FromStream(stmBLOBDataFirmaDigital);
                                     }
 
+                                    string des = Lectura_Hora["OM_Bilateral"] == DBNull.Value ? "" :
+                                                 Lectura_Hora["OM_Bilateral"].ToString() == "" ? "" :
+                                                 Lectura_Hora["OM_Bilateral"].ToString() == "S" ? "  - BILATERAL" : "";
+
                                     export_om_report.Add(new Ordenes
                                     {
                                         RegistroMedico = Lectura_Hora["Bod_Reg_Med"].ToString(),
@@ -569,7 +575,7 @@ namespace Persistence.CXN.Metodos
                                         PacienteTelefono = Lectura_Hora["OM_Telefono"].ToString(),
                                         Logo = repositorioLogin.GetBytes(pic.Image),
                                         QR = repositorioLogin.GetBytes(ImaRes),
-                                        Descripcion = Lectura_Hora["OM_Desc"].ToString(),
+                                        Descripcion = Lectura_Hora["OM_Desc"].ToString() + des,
                                         OM_DX1 = "Diagnostico Principal: " +
                                                                                   Lectura_Hora["OM_DX1"].ToString() +
                                                                                   " - " + Lectura_Hora["OM_DX1T"].ToString() + "\n\r" +
@@ -609,13 +615,12 @@ namespace Persistence.CXN.Metodos
                     }                        
                 }
             }
-            catch (Exception ex)
+            catch (Exception ex) 
             {
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
                 return null;
             }
         }
-
         int IOrdenes.getIdOMFHIR(int Paciente, DateTime Fecha)
         {
             try
@@ -662,7 +667,6 @@ namespace Persistence.CXN.Metodos
                 return 0;
             }
         }
-
         int IOrdenes.getIdOMMEDFHIR(int Paciente, DateTime Fecha)
         {
             try
@@ -709,7 +713,6 @@ namespace Persistence.CXN.Metodos
                 return 0;
             }
         }
-
         List<string> IOrdenes.GetUMM()
         {
             try
@@ -797,7 +800,6 @@ namespace Persistence.CXN.Metodos
                 return "";
             }
         }
-
         List<CXN_ORDENESFHIR> IOrdenes.getOrdenesAdmition(int Admision)
         {
             try
@@ -870,7 +872,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         List<Ordenes> IOrdenes.Genera_Orden_Medicamento(int Numero, int Compañia, string UserPrint)
         {
             try
@@ -1002,7 +1003,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         List<CXN_OM> IOrdenes.getOrdenes(string TID, string NID, int Cia)
         {
             try
@@ -1096,7 +1096,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         List<CXN_OM> IOrdenes.getOrdenes(int Paciente, string Especialidad)
         {
             try
@@ -1198,8 +1197,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-        
-
         CXN_OM IOrdenes.getOrden(int Numero, string Tipo, int Cia)
         {
             try
@@ -1273,7 +1270,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         bool IOrdenes.insertOM(CXN_OM O)
         {
             try
@@ -1395,7 +1391,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
         bool IOrdenes.SearchAutorization(string Autorization)
         {
             try
@@ -1429,7 +1424,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
         bool IOrdenes.updateAutorizacion(int Orden, string Autorizacion, int Cia)
         {
             try
@@ -1458,7 +1452,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
         bool IOrdenes.updateRadicar(int Orden, int Cia)
         {
             try
@@ -1487,7 +1480,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
         string IOrdenes.SearchTypeOrden(int Orden, int Cia)
         {
             try
@@ -1522,7 +1514,6 @@ namespace Persistence.CXN.Metodos
                 return "";
             }
         }    
-
         void IOrdenes.consumirAutorizacion(int Paciente, string Autorizacion, string Estado)
         {
             try
@@ -1550,7 +1541,5 @@ namespace Persistence.CXN.Metodos
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
-
     }
 }

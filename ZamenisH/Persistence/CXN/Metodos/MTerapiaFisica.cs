@@ -523,7 +523,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
         CXN_HCTF ITerapiaFisica.getLastHistory(int Paciente)
         {
             try

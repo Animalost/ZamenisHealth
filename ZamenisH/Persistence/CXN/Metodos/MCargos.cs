@@ -88,7 +88,6 @@ namespace Persistence.CXN.Metodos
                 return ex.Message;
             }
         }
-
         List<CotizacionR> ICargos.GenerarDocumento(int Docs, int Cia)
         {
             try
@@ -163,7 +162,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         int Calculos(int Fac, int Cia)
         {
             try
@@ -201,7 +199,6 @@ namespace Persistence.CXN.Metodos
                 return 0;
             }
         }
-
         ListaCarga ICargos.Carga_Plantilla()
         {
             try
@@ -560,7 +557,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         List<CXN_CARGOS> ICargos.cotizacionesPrevias(string TID, string ID)
         {
             try
@@ -619,7 +615,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         void ICargos.Individual(DateTime Desde, DateTime Hasta, string Doc)
         {
 
@@ -664,7 +659,6 @@ namespace Persistence.CXN.Metodos
                 Escriba.Close();
             }
         }
-
         void ICargos.Total(DateTime Desde, DateTime Hasta)
         {
             var datCone = Conexion.Conection();
@@ -709,7 +703,6 @@ namespace Persistence.CXN.Metodos
 
             }
         }
-
         void ICargos.Rpt_Car_Tot(DateTime Desde, DateTime Hasta)
         {
             var datCone = Conexion.Conection();
@@ -776,128 +769,6 @@ namespace Persistence.CXN.Metodos
                 Escriba.Close();
             }
         }
-
-        bool ICargos.InsertarCargoOtrasFacturas(CXN_CARGOS c)
-        {
-            try
-            {
-                var datCone = Conexion.Conection();
-
-                using (SqlConnection con = new SqlConnection(datCone["Conexion"]))
-                {
-                    if (con != null && con.State == ConnectionState.Closed)
-                    {
-                        con.Open();
-                    }
-
-                    //int Prec_Servicio_Unitario = Convert.ToInt32(c.Car_Val_Tot) / Convert.ToInt32(c.Car_Cant);
-
-                    DateTime Hoy = DateTime.Now;
-                    DateTime Car_Fecha = Convert.ToDateTime(Hoy.ToString(datCone["Format_Fecha"]));
-
-                    SqlCommand cmd = new SqlCommand(@"Insert into CXN_CARGOS " +
-                                                        "(Car_Adm_Id, " +
-                                                        "Car_Pac, " +
-                                                        "Car_Cia, " +
-                                                        "Car_Ase, " +
-                                                        "Car_Prof, " +
-                                                        "Car_Fecha, " +
-                                                        "Car_Estado, " +
-                                                        "Car_Tipo, " +
-                                                        "Car_Cod, " +
-                                                        "Car_Tipo_Serv, " +
-                                                        "Car_Cant, " +
-                                                        "Car_Val_Un, " +
-                                                        "Car_Val_Tot, " +
-                                                        "Car_Item, " +
-                                                        "Car_Detalle, " +
-                                                        "Car_DX1, " +
-                                                        "Car_DX2, " +
-                                                        "Car_DX3, " +
-                                                        "Car_Regimen, " +
-                                                        "Car_Ambito, " +
-                                                        "Car_Finalidad, " +
-                                                        "Car_Personal, " +
-                                                        "Car_CExterna, " +
-                                                        "Car_Finalidad_CO, " +
-                                                        "Car_Imp_Dx, " +
-                                                        "Car_Factura, " +
-                                                        "Car_IVA, " +
-                                                        "Car_ICA, " +
-                                                        "Car_RetFte, " +
-                                                        "Car_Tipo_Doc) " +
-                                    "VALUES                  (@param1, " +
-                                                             "@param2, " +
-                                                             "@param3, " +
-                                                             "@param4, " +
-                                                             "@param5, " +
-                                                             "@param6, " +
-                                                             "@param7, " +
-                                                             "@param8, " +
-                                                             "@param9, " +
-                                                             "@param10, " +
-                                                             "@param11, " +
-                                                             "@param12, " +
-                                                             "@param13, " +
-                                                             "@param14, " +
-                                                             "@param15, " +
-                                                             "@param16, " +
-                                                             "@param17, " +
-                                                             "@param18, " +
-                                                             "@param19, " +
-                                                             "@param20, " +
-                                                             "@param21, " +
-                                                             "@param22, " +
-                                                             "@param23, " +
-                                                             "@param24, " +
-                                                             "@param25, " +
-                                                             "@param26, " +
-                                                             "@param27, " +
-                                                             "@param28, " +
-                                                             "@param29, " +
-                                                             "@param30)", con);
-
-                    cmd.Parameters.AddWithValue("@param1", c.Car_Adm_Id);
-                    cmd.Parameters.AddWithValue("@param2", c.Car_Pac);
-                    cmd.Parameters.AddWithValue("@param3", c.Car_Cia);
-                    cmd.Parameters.AddWithValue("@param4", c.Car_Ase);
-                    cmd.Parameters.AddWithValue("@param5", c.Car_Prof);
-                    cmd.Parameters.Add(new SqlParameter("@param6", SqlDbType.DateTime)).Value = c.Car_Fecha;
-                    cmd.Parameters.AddWithValue("@param7", "F");
-                    cmd.Parameters.AddWithValue("@param8", c.Car_Tipo);
-                    cmd.Parameters.AddWithValue("@param9", c.Car_Cod);
-                    cmd.Parameters.AddWithValue("@param10", c.Car_Tipo_Serv);
-                    cmd.Parameters.AddWithValue("@param11", c.Car_Cant);
-                    cmd.Parameters.AddWithValue("@param12", c.Car_Val_Un);
-                    cmd.Parameters.AddWithValue("@param13", c.Car_Val_Tot);
-                    cmd.Parameters.AddWithValue("@param14", c.Car_Item);
-                    cmd.Parameters.AddWithValue("@param15", c.Car_Detalle);
-                    cmd.Parameters.AddWithValue("@param16", c.Car_Dx1);
-                    cmd.Parameters.AddWithValue("@param17", c.Car_Dx2);
-                    cmd.Parameters.AddWithValue("@param18", c.Car_Dx3);
-                    cmd.Parameters.AddWithValue("@param19", c.Car_Regimen);
-                    cmd.Parameters.AddWithValue("@param20", c.Car_Ambito);
-                    cmd.Parameters.AddWithValue("@param21", c.Car_Finalidad);
-                    cmd.Parameters.AddWithValue("@param22", c.Car_Personal);
-                    cmd.Parameters.AddWithValue("@param23", c.Car_CExterna);
-                    cmd.Parameters.AddWithValue("@param24", c.Car_Finalidad_CO);
-                    cmd.Parameters.AddWithValue("@param25", c.Car_Imp_Dx);
-                    cmd.Parameters.AddWithValue("@param26", c.Car_Factura);
-                    cmd.Parameters.AddWithValue("@param27", c.Car_IVA);
-                    cmd.Parameters.AddWithValue("@param28", c.Car_ICA);
-                    cmd.Parameters.AddWithValue("@param29", c.Car_RetFte);
-                    cmd.Parameters.AddWithValue("@param30", c.Car_Tipo_Doc);
-                    cmd.ExecuteNonQuery();
-                    return true;
-                }
-            }
-            catch (Exception ex)
-            {
-                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
-                return false;
-            }
-        }
-
         bool ICargos.InsertarCargoHistorias(CXN_CARGOS c)
         {
             try
@@ -1003,7 +874,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
         void ICargos.deleteHistoria(int Admision)
         {
             var datCone = Conexion.Conection();
@@ -1023,7 +893,6 @@ namespace Persistence.CXN.Metodos
                 Guarda = commandcargo.ExecuteNonQuery();
             }
         }
-
         CXN_CARGOS ICargos.GetCargosFHIR(int Admision)
         {
             try
@@ -1075,8 +944,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
-
         CXN_HORARIO ICargos.BuscarCargo(int Admision)
         {
             try
@@ -1168,7 +1035,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         bool getCargosPrevios2(int Admision)
         {
             try
@@ -1213,7 +1079,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
         List<CXN_CARGOS> ICargos.getCargosPrevios(int Paciente)
         {
             try
@@ -1272,7 +1137,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         async Task<List<CXN_HORARIO>> ICargos.ListaCargos(DateTime fecha, bool Hecho)
         {
             try
@@ -1346,7 +1210,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         List<CXN_CARGOS> ICargos.CargosAnt(int Admi)
         {
             try
@@ -1395,7 +1258,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         bool ICargos.deleteCargo(int Admision)
         {
             try
@@ -1441,7 +1303,6 @@ namespace Persistence.CXN.Metodos
             }
 
         }
-
         ListaProd ICargos.DatoProd(int Ase, string Cod)
         {
             Dictionary<string,string> getData = Conexion.Conection();
@@ -1497,7 +1358,6 @@ namespace Persistence.CXN.Metodos
                 }
             }
         }
-
         async Task<int> ICargos.SaveCargo(CXN_CARGOS C)
         {
             try
@@ -1569,7 +1429,6 @@ namespace Persistence.CXN.Metodos
                 return 0;
             }
         }
-
         CXN_CARGOS ICargos.getValores(int Posision)
         {
             try
@@ -1615,7 +1474,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         bool ICargos.updateValores(CXN_CARGOS C)
         {
             try
@@ -1646,8 +1504,7 @@ namespace Persistence.CXN.Metodos
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
                 return false;
             }
-        }
-        
+        }  
         CXN_CARGOS ICargos.getRIPS(int Admision)
         {
             try
@@ -1692,7 +1549,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         bool ICargos.updateCia(int Cia, int Posision)
         {
             try
@@ -1722,7 +1578,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
         bool ICargos.updateAse(int Ase, int Posision)
         {
             try
@@ -1752,7 +1607,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
         bool ICargos.updateDate(DateTime Fecha, int Posision)
         {
             try
@@ -1782,7 +1636,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
         bool ICargos.HabilitaInhabilita(string Est, int Posision)
         {
             try
@@ -1812,7 +1665,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
         bool ICargos.updateCargos(CXN_CARGOS C)
         {
             try
@@ -1964,7 +1816,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         CXN_CARGOS ICargos.getLasCargoToCopy(int Admision)
         {
             try
@@ -2020,49 +1871,6 @@ namespace Persistence.CXN.Metodos
             {
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
                 return null;
-            }
-        }
-
-        void ICargos.updateJuntaMedica(CXN_CARGOS C)
-        {
-            try
-            {
-                Dictionary<string, string> getData = Conexion.Conection();
-
-                using (SqlConnection con = new SqlConnection(getData["Conexion"]))
-                {
-                    if (con != null && con.State == ConnectionState.Closed)
-                    {
-                        con.Open();
-                    }
-
-                    SqlCommand Busqueda = new SqlCommand(@"UPDATE CXN_CARGOS " +
-                                                          "SET  " +
-                                                          "Car_Ambito = @param1, " +
-                                                          "Car_Personal = @param2, " +
-                                                          "Car_CExterna = @param3, " +
-                                                          "Car_Finalidad = @param4, " +
-                                                          "Car_Finalidad_CO = @param5," +
-                                                          "Car_Imp_Dx = @param6, " +
-                                                          "Car_Detalle = @param8, " +
-                                                          "Car_Dx1 = @param9 " +
-                                                          "WHERE Car_Adm_Id = @param7", con);
-
-                    Busqueda.Parameters.AddWithValue("@param1", C.Car_Ambito);
-                    Busqueda.Parameters.AddWithValue("@param2", C.Car_Personal);
-                    Busqueda.Parameters.AddWithValue("@param3", C.Car_CExterna);
-                    Busqueda.Parameters.AddWithValue("@param4", C.Car_Finalidad);
-                    Busqueda.Parameters.AddWithValue("@param5", C.Car_Finalidad_CO);
-                    Busqueda.Parameters.AddWithValue("@param6", C.Car_Imp_Dx);
-                    Busqueda.Parameters.AddWithValue("@param7", C.Car_Adm_Id);
-                    Busqueda.Parameters.AddWithValue("@param8", C.Car_Detalle);
-                    Busqueda.Parameters.AddWithValue("@param9", C.Car_Dx1);
-                    Busqueda.ExecuteNonQuery();
-                }
-            }
-            catch (Exception ex)
-            {
-                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
             }
         }
         bool ICargos.cargoExiste(int Admision)

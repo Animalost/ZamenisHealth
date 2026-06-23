@@ -49,7 +49,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         List<CXN_MENUHGMG> IMenu.getMenus()
         {
             try
@@ -116,7 +115,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         List<string> IMenu.getPosPatologia()
         {
             try
@@ -156,7 +154,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         List<string> IMenu.getPosPatologia2()
         {
             try

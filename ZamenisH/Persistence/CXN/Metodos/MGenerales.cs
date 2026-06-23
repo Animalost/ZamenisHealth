@@ -192,7 +192,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         string IGenerales.GetCodeEtnia(string NameEtnia)
         {
             try
@@ -232,41 +231,12 @@ namespace Persistence.CXN.Metodos
                 return "6";
             }
         }
-
-        /*int IGenerales.getCodeRegimen(string Regimen)
-        {
-            switch (Regimen)
-            {
-                case "Contributivo":
-                    return 1;
-                case "Subsidiado":
-                    return 2;
-                case "N/A":
-                    return 0;
-                case "Vinculado":
-                    return 3;
-                case "Particular":
-                    return 4;
-                case "Otro":
-                    return 5;
-                case "Victima Afiliada Contributivo":
-                    return 6;
-                case "Victima Afiliada Subsidiada":
-                    return 7;
-                case "Victima No Asegurada":
-                    return 8;
-                default:
-                    return 0;
-            }
-        }*/
-
         System.Drawing.Image IGenerales.CodifyQR(string T_Codifica)
         {
             Bitmap mapTemp = Conexion.GenerateQRCode(T_Codifica);
             Image image = (Image)mapTemp;
             return image;
         }
-
         bool IGenerales.ValidarNumerico(string Dato)
         {
             if (Regex.IsMatch(Dato, @"^[0-9]+$"))
@@ -278,7 +248,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
         string IGenerales.GetMD5(string str)
         {
             MD5 md5 = MD5CryptoServiceProvider.Create();
@@ -289,26 +258,22 @@ namespace Persistence.CXN.Metodos
             for (int i = 0; i < stream.Length; i++) sb.AppendFormat("{0:x2}", stream[i]);
             return sb.ToString();
         }
-
         byte[] IGenerales.GetBytes(System.Drawing.Image imageIn)
         {
             MemoryStream ms = new MemoryStream();
             imageIn.Save(ms, ImageFormat.Png);
             return ms.ToArray();
         }
-
         string IGenerales.Base64Decode(string base64EncodedData)
         {
             var base64EncodedBytes = System.Convert.FromBase64String(base64EncodedData);
             return System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
         }
-
         string IGenerales.Base64Encode(string plainText)
         {
             var plainTextBytes = Encoding.UTF8.GetBytes(plainText);
             return System.Convert.ToBase64String(plainTextBytes);
         }
-
         Bitmap IGenerales.ByteToImage(byte[] blob)
         {
             MemoryStream mStream = new MemoryStream();
@@ -318,7 +283,6 @@ namespace Persistence.CXN.Metodos
             mStream.Dispose();
             return bm;
         }
-
         void IGenerales.ExportarGrilla(DataGridView dataGridX)
         {
             try

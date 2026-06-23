@@ -1,12 +1,17 @@
 ﻿using Domain;
+
 using FormAndControls;
+
 using Persistence;
 using Persistence.CXN.Interfaces;
 using Persistence.CXN.Metodos;
+
 using System;
 using System.Linq;
 using System.Windows.Forms;
+
 using ZamenisHealth.Comunes;
+using ZamenisHealth.Recepcion.AgendaDiaria;
 
 namespace ZamenisHealth.Recepcion.Extras
 {
@@ -40,9 +45,8 @@ namespace ZamenisHealth.Recepcion.Extras
                         f2.textBox9.Text = textBox1.Text;
                         f2.textBox15.Text = textBox2.Text;
 
-                        Agenda f7 = Application.OpenForms.OfType<Agenda>().SingleOrDefault();
-
-                        f7.RechargeTrueCheck();
+                        Agendamiento f7 = Application.OpenForms.OfType<Agendamiento>().FirstOrDefault();
+                        f7.EventoInicial();
 
                         MessageBox.Show("Autorizacion ingresada correctamente", "Hecho", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 

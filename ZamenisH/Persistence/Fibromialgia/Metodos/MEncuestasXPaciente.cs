@@ -34,7 +34,6 @@ namespace Persistence.Fibromialgia.Metodos
             }
             return res;
         }
-
         double Consulta2(double Valor)
         {
             double res = 0;
@@ -53,7 +52,6 @@ namespace Persistence.Fibromialgia.Metodos
             }
             return res;
         }
-
         double Consulta3(double Valor)
         {
             double res = 0;
@@ -69,7 +67,6 @@ namespace Persistence.Fibromialgia.Metodos
             }
             return res;
         }
-
         double Consulta4(double Valor)
         {
             double res = 0;
@@ -97,7 +94,6 @@ namespace Persistence.Fibromialgia.Metodos
             }
             return res;
         }
-
         double Consulta5(double Valor)
         {
             double res = 0;
@@ -125,7 +121,6 @@ namespace Persistence.Fibromialgia.Metodos
             }
             return res;
         }
-
         double Consulta6(double Valor)
         {
             double res = 0;
@@ -150,13 +145,10 @@ namespace Persistence.Fibromialgia.Metodos
             }
             return res;
         }
-
         double ConsultaDias(double Valor)
         {
             return 7 - Valor;
         }
-
-
         Dictionary<string, double> getResultPacE1(DateTime desde,
                                                   DateTime hasta,
                                                   string TipoId,

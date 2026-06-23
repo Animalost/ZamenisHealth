@@ -16,10 +16,13 @@ namespace ZamenisHealth.HistoriasClinicas.Extras
     public partial class CondicionesP : Forma
     {
         private static readonly ICondiciones repoCond = new MCondiciones();
+        private static readonly IConfSystem repoConf = new MConfSystem();
 
         private string CondicionSelected;
         private int Pac;
         ToolStripButton button1;
+
+        private string UrlInfeccion;
 
         DataTable dt = new DataTable();
         DataColumn POS;
@@ -107,7 +110,12 @@ namespace ZamenisHealth.HistoriasClinicas.Extras
 
                 if (CondicionSelected == "INFECCION")
                 {
-                    linkLabel1.Visible = true;
+                    var data = repoConf.getListado()["INFECCIONES"];
+                    if (data != "X")
+                    {
+                        UrlInfeccion = data;
+                        linkLabel1.Visible = true;
+                    }                    
                 }
             }
             catch (Exception ex)
@@ -291,7 +299,7 @@ namespace ZamenisHealth.HistoriasClinicas.Extras
         {
             try
             {
-                System.Diagnostics.Process.Start("https://docs.google.com/forms/d/e/1FAIpQLSdTP0U7s0ohuTPb7cuUzKc9U_5yGLS0TRDiBHw0jFp1oiaZag/viewform?usp=header");
+                System.Diagnostics.Process.Start(UrlInfeccion);
             }
             catch (Exception ex)
             {

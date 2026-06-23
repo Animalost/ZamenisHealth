@@ -37,10 +37,10 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
+    <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>Zam2026.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>FirmaZamenis.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="bc-fips-1.0.2, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
@@ -195,13 +195,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CalendarController.cs" />
     <Compile Include="Conexion.cs" />
     <Compile Include="Connected Services\ShortLinksWSPersistence\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
-    <Compile Include="ConvertJSON.cs" />
     <Compile Include="CXN\Interfaces\IAdherencia.cs" />
     <Compile Include="CXN\Interfaces\IAgenda.cs" />
     <Compile Include="CXN\Interfaces\IAgendaC.cs" />
@@ -223,7 +223,6 @@
     <Compile Include="CXN\Interfaces\ICuentas.cs" />
     <Compile Include="CXN\Interfaces\IDatosEmail.cs" />
     <Compile Include="CXN\Interfaces\IDisponibilidad.cs" />
-    <Compile Include="CXN\Interfaces\IDocSoporteElectron.cs" />
     <Compile Include="CXN\Interfaces\IDocumentosWEB.cs" />
     <Compile Include="CXN\Interfaces\IEncuestasSatis.cs" />
     <Compile Include="CXN\Interfaces\IEvolucionesFibromialgia.cs" />
@@ -235,13 +234,11 @@
     <Compile Include="CXN\Interfaces\IFormatos.cs" />
     <Compile Include="CXN\Interfaces\IGenerales.cs" />
     <Compile Include="CXN\Interfaces\IHelisa.cs" />
-    <Compile Include="CXN\Interfaces\IHistoriasFolios.cs" />
     <Compile Include="CXN\Interfaces\IHomologos.cs" />
     <Compile Include="CXN\Interfaces\IIAS.cs" />
     <Compile Include="CXN\Interfaces\IImagenes.cs" />
     <Compile Include="CXN\Interfaces\IImpuestos.cs" />
     <Compile Include="CXN\Interfaces\IInventario.cs" />
-    <Compile Include="CXN\Interfaces\IInvPpal.cs" />
     <Compile Include="CXN\Interfaces\IJuntas.cs" />
     <Compile Include="CXN\Interfaces\ILogin.cs" />
     <Compile Include="CXN\Interfaces\ILogSender.cs" />
@@ -298,7 +295,6 @@
     <Compile Include="CXN\Metodos\MCuentas.cs" />
     <Compile Include="CXN\Metodos\MDatosEmail.cs" />
     <Compile Include="CXN\Metodos\MDisponibilidad.cs" />
-    <Compile Include="CXN\Metodos\MDocSoporteElectron.cs" />
     <Compile Include="CXN\Metodos\MDocumentosWEB.cs" />
     <Compile Include="CXN\Metodos\MEncuestasSatis.cs" />
     <Compile Include="CXN\Metodos\MEvolucionesFibromialgia.cs" />
@@ -310,12 +306,10 @@
     <Compile Include="CXN\Metodos\MFormatos.cs" />
     <Compile Include="CXN\Metodos\MGenerales.cs" />
     <Compile Include="CXN\Metodos\MHelisa.cs" />
-    <Compile Include="CXN\Metodos\MHistoriasFolios.cs" />
     <Compile Include="CXN\Metodos\MHomologos.cs" />
     <Compile Include="CXN\Metodos\MIAS.cs" />
     <Compile Include="CXN\Metodos\MImagenes.cs" />
     <Compile Include="CXN\Metodos\MInventario.cs" />
-    <Compile Include="CXN\Metodos\MInvPpal.cs" />
     <Compile Include="CXN\Metodos\MJuntas.cs" />
     <Compile Include="CXN\Metodos\MLogin.cs" />
     <Compile Include="CXN\Metodos\MLogSender.cs" />
@@ -353,9 +347,7 @@
     <Compile Include="CXN\Metodos\MZonas.cs" />
     <Compile Include="CXN\Metodos\MImpuestos.cs" />
     <Compile Include="CXN_ADJUNTOS\Interfaces\IAdjuntos.cs" />
-    <Compile Include="CXN_ADJUNTOS\Interfaces\IImagenA.cs" />
     <Compile Include="CXN_ADJUNTOS\Metodos\MAdjuntos.cs" />
-    <Compile Include="CXN_ADJUNTOS\Metodos\MImagenA.cs" />
     <Compile Include="Fibromialgia\Interfaces\IConsolidadoAIPEA.cs" />
     <Compile Include="Fibromialgia\Interfaces\IConsolidadoGeneral.cs" />
     <Compile Include="Fibromialgia\Interfaces\IConsolidadoSF36.cs" />
@@ -424,11 +416,9 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Connected Services\ShortLinksWSPersistence\WSShortLinks.wsdl" />
+    <None Include="FirmaZamenis.pfx" />
     <None Include="packages.config" />
     <None Include="Zam2026.pfx" />
-    <None Include="ZamenisHealth2026.pfx" />
-    <None Include="ZamenisProject.pfx" />
-    <None Include="ZH2026.pfx" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />

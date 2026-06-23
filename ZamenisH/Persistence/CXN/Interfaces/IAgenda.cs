@@ -10,7 +10,6 @@ namespace Persistence.CXN.Interfaces
         List<CXN_HORARIO> CargarAgenda(int Medico, int Compañia, DateTime Desde, string Dia);
 
         //BASE 
-        void Images_Adress();
         List<CXN_HORARIO> Asistencia(string ID);
         List<CXN_HORARIO> AsistenciaLastAut(string ID);
         string SearchCuracionForMG(int Paciente, DateTime Fecha, int Medico);
@@ -41,20 +40,16 @@ namespace Persistence.CXN.Interfaces
         void InicioControlCuraciones(int Admision, string estado);
         int consularMGMismoDia(int Pacientes, DateTime Fecha);
         void OPend(CXN_OPEND OP);
-        bool getPendientes();
         List<CXN_HORARIO> getListPendientes();
         void ActualizarAutorizacionMG(int Admision, string Autoriza, int Cantidad);
         void OPendUpdate(CXN_OPEND O);
         void PendientesChecked(int Adm, string Estado);
         void OpenAdmition(int Admision, string Estado);
-        bool OpenAdmition(int Admision);
         int AgendarPacienteJuntas(CXN_HORARIO horario);
         void Graba_Hora_Salida(int Atention);
         void updateAseguradoraFromCargo(int Asegura, int Admision);
         void updateObservaTemp(string ObTemp, int Admision);
-        void updateTipoCitaMG(string Tipo, int Admision, string IniSesion);
-        Dictionary<int, string> getSaleConsultas(DateTime Fecha, string Tipo);
-        void updateSALIERONCONSULTA(int Admition);
         bool addSALECONSULTA(int Admision);
+        void UpdatecolorCita(int Admision, string Color);
     }
 }

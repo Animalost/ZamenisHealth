@@ -34,9 +34,7 @@ namespace Persistence.CXN.Interfaces
         List<CXN_CARGOS> BuscarCargoTotal(int Admision);
         CXN_CARGOS getLasCargoToCopy(int Admision);
         List<CXN_CARGOS> getCargosPrevios(int Paciente);
-        void updateJuntaMedica(CXN_CARGOS C);
         CXN_CARGOS getRIPS(int Admision);
-        bool InsertarCargoOtrasFacturas(CXN_CARGOS c);
         bool cargoExiste(int Admision);
         bool updateCargosMasivo(CXN_CARGOS C);
     }

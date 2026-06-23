@@ -20,7 +20,7 @@ using ZamenisHealth.Comunes;
 
 namespace ZamenisHealth.Medicina
 {
-    public partial class Historial_Medico_2 : Forma
+    public partial class Historial_Medico_2 : Forma2
     {
         private static readonly IReportes repoReportes = new MReportes();
         private static readonly IOrdenes repoOrdenes = new MOrdenes();
@@ -39,65 +39,348 @@ namespace ZamenisHealth.Medicina
         private int Paciente;
         private string SeleccionReporte;
         private string TipoTerapia;
+        private string TipoNodoGrupal;
         List<HCMG> H_HCMGHC;
         List<CXN_HCRADIOLOGIA> cXN_HCRADIOLOGIA;
         List<ReportHCFI> H_HCFICompleto;
         List<ReportEVO> H_HCEVO;
-        
+        private MensajesGeneral MG;
+
         public Historial_Medico_2(int paciente)
         {
             InitializeComponent();
             this.Paciente = paciente;
         }
-        private void btnZamenis1_ButtonClick(object sender, EventArgs e)
+        
+        private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            this.Dispose();
-            this.Close();
-        }
+            try
+            {
+                Verificador_Paciente();
 
+                if (treeView1.SelectedNode != null)
+                {
+                    string TittleSelected = treeView1.SelectedNode.Text.ToString();                    
+
+                    if (e.Node.Parent != null)
+                    {
+                        string NodoPrincipal = e.Node.Parent.Text.ToString();
+
+                        if (NodoPrincipal == "MEDICINA GENERAL")
+                        {
+                            switch (TittleSelected)
+                            {
+                                case "Historia Clinica Individual":
+                                    SeleccionReporte = "HisMG";
+                                    BuscarH(SeleccionReporte);
+                                    panel1.Visible = false;
+                                    break;
+
+                                case "Medidas de Heridas":
+                                    SeleccionReporte = "HisMGDiametro";
+                                    BuscarH("HisMG");
+                                    panel1.Visible = false;
+                                    break;
+
+                                case "Historia Clinica Agrupada":
+                                    TipoNodoGrupal = "MEDGEN";
+                                    SeleccionReporte = "";
+                                    BuscarH("HisMG");
+                                    panel1.Visible = true;
+                                    break;
+
+                                case "Ordenes Medicas Medicina General":
+                                    SeleccionReporte = "MG";
+                                    BuscarOM("MG");
+                                    panel1.Visible = false;
+                                    break;
+                            }
+                        }
+                        else if (NodoPrincipal == "MEDICINA FISICA Y REHABILITACION")
+                        {
+                            switch (TittleSelected)
+                            {
+                                case "Historia Clinica Individual":
+                                    SeleccionReporte = "HFI";
+                                    BuscarH(SeleccionReporte);
+                                    panel1.Visible = false;
+                                    break;
+
+                                case "Historia Clinica Agrupada":
+                                    TipoNodoGrupal = "FISIATRIA";
+                                    SeleccionReporte = "";
+                                    BuscarH("HFI");
+                                    panel1.Visible = true;
+                                    break;
+
+                                case "Ordenes Medicas Fisiatria":
+                                    SeleccionReporte = "FI";
+                                    BuscarOM("FI");
+                                    panel1.Visible = false;
+                                    break;
+                            }
+                        }
+                        else if (NodoPrincipal == "ENFERMERIA")
+                        {
+                            switch (TittleSelected)
+                            {
+                                case "Notas de Enfermeria":
+                                    SeleccionReporte = "Notas";
+                                    BuscarH(SeleccionReporte);
+                                    panel1.Visible = false;
+                                    break;
+
+                                case "Notas Enfermeria Agrupada":
+                                    TipoNodoGrupal = "NOTAS";
+                                    SeleccionReporte = "";
+                                    BuscarH("Notas");
+                                    panel1.Visible = true;
+                                    break;
+
+                                case "Cambios de Manejo":
+                                    SeleccionReporte = "CMan";
+                                    BuscarH(SeleccionReporte);
+                                    panel1.Visible = false;
+                                    break;
+                            }
+                        }
+                        else if (NodoPrincipal == "PSICOLOGIA")
+                        {
+                            switch (TittleSelected)
+                            {
+                                case "Historia Clinica Individual":
+                                    SeleccionReporte = "PSI";
+                                    BuscarH(SeleccionReporte);
+                                    panel1.Visible = false;
+                                    break;
+
+                                case "Historia Clinica Agrupada":
+                                    TipoNodoGrupal = "PSI";
+                                    SeleccionReporte = "";
+                                    BuscarH("HEVO");
+                                    panel1.Visible = true;
+                                    break;
+                            }
+                        }
+                        else if (NodoPrincipal == "TERAPIA FISICA")
+                        {
+                            switch (TittleSelected)
+                            {
+                                case "Historia Clinica Individual":
+                                    SeleccionReporte = "TF";
+                                    BuscarH(SeleccionReporte);
+                                    panel1.Visible = false;
+                                    break;
+
+                                case "Historia Clinica Agrupada":
+                                    TipoNodoGrupal = "TF";
+                                    SeleccionReporte = "";
+                                    BuscarH("HEVO");
+                                    panel1.Visible = true;
+                                    break;
+                            }
+                        }
+                        else if (NodoPrincipal == "TERAPIA OCUPACIONAL")
+                        {
+                            switch (TittleSelected)
+                            {
+                                case "Historia Clinica Individual":
+                                    SeleccionReporte = "TO";
+                                    BuscarH(SeleccionReporte);
+                                    panel1.Visible = false;
+                                    break;
+
+                                case "Historia Clinica Agrupada":
+                                    TipoNodoGrupal = "TO";
+                                    SeleccionReporte = "";
+                                    BuscarH("HEVO");
+                                    panel1.Visible = true;
+                                    break;
+                            }
+                        }
+                        else if (NodoPrincipal == "EVOLUCIONES Y JUNTAS MEDICAS")
+                        {
+                            switch (TittleSelected)
+                            {
+                                case "Junta Medica 1":
+                                    SeleccionReporte = "HJ1";
+                                    BuscarH(SeleccionReporte);
+                                    panel1.Visible = false;
+                                    break;
+
+                                case "Junta Medica 2":
+                                    SeleccionReporte = "HJ2";
+                                    BuscarH(SeleccionReporte);
+                                    panel1.Visible = false;
+                                    break;
+
+                                case "Evoluciones":
+                                    SeleccionReporte = "HEVO";
+                                    BuscarH(SeleccionReporte);
+                                    panel1.Visible = false;
+                                    break;
+                            }                            
+                        }
+                        else if (NodoPrincipal == "OTROS SOPORTES")
+                        {
+                            switch (TittleSelected)
+                            {
+                                case "Soportes Adicionales Cargados":
+                                    SeleccionReporte = "Adjuntos";
+                                    BuscarAdjuntos();
+                                    panel1.Visible = false;
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                            return;
+                        }                        
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+        void ConfigTree()
+        {
+            try
+            {                
+                treeView1.CheckBoxes = false; 
+                treeView1.FullRowSelect = true;
+                treeView1.HideSelection = false;
+                treeView1.Font = new Font("Arial", 11, FontStyle.Regular);
+
+                #region  MEDICINA GENERAL
+                TreeNode MedGen = new TreeNode("MEDICINA GENERAL");
+
+                TreeNode MedGenHistory = new TreeNode("Historia Clinica Individual");
+                TreeNode MedGenHistoryMedidas = new TreeNode("Medidas de Heridas");
+                TreeNode MedGenHistoryTotal = new TreeNode("Historia Clinica Agrupada");
+                TreeNode MedGenOrdenMedica = new TreeNode("Ordenes Medicas Medicina General");
+                MedGen.Nodes.Add(MedGenHistory);
+                MedGen.Nodes.Add(MedGenHistoryMedidas);
+                MedGen.Nodes.Add(MedGenHistoryTotal);
+                MedGen.Nodes.Add(MedGenOrdenMedica);
+
+                treeView1.Nodes.Add(MedGen);
+                #endregion
+
+                #region  FISIATRIA
+                TreeNode Fisi = new TreeNode("MEDICINA FISICA Y REHABILITACION");
+
+                TreeNode FisiHistory = new TreeNode("Historia Clinica Individual");
+                TreeNode FisiHistoryTotal = new TreeNode("Historia Clinica Agrupada");
+                TreeNode FisiOrdenMedica = new TreeNode("Ordenes Medicas Fisiatria");
+                Fisi.Nodes.Add(FisiHistory);
+                Fisi.Nodes.Add(FisiHistoryTotal);
+                Fisi.Nodes.Add(FisiOrdenMedica);
+
+                treeView1.Nodes.Add(Fisi);
+                #endregion
+
+                #region  NOTAS DE CURACION
+                TreeNode Curacion = new TreeNode("ENFERMERIA");
+
+                TreeNode CuracionHistory = new TreeNode("Notas de Enfermeria");
+                TreeNode CuracionHistoryTotal = new TreeNode("Notas Enfermeria Agrupada");
+                TreeNode CuracionCManejo = new TreeNode("Cambios de Manejo");
+
+                Curacion.Nodes.Add(CuracionHistory);
+                Curacion.Nodes.Add(CuracionHistoryTotal);
+                Curacion.Nodes.Add(CuracionCManejo);
+
+                treeView1.Nodes.Add(Curacion);
+                #endregion
+
+                #region PROGRAMA FIBROMIALGIA
+                TreeNode Fibro = new TreeNode("PROGRAMA FIBROMIALGIA");
+
+                #region  PSICOLOGIA
+                TreeNode PSI = new TreeNode("PSICOLOGIA");
+
+                TreeNode PSIHistory = new TreeNode("Historia Clinica Individual");
+                TreeNode PSIHistoryTotal = new TreeNode("Historia Clinica Agrupada");
+
+                PSI.Nodes.Add(PSIHistory);
+                PSI.Nodes.Add(PSIHistoryTotal);
+
+                Fibro.Nodes.Add(PSI);
+                #endregion
+
+                #region  TERAPIA FISICA
+                TreeNode TFisica = new TreeNode("TERAPIA FISICA");
+
+                TreeNode TFisicaHistory = new TreeNode("Historia Clinica Individual");
+                TreeNode TFisicaHistoryTotal = new TreeNode("Historia Clinica Agrupada");
+
+                TFisica.Nodes.Add(TFisicaHistory);
+                TFisica.Nodes.Add(TFisicaHistoryTotal);
+
+                Fibro.Nodes.Add(TFisica);
+                #endregion
+
+                #region  TERAPIA OCUPACIONAL
+                TreeNode TOcupacional = new TreeNode("TERAPIA OCUPACIONAL");
+
+                TreeNode TOcupacionalHistory = new TreeNode("Historia Clinica Individual");
+                TreeNode TOcupacionalHistoryTotal = new TreeNode("Historia Clinica Agrupada");
+
+                TOcupacional.Nodes.Add(TOcupacionalHistory);
+                TOcupacional.Nodes.Add(TOcupacionalHistoryTotal);
+
+                Fibro.Nodes.Add(TOcupacional);
+                #endregion
+
+                #region PROGRAMA
+                TreeNode JMedica = new TreeNode("EVOLUCIONES Y JUNTAS MEDICAS");
+                TreeNode JMedica1 = new TreeNode("Junta Medica 1");
+                TreeNode JMedica2 = new TreeNode("Junta Medica 2");
+                TreeNode Evol = new TreeNode("Evoluciones");
+
+                JMedica.Nodes.Add(JMedica1);
+                JMedica.Nodes.Add(JMedica2);
+                JMedica.Nodes.Add(Evol);
+
+                Fibro.Nodes.Add(JMedica);
+                #endregion
+
+                treeView1.Nodes.Add(Fibro);
+                #endregion
+
+                #region SOPORTES
+                TreeNode soportes = new TreeNode("OTROS SOPORTES");
+
+                TreeNode soportesHistory = new TreeNode("Soportes Adicionales Cargados");
+
+                soportes.Nodes.Add(soportesHistory);
+
+                treeView1.Nodes.Add(soportes);
+                #endregion
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
         private void Historial_Medico_2_Load(object sender, EventArgs e)
         {
             try
             {
-                listBox1.Items.Add("Historia Clinica Medicina General");  //0
-                listBox1.Items.Add("Medidas de Heridas"); //1
-                listBox1.Items.Add("Historia Clinica Fisiatria");//2
-                listBox1.Items.Add("Historia Clinica Terapia Fisica");//3
-                listBox1.Items.Add("Historia Clinica Terapia Ocupacional");//4
-                listBox1.Items.Add("Historia Clinica Psicologia"); //5
-                listBox1.Items.Add("Historia Clinica Radiologia");//6
-                listBox1.Items.Add("------------------------------------------");//7
-                listBox1.Items.Add("Ordenes Medicina General");//8
-                listBox1.Items.Add("Ordenes Fisiatria");//9
-                listBox1.Items.Add("Ordenes Radiologia");//10
-                listBox1.Items.Add("------------------------------------------");//11
-                listBox1.Items.Add("Soportes Adjuntos");//12
-                listBox1.Items.Add("------------------------------------------");//13
-                listBox1.Items.Add("Notas de Enfermeria");//14
-                listBox1.Items.Add("Cambios de Manejo Enfermeria");//15
-                listBox1.Items.Add("Evoluciones Terapias");//16
-                listBox1.Items.Add("Junta Medica 1");//17
-                listBox1.Items.Add("Junta Medica 2");//18
-                listBox1.Items.Add("------------------------------------------");//19
-                listBox1.Items.Add("Compilado Notas de Enfermeria");//20
-                listBox1.Items.Add("Compilado Historia Clinica Medicina General");//21
-                listBox1.Items.Add("Compilado Historia Clinica Fisiatria");//22
-                listBox1.Items.Add("Compilado Historia Clinica Terapia Fisica");//23
-                listBox1.Items.Add("Compilado Historia Clinica Terapia Ocupacional");//24
-                listBox1.Items.Add("Compilado Historia Clinica Psicologia");//25
-                listBox1.Items.Add("Compilado Historia Clinica Radiologia");//26
-
+                treeView1.AfterSelect += treeView1_AfterSelect;
+                gridZH1.dataGridView1.CellDoubleClick += dataGridView1_CellDoubleClick;
+                gridZH1.CeldaHeight = true;
+                ConfigTree();
                 Titulo.Text = "Registros Medicos";
-                LogoMain.Image = Properties.Resources.Splash;
-
-                listBox1.ClearSelected();            
+                SubTitulo.Text = Conexion.VersionApp;
             }
             catch (Exception ex)
             {
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }            
         }
-
         void Verificador_Paciente()
         {
             if (this.Paciente <= 0)
@@ -113,7 +396,6 @@ namespace ZamenisHealth.Medicina
                 this.Close();
             }
         }
-
         void BuscarAdjuntos()
         {
             try
@@ -151,17 +433,14 @@ namespace ZamenisHealth.Medicina
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }        
-
         void Shows()
         {
             pictureBox2.Visible = true;
         }
-
         void Hides()
         {
             pictureBox2.Visible = false;
         }
-
         void TerapiasTotal()
         {
             try
@@ -191,7 +470,6 @@ namespace ZamenisHealth.Medicina
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         void ExportRvSTATer()
         {
             Form F = new Form();
@@ -214,51 +492,23 @@ namespace ZamenisHealth.Medicina
             //F.System.Threading.Thread.CurrentThread.SetApartmentState(state);
             Application.Run(F);
         }
-
-        void RadiologiaTotal()
-        {
-            try
-            {
-                MensajesGeneral MG = new MensajesGeneral();
-
-                cXN_HCRADIOLOGIA = new List<CXN_HCRADIOLOGIA>();
-                cXN_HCRADIOLOGIA = repoReportes.ReporteRadiologiaCompleto(this.Paciente,
-                                                                       dateTimePicker1.Value,
-                                                                       dateTimePicker2.Value,
-                                                                       Comunes.Contenedor.UsuarioLogueado);
-                if (cXN_HCRADIOLOGIA == null)
-                {
-                    MG.Mensaje = "No se logro exportar, posiblemente halla una falla al exportar o la historia no existe";
-                    MG.TipoImagen = 1000;
-                    MG.ShowDialog();
-                    return;
-                }
-
-                Thread thread = new Thread(ExportRvSTARA);
-                thread.SetApartmentState(ApartmentState.STA); // Configura el subproceso en STA
-                thread.Start();
-            }
-            catch (Exception ex)
-            {
-                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
-            }
-        }
-
         void FiTotal()
         {
             try
             {
-                MensajesGeneral MG = new MensajesGeneral();
-
                 H_HCFICompleto = new List<ReportHCFI>();
                 H_HCFICompleto = repoReportes.ReportefisiatriaCompleto(this.Paciente,
-                                                                                        dateTimePicker1.Value,
-                                                                                        dateTimePicker2.Value,
-                                                                                        Comunes.Contenedor.UsuarioLogueado);
+                                                                       dateTimePicker1.Value,
+                                                                       dateTimePicker2.Value,
+                                                                       Comunes.Contenedor.UsuarioLogueado);
                 if (H_HCFICompleto == null)
                 {
-                    MG.Mensaje = "No se logro exportar, posiblemente halla una falla al exportar o la historia no existe";
-                    MG.TipoImagen = 1000;
+                    MG = new MensajesGeneral()
+                    {
+                        Mensaje = "No se logro exportar, posiblemente halla una falla al exportar o la historia no existe",
+                        TipoImagen = 1000
+                    };
+                    
                     MG.ShowDialog();
                     return;
                 }
@@ -272,30 +522,6 @@ namespace ZamenisHealth.Medicina
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
-        void ExportRvSTARA()//Historia radiologia grupada aqui
-        {
-            Form F = new Form();
-            ReportViewer R = new ReportViewer();
-
-            R.LocalReport.DataSources.Clear();
-            R.LocalReport.DataSources.Add(new ReportDataSource("DataSetCompletoRa", cXN_HCRADIOLOGIA));
-            R.LocalReport.ReportEmbeddedResource = "ZamenisHealth.Reportes.RDLC_RADIOLOGIACOMPLETO.rdlc";
-            R.SetDisplayMode(DisplayMode.PrintLayout);
-            R.ZoomMode = ZoomMode.Percent;
-            R.ZoomPercent = 100;
-            R.LocalReport.EnableExternalImages = true;
-            R.Font = new Font("Arial", 7);
-            R.RefreshReport();
-            R.Visible = true;
-            R.Dock = System.Windows.Forms.DockStyle.Fill;
-            F.Controls.Add(R);
-            F.WindowState = FormWindowState.Maximized;
-            //F.System.Threading.ApartmentState state = System.Threading.ApartmentState.STA;
-            //F.System.Threading.Thread.CurrentThread.SetApartmentState(state);
-            Application.Run(F);
-        }
-
         void ExportRvSTAFI()
         {
             Form F = new Form();
@@ -318,13 +544,10 @@ namespace ZamenisHealth.Medicina
             //F.System.Threading.Thread.CurrentThread.SetApartmentState(state);
             Application.Run(F);
         }
-
         void MedGenTotal()
         {
             try
-            {
-                MensajesGeneral MG = new MensajesGeneral();
-
+            {                
                 H_HCMGHC = new List<HCMG>();
                 H_HCMGHC = repoReportes.MedicinaGeneralCompleto(this.Paciente,
                                                                              dateTimePicker1.Value,
@@ -332,8 +555,12 @@ namespace ZamenisHealth.Medicina
                                                                              Comunes.Contenedor.UsuarioLogueado);
                 if (H_HCMGHC == null)
                 {
-                    MG.Mensaje = "No se logro exportar, posiblemente halla una falla al exportar o la historia no existe";
-                    MG.TipoImagen = 1000;
+                    MG = new MensajesGeneral()
+                    {
+                        Mensaje = "No se logro exportar, posiblemente halla una falla al exportar o la historia no existe",
+                        TipoImagen = 1000
+                    };
+                    
                     MG.ShowDialog();
                     return;
                 }                
@@ -347,7 +574,6 @@ namespace ZamenisHealth.Medicina
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         void ExportRvSTAMG()
         {
             Form F = new Form();
@@ -370,13 +596,10 @@ namespace ZamenisHealth.Medicina
             //F.System.Threading.Thread.CurrentThread.SetApartmentState(state);
             Application.Run(F);
         }
-
         void NotasTotal()
         {
             try
             {
-                Comunes.MensajesGeneral MG = new Comunes.MensajesGeneral();
-
                 var getRDLCMasivo = repoReportes.NotasMetodoRDLC(Convert.ToInt32(this.Paciente),
                                                                                             Convert.ToDateTime(dateTimePicker1.Value.Date),
                                                                                             Convert.ToDateTime(dateTimePicker2.Value.Date));
@@ -452,9 +675,9 @@ namespace ZamenisHealth.Medicina
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         void EncabezadosEvo()
         {
+            gridZH1.dataGridView1.DataSource = null;
             dt = new DataTable();
             POS = dt.Columns.Add("POS", typeof(int));
             Admision = dt.Columns.Add("Admision", typeof(int));
@@ -463,9 +686,9 @@ namespace ZamenisHealth.Medicina
             Fecha = dt.Columns.Add("Fecha", typeof(DateTime));
             Tipo = dt.Columns.Add("Tipo", typeof(string));
         }
-
         void Encabezados()
         {
+            gridZH1.dataGridView1.DataSource = null;
             dt = new DataTable();
             POS = dt.Columns.Add("POS", typeof(int));
             Admision = dt.Columns.Add("Admision", typeof(int));
@@ -473,9 +696,9 @@ namespace ZamenisHealth.Medicina
             Profesional = dt.Columns.Add("Profesional", typeof(string));
             Fecha = dt.Columns.Add("Fecha", typeof(DateTime));
         }
-
         void EncabezadosAdjuntos()
         {
+            gridZH1.dataGridView1.DataSource = null;
             dt = new DataTable();
             POS = dt.Columns.Add("POS", typeof(int));
             Admision = dt.Columns.Add("Admision", typeof(int));
@@ -484,9 +707,9 @@ namespace ZamenisHealth.Medicina
             Tipo = dt.Columns.Add("Tipo", typeof(string));
             Fecha = dt.Columns.Add("Fecha", typeof(DateTime));
         }
-
         void EncabezadosOM()
         {
+            gridZH1.dataGridView1.DataSource = null;
             dt = new DataTable();
             POS = dt.Columns.Add("POS", typeof(int));
             Admision = dt.Columns.Add("Admision", typeof(int));
@@ -497,61 +720,17 @@ namespace ZamenisHealth.Medicina
             Cia = dt.Columns.Add("Cia", typeof(string));
             Clasificacion = dt.Columns.Add("Clasificacion", typeof(string));
         }
-
         void Estilos()
         {
-            dataGridView1.EnableHeadersVisualStyles = false;
-            dataGridView1.ScrollBars = ScrollBars.Both;
-
-            dataGridView1.DataSource = dt;
-
-            dataGridView1.Columns["Admision"].Width = 110;
-            dataGridView1.Columns["Paciente"].Width = 350;
-            dataGridView1.Columns["Profesional"].Width = 350;
-            dataGridView1.Columns["Fecha"].Width = 115;
-            dataGridView1.Font = new Font("Arial", 11);
-
-            dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font(dataGridView1.Font, FontStyle.Bold);
-            dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Arial", 10, FontStyle.Bold);
-            dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#bfdbff");
-            dataGridView1.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
-            dataGridView1.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
-
-            dataGridView1.Columns["Admision"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridView1.Columns["Paciente"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridView1.Columns["Profesional"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridView1.Columns["Fecha"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
-            dataGridView1.Columns["Admision"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            dataGridView1.Columns["Paciente"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            dataGridView1.Columns["Profesional"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            dataGridView1.Columns["Fecha"].SortMode = DataGridViewColumnSortMode.NotSortable;
-
-            dataGridView1.Columns["POS"].Visible = false;
+            gridZH1.dataGridView1.DataSource = dt;
+            gridZH1.dataGridView1.Columns["POS"].Visible = false;
 
             if (SeleccionReporte == "MG" || SeleccionReporte == "FI")
             {
-                dataGridView1.Columns["Cia"].Visible = false;
-                dataGridView1.Columns["Clasificacion"].Width = 200;
-            }
-
-            //DataGridViewCellStyle style = new DataGridViewCellStyle();
-
-            foreach (DataGridViewRow row in dataGridView1.Rows)
-            {
-                int Numero = Convert.ToInt32(row.Cells["POS"].Value.ToString());
-
-                if ((Numero % 2) == 0)
-                {
-                    row.DefaultCellStyle.BackColor = Color.Aquamarine;
-                }
-                else
-                {
-                    row.DefaultCellStyle.BackColor = Color.MediumAquamarine;
-                }
+                gridZH1.dataGridView1.Columns["Cia"].Visible = false;
+                //gridZH1.dataGridView1.Columns["Clasificacion"].Width = 200;
             }
         }
-
         void BuscarOM(string TipoEs)
         {
             try
@@ -587,7 +766,7 @@ namespace ZamenisHealth.Medicina
                 }
                 else
                 {
-                    dataGridView1.DataSource = null;
+                    gridZH1.dataGridView1.DataSource = null;
                     EncabezadosOM();                    
                 }
             }
@@ -596,18 +775,10 @@ namespace ZamenisHealth.Medicina
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }        
-
         private void BuscarH(string Tipo)
         {
             try
-            {
-                Comunes.MensajesGeneral MG = new Comunes.MensajesGeneral();
-
-                if (Tipo == "RADG")
-                {
-                    Tipo = "RA";
-                }
-
+            {                
                 var getHistorias = repoReportes.BuscarHistorias(this.Paciente, Tipo);
                 if (getHistorias != null)
                 {
@@ -661,13 +832,13 @@ namespace ZamenisHealth.Medicina
                         Estilos();                        
                     }
 
-                    dataGridView1.ClearSelection();
+                    gridZH1.dataGridView1.ClearSelection();
                     panel1.Enabled = true;
                 }
                 else
                 {
                     panel1.Enabled = false;
-                    dataGridView1.DataSource = null;
+                    gridZH1.dataGridView1.DataSource = null;
                     Encabezados();
                 }
             }
@@ -675,8 +846,7 @@ namespace ZamenisHealth.Medicina
             {
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
-        }
-        
+        }        
         private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             try
@@ -685,7 +855,7 @@ namespace ZamenisHealth.Medicina
 
                 if (this.SeleccionReporte == "Adjuntos")
                 {
-                    int PosAd = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString());
+                    int PosAd = Convert.ToInt32(gridZH1.dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString());
 
                     //Exportar PDF desde Binario
                     if (e.ColumnIndex == 0 || e.ColumnIndex == 1 || e.ColumnIndex == 2 || e.ColumnIndex == 4 || e.ColumnIndex == 5)
@@ -707,7 +877,7 @@ namespace ZamenisHealth.Medicina
                     if (e.ColumnIndex == 3)
                     {
                         MG.TipoImagen = 0;
-                        MG.Mensaje = dataGridView1.Rows[e.RowIndex].Cells[3].Value.ToString();
+                        MG.Mensaje = gridZH1.dataGridView1.Rows[e.RowIndex].Cells[3].Value.ToString();
                         MG.ShowDialog();
                     }
 
@@ -717,24 +887,24 @@ namespace ZamenisHealth.Medicina
                 if (e.ColumnIndex == 0 || e.ColumnIndex == 1 || e.ColumnIndex == 2 || e.ColumnIndex == 3 ||
                     e.ColumnIndex == 4) 
                 {
-                    int Admition = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString());
+                    int Admition = Convert.ToInt32(gridZH1.dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString());
                     //int _cia = 0;
 
                     switch (SeleccionReporte)
                     {
                         case "MG":
                             Historial_Medico_3 H = new Historial_Medico_3(Admition, 
-                                                                          dataGridView1.Rows[e.RowIndex].Cells[5].Value.ToString(), 
+                                                                          gridZH1.dataGridView1.Rows[e.RowIndex].Cells[5].Value.ToString(), 
                                                                           "MG",
-                                                                           Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[6].Value.ToString()));
+                                                                           Convert.ToInt32(gridZH1.dataGridView1.Rows[e.RowIndex].Cells[6].Value.ToString()));
                             H.ShowDialog();
                             return;
 
                         case "FI":
                             Historial_Medico_3 H2 = new Historial_Medico_3(Admition,
-                                                                          dataGridView1.Rows[e.RowIndex].Cells[5].Value.ToString(),
+                                                                          gridZH1.dataGridView1.Rows[e.RowIndex].Cells[5].Value.ToString(),
                                                                           "FI",
-                                                                           Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[6].Value.ToString()));
+                                                                           Convert.ToInt32(gridZH1.dataGridView1.Rows[e.RowIndex].Cells[6].Value.ToString()));
                             H2.ShowDialog();
                             return;
 
@@ -838,18 +1008,10 @@ namespace ZamenisHealth.Medicina
                                           H_HCRA);
                             return;
 
-                        case "RADOM":
-                            Historial_Medico_3 RADOM = new Historial_Medico_3(Admition,
-                                                                           dataGridView1.Rows[e.RowIndex].Cells[5].Value.ToString(),
-                                                                           "RA",
-                                                                            Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[6].Value.ToString()));
-                            RADOM.ShowDialog();
-                            return;
-
                         case "HEVO":
                             var H_HCEVO = repoReportes.ReporteEvoluciones(this.Paciente,
                                                                                       Admition,
-                                                                                      dataGridView1.Rows[e.RowIndex].Cells[5].Value.ToString());
+                                                                                      gridZH1.dataGridView1.Rows[e.RowIndex].Cells[5].Value.ToString());
                             if (H_HCEVO == null)
                             {
                                 MG.Mensaje = "No se logro exportar, posiblemente halla una falla al exportar o la historia no existe";
@@ -979,168 +1141,9 @@ namespace ZamenisHealth.Medicina
             }
             catch (Exception ex)
             {
-                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
+                Console.WriteLine(ex.ToString());
             }
         }
-
-        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                Verificador_Paciente();
-
-                switch (listBox1.SelectedIndex)
-                {
-                    case 0:
-                        SeleccionReporte = "HisMG";
-                        BuscarH(SeleccionReporte);
-                        panel1.Visible = false;
-                        break;
-
-                    case 1:
-                        SeleccionReporte = "HisMGDiametro";
-                        BuscarH("HisMG");
-                        panel1.Visible = false;
-                        break;
-
-                    case 2:
-                        SeleccionReporte = "HFI";
-                        BuscarH(SeleccionReporte);
-                        panel1.Visible = false;
-                        break;
-
-                    case 3:
-                        SeleccionReporte = "TF";
-                        BuscarH(SeleccionReporte);
-                        panel1.Visible = false;
-                        break;
-
-                    case 4:
-                        SeleccionReporte = "TO";
-                        BuscarH(SeleccionReporte);
-                        panel1.Visible = false;
-                        break;
-
-                    case 5:
-                        SeleccionReporte = "PSI";
-                        BuscarH(SeleccionReporte);
-                        panel1.Visible = false;
-                        break;
-
-                    case 6:
-                        SeleccionReporte = "RA";
-                        BuscarH(SeleccionReporte);
-                        panel1.Visible = false;
-                        break;
-
-                    case 8: //OM Gen
-                        SeleccionReporte = "MG";
-                        BuscarOM("MG");
-                        panel1.Visible = false;
-                        break;
-
-                    case 9: //OM Fisi
-                        SeleccionReporte = "FI";
-                        BuscarOM("FI");
-                        panel1.Visible = false;
-                        break;
-
-                    case 10: //OM RAD
-                        SeleccionReporte = "RADOM";
-                        BuscarOM("RA");
-                        panel1.Visible = false;
-                        break;
-
-                    case 12: //Adjuntos
-                        SeleccionReporte = "Adjuntos";
-                        BuscarAdjuntos();
-                        panel1.Visible = false;
-                        break;
-
-                    case 14:
-                        SeleccionReporte = "Notas";
-                        BuscarH(SeleccionReporte);
-                        panel1.Visible = false;
-                        break;
-
-                    case 15:
-                        SeleccionReporte = "CMan";
-                        BuscarH(SeleccionReporte);
-                        panel1.Visible = false;
-                        break;
-
-                    case 16:
-                        SeleccionReporte = "HEVO";
-                        BuscarH(SeleccionReporte);
-                        panel1.Visible = false;
-                        break;
-
-                    case 17:
-                        SeleccionReporte = "HJ1";
-                        BuscarH(SeleccionReporte);
-                        panel1.Visible = false;
-                        break;
-
-                    case 18:
-                        SeleccionReporte = "HJ2";
-                        BuscarH(SeleccionReporte);
-                        panel1.Visible = false;
-                        break;
-
-                    case 20:
-                        SeleccionReporte = "";
-                        BuscarH("Notas");
-                        panel1.Visible = true;
-                        break;
-
-                    case 21:
-                        SeleccionReporte = "";
-                        BuscarH("HisMG");
-                        panel1.Visible = true;
-                        break;
-
-                    case 22:
-                        SeleccionReporte = "";
-                        BuscarH("HFI");
-                        panel1.Visible = true;
-                        break;
-
-                    case 23:
-                        SeleccionReporte = "";
-                        BuscarH("HEVO");
-                        panel1.Visible = true;
-                        break;
-
-                    case 24:
-                        SeleccionReporte = "";
-                        BuscarH("HEVO");
-                        panel1.Visible = true;
-                        break;
-
-                    case 25:
-                        SeleccionReporte = "";
-                        BuscarH("HEVO");
-                        panel1.Visible = true;
-                        break;
-
-                    case 26:
-                        SeleccionReporte = "";
-                        BuscarH("RADG");
-                        panel1.Visible = true;
-                        break;
-
-                    default:
-                        listBox1.ClearSelected();
-                        panel1.Visible = false;
-                        break;
-                }
-            }
-            catch (Exception ex)
-            {
-                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
-            }
-        }
-
         private async void button1_Click(object sender, EventArgs e)
         {
             try
@@ -1148,38 +1151,33 @@ namespace ZamenisHealth.Medicina
                 Task oTask = null;
                 Shows();
 
-                switch (listBox1.SelectedIndex)
+                switch (TipoNodoGrupal)
                 {
-                    case 20:
+                    case "NOTAS":
                         oTask = new Task(NotasTotal);
                         break;
 
-                    case 21:
+                    case "MEDGEN":
                         oTask = new Task(MedGenTotal);
                         break;
 
-                    case 22:
+                    case "FISIATRIA":
                         oTask = new Task(FiTotal);
                         break;
 
-                    case 23:
+                    case "TF":
                         TipoTerapia = "Terapia Fisica";
                         oTask = new Task(TerapiasTotal);
                         break;
 
-                    case 24:
+                    case "TO":
                         TipoTerapia = "Terapia Ocupacional";
                         oTask = new Task(TerapiasTotal);
                         break;
 
-                    case 25:
+                    case "PSI":
                         TipoTerapia = "Psicologia";
                         oTask = new Task(TerapiasTotal);
-                        break;
-
-                    case 26:
-                        TipoTerapia = "Radiologia";
-                        oTask = new Task(RadiologiaTotal);
                         break;
 
                     default:
@@ -1195,11 +1193,16 @@ namespace ZamenisHealth.Medicina
                 }
                 else
                 {
-                    MensajesGeneral MG = new MensajesGeneral();
-                    MG.TipoImagen = 1000;
-                    MG.Mensaje = "Seleccione una opcion valida";
+                    MG = new MensajesGeneral()
+                    {
+                        TipoImagen = 1000,
+                        Mensaje = "Seleccione una opcion valida"
+                    };
+                    
                     MG.ShowDialog();
                 }
+
+                Hides();
             }
             catch (Exception ex)
             {

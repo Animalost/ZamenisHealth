@@ -113,7 +113,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         bool IPsicologia.saveHistory(CXN_HCPSI H)
         {
             try

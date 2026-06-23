@@ -39,9 +39,11 @@
             this.boton2 = new FormAndControls.Controles.Boton();
             this.label5 = new System.Windows.Forms.Label();
             this.textBox3 = new System.Windows.Forms.TextBox();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.CUP = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SERVICIO = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CANTIDAD = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.BILATERAL = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -56,7 +58,8 @@
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.CUP,
             this.SERVICIO,
-            this.CANTIDAD});
+            this.CANTIDAD,
+            this.BILATERAL});
             this.dataGridView1.GridColor = System.Drawing.Color.Blue;
             this.dataGridView1.Location = new System.Drawing.Point(12, 174);
             this.dataGridView1.MultiSelect = false;
@@ -179,6 +182,17 @@
             this.textBox3.Text = "1";
             this.textBox3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBox1.Location = new System.Drawing.Point(504, 82);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(85, 24);
+            this.checkBox1.TabIndex = 12;
+            this.checkBox1.Text = "Bilateral";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
             // CUP
             // 
             this.CUP.HeaderText = "CUP";
@@ -190,7 +204,7 @@
             this.SERVICIO.HeaderText = "SERVICIO";
             this.SERVICIO.Name = "SERVICIO";
             this.SERVICIO.ReadOnly = true;
-            this.SERVICIO.Width = 500;
+            this.SERVICIO.Width = 440;
             // 
             // CANTIDAD
             // 
@@ -198,11 +212,19 @@
             this.CANTIDAD.Name = "CANTIDAD";
             this.CANTIDAD.ReadOnly = true;
             // 
+            // BILATERAL
+            // 
+            this.BILATERAL.HeaderText = "BILATERAL";
+            this.BILATERAL.Name = "BILATERAL";
+            this.BILATERAL.ReadOnly = true;
+            this.BILATERAL.Width = 70;
+            // 
             // OrdenServicios
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(755, 636);
+            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.textBox3);
             this.Controls.Add(this.boton2);
@@ -236,8 +258,10 @@
         private FormAndControls.Controles.Boton boton2;
         private System.Windows.Forms.Label label5;
         internal System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.DataGridViewTextBoxColumn CUP;
         private System.Windows.Forms.DataGridViewTextBoxColumn SERVICIO;
         private System.Windows.Forms.DataGridViewTextBoxColumn CANTIDAD;
+        private System.Windows.Forms.DataGridViewTextBoxColumn BILATERAL;
     }
 }

@@ -12,7 +12,6 @@ namespace Persistence.CXN.Metodos
     public class MCManenejo : ICManejo
     {
         private static readonly IBodegas repoBod = new MBodegas();
-
         bool ICManejo.insertarCambioManejo(CXN_CMAN C)
         {
             try
@@ -56,7 +55,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
         List<CXN_CMAN> ICManejo.cargarCambiosPendientes()
         {
             try
@@ -106,7 +104,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         bool ICManejo.updateCambioManejo(CXN_CMAN C)
         {
             try
@@ -141,7 +138,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
         int ICManejo.getIdPacByIdCMan(int IdPac)
         {
             try
@@ -174,7 +170,6 @@ namespace Persistence.CXN.Metodos
                 return 0;
             }
         }
-
         List<CXN_CMAN> ICManejo.getManejosxPaciente(int IdPac)
         {
             try
@@ -222,7 +217,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         List<int> ICManejo.getManejosxPaciente(int IdPac, DateTime Desde, DateTime Hasta)
         {
             try
@@ -274,7 +268,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         (int IdHc, string NotaAclaratoria) ICManejo.getLastIdByIdPac(int IdPac)
         {
             try
@@ -308,7 +301,6 @@ namespace Persistence.CXN.Metodos
                 return (0, ex.Message);
             }
         }
-
         bool ICManejo.insertNotaAclaratoria(int IdHC, string texto)
         {
             try
@@ -337,7 +329,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
         bool ICManejo.GrabarManejo(string Tipo,
                                      int Admision,
                                      string NotaNueva,
@@ -412,7 +403,6 @@ namespace Persistence.CXN.Metodos
                 }
             }
         }
-
         string Buscar_Anterior(int Admision,
                                string Tipo)
         {

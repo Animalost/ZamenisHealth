@@ -524,31 +524,6 @@ namespace ZamenisHealth.Medicina
                     this.Close();
                     return;
                 }
-
-                if (Tipo_His_CIE == "HCRADIO1")
-                {
-                    HistoriasClinicas.Historia_Radiologia f1 = Application.OpenForms.OfType<HistoriasClinicas.Historia_Radiologia>().SingleOrDefault();
-                    f1.setDX(Cod, Serv, "1");
-                    this.Dispose();
-                    this.Close();
-                    return;
-                }
-                if (Tipo_His_CIE == "HCRADIO2")
-                {
-                    HistoriasClinicas.Historia_Radiologia f1 = Application.OpenForms.OfType<HistoriasClinicas.Historia_Radiologia>().SingleOrDefault();
-                    f1.setDX(Cod, Serv, "2");
-                    this.Dispose();
-                    this.Close();
-                    return;
-                }
-                if (Tipo_His_CIE == "HCRADIO3")
-                {
-                    HistoriasClinicas.Historia_Radiologia f1 = Application.OpenForms.OfType<HistoriasClinicas.Historia_Radiologia>().SingleOrDefault();
-                    f1.setDX(Cod, Serv, "3");
-                    this.Dispose();
-                    this.Close();
-                    return;
-                }
                 if (Tipo_His_CIE == "HCMGANTPAT")
                 {
                     HistoriasClinicas.Historia_MedicinaGeneral f8 = Application.OpenForms.OfType<HistoriasClinicas.Historia_MedicinaGeneral>().SingleOrDefault();

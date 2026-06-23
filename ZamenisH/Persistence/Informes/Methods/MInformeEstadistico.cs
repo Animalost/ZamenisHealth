@@ -14,7 +14,6 @@ namespace Persistence.Informes.Methods
     {
         private static readonly IPacientes repoPac = new MPacientes();
         private static readonly IMedidasHerida repoMedidas = new MMedidasHerida();
-        private static readonly ICManejo repoCMan = new MCManenejo();
         private static readonly ICIE10 repoCIE10 = new MCIE10();
 
         List<CXN_HORARIO> IInformeEstadistico.getCitasAsistidas(int Pac, string Tipo)
@@ -77,7 +76,6 @@ namespace Persistence.Informes.Methods
                 return null;
             }
         }
-
         string IInformeEstadistico.getClase(int Admision)
         {
             try
@@ -163,62 +161,6 @@ namespace Persistence.Informes.Methods
                 return "ERROR";
             }
         }
-
-        string IInformeEstadistico.getClaseCU(int Admision)
-        {
-            try
-            {
-                Dictionary<string, string> getCon = Conexion.Conection();
-
-                using (SqlConnection con = new SqlConnection(getCon["Conexion"]))
-                {
-                    if (con != null && con.State == ConnectionState.Closed)
-                    {
-                        con.Open();
-                    }
-
-                    String Cargar_Hora = "SELECT Not_EstINGSAL " +
-                                         "FROM CXN_NOTAS " +
-                                         "WHERE Not_Adm = @param1";
-
-                    using (SqlCommand Carga_Command = new SqlCommand(Cargar_Hora, con))
-                    {
-                        Carga_Command.Parameters.AddWithValue("@param1", Admision);
-
-                        using (SqlDataReader Lectura_Hora = (Carga_Command.ExecuteReader()))
-                        {
-                            if (Lectura_Hora.Read() == true)
-                            {
-                                switch (Lectura_Hora["Not_EstINGSAL"].ToString())
-                                {
-                                    case "I":
-                                        return "Ingreso";
-
-                                    case "S":
-                                        return "Salida";
-
-                                    case "N/A":
-                                        return "En Tratamiento";
-
-                                    default:
-                                        return "En Tratamiento";
-                                }
-                            }
-                            else
-                            {
-                                return "En Tratamiento";
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
-                return "ERROR";
-            }
-        }
-
         void IInformeEstadistico.updateTable(string Table, string Tipe, int Adm)
         {
             try
@@ -287,7 +229,6 @@ Marcar en Tratamiento
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         List<ExportInExcel> IInformeEstadistico.RptRecPaciente(DateTime Desde, DateTime Hasta, string tipoReporte)
         {
             try
@@ -504,7 +445,6 @@ Marcar en Tratamiento
                 return null;
             }
         }
-
         CXN_CMAN getManejosxPaciente(int IdPac, DateTime FechaFin)
         {
             try
@@ -548,7 +488,6 @@ Marcar en Tratamiento
                 return null;
             }
         }
-
         List<int> getPacientes(DateTime Desde, DateTime Hasta, string Tipo)
         {
             try
@@ -613,7 +552,6 @@ Marcar en Tratamiento
                 return null;
             }
         }
-
         CXN_HCMG getCitasAsistidasIngreso(int Pac, string Tipo, DateTime Hasta)
         {
             try
@@ -674,7 +612,6 @@ Marcar en Tratamiento
                 return null;
             }
         }
-
         CXN_HCMG getCitasAsistidasIngresoN(int Pac, string Tipo, DateTime Hasta)
         {
             try
@@ -738,8 +675,6 @@ Marcar en Tratamiento
                 return null;
             }
         }
-
-
         CXN_HCMG getCitasAsistidasSalida(int Pac, string Tipo, DateTime Hasta)
         {
             try
@@ -800,7 +735,6 @@ Marcar en Tratamiento
                 return null;
             }
         }
-
         CXN_HCMG getCitasAsistidasSalidaN(int Pac, string Tipo, DateTime Hasta)
         {
             try
@@ -861,6 +795,5 @@ Marcar en Tratamiento
                 return null;
             }
         }
-
     }
 }

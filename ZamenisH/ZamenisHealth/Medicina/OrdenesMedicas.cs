@@ -310,21 +310,10 @@ namespace ZamenisHealth.Medicina
                     OM_TEspecialidad = this._tipo_Especialidad,
                     OM_Clasificacion = comboBox5.Text,
                     OM_FHIR_INC = comboBox6.Visible == true ? comboBox6.Text == "Nueva" ? "01" : "02" : "",
-                    OM_Dias = textBox13.Visible == true ? Convert.ToInt32(textBox13.Text) : 0
+                    OM_Dias = textBox13.Visible == true ? Convert.ToInt32(textBox13.Text) : 0,
+                    OM_Planillar = "N",
+                    OM_Bilateral = ""
                 };
-
-                if (this._tipo_Especialidad == "MG")
-                {
-                    DialogResult result = MessageBox.Show("¿Desea agregar esta orden medica a la planilla de autorizaciones?",
-                                                          "Zamenis Health - Planillas",
-                                                          MessageBoxButtons.YesNo,
-                                                          MessageBoxIcon.Question);
-
-                    if (result == DialogResult.Yes)
-                    {
-                        OM.OM_Planillar = "S";
-                    }
-                }
 
                 bool grabarOrden = repositorioOrdenes.CrearOrden(OM);
                 if (grabarOrden != true)

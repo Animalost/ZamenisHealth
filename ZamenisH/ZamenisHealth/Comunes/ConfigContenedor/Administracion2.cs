@@ -43,12 +43,6 @@ namespace ZamenisHealth.Comunes.ConfigContenedor
             facturar4Detail.ShowDialog();
         }
 
-        private void pictureBox60_Click(object sender, EventArgs e)
-        {
-            AdminSystem.GestionP gestionP = new AdminSystem.GestionP();
-            gestionP.ShowDialog();
-        }
-
         private void pictureBox1_Click(object sender, EventArgs e)
         {
             Facturacion.FacturaAbierta0 facturaAbierta = new FacturaAbierta0();
@@ -67,7 +61,6 @@ namespace ZamenisHealth.Comunes.ConfigContenedor
                     pictureBox2.Enabled = false;
                     pictureBox56.Enabled = false;
                     pictureBox58.Enabled = false;
-                    pictureBox59.Enabled = false;
                     pictureBox60.Enabled = false;
                     pictureBox3.Enabled = false;
 
@@ -76,7 +69,6 @@ namespace ZamenisHealth.Comunes.ConfigContenedor
                     label2.Enabled = false;
                     label63.Enabled = false;
                     label60.Enabled = false;
-                    label5.Enabled = false;
                     label10.Enabled = false;
                     label3.Enabled = false;
                 }
@@ -86,8 +78,7 @@ namespace ZamenisHealth.Comunes.ConfigContenedor
                     pictureBox1.Enabled = (R.AdminFacturaAbierta == "A" ? true : false);
                     pictureBox2.Enabled = (R.AdminElectronica == "A" ? true : false);
                     pictureBox56.Enabled = (R.AdminReportes == "A" ? true : false);
-                    pictureBox58.Enabled = (R.AdminHomologos == "A" ? true : false);
-                    pictureBox59.Enabled = (R.AdminGPacientes == "A" ? true : false);
+                    pictureBox58.Enabled = (R.AdminHomologos == "A" ? true : false);                
                     pictureBox60.Enabled = (R.AdminGrupal == "A" ? true : false);
                     pictureBox3.Enabled = (R.AdminReportesPagos == "A" ? true : false);
 
@@ -96,7 +87,6 @@ namespace ZamenisHealth.Comunes.ConfigContenedor
                     label2.Enabled = (R.AdminElectronica == "A" ? true : false);
                     label63.Enabled = (R.AdminReportes == "A" ? true : false);
                     label60.Enabled = (R.AdminHomologos == "A" ? true : false);
-                    label5.Enabled = (R.AdminGPacientes == "A" ? true : false);
                     label10.Enabled = (R.AdminGrupal == "A" ? true : false);
                     label3.Enabled = (R.AdminReportesPagos == "A" ? true : false);
                 }

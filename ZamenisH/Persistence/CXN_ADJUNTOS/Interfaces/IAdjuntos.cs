@@ -9,6 +9,5 @@ namespace Persistence.CXN_ADJUNTOS.Interfaces
         int uploadFile(Adj_Archivos A);
         List<CXN_HORARIO> getAdjuntos(int Paciente);
         byte[] getPDF(int Posision);
-        byte[] showImage(int Posision); 
     }
 }

@@ -509,7 +509,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
         CXN_HCTO ITerapiaOcupacional.getLastHistoy(int Paciente)
         {
             try
@@ -632,6 +631,5 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
     }
 }

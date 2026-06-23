@@ -32,6 +32,7 @@ namespace ZamenisHealth.Medicina.OrdenesExtra
         private ICIE10 cie10Controller;
         private IConfSystem confController;
         private CreateToken tokenController;
+        private IFisiatria repoFisiatria;
 
         private CXN_PACIENTES DatosPaciente = new CXN_PACIENTES();
         private otrosDatosPacienteHorario DatosCita = new otrosDatosPacienteHorario();
@@ -63,6 +64,7 @@ namespace ZamenisHealth.Medicina.OrdenesExtra
             cie10Controller = new MCIE10();
             confController = new MConfSystem();
             tokenController = new EndPoint_Token();
+            repoFisiatria = new MFisiatria();
 
             SoloNumeros(textBox2);
             SoloNumeros(textBox13);
@@ -251,6 +253,7 @@ namespace ZamenisHealth.Medicina.OrdenesExtra
                     string DX2 = "";
                     string DX3 = "";
                     List<HCMG> getLastHistory = new List<HCMG>();
+                    List<ReportHCFI> getLastHistoryFI = new List<ReportHCFI>();
 
                     if (TServicio == "MG")
                     {
@@ -258,7 +261,14 @@ namespace ZamenisHealth.Medicina.OrdenesExtra
                         DX1 = getLastHistory[0].DX1Code;
                         DX2 = getLastHistory[0].DX2Code;
                         DX3 = getLastHistory[0].DX3Code;
-                    }            
+                    }
+                    if (TServicio == "FI")
+                    {
+                        getLastHistoryFI = reportesController.ReporteFisiatria(Admision);
+                        DX1 = getLastHistoryFI[0].DX1Code;
+                        DX2 = getLastHistoryFI[0].DX2Code;
+                        DX3 = getLastHistoryFI[0].DX3Code;
+                    }
 
                     // 2. GRABAR CARGO
                     CXN_CARGOS C = new CXN_CARGOS
@@ -302,8 +312,12 @@ namespace ZamenisHealth.Medicina.OrdenesExtra
                     }
                     else
                     {
+                        string edades = "";
+
                         if (TServicio == "MG")
                         {
+                            edades = getLastHistory[0].Edad;
+
                             CXN_HCMG His = new CXN_HCMG
                             {
                                 HC_Pac = getLastHistory[0].PacienteNombre,
@@ -311,7 +325,7 @@ namespace ZamenisHealth.Medicina.OrdenesExtra
                                 HC_Ase = C.Car_Ase,
                                 HC_Com = C.Car_Cia,
                                 HC_Pacid = Paciente,
-                                HC_Edad = getLastHistory[0].Edad,
+                                HC_Edad = edades,
                                 HC_FechaNto = Convert.ToDateTime(DatosPaciente.Pac_FechaNto.Date),
 
                                 HC_MotivoC = getLastHistory[0].HC_MotivoC,
@@ -390,13 +404,97 @@ namespace ZamenisHealth.Medicina.OrdenesExtra
                         }     
                         else if (TServicio == "FI")
                         {
-                            
+                            edades = getLastHistoryFI[0].Edad;
+
+                            CXN_HCFI HFI = new CXN_HCFI
+                            {
+                                HC_Pac = getLastHistoryFI[0].PacienteNombre,
+                                HC_Pacid = Paciente,
+                                HC_Fecha = DateTime.Now.Date,
+                                HC_Prof = C.Car_Prof,
+                                HC_Cia = C.Car_Cia,
+                                HC_Ase = C.Car_Ase,
+                                HC_FechaNto = Convert.ToDateTime(getLastHistoryFI[0].FNto),
+                                HC_Edad = edades,
+                                HC_Cant = 1,
+                                HC_MotCons = getLastHistoryFI[0].HC_MotivoC,
+                                HC_EnfAct = getLastHistoryFI[0].HC_EnfA,
+                                HC_Neurologico = getLastHistoryFI[0].HC_Neurologico,
+                                HC_Mental = getLastHistoryFI[0].HC_Mental,
+                                HC_OrgSent = getLastHistoryFI[0].HC_OrgSent,
+                                HC_Respiratorio = getLastHistoryFI[0].HC_Respiratorio,
+                                HC_Cardiovascular = getLastHistoryFI[0].HC_Cardiovascular,
+                                HC_GastroI = getLastHistoryFI[0].HC_Gastrointestinal,
+                                HC_GenitoU = getLastHistoryFI[0].HC_Gastrourinario,
+                                HC_OsteoM = getLastHistoryFI[0].HC_Osteomuscular,
+                                HC_PielFan = getLastHistoryFI[0].HC_Piel,
+                                HC_Hematolin = getLastHistoryFI[0].HC_Hematolin,
+                                HC_Ant = getLastHistoryFI[0].HC_Ant,
+                                HC_Presart = getLastHistoryFI[0].HC_Presart,
+                                HC_Peso = getLastHistoryFI[0].HC_Peso,
+                                HC_Frecar = getLastHistoryFI[0].HC_FreCar,
+                                HC_Talla = getLastHistoryFI[0].HC_Talla,
+                                HC_FrecResp = getLastHistoryFI[0].HC_FreRes,
+                                HC_IMC = getLastHistoryFI[0].HC_IMC,
+                                //HC_Temp = textBox33.Text,
+                                //HC_PerimetroC = textBox30.Text,
+                                HC_EstCons = getLastHistoryFI[0].HC_Estado,
+                                //HC_PerimetroA = textBox28.Text,
+                                HC_Glasshow = getLastHistoryFI[0].HC_Glasshow,
+                                //HC_Embriaguez = textBox26.Text,
+                                HC_ObservaFis = getLastHistoryFI[0].HC_ObservaFis,
+                                HC_ObservaNeu = getLastHistoryFI[0].HC_ObservaNeu,
+                                HC_Cabeza = getLastHistoryFI[0].HC_Cabeza,
+                                HC_Orl = getLastHistoryFI[0].HC_Orl,
+                                //HC_Genitales = textBox43.Text,
+                                HC_Abdomen = getLastHistoryFI[0].HC_Abdomen,
+                                //HC_Ombligo = textBox41.Text,
+                                //HC_Ano = textBox42.Text,
+                                HC_Torax = getLastHistoryFI[0].HC_Torax,
+                                HC_Extremidades = getLastHistoryFI[0].HC_Extremidades,
+                                HC_Cuello = getLastHistoryFI[0].HC_Cuello,
+                                HC_Pulmonar = getLastHistoryFI[0].HC_Pulmonar,
+                                HC_DX1 = getLastHistoryFI[0].DX1Code,
+                                HC_DX2 = getLastHistoryFI[0].DX2Code,
+                                HC_DX3 = getLastHistoryFI[0].DX3Code,
+                                HC_Analisis = getLastHistoryFI[0].HC_Analisis,
+                                HC_Egreso = getLastHistoryFI[0].HC_Egreso,
+                                HC_PManejo = getLastHistoryFI[0].HC_PManejo,
+                                HC_RH = getLastHistoryFI[0].HC_RH,
+                                HC_EAV = getLastHistoryFI[0].HC_EAV,
+                                HC_Acudiente = getLastHistoryFI[0].Pac_Acudiente + "",
+                                HC_NotaDX1 = "",
+                                HC_NotaDX2 = "",
+                                HC_NotaDX3 = "",
+                                HC_ImpDX1 = "CONFIRMADO NUEVO",
+                                HC_ImpDX2 = "",
+                                HC_ImpDX3 = "",
+                                HC_OsteoMUS = getLastHistoryFI[0].HC_Osteomuscular,
+                                HC_Causa_Externa = "38",
+                                HC_Piel2 = getLastHistoryFI[0].HC_PielCirc + "",
+                                HC_Epidemia = getLastHistoryFI[0].Epidemia,
+                                HC_Adm = C.Car_Adm_Id,
+                               
+
+                            };
+
+                            bool createHistoria = repoFisiatria.GrabaHCFI(HFI);
+                            if (createHistoria == false)
+                            {
+                                MG = new MensajesGeneral()
+                                {
+                                    Mensaje = "Se genero la cita nueva y el cargo pero no se logro generar la nueva historia",
+                                    TipoImagen = 1000
+                                };
+                                MG.ShowDialog();
+                                return;
+                            }
                         }
 
                         // 3. Generar Ordenes
-                        GenerarOrdenMedicamentos(C.Car_Adm_Id, DX1, DX2, DX3, getLastHistory[0].Edad);
-                        GenerarOrdenIncapacidad(C.Car_Adm_Id, DX1, DX2, DX3, getLastHistory[0].Edad);
-                        GenerarOrdenServicios(C.Car_Adm_Id, DX1, DX2, DX3, getLastHistory[0].Edad);
+                        GenerarOrdenMedicamentos(C.Car_Adm_Id, DX1, DX2, DX3, edades);
+                        GenerarOrdenIncapacidad(C.Car_Adm_Id, DX1, DX2, DX3, edades);
+                        GenerarOrdenServicios(C.Car_Adm_Id, DX1, DX2, DX3, edades);
 
                         // 4. Generar RDA Paciente
                         await RadicarRDA(C.Car_Adm_Id);
@@ -415,7 +513,7 @@ namespace ZamenisHealth.Medicina.OrdenesExtra
                 if (!string.IsNullOrEmpty(textBox8.Text) && !string.IsNullOrEmpty(textBox7.Text) &&
                     !string.IsNullOrEmpty(textBox6.Text) && textBox6.Text != "0")
                 {
-                    dataGridView2.Rows.Add(textBox8.Text, textBox7.Text, textBox6.Text);
+                    dataGridView2.Rows.Add(textBox8.Text, textBox7.Text, textBox6.Text, checkBox1.Checked == true ? "S" : "N");
                     textBox8.Text = "";
                     textBox7.Text = "";
                     textBox6.Text = "1";
@@ -532,6 +630,7 @@ namespace ZamenisHealth.Medicina.OrdenesExtra
                             string cup = fila.Cells["CUP"].Value?.ToString();
                             string servicio = fila.Cells["SERVICIO"].Value?.ToString();
                             string canti = fila.Cells["CANT"].Value?.ToString();
+                            string bilateral = fila.Cells["BILATERAL"].Value?.ToString();
 
                             if (TServicio == "MG")
                             {
@@ -567,7 +666,8 @@ namespace ZamenisHealth.Medicina.OrdenesExtra
                                 OM_Clasificacion = "ORDEN DE SERVICIOS",
                                 OM_FHIR_INC = "",
                                 OM_Dias = 0,
-                                OM_Planillar = Planillar
+                                OM_Planillar = Planillar,
+                                OM_Bilateral = bilateral
                             };
 
                             ordenes.CrearOrden(OM);
@@ -655,7 +755,7 @@ namespace ZamenisHealth.Medicina.OrdenesExtra
                         OM_FHIR_INC = comboBox6.Text == "Nueva" ? "01" : "02",
                         OM_Dias = Convert.ToInt32(textBox4.Text),
                         OM_Planillar = "N",
-                        
+                        OM_Bilateral = ""
                     };
 
                     bool grabarOrden = ordenes.CrearOrden(OM);
@@ -761,7 +861,8 @@ namespace ZamenisHealth.Medicina.OrdenesExtra
                                 OM_Num = NumOrden.Com_OM,
                                 OM_TEspecialidad = Especialidad,
                                 OM_Clasificacion = "ORDEN DE MEDICAMENTOS",
-                                OM_Tipo = "M"
+                                OM_Tipo = "M",
+                                OM_Bilateral = ""
                             };
 
                             ordenes.CrearOrdenM(OM);

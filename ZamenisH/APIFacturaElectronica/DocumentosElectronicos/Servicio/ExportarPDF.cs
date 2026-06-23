@@ -1188,13 +1188,13 @@ namespace DocumentosElectronicos.Servicio
                                           "P.Pac_Telefono, P.Pac_TelefonoAux, P.Pac_Direccion, A.Ase_Descripcion, C.Com_Nombre, C.Com_Identificacion, " +
                                           "C.Com_Direccion, C.Com_Telefono, C.Com_Resolucion_Electron, C.Com_Prefijo_Electron, C.Com_Doc_Electron, R.Rc_Caja_UsrGraba, " +
                                           "R.Rc_Caja_Fecha, R.Rc_Caja_Observacion, R.Rc_Caja_Valor, R.Hor_DocFEModerador, P.Pac_Email, " +
-                                          "R.Hor_DocFEModeradorCUFE, R.Hor_DocFEModeradorRes, A.Ase_Identificador, R.Hor_DocFEModeradorFechaHora, F.Cufe, F.FechaNC, F.NumeroNC " +
+                                          "R.Hor_DocFEModeradorCUFE, R.Hor_DocFEModeradorRes, A.Ase_Identificador, R.Hor_DocFEModeradorFechaHora, F.Cufe, F.FechaNC, F.NumeroNC, R.Rc_Caja_Adm " +
                                           "FROM CXN_RC_CAJA R " +
                                           "INNER JOIN CXN_PACIENTES P ON R.Rc_Caja_Pac = P.Pac_Id " +
                                           "INNER JOIN CXN_FACTURANC F ON R.Rc_Caja_Adm = F.OrdenPedido " +
                                           "INNER JOIN CXN_ASEGURADORA A ON R.Rc_Caja_Ase = A.Ase_Identificador " +
                                           "INNER JOIN CXN_CIA C ON R.Rc_Caja_Cia = C.Com_Identificador " +                                          
-                                          "WHERE R.Rc_Id = @param1";
+                                          "WHERE R.Rc_Caja_Adm = @param1";
 
                     using (SqlCommand Carga_Command = new SqlCommand(Cargar_Hora, con))
                     {

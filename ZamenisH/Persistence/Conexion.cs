@@ -16,7 +16,7 @@ namespace Persistence
         public static string SMSAgenda { get; set; }
         public static string EmailAgenda { get; set; }
         public static Dictionary<string, string> ConectionDictionary = new Dictionary<string, string>();
-        public static string VersionApp = "5.0.3 R2";
+        public static string VersionApp = "5.1.0 R1";
 
         public static Dictionary<string, string> Conection()
         {

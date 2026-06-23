@@ -29,11 +29,9 @@
         private void InitializeComponent()
         {
             this.pictureBox60 = new System.Windows.Forms.PictureBox();
-            this.pictureBox59 = new System.Windows.Forms.PictureBox();
             this.pictureBox58 = new System.Windows.Forms.PictureBox();
             this.pictureBox56 = new System.Windows.Forms.PictureBox();
             this.pictureBox55 = new System.Windows.Forms.PictureBox();
-            this.label5 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.label60 = new System.Windows.Forms.Label();
             this.label63 = new System.Windows.Forms.Label();
@@ -43,11 +41,10 @@
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.label2 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            this.label4 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox60)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox59)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox58)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox56)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox55)).BeginInit();
@@ -63,29 +60,14 @@
             this.pictureBox60.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox60.Cursor = System.Windows.Forms.Cursors.Hand;
             this.pictureBox60.Image = global::ZamenisHealth.Properties.Resources2.paciente;
-            this.pictureBox60.Location = new System.Drawing.Point(515, 71);
+            this.pictureBox60.Location = new System.Drawing.Point(511, 25);
             this.pictureBox60.Name = "pictureBox60";
             this.pictureBox60.Padding = new System.Windows.Forms.Padding(5);
             this.pictureBox60.Size = new System.Drawing.Size(25, 25);
             this.pictureBox60.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox60.TabIndex = 52;
             this.pictureBox60.TabStop = false;
-            this.pictureBox60.Click += new System.EventHandler(this.pictureBox60_Click);
-            // 
-            // pictureBox59
-            // 
-            this.pictureBox59.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.pictureBox59.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox59.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pictureBox59.Image = global::ZamenisHealth.Properties.Resources2.visitantes;
-            this.pictureBox59.Location = new System.Drawing.Point(515, 25);
-            this.pictureBox59.Name = "pictureBox59";
-            this.pictureBox59.Padding = new System.Windows.Forms.Padding(5);
-            this.pictureBox59.Size = new System.Drawing.Size(25, 25);
-            this.pictureBox59.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox59.TabIndex = 51;
-            this.pictureBox59.TabStop = false;
-            this.pictureBox59.Click += new System.EventHandler(this.pictureBox59_Click);
+            this.pictureBox60.Click += new System.EventHandler(this.pictureBox59_Click);
             // 
             // pictureBox58
             // 
@@ -132,21 +114,6 @@
             this.pictureBox55.TabStop = false;
             this.pictureBox55.Click += new System.EventHandler(this.pictureBox55_Click);
             // 
-            // label5
-            // 
-            this.label5.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.label5.BackColor = System.Drawing.Color.Transparent;
-            this.label5.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.label5.Location = new System.Drawing.Point(546, 25);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(169, 25);
-            this.label5.TabIndex = 46;
-            this.label5.Text = "Gestion Pacientes";
-            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.label5.Click += new System.EventHandler(this.pictureBox60_Click);
-            // 
             // label10
             // 
             this.label10.Anchor = System.Windows.Forms.AnchorStyles.Top;
@@ -154,7 +121,7 @@
             this.label10.Cursor = System.Windows.Forms.Cursors.Hand;
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.label10.Location = new System.Drawing.Point(546, 71);
+            this.label10.Location = new System.Drawing.Point(542, 25);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(169, 25);
             this.label10.TabIndex = 45;
@@ -281,26 +248,13 @@
             this.panel1.Controls.Add(this.pictureBox1);
             this.panel1.Controls.Add(this.label10);
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Controls.Add(this.label5);
             this.panel1.Controls.Add(this.pictureBox60);
             this.panel1.Controls.Add(this.pictureBox56);
-            this.panel1.Controls.Add(this.pictureBox59);
             this.panel1.Controls.Add(this.pictureBox58);
             this.panel1.Location = new System.Drawing.Point(44, 77);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(744, 204);
             this.panel1.TabIndex = 57;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.label4.Location = new System.Drawing.Point(17, 32);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(206, 31);
-            this.label4.TabIndex = 83;
-            this.label4.Text = "Administración";
             // 
             // label3
             // 
@@ -331,6 +285,17 @@
             this.pictureBox3.TabIndex = 58;
             this.pictureBox3.TabStop = false;
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.label4.Location = new System.Drawing.Point(17, 32);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(206, 31);
+            this.label4.TabIndex = 83;
+            this.label4.Text = "Administración";
+            // 
             // Administracion2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -349,7 +314,6 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Load += new System.EventHandler(this.Administracion2_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox60)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox59)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox58)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox56)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox55)).EndInit();
@@ -365,11 +329,9 @@
         #endregion
 
         private System.Windows.Forms.PictureBox pictureBox60;
-        private System.Windows.Forms.PictureBox pictureBox59;
         private System.Windows.Forms.PictureBox pictureBox58;
         private System.Windows.Forms.PictureBox pictureBox56;
         private System.Windows.Forms.PictureBox pictureBox55;
-        private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label60;
         private System.Windows.Forms.Label label63;

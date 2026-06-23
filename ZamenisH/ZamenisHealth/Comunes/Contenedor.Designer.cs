@@ -69,15 +69,11 @@ namespace ZamenisHealth.Comunes
             this.linkLabel6 = new System.Windows.Forms.LinkLabel();
             this.linkLabel7 = new System.Windows.Forms.LinkLabel();
             this.linkLabel8 = new System.Windows.Forms.LinkLabel();
-            this.linkLabel9 = new System.Windows.Forms.LinkLabel();
-            this.linkLabel10 = new System.Windows.Forms.LinkLabel();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.linkLabel11 = new System.Windows.Forms.LinkLabel();
             this.linkLabel12 = new System.Windows.Forms.LinkLabel();
             this.button1 = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
-            this.linkLabel13 = new System.Windows.Forms.LinkLabel();
-            this.linkLabel14 = new System.Windows.Forms.LinkLabel();
             this.linkLabel15 = new System.Windows.Forms.LinkLabel();
             this.label3 = new System.Windows.Forms.Label();
             this.linkLabel16 = new System.Windows.Forms.LinkLabel();
@@ -604,34 +600,6 @@ namespace ZamenisHealth.Comunes
             this.linkLabel8.Text = "Novedades Zamenis";
             this.linkLabel8.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel8_LinkClicked);
             // 
-            // linkLabel9
-            // 
-            this.linkLabel9.AutoSize = true;
-            this.linkLabel9.BackColor = System.Drawing.Color.Transparent;
-            this.linkLabel9.LinkColor = System.Drawing.Color.Black;
-            this.linkLabel9.Location = new System.Drawing.Point(298, 243);
-            this.linkLabel9.Name = "linkLabel9";
-            this.linkLabel9.Size = new System.Drawing.Size(105, 13);
-            this.linkLabel9.TabIndex = 283;
-            this.linkLabel9.TabStop = true;
-            this.linkLabel9.Text = "<--- SMS Disponibles";
-            this.linkLabel9.Visible = false;
-            // 
-            // linkLabel10
-            // 
-            this.linkLabel10.AutoSize = true;
-            this.linkLabel10.BackColor = System.Drawing.Color.Transparent;
-            this.linkLabel10.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.linkLabel10.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.linkLabel10.Location = new System.Drawing.Point(185, 243);
-            this.linkLabel10.Name = "linkLabel10";
-            this.linkLabel10.Size = new System.Drawing.Size(106, 13);
-            this.linkLabel10.TabIndex = 284;
-            this.linkLabel10.TabStop = true;
-            this.linkLabel10.Text = "Ver SMS Disponibles";
-            this.linkLabel10.Visible = false;
-            this.linkLabel10.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel10_LinkClicked);
-            // 
             // toolStrip2
             // 
             this.toolStrip2.AutoSize = false;
@@ -651,7 +619,7 @@ namespace ZamenisHealth.Comunes
             this.linkLabel11.AutoSize = true;
             this.linkLabel11.BackColor = System.Drawing.Color.Transparent;
             this.linkLabel11.LinkColor = System.Drawing.Color.Black;
-            this.linkLabel11.Location = new System.Drawing.Point(298, 272);
+            this.linkLabel11.Location = new System.Drawing.Point(298, 241);
             this.linkLabel11.Name = "linkLabel11";
             this.linkLabel11.Size = new System.Drawing.Size(128, 13);
             this.linkLabel11.TabIndex = 285;
@@ -665,7 +633,7 @@ namespace ZamenisHealth.Comunes
             this.linkLabel12.BackColor = System.Drawing.Color.Transparent;
             this.linkLabel12.Cursor = System.Windows.Forms.Cursors.Hand;
             this.linkLabel12.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.linkLabel12.Location = new System.Drawing.Point(185, 272);
+            this.linkLabel12.Location = new System.Drawing.Point(185, 241);
             this.linkLabel12.Name = "linkLabel12";
             this.linkLabel12.Size = new System.Drawing.Size(72, 13);
             this.linkLabel12.TabIndex = 286;
@@ -702,41 +670,13 @@ namespace ZamenisHealth.Comunes
             this.label4.TabIndex = 72;
             this.label4.Text = "En Produccion Local";
             // 
-            // linkLabel13
-            // 
-            this.linkLabel13.AutoSize = true;
-            this.linkLabel13.BackColor = System.Drawing.Color.Transparent;
-            this.linkLabel13.LinkColor = System.Drawing.Color.Black;
-            this.linkLabel13.Location = new System.Drawing.Point(298, 303);
-            this.linkLabel13.Name = "linkLabel13";
-            this.linkLabel13.Size = new System.Drawing.Size(200, 13);
-            this.linkLabel13.TabIndex = 291;
-            this.linkLabel13.TabStop = true;
-            this.linkLabel13.Text = "<--- Cambie sus datos de Zamenis Health";
-            this.linkLabel13.Visible = false;
-            // 
-            // linkLabel14
-            // 
-            this.linkLabel14.AutoSize = true;
-            this.linkLabel14.BackColor = System.Drawing.Color.Transparent;
-            this.linkLabel14.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.linkLabel14.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.linkLabel14.Location = new System.Drawing.Point(185, 303);
-            this.linkLabel14.Name = "linkLabel14";
-            this.linkLabel14.Size = new System.Drawing.Size(102, 13);
-            this.linkLabel14.TabIndex = 292;
-            this.linkLabel14.TabStop = true;
-            this.linkLabel14.Text = "Actualizar mis Datos";
-            this.linkLabel14.Visible = false;
-            this.linkLabel14.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel14_LinkClicked);
-            // 
             // linkLabel15
             // 
             this.linkLabel15.AutoSize = true;
             this.linkLabel15.BackColor = System.Drawing.Color.Transparent;
             this.linkLabel15.Cursor = System.Windows.Forms.Cursors.Hand;
             this.linkLabel15.LinkColor = System.Drawing.Color.Red;
-            this.linkLabel15.Location = new System.Drawing.Point(185, 402);
+            this.linkLabel15.Location = new System.Drawing.Point(185, 333);
             this.linkLabel15.Name = "linkLabel15";
             this.linkLabel15.Size = new System.Drawing.Size(161, 13);
             this.linkLabel15.TabIndex = 293;
@@ -763,7 +703,7 @@ namespace ZamenisHealth.Comunes
             this.linkLabel16.BackColor = System.Drawing.Color.Transparent;
             this.linkLabel16.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.linkLabel16.LinkColor = System.Drawing.Color.Black;
-            this.linkLabel16.Location = new System.Drawing.Point(298, 334);
+            this.linkLabel16.Location = new System.Drawing.Point(298, 270);
             this.linkLabel16.Name = "linkLabel16";
             this.linkLabel16.Size = new System.Drawing.Size(499, 13);
             this.linkLabel16.TabIndex = 295;
@@ -778,7 +718,7 @@ namespace ZamenisHealth.Comunes
             this.linkLabel17.Cursor = System.Windows.Forms.Cursors.Hand;
             this.linkLabel17.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.linkLabel17.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.linkLabel17.Location = new System.Drawing.Point(185, 334);
+            this.linkLabel17.Location = new System.Drawing.Point(185, 270);
             this.linkLabel17.Name = "linkLabel17";
             this.linkLabel17.Size = new System.Drawing.Size(65, 13);
             this.linkLabel17.TabIndex = 296;
@@ -858,7 +798,7 @@ namespace ZamenisHealth.Comunes
             this.linkLabel18.BackColor = System.Drawing.Color.Transparent;
             this.linkLabel18.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.linkLabel18.LinkColor = System.Drawing.Color.Black;
-            this.linkLabel18.Location = new System.Drawing.Point(298, 368);
+            this.linkLabel18.Location = new System.Drawing.Point(298, 299);
             this.linkLabel18.Name = "linkLabel18";
             this.linkLabel18.Size = new System.Drawing.Size(213, 13);
             this.linkLabel18.TabIndex = 302;
@@ -872,7 +812,7 @@ namespace ZamenisHealth.Comunes
             this.linkLabel19.Cursor = System.Windows.Forms.Cursors.Hand;
             this.linkLabel19.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.linkLabel19.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.linkLabel19.Location = new System.Drawing.Point(185, 368);
+            this.linkLabel19.Location = new System.Drawing.Point(185, 299);
             this.linkLabel19.Name = "linkLabel19";
             this.linkLabel19.Size = new System.Drawing.Size(19, 13);
             this.linkLabel19.TabIndex = 303;
@@ -910,10 +850,8 @@ namespace ZamenisHealth.Comunes
             this.Controls.Add(this.linkLabel12);
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.linkLabel2);
-            this.Controls.Add(this.linkLabel9);
             this.Controls.Add(this.label78);
             this.Controls.Add(this.pictureBox4);
-            this.Controls.Add(this.linkLabel10);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.linkLabel7);
             this.Controls.Add(this.toolStrip2);
@@ -924,8 +862,6 @@ namespace ZamenisHealth.Comunes
             this.Controls.Add(this.linkLabel5);
             this.Controls.Add(this.linkLabel3);
             this.Controls.Add(this.linkLabel4);
-            this.Controls.Add(this.linkLabel13);
-            this.Controls.Add(this.linkLabel14);
             this.Controls.Add(this.linkLabel15);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
@@ -978,8 +914,6 @@ namespace ZamenisHealth.Comunes
         public System.Windows.Forms.LinkLabel linkLabel6;
         public System.Windows.Forms.LinkLabel linkLabel7;
         public System.Windows.Forms.LinkLabel linkLabel8;
-        public System.Windows.Forms.LinkLabel linkLabel9;
-        public System.Windows.Forms.LinkLabel linkLabel10;
         public System.Windows.Forms.ToolStripButton Vacio;
         public System.Windows.Forms.Panel panel1;
         public System.Windows.Forms.Timer CerrarPanel;
@@ -989,8 +923,6 @@ namespace ZamenisHealth.Comunes
         public System.Windows.Forms.LinkLabel linkLabel11;
         public System.Windows.Forms.LinkLabel linkLabel12;
         private System.Windows.Forms.Label label4;
-        public System.Windows.Forms.LinkLabel linkLabel13;
-        public System.Windows.Forms.LinkLabel linkLabel14;
         public System.Windows.Forms.LinkLabel linkLabel15;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.Label label3;

@@ -41,7 +41,6 @@ namespace Persistence.Fibromialgia.Metodos
             }
             return res;
         }
-
         double Consulta2(double Valor)
         {
             double res = 0;
@@ -60,7 +59,6 @@ namespace Persistence.Fibromialgia.Metodos
             }
             return res;
         }
-
         double Consulta3(double Valor)
         {
             double res = 0;
@@ -76,7 +74,6 @@ namespace Persistence.Fibromialgia.Metodos
             }
             return res;
         }
-
         double Consulta4(double Valor)
         {
             double res = 0;
@@ -104,7 +101,6 @@ namespace Persistence.Fibromialgia.Metodos
             }
             return res;
         }
-
         double Consulta5(double Valor)
         {
             double res = 0;
@@ -132,7 +128,6 @@ namespace Persistence.Fibromialgia.Metodos
             }
             return res;
         }
-
         double Consulta6(double Valor)
         {
             double res = 0;
@@ -157,12 +152,10 @@ namespace Persistence.Fibromialgia.Metodos
             }
             return res;
         }
-
         double ConsultaDias(double Valor)
         {
             return 7 - Valor;
         }
-
         (int Res1D19, int Res2D19, int Res1FST3, int Res2FST3) getTotalWPIbyPac(DateTime desde,
                                                        DateTime hasta,
                                                        int Paciente)
@@ -219,7 +212,6 @@ namespace Persistence.Fibromialgia.Metodos
                 return (0, 0, 0, 0);
             }
         }
-
         List<E1RespuestasPorcentual> getResultPacE1Porcentual(DateTime desde,
                                                  DateTime hasta,
                                                  int Paciente)
@@ -534,7 +526,6 @@ namespace Persistence.Fibromialgia.Metodos
                 return null;
             }
         }
-
         List<int> getIdPacientePorcentual(DateTime Desde, DateTime Hasta, string Tabla)
         {
             try
@@ -590,7 +581,6 @@ namespace Persistence.Fibromialgia.Metodos
                 return null;
             }
         }
-
         List<E1RespuestasPorcentual> IConsolidadoGeneral.generateReportRDLC(DateTime Desde, DateTime Hasta)
         {
             try

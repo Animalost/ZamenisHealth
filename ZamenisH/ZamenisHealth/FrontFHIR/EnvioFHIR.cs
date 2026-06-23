@@ -50,14 +50,14 @@ namespace ZamenisHealth.FrontFHIR
         ToolStripButton btnConsultar;
         ToolStripButton btnMarcarTodo;
         ToolStripButton btnDesMarcarTodo;
-       // ToolStripButton btnRDAPaciente;
-        //ToolStripButton btnRDACExterna;
+        ToolStripButton btnRDAPaciente;
+        ToolStripButton btnRDACExterna;
        // ToolStripButton btnRDACuraciones;
        // ToolStripButton btnRDANotaAclaratoriaMG;
         ToolStripButton btnLog;
 
-        ToolStripButton btnSendRDAPaciente;
-        ToolStripButton btnSendRDAAmbulatorio;
+        //ToolStripButton btnSendRDAPaciente;
+        //ToolStripButton btnSendRDAAmbulatorio;
 
         public EnvioFHIR()
         {
@@ -91,13 +91,13 @@ namespace ZamenisHealth.FrontFHIR
             MenuLateral.Items.Add(btnDesMarcarTodo);
             btnDesMarcarTodo.Click += toolStripButton4_Click;
 
-           /* btnRDAPaciente = new ToolStripButton();
+            btnRDAPaciente = new ToolStripButton();
             btnRDAPaciente = createToolButton("RDA Paciente");
             MenuLateral.Items.Add(btnRDAPaciente);
-            btnRDAPaciente.Click += toolStripButton5_Click;*/
+            btnRDAPaciente.Click += toolStripButton5_Click;
 
             //PRUEBAs
-            btnSendRDAPaciente = new ToolStripButton();
+          /*  btnSendRDAPaciente = new ToolStripButton();
             btnSendRDAPaciente = createToolButton("RDA Paciente");
             MenuLateral.Items.Add(btnSendRDAPaciente);
             btnSendRDAPaciente.Click += SendRDAPaciente;
@@ -105,13 +105,13 @@ namespace ZamenisHealth.FrontFHIR
             btnSendRDAAmbulatorio = new ToolStripButton();
             btnSendRDAAmbulatorio = createToolButton("RDA Ambulatorio");
             MenuLateral.Items.Add(btnSendRDAAmbulatorio);
-            btnSendRDAAmbulatorio.Click += SendRDAAmbulatorio;
+            btnSendRDAAmbulatorio.Click += SendRDAAmbulatorio;*/
             //FIN PRUEBAS
 
-            /* btnRDACExterna = new ToolStripButton();
+             btnRDACExterna = new ToolStripButton();
              btnRDACExterna = createToolButton("RDA C. Externa");
              MenuLateral.Items.Add(btnRDACExterna);
-             btnRDACExterna.Click += toolStripButton7_Click;*/
+             btnRDACExterna.Click += toolStripButton7_Click;
 
           /*  btnRDACuraciones = new ToolStripButton();
             btnRDACuraciones = createToolButton("RDA Curaciones");

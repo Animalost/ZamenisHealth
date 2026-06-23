@@ -647,7 +647,6 @@ namespace Persistence.Informes.Methods
                 return null;
             }
         }
-
         int getMonthNumber(string Month)
         {
             int resut = 0;
@@ -731,7 +730,5 @@ namespace Persistence.Informes.Methods
 
             return resut;
         }
-
-
     }
 }

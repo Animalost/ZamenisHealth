@@ -15,6 +15,7 @@ using Tulpep.NotificationWindow;
 using ZamenisHealth.Clases;
 using ZamenisHealth.Comunes;
 using ZamenisHealth.Properties;
+using ZamenisHealth.Recepcion.AgendaDiaria;
 using ZamenisHealth.Recepcion.Extras;
 
 namespace ZamenisHealth.Recepcion.Admision
@@ -222,8 +223,8 @@ namespace ZamenisHealth.Recepcion.Admision
                     comboBox10.Text = pacientesController.getNamePais(getCita.Pac_PaisResidencia);
                     comboBox5.Text = getCita.Pac_Zona == "U" ? "Urbana" : "Rural";
                     textBox17.Text = getCita.Pac_Contrato;
-                    label21.Text = zonasController.DepartamentoCodigo(getCita.Pac_Dep_Cod);
-                    label23.Text = zonasController.DepartamentoCodigo(getCita.Pac_Mun_Cod);
+                    label21.Text = zonasController.DepartamentoNombre(getCita.Pac_Dep_Cod);
+                    label23.Text = zonasController.MunicipioNombre(getCita.Pac_Mun_Cod, getCita.Pac_Dep_Cod);
                     CodeDep = getCita.Pac_Dep_Cod;
                     CodeMun = getCita.Pac_Mun_Cod;
 
@@ -630,6 +631,11 @@ namespace ZamenisHealth.Recepcion.Admision
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
+        private void boton3_Click(object sender, EventArgs e)
+        {
+            OtrosDatosPac p = new OtrosDatosPac(PacId);
+            p.ShowDialog();
+        }
         private void boton2_Click(object sender, EventArgs e)
         {
             try
@@ -878,7 +884,10 @@ namespace ZamenisHealth.Recepcion.Admision
                     Hor_ValDerechos = textBox10.Text, //pines
                     Hor_Id = Admision,
                     Hor_Observacion = " ||| CITA ADMISIONADA POR " + Comunes.Contenedor.UsuarioLogueado,
-                    Hor_Vales = Bonos == true ? "S" : "N"
+                    Hor_Vales = Bonos == true ? "S" : "N",
+                    Hor_Color = comboBox12.Text == "Paciente Nuevo" ? "N" :
+                                comboBox12.Text == "Paciente Inicio Paquete" ? "I" : 
+                                                   "C"
                 };
 
                 bool _updateCita = horarioController.updateCitaAdmisionar(H);
@@ -924,8 +933,8 @@ namespace ZamenisHealth.Recepcion.Admision
                 }
                 #endregion
 
-                Agenda f7 = Application.OpenForms.OfType<Agenda>().FirstOrDefault();
-                f7.RechargeTrueCheck();
+                Agendamiento f7 = Application.OpenForms.OfType<Agendamiento>().FirstOrDefault();
+                f7.EventoInicial();
 
                 PopupNotifier Pop = PopUps.setPopUp(Properties.Resources2.comprobado,
                                                             Color.LightBlue,
@@ -953,7 +962,7 @@ namespace ZamenisHealth.Recepcion.Admision
                     }
                 }
 
-                ConsultaAdmision f = Application.OpenForms.OfType<ConsultaAdmision>().FirstOrDefault();
+                MenuOpcionesAgenda f = Application.OpenForms.OfType<MenuOpcionesAgenda>().FirstOrDefault();
                 f.Close();
 
                 this.Dispose();

@@ -1,6 +1,5 @@
 ﻿using Domain;
 using Domain.CXN;
-using Org.BouncyCastle.Asn1.IsisMtt.X509;
 using Persistence.CXN.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -723,7 +722,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
         int LoadLastMedidaHeridas(int Paciente, int AdmisionActual)
         {
             try

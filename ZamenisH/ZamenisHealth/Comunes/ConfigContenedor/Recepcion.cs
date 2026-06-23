@@ -11,7 +11,7 @@ namespace ZamenisHealth.Comunes.ConfigContenedor
     public partial class Recepcion : Form
     {
         private static readonly IRoles repoRoles = new MRoles();
-        private ZamenisHealth.Recepcion.Agenda A;
+        private ZamenisHealth.Recepcion.AgendaDiaria.Agendamiento A;
 
         public bool aa;
         public Recepcion()
@@ -28,7 +28,7 @@ namespace ZamenisHealth.Comunes.ConfigContenedor
                 A.Close();
             }               
 
-            A = new ZamenisHealth.Recepcion.Agenda();
+            A = new ZamenisHealth.Recepcion.AgendaDiaria.Agendamiento();
             A.ShowDialog();
         }
         private void pictureBox48_Click(object sender, EventArgs e)

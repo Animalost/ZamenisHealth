@@ -53,7 +53,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         CXN_FORMATOS IFormatos.getFormatoSelected(string Nombre)
         {
             try
@@ -94,7 +93,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         bool IFormatos.insertarFormato(CXN_FORMATOS F)
         {
             try
@@ -146,7 +144,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
         bool IFormatos.updateFormato(CXN_FORMATOS F)
         {
             try
@@ -181,7 +178,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
         bool IFormatos.crearFormato(CXN_FORMATOS F)
         {
             try
@@ -231,7 +227,6 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-
         List<CXN_FORMATOS> IFormatos.getFormatosxPaciente(string TID, string NID)
         {
             try
@@ -280,7 +275,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         List<FormatosR> IFormatos.Plantilla(CXN_FORMATOS F)
         {
             try
@@ -337,7 +331,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         string Carga_Ima_Temp()
         {
             try
@@ -369,7 +362,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         List<FormatosR> IFormatos.Export_Cert(int Pac, int Doc, string Tipo)
         {
             try

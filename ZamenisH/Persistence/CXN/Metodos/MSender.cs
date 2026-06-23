@@ -363,7 +363,6 @@ namespace Persistence.CXN.Metodos
                 return (null, null);
             }
         }
-
         //Archivo .ics
         public byte[] EnviarCorreoConInvitacion(string asunto,
                                          string mensaje,
@@ -427,7 +426,6 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-
         List<CXN_HORARIO> getListaMG(DateTime Fecha)
         {
             try

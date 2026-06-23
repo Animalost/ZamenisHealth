@@ -50,8 +50,6 @@ namespace ZamenisHealth.Comunes
             ConfigForm.MoverForma(label1, this);
             linkLabel12.Visible = true;
             linkLabel11.Visible = true;
-            linkLabel13.Visible = true;
-            linkLabel14.Visible = true;
         }
      
         protected override void OnHandleCreated(EventArgs e)
@@ -159,11 +157,6 @@ namespace ZamenisHealth.Comunes
                 toolStripButton14.MouseMove += ToolStripButton14_MouseMove;
                 toolStripButton14.MouseLeave += ToolStripButton14_MouseLeave;
 
-                if (Conexion.ConectionDictionary["Recordatorios"] == "A")
-                {
-                    LoadMessages();
-                }                
-
                 Conexion.BloqueosAgenda = repositorioConfSystem.getListado()["Bloqueo"];
                 Conexion.EmailAgenda = repositorioConfSystem.getListado()["Email"];
                 Conexion.SMSAgenda = repositorioConfSystem.getListado()["SMS"];
@@ -233,12 +226,6 @@ namespace ZamenisHealth.Comunes
             {
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
-        }
-
-        void LoadMessages()
-        {
-            linkLabel9.Visible = true;
-            linkLabel10.Visible = true;
         }
 
         #region // Over and Leaves
@@ -974,43 +961,9 @@ namespace ZamenisHealth.Comunes
             System.Diagnostics.Process.Start(Conexion.getURLPrincipal() + "/UpdateZamenis");
         }
 
-        private void linkLabel10_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            SMSDisponibles s = new SMSDisponibles();
-            s.ShowDialog();
-        }
-
-        /*private void AgrandarVentana(object sender, EventArgs e)
-        {
-            (int W, int H) sizePredterminada = (1053, 635);
-
-            int sizeActualH = this.Size.Height;
-            int sizeActualW = this.Size.Width;
-
-            if (sizePredterminada.W != sizeActualW && sizePredterminada.H != sizeActualH)
-            {
-                this.Size = new Size(sizePredterminada.W, sizePredterminada.H);
-                this.StartPosition = FormStartPosition.CenterScreen;
-                return;
-            }
-
-            if (this.WindowState == FormWindowState.Normal)
-            {
-                this.WindowState = FormWindowState.Normal;
-                this.Bounds = Screen.FromControl(this).WorkingArea;
-                return;
-            }
-        }*/
-
         private void linkLabel12_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Manuales m = new Manuales();
-            m.ShowDialog();
-        }
-
-        private void linkLabel14_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            MisDatos m = new MisDatos();
             m.ShowDialog();
         }
 
@@ -1091,5 +1044,6 @@ namespace ZamenisHealth.Comunes
             IAS.Perplexity perplexity = new IAS.Perplexity();   
             perplexity.ShowDialog();
         }
+        
     }
 }
