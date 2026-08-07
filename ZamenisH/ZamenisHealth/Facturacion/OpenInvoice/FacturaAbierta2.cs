@@ -7,7 +7,6 @@ using Persistence.CXN.Metodos;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Drawing;
 using System.Windows.Forms;
 using ZamenisHealth.Comunes;
 using ZamenisHealth.Facturacion.OpenInvoice;
@@ -52,6 +51,8 @@ namespace ZamenisHealth.Facturacion
         {
             Titulo.Text = "Facturacion Abierta";
             SubTitulo.Text = $"Zamenis Health {Conexion.VersionApp}";
+
+            gridZH1.dataGridView1.CellMouseClick += dataGridView1_CellMouseClick;
 
             Encabezados();
         }
@@ -99,65 +100,36 @@ namespace ZamenisHealth.Facturacion
         }        
         private void dataGridView1_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            CXN_CARGOS Car = new CXN_CARGOS()
+            try
             {
-                Car_Val_Un = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[3].Value.ToString()),
-                Car_Cant = 1,
-                Car_Cod = dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString(),
-                Car_Item = dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString(),
-                Car_Tipo_Serv = dataGridView1.Rows[e.RowIndex].Cells[4].Value.ToString(),
-                Car_Tipo = dataGridView1.Rows[e.RowIndex].Cells[5].Value.ToString(),
-                Car_Detalle = dataGridView1.Rows[e.RowIndex].Cells[6].Value.ToString(),
-                Car_Ase = Ase
-            };
+                CXN_CARGOS Car = new CXN_CARGOS()
+                {
+                    Car_Val_Un = Convert.ToInt32(gridZH1.dataGridView1.Rows[e.RowIndex].Cells[3].Value.ToString()),
+                    Car_Cant = 1,
+                    Car_Cod = gridZH1.dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString(),
+                    Car_Item = gridZH1.dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString(),
+                    Car_Tipo_Serv = gridZH1.dataGridView1.Rows[e.RowIndex].Cells[4].Value.ToString(),
+                    Car_Tipo = gridZH1.dataGridView1.Rows[e.RowIndex].Cells[5].Value.ToString(),
+                    Car_Detalle = gridZH1.dataGridView1.Rows[e.RowIndex].Cells[6].Value.ToString(),
+                    Car_Ase = Ase
+                };
 
-            Cantidades C = new Cantidades(Car);
-            C.ShowDialog();
+                Cantidades C = new Cantidades(Car);
+                C.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }           
         }
         void Estilos()
         {
-            dataGridView1.EnableHeadersVisualStyles = false;
-            dataGridView1.ScrollBars = ScrollBars.Both;
+            gridZH1.dataGridView1.DataSource = dt;
 
-            dataGridView1.DataSource = dt;
-            dataGridView1.Font = new Font("Arial", 11);
-
-            dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font(dataGridView1.Font, FontStyle.Bold);
-            dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Arial", 10, FontStyle.Bold);
-            dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#bfdbff");
-            dataGridView1.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
-            dataGridView1.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
-
-            dataGridView1.Columns["Codigo"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridView1.Columns["Descripcion"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridView1.Columns["Valor"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
-            dataGridView1.Columns["Codigo"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            dataGridView1.Columns["Descripcion"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            dataGridView1.Columns["Valor"].SortMode = DataGridViewColumnSortMode.NotSortable;
-
-            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells + 10;
-            dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
-            dataGridView1.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
-
-            dataGridView1.Columns["POS"].Visible = false;
-            dataGridView1.Columns["Tipo"].Visible = false;
-            dataGridView1.Columns["CTipo"].Visible = false;
-            dataGridView1.Columns["InvDetalle"].Visible = false;
-
-            foreach (DataGridViewRow row in dataGridView1.Rows)
-            {
-                int Numero = Convert.ToInt32(row.Cells["POS"].Value.ToString());
-
-                if ((Numero % 2) == 0)
-                {
-                    row.DefaultCellStyle.BackColor = Color.Aquamarine;
-                }
-                else
-                {
-                    row.DefaultCellStyle.BackColor = Color.MediumAquamarine;
-                }
-            }
+            gridZH1.dataGridView1.Columns["POS"].Visible = false;
+            gridZH1.dataGridView1.Columns["Tipo"].Visible = false;
+            gridZH1.dataGridView1.Columns["CTipo"].Visible = false;
+            gridZH1.dataGridView1.Columns["InvDetalle"].Visible = false;
         }
         void Encabezados()
         {

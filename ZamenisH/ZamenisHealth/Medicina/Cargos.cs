@@ -1,17 +1,16 @@
-﻿using System;
+﻿using Domain;
+using Domain.CXN;
+using FormAndControls;
+using Persistence;
+using Persistence.CXN.Interfaces;
+using Persistence.CXN.Metodos;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Domain;
-using Domain.CXN;
-using FormAndControls;
-using Persistence;
-using Persistence.CXN.Interfaces;
-using Persistence.CXN.Metodos;
-using ZamenisHealth.Clases;
 using ZamenisHealth.Comunes;
 
 namespace ZamenisHealth.Medicina
@@ -129,6 +128,9 @@ namespace ZamenisHealth.Medicina
             LogoMain.Image = Properties.Resources.Splash;
             SubTitulo.Text = $"Zamenis Health {Conexion.VersionApp}";
 
+            gridZH1.dataGridView1.CellClick += dataGridView1_CellClick;
+            gridZH1.CeldaHeight = true;
+
             ToolStripButton btnConsultar;
             ToolStripButton btnHistorial;
             ToolStripButton btnEliminar;            
@@ -188,7 +190,7 @@ namespace ZamenisHealth.Medicina
                     Cia = 0;
                     Bod = 0;
 
-                    dataGridView1.Enabled = true;
+                    gridZH1.dataGridView1.Enabled = true;
                     dataGridView2.Enabled = false;
 
                     toolStripButton5.Enabled = false;
@@ -221,7 +223,7 @@ namespace ZamenisHealth.Medicina
                     MG.ShowDialog();
 
                     label13.Visible = false;
-                    dataGridView1.Enabled = true;
+                    gridZH1.dataGridView1.Enabled = true;
                     dataGridView2.Enabled = false;
                 }
                 else
@@ -247,7 +249,7 @@ namespace ZamenisHealth.Medicina
                     //richTextBox5.Text = getCargo.Hor_Autoriza.ToString().ToUpper();
 
                     toolStripButton5.Enabled = true;
-                    dataGridView1.Enabled = false;
+                    gridZH1.dataGridView1.Enabled = false;
                     dataGridView2.Enabled = true;
 
                     if (dataGridView2.Rows.Count > 0) // Verifica si hay al menos una fila
@@ -320,39 +322,8 @@ namespace ZamenisHealth.Medicina
         }
         void Estilos()
         {
-            dataGridView1.EnableHeadersVisualStyles = false;
-            dataGridView1.ScrollBars = ScrollBars.Both;
-
-            dataGridView1.DataSource = dt;
-
-            dataGridView1.Columns["Admision"].Width = 110;
-            dataGridView1.Columns["Paciente"].Width = 350;
-            dataGridView1.Columns["Profesional"].Width = 350;
-            dataGridView1.Columns["Fecha"].Width = 110;
-            dataGridView1.Columns["Estado"].Width = 110;
-            dataGridView1.Font = new Font("Arial", 11);
-
-            dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font(dataGridView1.Font, FontStyle.Bold);
-            dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Arial", 10, FontStyle.Bold);
-            dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#bfdbff");
-            dataGridView1.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
-            dataGridView1.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
-
-            dataGridView1.Columns["Admision"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridView1.Columns["Paciente"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridView1.Columns["Profesional"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridView1.Columns["Fecha"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridView1.Columns["Estado"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
-            dataGridView1.Columns["Admision"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            dataGridView1.Columns["Paciente"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            dataGridView1.Columns["Profesional"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            dataGridView1.Columns["Fecha"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            dataGridView1.Columns["Estado"].SortMode = DataGridViewColumnSortMode.NotSortable;
-
-            dataGridView1.Columns["POS"].Visible = false;
-
-            dataGridView1 = ConfigForm.colorGrid(dataGridView1);
+            gridZH1.dataGridView1.DataSource = dt;
+            gridZH1.dataGridView1.Columns["POS"].Visible = false;
         }
         void Shows()
         {
@@ -521,7 +492,7 @@ namespace ZamenisHealth.Medicina
                 label13.Visible = false;
 
                 richTextBox4.Text = "";
-                dataGridView1.Enabled = true;
+                gridZH1.dataGridView1.Enabled = true;
                 dataGridView2.Enabled = false;
                 
                 Comunes.MensajesGeneral MG = new Comunes.MensajesGeneral();
@@ -570,7 +541,7 @@ namespace ZamenisHealth.Medicina
                 Bod = 0;
 
                 label13.Visible = false;
-                dataGridView1.Enabled = true;
+                gridZH1.dataGridView1.Enabled = true;
                 dataGridView2.Rows.Clear();
                 Grid();
                 dataGridView2.Enabled = false;                
@@ -610,11 +581,11 @@ namespace ZamenisHealth.Medicina
         {
             try
             {
-                textBox1.Text = dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString();
+                textBox1.Text = gridZH1.dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString();
             }
             catch (Exception ex)
             {
-                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
+                Console.WriteLine(ex.ToString());
             }
         }       
         private void dataGridView2_CellValueChanged(object sender, DataGridViewCellEventArgs e)

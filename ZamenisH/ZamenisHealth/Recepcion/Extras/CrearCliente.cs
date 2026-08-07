@@ -95,17 +95,22 @@ namespace ZamenisHealth.Recepcion.Extras
                     }
                 }
 
-                CXN_PACIENTES crea_Paciente = new CXN_PACIENTES();
-                crea_Paciente.Pac_PrimerN = textBox1.Text;
-                crea_Paciente.Pac_SegundoN = textBox2.Text;
-                crea_Paciente.Pac_PrimerA = textBox3.Text;
-                crea_Paciente.Pac_SegundoA = textBox4.Text;
-                crea_Paciente.Pac_Telefono = textBox6.Text;
-                crea_Paciente.Pac_Email = textBox7.Text;
-                crea_Paciente.Pac_Aseguradora = 99;
-                crea_Paciente.Pac_TipoId = comboBox1.Text;
-                crea_Paciente.Pac_IdNum = textBox5.Text.Trim();
-                crea_Paciente.Pac_Categoria = "N";
+                CXN_PACIENTES crea_Paciente = new CXN_PACIENTES
+                {
+                    Pac_PrimerN = textBox1.Text,
+                    Pac_SegundoN = textBox2.Text,
+                    Pac_PrimerA = textBox3.Text,
+                    Pac_SegundoA = textBox4.Text,
+                    Pac_Telefono = textBox6.Text,
+                    Pac_Email = textBox7.Text,
+                    Pac_Aseguradora = 99,
+                    Pac_TipoId = comboBox1.Text,
+                    Pac_IdNum = textBox5.Text.Trim(),
+                    Pac_Categoria = "N",
+                    Pac_Sexo = "M",
+                    IdentidadGenero = "04"
+                };
+                
 
                 bool _crearcliente = repositorioPacientes.CrearClientes(crea_Paciente);                
 

@@ -43,6 +43,6 @@ namespace Persistence.CXN.Interfaces
         bool UpdateFormaPago(int FacZamenis, int Cia, string TipoPago, string Factura);
         List<CXN_HCRADIOLOGIA> RadiologiaReport(int Admision);
         List<CXN_HCRADIOLOGIA> ReporteRadiologiaCompleto(int PacienteCom, DateTime Desde, DateTime Hasta, string user);
-        (Dictionary<int, string> DicNotas, Dictionary<int, string> DicHistorias) getAdmitionByInvoiceZamenis(int FacZamenis);
+        (Dictionary<int, string> DicNotas, Dictionary<int, string> DicHistorias) getAdmitionByInvoiceZamenis(int FacZamenis, int Cia);
     }
 }

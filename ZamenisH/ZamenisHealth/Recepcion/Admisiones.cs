@@ -230,7 +230,7 @@ namespace ZamenisHealth.Recepcion
 
                     comboBox5.Text = (_datosAdmision.Pac_Zona != "R" ? "Urbana" : "Rural");
 
-                    if (_datosAdmision.Hor_Vales == "S")
+                    if (_datosAdmision.Pac_Bonos == "A")
                     {
                         checkBox6.Checked = true;
                         RequiereVales = true;
@@ -241,18 +241,6 @@ namespace ZamenisHealth.Recepcion
                     else
                     {
                         checkBox6.Checked = false;
-                        string ConfirmaValesUltimaCita = repositorioFechasAgendaa.UltimaAdmisionValidaVales(Admi, Paciente, _datosAdmision.Hor_Pac_Fecha_Cita);
-                        if (ConfirmaValesUltimaCita == "S")
-                        {
-                            MG = new MensajesGeneral()
-                            {
-                                Mensaje = "Este paciente NO esta marcado para recaudo de vales o bonos, sin embargo la ultma cita asistida de este " +
-                                "paciente si anexo vale/bono a su historial medico.  Por favor verifique si realmente requiere vale o firma"
-                            };
-
-                            MG.ShowDialog();
-                        }
-
                         RequiereVales = false;
                     }
                     

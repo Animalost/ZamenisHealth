@@ -336,7 +336,7 @@ namespace Persistence.CXN.Metodos
                         con.Open();
                     }
 
-                    String Cargar_Hora = "Select Hor_Id, Hor_Pac_Hora_Cita, Hor_Imp_Age, Hor_Estado, Bod_Responsable, Com_Nombre, Hor_Pac_Fecha_Cita " +
+                    String Cargar_Hora = "Select Hor_Id, Hor_Pac_Tipo_Serv, Hor_Pac_Hora_Cita, Hor_Imp_Age, Hor_Estado, Bod_Responsable, Com_Nombre, Hor_Pac_Fecha_Cita " +
                                          "FROM CXN_HORARIO  " +
                                          "INNER JOIN CXN_BODEGAS ON CXN_HORARIO.Hor_Pac_Bod = CXN_BODEGAS.Bod_Numero  " +
                                          "INNER JOIN CXN_CIA ON CXN_HORARIO.Hor_Pac_Cia = CXN_Cia.Com_Identificador  " +
@@ -363,7 +363,76 @@ namespace Persistence.CXN.Metodos
                                         Hor_Imp_Age = Lectura_Hora["Hor_Imp_Age"].ToString(),
                                         Hor_Observacion = Lectura_Hora["Bod_Responsable"].ToString(), //Profesional en este caso
                                         Hor_Estado = Lectura_Hora["Hor_Estado"].ToString(),
-                                        Hor_Pac_Razon = Lectura_Hora["Com_Nombre"].ToString() //Prestador en este caso
+                                        Hor_Pac_Razon = Lectura_Hora["Com_Nombre"].ToString(), //Prestador en este caso
+                                        Hor_Pac_Tipo_Serv = Lectura_Hora["Hor_Pac_Tipo_Serv"].ToString()
+                                    });
+                                }
+                                return H;
+                            }
+                            else
+                            {
+                                return null;
+                            }
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                return null;
+            }
+        }
+        List<CXN_HORARIO> IAgendaC.ListarCitasXPaciente2(int PacId, DateTime fecha, int Bodega)
+        {
+            try
+            {
+                var getCon = Conexion.Conection();
+
+                using (SqlConnection con = new SqlConnection(getCon["Conexion"]))
+                {
+                    if (con != null && con.State == ConnectionState.Closed)
+                    {
+                        con.Open();
+                    }
+
+                    String Cargar_Hora = "Select Hor_Id, Hor_Pac_Tipo_Serv, Hor_Pac_Hora_Cita, Hor_Imp_Age, Hor_Estado, Bod_Responsable, Com_Nombre, Hor_Pac_Fecha_Cita, " +
+                                         "Hor_Autoriza " +
+                                         "FROM CXN_HORARIO  " +
+                                         "INNER JOIN CXN_BODEGAS ON CXN_HORARIO.Hor_Pac_Bod = CXN_BODEGAS.Bod_Numero  " +
+                                         "INNER JOIN CXN_CIA ON CXN_HORARIO.Hor_Pac_Cia = CXN_Cia.Com_Identificador  " +
+                                         "WHERE Hor_Pac_Id = @param1 " +
+                                         "AND Hor_Pac_Fecha_Cita = @param2 " +
+                                         "AND Hor_Pac_Bod <> @param3 " +
+                                         "AND hor_Estado <> @param4";
+
+                    using (SqlCommand Carga_Command = new SqlCommand(Cargar_Hora, con))
+                    {
+                        Carga_Command.Parameters.AddWithValue("@param1", PacId);
+                        Carga_Command.Parameters.AddWithValue("@param2", Convert.ToDateTime(fecha).ToString(getCon["Format_Fecha"]));
+                        Carga_Command.Parameters.AddWithValue("@param3", Bodega);
+                        Carga_Command.Parameters.AddWithValue("@param4", "C");
+
+                        using (SqlDataReader Lectura_Hora = (Carga_Command.ExecuteReader()))
+                        {
+                            if (Lectura_Hora.HasRows)
+                            {
+                                List<CXN_HORARIO> H = new List<CXN_HORARIO>();
+
+                                while (Lectura_Hora.Read() == true)
+                                {
+                                    H.Add(new CXN_HORARIO
+                                    {
+                                        Hor_Id = Convert.ToInt32(Lectura_Hora["Hor_Id"]),
+                                        Hor_Pac_Hora_Cita = Convert.ToDateTime(Lectura_Hora["Hor_Pac_Hora_Cita"]),
+                                        Hor_Pac_Fecha_Cita = Convert.ToDateTime(Lectura_Hora["Hor_Pac_Fecha_Cita"]),
+                                        Hor_Imp_Age = Lectura_Hora["Hor_Imp_Age"].ToString(),
+                                        Hor_Observacion = Lectura_Hora["Bod_Responsable"].ToString(), //Profesional en este caso
+                                        Hor_Estado = Lectura_Hora["Hor_Estado"].ToString(),
+                                        Hor_Pac_Razon = Lectura_Hora["Com_Nombre"].ToString(), //Prestador en este caso
+                                        Hor_Pac_Tipo_Serv = Lectura_Hora["Hor_Pac_Tipo_Serv"].ToString(),
+                                        Hor_Autoriza = Lectura_Hora["Hor_Autoriza"] == DBNull.Value || 
+                                                       Lectura_Hora["Hor_Autoriza"].ToString() == "" ?
+                                                       "" : Lectura_Hora["Hor_Autoriza"].ToString()
                                     });
                                 }
                                 return H;
@@ -445,7 +514,7 @@ namespace Persistence.CXN.Metodos
                     }
 
                     String Cargar_Hora = "SELECT A.Ase_Descripcion, H.Hor_Pac_Id_Hora, H.Hor_Estado, H.Hor_Id, " +
-                                         "H.Hor_Pac_Id, H.Hor_Pac_Tipo_Serv, H.Hor_Color, H.Hor_BloqEspaces, " +
+                                         "H.Hor_Pac_Id, H.Hor_Pac_Tipo_Serv, H.Hor_Color, H.Hor_BloqEspaces, H.Hor_Imp_Age, " +
                                          "P.Pac_Doble, P.Pac_PrimerA + ' ' + P.Pac_SegundoA + ' ' + P.Pac_PrimerN + ' ' + P.Pac_SegundoN AS PacNombre " +
                                          "FROM CXN_HORARIO H " +
                                          "INNER JOIN CXN_ASEGURADORA A ON H.Hor_Pac_Ase = A.Ase_Identificador " +
@@ -473,6 +542,7 @@ namespace Persistence.CXN.Metodos
                                 {
                                     Lista.Add(new CXN_HORARIO
                                     {
+                                        PacienteNombre = Lectura_Hora["Hor_Imp_Age"] == DBNull.Value ? "" : Lectura_Hora["Hor_Imp_Age"].ToString(),
                                         Hor_Imp_Age = Lectura_Hora["PacNombre"].ToString(),
                                         Hor_Pac_Id_Hora = Lectura_Hora["Hor_Pac_Id_Hora"].ToString(),
                                         Hor_Estado = Lectura_Hora["Hor_Estado"].ToString(),
@@ -519,7 +589,8 @@ namespace Persistence.CXN.Metodos
                                          "P.Pac_Email, P.Pac_Telefono, P.Pac_TelefonoAux, P.Pac_Id, H.Hor_Observacion, H.Hor_Autoriza, H.Hor_Imp_Age, P.Pac_Dep_Cod, P.Pac_Mun_Cod, P.Pac_Sexo, P.Pac_Regimen, P.Pac_FechaNto, H.Hor_Pac_Ase, " +
                                          "P.Pac_PrimerN, P.Pac_SegundoN, P.Pac_PrimerA, P.Pac_SegundoA, H.Hor_Vales, H.Hor_Pac_Tipo_Serv, H.Hor_Pac_Cup, H.Hor_Pac_Fecha_Cita, H.Hor_ValDerechos, H.Hor_RcCaja, H.Hor_RegAtn, H.Hor_Usr_Admisiona, " +
                                          "H.Hor_Pac_Fecha, H.Hor_Pac_Hora, H.HorTecnoSalud, H.Hor_Pac_Cia, H.Hor_CantSesion, H.Hor_Pac_Atendido, H.Hor_Estado, H.Hor_Pac_Llegada, H.Hor_Pac_Sal, P.Pac_Zona, P.Pac_Contrato, P.Pac_PaisOrigen, P.Pac_Residencia, H.Hor_Pac_UsrGraba, H.HorObservaTemp, P.Pac_Categoria, P.Pac_ECivil, P.Pac_Acudiente, P.Pac_Parentesco, P.Pac_Direccion, P.Pac_DireccionAcu, Pac_TelefonoAcu, Pac_CorreoAcu, P.VIH, P.Hepatitis, P.Pac_Ocupacion, " +
-                                         "P.Pac_PrimerA, P.Pac_SegundoA, P.Pac_PrimerN, P.Pac_SegundoN, B.Bod_Reg_Med, H.Hor_Pac_Modalidad, H.Hor_GrupoServicios, A.Ase_Cod_Emp, C.Con_CodServicio, H.Hor_AvisoCurInicio, H.Hor_Pac_Id_Hora " +
+                                         "P.Pac_PrimerA, P.Pac_SegundoA, P.Pac_PrimerN, P.Pac_SegundoN, B.Bod_Reg_Med, H.Hor_Pac_Modalidad, H.Hor_GrupoServicios, A.Ase_Cod_Emp, C.Con_CodServicio, H.Hor_AvisoCurInicio, H.Hor_Pac_Id_Hora, H.Hor_Color, P.Pac_Bonos, " +
+                                         "H.Hor_Tipo_Paciente " +
                                          "FROM CXN_HORARIO H  " +
                                          "INNER JOIN CXN_PACIENTES P ON H.Hor_Pac_Id = P.Pac_Id " +
                                          "INNER JOIN CXN_CONVENIOS C ON H.Hor_Pac_Cup = C.Con_Id_Serv " +
@@ -541,6 +612,7 @@ namespace Persistence.CXN.Metodos
 
                                 otrosDatosPacienteHorario H = new otrosDatosPacienteHorario
                                 {
+                                    Pac_Bonos = Lectura_Hora["Pac_Bonos"] == DBNull.Value ? "N" : Lectura_Hora["Pac_Bonos"].ToString(),
                                     Hor_AvisoCurInicio = Lectura_Hora["Hor_AvisoCurInicio"] == DBNull.Value ? false : (bool)Lectura_Hora["Hor_AvisoCurInicio"],
                                     Hor_Estado = Lectura_Hora["Hor_Estado"] == DBNull.Value ? "" : Lectura_Hora["Hor_Estado"].ToString(),
                                     Hor_GrupoServicios = Lectura_Hora["Hor_GrupoServicios"].ToString(),
@@ -551,6 +623,7 @@ namespace Persistence.CXN.Metodos
                                     SegundoNombre = Lectura_Hora["Pac_SegundoN"].ToString(),
                                     IdentificacionProfesional = Lectura_Hora["Bod_Reg_Med"].ToString(),
 
+                                    Hor_Color = Lectura_Hora["Hor_Color"] == DBNull.Value ? "" : Lectura_Hora["Hor_Color"].ToString(),
                                     Hor_Pac_Id_Hora = Lectura_Hora["Hor_Pac_Id_Hora"] == DBNull.Value ? "" : Lectura_Hora["Hor_Pac_Id_Hora"].ToString(),
                                     Hor_Pac_Tipo_Serv = Lectura_Hora["Hor_Pac_Tipo_Serv"].ToString(),
                                     Hor_Pac_Ase = Convert.ToInt32(Lectura_Hora["Hor_Pac_Ase"]),
@@ -561,7 +634,7 @@ namespace Persistence.CXN.Metodos
                                     Hor_Pac_Fecha_Cita = Convert.ToDateTime(Lectura_Hora["Hor_Pac_Fecha_Cita"]),
                                     Hor_Pac_Hora_Cita = Convert.ToDateTime(Lectura_Hora["Hor_Pac_Hora_Cita"]),
                                     Hor_Observacion = Lectura_Hora["Hor_Observacion"].ToString(),
-                                    Hor_Vales = Lectura_Hora["Hor_Vales"].ToString(),
+                                    Hor_Vales = Lectura_Hora["Hor_Vales"] == DBNull.Value ? "N" : Lectura_Hora["Hor_Vales"].ToString(),
                                     Com_Nombre = Lectura_Hora["Com_Nombre"].ToString(),
                                     Com_Telefono = Lectura_Hora["Com_Telefono"].ToString(),
                                     Com_Direccion = Lectura_Hora["Com_Direccion"].ToString(),
@@ -614,7 +687,8 @@ namespace Persistence.CXN.Metodos
                                     Pac_TelefonoLoadAdmition = Lectura_Hora["Pac_TelefonoAcu"].ToString(),
                                     Hor_ArrastraHistoria = arrastra,
                                     Hor_DocFEModeradorCUFE = Lectura_Hora["Hor_DocFEModeradorCUFE"].ToString(),
-                                    Pac_Ocupacion = Lectura_Hora["Pac_Ocupacion"] == DBNull.Value ? "" : Lectura_Hora["Pac_Ocupacion"].ToString(),                                    
+                                    Pac_Ocupacion = Lectura_Hora["Pac_Ocupacion"] == DBNull.Value ? "" : Lectura_Hora["Pac_Ocupacion"].ToString(),     
+                                    Hor_Tipo_Paciente = Lectura_Hora["Hor_Tipo_Paciente"] == DBNull.Value ? "" : Lectura_Hora["Hor_Tipo_Paciente"].ToString()                                    
                                 };
 
                                 H.VIH = (Lectura_Hora["VIH"] == DBNull.Value ? "Negativo" : Lectura_Hora["VIH"].ToString() == "P" ? "Positivo" : "Negativo");
@@ -1663,54 +1737,6 @@ namespace Persistence.CXN.Metodos
             {
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
             }
-        }
-        string IAgendaC.UltimaAdmisionValidaVales(int Admision, int Paciente, DateTime FechaActual)
-        {
-            try
-            {
-                Dictionary<string, string> getData = Conexion.Conection();
-
-                using (SqlConnection con = new SqlConnection(getData["Conexion"]))
-                {
-                    if (con != null && con.State == ConnectionState.Closed)
-                    {
-                        con.Open();
-                    }
-
-                    String Query = "SELECT TOP 1 Hor_Id, Hor_Vales " +
-                                   "FROM CXN_HORARIO " +
-                                   "WHERE Hor_Id <> @param1 " +
-                                   "AND Hor_Pac_Id = @param2 " +
-                                   "AND Hor_Estado <> 'C' " +
-                                   "AND Hor_Pac_Fecha_Cita < @param3 " +
-                                   "ORDER BY Hor_Pac_Fecha_Cita DESC";
-
-                    using (SqlCommand Commando = new SqlCommand(Query, con))
-                    {
-                        Commando.Parameters.AddWithValue("@param1", Admision);
-                        Commando.Parameters.AddWithValue("@param2", Paciente);
-                        Commando.Parameters.AddWithValue("@param3", Convert.ToDateTime(FechaActual.Date));                        
-
-                        using (SqlDataReader Reader = (Commando.ExecuteReader()))
-                        {
-                            if (Reader.Read() == true)
-                            {
-                                Console.WriteLine(Reader["Hor_Id"].ToString());
-                                return Reader["Hor_Vales"].ToString();
-                            }
-                            else
-                            {
-                                return "N";
-                            }
-                        }
-                    }                   
-                }
-            }
-            catch (Exception ex)
-            {
-                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
-                return "N";
-            }
-        }
+        }        
     }
 }

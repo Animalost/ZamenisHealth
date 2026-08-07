@@ -7,7 +7,6 @@ using Persistence.CXN.Metodos;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Drawing;
 using System.Windows.Forms;
 using ZamenisHealth.Comunes;
 
@@ -34,7 +33,7 @@ namespace ZamenisHealth.Recepcion.Extras
 
         private void Precios_Load(object sender, EventArgs e)
         {
-            
+            gridZH1.CeldaHeight = true;
 
             Titulo.Text = "Precios";
             LogoMain.Image = Properties.Resources.Splash;
@@ -96,16 +95,9 @@ namespace ZamenisHealth.Recepcion.Extras
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-        private void btnZamenis4_ButtonClick(object sender, EventArgs e)
-        {
-            this.Dispose();
-            this.Close();
-        }
-
-
         void Encabezados()
         {
-            dataGridView1.DataSource = null;
+            gridZH1.dataGridView1.DataSource = null;
 
             dt = new DataTable();
             POS = dt.Columns.Add("POS", typeof(int));
@@ -113,7 +105,6 @@ namespace ZamenisHealth.Recepcion.Extras
             Item = dt.Columns.Add("Item", typeof(string));
             Valor = dt.Columns.Add("Valor", typeof(string));
         }
-
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
             try
@@ -141,7 +132,7 @@ namespace ZamenisHealth.Recepcion.Extras
                     }
 
                     Contador = 1;
-                    Estilos(dataGridView1, dt);
+                    Estilos(gridZH1.dataGridView1, dt);
                 }
                 else
                 {
@@ -155,40 +146,8 @@ namespace ZamenisHealth.Recepcion.Extras
         }
         void Estilos(DataGridView D, DataTable t)
         {
-            D.EnableHeadersVisualStyles = false;
-            D.ScrollBars = ScrollBars.Both;
-
             D.DataSource = t;
-
-            D.Columns["Codigo"].Width = 120;
-            D.Columns["Item"].Width = 600;
-            D.Columns["Valor"].Width = 120;
-
-            D.ColumnHeadersDefaultCellStyle.Font = new Font(D.Font, FontStyle.Bold);
-            D.ColumnHeadersDefaultCellStyle.Font = new Font("Arial", 8, FontStyle.Bold);
-            D.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#bfdbff");
-            D.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
-            D.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
-
-            D.Columns["Codigo"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            D.Columns["Item"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            D.Columns["Valor"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
             D.Columns["POS"].Visible = false;
-
-            foreach (DataGridViewRow row in D.Rows)
-            {
-                int Numero = Convert.ToInt32(row.Cells["POS"].Value.ToString());
-
-                if ((Numero % 2) == 0)
-                {
-                    row.DefaultCellStyle.BackColor = Color.Aquamarine;
-                }
-                else
-                {
-                    row.DefaultCellStyle.BackColor = Color.MediumAquamarine;
-                }
-            }
         }
     }
 }

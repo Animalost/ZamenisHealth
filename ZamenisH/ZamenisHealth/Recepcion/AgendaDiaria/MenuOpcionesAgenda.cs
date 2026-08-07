@@ -30,7 +30,10 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
 
         private string Admision, IdHora, Hora;
         private otrosDatosPacienteHorario getCita;
-        private int CodePrestador, CodeProfesional;
+        private int CodePrestador, CodeProfesional, CodePaciente;
+        private DateTime FechaSeleccionada;
+
+        private ToolTip ColorInicio, ColorNuevo, ColorControlMedico, ColorControlNormal;
 
         private MensajesGeneral MG;
         Agendamiento f7 = Application.OpenForms.OfType<Agendamiento>().SingleOrDefault();
@@ -82,6 +85,9 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
 
                     if (getCita != null)
                     {
+                        CodePaciente = getCita.Hor_Pac_Id;
+                        FechaSeleccionada = getCita.Hor_Pac_Fecha_Cita;
+
                         switch (getCita.Hor_Pac_Tipo_Serv)
                         {
                             case "CU":
@@ -132,14 +138,22 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
                                 panel13.Visible = false;
                                 break;
                         }
-                                        
+
+                        DateTime nacimiento = Convert.ToDateTime(getCita.Pac_FechaNto);
+                        int edad = DateTime.Today.AddTicks(-nacimiento.Ticks).Year - 1;
+
                         textBox3.Text = Admision;
                         textBox2.Text = getCita.Bod_Responsable;
                         textBox1.Text = getCita.Hor_Imp_Age;
                         textBox4.Text = getCita.Pac_TipoId + " " + getCita.Pac_IdNum;
-                        textBox3.Text =  Convert.ToDateTime(getCita.Hor_Pac_Fecha).ToString(Conexion.ConectionDictionary["Format_Fecha"]) + " - " + Convert.ToDateTime(getCita.Hor_Pac_Hora).ToString("HH:mm tt");
+                        //textBox3.Text = Convert.ToDateTime(getCita.Hor_Pac_Fecha).ToString(Conexion.ConectionDictionary["Format_Fecha"]) + " - " + Convert.ToDateTime(getCita.Hor_Pac_Hora).ToString("HH:mm tt");
                         textBox5.Text = getCita.Hor_Pac_UsrGraba;
                         richTextBox1.Text = getCita.Hor_Observacion;
+                        textBox6.Text = getCita.Pac_Telefono + " - " + getCita.Pac_TelefonoAux;
+                        textBox7.Text = getCita.Pac_Email;
+                        textBox9.Text = getCita.PacienteDireccion;
+                        textBox10.Text = getCita.Com_Telefono_SMS;
+                        textBox8.Text = getCita.Pac_FechaNto.ToString("yyyy-MM-dd") + " - " + edad.ToString() + " años";
 
                         DateTime H = DateTime.Now.Date;
                         DateTime fC = Convert.ToDateTime(getCita.Hor_Pac_Fecha_Cita);
@@ -173,6 +187,22 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
                             panel19.Visible = false;
                             panel11.Visible = false;
                             panel14.Visible = false;
+
+                            if (getCita.Hor_Pac_Tipo_Serv == "CU")
+                            {
+                                panel22.Visible = true;
+                                panel23.Visible = true;
+                                panel24.Visible = true;
+                            }
+                        }
+                        else if (getCita.Hor_Estado == "A")
+                        {
+                            if (getCita.Hor_Pac_Tipo_Serv == "CU")
+                            {
+                                panel22.Visible = true;
+                                panel23.Visible = true;
+                                panel24.Visible = true;
+                            }
                         }
                     }
                     else
@@ -202,6 +232,22 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
                     panel23.Visible = false;
                     panel24.Visible = false;
                 }
+
+                ColorInicio = new ToolTip();
+                ColorInicio.SetToolTip(button3, "COLOR CAFE");
+                ColorInicio.ShowAlways = true;
+
+                ColorNuevo = new ToolTip();
+                ColorNuevo.SetToolTip(button4, "COLOR ROSA");
+                ColorNuevo.ShowAlways = true;
+
+                ColorControlMedico = new ToolTip();
+                ColorControlMedico.SetToolTip(button2, "COLOR AMARILLO");
+                ColorControlMedico.ShowAlways = true;
+
+                ColorControlNormal = new ToolTip();
+                ColorControlNormal.SetToolTip(button1, "COLOR VERDE");
+                ColorControlNormal.ShowAlways = true;
             }
             catch (Exception ex)
             {
@@ -237,51 +283,81 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
         }
         private void boton3_Click(object sender, EventArgs e)
         {
+
             try
             {
-                CXN_CIA DatNombre = repoCompañia.getPrestadorbyCode(getCita.Com_Identificador);
+                CXN_CIA DatNombre = repoCompañia.getPrestadorbyCode(CodePrestador);
+                List<FirmasR> modelo = new List<FirmasR>();
+
                 if (DatNombre != null)
                 {
-                    List<FirmasR> modelo = new List<FirmasR>();
-
-                    FirmasR F = new FirmasR
-                    {
-                        Com_Nombre = DatNombre.Com_Nombre,
-                        Com_Direccion = DatNombre.Com_Direccion,
-                        Com_Telefono = DatNombre.Com_Telefono,
-                        Com_Logo = DatNombre.Com_Logo,                        
-                        Com_Nombre_SMS = DatNombre.Com_Nombre_SMS
-                    };
-
                     string fase = Microsoft.VisualBasic.Interaction.InputBox(
-                            "Digite el numero de la fase.  Solo se admite 1 o 2",
+                            "Digite el numero de la fase",
                             "Impresion de Hoja de Firmas",
                                 "");
-
-                    if (fase == "1" || fase == "2")
+                    if (fase == "1")
                     {
+                        FirmasR F = new FirmasR
+                        {
+                            Com_Nombre = DatNombre.Com_Nombre,
+                            Com_Direccion = DatNombre.Com_Direccion,
+                            Com_Telefono = DatNombre.Com_Telefono,
+                            Com_Logo = DatNombre.Com_Logo,
+                            Com_Email = fase.ToString(),
+                            Com_Nombre_SMS = DatNombre.Com_Nombre_SMS
+                        };
+
                         modelo = repoReportes.Firmas_Print(Convert.ToInt32(Admision), F, false);
+
                         if (modelo != null)
                         {
-                            F.Com_Email = fase.ToString();
+                            ConfigForm.GenerarReportViewer("DataSet_Firmas", "ZamenisHealth.Reportes.RDLC_Firmas_TF.rdlc", modelo);
+                        }
+                        else
+                        {
+                            MG = new MensajesGeneral()
+                            {
+                                TipoImagen = 1000,
+                                Mensaje = "No se puede imprimir una hoja de firmas en este momento para esta seleccion"
+                            };
+                            MG.ShowDialog();
+                        }
+                    }
+                    else if (fase == "2")
+                    {
+                        FirmasR F = new FirmasR
+                        {
+                            Com_Nombre = DatNombre.Com_Nombre,
+                            Com_Direccion = DatNombre.Com_Direccion,
+                            Com_Telefono = DatNombre.Com_Telefono,
+                            Com_Logo = DatNombre.Com_Logo,
+                            Com_Email = fase.ToString(),
+                            Com_Nombre_SMS = DatNombre.Com_Nombre_SMS
+                        };
+
+                        modelo = repoReportes.Firmas_Print(Convert.ToInt32(Admision), F, false);
+
+
+                        if (modelo != null)
+                        {
                             ConfigForm.GenerarReportViewer("DataSet_Firmas", "ZamenisHealth.Reportes.RDLC_Firmas_TF2.rdlc", modelo);
                         }
                         else
                         {
                             MG = new MensajesGeneral()
                             {
-                                Mensaje = "No se puede imprimir una hoja de firmas en este momento para esta seleccion",
-                                TipoImagen = 1000
+                                TipoImagen = 1000,
+                                Mensaje = "No se puede imprimir una hoja de firmas en este momento para esta seleccion.  No hay hoja de firmas"
                             };
                             MG.ShowDialog();
                         }
-                    }                                      
+                    }
                     else
                     {
                         MG = new MensajesGeneral()
                         {
-                            Mensaje = "El valor digitado es incorrecto, solo puede ser 1 o 2",
-                            TipoImagen = 1000
+                            TipoImagen = 1000,
+                            Mensaje = "El valor digitado es incorrecto, solo puede ser 1 o 2"
                         };
                         MG.ShowDialog();
                     }
@@ -289,47 +365,79 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message);
             }
-        }
+        }    
         private void boton4_Click(object sender, EventArgs e)
         {
             try
             {
-                CXN_CIA DatNombre = repoCompañia.getPrestadorbyCode(getCita.Com_Identificador);
+                CXN_CIA DatNombre = new CXN_CIA();
+                List<FirmasR> modelo = new List<FirmasR>();
+
+                DatNombre = repoCompañia.getPrestadorbyCode(CodePrestador);
+
                 if (DatNombre != null)
                 {
-                    List<FirmasR> modelo = new List<FirmasR>();
-
-                    FirmasR F = new FirmasR
-                    {
-                        Com_Nombre = DatNombre.Com_Nombre,
-                        Com_Direccion = DatNombre.Com_Direccion,
-                        Com_Telefono = DatNombre.Com_Telefono,
-                        Com_Logo = DatNombre.Com_Logo,
-                        Com_Nombre_SMS = DatNombre.Com_Nombre_SMS
-                    };
-
                     string fase = Microsoft.VisualBasic.Interaction.InputBox(
-                            "Digite el numero de la fase.  Solo se admite 1 o 2",
+                            "Digite el numero de la fase",
                             "Impresion de Hoja de Firmas",
                                 "");
-
-                    if (fase == "1" || fase == "2")
+                    if (fase == "1")
                     {
+                        FirmasR F = new FirmasR
+                        {
+                            Com_Nombre = DatNombre.Com_Nombre,
+                            Com_Direccion = DatNombre.Com_Direccion,
+                            Com_Telefono = DatNombre.Com_Telefono,
+                            Com_Logo = DatNombre.Com_Logo,
+                            Com_Email = fase.ToString(),
+                            Com_Nombre_SMS = DatNombre.Com_Nombre_SMS
+                        };
+
                         modelo = repoReportes.Firmas_Print(Convert.ToInt32(Admision), F, false);
+
                         if (modelo != null)
                         {
-                            F.Com_Email = fase.ToString();
+                            ConfigForm.GenerarReportViewer("DataSet_Firmas", "ZamenisHealth.Reportes.RDLC_Firmas_TO.rdlc", modelo);
+                        }
+                        else
+                        {
+                            MG = new MensajesGeneral()
+                            {
+                                TipoImagen = 1000,
+                                Mensaje = "No se puede imprimir una hoja de firmas en este momento para esta seleccion"
+                            };
+
+                            MG.ShowDialog();
+                        }
+                    }
+                    else if (fase == "2")
+                    {
+                        FirmasR F = new FirmasR
+                        {
+                            Com_Nombre = DatNombre.Com_Nombre,
+                            Com_Direccion = DatNombre.Com_Direccion,
+                            Com_Telefono = DatNombre.Com_Telefono,
+                            Com_Logo = DatNombre.Com_Logo,
+                            Com_Email = fase.ToString(),
+                            Com_Nombre_SMS = DatNombre.Com_Nombre_SMS
+                        };
+
+                        modelo = repoReportes.Firmas_Print(Convert.ToInt32(Admision), F, false);
+
+                        if (modelo != null)
+                        {
                             ConfigForm.GenerarReportViewer("DataSet_Firmas", "ZamenisHealth.Reportes.RDLC_Firmas_TO2.rdlc", modelo);
                         }
                         else
                         {
                             MG = new MensajesGeneral()
                             {
-                                Mensaje = "No se puede imprimir una hoja de firmas en este momento para esta seleccion",
-                                TipoImagen = 1000
+                                TipoImagen = 1000,
+                                Mensaje = "No se puede imprimir una hoja de firmas en este momento para esta seleccion"
                             };
+
                             MG.ShowDialog();
                         }
                     }
@@ -337,56 +445,84 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
                     {
                         MG = new MensajesGeneral()
                         {
-                            Mensaje = "El valor digitado es incorrecto, solo puede ser 1 o 2",
-                            TipoImagen = 1000
-                        };
+                            TipoImagen = 1000,
+                            Mensaje = "El valor digitado es incorrecto, solo puede ser 1 o 2"
+                        };       
+                        
                         MG.ShowDialog();
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message);
             }
         }
         private void boton5_Click(object sender, EventArgs e)
         {
             try
             {
-                CXN_CIA DatNombre = repoCompañia.getPrestadorbyCode(getCita.Com_Identificador);
+                List<FirmasR> modelo = new List<FirmasR>();
+                CXN_CIA DatNombre = new CXN_CIA();
+
+                DatNombre = repoCompañia.getPrestadorbyCode(CodePrestador);
+
                 if (DatNombre != null)
                 {
-                    List<FirmasR> modelo = new List<FirmasR>();
-
-                    FirmasR F = new FirmasR
-                    {
-                        Com_Nombre = DatNombre.Com_Nombre,
-                        Com_Direccion = DatNombre.Com_Direccion,
-                        Com_Telefono = DatNombre.Com_Telefono,
-                        Com_Logo = DatNombre.Com_Logo,
-                        Com_Nombre_SMS = DatNombre.Com_Nombre_SMS
-                    };
-
                     string fase = Microsoft.VisualBasic.Interaction.InputBox(
-                            "Digite el numero de la fase.  Solo se admite 1 o 2",
+                            "Digite el numero de la fase",
                             "Impresion de Hoja de Firmas",
                                 "");
-
-                    if (fase == "1" || fase == "2")
+                    if (fase == "1")
                     {
+                        FirmasR F = new FirmasR
+                        {
+                            Com_Nombre = DatNombre.Com_Nombre,
+                            Com_Direccion = DatNombre.Com_Direccion,
+                            Com_Telefono = DatNombre.Com_Telefono,
+                            Com_Logo = DatNombre.Com_Logo,
+                            Com_Email = fase.ToString(),
+                            Com_Nombre_SMS = DatNombre.Com_Nombre_SMS
+                        };
+
                         modelo = repoReportes.Firmas_Print(Convert.ToInt32(Admision), F, false);
+
+
                         if (modelo != null)
                         {
-                            F.Com_Email = fase.ToString();
                             ConfigForm.GenerarReportViewer("DataSet_Firmas", "ZamenisHealth.Reportes.RDLC_Firmas_PS.rdlc", modelo);
+                        }
+                        else
+                        {
+                            MessageBox.Show("No se puede imprimir una hoja de firmas en este momento para esta seleccion", "No hay hoja de firmas", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                    else if (fase == "2")
+                    {
+                        FirmasR F = new FirmasR
+                        {
+                            Com_Nombre = DatNombre.Com_Nombre,
+                            Com_Direccion = DatNombre.Com_Direccion,
+                            Com_Telefono = DatNombre.Com_Telefono,
+                            Com_Logo = DatNombre.Com_Logo,
+                            Com_Email = fase.ToString(),
+                            Com_Nombre_SMS = DatNombre.Com_Nombre_SMS
+                        };
+
+                        modelo = repoReportes.Firmas_Print(Convert.ToInt32(Admision), F, false);
+
+                        if (modelo != null)
+                        {
+                            ConfigForm.GenerarReportViewer("DataSet_Firmas", "ZamenisHealth.Reportes.RDLC_Firmas_PS2.rdlc", modelo);
                         }
                         else
                         {
                             MG = new MensajesGeneral()
                             {
-                                Mensaje = "No se puede imprimir una hoja de firmas en este momento para esta seleccion",
-                                TipoImagen = 1000
+                                TipoImagen = 1000,
+                                Mensaje = "No se puede imprimir una hoja de firmas en este momento para esta seleccion"
                             };
+
                             MG.ShowDialog();
                         }
                     }
@@ -394,16 +530,17 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
                     {
                         MG = new MensajesGeneral()
                         {
-                            Mensaje = "El valor digitado es incorrecto, solo puede ser 1 o 2",
-                            TipoImagen = 1000
+                            TipoImagen = 1000,
+                            Mensaje = "El valor digitado es incorrecto, solo puede ser 1 o 2"
                         };
+
                         MG.ShowDialog();
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message);
             }
         }
         private void boton2_Click(object sender, EventArgs e)
@@ -884,22 +1021,30 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
+        private void boton24_Click(object sender, EventArgs e)
+        {
+            repoAgenda2.UpdatecolorCita(Convert.ToDateTime(FechaSeleccionada), Convert.ToInt32(CodePaciente), "");
+            f7.EventoInicial();
+            this.Close();
+        }
         private void boton21_Click(object sender, EventArgs e)
         {
-            repoAgenda2.UpdatecolorCita(Convert.ToInt32(Admision), "N");
+            repoAgenda2.UpdatecolorCita(Convert.ToDateTime(FechaSeleccionada), Convert.ToInt32(CodePaciente), "N");
+            f7.EventoInicial();
+            this.Close();
         }
-
         private void boton22_Click(object sender, EventArgs e)
         {
-            repoAgenda2.UpdatecolorCita(Convert.ToInt32(Admision), "I");
+            repoAgenda2.UpdatecolorCita(Convert.ToDateTime(FechaSeleccionada), Convert.ToInt32(CodePaciente), "I");
+            f7.EventoInicial();
+            this.Close();
         }
-
         private void boton23_Click(object sender, EventArgs e)
         {
-            repoAgenda2.UpdatecolorCita(Convert.ToInt32(Admision), "C");
+            repoAgenda2.UpdatecolorCita(Convert.ToDateTime(FechaSeleccionada), Convert.ToInt32(CodePaciente), "C");
+            f7.EventoInicial();
+            this.Close();
         }
-
         private void boton19_Click(object sender, EventArgs e)
         {
             if (getCita.Hor_Estado == "A")

@@ -117,7 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="label1.Text" xml:space="preserve">
-    <value>Seleccione de la lista desplegable los apositos que se usaron en la curacion y haga click en agregar, si ha seleccionado alguno por equivocacion, seleccione limpiar y vuelva a seleccionar desde el principio los apositos.</value>
-  </data>
 </root>

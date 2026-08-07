@@ -1,10 +1,9 @@
 ﻿using Domain;
 using Domain.CXN;
-
+using FormAndControls;
 using Persistence;
 using Persistence.CXN.Interfaces;
 using Persistence.CXN.Metodos;
-
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -14,17 +13,16 @@ using System.Speech.Recognition;
 using System.Speech.Synthesis;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
 using Tulpep.NotificationWindow;
-
 using ZamenisHealth.Clases;
 using ZamenisHealth.Comunes;
+using ZamenisHealth.Properties;
 using ZamenisHealth.Recepcion.AgendaDiaria;
 using ZamenisHealth.Recepcion.Extras;
 
 namespace ZamenisHealth.Recepcion
 {
-    public partial class AgendarCita : ConfigForm.BaseForm
+    public partial class AgendarCita : Forma
     {
         private static readonly IConvenios repositorioConvenios = new MConvenios();
         private static readonly IAseguradoras repositorioAseguradoras = new MAseguradoras();
@@ -48,12 +46,15 @@ namespace ZamenisHealth.Recepcion
         private int ASESESIONS;
         private string TSERV;
         private DataTable dt;
+        private bool BONOS, INICIO, NUEVO, DESPACIO, DVxS;
 
         public static string Tipo_Serv = "";
         private MensajesGeneral MG;
 
         SpeechRecognitionEngine oSpeechRecognitionEngine = null;
         System.Speech.Synthesis.SpeechSynthesizer oSpeechSynthesizer = null;
+
+        ToolStripButton toolStripButton2;
 
         int Pac_Id;
         bool Nuevo;
@@ -81,8 +82,6 @@ namespace ZamenisHealth.Recepcion
             this.FechaCita = _fechacita;
             this.HabilitaEspacio = _habilitar;
             this.CodePrest = _codprest;
-
-            ConfigForm.MoverForma(label52, this);
         }
 
         private void CargarDocumentos()
@@ -102,7 +101,6 @@ namespace ZamenisHealth.Recepcion
                 }
             }
         }
-
         private void CargarRegimen()
         {
             List<string> ListaRegimen = repositorioPacientes.ListaRegimen();
@@ -117,7 +115,20 @@ namespace ZamenisHealth.Recepcion
                 }
             }            
         }
+        private void CargarIdentidadGenero()
+        {
+            List<CXN_GENDERIDENTITY> ListaIdGenero = repositorioPacientes.ListaIdentidadGenero();
 
+            if (ListaIdGenero != null)
+            {
+                comboBox10.Items.Clear();
+
+                foreach (CXN_GENDERIDENTITY r in ListaIdGenero)
+                {
+                    comboBox10.Items.Add(r.Identidad);
+                }
+            }
+        }   
         private void CargarServicio(int Ase)
         {
             comboBox5.DataSource = null;
@@ -137,20 +148,33 @@ namespace ZamenisHealth.Recepcion
                 comboBox5.SelectedIndex = 0;
             }
         }
-
         private void AgendarCita_Load(object sender, EventArgs e)
         {
             try
             {
-                this.Titulo.Visible = false;
-                this.ImageClose.Visible = false;
                 ConfigForm.SoloNumeros(textBox7);
 
-                this.Size = new Size(944, 590);               
+                Titulo.Text = "Agendamiento de Citas";
+                LogoMain.Image = Properties.Resources.Splash;
+                SubTitulo.Text = $"Zamenis Health {Conexion.VersionApp}";
+
+                Titulo.Location = new Point(Titulo.Location.X + 180, Titulo.Location.Y);
+                SubTitulo.Location = new Point(SubTitulo.Location.X + 180, SubTitulo.Location.Y);
+
+                ImageClose.Location = new Point(ImageClose.Location.X - 180, ImageClose.Location.Y);
+                ImageMinimize.Location = new Point(ImageClose.Location.X - 30, ImageClose.Location.Y);
+
+                PanelTitulo.BackColor = Color.LightGray;
+                ImageClose.BackColor = Color.LightGray;
+                ImageMinimize.BackColor = Color.LightGray;
+                Titulo.BackColor = Color.LightGray;
+                SubTitulo.BackColor = Color.LightGray;
+
+                this.Size = new Size(934, 663);               
 
                 ToolTip toolTip1 = new ToolTip();
                 toolTip1.ShowAlways = true;
-                toolTip1.SetToolTip(checkBox6, "Marque esta opcion en caso de que el paciente deba anexar vales de pago, bonos, efectivo o algun " +
+                toolTip1.SetToolTip(pictureBox1, "Marque esta opcion en caso de que el paciente deba anexar vales de pago, bonos, efectivo o algun " +
                     "tipo de pago, si el usuario no paga; no marque esta opcion");
                 toolTipServicio.ShowAlways = true;
 
@@ -158,6 +182,7 @@ namespace ZamenisHealth.Recepcion
                 
                 CargarDocumentos();
                 CargarRegimen();
+                CargarIdentidadGenero();
 
                 if (this.TipoBod == "CU")
                 {
@@ -190,20 +215,26 @@ namespace ZamenisHealth.Recepcion
                 label27.Text = Convert.ToDateTime(FechaCita).ToString(Conexion.ConectionDictionary["Format_Fecha"]);
 
                 comboBox7.SelectedIndex = 0;
+
+                toolStripButton2 = new ToolStripButton();
+                toolStripButton2 = createToolButton("Asignar Cita");
+                MenuLateral.Items.Add(toolStripButton2);
+                toolStripButton2.Click += toolStripButton2_Click;
+                toolStripButton2.Enabled = false;
+
+                checkBox3.BringToFront();
             }
             catch (Exception ex)
             {
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         private void textBox1_DoubleClick(object sender, EventArgs e)
         {
             Comunes.BuscarPacientes buscarPacientes = new Comunes.BuscarPacientes();
             buscarPacientes.Tipo_Busca_Pac = "AgendarCita";
             buscarPacientes.ShowDialog();
         }
-
         private void Limpiar()
         {
             textBox3.Text = "";
@@ -219,7 +250,6 @@ namespace ZamenisHealth.Recepcion
             textBox9.Text = "";
             Pac_Id = 0;
         }
-
         private void Busca_Pac()
         {
             try
@@ -262,9 +292,13 @@ namespace ZamenisHealth.Recepcion
 
                     if (result == DialogResult.Yes)
                     {
-                        
-                            Paciente = repositorioPacientes.LlamarPacienteNumDoc(textBox1.Text);
-                        
+                        Paciente = repositorioPacientes.LlamarPacienteNumDoc(textBox1.Text);
+
+                        if (Paciente.Pac_Bonos == "A") 
+                        {
+                            BONOS = true;
+                            pictureBox1.Image = Resources2.comprobado;
+                        }
 
                         CitasProximas(Paciente.Pac_Id);
 
@@ -281,9 +315,30 @@ namespace ZamenisHealth.Recepcion
                         textBox11.Text = Paciente.Pac_Direccion.ToString();
                         textBox9.Text = Paciente.Pac_Email.ToString();
                         Pac_Id = Convert.ToInt32(Paciente.Pac_Id);
+                        comboBox10.Text = repositorioPacientes.NameIdentidadGenero(Paciente.IdentidadGenero);
 
-                        checkBox4.Checked = (Paciente.Pac_Doble == "S" ? true : false);
-                        checkBox5.Checked = (Paciente.Pac_2VXS == "S" ? true : false);
+                        DESPACIO = (Paciente.Pac_Doble == "S" ? true : false);
+
+                        if (DESPACIO == true)
+                        {
+                            pictureBox3.Image = Resources2.comprobado;
+                        }
+                        else
+                        {
+                            pictureBox3.Image = null;
+                        }
+
+                        DVxS = (Paciente.Pac_2VXS == "S" ? true : false);
+
+                        if (DVxS == true)
+                        {
+                            pictureBox4.Image = Resources2.comprobado;
+                        }
+                        else
+                        {
+                            pictureBox4.Image = null;
+                        }
+
                         checkBox3.Checked = (Paciente.Pac_Especial == "S" ? true : false);
 
                         switch (Paciente.Pac_Sexo)
@@ -323,13 +378,13 @@ namespace ZamenisHealth.Recepcion
 
                         string textoDesplazante = "";
 
-                        if (checkBox4.Checked == true)
+                        if (DESPACIO == true)
                         {
                             textoDesplazante = textoDesplazante + " - Paciente con multiples heridas";
                             panel2.Visible = true;
                             timer1.Start();
                         }
-                        if (checkBox5.Checked == true)
+                        if (DVxS == true)
                         {
                             textoDesplazante = textoDesplazante + " - Paciente de dos veces por semana";
                             panel2.Visible = true;
@@ -342,11 +397,7 @@ namespace ZamenisHealth.Recepcion
                             timer1.Start();
                         }
 
-                        string Regi1 = "";
-
-                        
-                            Regi1 = repositorioPacientes.Carga_Regimen(Paciente.Pac_Regimen);
-                        
+                        string Regi1 =  repositorioPacientes.Carga_Regimen(Paciente.Pac_Regimen);
 
                         comboBox4.Text = Regi1.ToString();
                         CXN_ASEGURADORA Ase1 =  repositorioAseguradoras.getInfoFromAsebyCode(Paciente.Pac_Aseguradora);
@@ -382,12 +433,8 @@ namespace ZamenisHealth.Recepcion
 
                             if (repoConf.getListado()["MedicinaGeneralEstadistica"] == "A")
                             {
-                                Dictionary<string, string> SGSEERV = new Dictionary<string, string>();
-
+                                Dictionary<string, string> SGSEERV = repositorioHorario.SugerenciaServicio(Convert.ToInt32(Pac_Id));
                                 
-                                    SGSEERV = repositorioHorario.SugerenciaServicio(Convert.ToInt32(Pac_Id));
-                                
-
                                 if (SGSEERV != null)
                                 {
                                     toolTipServicio.SetToolTip(comboBox5, "Se sugiere asignar el servicio: " + SGSEERV["Servicio"].ToString().ToUpper());
@@ -422,6 +469,12 @@ namespace ZamenisHealth.Recepcion
                     return;
                 }
 
+                if (Paciente.Pac_Bonos == "A")
+                {
+                    BONOS = true;
+                    pictureBox1.Image = Resources2.comprobado;
+                }
+
                 CitasProximas(Paciente.Pac_Id);
 
                 textBox3.Text = Paciente.Pac_PrimerN.ToString();
@@ -436,10 +489,29 @@ namespace ZamenisHealth.Recepcion
                 textBox11.Text = Paciente.Pac_Direccion.ToString();
                 textBox9.Text = Paciente.Pac_Email.ToString();
                 Pac_Id = Convert.ToInt32(Paciente.Pac_Id);
+                comboBox10.Text = repositorioPacientes.NameIdentidadGenero(Paciente.IdentidadGenero);
 
-                checkBox4.Checked = (Paciente.Pac_Doble == "S" ? true : false);
-                checkBox5.Checked = (Paciente.Pac_2VXS == "S" ? true : false);
+                DESPACIO = (Paciente.Pac_Doble == "S" ? true : false);
+                DVxS = (Paciente.Pac_2VXS == "S" ? true : false);
                 checkBox3.Checked = (Paciente.Pac_Especial == "S" ? true : false);
+
+                if (DESPACIO == true)
+                {
+                    pictureBox3.Image = Resources2.comprobado;
+                }
+                else
+                {
+                    pictureBox3.Image = null;
+                }
+
+                if (DVxS == true)
+                {
+                    pictureBox4.Image = Resources2.comprobado;
+                }
+                else
+                {
+                    pictureBox4.Image = null;
+                }
 
                 switch (Paciente.Pac_Sexo)
                 {
@@ -478,13 +550,13 @@ namespace ZamenisHealth.Recepcion
 
                 string textoDesplazante2 = "";
 
-                if (checkBox4.Checked == true)
+                if (DESPACIO == true)
                 {
                     textoDesplazante2 = textoDesplazante2 + " - Paciente con multiples heridas";
                     panel2.Visible = true;
                     timer1.Start();
                 }
-                if (checkBox5.Checked == true)
+                if (DVxS == true)
                 {
                     textoDesplazante2 = textoDesplazante2 + " - Paciente de dos veces por semana";
                     panel2.Visible = true;
@@ -497,12 +569,8 @@ namespace ZamenisHealth.Recepcion
                     timer1.Start();
                 }
 
-                string Regi = "";
-
+                string Regi =  repositorioPacientes.Carga_Regimen(Paciente.Pac_Regimen);
                 
-                    Regi = repositorioPacientes.Carga_Regimen(Paciente.Pac_Regimen);
-                
-
                 comboBox4.Text = Regi.ToString();
 
                 CXN_ASEGURADORA Ase =  repositorioAseguradoras.getInfoFromAsebyCode(Paciente.Pac_Aseguradora);
@@ -537,11 +605,7 @@ namespace ZamenisHealth.Recepcion
 
                     if (repoConf.getListado()["MedicinaGeneralEstadistica"] == "A")
                     {
-                        Dictionary<string, string> SGSEERV = new Dictionary<string, string>();
-
-                        
-                            SGSEERV = repositorioHorario.SugerenciaServicio(Convert.ToInt32(Pac_Id));
-                        
+                        Dictionary<string, string> SGSEERV = repositorioHorario.SugerenciaServicio(Convert.ToInt32(Pac_Id));
 
                         if (SGSEERV != null)
                         {
@@ -573,11 +637,7 @@ namespace ZamenisHealth.Recepcion
             {
                 DateTime Hoy = DateTime.Now.Date;
 
-                List<CXN_HORARIO> getProximas = new List<CXN_HORARIO>();
-
-                
-                    getProximas = repositorioAgendar.CitasProximas(_pac_id, Convert.ToDateTime(Hoy));
-                
+                List<CXN_HORARIO> getProximas = repositorioAgendar.CitasProximas(_pac_id, Convert.ToDateTime(Hoy));                
                  
                 if (getProximas != null)
                 {
@@ -598,7 +658,6 @@ namespace ZamenisHealth.Recepcion
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         void Voz()
         {
             try
@@ -627,22 +686,17 @@ namespace ZamenisHealth.Recepcion
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         private void CargarPrevios()
         {
             try
             {
-                List<CXN_HORARIO> _previos = new List<CXN_HORARIO>();
-
-                
-                    _previos = repositorioAgendar.CargarPrevios(Pac_Id);
-                
+                List<CXN_HORARIO> _previos =  repositorioAgendar.CargarPrevios(Pac_Id);                
 
                 if (_previos != null)
                 {
                     Nuevo = false;
 
-                    this.Size = new Size(1288, 590);
+                    this.Size = new Size(1279, 663);
                     
                     this.StartPosition = FormStartPosition.Manual;
                     this.Left = (Screen.PrimaryScreen.WorkingArea.Width - this.Width) / 2;
@@ -723,7 +777,6 @@ namespace ZamenisHealth.Recepcion
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         private void DataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             if (e.Value != null && e.Value.GetType() == typeof(string))
@@ -779,7 +832,6 @@ namespace ZamenisHealth.Recepcion
 
             dataGridView1.ClearSelection();
         }
-
         private void DataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             try
@@ -811,7 +863,6 @@ namespace ZamenisHealth.Recepcion
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }           
         }
-
         void Estilos()
         {
             try
@@ -846,7 +897,6 @@ namespace ZamenisHealth.Recepcion
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         private void button1_Click(object sender, EventArgs e)
         {
             try
@@ -858,13 +908,11 @@ namespace ZamenisHealth.Recepcion
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         private void Cierra_Agenda()
         {
             this.Dispose();
             this.Close();
         }
-
         private void AgendarCita_KeyDown(object sender, KeyEventArgs e)
         {
             try
@@ -886,12 +934,6 @@ namespace ZamenisHealth.Recepcion
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
-        private void toolStripButton3_Click(object sender, EventArgs e)
-        {
-            Cierra_Agenda();
-        }
-
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
             try
@@ -939,6 +981,14 @@ namespace ZamenisHealth.Recepcion
                 {
                     MGmen.TipoImagen = 1000;
                     MGmen.Mensaje = "Debe seleccionar tipo de documento del paciente";
+                    MGmen.ShowDialog();
+                    return;
+                }
+
+                if (comboBox10.Text == "")
+                {
+                    MGmen.TipoImagen = 1000;
+                    MGmen.Mensaje = "Debe seleccionar la identidad de genero";
                     MGmen.ShowDialog();
                     return;
                 }
@@ -994,7 +1044,7 @@ namespace ZamenisHealth.Recepcion
                 if (comboBox9.Text == "")
                 {
                     MGmen.TipoImagen = 1000;
-                    MGmen.Mensaje = "Debe seleccionar el sexo del paciente";
+                    MGmen.Mensaje = "Debe seleccionar el sexo biologico del paciente, (El que esta en su identificacion)";
                     MGmen.ShowDialog();
                     return;
                 }
@@ -1064,7 +1114,6 @@ namespace ZamenisHealth.Recepcion
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         private void ConfirmarCita()
         {
             try
@@ -1090,7 +1139,6 @@ namespace ZamenisHealth.Recepcion
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         bool consultarEspacioRobado()
         {
             try
@@ -1103,7 +1151,6 @@ namespace ZamenisHealth.Recepcion
                 return false;
             }
         }
-
         private void FinalizaCita()
         {
             try
@@ -1132,9 +1179,10 @@ namespace ZamenisHealth.Recepcion
                         Pac_Id = Pac_Id,
                         Pac_Regimen = Regi,
                         Pac_Aseguradora = Convert.ToInt32(idase.Ase_Identificador),
-                        Pac_2VXS = (checkBox5.Checked == true ? "S" : "N"),
-                        Pac_Doble = (checkBox4.Checked == true ? "S" : "N"),
-                        Pac_Especial = (checkBox3.Checked == true ? "S" : "N")
+                        Pac_2VXS = (DVxS == true ? "S" : "N"),
+                        Pac_Doble = (DESPACIO == true ? "S" : "N"),
+                        Pac_Especial = (checkBox3.Checked == true ? "S" : "N"),
+                        IdentidadGenero = repositorioPacientes.CodeIdentidadGenero(comboBox10.Text)
                     };
 
                     switch (comboBox9.SelectedIndex)
@@ -1237,12 +1285,12 @@ namespace ZamenisHealth.Recepcion
                     }
 
                     string Vales = "";
-                    if (checkBox6.Checked == true)
+                    if (BONOS == true)
                     {
                         Vales = "S";
                     }
 
-                    if (checkBox6.Checked == false)
+                    if (BONOS == false)
                     {
                         Vales = "N";
                     }
@@ -1259,6 +1307,8 @@ namespace ZamenisHealth.Recepcion
                         MG1.ShowDialog();
                         return;
                     }
+
+                    string nuevito = NUEVO == true ? "N" : "";
 
                     CXN_HORARIO H = new CXN_HORARIO
                     {
@@ -1282,7 +1332,11 @@ namespace ZamenisHealth.Recepcion
                         Hor_GrupoServicios = IRIPS.getCodeGrupoServicios(comboBox7.Text),
                         Hor_Regimen = P.Pac_Regimen,
                         Hor_ArrastraHistoria = checkBox7.Visible == false ? "N" : checkBox7.Checked == true ? "S" : "N",
-                        Hor_AvisoCurInicio = checkBox8.Checked ? true : false
+                        Hor_AvisoCurInicio = INICIO,
+                        Hor_Tipo_Paciente = nuevito,
+                        Hor_Color = NUEVO == true ? "N" : 
+                                    INICIO == true ? "I" : 
+                                    "C"
                     };
 
                     int admTemp = repositorioAgendar.AgendarPaciente(H);
@@ -1310,9 +1364,7 @@ namespace ZamenisHealth.Recepcion
 
                     if (textBox2.Text != "")
                     {
-                        
-                            repositorioAgendar.updateObservaTemp(textBox2.Text, admTemp);
-                                                
+                        repositorioAgendar.updateObservaTemp(textBox2.Text, admTemp);                          
                     }
 
                     if (Preferencias.TicketCitas == "A")
@@ -1348,6 +1400,8 @@ namespace ZamenisHealth.Recepcion
                         MG.ShowDialog();
                     }
 
+                    repositorioPacientes.Bonos(Pac_Id, BONOS == true ? "A" : "N");                    
+
                     this.Dispose();
                     this.Close();
                 }
@@ -1364,7 +1418,6 @@ namespace ZamenisHealth.Recepcion
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         private void Bloqueo(string Razon)
         {
             try
@@ -1408,7 +1461,6 @@ namespace ZamenisHealth.Recepcion
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         private void Asignar_Cita()
         {
             if (HabilitaEspacio != "A")
@@ -1432,12 +1484,10 @@ namespace ZamenisHealth.Recepcion
                 FinalizaCita();
             }
         }
-
         private void checkBox2_CheckedChanged(object sender, EventArgs e)
         {
             Bloqueo("ESPACIO BLOQUEADO DESDE RECEPCION");
         }
-
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
             try
@@ -1461,7 +1511,6 @@ namespace ZamenisHealth.Recepcion
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         private void timer1_Tick(object sender, EventArgs e)
         {
             try
@@ -1482,17 +1531,11 @@ namespace ZamenisHealth.Recepcion
                 timer1.Enabled = false;
             }
         }
-
         private void comboBox5_SelectedIndexChanged(object sender, EventArgs e)
         {
             try
             {
-                CXN_CONVENIOS TSERVICIO = new CXN_CONVENIOS();
-
-                
-                    TSERVICIO = repositorioConvenios.ServicioCUP(comboBox5.Text, ASESESIONS);
-                
-
+                CXN_CONVENIOS TSERVICIO =  repositorioConvenios.ServicioCUP(comboBox5.Text, ASESESIONS);
                 TSERV = TSERVICIO.Con_Tipo_Serv;
             }
             catch (Exception ex)
@@ -1500,7 +1543,6 @@ namespace ZamenisHealth.Recepcion
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         private void checkBox3_CheckedChanged(object sender, EventArgs e)
         {
             if (checkBox3.Checked == true) 
@@ -1512,11 +1554,70 @@ namespace ZamenisHealth.Recepcion
                 }                
             }
         }
-
-        private void panel4_MouseDown(object sender, MouseEventArgs e)
+        private void pictureBox1_Click(object sender, EventArgs e)
         {
-            ConfigForm.ReleaseCapturing();
-            ConfigForm.SendMessageMove(this.Handle, 0x112, 0xf012, 0);
+            if (pictureBox1.Image == null)
+            {
+                BONOS = true;
+                pictureBox1.Image = Resources2.comprobado;
+            }
+            else
+            {
+                BONOS = false;
+                pictureBox1.Image = null;
+            }
+        }
+        private void pictureBox4_Click(object sender, EventArgs e)
+        {
+            if (pictureBox4.Image == null)
+            {
+                DVxS = true;
+                pictureBox4.Image = Resources2.comprobado;
+            }
+            else
+            {
+                DVxS = false;
+                pictureBox4.Image = null;
+            }
+        }
+        private void pictureBox3_Click(object sender, EventArgs e)
+        {
+            if (pictureBox3.Image == null)
+            {
+                DESPACIO = true;
+                pictureBox3.Image = Resources2.comprobado;
+            }
+            else
+            {
+                DESPACIO = false;
+                pictureBox3.Image = null;
+            }
+        }
+        private void pictureBox5_Click(object sender, EventArgs e)
+        {
+            if (pictureBox5.Image == null)
+            {
+                NUEVO = true;
+                pictureBox5.Image = Resources2.comprobado;
+            }
+            else
+            {
+                NUEVO = false;
+                pictureBox5.Image = null;
+            }
+        }
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+            if (pictureBox2.Image == null)
+            {
+                INICIO = true;
+                pictureBox2.Image = Resources2.comprobado;
+            }
+            else
+            {
+                INICIO = false;
+                pictureBox2.Image = null;
+            }
         }
     }
 }

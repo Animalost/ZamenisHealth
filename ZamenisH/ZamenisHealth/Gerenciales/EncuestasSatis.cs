@@ -11,13 +11,12 @@ using System.Drawing;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using ZamenisHealth.Clases;
 using ZamenisHealth.Comunes;
 
 namespace ZamenisHealth.Gerenciales
 {    
-    public partial class EncuestasSatis : Forma
+    public partial class EncuestasSatis : Forma2
     {
         private static readonly IPacientes repoPacientes = new MPacientes();
         private static readonly IEncuestasSatis repoSatis = new MEncuestasSatis();
@@ -82,8 +81,6 @@ namespace ZamenisHealth.Gerenciales
                         MG.Mensaje = "Ocurrio un error inesperado, consulte el log de transacciones";
                         MG.ShowDialog();
                     }
-
-                    progressBar1.Value = 0;
                 }
             }
             catch (Exception ex)
@@ -130,8 +127,6 @@ namespace ZamenisHealth.Gerenciales
                         MG.Mensaje = "Ocurrio un error inesperado, consulte el log de transacciones";
                         MG.ShowDialog();
                     }
-
-                    progressBar1.Value = 0;
                 }
             }
             catch (Exception ex)
@@ -178,8 +173,6 @@ namespace ZamenisHealth.Gerenciales
                         MG.Mensaje = "Ocurrio un error inesperado, consulte el log de transacciones";
                         MG.ShowDialog();
                     }
-
-                    progressBar1.Value = 0;
                 }
             }
             catch (Exception ex)
@@ -245,8 +238,6 @@ namespace ZamenisHealth.Gerenciales
                         MG.Mensaje = "Ocurrio un error inesperado, consulte el log de transacciones";
                         MG.ShowDialog();
                     }
-
-                    progressBar1.Value = 0;
                 }
             }
             catch (Exception ex)
@@ -289,7 +280,6 @@ namespace ZamenisHealth.Gerenciales
                         Contador = Contador + 1;
 
                         int currentProgress = (int)(((double)contadorArchivosGenerados / Total) * 100);
-                        progressBar1.Increment(currentProgress);
                     }
 
                     Contador = Contador - 1;
@@ -384,7 +374,6 @@ namespace ZamenisHealth.Gerenciales
                             Contador = Contador + 1;
 
                             int currentProgress = (int)(((double)contadorArchivosGenerados / Total) * 100);
-                            progressBar1.Increment(currentProgress);
                         }
 
                         Contador = Contador - 1;
@@ -1061,8 +1050,6 @@ namespace ZamenisHealth.Gerenciales
                             P6R5Percentual = p6r5.ToString("N2"),
                             P6R6Percentual = p6r6.ToString("N2")
                         });
-
-                        progressBar1.Increment(numEncuesta);
                     }
 
                     thread = new Thread(M);
@@ -1226,28 +1213,7 @@ namespace ZamenisHealth.Gerenciales
         private void EncuestasSatis_Load(object sender, EventArgs e)
         {
             Titulo.Text = "Encuesta de Satisfaccion";
-            LogoMain.Image = Properties.Resources.Splash;
             SubTitulo.Text = $"Zamenis Health {Conexion.VersionApp}";
-
-            ToolStripButton btnGenerarTodasMes = new ToolStripButton();
-            btnGenerarTodasMes = createToolButton("Generar Todas");
-            MenuLateral.Items.Add(btnGenerarTodasMes);
-            btnGenerarTodasMes.Click += btnZamenis1_ButtonClick;
-
-            ToolStripButton btnGenerarMensual = new ToolStripButton();
-            btnGenerarMensual = createToolButton("Generar Mensual");
-            MenuLateral.Items.Add(btnGenerarMensual);
-            btnGenerarMensual.Click += btnZamenis2_ButtonClick;
-
-            ToolStripButton btnGenerarExtendido = new ToolStripButton();
-            btnGenerarExtendido = createToolButton("Generar Extendido");
-            MenuLateral.Items.Add(btnGenerarExtendido);
-            btnGenerarExtendido.Click += btnZamenis3_ButtonClick;
-
-            ToolStripButton btnGenerarPaciente = new ToolStripButton();
-            btnGenerarPaciente = createToolButton("Generar por Paciente");
-            MenuLateral.Items.Add(btnGenerarPaciente);
-            btnGenerarPaciente.Click += btnZamenis4_ButtonClick;
 
             comboBox2.SelectedIndex = 1;
             comboBox3.SelectedIndex = 1;

@@ -235,6 +235,8 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
                 calendarHQ1.dTPCalendar.ValueChanged += dTPCalendar_ValueChanged;
 
                 comboBox3.SelectedIndex = 0;
+                richTextBox1.KeyDown += textBox1_KeyDown;
+
                 //EventoInicial();
             }
             catch (Exception ex)
@@ -372,7 +374,16 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
 
                 if (e.RowIndex >= 0)
                 {
-                    if (e.ColumnIndex == 6)
+                    if (e.ColumnIndex == 5) //Menu Principal
+                    {
+                        string admision = dataGridView1.CurrentRow.Cells[5].Value.ToString();
+                        string idHora = dataGridView1.CurrentRow.Cells[0].Value.ToString();
+                        string Hora = dataGridView1.CurrentRow.Cells[4].Value.ToString();
+
+                        MenuOpcionesAgenda menuOpcionesAgenda = new MenuOpcionesAgenda(admision, idHora, CodePrestador, Hora, CodeProfesional);
+                        menuOpcionesAgenda.ShowDialog();
+                    }
+                    else if (e.ColumnIndex == 6) //Celda paciente
                     {
                         if (string.IsNullOrEmpty(dataGridView1.CurrentRow.Cells[6].Value.ToString()))
                         {
@@ -494,16 +505,7 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
                             };
                             MG.ShowDialog();
                         }
-                    }
-                    else if (e.ColumnIndex == 5) //Menu Principal
-                    {                        
-                        string admision = dataGridView1.CurrentRow.Cells[5].Value.ToString();
-                        string idHora = dataGridView1.CurrentRow.Cells[0].Value.ToString();
-                        string Hora = dataGridView1.CurrentRow.Cells[4].Value.ToString();
-
-                        MenuOpcionesAgenda menuOpcionesAgenda = new MenuOpcionesAgenda(admision, idHora, CodePrestador, Hora, CodeProfesional);
-                        menuOpcionesAgenda.ShowDialog();
-                    }
+                    }                   
                 }
                 else //agendar cita
                 {
@@ -1002,7 +1004,7 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
                             {
                                 EstadoCitaAagendada = datoCita.Hor_Estado;
                                 AdmisionAgenda = datoCita.Hor_Id.ToString();
-                                PacienteAgendado = datoCita.Hor_Imp_Age;
+                                PacienteAgendado = datoCita.Hor_Estado == "B" ? datoCita.PacienteNombre : datoCita.Hor_Imp_Age;
                                 AseguradoraAgendada = datoCita.PacienteAseguradora;
                                 CodigoPaciente = datoCita.Hor_Pac_Id.ToString();
                                 colorFila = datoCita.Hor_Color.ToString();
@@ -1114,7 +1116,6 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
                     {
                         foreach (DataGridViewRow row in dataGridView1.Rows)
                         {
-                            Console.WriteLine(row.Cells["P2VxS"].Value.ToString());
                             if (row.Cells["P2VxS"].Value.ToString() == "S")
                             {
                                 int currentIndex = row.Index;
@@ -1162,9 +1163,59 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
                                             row.Cells["Paciente"].Style.ForeColor = Color.Sienna;
                                             break;
 
-                                        default: //Control Normal
-                                            row.Cells["Paciente"].Style.BackColor = Color.LightGreen;
-                                            row.Cells["Paciente"].Style.ForeColor = Color.Green;
+                                        default: //Controles 
+                                            string TipoBod = repositorioBodegas.getDatosCode(CodeProfesional).Bod_Tipo;
+                                            if (TipoBod == "CU" || TipoBod == "MG")
+                                            {
+                                                List<CXN_HORARIO> citaConMedico = repositorioAgenda.ListarCitasXPaciente2(Convert.ToInt32(row.Cells["CodePaciente"].Value), calendarHQ1.dTPCalendar.Value, CodeProfesional);
+                                                if (citaConMedico != null)
+                                                {
+                                                    if (TipoBod == "CU")
+                                                    {
+                                                        bool existe = citaConMedico.Any(x => x.Hor_Pac_Tipo_Serv == "MG");
+                                                        if (existe == true)
+                                                        {
+                                                            row.Cells["Paciente"].Style.BackColor = Color.Yellow;
+                                                            row.Cells["Paciente"].Style.ForeColor = Color.DarkOrange;
+                                                        }
+                                                        else
+                                                        {
+                                                            row.Cells["Paciente"].Style.BackColor = Color.LightGreen;
+                                                            row.Cells["Paciente"].Style.ForeColor = Color.Green;
+                                                        }
+                                                    }
+                                                    else if (TipoBod == "MG")
+                                                    {
+                                                        bool existe = citaConMedico.Any(x => x.Hor_Pac_Tipo_Serv == "CU");
+                                                        if (existe == true)
+                                                        {
+                                                            row.Cells["Paciente"].Style.BackColor = Color.Yellow;
+                                                            row.Cells["Paciente"].Style.ForeColor = Color.DarkOrange;
+                                                        }
+                                                        else
+                                                        {
+                                                            row.Cells["Paciente"].Style.BackColor = Color.LightGreen;
+                                                            row.Cells["Paciente"].Style.ForeColor = Color.Green;
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        row.Cells["Paciente"].Style.BackColor = Color.LightGreen;
+                                                        row.Cells["Paciente"].Style.ForeColor = Color.Green;
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    row.Cells["Paciente"].Style.BackColor = Color.LightGreen;
+                                                    row.Cells["Paciente"].Style.ForeColor = Color.Green;
+                                                }
+                                            }
+                                            else
+                                            {
+                                                row.Cells["Paciente"].Style.BackColor = Color.LightGreen;
+                                                row.Cells["Paciente"].Style.ForeColor = Color.Green;
+                                            }
+                                                                                       
                                             break;
                                     }
                                    
@@ -1350,6 +1401,8 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
                                 Mensaje = "No hay resultados para esta admision"
                             };
                             MG.ShowDialog();
+
+                            setBlankBars();
                             return;
                         }
 
@@ -1361,16 +1414,22 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
                             {
                                 MenuOpcionesAgenda menuOpcionesAgenda = new MenuOpcionesAgenda(_admTem.ToString(), dataCita.Hor_Pac_Id_Hora, dataCita.Hor_Pac_Cia, dataCita.Hor_Pac_Hora_Cita.ToString(), dataCita.Hor_Pac_Bod);
                                 menuOpcionesAgenda.ShowDialog();
+
+                                setBlankBars();
                             }
                             else if (Estado == "P")
                             {
                                 DatosCita f = new DatosCita(Convert.ToInt32(_admTem.ToString()), "Agenda");
                                 f.ShowDialog();
+
+                                setBlankBars();
                             }
                             else if (Estado == "H")
                             {
                                 DatosCita f = new DatosCita(Convert.ToInt32(_admTem.ToString()), "Agenda");
                                 f.ShowDialog();
+
+                                setBlankBars();
                             }
                             else if (Estado == "C")
                             {
@@ -1380,6 +1439,8 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
                                     Mensaje = "El estado de esta admision es CITA CANCELADA"
                                 };
                                 MG.ShowDialog();
+
+                                setBlankBars();
                             }
                             else
                             {
@@ -1389,6 +1450,8 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
                                     Mensaje = "El estado de esta admision no permite su consumo"
                                 };
                                 MG.ShowDialog();
+
+                                setBlankBars();
                             }
                         }
                         else
@@ -1399,32 +1462,28 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
                                 Mensaje = "No hay resultados para esta admision"
                             };
                             MG.ShowDialog();
+
+                            setBlankBars();
                         }
                     }
                     else if (TipoConsultaBarras == 2)
                     {
                         Busqueda B = new Busqueda(calendarHQ1.dTPCalendar.Value, textBox1.Text);
                         B.ShowDialog();
+
+                        setBlankBars();
                     }
                     else
                     {
-                        richTextBox1.Focus();
+                       // richTextBox1.Focus();
                     }
-
-                    richTextBox1.Focus();
-                }
+                }                
             }
             catch (Exception ex)
             {
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
-        }
-        private void textBox1_Leave(object sender, EventArgs e)
-        {
-            label4.Text = "Busqueda Standar";
-            label4.BackColor = Color.White;
-            TipoConsultaBarras = 0;
-        }
+        }        
         private void Agendamiento_KeyDown(object sender, KeyEventArgs e)
         {
             try
@@ -1467,12 +1526,16 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
                     {
                         label4.BackColor = Color.LightBlue;
                     }
-                }
+                    else
+                    {
+                        label4.Text = "Busqueda Standar";
+                        label4.BackColor = Color.White;
+                        TipoConsultaBarras = 0;
+                    }
+                }                
                 else
                 {
-                    label4.Text = "Busqueda Standar";
-                    label4.BackColor = Color.White;
-                    TipoConsultaBarras = 0;
+                    
                 }
             }
             catch (Exception ex)
@@ -1506,6 +1569,12 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
                 valor1 = int.Parse(matches[0].Value);
                 valor2 = int.Parse(matches[1].Value);
             }
+        }
+        void setBlankBars()
+        {
+            label4.Text = "Busqueda Standar";
+            label4.BackColor = Color.White;
+            TipoConsultaBarras = 0;
         }
     }
 }

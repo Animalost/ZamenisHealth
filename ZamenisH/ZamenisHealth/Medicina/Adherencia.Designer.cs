@@ -28,78 +28,22 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Adherencia));
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.boton1 = new FormAndControls.Controles.Boton();
-            this.boton2 = new FormAndControls.Controles.Boton();
             this.boton3 = new FormAndControls.Controles.Boton();
+            this.gridZH1 = new ZamenisHealth.Clases.Controles.GridZH();
             this.SuspendLayout();
-            // 
-            // richTextBox1
-            // 
-            this.richTextBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.richTextBox1.Location = new System.Drawing.Point(12, 205);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.ReadOnly = true;
-            this.richTextBox1.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
-            this.richTextBox1.Size = new System.Drawing.Size(587, 324);
-            this.richTextBox1.TabIndex = 19;
-            this.richTextBox1.Text = "";
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(12, 132);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(587, 28);
-            this.comboBox1.TabIndex = 16;
             // 
             // label1
             // 
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.Black;
-            this.label1.Location = new System.Drawing.Point(2, 55);
+            this.label1.Location = new System.Drawing.Point(2, 54);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(597, 72);
+            this.label1.Size = new System.Drawing.Size(597, 48);
             this.label1.TabIndex = 15;
-            this.label1.Text = resources.GetString("label1.Text");
+            this.label1.Text = "Seleccione de la lista desplegable los apositos que se usaron en la curacion y ha" +
+    "ga click en agregar a la historia";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // boton1
-            // 
-            this.boton1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(55)))), ((int)(((byte)(90)))));
-            this.boton1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.boton1.FlatAppearance.BorderSize = 3;
-            this.boton1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.boton1.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
-            this.boton1.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.boton1.Location = new System.Drawing.Point(344, 167);
-            this.boton1.Name = "boton1";
-            this.boton1.Size = new System.Drawing.Size(124, 32);
-            this.boton1.TabIndex = 22;
-            this.boton1.Text = "Agregar";
-            this.boton1.UseVisualStyleBackColor = false;
-            this.boton1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // boton2
-            // 
-            this.boton2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(55)))), ((int)(((byte)(90)))));
-            this.boton2.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.boton2.FlatAppearance.BorderSize = 3;
-            this.boton2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.boton2.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
-            this.boton2.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.boton2.Location = new System.Drawing.Point(475, 166);
-            this.boton2.Name = "boton2";
-            this.boton2.Size = new System.Drawing.Size(124, 32);
-            this.boton2.TabIndex = 23;
-            this.boton2.Text = "Limpiar";
-            this.boton2.UseVisualStyleBackColor = false;
-            this.boton2.Click += new System.EventHandler(this.button2_Click);
             // 
             // boton3
             // 
@@ -117,17 +61,22 @@
             this.boton3.UseVisualStyleBackColor = false;
             this.boton3.Click += new System.EventHandler(this.button4_Click);
             // 
+            // gridZH1
+            // 
+            this.gridZH1.BackColor = System.Drawing.Color.White;
+            this.gridZH1.Location = new System.Drawing.Point(6, 109);
+            this.gridZH1.Name = "gridZH1";
+            this.gridZH1.Size = new System.Drawing.Size(593, 420);
+            this.gridZH1.TabIndex = 25;
+            // 
             // Adherencia
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(611, 574);
+            this.ClientSize = new System.Drawing.Size(606, 574);
+            this.Controls.Add(this.gridZH1);
             this.Controls.Add(this.boton3);
-            this.Controls.Add(this.boton2);
-            this.Controls.Add(this.boton1);
-            this.Controls.Add(this.richTextBox1);
-            this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "Adherencia";
@@ -137,11 +86,8 @@
         }
 
         #endregion
-        private System.Windows.Forms.RichTextBox richTextBox1;
-        private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Label label1;
-        private FormAndControls.Controles.Boton boton1;
-        private FormAndControls.Controles.Boton boton2;
         private FormAndControls.Controles.Boton boton3;
+        private Clases.Controles.GridZH gridZH1;
     }
 }

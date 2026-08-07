@@ -420,7 +420,6 @@
             this.label5.TabIndex = 81;
             this.label5.Text = "RDA FHIR";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.label5.Visible = false;
             this.label5.Click += new System.EventHandler(this.pictureBox4_Click);
             // 
             // pictureBox4
@@ -436,7 +435,6 @@
             this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox4.TabIndex = 82;
             this.pictureBox4.TabStop = false;
-            this.pictureBox4.Visible = false;
             this.pictureBox4.Click += new System.EventHandler(this.pictureBox4_Click);
             // 
             // Administracion

@@ -945,7 +945,7 @@ namespace ZamenisHealth.Comunes
         {
             /*System.Diagnostics.Process.Start(Conexion.getURLPrincipal() + "/Android");
             System.Diagnostics.Process.Start(repositorioConfSystem.getListado()["APPAndroid"]);*/
-            System.Diagnostics.Process.Start(Conexion.getURLPrincipal() + ":5019");
+            System.Diagnostics.Process.Start(Conexion.getURLPrincipal() + ":8200");
         }
 
         private void linkLabel5_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

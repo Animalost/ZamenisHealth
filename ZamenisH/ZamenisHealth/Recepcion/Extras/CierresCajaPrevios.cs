@@ -10,8 +10,8 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
-using System.Windows.Forms;
 using System.Linq;
+using System.Windows.Forms;
 using ZamenisHealth.Comunes;
 
 namespace ZamenisHealth.Recepcion.Extras
@@ -46,7 +46,9 @@ namespace ZamenisHealth.Recepcion.Extras
                 btnGenerar = createToolButton("Generar");
                 MenuLateral.Items.Add(btnGenerar);
                 btnGenerar.Click += button1_Click;
-                     
+
+                gridZH1.dataGridView1.CellDoubleClick += dataGridView1_CellDoubleClick;
+                gridZH1.CeldaHeight = true;
 
                 List<CXN_CIA> prestadores = compañia.getAllCompañias();
 
@@ -72,7 +74,7 @@ namespace ZamenisHealth.Recepcion.Extras
         }
         void Encabezados()
         {
-            dataGridView1.DataSource = null;
+            gridZH1.dataGridView1.DataSource = null;
             dt = new DataTable();
             POS = dt.Columns.Add("POS", typeof(int));
             Consecutivo = dt.Columns.Add("Consecutivo", typeof(string));
@@ -138,52 +140,8 @@ namespace ZamenisHealth.Recepcion.Extras
         {
             try
             {
-                dataGridView1.EnableHeadersVisualStyles = false;
-                dataGridView1.ScrollBars = ScrollBars.Both;
-
-                dataGridView1.DataSource = dt;
-
-                dataGridView1.Columns["Consecutivo"].Width = 100;
-                dataGridView1.Columns["Fecha"].Width = 110;
-                dataGridView1.Columns["Usuario"].Width = 120;
-                dataGridView1.Columns["Total"].Width = 130;
-                dataGridView1.Columns["Estado"].Width = 130;
-
-                dataGridView1.Font = new Font("Arial", 11);
-
-                dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font(dataGridView1.Font, FontStyle.Bold);
-                dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Arial", 10, FontStyle.Bold);
-                dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#bfdbff");
-                dataGridView1.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
-                dataGridView1.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
-
-                dataGridView1.Columns["Consecutivo"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                dataGridView1.Columns["Fecha"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                dataGridView1.Columns["Usuario"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                dataGridView1.Columns["Total"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                dataGridView1.Columns["Estado"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
-                dataGridView1.Columns["Consecutivo"].SortMode = DataGridViewColumnSortMode.NotSortable;
-                dataGridView1.Columns["Fecha"].SortMode = DataGridViewColumnSortMode.NotSortable;
-                dataGridView1.Columns["Usuario"].SortMode = DataGridViewColumnSortMode.NotSortable;
-                dataGridView1.Columns["Total"].SortMode = DataGridViewColumnSortMode.NotSortable;
-                dataGridView1.Columns["Estado"].SortMode = DataGridViewColumnSortMode.NotSortable;
-
-                dataGridView1.Columns["POS"].Visible = false;
-
-                foreach (DataGridViewRow row in dataGridView1.Rows)
-                {
-                    int Numero = Convert.ToInt32(row.Cells["POS"].Value.ToString());
-
-                    if ((Numero % 2) == 0)
-                    {
-                        row.DefaultCellStyle.BackColor = Color.Aquamarine;
-                    }
-                    else
-                    {
-                        row.DefaultCellStyle.BackColor = Color.MediumAquamarine;
-                    }
-                }
+                gridZH1.dataGridView1.DataSource = dt;
+                gridZH1.dataGridView1.Columns["POS"].Visible = false;
             }
             catch (Exception ex)
             {
@@ -194,7 +152,7 @@ namespace ZamenisHealth.Recepcion.Extras
         {
             try
             {
-                string cons = dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString();
+                string cons = gridZH1.dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString();
 
                 List<CXN_REPORTECAJA2> getReport = cierres.GetReport2(cons.ToString(), Cia);
                 if (getReport != null)
@@ -245,7 +203,7 @@ namespace ZamenisHealth.Recepcion.Extras
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                Console.WriteLine(ex.ToString());
             }            
         }
     }

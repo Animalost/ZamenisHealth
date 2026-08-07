@@ -11,13 +11,6 @@ namespace ZamenisHealth.FrontFHIR.VisorZamenis
     {
         private IConsultaPaciente rConsultaPaciente = new ConsultaPaciente();
 
-        // Datos Basicos Paciente
-        public string GetString(JsonElement element, string property)
-        {
-            return element.TryGetProperty(property, out var value)
-                ? value.GetString()
-                : null;
-        }
         //Lista Rda composition
         DataTable CrearTablaBundle()
         {
@@ -349,15 +342,6 @@ namespace ZamenisHealth.FrontFHIR.VisorZamenis
             return $"{given} {family}".Trim();
         }
         //HELPERS
-        public static string GetSafeText(JsonElement element, string prop)
-        {
-            if (element.ValueKind == JsonValueKind.Object &&
-                element.TryGetProperty(prop, out var v) &&
-                v.ValueKind == JsonValueKind.String)
-                return v.GetString();
-
-            return string.Empty;
-        }
         public static string GetStringSafe(JsonElement element, string prop)
         {
             if (element.TryGetProperty(prop, out JsonElement value) && value.ValueKind != JsonValueKind.Null)

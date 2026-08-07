@@ -5,7 +5,6 @@ using Persistence.CXN.Metodos;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Drawing;
 using System.Windows.Forms;
 using ZamenisHealth.Clases;
 using ZamenisHealth.Comunes;
@@ -40,7 +39,10 @@ namespace ZamenisHealth.Medicina.DocumentosWEB
             btnBuscar = createToolButton("Buscar");
             MenuLateral.Items.Add(btnBuscar);
             btnBuscar.Click += button1_Click;
-            
+
+            gridZH1.dataGridView1.CellDoubleClick += dataGridView1_CellDoubleClick;
+            gridZH1.CeldaHeight = true;
+
             CargarCia();
         }
         void CargarCia()
@@ -102,7 +104,7 @@ namespace ZamenisHealth.Medicina.DocumentosWEB
                     }
 
                     Contador = 1;
-                    Estilos(dataGridView1, dt);
+                    Estilos(gridZH1.dataGridView1, dt);
                 }
                 else
                 {
@@ -120,7 +122,7 @@ namespace ZamenisHealth.Medicina.DocumentosWEB
         }
         void Encabezados()
         {
-            dataGridView1.DataSource = null;
+            gridZH1.dataGridView1.DataSource = null;
             dt = new DataTable();
             POS = dt.Columns.Add("POS", typeof(int));
             Id = dt.Columns.Add("Id", typeof(int));
@@ -131,54 +133,15 @@ namespace ZamenisHealth.Medicina.DocumentosWEB
         }
         void Estilos(DataGridView D, DataTable t)
         {
-            D.EnableHeadersVisualStyles = false;
-            D.ScrollBars = ScrollBars.Both;
-
             D.DataSource = t;
-
-            D.Columns["Tipo"].Width = 180;
-            D.Columns["Paciente"].Width = 230;
-            D.Columns["FechaCreacion"].Width = 120;
-            D.Columns["FechaFirma"].Width = 120;
-
-            D.ColumnHeadersDefaultCellStyle.Font = new Font(D.Font, FontStyle.Bold);
-            D.ColumnHeadersDefaultCellStyle.Font = new Font("Arial", 8, FontStyle.Bold);
-            D.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#bfdbff");
-            D.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
-            D.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
-
-            D.Columns["Tipo"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            D.Columns["Paciente"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            D.Columns["FechaCreacion"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            D.Columns["FechaFirma"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
-            D.Columns["Tipo"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            D.Columns["Paciente"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            D.Columns["FechaCreacion"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            D.Columns["FechaFirma"].SortMode = DataGridViewColumnSortMode.NotSortable;
-
             D.Columns["POS"].Visible = false;
             D.Columns["Id"].Visible = false;
-
-            foreach (DataGridViewRow row in D.Rows)
-            {
-                int Numero = Convert.ToInt32(row.Cells["POS"].Value.ToString());
-
-                if ((Numero % 2) == 0)
-                {
-                    row.DefaultCellStyle.BackColor = Color.Aquamarine;
-                }
-                else
-                {
-                    row.DefaultCellStyle.BackColor = Color.MediumAquamarine;
-                }
-            }
         }
         private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             try
             {
-                int Posision = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString());
+                int Posision = Convert.ToInt32(gridZH1.dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString());
                 List<ConsentimientosTemp> getReport = repoDocWEB.Export(Posision);
                 if (getReport != null)
                 {
@@ -224,7 +187,7 @@ namespace ZamenisHealth.Medicina.DocumentosWEB
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                Console.WriteLine(ex.ToString());
             }
         }
         private void button2_Click(object sender, EventArgs e)

@@ -48,7 +48,7 @@ namespace Domain.CXN
         public string Etnia { get; set; }      
         public DateTime HoraNto { get; set; }
         public string IdentidadGenero { get; set; }
-        public List<CXN_PACIENTES> ListaPacientes { get; set; }
+        public string Pac_Bonos { get; set; }
     }
 
     public class OtrosDatos

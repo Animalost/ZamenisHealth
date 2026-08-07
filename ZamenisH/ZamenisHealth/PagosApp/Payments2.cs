@@ -17,6 +17,8 @@ namespace ZamenisHealth.PagosApp
         {
             Titulo.Text = "Factura de Servicios";
             webBrowser1.Navigate(TempFile);
+
+            toolStrip1.SendToBack();
         }
     }
 }

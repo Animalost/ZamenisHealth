@@ -45,5 +45,6 @@ namespace Persistence.CXN.Interfaces
         List<CXN_GENDERIDENTITY> ListaIdentidadGenero();
         string NameIdentidadGenero(string Code);
         string CodeIdentidadGenero(string Name);
+        void Bonos(int IdPac, string Bono);
     }
 }

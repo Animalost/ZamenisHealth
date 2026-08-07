@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using ZamenisHealth.Clases;
 using ZamenisHealth.Comunes;
@@ -25,11 +26,18 @@ namespace ZamenisHealth.Facturacion
         private static readonly IVentas repoVentas = new MVentas();
         private static readonly IPlanos repoPlanos = new MPlanos();
         private static readonly IFacElectron repoElectron = new MFacElectron();
+        private static readonly IFacturacion repoFacturacion = new MFacturacion();
+        private static readonly IPacientes repoPacientes = new MPacientes();
+        private static readonly IAgendaC repoAge = new MAgendaC();
+        private static readonly IRcCaja repoRCCaja = new MRcCaja();
+        private static readonly IConvenios repoConvenios = new MConvenios();
+        private static readonly IFirmasDigitales fDigitales = new MFirmasDigitales();
 
         private Dictionary<int, string> DNotas;
         private Dictionary<int, string> DHistorias;
         private Espera E;
-        int Ase, Cia, FacSelected;
+        int Ase, Cia, FacSelected, PACID;
+        string HomologoFac, AutorPrint;
 
         private MensajesGeneral MG;
 
@@ -42,6 +50,8 @@ namespace ZamenisHealth.Facturacion
         DataColumn Paciente;
         DataColumn AdminRec;
         DataColumn Admision;
+        DataColumn PacId;
+        DataColumn Autor;
 
         public ReportesCopias()
         {
@@ -197,6 +207,8 @@ namespace ZamenisHealth.Facturacion
                         row["Valor"] = "$ " + Convert.ToInt32(report.ValorReciboFactura).ToString("N0");
                         row["Paciente"] = report.PacienteNombre.ToString();
                         row["AdminRec"] = Tabla.ToString();
+                        row["PacId"] = report.PacienteIdentificacion.ToString();
+                        row["Autor"] = report.EmpresaDireccion.ToString();
 
                         dt.Rows.Add(row);
                         dt.AcceptChanges();
@@ -240,6 +252,8 @@ namespace ZamenisHealth.Facturacion
                             row["Valor"] = "$ " + Convert.ToInt32(report.ValorReciboFactura).ToString("N0");
                             row["Paciente"] = report.PacienteNombre.ToString();
                             row["AdminRec"] = Tabla.ToString();
+                            row["PacId"] = "";
+                            row["Autor"] = "";
 
                             dt.Rows.Add(row);
                             dt.AcceptChanges();
@@ -284,6 +298,8 @@ namespace ZamenisHealth.Facturacion
                             row["Valor"] = "$ " + Convert.ToInt32(report.ValorReciboFactura).ToString("N0");
                             row["Paciente"] = report.PacienteNombre.ToString();
                             row["AdminRec"] = Tabla.ToString();
+                            row["PacId"] = "";
+                            row["Autor"] = "";
 
                             dt.Rows.Add(row);
                             dt.AcceptChanges();
@@ -328,6 +344,8 @@ namespace ZamenisHealth.Facturacion
                             row["Valor"] = "$ " + Convert.ToInt32(report.ValorReciboFactura).ToString("N0");
                             row["Paciente"] = report.PacienteNombre.ToString();
                             row["AdminRec"] = report.Tipo.ToString();
+                            row["PacId"] = "";
+                            row["Autor"] = "";
 
                             dt.Rows.Add(row);
                             dt.AcceptChanges();
@@ -459,21 +477,23 @@ namespace ZamenisHealth.Facturacion
             LogoMain.Image = Properties.Resources.Splash;
 
             ToolStripButton btnBuscar = new ToolStripButton();
-            btnBuscar = createToolButton("Buscar Facturas");
+            btnBuscar = createToolButton("Listar Facturas");
             MenuLateral.Items.Add(btnBuscar);
             btnBuscar.Click += btnZamenis1_ButtonClick;
 
             ToolStripButton btnGenerar = new ToolStripButton();
-            btnGenerar = createToolButton("Mostrar");
+            btnGenerar = createToolButton("Reporte Facturas");
             MenuLateral.Items.Add(btnGenerar);
             btnGenerar.Click += btnZamenis2_ButtonClick;
 
             ToolStripButton btnExportar = new ToolStripButton();
-            btnExportar = createToolButton("Exportar");
+            btnExportar = createToolButton("Exportar Excel");
             MenuLateral.Items.Add(btnExportar);
             btnExportar.Click += btnZamenis3_ButtonClick;
 
-            
+            gridZH1.dataGridView1.CellMouseClick += dataGridView1_CellMouseClick;
+            gridZH1.dataGridView1.CellDoubleClick += dataGridView1_CellDoubleClick;
+            gridZH1.CeldaHeight = true;
 
             comboBox4.SelectedIndex = 0;
             comboBox5.SelectedIndex = 0;
@@ -513,7 +533,7 @@ namespace ZamenisHealth.Facturacion
         }
         void Encabezados()
         {
-            dataGridView1.DataSource = null;
+            gridZH1.dataGridView1.DataSource = null;
             dt = new DataTable();
             POS = dt.Columns.Add("POS", typeof(int));
             Documento = dt.Columns.Add("Documento", typeof(string));
@@ -522,58 +542,20 @@ namespace ZamenisHealth.Facturacion
             Valor = dt.Columns.Add("Valor", typeof(string));
             Paciente = dt.Columns.Add("Paciente", typeof(string));
             AdminRec = dt.Columns.Add("AdminRec", typeof(string));
+            PacId = dt.Columns.Add("PacId", typeof(string));
+            Autor = dt.Columns.Add("Autor", typeof(string));
         }
         void Estilos()
         {
-            dataGridView1.EnableHeadersVisualStyles = false;
-            dataGridView1.ScrollBars = ScrollBars.Both;
+            gridZH1.dataGridView1.DataSource = dt;
 
-            dataGridView1.DataSource = dt;
-
-            dataGridView1.Columns["Documento"].Width = 110;
-            dataGridView1.Columns["Fecha"].Width = 110;
-            dataGridView1.Columns["Homologo"].Width = 200;
-            dataGridView1.Columns["Valor"].Width = 200;
-            dataGridView1.Columns["Paciente"].Width = 350;
-            dataGridView1.Columns["AdminRec"].Width = 110;
-            dataGridView1.Font = new Font("Arial", 11);
-
-            dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font(dataGridView1.Font, FontStyle.Bold);
-            dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Arial", 10, FontStyle.Bold);
-            dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#bfdbff");
-            dataGridView1.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
-            dataGridView1.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
-
-            dataGridView1.Columns["Documento"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridView1.Columns["Fecha"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridView1.Columns["Homologo"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridView1.Columns["Valor"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridView1.Columns["Paciente"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridView1.Columns["AdminRec"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
-            dataGridView1.Columns["Documento"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            dataGridView1.Columns["Fecha"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            dataGridView1.Columns["Homologo"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            dataGridView1.Columns["Valor"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            dataGridView1.Columns["Paciente"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            dataGridView1.Columns["AdminRec"].SortMode = DataGridViewColumnSortMode.NotSortable;
-
-            dataGridView1.Columns["POS"].Visible = false;
-
-            foreach (DataGridViewRow row in dataGridView1.Rows)
-            {
-                int Numero = Convert.ToInt32(row.Cells["POS"].Value.ToString());
-
-                if ((Numero % 2) == 0)
-                {
-                    row.DefaultCellStyle.BackColor = Color.Aquamarine;
-                }
-                else
-                {
-                    row.DefaultCellStyle.BackColor = Color.MediumAquamarine;
-                }
-            }
+            gridZH1.dataGridView1.Columns["POS"].Visible = false;
+            gridZH1.dataGridView1.Columns["PacId"].Visible = false;
+            gridZH1.dataGridView1.Columns["Autor"].Visible = false;
+            gridZH1.dataGridView1.Columns["AdminRec"].Visible = false;
         }
+
+        #region SOPORTES CLINICOS POR DOCUMENTO
         private void dataGridView1_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             try
@@ -582,35 +564,67 @@ namespace ZamenisHealth.Facturacion
                 {
                     if (comboBox1.Text == "Facturas Aseguradoras y Particulares")
                     {
-                        FacSelected = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString());
+                        FacSelected = Convert.ToInt32(gridZH1.dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString());
+                        PACID = Convert.ToInt32(gridZH1.dataGridView1.Rows[e.RowIndex].Cells[7].Value.ToString());
+                        HomologoFac = gridZH1.dataGridView1.Rows[e.RowIndex].Cells[3].Value.ToString();
+                        AutorPrint = gridZH1.dataGridView1.Rows[e.RowIndex].Cells[8].Value.ToString();
+
+                        Point posicionLocal = Cursor.Position;
 
                         //Generar Documentos Clinicos
                         contextMenuStrip1.Visible = true;
-                        contextMenuStrip1.Location = new Point(dataGridView1.Location.X + 600, dataGridView1.Location.Y + 100);
+                        contextMenuStrip1.Location = new Point(posicionLocal.X, posicionLocal.Y);
                         contextMenuStrip1.Visible = true;
 
                         DNotas = new Dictionary<int, string>();
                         DHistorias = new Dictionary<int, string>();
 
-                        var GetDics = repoReportes.getAdmitionByInvoiceZamenis(FacSelected);
+                        var GetDics = repoReportes.getAdmitionByInvoiceZamenis(FacSelected, Cia);
 
                         DNotas = GetDics.DicNotas;
                         DHistorias = GetDics.DicHistorias;
                     }
                 }
 
-                dataGridView1.ClearSelection();
+                gridZH1.dataGridView1.ClearSelection();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
         }
-        private void generarDocumentosClinicosToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void generarDocumentosClinicosToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
             {
-                CXN_CIA CIA = repoCia.getPrestadorbyCode(Cia); 
+                pictureBox1.Visible = true;
+                label1.Visible = true;
+
+                await Task.Run(() =>
+                {
+                    ProcesarDocumentos(); 
+                });
+
+                pictureBox1.Visible = false;
+                label1.Visible = false;
+
+                MG = new MensajesGeneral()
+                {
+                    Mensaje = "Terminado",
+                    TipoImagen = 3
+                };
+                MG.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        private void ProcesarDocumentos()
+        {
+            try
+            {
+                CXN_CIA CIA = repoCia.getPrestadorbyCode(Cia);
 
                 Dictionary<int, object> getRDLCMasivoNotas = repoReportes.NotasMetodoRDLC(DNotas);
                 Dictionary<int, object> getRDLCMasivoHistorias = repoReportes.NotasMetodoRDLC(DHistorias);
@@ -663,7 +677,7 @@ namespace ZamenisHealth.Facturacion
                     U.Unificar_Estructura(@"C:\CXN\Reportes\Notas\",
                                           1.ToString(),
                                           totalArchivos.ToString(),
-                                          "PDX_" + CIA.Com_Identificacion + "_" + FacSelected + ".pdf");
+                                          "PDX_" + CIA.Com_Identificacion + "_" + HomologoFac + ".pdf");
 
                     R.Dispose();
 
@@ -708,7 +722,7 @@ namespace ZamenisHealth.Facturacion
                     U.Unificar_Estructura(@"C:\CXN\Reportes\Historias\",
                                           1.ToString(),
                                           totalArchivos2.ToString(),
-                                          "HEV_" + CIA.Com_Identificacion + "_" + FacSelected + ".pdf");
+                                          "HEV_" + CIA.Com_Identificacion + "_" + HomologoFac + ".pdf");
 
                     R2.Dispose();
 
@@ -718,13 +732,263 @@ namespace ZamenisHealth.Facturacion
                     }
                 }
 
-                MessageBox.Show("Terminado", "Hecho", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                if (repoFacturacion.getValCuotasReceived(FacSelected, Cia) > 0)
+                {
+                    //hoja de cuotas
+                    Cuotas();
+                }
+                else
+                {
+                    //hoja de firmas
+                    Firmas();
+                }
+
+                //Factura
+                List<FacturasR> GenerarDocumentoGrafico = repoFacturacion.Fac_Export(FacSelected, Cia, "OP");
+                if (GenerarDocumentoGrafico != null)
+                {
+                    ReportViewer R = new ReportViewer();
+
+                    R.LocalReport.DataSources.Clear();
+                    R.LocalReport.DataSources.Add(new ReportDataSource("DataSet_Facturacion", GenerarDocumentoGrafico));
+                    R.LocalReport.ReportEmbeddedResource = "ZamenisHealth.Reportes.FacElectron.FacturaElectronicaSalud.rdlc";
+                    R.SetDisplayMode(DisplayMode.PrintLayout);
+                    R.ZoomMode = ZoomMode.Percent;
+                    R.ZoomPercent = 100;
+                    R.Font = new System.Drawing.Font("Arial", 7);
+                    R.LocalReport.EnableExternalImages = true;
+                    R.RefreshReport();
+                    //maestro.Visible = true;
+                    R.Dock = System.Windows.Forms.DockStyle.Fill;
+
+                    byte[] bytes = R.LocalReport.Render("PDF");
+                    FileStream fss = new FileStream("C:\\CXN\\Reportes\\FEV_" + CIA.Com_Identificacion.ToString() + "_" + HomologoFac + ".pdf", FileMode.Create);
+                    fss.Write(bytes, 0, bytes.Length);
+                    fss.Close();
+                }
+
+                pictureBox1.Visible = false;
+                label1.Visible = false;
             }
             catch (Exception ex)
             {
-                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
+                MessageBox.Show(ex.Message);
             }
         }
+        void Firmas()
+        {
+            try
+            {
+                CXN_CIA DatNombre = repoCia.getPrestadorbyCode(Cia);
+                CXN_PACIENTES pacData = repoPacientes.LlamarPacientebyId(PACID);
+                CXN_ASEGURADORA aseData = repoAse.getInfoFromAsebyCode(pacData.Pac_Aseguradora);
+                List<int> Admisiones = repoFacturacion.getAdmitionsByFac(FacSelected, Cia);
+
+                if (Admisiones != null)
+                {
+                    List<FirmasR> lista = new List<FirmasR>();
+                    int Contador = 1;
+
+                    foreach (var i in Admisiones)
+                    {
+                        otrosDatosPacienteHorario dataAdm = repoAge.cargarAdmision(i, "'H'");
+
+                        CXN_FIRMASDIGITALES fTemp = fDigitales.getFirmas(i);
+                        byte[] firmaByte = null;
+
+                        if (fTemp == null)
+                        {
+                            firmaByte = Convert.FromBase64String(fDigitales.ImageNull());
+                        }
+                        else
+                        {
+                            using (MemoryStream ms = new MemoryStream(fTemp.Firma))
+                            using (Bitmap bmp = new Bitmap(ms))
+                            using (MemoryStream ms2 = new MemoryStream())
+                            {
+                                bmp.Save(ms2, System.Drawing.Imaging.ImageFormat.Png);
+                                firmaByte = ms2.ToArray();
+                            }
+                        }
+
+                        lista.Add(new FirmasR
+                        {
+                            PacienteNombre = pacData.Pac_PrimerA.ToString() + " " +
+                                             pacData.Pac_SegundoA.ToString() + " " +
+                                             pacData.Pac_PrimerN.ToString() + " " +
+                                             pacData.Pac_SegundoN.ToString(),
+                            PacienteAseguradora = aseData.Ase_Descripcion.ToString(),
+                            PacienteIdentificacion = pacData.Pac_TipoId.ToString() + " " +
+                                                     pacData.Pac_IdNum.ToString(),
+                            PacienteTelefono = pacData.Pac_Telefono.ToString(),
+                            PacienteDireccion = pacData.Pac_Direccion.ToString(),
+
+                            EmpresaNombre = DatNombre.Com_Nombre,
+                            EmpresaDireccion = DatNombre.Com_Direccion,
+                            Com_UsuarioGraba = DatNombre.Com_Tipo_Doc + " " + DatNombre.Com_Identificacion, //idd prestaddor
+                            EmpresaTelefono = dataAdm.Com_Nombre_SMS.Contains("CONSULTA") ? "C" : Contador.ToString(),
+                            Logo = Convert.FromBase64String(DatNombre.Com_Logo),
+
+                            FechaBase = Convert.ToDateTime(dataAdm.Hor_Pac_Fecha_Cita),
+                            FirmaByte = firmaByte,
+                            Con_Nombre = dataAdm.Com_Nombre_SMS,
+                            Com_Direccion = AutorPrint, //autorizacion
+                            Admision = i,
+                            Cantidad = 0,// i.Cant
+                        });
+
+                        if (!dataAdm.Com_Nombre_SMS.Contains("CONSULTA"))
+                        {
+                            Contador++;
+                        }
+                    }
+
+                    ReportViewer R = new ReportViewer();
+
+                    R.LocalReport.DataSources.Clear();
+                    R.LocalReport.DataSources.Add(new ReportDataSource("DataSet_Firmas", lista));
+                    R.LocalReport.ReportEmbeddedResource = "ZamenisHealth.Reportes.FirmasDigitales.rdlc";
+                    R.SetDisplayMode(DisplayMode.PrintLayout);
+                    R.ZoomMode = ZoomMode.Percent;
+                    R.ZoomPercent = 100;
+                    R.Font = new System.Drawing.Font("Arial", 7);
+                    R.LocalReport.EnableExternalImages = true;
+                    R.RefreshReport();
+                    //maestro.Visible = true;
+                    R.Dock = System.Windows.Forms.DockStyle.Fill;
+
+                    byte[] bytes = R.LocalReport.Render("PDF");
+                    FileStream fss = new FileStream("C:\\CXN\\Reportes\\CRC_" + DatNombre.Com_Identificacion.ToString() + "_" + HomologoFac + ".pdf", FileMode.Create);
+                    fss.Write(bytes, 0, bytes.Length);
+                    fss.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        void Cuotas()
+        {
+            try
+            {
+                List<otrosDatosPacienteHorario> H = new List<otrosDatosPacienteHorario>();
+                CXN_CIA DataCompany = repoCia.getPrestadorbyCode(Cia);
+                CXN_PACIENTES DataPaciente = repoPacientes.LlamarPacientebyId(PACID);
+                List<int> Admisiones = repoFacturacion.getAdmitionsByFac(FacSelected, Cia);
+
+                foreach (int numRC in Admisiones)
+                {
+                    otrosDatosPacienteHorario otherData = repoAge.cargarAdmision(numRC, "'H','P'");
+
+                    (int Valor, string Concepto) dato = repoRCCaja.getValRcCaja(numRC);
+                    switch (dato.Concepto)
+                    {
+                        case "01":
+
+                            if (dato.Valor != 0)
+                            {
+                                H.Add(new otrosDatosPacienteHorario
+                                {
+                                    Hor_Id = numRC,
+                                    Hor_Pac_Fecha_Cita = otherData.Hor_Pac_Fecha_Cita,
+                                    Hor_Pac_Cup = otherData.Hor_Pac_Cup + " - " + repoConvenios.NameServiceCUP(otherData.Hor_Pac_Cup),
+                                    Hor_Pac_Id = Convert.ToInt32(dato.Valor), //Valor
+                                    Hor_ConceptoRecaudo = "COPAGO",
+                                    Com_Nombre = DataCompany.Com_Nombre,
+                                    Com_Identificacion = DataCompany.Com_Identificacion,
+                                    Logo = Convert.FromBase64String(otherData.Com_Logo),
+                                    PacienteNombre = DataPaciente.Pac_PrimerA + " " + DataPaciente.Pac_SegundoA + " " + DataPaciente.Pac_PrimerN + " " + DataPaciente.Pac_SegundoN,
+                                    PacienteIdentificacion = DataPaciente.Pac_TipoId + " " + DataPaciente.Pac_IdNum
+                                });
+                            }
+                            break;
+
+                        case "02":
+                            if (dato.Valor != 0)
+                            {
+                                H.Add(new otrosDatosPacienteHorario
+                                {
+                                    Hor_Id = numRC,
+                                    Hor_Pac_Fecha_Cita = otherData.Hor_Pac_Fecha_Cita,
+                                    Hor_Pac_Cup = otherData.Hor_Pac_Cup + " - " + repoConvenios.NameServiceCUP(otherData.Hor_Pac_Cup),
+                                    Hor_Pac_Id = Convert.ToInt32(dato.Valor), //Valor
+                                    Hor_ConceptoRecaudo = "CUOTA MODERADORA",
+                                    Com_Nombre = DataCompany.Com_Nombre,
+                                    Com_Identificacion = DataCompany.Com_Identificacion,
+                                    Logo = Convert.FromBase64String(otherData.Com_Logo),
+                                    PacienteNombre = DataPaciente.Pac_PrimerA + " " + DataPaciente.Pac_SegundoA + " " + DataPaciente.Pac_PrimerN + " " + DataPaciente.Pac_SegundoN,
+                                    PacienteIdentificacion = DataPaciente.Pac_TipoId + " " + DataPaciente.Pac_IdNum
+                                });
+                            }
+                            break;
+
+                        case "03":
+                            if (dato.Valor != 0)
+                            {
+                                H.Add(new otrosDatosPacienteHorario
+                                {
+                                    Hor_Id = numRC,
+                                    Hor_Pac_Fecha_Cita = otherData.Hor_Pac_Fecha_Cita,
+                                    Hor_Pac_Cup = otherData.Hor_Pac_Cup + " - " + repoConvenios.NameServiceCUP(otherData.Hor_Pac_Cup),
+                                    Hor_Pac_Id = Convert.ToInt32(dato.Valor), //Valor
+                                    Hor_ConceptoRecaudo = "PAGOS COMPARTIDOS",
+                                    Com_Nombre = DataCompany.Com_Nombre,
+                                    Com_Identificacion = DataCompany.Com_Identificacion,
+                                    Logo = Convert.FromBase64String(otherData.Com_Logo),
+                                    PacienteNombre = DataPaciente.Pac_PrimerA + " " + DataPaciente.Pac_SegundoA + " " + DataPaciente.Pac_PrimerN + " " + DataPaciente.Pac_SegundoN,
+                                    PacienteIdentificacion = DataPaciente.Pac_TipoId + " " + DataPaciente.Pac_IdNum
+                                });
+                            }
+                            break;
+
+                        case "04":
+                            if (dato.Valor != 0)
+                            {
+                                H.Add(new otrosDatosPacienteHorario
+                                {
+                                    Hor_Id = numRC,
+                                    Hor_Pac_Fecha_Cita = otherData.Hor_Pac_Fecha_Cita,
+                                    Hor_Pac_Cup = otherData.Hor_Pac_Cup + " - " + repoConvenios.NameServiceCUP(otherData.Hor_Pac_Cup),
+                                    Hor_Pac_Id = Convert.ToInt32(dato.Valor), //Valor
+                                    Hor_ConceptoRecaudo = "ANTICIPO",
+                                    Com_Nombre = DataCompany.Com_Nombre,
+                                    Com_Identificacion = DataCompany.Com_Identificacion,
+                                    Logo = Convert.FromBase64String(otherData.Com_Logo),
+                                    PacienteNombre = DataPaciente.Pac_PrimerA + " " + DataPaciente.Pac_SegundoA + " " + DataPaciente.Pac_PrimerN + " " + DataPaciente.Pac_SegundoN,
+                                    PacienteIdentificacion = DataPaciente.Pac_TipoId + " " + DataPaciente.Pac_IdNum
+                                });
+                            }
+                            break;
+                    }
+                }
+
+                ReportViewer R = new ReportViewer();
+
+                R.LocalReport.DataSources.Clear();
+                R.LocalReport.DataSources.Add(new ReportDataSource("DataSet_SoportesPagos", H));
+                R.LocalReport.ReportEmbeddedResource = "ZamenisHealth.Reportes.RDLC_SoportePagos.rdlc";
+                R.SetDisplayMode(DisplayMode.PrintLayout);
+                R.ZoomMode = ZoomMode.Percent;
+                R.ZoomPercent = 100;
+                R.Font = new System.Drawing.Font("Arial", 7);
+                R.LocalReport.EnableExternalImages = true;
+                R.RefreshReport();
+                //maestro.Visible = true;
+                R.Dock = System.Windows.Forms.DockStyle.Fill;
+
+                byte[] bytes = R.LocalReport.Render("PDF");
+                FileStream fss = new FileStream("C:\\CXN\\Reportes\\CRC_" + DataCompany.Com_Identificacion.ToString() + "_" + HomologoFac +".pdf", FileMode.Create);
+                fss.Write(bytes, 0, bytes.Length);
+                fss.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        #endregion
+
         private void homologarDocumentoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AdminSystem.Homologos homologos = new AdminSystem.Homologos();
@@ -766,10 +1030,10 @@ namespace ZamenisHealth.Facturacion
 
                 CXN_FACTURA F = new CXN_FACTURA
                 {
-                    Fac_Num_Fac = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString()),
+                    Fac_Num_Fac = Convert.ToInt32(gridZH1.dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString()),
                     Fac_Cia = Cia,                   
-                    Homologo = dataGridView1.Rows[e.RowIndex].Cells[3].Value.ToString(),
-                    Fac_Observa = dataGridView1.Rows[e.RowIndex].Cells[6].Value.ToString()
+                    Homologo = gridZH1.dataGridView1.Rows[e.RowIndex].Cells[3].Value.ToString(),
+                    Fac_Observa = gridZH1.dataGridView1.Rows[e.RowIndex].Cells[6].Value.ToString()
                 };
 
                 if (comboBox1.Text == "Facturas Ventas")
@@ -786,9 +1050,9 @@ namespace ZamenisHealth.Facturacion
                 }
                 else if (comboBox1.Text == "Notas Credito")
                 {
-                    string tip = dataGridView1.Rows[e.RowIndex].Cells[6].Value.ToString();
-                    string ncredito = dataGridView1.Rows[e.RowIndex].Cells[3].Value.ToString();
-                    int nzamenis = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString());
+                    string tip = gridZH1.dataGridView1.Rows[e.RowIndex].Cells[6].Value.ToString();
+                    string ncredito = gridZH1.dataGridView1.Rows[e.RowIndex].Cells[3].Value.ToString();
+                    int nzamenis = Convert.ToInt32(gridZH1.dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString());
 
                     if (tip == "Salud")
                     {

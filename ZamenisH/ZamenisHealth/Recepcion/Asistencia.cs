@@ -7,7 +7,9 @@ using Persistence.CXN.Metodos;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
+using ZamenisHealth.Clases;
 using ZamenisHealth.Comunes;
 
 namespace ZamenisHealth.Recepcion
@@ -15,8 +17,10 @@ namespace ZamenisHealth.Recepcion
     public partial class Asistencia : Forma
     {
         private static readonly IAgenda repositorioAgendar = new MAgenda();
+        private static readonly IAgendaC repositorioAgenda = new MAgendaC();
         private MensajesGeneral MG;
         private ToolStripButton btnBuscar;
+        private bool Colorimetria;
 
         public Asistencia()
         {
@@ -47,22 +51,26 @@ namespace ZamenisHealth.Recepcion
             listView1.View = View.Details;
             listView1.GridLines = true;
             listView1.FullRowSelect = true;
-            listView1.Columns.Add("Numero", 50, HorizontalAlignment.Left);
+            listView1.Columns.Add("Numero", 0, HorizontalAlignment.Left);
             listView1.Columns.Add("Admision", 100, HorizontalAlignment.Left);
             listView1.Columns.Add("Estado", 100, HorizontalAlignment.Left);
             listView1.Columns.Add("Fecha", 100, HorizontalAlignment.Left);
             listView1.Columns.Add("Hora", 100, HorizontalAlignment.Left);
-            listView1.Columns.Add("Nombre", 250, HorizontalAlignment.Left);
-            listView1.Columns.Add("Profesional", 300, HorizontalAlignment.Left);
-            listView1.Columns.Add("Servicio", 300, HorizontalAlignment.Left);
             listView1.Columns.Add("Autorizacion", 100, HorizontalAlignment.Left);
             listView1.Columns.Add("Sesion", 80, HorizontalAlignment.Left);
+            listView1.Columns.Add("Nombre", 250, HorizontalAlignment.Left);
+            listView1.Columns.Add("Profesional", 300, HorizontalAlignment.Left);
+            listView1.Columns.Add("Servicio", 300, HorizontalAlignment.Left); 
             listView1.Columns.Add("Usuario que Asigna", 150, HorizontalAlignment.Left);
             listView1.Columns.Add("Usuario que Admisiona", 150, HorizontalAlignment.Left);
             listView1.Columns.Add("Usuario que Cancela", 150, HorizontalAlignment.Left);
             listView1.Columns.Add("Razon de Cancelacion", 200, HorizontalAlignment.Left);
             listView1.Columns.Add("Modalidad", 150, HorizontalAlignment.Left);
             listView1.Columns.Add("Retardos", 200, HorizontalAlignment.Left);
+            listView1.Columns.Add("Color", 0, HorizontalAlignment.Left);
+            listView1.Columns.Add("Bodega", 0, HorizontalAlignment.Left);
+            listView1.Columns.Add("Paciente", 0, HorizontalAlignment.Left);
+            listView1.Columns.Add("TipoServ", 0, HorizontalAlignment.Left);
             listView1.Visible = true;
         }
         public void Asist()
@@ -73,11 +81,7 @@ namespace ZamenisHealth.Recepcion
                 {
                     if (comboBox1.SelectedIndex == 0) // 100 Citas
                     {
-                        List<CXN_HORARIO> _listaCistas = new List<CXN_HORARIO>();
-
-                        
-                            _listaCistas = repositorioAgendar.Asistencia(textBox1.Text);
-                        
+                        List<CXN_HORARIO> _listaCistas = repositorioAgendar.Asistencia(textBox1.Text);                        
 
                         if (_listaCistas != null)
                         {
@@ -95,23 +99,36 @@ namespace ZamenisHealth.Recepcion
                                     i.Hor_Estado,
                                     Convert.ToDateTime(i.Hor_Pac_Fecha_Cita).ToString(Conexion.ConectionDictionary["Format_Fecha"]),
                                     Convert.ToDateTime(i.Hor_Pac_Hora_Cita).ToString("HH:mm tt"),
+                                     i.Hor_Autoriza,
+                                    (i.Hor_IniciaSesion == "0" ? "" : i.Hor_IniciaSesion),
                                     i.Hor_Imp_Age,
                                     i.Hor_Regimen,
-                                    i.Hor_RegAtn.ToString(),
-                                    i.Hor_Autoriza,
-                                    (i.Hor_IniciaSesion == "0" ? "" : i.Hor_IniciaSesion),
+                                    i.Hor_RegAtn.ToString(),                                   
                                     i.Hor_Pac_UsrGraba,
                                     i.Hor_Usr_Admisiona,
                                     i.Hor_Usr_Cancela,
                                     i.Hor_Pac_RCancela,
                                     Modalidad,
-                                    i.Hor_Pac_Minutos
+                                    i.Hor_Pac_Minutos,
+                                    i.Hor_Color,
+                                    i.Hor_Pac_Bod.ToString(),
+                                    i.Hor_Pac_Id.ToString(),
+                                    i.Hor_Pac_Tipo_Serv
                                 }));
 
                                 Contador++;
+
+                                Console.WriteLine(i.Hor_Color);
                             }
 
-                            Estilo();
+                            if (Colorimetria == true)
+                            {
+                                EstiloColorimetria();
+                            }
+                            else
+                            {
+                                Estilo();
+                            }                           
                         }
                         else
                         {
@@ -125,11 +142,7 @@ namespace ZamenisHealth.Recepcion
                     }
                     else if (comboBox1.SelectedIndex == 1) // Ultimas Citas desde ultima autorizacion
                     {
-                        List<CXN_HORARIO> _listaCistas = new List<CXN_HORARIO>();
-
-                        
-                            _listaCistas = repositorioAgendar.AsistenciaLastAut(textBox1.Text);
-                        
+                        List<CXN_HORARIO> _listaCistas =  repositorioAgendar.AsistenciaLastAut(textBox1.Text);                        
 
                         if (_listaCistas != null)
                         {
@@ -142,28 +155,40 @@ namespace ZamenisHealth.Recepcion
 
                                 listView1.Items.Add(new ListViewItem(new string[]
                                 {
-                                    Contador.ToString(),
-                                    i.Hor_Id.ToString(),
-                                    i.Hor_Estado,
+                                    Contador.ToString(), //0
+                                    i.Hor_Id.ToString(),//1
+                                    i.Hor_Estado,//2
                                     Convert.ToDateTime(i.Hor_Pac_Fecha_Cita).ToString(Conexion.ConectionDictionary["Format_Fecha"]),
                                     Convert.ToDateTime(i.Hor_Pac_Hora_Cita).ToString("HH:mm tt"),
-                                    i.Hor_Imp_Age,
+                                     i.Hor_Autoriza,
+                                    (i.Hor_IniciaSesion == "0" ? "" : i.Hor_IniciaSesion), //9
+                                    i.Hor_Imp_Age,//5
                                     i.Hor_Regimen,
-                                    i.Hor_RegAtn.ToString(),
-                                    i.Hor_Autoriza,
-                                    (i.Hor_IniciaSesion == "0" ? "" : i.Hor_IniciaSesion),
+                                    i.Hor_RegAtn.ToString(),                                   
                                     i.Hor_Pac_UsrGraba,
                                     i.Hor_Usr_Admisiona,
-                                    i.Hor_Usr_Cancela,
+                                    i.Hor_Usr_Cancela, //12
                                     i.Hor_Pac_RCancela,
                                     Modalidad,
-                                    i.Hor_Pac_Minutos
+                                    i.Hor_Pac_Minutos,//15
+                                    i.Hor_Color,
+                                    i.Hor_Pac_Bod.ToString(),//17
+                                    i.Hor_Pac_Id.ToString(),//18
+                                    i.Hor_Pac_Tipo_Serv//19
                                 }));
 
                                 Contador++;
+                                Console.WriteLine(i.Hor_Color);
                             }
 
-                            Estilo();
+                            if (Colorimetria == true)
+                            {
+                                EstiloColorimetria();
+                            }
+                            else
+                            {
+                                Estilo();
+                            }
                         }
                         else
                         {
@@ -243,6 +268,115 @@ namespace ZamenisHealth.Recepcion
 
             return Modalidad;
         }
+        void EstiloColorimetria()
+        {
+            try
+            {
+                foreach (ListViewItem lvw in listView1.Items)
+                {
+                    if (lvw.SubItems[2].Text == "C")
+                    {
+                        lvw.ForeColor = Color.Red;
+                        lvw.BackColor = Color.Orange;
+                    }                                              
+                    else if (lvw.SubItems[16].Text == "N")
+                    {                        
+                        lvw.ForeColor = Color.Purple;
+                        lvw.BackColor = Color.FromArgb(255, 192, 255);
+                    }
+                    else if (lvw.SubItems[16].Text == "I")
+                    {
+                        lvw.ForeColor = Color.Sienna;
+                        lvw.BackColor = Color.DarkKhaki;
+                    }                   
+                    else
+                    {
+                        if (lvw.SubItems[19].Text == "CU" || lvw.SubItems[19].Text == "MG")
+                        {
+                            List<CXN_HORARIO> citaConMedico = repositorioAgenda.ListarCitasXPaciente2(Convert.ToInt32(lvw.SubItems[18].Text), Convert.ToDateTime(lvw.SubItems[3].Text), Convert.ToInt32(lvw.SubItems[17].Text));
+                            if (citaConMedico != null)
+                            {
+                                if (lvw.SubItems[19].Text == "CU")
+                                {
+                                    bool existe = citaConMedico.Any(x => x.Hor_Pac_Tipo_Serv == "MG" && x.Hor_Autoriza.Length >= 1);
+                                    if (existe == true)
+                                    {
+                                        lvw.ForeColor = Color.Sienna;
+                                        lvw.BackColor = Color.DarkKhaki;
+                                    }
+                                    else
+                                    {
+                                        lvw.ForeColor = Color.DarkOrange;
+                                        lvw.BackColor = Color.Yellow;
+                                    }
+                                }
+                                else if (lvw.SubItems[19].Text == "MG")
+                                {
+                                    bool existe = citaConMedico.Any(x => x.Hor_Pac_Tipo_Serv == "CU" && x.Hor_Autoriza.Length >= 1);
+                                    if (existe == true)
+                                    {
+                                        lvw.ForeColor = Color.Sienna;
+                                        lvw.BackColor = Color.DarkKhaki;
+                                    }
+                                    else
+                                    {
+                                        lvw.ForeColor = Color.DarkOrange;
+                                        lvw.BackColor = Color.Yellow;
+                                    }
+                                }
+                                else
+                                {
+                                    lvw.ForeColor = Color.Black;
+                                    lvw.BackColor = Color.White;
+                                }
+                            }
+                            else
+                            {
+                                lvw.ForeColor = Color.Black;
+                                lvw.BackColor = Color.White;
+                            }
+                        }
+                        else
+                        {
+                            lvw.ForeColor = Color.Black;
+                            lvw.BackColor = Color.White;
+                        }
+                    }
+
+                    lvw.SubItems[2].Font = new Font("Microsoft Sans Serif", 10, FontStyle.Bold);
+
+                    if (lvw.SubItems[2].Text == "A")
+                    {
+                        lvw.SubItems[2].Text = "Sin Asistir";                        
+                    }
+                    else if (lvw.SubItems[2].Text == "P")
+                    {
+                        lvw.SubItems[2].Text = "Pendiente";
+                    }
+                    else if (lvw.SubItems[2].Text == "H")
+                    {
+                        lvw.SubItems[2].Text = "Asistio";
+                        if (lvw.ForeColor == Color.Black && lvw.BackColor == Color.White)
+                        {
+                            lvw.ForeColor = Color.Blue;
+                            lvw.BackColor = Color.LightBlue;
+                        }
+                    }
+                    else if (lvw.SubItems[2].Text == "C")
+                    {
+                        lvw.SubItems[2].Text = "Cancelo";
+                    }
+                    else
+                    {
+                        lvw.SubItems[2].Text = "Desconocido";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
+            }
+        }
         void Estilo()
         {
             try
@@ -295,7 +429,12 @@ namespace ZamenisHealth.Recepcion
             MenuLateral.Items.Add(btnCWeb);
             btnCWeb.Click += label5_Click;
 
-            
+            Colorimetria = (Preferencias.Colorimetria == "A" ? true : false);
+            if (this.Colorimetria == false)
+            {
+                panel1.Visible = false;
+            }
+
             comboBox1.SelectedIndex = 0;
         }
         private void textBox1_DoubleClick(object sender, EventArgs e)

@@ -52,11 +52,11 @@ namespace ZamenisHealth.Clases.Controles
         {
             if (e.RowIndex % 2 == 0)
             {
-                dataGridView1.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.FromArgb(201, 213, 240);
+                dataGridView1.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.FromArgb(244, 244, 250);
             }
             else
             {
-                dataGridView1.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.FromArgb(141, 158, 196);
+                dataGridView1.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.FromArgb(255, 255, 255);
             }
         }
         private void dataGridView1_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)

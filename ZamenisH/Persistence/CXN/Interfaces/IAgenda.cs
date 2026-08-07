@@ -50,6 +50,6 @@ namespace Persistence.CXN.Interfaces
         void updateAseguradoraFromCargo(int Asegura, int Admision);
         void updateObservaTemp(string ObTemp, int Admision);
         bool addSALECONSULTA(int Admision);
-        void UpdatecolorCita(int Admision, string Color);
+        void UpdatecolorCita(DateTime FechaCita, int Paciente, string Color);
     }
 }

@@ -9,15 +9,11 @@ using Persistence.CXN.Metodos;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Drawing;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ZamenisHealth.Comunes;
 using ZamenisHealth.FrontFHIR.RDAs;
-
 using DataTable = System.Data.DataTable;
-using Font = System.Drawing.Font;
 using ScrollBars = System.Windows.Forms.ScrollBars;
 
 namespace ZamenisHealth.FrontFHIR
@@ -28,8 +24,6 @@ namespace ZamenisHealth.FrontFHIR
         private readonly IFHIR repoFHIR;
         private readonly IAgendaC repoAgeC;
         private readonly CreateToken repoCrearToken;
-        private readonly IConfSystem repoConfSystem;
-        private API_FHIR apiFHIR;
 
         private int CodePrestador;
         private CXN_CIA DatosPrestador;
@@ -40,8 +34,6 @@ namespace ZamenisHealth.FrontFHIR
         DataColumn CheckForSend;
         DataColumn Admision;
         DataColumn Paciente;
-        DataColumn RDAPaciente;
-        DataColumn RDAAmbulatorio;
         DataColumn FechaRDAPaciente;
         DataColumn FechaRDAAmbulatorio;
         DataColumn PersonaRDAPaciente;
@@ -52,12 +44,7 @@ namespace ZamenisHealth.FrontFHIR
         ToolStripButton btnDesMarcarTodo;
         ToolStripButton btnRDAPaciente;
         ToolStripButton btnRDACExterna;
-       // ToolStripButton btnRDACuraciones;
-       // ToolStripButton btnRDANotaAclaratoriaMG;
         ToolStripButton btnLog;
-
-        //ToolStripButton btnSendRDAPaciente;
-        //ToolStripButton btnSendRDAAmbulatorio;
 
         public EnvioFHIR()
         {
@@ -66,8 +53,6 @@ namespace ZamenisHealth.FrontFHIR
             repoFHIR = new MFHIR();
             repoAgeC = new MAgendaC();
             repoCrearToken = new EndPoint_Token();
-            repoConfSystem = new MConfSystem();
-            apiFHIR = new API_FHIR();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -96,252 +81,27 @@ namespace ZamenisHealth.FrontFHIR
             MenuLateral.Items.Add(btnRDAPaciente);
             btnRDAPaciente.Click += toolStripButton5_Click;
 
-            //PRUEBAs
-          /*  btnSendRDAPaciente = new ToolStripButton();
-            btnSendRDAPaciente = createToolButton("RDA Paciente");
-            MenuLateral.Items.Add(btnSendRDAPaciente);
-            btnSendRDAPaciente.Click += SendRDAPaciente;
-
-            btnSendRDAAmbulatorio = new ToolStripButton();
-            btnSendRDAAmbulatorio = createToolButton("RDA Ambulatorio");
-            MenuLateral.Items.Add(btnSendRDAAmbulatorio);
-            btnSendRDAAmbulatorio.Click += SendRDAAmbulatorio;*/
-            //FIN PRUEBAS
-
-             btnRDACExterna = new ToolStripButton();
-             btnRDACExterna = createToolButton("RDA C. Externa");
-             MenuLateral.Items.Add(btnRDACExterna);
-             btnRDACExterna.Click += toolStripButton7_Click;
-
-          /*  btnRDACuraciones = new ToolStripButton();
-            btnRDACuraciones = createToolButton("RDA Curaciones");
-            MenuLateral.Items.Add(btnRDACuraciones);
-            btnRDACuraciones.Click += toolStripButton9_Click;*/
-
-          /*  btnRDANotaAclaratoriaMG = new ToolStripButton();
-            btnRDANotaAclaratoriaMG = createToolButton("RDA N. Aclaratoria MG");
-            MenuLateral.Items.Add(btnRDANotaAclaratoriaMG);
-            btnRDANotaAclaratoriaMG.Click += toolStripButton8_Click;  */
+            btnRDACExterna = new ToolStripButton();
+            btnRDACExterna = createToolButton("RDA C. Externa");
+            MenuLateral.Items.Add(btnRDACExterna);
+            btnRDACExterna.Click += toolStripButton7_Click;
 
             btnLog = new ToolStripButton();
             btnLog = createToolButton("Logs");
             MenuLateral.Items.Add(btnLog);
             btnLog.Click += btnLog_Click;
 
-            dataGridView1.BorderStyle = BorderStyle.None;
+            gridZH1.CeldaHeight = true;
+            gridZH1.dataGridView1.BorderStyle = BorderStyle.None;
 
             comboBox2.Items.Add("Medicina General");
             comboBox2.Items.Add("Fisiatria");
-            //comboBox2.Items.Add("Enfermeria");
-            //comboBox2.Items.Add("Notas Aclaratorias Medicina General");
-
-            //FIN BLOQUEOS
 
             CargarCia();
 
             comboBox1.SelectedIndex = 0;
             comboBox2.SelectedIndex = 0;
-        }
-     
-        #region RadicarRDA Paciente Nuevo
-        async void SendRDAPaciente(object sender, EventArgs e)
-        {
-            try
-            {
-                //obtenerToken
-                string data = repoConfSystem.getListado()["API_IHCE_Zamenis"];
-
-                //DatosFHIR
-                List<CXN_DATOS_FHIR> getDataConf = repoFHIR.ListaDatosConfFHIR(CodePrestador);
-                if (getDataConf != null)
-                {
-                    ReceiveToken R = new ReceiveToken()
-                    {
-                        ClientID = getDataConf.FirstOrDefault(x => x.Llave == "ClientID").Valor,
-                        ClientSecret = getDataConf.FirstOrDefault(x => x.Llave == "ClientSecret").Valor,
-                        NitPrestador = repoCia.getPrestadorbyCode(CodePrestador).Com_Identificacion,
-                        Scope = getDataConf.FirstOrDefault(x => x.Llave == "Scope").Valor,
-                        TenantID = getDataConf.FirstOrDefault(x => x.Llave == "TenantID").Valor,
-                        URLToken = getDataConf.FirstOrDefault(x => x.Llave == "URLToken").Valor
-                    };
-
-                    (bool Status, string Respuesta) res = await apiFHIR.GetToken(R, Program.URLApiConexion);
-                    if (res.Status == false)
-                    {
-                        MG = new MensajesGeneral()
-                        {
-                            Mensaje = res.Respuesta,
-                            TipoImagen = 1000
-                        };
-                        MG.ShowDialog();
-                    }
-                    else
-                    {
-                        CXN_TOKENS_FHIR T = new CXN_TOKENS_FHIR()
-                        {
-                            Fecha = DateTime.Now.Date,
-                            Prestador = CodePrestador,
-                            Token = res.Respuesta.ToString().Trim(),
-                        };
-
-                        bool inserta = repoFHIR.InsertarToken(T);
-                        if (inserta == false)
-                        {
-                            MG = new MensajesGeneral()
-                            {
-                                Mensaje = "No se logro grabar el Token pero si se genero, contacte a soporte",
-                                TipoImagen = 1000
-                            };
-                            MG.ShowDialog();
-                        }                   
-                        else
-                        {
-                            RadicarRDA.RDAPaciente_IHCE radRDAPaciente = new RadicarRDA.RDAPaciente_IHCE();
-                            dataGridView1.EndEdit();
-
-                            foreach (DataGridViewRow row in dataGridView1.Rows)
-                            {
-                                //bool isChecked = Convert.ToBoolean(row.Cells["CheckForSend"].Value);
-                                object valor = row.Cells["CheckForSend"].Value;
-                                bool isChecked = valor != null && Convert.ToBoolean(valor);
-
-                                string rdapaciente = row.Cells["RDAPaciente"].Value.ToString();
-                                string rdaambulatorio = row.Cells["RDAAmbulatorio"].Value.ToString();
-                                int admision = Convert.ToInt32(row.Cells["Admision"].Value);
-
-                                if (isChecked == true)
-                                {
-                                    if (string.IsNullOrEmpty(rdapaciente))
-                                    {
-                                        radRDAPaciente.EnviarRDAPaciente(admision);
-                                    }
-                                }
-                            }
-
-                            await Consultar();
-
-                            MG = new MensajesGeneral();
-                            MG.Mensaje = "Proceso de envio finalizado";
-                            MG.TipoImagen = 3;
-                            MG.ShowDialog();
-                        }
-                    }
-                }
-                else
-                {
-                    MG = new MensajesGeneral()
-                    {
-                        Mensaje = "No hay datos de configuracion del Ministerio de Salud, contacte al desarrollador del sistema",
-                        TipoImagen = 1000
-                    };
-                    MG.ShowDialog();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-        async void SendRDAAmbulatorio(object sender, EventArgs e)
-        {
-            try
-            {
-                //obtenerToken
-                string data = repoConfSystem.getListado()["API_IHCE_Zamenis"];
-
-                //DatosFHIR
-                List<CXN_DATOS_FHIR> getDataConf = repoFHIR.ListaDatosConfFHIR(CodePrestador);
-                if (getDataConf != null)
-                {
-                    ReceiveToken R = new ReceiveToken()
-                    {
-                        ClientID = getDataConf.FirstOrDefault(x => x.Llave == "ClientID").Valor,
-                        ClientSecret = getDataConf.FirstOrDefault(x => x.Llave == "ClientSecret").Valor,
-                        NitPrestador = repoCia.getPrestadorbyCode(CodePrestador).Com_Identificacion,
-                        Scope = getDataConf.FirstOrDefault(x => x.Llave == "Scope").Valor,
-                        TenantID = getDataConf.FirstOrDefault(x => x.Llave == "TenantID").Valor,
-                        URLToken = getDataConf.FirstOrDefault(x => x.Llave == "URLToken").Valor
-                    };
-
-                    (bool Status, string Respuesta) res = await apiFHIR.GetToken(R, Program.URLApiConexion);
-                    if (res.Status == false)
-                    {
-                        MG = new MensajesGeneral()
-                        {
-                            Mensaje = res.Respuesta,
-                            TipoImagen = 1000
-                        };
-                        MG.ShowDialog();
-                    }
-                    else
-                    {
-                        CXN_TOKENS_FHIR T = new CXN_TOKENS_FHIR()
-                        {
-                            Fecha = DateTime.Now.Date,
-                            Prestador = CodePrestador,
-                            Token = res.Respuesta.ToString().Trim(),
-                        };
-
-                        bool inserta = repoFHIR.InsertarToken(T);
-                        if (inserta == false)
-                        {
-                            MG = new MensajesGeneral()
-                            {
-                                Mensaje = "No se logro grabar el Token pero si se genero, contacte a soporte",
-                                TipoImagen = 1000
-                            };
-                            MG.ShowDialog();
-                        }
-                        else
-                        {
-                            RadicarRDA.RDAAmbulatorio_IHCE radRDARDAAmbulatorio = new RadicarRDA.RDAAmbulatorio_IHCE();
-                            dataGridView1.EndEdit();
-
-                            foreach (DataGridViewRow row in dataGridView1.Rows)
-                            {
-                                //bool isChecked = Convert.ToBoolean(row.Cells["CheckForSend"].Value);
-                                object valor = row.Cells["CheckForSend"].Value;
-                                bool isChecked = valor != null && Convert.ToBoolean(valor);
-
-                                string rdapaciente = row.Cells["RDAPaciente"].Value.ToString();
-                                string rdaambulatorio = row.Cells["RDAAmbulatorio"].Value.ToString();
-                                int admision = Convert.ToInt32(row.Cells["Admision"].Value);
-
-                                if (isChecked == true)
-                                {
-                                    if (string.IsNullOrEmpty(rdaambulatorio))
-                                    {
-                                        radRDARDAAmbulatorio.EnviarRDAAmbulatorio(admision, comboBox2.Text);
-                                    }
-                                }
-                            }
-
-                            await Consultar();
-
-                            MG = new MensajesGeneral();
-                            MG.Mensaje = "Proceso de envio finalizado";
-                            MG.TipoImagen = 3;
-                            MG.ShowDialog();
-                        }
-                    }
-                }
-                else
-                {
-                    MG = new MensajesGeneral()
-                    {
-                        Mensaje = "No hay datos de configuracion del Ministerio de Salud, contacte al desarrollador del sistema",
-                        TipoImagen = 1000
-                    };
-                    MG.ShowDialog();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-        #endregion
-
+        } 
         void btnLog_Click(object sender, EventArgs e)
         {
             Logs log = new Logs();
@@ -375,7 +135,7 @@ namespace ZamenisHealth.FrontFHIR
             }
 
         }
-        async Task Consultar()
+        void Consultar()
         {
             try
             {
@@ -401,28 +161,28 @@ namespace ZamenisHealth.FrontFHIR
                     switch (comboBox2.Text)
                     {
                         case "Medicina General":
-                            await Filtrar("MG");
+                            Filtrar("MG");
                             break;
                         case "Enfermeria":
-                            await Filtrar("CU");
+                            Filtrar("CU");
                             break;
                         case "Radiologia":
-                            await Filtrar("RA");
+                            Filtrar("RA");
                             break;
                         case "Psicologia":
-                            await Filtrar("PS");
+                            Filtrar("PS");
                             break;
                         case "Fisiatria":
-                            await Filtrar("FI");
+                            Filtrar("FI");
                             break;
                         case "Terapia Ocupacional":
-                            await Filtrar("TO");
+                            Filtrar("TO");
                             break;
                         case "Terapia Fisica":
-                            await Filtrar("TF");
+                            Filtrar("TF");
                             break;
                         case "Notas Aclaratorias Medicina General":
-                            await Filtrar("NAMG");
+                            Filtrar("NAMG");
                             break;
                         default:
                             MG = new MensajesGeneral();
@@ -441,9 +201,9 @@ namespace ZamenisHealth.FrontFHIR
                 MessageBox.Show(ex.Message);
             }
         }
-        private async void toolStripButton1_Click(object sender, EventArgs e)
+        private void toolStripButton1_Click(object sender, EventArgs e)
         {
-            await Consultar();
+            Consultar();
         }
         void Estilos(DataGridView D, DataTable t)
         {
@@ -455,16 +215,6 @@ namespace ZamenisHealth.FrontFHIR
             D.ReadOnly = false;
             D.Columns["CheckForSend"].ReadOnly = false;
 
-            D.Columns["CheckForSend"].Width = 40;
-            D.Columns["Admision"].Width = 80;
-            D.Columns["Paciente"].Width = 300;
-            //D.Columns["RDAPaciente"].Width = 200;
-            //D.Columns["RDAAmbulatorio"].Width = 200;
-            D.Columns["FechaRDAPaciente"].Width = 120;
-            D.Columns["FechaRDAAmbulatorio"].Width = 140;
-            D.Columns["PersonaRDAPaciente"].Width = 150;
-            D.Columns["PersonaRDAAmbulatorio"].Width = 150;
-
             D.Columns["Admision"].ReadOnly = true;
             D.Columns["Paciente"].ReadOnly = true;
             //D.Columns["RDAPaciente"].ReadOnly = true;
@@ -474,62 +224,28 @@ namespace ZamenisHealth.FrontFHIR
             D.Columns["PersonaRDAPaciente"].ReadOnly = true;
             D.Columns["PersonaRDAAmbulatorio"].ReadOnly = true;
 
-            D.ColumnHeadersDefaultCellStyle.Font = new Font(D.Font, FontStyle.Bold);
-            D.ColumnHeadersDefaultCellStyle.Font = new Font("Arial", 8, FontStyle.Bold);
-            D.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#bfdbff");
-            D.ColumnHeadersDefaultCellStyle.ForeColor = System.Drawing.Color.Blue;
-            D.ColumnHeadersDefaultCellStyle.ForeColor = System.Drawing.Color.Blue;
-
-            D.Columns["CheckForSend"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            D.Columns["Admision"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            D.Columns["Paciente"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            //D.Columns["RDAPaciente"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            //D.Columns["RDAAmbulatorio"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            D.Columns["FechaRDAPaciente"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            D.Columns["FechaRDAAmbulatorio"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            D.Columns["PersonaRDAPaciente"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            D.Columns["PersonaRDAAmbulatorio"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
             D.Columns["POS"].Visible = false;
-            D.Columns["RDAPaciente"].Visible = false;
-            D.Columns["RDAAmbulatorio"].Visible = false;
 
-            foreach (DataGridViewRow row in D.Rows)
-            {
-                int Numero = Convert.ToInt32(row.Cells["POS"].Value.ToString());
-
-                if ((Numero % 2) == 0)
-                {
-                    row.DefaultCellStyle.BackColor = System.Drawing.Color.Aquamarine;
-                }
-                else
-                {
-                    row.DefaultCellStyle.BackColor = System.Drawing.Color.MediumAquamarine;
-                }
-            }
-
-            dataGridView1.ClearSelection();
+            gridZH1.dataGridView1.ClearSelection();
         }
         void Encabezados()
         {
-            dataGridView1.DataSource = null;
+            gridZH1.dataGridView1.DataSource = null;
             dt = new DataTable();
             POS = dt.Columns.Add("POS", typeof(int));
             CheckForSend = dt.Columns.Add("CheckForSend", typeof(bool));
             Admision = dt.Columns.Add("Admision", typeof(int));
             Paciente = dt.Columns.Add("Paciente", typeof(string));
-            RDAPaciente = dt.Columns.Add("RDAPaciente", typeof(string));
-            RDAAmbulatorio = dt.Columns.Add("RDAAmbulatorio", typeof(string));
             FechaRDAPaciente = dt.Columns.Add("FechaRDAPaciente", typeof(string));
             FechaRDAAmbulatorio = dt.Columns.Add("FechaRDAAmbulatorio", typeof(string));
             PersonaRDAPaciente = dt.Columns.Add("PersonaRDAPaciente", typeof(string));
             PersonaRDAAmbulatorio = dt.Columns.Add("PersonaRDAAmbulatorio", typeof(string));
         }
-        async Task Filtrar(string Especialidad)
+        void Filtrar(string Especialidad)
         {
             try
             {
-                List<CXN_HORARIO> getRDA = await repoFHIR.FiltrarEspecialidad(dateTimePicker1.Value.Date, Especialidad);
+                List<CXN_HORARIO> getRDA = repoFHIR.FiltrarEspecialidad(dateTimePicker1.Value.Date, Especialidad);
                 if (getRDA == null)
                 {
                     Encabezados();
@@ -548,8 +264,6 @@ namespace ZamenisHealth.FrontFHIR
                         row["CheckForSend"] = false;
                         row["Admision"] = i.Hor_Id;
                         row["Paciente"] = i.Hor_Imp_Age.ToString();
-                        row["RDAPaciente"] = i.Hor_ArrastraHistoria;
-                        row["RDAAmbulatorio"] = i.Hor_AdmOpnened;
                         row["FechaRDAPaciente"] = i.Hor_Autoriza;
                         row["FechaRDAAmbulatorio"] = i.Hor_RegAtn;
                         row["PersonaRDAPaciente"] = i.Hor_Usr_Admisiona;
@@ -562,7 +276,7 @@ namespace ZamenisHealth.FrontFHIR
                     }
 
                     Contador = 1;
-                    Estilos(dataGridView1, dt);
+                    Estilos(gridZH1.dataGridView1, dt);
                 }
             }
             catch (Exception ex)
@@ -600,7 +314,7 @@ namespace ZamenisHealth.FrontFHIR
         {
             try
             {
-                foreach (DataGridViewRow row in dataGridView1.Rows)
+                foreach (DataGridViewRow row in gridZH1.dataGridView1.Rows)
                 {
                     object valor = row.Cells["CheckForSend"].Value;
                     bool isChecked = valor != null && Convert.ToBoolean(valor);
@@ -620,7 +334,7 @@ namespace ZamenisHealth.FrontFHIR
         {
             try
             {
-                foreach (DataGridViewRow row in dataGridView1.Rows)
+                foreach (DataGridViewRow row in gridZH1.dataGridView1.Rows)
                 {
                     object valor = row.Cells["CheckForSend"].Value;
                     bool isChecked = valor != null && Convert.ToBoolean(valor);
@@ -638,31 +352,29 @@ namespace ZamenisHealth.FrontFHIR
         }
         private async void toolStripButton5_Click(object sender, EventArgs e)
         {
+            pictureBox1.Visible = true;
             try
             {
                 await Autoriza();
-                dataGridView1.EndEdit();
+                gridZH1.dataGridView1.EndEdit();
 
-                foreach (DataGridViewRow row in dataGridView1.Rows)
+                foreach (DataGridViewRow row in gridZH1.dataGridView1.Rows)
                 {
-                    //bool isChecked = Convert.ToBoolean(row.Cells["CheckForSend"].Value);
                     object valor = row.Cells["CheckForSend"].Value;
                     bool isChecked = valor != null && Convert.ToBoolean(valor);
 
-                    string rdapaciente = row.Cells["RDAPaciente"].Value.ToString();
-                    string rdaambulatorio = row.Cells["RDAAmbulatorio"].Value.ToString();
                     int admision = Convert.ToInt32(row.Cells["Admision"].Value);    
 
                     if (isChecked == true)
                     {
-                        if (string.IsNullOrEmpty(rdapaciente))
+                        if (repoFHIR.VerificarEnvio(admision, "Paciente") == false)
                         {
                             CrearBundlePaciente(admision);
-                        }                        
+                        }                       
                     }
                 }
 
-                await Consultar();
+                Consultar();
 
                 MG = new MensajesGeneral();
                 MG.Mensaje = "Proceso de envio finalizado";
@@ -673,6 +385,7 @@ namespace ZamenisHealth.FrontFHIR
             {
                 MessageBox.Show(ex.Message);
             }
+            pictureBox1.Visible = false;
         }
         async void CrearBundlePaciente(int Admision)
         {
@@ -734,31 +447,29 @@ namespace ZamenisHealth.FrontFHIR
         }
         private async void toolStripButton7_Click(object sender, EventArgs e)
         {
+            pictureBox1.Visible = true;
             try
-            {
+            {                
                 await Autoriza();
-                dataGridView1.EndEdit();
+                gridZH1.dataGridView1.EndEdit();
 
-                foreach (DataGridViewRow row in dataGridView1.Rows)
+                foreach (DataGridViewRow row in gridZH1.dataGridView1.Rows)
                 {
-                    //bool isChecked = Convert.ToBoolean(row.Cells["CheckForSend"].Value);
                     object valor = row.Cells["CheckForSend"].Value;
                     bool isChecked = valor != null && Convert.ToBoolean(valor);
 
-                    string rdapaciente = row.Cells["RDAPaciente"].Value.ToString();
-                    string rdaambulatorio = row.Cells["RDAAmbulatorio"].Value.ToString();
                     int admision = Convert.ToInt32(row.Cells["Admision"].Value);
 
                     if (isChecked == true)
                     {
-                        if (string.IsNullOrEmpty(rdaambulatorio))
+                        if (repoFHIR.VerificarEnvio(admision, "CExterna") == false)
                         {
                             CrearBundleCE(admision);
                         }
                     }
                 }
 
-                await Consultar();
+                Consultar();
 
                 MG = new MensajesGeneral();
                 MG.Mensaje = "Proceso de envio finalizado";
@@ -769,44 +480,7 @@ namespace ZamenisHealth.FrontFHIR
             {
                 MessageBox.Show(ex.Message);
             }
-        }
-        private async void toolStripButton9_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                await Autoriza();
-                dataGridView1.EndEdit();
-
-                foreach (DataGridViewRow row in dataGridView1.Rows)
-                {
-                    //bool isChecked = Convert.ToBoolean(row.Cells["CheckForSend"].Value);
-                    object valor = row.Cells["CheckForSend"].Value;
-                    bool isChecked = valor != null && Convert.ToBoolean(valor);
-
-                    string rdapaciente = row.Cells["RDAPaciente"].Value.ToString();
-                    string rdaambulatorio = row.Cells["RDAAmbulatorio"].Value.ToString();
-                    int admision = Convert.ToInt32(row.Cells["Admision"].Value);
-
-                    if (isChecked == true)
-                    {
-                        if (string.IsNullOrEmpty(rdaambulatorio))
-                        {
-                            CrearBundleCuraciones(admision);
-                        }
-                    }
-                }
-
-                await Consultar();
-
-                MG = new MensajesGeneral();
-                MG.Mensaje = "Proceso de envio finalizado";
-                MG.TipoImagen = 3;
-                MG.ShowDialog();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            pictureBox1.Visible = false;
         }
         async void CrearBundleCE(int Admision)
         {
@@ -814,77 +488,6 @@ namespace ZamenisHealth.FrontFHIR
             {
                 RDAConsultaExterna rda = new RDAConsultaExterna();
                 await rda.RadicarRDA(Admision, comboBox2.Text);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-        async void CrearBundleCuraciones(int Admision)
-        {
-            try
-            {
-                RDACuraciones rda = new RDACuraciones();
-                await rda.RadicarRDA(Admision, comboBox2.Text);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-        private async void toolStripButton8_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                dataGridView1.EndEdit();
-
-                foreach (DataGridViewRow row in dataGridView1.Rows)
-                {
-                    //bool isChecked = Convert.ToBoolean(row.Cells["CheckForSend"].Value);
-                    object valor = row.Cells["CheckForSend"].Value;
-                    bool isChecked = valor != null && Convert.ToBoolean(valor);
-
-                    string rdapaciente = row.Cells["RDAPaciente"].Value.ToString();
-                    string rdaambulatorio = row.Cells["RDAAmbulatorio"].Value.ToString();
-                    int admision = Convert.ToInt32(row.Cells["Admision"].Value);
-
-                    if (isChecked == true)
-                    {
-                        if (!string.IsNullOrEmpty(rdaambulatorio))
-                        {
-                            await RadicarNAMG(admision);
-                        }
-                        else
-                        {
-                            MG = new MensajesGeneral()
-                            {
-                                Mensaje = $"La admision { admision.ToString() } no cuenta con un registro Composition de RDA Consulta Externa",
-                                TipoImagen = 1000
-                            };
-
-                            MG.ShowDialog();
-                        }
-                    }
-                }
-
-                await Consultar();
-
-                MG = new MensajesGeneral();
-                MG.Mensaje = "Proceso de envio finalizado";
-                MG.TipoImagen = 3;
-                MG.ShowDialog();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-        async Task RadicarNAMG(int admision)
-        {
-            try
-            {
-                RDAs.RDANotaAclaratoria rda = new RDAs.RDANotaAclaratoria();
-                await rda.EnviarRDA(admision);
             }
             catch (Exception ex)
             {

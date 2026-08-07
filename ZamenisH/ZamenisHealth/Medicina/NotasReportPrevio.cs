@@ -28,8 +28,7 @@ namespace ZamenisHealth.Medicina
 
         public NotasReportPrevio()
         {
-            InitializeComponent();
-            
+            InitializeComponent();     
             ConfigForm.MoverForma(panel2, this);
         }
 
@@ -44,6 +43,8 @@ namespace ZamenisHealth.Medicina
                 textBox3.ContextMenu = new ContextMenu();
                 textBox9.ContextMenu = new ContextMenu();
                 textBox10.ContextMenu = new ContextMenu();
+
+                gridZH1.CeldaHeight = true;
 
                 var getNota = repoNotas.seeNotaPrevReport(Adm_Nota_Export);
                 if (getNota != null)
@@ -111,12 +112,11 @@ namespace ZamenisHealth.Medicina
                 this.Close();
             }
         }
-
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
             try
             {
-                if (dataGridView1.Visible == false)
+                if (gridZH1.dataGridView1.Visible == false)
                 {
                     MessageBox.Show("No es posible exportar la nota de curacion si no tiene cargos agregados");
                     return;
@@ -162,9 +162,9 @@ namespace ZamenisHealth.Medicina
                 MessageBox.Show(ex.Message);
             }
         }
-
         void Encabezados()
         {
+            gridZH1.dataGridView1.DataSource = null;
             dt = new DataTable();
             POS = dt.Columns.Add("POS", typeof(int));
             Codigo = dt.Columns.Add("Codigo", typeof(string));
@@ -172,7 +172,6 @@ namespace ZamenisHealth.Medicina
             Cantidad = dt.Columns.Add("Cantidad", typeof(int));
             Graba = dt.Columns.Add("Graba", typeof(string));
         }
-
         private void Cargo()
         {
             try
@@ -180,7 +179,7 @@ namespace ZamenisHealth.Medicina
                 var getCargo = repoNotas.CargoNota(Adm_Nota_Export);
                 if (getCargo != null)
                 {
-                    dataGridView1.Visible = true;
+                    gridZH1.dataGridView1.Visible = true;
                     label10.Visible = false;
 
                     Encabezados();
@@ -203,12 +202,12 @@ namespace ZamenisHealth.Medicina
                     }
 
                     Contador = 1;
-                    Estilos(dataGridView1, dt);
+                    Estilos(gridZH1.dataGridView1, dt);
                 }
                 else
                 {
                     Encabezados();
-                    dataGridView1.Visible = false;
+                    gridZH1.dataGridView1.Visible = false;
                     label10.Visible = true;
                 }
             }
@@ -219,47 +218,8 @@ namespace ZamenisHealth.Medicina
         }
         void Estilos(DataGridView D, DataTable t)
         {
-            D.EnableHeadersVisualStyles = false;
-            D.ScrollBars = ScrollBars.Both;
-
             D.DataSource = t;
-
-            D.Columns["Codigo"].Width = 100;
-            D.Columns["Item"].Width = 600;
-            D.Columns["Cantidad"].Width = 100;
-            D.Columns["Graba"].Width = 150;
-
-            D.ColumnHeadersDefaultCellStyle.Font = new Font(D.Font, FontStyle.Bold);
-            D.ColumnHeadersDefaultCellStyle.Font = new Font("Arial", 8, FontStyle.Bold);
-            D.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#bfdbff");
-            D.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
-            D.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
-
-            D.Columns["Codigo"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            D.Columns["Item"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            D.Columns["Cantidad"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            D.Columns["Graba"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
-            D.Columns["Codigo"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            D.Columns["Item"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            D.Columns["Cantidad"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            D.Columns["Graba"].SortMode = DataGridViewColumnSortMode.NotSortable;
-
             D.Columns["POS"].Visible = false;
-
-            foreach (DataGridViewRow row in D.Rows)
-            {
-                int Numero = Convert.ToInt32(row.Cells["POS"].Value.ToString());
-
-                if ((Numero % 2) == 0)
-                {
-                    row.DefaultCellStyle.BackColor = Color.Aquamarine;
-                }
-                else
-                {
-                    row.DefaultCellStyle.BackColor = Color.MediumAquamarine;
-                }
-            }
         }
         private void textBox9_KeyDown(object sender, KeyEventArgs e)
         {
@@ -269,7 +229,6 @@ namespace ZamenisHealth.Medicina
                 e.Handled = true;
             }
         }
-
         private void textBox2_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Control && (e.KeyCode == Keys.C || e.KeyCode == Keys.V || e.KeyCode == Keys.X))
@@ -278,7 +237,6 @@ namespace ZamenisHealth.Medicina
                 e.Handled = true;
             }
         }
-
         private void textBox10_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Control && (e.KeyCode == Keys.C || e.KeyCode == Keys.V || e.KeyCode == Keys.X))
@@ -287,7 +245,6 @@ namespace ZamenisHealth.Medicina
                 e.Handled = true;
             }
         }
-
         private void textBox3_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Control && (e.KeyCode == Keys.C || e.KeyCode == Keys.V || e.KeyCode == Keys.X))
@@ -296,7 +253,6 @@ namespace ZamenisHealth.Medicina
                 e.Handled = true;
             }
         }
-
         private void textBox3_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
@@ -304,7 +260,6 @@ namespace ZamenisHealth.Medicina
                 return;
             }
         }
-
         private void textBox10_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
@@ -312,7 +267,6 @@ namespace ZamenisHealth.Medicina
                 return;
             }
         }
-
         private void textBox2_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
@@ -320,7 +274,6 @@ namespace ZamenisHealth.Medicina
                 return;
             }
         }
-
         private void textBox9_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
@@ -328,7 +281,6 @@ namespace ZamenisHealth.Medicina
                 return;
             }
         }
-
         private void pictureBox3_Click(object sender, EventArgs e)
         {
             this.Dispose();

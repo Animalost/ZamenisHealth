@@ -10,43 +10,6 @@ namespace ZamenisHealth.Clases
 {
     public static class JoinImagesToPDF
     {
-        /*public static void CreatePdfFromImages(List<byte[]> imageBytesList, string carpet, string fileName)
-        {
-            try
-            {
-                string folderPath = Path.Combine(@"C:\CXN\Reportes\", carpet);
-                Directory.CreateDirectory(folderPath);
-
-                string pdfFilePath = Path.Combine(folderPath, fileName + ".pdf");
-
-                using (iText.Kernel.Pdf.PdfWriter writer = new iText.Kernel.Pdf.PdfWriter(pdfFilePath))
-                using (iText.Kernel.Pdf.PdfDocument pdf = new iText.Kernel.Pdf.PdfDocument(writer))
-                {
-                    iText.Layout.Document document = new iText.Layout.Document(pdf);
-
-                    foreach (byte[] imageBytes in imageBytesList)
-                    {
-                        iText.Layout.Element.Image itextImage;
-                        using (MemoryStream ms = new MemoryStream(imageBytes))
-                        using (Image<Rgba32> image = SixLabors.ImageSharp.Image.Load<Rgba32>(ms, out IImageFormat format))
-                        {
-                            iText.IO.Image.ImageData imageData = iText.IO.Image.ImageDataFactory.Create(imageBytes);
-                            itextImage = new iText.Layout.Element.Image(imageData);
-                            itextImage.SetRotationAngle(-Math.PI / 2);
-                            itextImage.SetHorizontalAlignment(iText.Layout.Properties.HorizontalAlignment.CENTER);
-                            itextImage.SetWidth(2100);
-                            itextImage.SetHeight(2700);
-                        }
-                        document.Add(itextImage);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-            }
-        }*/
-
         public static void CreatePdfFromImages(List<byte[]> imageBytesList, string carpet, string fileName)
         {
             try

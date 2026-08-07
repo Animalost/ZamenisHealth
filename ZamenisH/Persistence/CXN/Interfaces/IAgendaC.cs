@@ -16,6 +16,7 @@ namespace Persistence.CXN.Interfaces
         string Calcular3(int Paciente, string TipoServicio);
         void setRecepcion(string _valor);
         List<CXN_HORARIO> ListarCitasXPaciente(int PacId, DateTime fecha);
+        List<CXN_HORARIO> ListarCitasXPaciente2(int PacId, DateTime fecha, int Bodega);
         string Extract(string input, int len, int ini);
         int ConsultarFecha(DateTime _fecha, int IdProf);
         otrosDatosPacienteHorario cargarAdmision(int Admision, string filter);
@@ -39,7 +40,6 @@ namespace Persistence.CXN.Interfaces
         List<CXN_HORARIO> ListarCitasXPaciente(int PacId, DateTime fecha, int Bodega);
         bool ConsultarNavyEnfermeria(int Paciente, int Bodega, DateTime Fecha);
         List<CXN_HORARIO> consultaCancelaWEB(DateTime Fecha);
-        string UltimaAdmisionValidaVales(int Admision, int Paciente, DateTime FechaActual);
         (string Autorizacion, string Cantidad, string Estado) CitaMismoDiaGetAutorizacion(int PacId, DateTime fecha, int Bodega);
     }
 }

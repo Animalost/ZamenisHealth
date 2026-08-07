@@ -412,7 +412,10 @@ namespace Persistence.CXN.Metodos
                                                               "OM_Clasificacion, " +
                                                               "OM_Fecha, " +
                                                               "OM_Tipo, " +
-                                                              "OM_Bilateral) " +
+                                                              "OM_Bilateral, " +
+                                                              "OM_Cada, " +
+                                                              "OM_Posologia, " +
+                                                              "OM_CantidadMedicamento) " +
                                      "values                  (@param1, " +
                                                               "@param2, " +
                                                               "@param3, " +
@@ -441,7 +444,10 @@ namespace Persistence.CXN.Metodos
                                                               "@param26, " +
                                                               "@param27, " +
                                                               "@param28, " +
-                                                              "@param29)", con);
+                                                              "@param29, " +
+                                                              "@param30, " +
+                                                              "@param31, " +
+                                                              "@param32)", con);
 
                     cmd.Parameters.AddWithValue("@param1", OM.OM_Duracion);
                     cmd.Parameters.AddWithValue("@param2", OM.OM_Cantidad);
@@ -472,6 +478,9 @@ namespace Persistence.CXN.Metodos
                     cmd.Parameters.AddWithValue("@param27", Convert.ToDateTime(DateTime.Now.Date));
                     cmd.Parameters.AddWithValue("@param28", OM.OM_Tipo);
                     cmd.Parameters.AddWithValue("@param29", OM.OM_Bilateral);
+                    cmd.Parameters.AddWithValue("@param30", OM.OM_Cada);
+                    cmd.Parameters.AddWithValue("@param31", OM.OM_Posologia);
+                    cmd.Parameters.AddWithValue("@param32", OM.OM_CantidadMedicamento);
                     int s = cmd.ExecuteNonQuery();
                     if (s > 0) { return true; }
                     return false;
@@ -887,7 +896,7 @@ namespace Persistence.CXN.Metodos
                     String Cargar_Hora = "SELECT Com_Nombre, Com_Identificacion, Com_Telefono, Com_Direccion, Bod_Responsable, Pac_PrimerN, Pac_SegundoN, Pac_PrimerA, " +
                                          "Pac_SegundoA, OM_Num, OM_Fecha, Pac_TipoId, Pac_IdNum, Ase_Descripcion, Pac_Telefono, Bod_Responsable, OM_Desc, Com_Logo, " +
                                          "OM_DX1, OM_DX2, OM_DX3, OM_DX1T, OM_DX2T, OM_DX3T, OM_Edad, OM_Genero, OM_Direccion, OM_Telefono, OM_Duracion, " +
-                                         "OM_Cantidad, OM_Via, OM_Medicamento, OM_Presentacion, OM_Detalle, OM_Firma, Bod_Firma, Bod_Reg_Med, OM_Tecnologia " +
+                                         "OM_Cantidad, OM_Via, OM_Medicamento, OM_Presentacion, OM_Detalle, OM_Firma, Bod_Firma, Bod_Reg_Med, OM_Tecnologia, OM_Cada, OM_Posologia, OM_CantidadMedicamento " +
                                          "FROM CXN_OM " +
                                          "INNER JOIN CXN_PACIENTES ON CXN_OM.OM_Pac = CXN_PACIENTES.Pac_Id " +
                                          "INNER JOIN CXN_ASEGURADORA ON CXN_OM.OM_Ase = CXN_ASEGURADORA.Ase_Identificador " +
@@ -984,7 +993,10 @@ namespace Persistence.CXN.Metodos
                                         OM_Presentacion = Lectura_Hora["OM_Presentacion"].ToString(),
                                         OM_Detalle = Lectura_Hora["OM_Detalle"].ToString(),
                                         Com_Direccion = UserPrint,
-                                        OM_Tecnologia = Lectura_Hora["OM_Tecnologia"].ToString()
+                                        OM_Tecnologia = Lectura_Hora["OM_Tecnologia"].ToString(),
+                                        OM_Cada = Lectura_Hora["OM_Cada"] == DBNull.Value ? 0 : Convert.ToInt32(Lectura_Hora["OM_Cada"]),
+                                        OM_Posologia = Lectura_Hora["OM_Posologia"] == DBNull.Value ? "" : Lectura_Hora["OM_Posologia"].ToString(),
+                                        OM_CantidadMedicamento = Lectura_Hora["OM_CantidadMedicamento"] == DBNull.Value ? 0 : Convert.ToInt32(Lectura_Hora["OM_CantidadMedicamento"]),
                                     });
                                 }
                                 return export_om_report;
@@ -992,7 +1004,7 @@ namespace Persistence.CXN.Metodos
                             else
                             {
                                 return null;
-                            }
+                            } 
                         }
                     }                    
                 }

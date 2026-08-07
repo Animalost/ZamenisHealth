@@ -6,12 +6,16 @@ using FormAndControls;
 using Persistence;
 using Persistence.CXN.Interfaces;
 using Persistence.CXN.Metodos;
+
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+
 using ZamenisHealth.Clases;
 using ZamenisHealth.Comunes;
+
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace ZamenisHealth.Recepcion.Extras
 {
@@ -27,7 +31,6 @@ namespace ZamenisHealth.Recepcion.Extras
             InitializeComponent();
             this.TID = _TID;
             this.NID = _NID;
-
         }
         private void CargarRegimen()
         {
@@ -41,17 +44,17 @@ namespace ZamenisHealth.Recepcion.Extras
                 }
             }
         }
-
         private void button1_Click(object sender, EventArgs e)
         {
             try
             {
                 MensajesGeneral MG = new MensajesGeneral();
 
-                if (comboBox1.Text == "" || textBox1.Text == "" || textBox3.Text == "" || textBox6.Text == "" || comboBox2.Text == "" || textBox2.Text == "")
+                if (comboBox1.Text == "" || textBox1.Text == "" || textBox3.Text == "" || textBox6.Text == "" 
+                    || comboBox2.Text == "" || textBox2.Text == "" || comboBox6.Text == "" || comboBox5.Text == "")
                 {
                     MG.TipoImagen = 1000;
-                    MG.Mensaje = "Debe diligienciar tipo de documento, numero de documento, primer nombre, primer apellido, aseguradora y numero de contacto movil";
+                    MG.Mensaje = "Debe diligienciar tipo de documento, numero de documento, primer nombre, primer apellido, aseguradora y numero de contacto movil, genero e identiodad de genero";
                     MG.ShowDialog();
                     return;
                 }
@@ -86,11 +89,7 @@ namespace ZamenisHealth.Recepcion.Extras
                     return;
                 }
 
-                CXN_ASEGURADORA getAseId = new CXN_ASEGURADORA();
-
-                
-                    getAseId = repoAseguradoras.getInfoFromAsebyName(comboBox2.Text);
-                
+                CXN_ASEGURADORA getAseId = repoAseguradoras.getInfoFromAsebyName(comboBox2.Text);                
 
                 if (getAseId != null)
                 {
@@ -104,7 +103,9 @@ namespace ZamenisHealth.Recepcion.Extras
                         Pac_SegundoA = textBox5.Text,
                         Pac_Aseguradora = getAseId.Ase_Identificador,
                         Pac_Telefono = textBox2.Text,
-                        Pac_Email = textBox7.Text
+                        Pac_Email = textBox7.Text,
+                        Pac_Sexo = comboBox6.Text == "Masculino" ? "M" : "F",
+                        IdentidadGenero = repoPacientes.CodeIdentidadGenero(comboBox5.Text)
                     };
 
                     switch (comboBox4.SelectedIndex)
@@ -133,11 +134,7 @@ namespace ZamenisHealth.Recepcion.Extras
                             return;
                     }
 
-                    bool create = false;
-
-                    
-                        create = repoPacientes.CrearClientes(P);
-                    
+                    bool create = repoPacientes.CrearClientes(P);                    
 
                     if (create != true)
                     {
@@ -168,7 +165,6 @@ namespace ZamenisHealth.Recepcion.Extras
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }        
-
         private void label11_Click(object sender, EventArgs e)
         {           
             this.Dispose();
@@ -181,7 +177,6 @@ namespace ZamenisHealth.Recepcion.Extras
             crearEditarPaciente.AutoScroll = false;
             crearEditarPaciente.ShowDialog();
         }
-
         private void CrearPacienteFast_Load(object sender, EventArgs e)
         {
             Titulo.Text = "Crear Paciente";
@@ -193,6 +188,7 @@ namespace ZamenisHealth.Recepcion.Extras
             btnGrabar.Click += button1_Click;
 
             ConfigForm.SoloNumeros(textBox2);
+            CargarIdentidadGenero();
             CargaDatos();
             comboBox1.Text = this.TID;
             textBox1.Text = this.NID;
@@ -201,29 +197,32 @@ namespace ZamenisHealth.Recepcion.Extras
 
             CargarRegimen();
         }
+        private void CargarIdentidadGenero()
+        {
+            List<CXN_GENDERIDENTITY> ListaIdGenero = repoPacientes.ListaIdentidadGenero();
 
+            if (ListaIdGenero != null)
+            {
+                comboBox5.Items.Clear();
+
+                foreach (CXN_GENDERIDENTITY r in ListaIdGenero)
+                {
+                    comboBox5.Items.Add(r.Identidad);
+                }
+            }
+        }
         private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)32)
             {
                 e.Handled = true;
             }
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
+        }        
         void CargaDatos()
         {
             try
             {
-                List<CXN_ASEGURADORA> getAses = new List<CXN_ASEGURADORA>();
-
-                
-                    getAses = repoAseguradoras.getAseguradoras();
-                
+                List<CXN_ASEGURADORA> getAses = repoAseguradoras.getAseguradoras();                
 
                 if (getAses != null)
                 {
@@ -233,11 +232,7 @@ namespace ZamenisHealth.Recepcion.Extras
                     }
                 }
 
-                List<string> getDocs = new List<string>();
-
-                
-                    getDocs = repoPacientes.ListaDocs();
-                
+                List<string> getDocs = repoPacientes.ListaDocs();                
 
                 if (getDocs != null)
                 {
@@ -246,13 +241,11 @@ namespace ZamenisHealth.Recepcion.Extras
                         comboBox1.Items.Add(i);
                     }
                 }
-
             }
             catch (Exception ex)
             {
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
     }
 }

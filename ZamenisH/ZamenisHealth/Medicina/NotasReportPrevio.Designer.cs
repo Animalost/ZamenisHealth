@@ -63,14 +63,13 @@
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.pictureBox6 = new System.Windows.Forms.PictureBox();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.gridZH1 = new ZamenisHealth.Clases.Controles.GridZH();
             this.panel1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             this.modernPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // label14
@@ -145,7 +144,7 @@
             // 
             this.panel1.AutoScroll = true;
             this.panel1.Controls.Add(this.label10);
-            this.panel1.Controls.Add(this.dataGridView1);
+            this.panel1.Controls.Add(this.gridZH1);
             this.panel1.Controls.Add(this.textBox3);
             this.panel1.Controls.Add(this.textBox10);
             this.panel1.Controls.Add(this.textBox2);
@@ -490,22 +489,13 @@
             this.pictureBox6.TabIndex = 322;
             this.pictureBox6.TabStop = false;
             // 
-            // dataGridView1
+            // gridZH1
             // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.AllowUserToResizeColumns = false;
-            this.dataGridView1.AllowUserToResizeRows = false;
-            this.dataGridView1.BackgroundColor = System.Drawing.Color.WhiteSmoke;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.GridColor = System.Drawing.Color.Blue;
-            this.dataGridView1.Location = new System.Drawing.Point(13, 243);
-            this.dataGridView1.MultiSelect = false;
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.RowHeadersVisible = false;
-            this.dataGridView1.Size = new System.Drawing.Size(962, 140);
-            this.dataGridView1.TabIndex = 73;
+            this.gridZH1.BackColor = System.Drawing.Color.White;
+            this.gridZH1.Location = new System.Drawing.Point(11, 238);
+            this.gridZH1.Name = "gridZH1";
+            this.gridZH1.Size = new System.Drawing.Size(968, 148);
+            this.gridZH1.TabIndex = 74;
             // 
             // NotasReportPrevio
             // 
@@ -529,7 +519,6 @@
             this.modernPanel1.ResumeLayout(false);
             this.modernPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -570,6 +559,6 @@
         private System.Windows.Forms.RichTextBox textBox2;
         private System.Windows.Forms.RichTextBox textBox1;
         private System.Windows.Forms.PictureBox pictureBox6;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private Clases.Controles.GridZH gridZH1;
     }
 }

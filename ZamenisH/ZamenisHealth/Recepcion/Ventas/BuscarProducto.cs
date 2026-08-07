@@ -7,7 +7,6 @@ using Persistence.CXN.Metodos;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Drawing;
 using System.Windows.Forms;
 using ZamenisHealth.Comunes;
 
@@ -37,6 +36,9 @@ namespace ZamenisHealth.Recepcion.Ventas
             Titulo.Text = "Buscar Producto";
             SubTitulo.Text = $"Zamenis Health {Conexion.VersionApp}";
 
+            gridZH1.dataGridView1.CellDoubleClick += dataGridView1_CellDoubleClick;
+            gridZH1.CeldaHeight = true;
+
             textBox1.TextChanged += textBox1_textChanged;
 
             CargarProducto();
@@ -49,12 +51,10 @@ namespace ZamenisHealth.Recepcion.Ventas
             Producto = dt.Columns.Add("Producto", typeof(string));
             Valor = dt.Columns.Add("Valor", typeof(int));
         }
-
         void textBox1_textChanged(object sender, EventArgs e)
         {
             CargarProducto();
         }
-
         void CargarProducto()
         {
             try
@@ -82,11 +82,11 @@ namespace ZamenisHealth.Recepcion.Ventas
                     }
 
                     Contador = 1;
-                    Estilos(dataGridView1, dt);
+                    Estilos(gridZH1.dataGridView1, dt);
                 }
                 else
                 {
-                    dataGridView1.DataSource = null;
+                    gridZH1.dataGridView1.DataSource = null;
                     Encabezados();
                 }
             }
@@ -97,49 +97,16 @@ namespace ZamenisHealth.Recepcion.Ventas
         }
         void Estilos(DataGridView D, DataTable t)
         {
-            D.EnableHeadersVisualStyles = false;
-            D.ScrollBars = ScrollBars.Both;
-
             D.DataSource = t;
-
-            D.Columns["Codigo"].Width = 100;
-            D.Columns["Producto"].Width = 480;
-            D.Columns["Valor"].Width = 100;
-
-            D.ColumnHeadersDefaultCellStyle.Font = new Font(D.Font, FontStyle.Bold);
-            D.ColumnHeadersDefaultCellStyle.Font = new Font("Arial", 8, FontStyle.Bold);
-            D.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#bfdbff");
-            D.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
-            D.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
-
-            D.Columns["Codigo"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            D.Columns["Producto"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            D.Columns["Valor"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
             D.Columns["POS"].Visible = false;
-
-            foreach (DataGridViewRow row in D.Rows)
-            {
-                int Numero = Convert.ToInt32(row.Cells["POS"].Value.ToString());
-
-                if ((Numero % 2) == 0)
-                {
-                    row.DefaultCellStyle.BackColor = Color.Aquamarine;
-                }
-                else
-                {
-                    row.DefaultCellStyle.BackColor = Color.MediumAquamarine;
-                }
-            }
         }
-
         private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             try
             {
                 if (e.RowIndex >= 0)
                 {
-                    _formulario.setValores(dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString());
+                    _formulario.setValores(gridZH1.dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString());
                     this.Close();
                 }
             }

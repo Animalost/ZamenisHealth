@@ -54,6 +54,10 @@
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.boton2 = new FormAndControls.Controles.Boton();
+            this.label6 = new System.Windows.Forms.Label();
+            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.boton3 = new FormAndControls.Controles.Boton();
             this.Medicamento = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CodMedicamento = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Presentacion = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -66,7 +70,7 @@
             this.Tiempo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TipoTecnologia = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Observacion = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.boton2 = new FormAndControls.Controles.Boton();
+            this.Total = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -294,7 +298,7 @@
             "Según respuesta al tratamiento"});
             this.comboBox2.Location = new System.Drawing.Point(247, 299);
             this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(535, 28);
+            this.comboBox2.Size = new System.Drawing.Size(286, 28);
             this.comboBox2.TabIndex = 369;
             // 
             // label3
@@ -376,7 +380,8 @@
             this.Duracion,
             this.Tiempo,
             this.TipoTecnologia,
-            this.Observacion});
+            this.Observacion,
+            this.Total});
             this.dataGridView1.GridColor = System.Drawing.Color.Blue;
             this.dataGridView1.Location = new System.Drawing.Point(12, 478);
             this.dataGridView1.MultiSelect = false;
@@ -387,6 +392,58 @@
             this.dataGridView1.Size = new System.Drawing.Size(770, 245);
             this.dataGridView1.TabIndex = 374;
             this.dataGridView1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellDoubleClick);
+            // 
+            // boton2
+            // 
+            this.boton2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(55)))), ((int)(((byte)(90)))));
+            this.boton2.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.boton2.FlatAppearance.BorderSize = 3;
+            this.boton2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.boton2.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
+            this.boton2.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.boton2.Location = new System.Drawing.Point(339, 729);
+            this.boton2.Name = "boton2";
+            this.boton2.Size = new System.Drawing.Size(124, 32);
+            this.boton2.TabIndex = 375;
+            this.boton2.Text = "Finalizar";
+            this.boton2.UseVisualStyleBackColor = false;
+            this.boton2.Click += new System.EventHandler(this.boton2_Click);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(536, 279);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(64, 17);
+            this.label6.TabIndex = 376;
+            this.label6.Text = "Cantidad";
+            // 
+            // textBox4
+            // 
+            this.textBox4.BackColor = System.Drawing.Color.White;
+            this.textBox4.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.textBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox4.Location = new System.Drawing.Point(539, 301);
+            this.textBox4.Name = "textBox4";
+            this.textBox4.Size = new System.Drawing.Size(159, 26);
+            this.textBox4.TabIndex = 377;
+            // 
+            // boton3
+            // 
+            this.boton3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(55)))), ((int)(((byte)(90)))));
+            this.boton3.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.boton3.FlatAppearance.BorderSize = 3;
+            this.boton3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.boton3.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
+            this.boton3.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.boton3.Location = new System.Drawing.Point(704, 300);
+            this.boton3.Name = "boton3";
+            this.boton3.Size = new System.Drawing.Size(81, 32);
+            this.boton3.TabIndex = 378;
+            this.boton3.Text = "Calcular";
+            this.boton3.UseVisualStyleBackColor = false;
+            this.boton3.Click += new System.EventHandler(this.boton3_Click);
             // 
             // Medicamento
             // 
@@ -484,27 +541,20 @@
             this.Observacion.ReadOnly = true;
             this.Observacion.Width = 92;
             // 
-            // boton2
+            // Total
             // 
-            this.boton2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(55)))), ((int)(((byte)(90)))));
-            this.boton2.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.boton2.FlatAppearance.BorderSize = 3;
-            this.boton2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.boton2.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
-            this.boton2.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.boton2.Location = new System.Drawing.Point(339, 729);
-            this.boton2.Name = "boton2";
-            this.boton2.Size = new System.Drawing.Size(124, 32);
-            this.boton2.TabIndex = 375;
-            this.boton2.Text = "Finalizar";
-            this.boton2.UseVisualStyleBackColor = false;
-            this.boton2.Click += new System.EventHandler(this.boton2_Click);
+            this.Total.HeaderText = "Total";
+            this.Total.Name = "Total";
+            this.Total.ReadOnly = true;
             // 
             // OrdenDCI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(797, 765);
+            this.Controls.Add(this.boton3);
+            this.Controls.Add(this.textBox4);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.boton2);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.textBox2);
@@ -570,6 +620,9 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.DataGridView dataGridView1;
         private FormAndControls.Controles.Boton boton2;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox textBox4;
+        private FormAndControls.Controles.Boton boton3;
         private System.Windows.Forms.DataGridViewTextBoxColumn Medicamento;
         private System.Windows.Forms.DataGridViewTextBoxColumn CodMedicamento;
         private System.Windows.Forms.DataGridViewTextBoxColumn Presentacion;
@@ -582,5 +635,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Tiempo;
         private System.Windows.Forms.DataGridViewTextBoxColumn TipoTecnologia;
         private System.Windows.Forms.DataGridViewTextBoxColumn Observacion;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Total;
     }
 }

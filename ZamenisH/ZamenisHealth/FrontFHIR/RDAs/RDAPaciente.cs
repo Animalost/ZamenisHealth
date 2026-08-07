@@ -77,10 +77,6 @@ namespace ZamenisHealth.FrontFHIR.RDAs
         {
             return rPaciente.LlamarPacientebyId(Id);
         }
-        CXN_RDA VerificarRDA(int Admision)
-        {
-            return rFHIR.ConsultarAdmision(Admision);
-        }
         List<CXN_CONDICIONES> AlergiasPaciente(int Paciente)
         {
             return rFHIR.ConsultarAlergias(Paciente);
@@ -434,6 +430,12 @@ namespace ZamenisHealth.FrontFHIR.RDAs
                     int antecedenteCounter = 1;
 
                     var filtro = A.Where(x => x.Parentesco != "PROPIO").ToList();
+
+                    if (filtro == null || filtro.Count == 0)
+                    {
+                        return null;
+                    }
+
                     var grupos = filtro.GroupBy(a => a.Parentesco).ToList();
 
                     foreach (var grupo in grupos)
@@ -446,16 +448,17 @@ namespace ZamenisHealth.FrontFHIR.RDAs
 
                         antecedenteCounter++;
                     }
+
+                    return entrytemp;
                 }
                 else
                 {
-                    entrytemp.Add(new Reference
+                    return null;
+                   /* entrytemp.Add(new Reference
                     {
                         reference = "#FamilyMemberHistory-1"
-                    });
+                    });*/
                 }
-
-                return entrytemp;
             }
             catch (Exception ex)
             {
@@ -498,7 +501,7 @@ namespace ZamenisHealth.FrontFHIR.RDAs
                     antecedentesFamiliares = AntecedentesFamiliares(datosCita.Hor_Pac_Id);
 
                     //Verificar si ya esta radicada el RDA Paciente
-                    if (VerificarRDA(Admision) != null)
+                    if (rFHIR.VerificarEnvio(Admision, "Paciente") == true)
                     {
                         MG = new MensajesGeneral
                         {
@@ -530,9 +533,9 @@ namespace ZamenisHealth.FrontFHIR.RDAs
                         DateTime salida = new DateTime(datosCita.Hor_Pac_Fecha_Cita.Year,
                                                        datosCita.Hor_Pac_Fecha_Cita.Month,
                                                        datosCita.Hor_Pac_Fecha_Cita.Day,
-                                                       datosCita.Hor_Pac_Atendido.Hour,
-                                                       datosCita.Hor_Pac_Atendido.Minute,
-                                                       00);
+                                                       DateTime.Now.Hour,
+                                                       DateTime.Now.Minute,
+                                                       00).AddMinutes(-3);
                         #endregion                       
 
                         #region AGREGAR SECCIONES AL COMPOSITION
@@ -693,20 +696,56 @@ namespace ZamenisHealth.FrontFHIR.RDAs
                         #endregion
 
                         #region ANTECEDENTES FAMILIARES DEL PACIENTE - SECCION
-                        if (antecedentesFamiliares != null)
+                        if (antecedentesFamiliares != null && antecedentesFamiliares.Count > 0)
                         {
-                            comp2.section.Add(new Section
+                            var filtro = antecedentesFamiliares.Where(x => x.Parentesco != "PROPIO").ToList();
+
+                            if (filtro == null || filtro.Count == 0)
                             {
-                                title = "Historial de antecedentes familiares",
-                                code = new CodeableConcept
+                                comp2.section.Add(new Section
                                 {
-                                    coding = new List<Coding>
+                                    title = "Historial de antecedentes familiares",
+                                    code = new CodeableConcept
+                                    {
+                                        coding = new List<Coding>
                                     {
                                         new Coding { system = "http://loinc.org", code = "10157-6", display = "History of family member diseases Narrative" }
                                     }
-                                },
-                                entry = CargarEntryAntecedentesFamiliares(antecedentesFamiliares)
-                            });
+                                    },
+                                    emptyReason = new CodeableConcept()
+                                    {
+                                        coding = new List<Coding>()
+                                    {
+                                        new Coding()
+                                        {
+                                            system = "http://terminology.hl7.org/CodeSystem/list-empty-reason",
+                                            code = "nilknown",
+                                            display = "Nil Known"
+                                        }
+                                    }
+                                    },
+                                    text = new Text()
+                                    {
+                                        status = "generated",
+                                        div = "<div xmlns = 'http://www.w3.org/1999/xhtml' > No existen elementos conocidos para esta lista y / o el paciente no declara información </div>"
+                                    }
+                                });
+                            }
+                            else
+                            {
+                                comp2.section.Add(new Section
+                                {
+                                    title = "Historial de antecedentes familiares",
+                                    code = new CodeableConcept
+                                    {
+                                        coding = new List<Coding>
+                                    {
+                                        new Coding { system = "http://loinc.org", code = "10157-6", display = "History of family member diseases Narrative" }
+                                    }
+                                    },
+                                    entry = CargarEntryAntecedentesFamiliares(antecedentesFamiliares)
+                                });
+                            }                           
                         }
                         else
                         {
@@ -764,6 +803,7 @@ namespace ZamenisHealth.FrontFHIR.RDAs
                             },
                             subject = new Reference { reference = "#" + TipoDocPac + "-" + datosCita.Pac_IdNum }, // tipo e Identifiacion paciente 
                             date = new DateTimeOffset(fecha, TimeSpan.FromHours(-5)),//DateTime.Parse("2025-12-10T09:59:00-05:00"),
+                            //date = new DateTimeOffset(llegada),//DateTime.Parse("2025-12-10T09:59:00-05:00"),                           
                             author = new List<Reference>
                             {
                                 new Reference { reference = "#" + DatosPrestador.Com_Cod_Prestador_2 }// codigo habilitacion prestador sin sucursal
@@ -802,8 +842,9 @@ namespace ZamenisHealth.FrontFHIR.RDAs
                                     },
                                     period = new Period
                                     {
-                                        start = new DateTimeOffset(llegada, TimeSpan.FromHours(-5)),  //hora de inicio de la consulta
-                                        end = new DateTimeOffset(salida, TimeSpan.FromHours(-5)) // hora de salida de la consulta
+                                        start = new DateTimeOffset(llegada),  //hora de inicio de la consulta
+                                        end = new DateTimeOffset(DateTime.Now.AddMinutes(-3)) // hora de salida de la consulta
+                                        //end = new DateTimeOffset(salida) // hora de salida de la consulta
                                     }
                                  }
                             },
@@ -1125,7 +1166,7 @@ namespace ZamenisHealth.FrontFHIR.RDAs
                         #endregion
 
                         #region RECURSO FAMILY MEMBER HISTORY
-                        if (antecedentesFamiliares != null)
+                        if (antecedentesFamiliares != null && antecedentesFamiliares.Count > 0)
                         {
                             int counter = 1;
                             var filtro = antecedentesFamiliares.Where(a => a.Parentesco != "PROPIO").ToList();
@@ -1241,7 +1282,7 @@ namespace ZamenisHealth.FrontFHIR.RDAs
                                 FechaReporteRDAPaciente = DateTime.Now
                             };
 
-                            if (VerificarRDA(Admision) != null)
+                            if (rFHIR.VerificarEnvio(Admision, "Paciente") == true)
                             {
                                 //update
                                 rFHIR.ActualizarEnvio_RDAPaciente(saveRDAPaciente);

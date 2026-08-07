@@ -37,7 +37,7 @@
     <SuiteName>Zamenis</SuiteName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>489</ApplicationRevision>
+    <ApplicationRevision>508</ApplicationRevision>
     <ApplicationVersion>5.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -287,8 +287,8 @@
     <Reference Include="PdfSharp.WPFonts, Version=6.1.1.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
       <HintPath>packages\PDFsharp.6.1.1\lib\netstandard2.0\PdfSharp.WPFonts.dll</HintPath>
     </Reference>
-    <Reference Include="ShortLink.SDK, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\ShortLink.SDK.1.0.5\lib\netstandard2.0\ShortLink.SDK.dll</HintPath>
+    <Reference Include="ShortLink.SDK, Version=1.0.7.0, Culture=neutral, PublicKeyToken=75ee8845ddd8c6ab, processorArchitecture=MSIL">
+      <HintPath>packages\ShortLink.SDK.1.0.7\lib\netstandard2.0\ShortLink.SDK.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -555,7 +555,6 @@
     <Compile Include="Clases\DatosAPI.cs" />
     <Compile Include="Clases\GenerateTokens.cs" />
     <Compile Include="Clases\GenerateXMLPDF.cs" />
-    <Compile Include="Clases\GridRowData.cs" />
     <Compile Include="Clases\IniFile.cs" />
     <Compile Include="Clases\JoinImagesToPDF.cs" />
     <Compile Include="Clases\JsonVerifications.cs" />
@@ -886,6 +885,12 @@
     <Compile Include="Facturacion\Extras\TipoReportFactura.Designer.cs">
       <DependentUpon>TipoReportFactura.cs</DependentUpon>
     </Compile>
+    <Compile Include="Facturacion\Facturar3.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Facturacion\Facturar3.Designer.cs">
+      <DependentUpon>Facturar3.cs</DependentUpon>
+    </Compile>
     <Compile Include="Facturacion\OpenInvoice\FacturaAbierta.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1061,12 +1066,7 @@
     <Compile Include="FrontFHIR\Logs2.Designer.cs">
       <DependentUpon>Logs2.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrontFHIR\RadicarRDA\RDAAmbulatorio_IHCE.cs" />
-    <Compile Include="FrontFHIR\RadicarRDA\RDAAmbulatorio_IHCE_Class.cs" />
-    <Compile Include="FrontFHIR\RadicarRDA\RDAPaciente_IHCE.cs" />
-    <Compile Include="FrontFHIR\RadicarRDA\RDAPaciente_IHCE_Class.cs" />
     <Compile Include="FrontFHIR\RDAs\RDAConsultaExterna.cs" />
-    <Compile Include="FrontFHIR\RDAs\RDACuraciones.cs" />
     <Compile Include="FrontFHIR\RDAs\RDANotaAclaratoria.cs" />
     <Compile Include="FrontFHIR\RDAs\RDAPaciente.cs" />
     <Compile Include="FrontFHIR\ClasesRDAs\ClasesFHIRFront.cs" />
@@ -2312,6 +2312,9 @@
     <EmbeddedResource Include="Facturacion\Extras\TipoReportFactura.resx">
       <DependentUpon>TipoReportFactura.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Facturacion\Facturar3.resx">
+      <DependentUpon>Facturar3.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Facturacion\OpenInvoice\FacturaAbierta.resx">
       <DependentUpon>FacturaAbierta.cs</DependentUpon>
     </EmbeddedResource>
@@ -3089,7 +3092,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
-    <Content Include="FodyWeavers.xml" />
     <Content Include="icudt.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

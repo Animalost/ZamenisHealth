@@ -29,14 +29,14 @@ namespace Persistence.CXN.Metodos
 
                     if (Tipo == "" || Tipo == "Todos")
                     {
-                        QueryCons = "SELECT Bod_Responsable, Bod_Numero, Bod_Usuario " +
+                        QueryCons = "SELECT Bod_Responsable, Bod_Numero, Bod_Usuario, Bod_Tipo " +
                                     "FROM CXN_BODEGAS " +
                                     "WHERE Bod_Estado = 'A' " +
                                     "ORDER BY Bod_Responsable ASC";
                     }
                     else
                     {
-                        QueryCons = "SELECT Bod_Responsable, Bod_Numero, Bod_Usuario " +
+                        QueryCons = "SELECT Bod_Responsable, Bod_Numero, Bod_Usuario, Bod_Tipo " +
                                     "FROM CXN_BODEGAS " +
                                     "WHERE Bod_Estado = 'A' " +
                                     "AND Bod_Tipo = @param1 " +
@@ -63,6 +63,7 @@ namespace Persistence.CXN.Metodos
                                         Bod_Responsable = Reader["Bod_Responsable"].ToString(),
                                         Bod_Numero = Convert.ToInt32(Reader["Bod_Numero"]),
                                         Bod_Usuario = Reader["Bod_Usuario"].ToString(),
+                                        Bod_Tipo = Reader["Bod_Tipo"].ToString()
                                     });
                                 }
                                 return L;

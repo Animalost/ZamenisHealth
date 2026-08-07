@@ -7,7 +7,6 @@ using Persistence.CXN.Metodos;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Drawing;
 using System.Windows.Forms;
 using ZamenisHealth.Comunes;
 
@@ -32,7 +31,7 @@ namespace ZamenisHealth.Recepcion.Extras
         }
         void Encabezados()
         {
-            dataGridView1.DataSource = null;
+            gridZH1.dataGridView1.DataSource = null;
 
             dt = new DataTable();
             POS = dt.Columns.Add("POS", typeof(int));
@@ -51,6 +50,9 @@ namespace ZamenisHealth.Recepcion.Extras
             btnDescargar = createToolButton("Descargar");
             MenuLateral.Items.Add(btnDescargar);
             btnDescargar.Click += button5_Click;
+
+            gridZH1.dataGridView1.CellClick += dataGridView1_CellClick;
+            gridZH1.CeldaHeight = true;
 
             Cargar();
         }
@@ -88,7 +90,7 @@ namespace ZamenisHealth.Recepcion.Extras
                     }
 
                     Contador = 1;
-                    Estilos(dataGridView1, dt);
+                    Estilos(gridZH1.dataGridView1, dt);
                 }
                 else
                 {
@@ -106,44 +108,8 @@ namespace ZamenisHealth.Recepcion.Extras
         }
         void Estilos(DataGridView D, DataTable t)
         {
-            D.EnableHeadersVisualStyles = false;
-            D.ScrollBars = ScrollBars.Both;
-
             D.DataSource = t;
-
-            D.Columns["Admision"].Width = 100;
-            D.Columns["Paciente"].Width = 300;
-            D.Columns["Fecha"].Width = 100;
-            D.Columns["Estado"].Width = 100;
-            D.Columns["Registra"].Width = 100;
-
-            D.ColumnHeadersDefaultCellStyle.Font = new Font(D.Font, FontStyle.Bold);
-            D.ColumnHeadersDefaultCellStyle.Font = new Font("Arial", 8, FontStyle.Bold);
-            D.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#bfdbff");
-            D.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
-            D.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
-
-            D.Columns["Admision"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            D.Columns["Paciente"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            D.Columns["Fecha"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            D.Columns["Estado"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            D.Columns["Registra"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
             D.Columns["POS"].Visible = false;
-
-            foreach (DataGridViewRow row in D.Rows)
-            {
-                int Numero = Convert.ToInt32(row.Cells["POS"].Value.ToString());
-
-                if ((Numero % 2) == 0)
-                {
-                    row.DefaultCellStyle.BackColor = Color.Aquamarine;
-                }
-                else
-                {
-                    row.DefaultCellStyle.BackColor = Color.MediumAquamarine;
-                }
-            }
         }   
         private void button5_Click(object sender, EventArgs e)
         {
@@ -159,10 +125,16 @@ namespace ZamenisHealth.Recepcion.Extras
         }
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-
-            DatosCita D = new DatosCita(Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString()), "OPendConsumer");
-            D.ShowDialog();
-            Cargar();
+            try
+            {
+                DatosCita D = new DatosCita(Convert.ToInt32(gridZH1.dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString()), "OPendConsumer");
+                D.ShowDialog();
+                Cargar();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }           
         }
     }
 }

@@ -32,6 +32,8 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.boton2 = new FormAndControls.Controles.Boton();
+            this.boton1 = new FormAndControls.Controles.Boton();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.label8 = new System.Windows.Forms.Label();
             this.button4 = new System.Windows.Forms.Button();
@@ -42,8 +44,6 @@
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.boton1 = new FormAndControls.Controles.Boton();
-            this.boton2 = new FormAndControls.Controles.Boton();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -95,6 +95,38 @@
             this.panel1.Size = new System.Drawing.Size(705, 479);
             this.panel1.TabIndex = 29;
             // 
+            // boton2
+            // 
+            this.boton2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(55)))), ((int)(((byte)(90)))));
+            this.boton2.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.boton2.FlatAppearance.BorderSize = 3;
+            this.boton2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.boton2.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
+            this.boton2.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.boton2.Location = new System.Drawing.Point(290, 441);
+            this.boton2.Name = "boton2";
+            this.boton2.Size = new System.Drawing.Size(124, 32);
+            this.boton2.TabIndex = 41;
+            this.boton2.Text = "Grabar PDF";
+            this.boton2.UseVisualStyleBackColor = false;
+            this.boton2.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // boton1
+            // 
+            this.boton1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(55)))), ((int)(((byte)(90)))));
+            this.boton1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.boton1.FlatAppearance.BorderSize = 3;
+            this.boton1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.boton1.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
+            this.boton1.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.boton1.Location = new System.Drawing.Point(572, 7);
+            this.boton1.Name = "boton1";
+            this.boton1.Size = new System.Drawing.Size(124, 32);
+            this.boton1.TabIndex = 40;
+            this.boton1.Text = "Buscar Archivo";
+            this.boton1.UseVisualStyleBackColor = false;
+            this.boton1.Click += new System.EventHandler(this.button2_Click);
+            // 
             // comboBox2
             // 
             this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -143,10 +175,10 @@
             // 
             this.textBox2.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox2.Location = new System.Drawing.Point(12, 231);
+            this.textBox2.Location = new System.Drawing.Point(12, 235);
             this.textBox2.Multiline = true;
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(682, 207);
+            this.textBox2.Size = new System.Drawing.Size(682, 203);
             this.textBox2.TabIndex = 35;
             // 
             // label7
@@ -216,38 +248,6 @@
             this.label4.Size = new System.Drawing.Size(510, 23);
             this.label4.TabIndex = 29;
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // boton1
-            // 
-            this.boton1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(55)))), ((int)(((byte)(90)))));
-            this.boton1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.boton1.FlatAppearance.BorderSize = 3;
-            this.boton1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.boton1.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
-            this.boton1.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.boton1.Location = new System.Drawing.Point(572, 7);
-            this.boton1.Name = "boton1";
-            this.boton1.Size = new System.Drawing.Size(124, 32);
-            this.boton1.TabIndex = 40;
-            this.boton1.Text = "Buscar Archivo";
-            this.boton1.UseVisualStyleBackColor = false;
-            this.boton1.Click += new System.EventHandler(this.button2_Click);
-            // 
-            // boton2
-            // 
-            this.boton2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(55)))), ((int)(((byte)(90)))));
-            this.boton2.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.boton2.FlatAppearance.BorderSize = 3;
-            this.boton2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.boton2.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
-            this.boton2.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.boton2.Location = new System.Drawing.Point(290, 441);
-            this.boton2.Name = "boton2";
-            this.boton2.Size = new System.Drawing.Size(124, 32);
-            this.boton2.TabIndex = 41;
-            this.boton2.Text = "Grabar PDF";
-            this.boton2.UseVisualStyleBackColor = false;
-            this.boton2.Click += new System.EventHandler(this.button3_Click);
             // 
             // UploadHistory
             // 

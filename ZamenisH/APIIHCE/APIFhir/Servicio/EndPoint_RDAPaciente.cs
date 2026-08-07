@@ -47,11 +47,11 @@ namespace APIFhir.Servicio
                     _httpClient.DefaultRequestHeaders.Clear();
 
                     _httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Content-Type", "application/fhir+json");
-                    _httpClient.DefaultRequestHeaders.TryAddWithoutValidation("User-Agent", "PostmanRuntime/7.43.4");
-                    _httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Accept", "*/*");
-                    _httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Accept-Encoding", "gzip, deflate, br");
-                    _httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Connection", "keep-alive");
-                    _httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Cache-Control", "no-cache");
+                   // _httpClient.DefaultRequestHeaders.TryAddWithoutValidation("User-Agent", "PostmanRuntime/7.43.4");
+                   // _httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Accept", "*/*");
+                   // _httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Accept-Encoding", "gzip, deflate, br");
+                   // _httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Connection", "keep-alive");
+                   // _httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Cache-Control", "no-cache");
 
                     endpointUrl = dataUrl["URLRDACExterna"];
                     content = new StringContent(json, Encoding.UTF8, "application/json");
@@ -67,15 +67,40 @@ namespace APIFhir.Servicio
 
                 if (TipoRDA == "Paciente")
                 {
-                    string responseBody = await response.Content.ReadAsStringAsync();
+                    try
+                    {
+                        var responseBodyBytes = await response.Content.ReadAsByteArrayAsync();
+                        string resultado = "";
 
-                    if (response.IsSuccessStatusCode)
-                    {
-                        return (responseBody, "OK");
+                        using (var input = new MemoryStream(responseBodyBytes))
+                        using (var gzip = new GZipStream(input, CompressionMode.Decompress))
+                        using (var reader = new StreamReader(gzip, Encoding.UTF8))
+                        {
+                            resultado = reader.ReadToEnd();
+
+                            if (response.IsSuccessStatusCode)
+                            {
+                                return (resultado, "OK");
+                            }
+                            else
+                            {
+                                return (resultado, "ERR");
+                            }
+                        }
                     }
-                    else
+                    catch (Exception ex2)
                     {
-                        return ($"Error en la solicitud: {response.StatusCode}, Detalles: {responseBody}", "Error");
+                        Console.WriteLine(ex2.Message);
+                        string responseBody = await response.Content.ReadAsStringAsync();
+
+                        if (response.IsSuccessStatusCode)
+                        {
+                            return (responseBody, "OK");
+                        }
+                        else
+                        {
+                            return (responseBody, "ERR");
+                        }
                     }
                 }
                 else if (TipoRDA == "CExterna")
@@ -90,13 +115,30 @@ namespace APIFhir.Servicio
                         using (var reader = new StreamReader(gzip, Encoding.UTF8))
                         {
                             resultado = reader.ReadToEnd();
-                            return (resultado, "OK");
+
+                            if (response.IsSuccessStatusCode)
+                            {
+                                return (resultado, "OK");
+                            }                            
+                            else
+                            {
+                                return (resultado, "ERR");
+                            }
                         }
                     }
-                    catch
+                    catch (Exception ex2)
                     {
+                        Console.WriteLine(ex2.Message);
                         string responseBody = await response.Content.ReadAsStringAsync();
-                        return (responseBody, "ERR");
+
+                        if (response.IsSuccessStatusCode)
+                        {
+                            return (responseBody, "OK");
+                        }
+                        else
+                        {
+                            return (responseBody, "ERR");
+                        }
                     }                                    
                 } 
                 else

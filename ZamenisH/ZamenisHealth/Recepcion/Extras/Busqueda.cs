@@ -82,11 +82,7 @@ namespace ZamenisHealth.Recepcion.Extras
                     return;
                 }
 
-                CXN_PACIENTES _paciente = new CXN_PACIENTES();
-
-                
-                    _paciente = repositorioPacientes.LlamarPacienteNumDoc(textBox1.Text);
-                
+                CXN_PACIENTES _paciente = repositorioPacientes.LlamarPacienteNumDoc(textBox1.Text);                
 
                 if (_paciente != null)
                 {

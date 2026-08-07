@@ -52,6 +52,8 @@ namespace Persistence.CXN.Metodos
                                          "H.Hor_Autoriza, " +
                                          "H.Hor_Pac_Id, " +
                                          "H.Hor_Id, " +
+                                         "H.Hor_Color, " +
+                                         "H.Hor_Pac_Bod, " +
                                          "H.Hor_Pac_Minutos + ' ->RAZON: ' + H.Hor_Pac_Razon as Tarde " +
                                          "FROM " +
                                          "CXN_PACIENTES P " +
@@ -60,7 +62,7 @@ namespace Persistence.CXN.Metodos
                                          "JOIN " +
                                          "CXN_BODEGAS B ON H.Hor_Pac_Bod = B.Bod_Numero " +
                                          "WHERE " +
-                                         "P.Pac_IdNum = '" + ID + "' " +
+                                         "P.Pac_IdNum = @param1 " +
                                          ") " +
                                          "SELECT TOP 100 P.Pac_Id, " +
                                          "T2.Estado, " +
@@ -80,61 +82,76 @@ namespace Persistence.CXN.Metodos
                                          "T2.Hor_Pac_RCancela, " +
                                          "T2.Hor_CantSesion, " +
                                          "T2.Hor_Autoriza, " +
-                                         "T2.Tarde " +
+                                         "T2.Tarde, " +
+                                         "T2.Hor_Color, " +
+                                         "T2.Hor_Pac_Bod, " +
+                                         "T2.Hor_Pac_Id " +
                                          "FROM " +
                                          "CXN_PACIENTES P " +
                                          "LEFT JOIN " +
                                          "MiSubConsulta T2 " +
                                          "ON P.Pac_Id = T2.Hor_Pac_Id " +
-                                         "WHERE P.Pac_IdNum = '" + ID + "' " +
+                                         "WHERE P.Pac_IdNum = @param1 " +
                                          "ORDER BY T2.Fecha DESC";
-                    SqlCommand Carga_CommandC = new SqlCommand(Cargar_HoraC, con);
-                    SqlDataReader Lectura_HoraC = (Carga_CommandC.ExecuteReader());
-                    if (Lectura_HoraC.HasRows)
-                    {
-                        List<CXN_HORARIO> H = new List<CXN_HORARIO>();
 
-                        while (Lectura_HoraC.Read() == true)
+                    using (SqlCommand Carga_CommandC = new SqlCommand(Cargar_HoraC, con))
+                    {
+                        Carga_CommandC.Parameters.AddWithValue("@param1", ID);
+
+                        using (SqlDataReader Lectura_HoraC = (Carga_CommandC.ExecuteReader()))
                         {
-                            string Ser = "NO HAY INFORMACION";
-                            var Service = repositorioConvenios.ServicioNombre(Lectura_HoraC["Hor_Pac_Cup"].ToString(),
-                                                                              Convert.ToInt32(Lectura_HoraC["Hor_Pac_Ase"]),
-                                                                              Lectura_HoraC["Hor_Pac_Tipo_Serv"].ToString());
-                            if (Service != null)
+                            if (Lectura_HoraC.HasRows)
                             {
-                                Ser = Service.Con_Nombre.ToString();
+                                List<CXN_HORARIO> H = new List<CXN_HORARIO>();
+
+                                while (Lectura_HoraC.Read() == true)
+                                {
+                                    string Ser = "NO HAY INFORMACION";
+                                    var Service = repositorioConvenios.ServicioNombre(Lectura_HoraC["Hor_Pac_Cup"].ToString(),
+                                                                                      Convert.ToInt32(Lectura_HoraC["Hor_Pac_Ase"]),
+                                                                                      Lectura_HoraC["Hor_Pac_Tipo_Serv"].ToString());
+                                    if (Service != null)
+                                    {
+                                        Ser = Service.Con_Nombre.ToString();
+                                    }
+
+                                    H.Add(new CXN_HORARIO
+                                    {
+                                        Hor_Estado = Lectura_HoraC["Estado"].ToString(),
+                                        Hor_Pac_Fecha_Cita = Convert.ToDateTime(Lectura_HoraC["Fecha"]),
+                                        Hor_Pac_Hora_Cita = Convert.ToDateTime(Lectura_HoraC["Hora"]),
+                                        Hor_Imp_Age = Lectura_HoraC["Nombre"].ToString(),
+                                        Hor_Regimen = Lectura_HoraC["Profesional"].ToString(), //Profesional
+                                        Hor_RegAtn = Ser, //Servicio Nombre
+                                        Hor_IniciaSesion = Lectura_HoraC["Hor_CantSesion"].ToString(), //cantidad sesiones
+                                        Hor_Pac_UsrGraba = Lectura_HoraC["Hor_Pac_UsrGraba"].ToString(),
+                                        Hor_Usr_Admisiona = Lectura_HoraC["Hor_Usr_Admisiona"].ToString(),
+                                        Hor_Usr_Cancela = Lectura_HoraC["Hor_Usr_Cancela"].ToString(),
+                                        Hor_Pac_RCancela = Lectura_HoraC["Hor_Pac_MCancela"].ToString() + " - " + Lectura_HoraC["Hor_Pac_RCancela"].ToString(),
+                                        Hor_Pac_Modalidad = Lectura_HoraC["Hor_Pac_Modalidad"].ToString(),
+                                        Hor_Pac_Minutos = Lectura_HoraC["Tarde"].ToString(),
+                                        Hor_Id = Convert.ToInt32(Lectura_HoraC["Hor_Id"]),
+                                        Hor_Autoriza = Lectura_HoraC["Hor_Autoriza"].ToString(),
+                                        Hor_Color = Lectura_HoraC["Hor_Color"] == DBNull.Value ? "" : Lectura_HoraC["Hor_Color"].ToString(),
+                                        Hor_Pac_Bod = Convert.ToInt32(Lectura_HoraC["Hor_Pac_Bod"]),
+                                        Hor_Pac_Tipo_Serv = Lectura_HoraC["Hor_Pac_Tipo_Serv"].ToString(),
+                                        Hor_Pac_Id = Convert.ToInt32(Lectura_HoraC["Hor_Pac_Id"])
+                                    });
+                                }
+
+                                return H;
                             }
-
-                            H.Add(new CXN_HORARIO
+                            else
                             {
-                                Hor_Estado = Lectura_HoraC["Estado"].ToString(),
-                                Hor_Pac_Fecha_Cita = Convert.ToDateTime(Lectura_HoraC["Fecha"]),
-                                Hor_Pac_Hora_Cita = Convert.ToDateTime(Lectura_HoraC["Hora"]),
-                                Hor_Imp_Age = Lectura_HoraC["Nombre"].ToString(),
-                                Hor_Regimen = Lectura_HoraC["Profesional"].ToString(), //Profesional
-                                Hor_RegAtn = Ser, //Servicio Nombre
-                                Hor_IniciaSesion = Lectura_HoraC["Hor_CantSesion"].ToString(), //cantidad sesiones
-                                Hor_Pac_UsrGraba = Lectura_HoraC["Hor_Pac_UsrGraba"].ToString(),
-                                Hor_Usr_Admisiona = Lectura_HoraC["Hor_Usr_Admisiona"].ToString(),
-                                Hor_Usr_Cancela = Lectura_HoraC["Hor_Usr_Cancela"].ToString(),
-                                Hor_Pac_RCancela = Lectura_HoraC["Hor_Pac_MCancela"].ToString() + " - " + Lectura_HoraC["Hor_Pac_RCancela"].ToString(),
-                                Hor_Pac_Modalidad = Lectura_HoraC["Hor_Pac_Modalidad"].ToString(),
-                                Hor_Pac_Minutos = Lectura_HoraC["Tarde"].ToString(),
-                                Hor_Id = Convert.ToInt32(Lectura_HoraC["Hor_Id"]),
-                                Hor_Autoriza = Lectura_HoraC["Hor_Autoriza"].ToString()
-                            });
+                                return null;
+                            }
                         }
-
-                        return H;
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                    }                   
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 return null;
             }
         }
@@ -527,7 +544,9 @@ namespace Persistence.CXN.Metodos
                                                       "Hor_GrupoServicios, " +
                                                       "Hor_Regimen, " +
                                                       "Hor_ArrastraHistoria, " +
-                                                      "Hor_AvisoCurInicio) " + //param16
+                                                      "Hor_AvisoCurInicio, " +
+                                                      "Hor_Tipo_Paciente, " +
+                                                      "Hor_Color) " + //param16
                          "values                  (@param1, " + // Hor_Estado
                                                   "@param2, " + // Hor_Pac_Id
                                                   "@param3, " + // Hor_Pac_Bod
@@ -550,7 +569,9 @@ namespace Persistence.CXN.Metodos
                                                   "@param20," +
                                                   "@param21, " +
                                                   "@param22, " +
-                                                  "@param23); SELECT SCOPE_IDENTITY();", con); // Hor_Pac_Sal
+                                                  "@param23, " +
+                                                  "@param24, " +
+                                                  "@param25); SELECT SCOPE_IDENTITY();", con); // Hor_Pac_Sal
 
                     cmd.Parameters.AddWithValue("@param1", horario.Hor_Estado);
                     cmd.Parameters.AddWithValue("@param2", horario.Hor_Pac_Id);
@@ -575,6 +596,8 @@ namespace Persistence.CXN.Metodos
                     cmd.Parameters.AddWithValue("@param21", horario.Hor_Regimen);
                     cmd.Parameters.AddWithValue("@param22", arrastra);
                     cmd.Parameters.AddWithValue("@param23", inicio);
+                    cmd.Parameters.AddWithValue("@param24", horario.Hor_Tipo_Paciente ?? "");
+                    cmd.Parameters.AddWithValue("@param25", horario.Hor_Color ?? "");
 
                     object _primaryKey = cmd.ExecuteScalar(); 
                     if (Convert.ToInt32(_primaryKey) >= 1)
@@ -2096,7 +2119,7 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-        void IAgenda.UpdatecolorCita(int Admision, string Color)
+        void IAgenda.UpdatecolorCita(DateTime FechaCita, int Paciente, string Color)
         {
             try
             {
@@ -2111,12 +2134,16 @@ namespace Persistence.CXN.Metodos
 
                     string Busqueda = "UPDATE CXN_HORARIO " +
                                       "SET Hor_Color = @param1 " +
-                                      "WHERE Hor_Id = @param2";
+                                      "WHERE Hor_Pac_Fecha_Cita = @param2 " +
+                                      "AND Hor_Pac_Id = @param3 " +
+                                      "AND Hor_Estado <> @param4";
 
                     using (SqlCommand Accion = new SqlCommand(Busqueda, con))
                     {
                         Accion.Parameters.AddWithValue("@param1", Color);
-                        Accion.Parameters.AddWithValue("@param2", Admision);
+                        Accion.Parameters.AddWithValue("@param2", Convert.ToDateTime(FechaCita));
+                        Accion.Parameters.AddWithValue("@param3", Paciente);
+                        Accion.Parameters.AddWithValue("@param4", "C");
 
                         Accion.ExecuteNonQuery();
                     }                        

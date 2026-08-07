@@ -87,9 +87,9 @@ namespace ZamenisHealth.Recepcion.Extras
                     }
 
                     Contador = 1;
-                    Estilos(dataGridView1, dt);
+                    Estilos(gridZH1.dataGridView1, dt);
 
-                    foreach (DataGridViewRow row in dataGridView1.Rows)
+                    foreach (DataGridViewRow row in gridZH1.dataGridView1.Rows)
                     {
                         int Numero = Convert.ToInt32(row.Cells["POS"].Value.ToString());
 
@@ -115,45 +115,8 @@ namespace ZamenisHealth.Recepcion.Extras
         }
         void Estilos(DataGridView D, DataTable t)
         {
-            D.EnableHeadersVisualStyles = false;
-            D.ScrollBars = ScrollBars.Both;
-
             D.DataSource = t;
-
-            D.Columns["Codigo"].Width = 80;
-            D.Columns["Profesional"].Width = 600;
-            D.Columns["Estado"].Width = 80;
-
-            D.ColumnHeadersDefaultCellStyle.Font = new Font(D.Font, FontStyle.Bold);
-            D.ColumnHeadersDefaultCellStyle.Font = new Font("Arial", 8, FontStyle.Bold);
-            D.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#bfdbff");
-            D.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
-            D.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
-
-            D.Columns["Codigo"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            D.Columns["Profesional"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            D.Columns["Estado"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
-            D.Columns["Codigo"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            D.Columns["Profesional"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            D.Columns["Estado"].SortMode = DataGridViewColumnSortMode.NotSortable;
-
             D.Columns["POS"].Visible = false;
-
-            foreach (DataGridViewRow row in D.Rows)
-            {
-                int Numero = Convert.ToInt32(row.Cells["POS"].Value.ToString());
-
-                if ((Numero % 2) == 0)
-                {
-                    row.DefaultCellStyle.BackColor = Color.Aquamarine;
-                }
-                else
-                {
-                    row.DefaultCellStyle.BackColor = Color.MediumAquamarine;
-                }
-            }
-
             D.ClearSelection();
         }
         private void ActivarProfesionales_Load(object sender, EventArgs e)
@@ -162,6 +125,9 @@ namespace ZamenisHealth.Recepcion.Extras
             {
                 Titulo.Text = "Activar Profesionales";
                 SubTitulo.Text = $"Zamenis Health {Conexion.VersionApp}";
+
+                gridZH1.dataGridView1.CellClick += dataGridView1_CellClick;
+                gridZH1.CeldaHeight = true;
 
                 Filtrar();              
             }
@@ -174,8 +140,8 @@ namespace ZamenisHealth.Recepcion.Extras
         {
             try
             {
-                string Estado = dataGridView1.Rows[e.RowIndex].Cells[3].Value.ToString();
-                int Bodega = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString());
+                string Estado = gridZH1.dataGridView1.Rows[e.RowIndex].Cells[3].Value.ToString();
+                int Bodega = Convert.ToInt32(gridZH1.dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString());
 
                 DialogResult result = MessageBox.Show("Este profesional esta actualmente " + Estado +
                     " en las agendas web y suya.  ¿Desea cambiar el estado de este profesional?",

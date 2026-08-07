@@ -40,5 +40,8 @@ namespace Domain.CXN
         public int OM_Dias { get; set; }
         public string OM_Tecnologia { get; set; }
         public string OM_Bilateral { get; set; }
+        public int OM_Cada { get; set; }
+        public string OM_Posologia { get; set; }
+        public int OM_CantidadMedicamento { get; set; }
     }
 }

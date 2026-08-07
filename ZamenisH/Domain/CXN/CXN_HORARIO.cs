@@ -69,6 +69,7 @@ namespace Domain.CXN
 
     public class otrosDatosPacienteHorario : CXN_HORARIO
     {
+        public string Pac_Bonos { get; set; }
         public string Pac_TipoId { get; set; }
         public string Pac_IdNum { get; set; }
         public string Pac_PrimerN { get; set; }

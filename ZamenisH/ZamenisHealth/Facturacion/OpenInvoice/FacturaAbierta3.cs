@@ -90,6 +90,23 @@ namespace ZamenisHealth.Facturacion
             {
                 textBox6.Text = CO.Com_Cod_Prestador_2.ToString();
             }
+
+            comboBox3.Items.Add("02 - Presupuesto máximo");
+            comboBox3.Items.Add("03 - Prima EPS / EOC, no asegurados SOAT");
+            comboBox3.Items.Add("04 - Cobertura Póliza SOAT");
+            comboBox3.Items.Add("05 - Cobertura ARL");
+            comboBox3.Items.Add("06 - Cobertura ADRES");
+            comboBox3.Items.Add("07 - Cobertura Salud Pública");
+            comboBox3.Items.Add("08 - Cobertura entidad territorial, recursos de oferta");
+            comboBox3.Items.Add("09 - Urgencias población migrante");
+            comboBox3.Items.Add("10 - Plan complementario en salud");
+            comboBox3.Items.Add("11 - Plan medicina prepagada");
+            comboBox3.Items.Add("12 - Pólizas en salud");
+            comboBox3.Items.Add("13 - Cobertura Régimen Especial o Excepción");
+            comboBox3.Items.Add("14 - Cobertura Fondo Nacional de Salud de las Personas Privadas de la Libertad");
+            comboBox3.Items.Add("15 - Particular");
+            comboBox3.Items.Add("16 - Plan de beneficios en Salud dinanciado con UPC contributivo");
+            comboBox3.Items.Add("17 - Plan de beneficios en Salud dinanciado con UPC subsidiado");
         }
         private void button3_Click(object sender, EventArgs e)
         {
@@ -172,8 +189,8 @@ namespace ZamenisHealth.Facturacion
                         Fac_Cia = Convert.ToInt32(DatosComplementarios.Car_Cia),
                         Fac_Pac = Convert.ToInt32(DatosComplementarios.Car_Pac),
                         Fac_Fecha = Convert.ToDateTime(DateTime.Now.Date),
-                        Fac_Fecha_Des = Convert.ToDateTime(DateTime.Now.Date),
-                        Fac_Fecha_Has = Convert.ToDateTime(DateTime.Now.Date),
+                        Fac_Fecha_Des = dateTimePicker1.Value.Date,
+                        Fac_Fecha_Has = dateTimePicker2.Value.Date,
                         Fac_Num_Aut = textBox1.Text,
                         Fac_Descuento = textBox2.Text,
                         Fac_Observa = richTextBox1.Text,

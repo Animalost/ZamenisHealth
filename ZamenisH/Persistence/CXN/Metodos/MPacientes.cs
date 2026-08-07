@@ -117,7 +117,8 @@ namespace Persistence.CXN.Metodos
                                     VIH = (Reader["VIH"] == DBNull.Value ? "" : Reader["VIH"].ToString()),
                                     Hepatitis = (Reader["Hepatitis"] == DBNull.Value ? "" : Reader["Hepatitis"].ToString()),
                                     HoraNto = (Reader["HoraNto"] == DBNull.Value ? DateTime.Now : Convert.ToDateTime(Reader["HoraNto"])),
-                                    IdentidadGenero = (Reader["IdentidadGenero"] == DBNull.Value ? "04" : Reader["IdentidadGenero"].ToString())
+                                    IdentidadGenero = (Reader["IdentidadGenero"] == DBNull.Value ? "04" : Reader["IdentidadGenero"].ToString()),
+                                    Pac_Bonos = (Reader["Pac_Bonos"] == DBNull.Value ? "N" : Reader["Pac_Bonos"].ToString())
                                 };
 
                                 return DP;
@@ -201,7 +202,8 @@ namespace Persistence.CXN.Metodos
                                 Pac_ECivil = (Reader["Pac_ECivil"] == DBNull.Value ? "" : Reader["Pac_ECivil"].ToString()),
                                 Pac_Ocupacion = (Reader["Pac_Ocupacion"] == DBNull.Value ? "" : Reader["Pac_Ocupacion"].ToString()),
                                 HoraNto = (Reader["HoraNto"] == DBNull.Value ? DateTime.Now : Convert.ToDateTime(Reader["HoraNto"])),
-                                IdentidadGenero = (Reader["IdentidadGenero"] == DBNull.Value ? "04" : Reader["IdentidadGenero"].ToString())
+                                IdentidadGenero = (Reader["IdentidadGenero"] == DBNull.Value ? "04" : Reader["IdentidadGenero"].ToString()),
+                                Pac_Bonos = (Reader["Pac_Bonos"] == DBNull.Value ? "N" : Reader["Pac_Bonos"].ToString())
                             };
 
 
@@ -236,7 +238,9 @@ namespace Persistence.CXN.Metodos
                                                                                 "Pac_Aseguradora, " + //param7
                                                                                 "Pac_TipoId, " + //param8
                                                                                 "Pac_IdNum, " +
-                                                                                "Pac_Categoria) " + //param16
+                                                                                "Pac_Categoria, " +
+                                                                                "Pac_Sexo, " +
+                                                                                "IdentidadGenero) " + //param16
                                  "values                  (@param1, " + // Hor_Estado
                                                           "@param2, " + // Hor_Pac_Id
                                                           "@param3, " + // Hor_Pac_Bod
@@ -246,7 +250,9 @@ namespace Persistence.CXN.Metodos
                                                           "@param7, " + // Hor_Pac_Cup
                                                           "@param8, " + // Hor_Pac_UsrGraba
                                                           "@param9, " +
-                                                          "@param10)", con); // Hor_Pac_Sal
+                                                          "@param10, " +
+                                                          "@param11, " +
+                                                          "@param12)", con); // Hor_Pac_Sal
 
                     cmd.Parameters.AddWithValue("@param1", p.Pac_PrimerN);
                     cmd.Parameters.AddWithValue("@param2", p.Pac_SegundoN);
@@ -258,12 +264,14 @@ namespace Persistence.CXN.Metodos
                     cmd.Parameters.AddWithValue("@param8", p.Pac_TipoId);
                     cmd.Parameters.AddWithValue("@param9", p.Pac_IdNum.TrimStart().TrimEnd());
                     cmd.Parameters.AddWithValue("@param10", p.Pac_Categoria);
-                    cmd.ExecuteNonQuery();
-                    return true;
+                    cmd.Parameters.AddWithValue("@param11", p.Pac_Sexo);
+                    cmd.Parameters.AddWithValue("@param12", p.IdentidadGenero);                    
+                    return cmd.ExecuteNonQuery() >= 1 ? true : false;
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.ToString());
                 return false;
             }
         }
@@ -363,7 +371,8 @@ namespace Persistence.CXN.Metodos
                                 VIH = (Reader["VIH"] == DBNull.Value ? "" : Reader["VIH"].ToString()),
                                 Hepatitis = (Reader["Hepatitis"] == DBNull.Value ? "" : Reader["Hepatitis"].ToString()),
                                 HoraNto = (Reader["HoraNto"] == DBNull.Value ? DateTime.Now : Convert.ToDateTime(Reader["HoraNto"])),
-                                IdentidadGenero = (Reader["IdentidadGenero"] == DBNull.Value ? "04" : Reader["IdentidadGenero"].ToString())
+                                IdentidadGenero = (Reader["IdentidadGenero"] == DBNull.Value ? "04" : Reader["IdentidadGenero"].ToString()),
+                                Pac_Bonos = (Reader["Pac_Bonos"] == DBNull.Value ? "N" : Reader["Pac_Bonos"].ToString())
                             };
 
 
@@ -940,8 +949,9 @@ namespace Persistence.CXN.Metodos
                                           "Pac_2VXS = @P15, " +
                                           "Pac_Especial = @P16, " +
                                           "Pac_Categoria = @P17, " +
-                                          "Pac_Sexo = @P18 " +
-                                          "WHERE Pac_Id = '" + pacientes.Pac_Id + "'");
+                                          "Pac_Sexo = @P18, " +
+                                          "IdentidadGenero = @P19 " +
+                                          "WHERE Pac_Id = @P20");
                     SqlCommand Accion = new SqlCommand(Busqueda, con);
 
                     Accion.Parameters.Add(new SqlParameter("@P1", pacientes.Pac_PrimerN));
@@ -962,12 +972,14 @@ namespace Persistence.CXN.Metodos
                     Accion.Parameters.Add(new SqlParameter("@P16", pacientes.Pac_Especial));
                     Accion.Parameters.Add(new SqlParameter("@P17", pacientes.Pac_Categoria));
                     Accion.Parameters.Add(new SqlParameter("@P18", pacientes.Pac_Sexo));
-                    Accion.ExecuteNonQuery();
-                    return true;
+                    Accion.Parameters.Add(new SqlParameter("@P19", pacientes.IdentidadGenero));
+                    Accion.Parameters.Add(new SqlParameter("@P20", pacientes.Pac_Id));
+                    return Accion.ExecuteNonQuery() > 0 ? true : false;
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 return false;
             }
         }
@@ -1302,6 +1314,36 @@ namespace Persistence.CXN.Metodos
                     SqlCommand Accion = new SqlCommand(Busqueda, con);
                     int Guarda;
                     Guarda = Accion.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
+            }
+        }
+        void IPacientes.Bonos(int IdPac, string Bono)
+        {
+            try
+            {
+                var getConect = Conexion.Conection();
+
+                using (SqlConnection con = new SqlConnection(getConect["Conexion"]))
+                {
+                    if (con != null && con.State == ConnectionState.Closed)
+                    {
+                        con.Open();
+                    }
+                    
+                    string Busqueda = "UPDATE CXN_PACIENTES " +
+                                      "SET Pac_Bonos = @Bono " +
+                                      "WHERE Pac_Id = @Paciente";
+
+                    using (SqlCommand Accion = new SqlCommand(Busqueda, con))
+                    {
+                        Accion.Parameters.AddWithValue("@Bono", Bono);
+                        Accion.Parameters.AddWithValue("@Paciente", IdPac);
+                        Accion.ExecuteNonQuery();
+                    }                        
                 }
             }
             catch (Exception ex)

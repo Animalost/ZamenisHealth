@@ -43,6 +43,9 @@ namespace ZamenisHealth.Recepcion.Extras
             MenuLateral.Items.Add(btnBloquear);
             btnBloquear.Click += button1_Click;
 
+            gridZH1.dataGridView1.CellMouseClick += dataGridView1_CellMouseClick;
+            gridZH1.CeldaHeight = true;
+
             List<string> prof = repositorioBodegas.Profesionales("Todos");            
 
             if (prof != null)
@@ -124,7 +127,7 @@ namespace ZamenisHealth.Recepcion.Extras
                     }
 
                     Contador = 1;
-                    Estilos(dataGridView1, dt);
+                    Estilos(gridZH1.dataGridView1, dt);
                 }
                 else
                 {
@@ -258,43 +261,50 @@ namespace ZamenisHealth.Recepcion.Extras
         }
         private void dataGridView1_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            if (dataGridView1.Rows[e.RowIndex].Cells[3].Value.ToString() == "Desbloqueado")
+            try
             {
-                Comunes.MensajesGeneral mensajesGeneral1 = new Comunes.MensajesGeneral();
-                mensajesGeneral1.Mensaje = "Este dia ya esta desbloqueado";
-                mensajesGeneral1.TipoImagen = 0;
-                mensajesGeneral1.ShowDialog();
-                return;
-            }
-
-            DialogResult result = MessageBox.Show("¿Desea desbloquear este dia?",
-                                                  "Zamenis Health",
-                                                  MessageBoxButtons.YesNo,
-                                                  MessageBoxIcon.Question);
-
-            if (result == DialogResult.Yes)
-            {
-                bool des =  repositorioFechasAgenda.Desbloquear(Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString()), Comunes.Contenedor.UsuarioLogueado);
-                
-                if (des != true)
+                if (gridZH1.dataGridView1.Rows[e.RowIndex].Cells[3].Value.ToString() == "Desbloqueado")
                 {
                     Comunes.MensajesGeneral mensajesGeneral1 = new Comunes.MensajesGeneral();
-                    mensajesGeneral1.Mensaje = "Hubo un fallo inesperado desbloqueando el dia seleccionado";
-                    mensajesGeneral1.TipoImagen = 1000;
+                    mensajesGeneral1.Mensaje = "Este dia ya esta desbloqueado";
+                    mensajesGeneral1.TipoImagen = 0;
                     mensajesGeneral1.ShowDialog();
                     return;
                 }
 
-                Agendamiento f1 = Application.OpenForms.OfType<Agendamiento>().FirstOrDefault();
-                f1.EventoInicial();
+                DialogResult result = MessageBox.Show("¿Desea desbloquear este dia?",
+                                                      "Zamenis Health",
+                                                      MessageBoxButtons.YesNo,
+                                                      MessageBoxIcon.Question);
 
-                CargarList();
+                if (result == DialogResult.Yes)
+                {
+                    bool des = repositorioFechasAgenda.Desbloquear(Convert.ToInt32(gridZH1.dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString()), Comunes.Contenedor.UsuarioLogueado);
 
-                Comunes.MensajesGeneral mensajesGeneral = new Comunes.MensajesGeneral();
-                mensajesGeneral.Mensaje = "El desbloqueo de dias has sido actualizado correctamente";
-                mensajesGeneral.TipoImagen = 3;
-                mensajesGeneral.ShowDialog();
+                    if (des != true)
+                    {
+                        Comunes.MensajesGeneral mensajesGeneral1 = new Comunes.MensajesGeneral();
+                        mensajesGeneral1.Mensaje = "Hubo un fallo inesperado desbloqueando el dia seleccionado";
+                        mensajesGeneral1.TipoImagen = 1000;
+                        mensajesGeneral1.ShowDialog();
+                        return;
+                    }
+
+                    Agendamiento f1 = Application.OpenForms.OfType<Agendamiento>().FirstOrDefault();
+                    f1.EventoInicial();
+
+                    CargarList();
+
+                    Comunes.MensajesGeneral mensajesGeneral = new Comunes.MensajesGeneral();
+                    mensajesGeneral.Mensaje = "El desbloqueo de dias has sido actualizado correctamente";
+                    mensajesGeneral.TipoImagen = 3;
+                    mensajesGeneral.ShowDialog();
+                }
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }            
         }
     }
 }

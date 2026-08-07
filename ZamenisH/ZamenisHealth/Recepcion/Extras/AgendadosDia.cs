@@ -1,19 +1,14 @@
 ﻿using Domain;
 using Domain.CXN;
-
 using FormAndControls;
-
 using Persistence;
 using Persistence.CXN.Interfaces;
 using Persistence.CXN.Metodos;
-
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-
 using ZamenisHealth.Comunes;
 using ZamenisHealth.Recepcion.AgendaDiaria;
 
@@ -29,22 +24,20 @@ namespace ZamenisHealth.Recepcion.Extras
         {
             InitializeComponent();        
 
-            this.L = l;
-            loadGrid();
+            this.L = l;            
         }
 
         void loadGrid()
         {
             try
             {
-                dataGridView1.DataSource = null;
+                gridZH1.dataGridView1.DataSource = null;
 
                 dt = new DataTable();
                 DataColumn POS;
                 DataColumn ADM;
                 DataColumn CitaProgramada;
 
-                dt = new DataTable();
                 POS = dt.Columns.Add("POS", typeof(int));
                 ADM = dt.Columns.Add("ADM", typeof(int));
                 CitaProgramada = dt.Columns.Add("CitaProgramada", typeof(string));
@@ -69,12 +62,20 @@ namespace ZamenisHealth.Recepcion.Extras
 
                 Contador = 0;
 
-                Estilos();
+                gridZH1.dataGridView1.DataSource = dt;
+                gridZH1.dataGridView1.Columns["POS"].Visible = false;
+                gridZH1.dataGridView1.Columns["ADM"].Visible = false;
+                
+                
+                foreach (DataGridViewRow i in gridZH1.dataGridView1.Rows)
+                {
+                    if (i.Cells["Adm"].Value != null)
+                    {
+                        i.Cells["CitaProgramada"].Value = i.Cells["CitaProgramada"].Value.ToString().Replace("\n", Environment.NewLine);
+                    }
+                }
 
-                dataGridView1.CellFormatting += DataGridView1_CellFormatting;
-                dataGridView1.CellClick += DataGridView1_CellClick;
-
-                dataGridView1.ClearSelection();
+                gridZH1.dataGridView1.ClearSelection();
             }
             catch (Exception ex)
             {
@@ -83,80 +84,27 @@ namespace ZamenisHealth.Recepcion.Extras
         }
         private void DataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            dataGridView1.ClearSelection();
-        }
-        private void DataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
-        {
-            if (e.Value != null && e.Value.GetType() == typeof(string))
-            {
-                e.Value = ((string)e.Value).Replace("\n", Environment.NewLine);
-            }
-
-            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
-            {
-                DataGridViewCell cell = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex];
-                cell.Style.WrapMode = DataGridViewTriState.True;
-                dataGridView1.Rows[e.RowIndex].Height = 70;
-            }           
-
-            foreach (DataGridViewRow row in dataGridView1.Rows)
-            {
-                int Numero = Convert.ToInt32(row.Cells["POS"].Value.ToString());
-
-                if ((Numero % 2) == 0)
-                {
-                    row.DefaultCellStyle.BackColor = Color.Aquamarine;
-                }
-                else
-                {
-                    row.DefaultCellStyle.BackColor = Color.MediumAquamarine;
-                }
-            }
-
-            dataGridView1.ClearSelection();
-        }
-        void Estilos()
-        {
             try
             {
-                dataGridView1.EnableHeadersVisualStyles = false;
-                dataGridView1.ScrollBars = ScrollBars.Both;
-
-                dataGridView1.DataSource = dt;
-
-                dataGridView1.Columns["POS"].Width = 0;
-                dataGridView1.Columns["ADM"].Width = 0;
-                dataGridView1.Columns["CitaProgramada"].Width = 600;
-
-                dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font(dataGridView1.Font, FontStyle.Bold);
-                dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Arial", 8, FontStyle.Bold);
-                dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#bfdbff");
-                dataGridView1.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
-                dataGridView1.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
-
-                dataGridView1.Columns["POS"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                dataGridView1.Columns["ADM"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                dataGridView1.Columns["CitaProgramada"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
-                dataGridView1.Columns["POS"].SortMode = DataGridViewColumnSortMode.NotSortable;
-                dataGridView1.Columns["ADM"].SortMode = DataGridViewColumnSortMode.NotSortable;
-                dataGridView1.Columns["CitaProgramada"].SortMode = DataGridViewColumnSortMode.NotSortable;
-
-                dataGridView1.Columns["POS"].Visible = false;
-                dataGridView1.Columns["ADM"].Visible = false;                
-
-                dataGridView1.ClearSelection();
+                gridZH1.dataGridView1.ClearSelection();
             }
             catch (Exception ex)
             {
-                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
-            }
-        }
+                Console.WriteLine(ex.ToString());
+            }           
+        }       
         private void AgendadosDia_Load(object sender, EventArgs e)
         {
             try
             {
-                
+                Titulo.Text = "Proximas Citas";
+                SubTitulo.Text = $"Zamenis Health {Conexion.VersionApp}";
+
+                gridZH1.dataGridView1.CellClick += DataGridView1_CellClick;
+                gridZH1.dataGridView1.CellDoubleClick += dataGridView1_CellDoubleClick;
+                gridZH1.CeldaHeight = true;
+
+                loadGrid();                
             }
             catch (Exception ex)
             {
@@ -204,11 +152,11 @@ namespace ZamenisHealth.Recepcion.Extras
         {
             try
             {
-                dataGridView1.ClearSelection();
+                gridZH1.dataGridView1.ClearSelection();
 
                 if (e.ColumnIndex == 2)
                 {
-                    if (dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString() != "")
+                    if (gridZH1.dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString() != "")
                     {
                         DialogResult result2 = MessageBox.Show("¿Desea cancelar esta cita?  Si no la desea cancelar, escriba NO",
                                 "Zamenis Health",
@@ -219,13 +167,13 @@ namespace ZamenisHealth.Recepcion.Extras
                         {
                             if (result2.ToString() != "NO")
                             {
-                                Cancelar_Cita(Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString()));
+                                Cancelar_Cita(Convert.ToInt32(gridZH1.dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString()));
                             }
                         }
                     }
                 }
 
-                dataGridView1.ClearSelection();
+                gridZH1.dataGridView1.ClearSelection();
             }
             catch (Exception ex)
             {

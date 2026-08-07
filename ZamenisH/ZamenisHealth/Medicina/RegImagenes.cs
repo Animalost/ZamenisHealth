@@ -6,7 +6,6 @@ using Persistence.CXN.Interfaces;
 using Persistence.CXN.Metodos;
 using System;
 using System.Data;
-using System.Drawing;
 using System.Windows.Forms;
 using ZamenisHealth.Comunes;
 using ZamenisHealth.Medicina.Extras;
@@ -25,11 +24,12 @@ namespace ZamenisHealth.Medicina
         private DataColumn Admision;
         private DataColumn Fecha;
         private DataColumn Profesional;
-
+       
         public RegImagenes()
         {
             InitializeComponent();
         }
+
         private void CargarDocumentos()
         {
             var ListaDocs = repoPacientes.ListaDocs();
@@ -58,16 +58,16 @@ namespace ZamenisHealth.Medicina
         }
         private void RegImagenes_Load(object sender, EventArgs e)
         {
-            
-
             Titulo.Text = "Imagenes";
-
             LogoMain.Image = Properties.Resources.Splash;
 
             ToolStripButton btnBuscar = new ToolStripButton();
             btnBuscar = createToolButton("Buscar");
             MenuLateral.Items.Add(btnBuscar);
             btnBuscar.Click += button1_Click;
+
+            gridZH1.dataGridView1.CellClick += dataGridView1_CellClick;
+            gridZH1.CeldaHeight = true;
 
             comboBox3.SelectedIndex = 1;
             CargarDocumentos();
@@ -101,7 +101,7 @@ namespace ZamenisHealth.Medicina
                     }
 
                     Contador = 1;
-                    Estilos(dataGridView1, dt);
+                    Estilos(gridZH1.dataGridView1, dt);
                 }
                 else
                 {
@@ -120,44 +120,8 @@ namespace ZamenisHealth.Medicina
         }
         void Estilos(DataGridView D, DataTable t)
         {
-            D.EnableHeadersVisualStyles = false;
-            D.ScrollBars = ScrollBars.Both;
-
             D.DataSource = t;
-
-            D.Columns["Admision"].Width = 120;
-            D.Columns["Fecha"].Width = 150;
-            D.Columns["Profesional"].Width = 445;
-
-            D.ColumnHeadersDefaultCellStyle.Font = new Font(D.Font, FontStyle.Bold);
-            D.ColumnHeadersDefaultCellStyle.Font = new Font("Arial", 8, FontStyle.Bold);
-            D.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#bfdbff");
-            D.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
-            D.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
-
-            D.Columns["Admision"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            D.Columns["Fecha"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            D.Columns["Profesional"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
-            D.Columns["Admision"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            D.Columns["Fecha"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            D.Columns["Profesional"].SortMode = DataGridViewColumnSortMode.NotSortable;
-
             D.Columns["POS"].Visible = false;
-
-            foreach (DataGridViewRow row in D.Rows)
-            {
-                int Numero = Convert.ToInt32(row.Cells["POS"].Value.ToString());
-
-                if ((Numero % 2) == 0)
-                {
-                    row.DefaultCellStyle.BackColor = Color.Aquamarine;
-                }
-                else
-                {
-                    row.DefaultCellStyle.BackColor = Color.MediumAquamarine;
-                }
-            }
         }      
         public void CerrarPanel()
         {
@@ -167,7 +131,7 @@ namespace ZamenisHealth.Medicina
         {
             try
             {
-                label5.Text = dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString();
+                label5.Text = gridZH1.dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString();
 
                 if (comboBox3.Text == "Subir una Imagen")
                 {

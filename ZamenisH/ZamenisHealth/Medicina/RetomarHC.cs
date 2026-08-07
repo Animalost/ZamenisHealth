@@ -1,19 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Drawing;
-using System.Windows.Forms;
-using Domain;
+﻿using Domain;
 using Domain.CXN;
+using FormAndControls;
 using Persistence;
 using Persistence.CXN.Interfaces;
 using Persistence.CXN.Metodos;
-using ZamenisHealth.Clases;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Windows.Forms;
 using ZamenisHealth.Comunes;
 
 namespace ZamenisHealth.Medicina
 {
-    public partial class RetomarHC : ConfigForm.BaseForm
+    public partial class RetomarHC : Forma2
     {
         private static readonly IBodegas repoBodegas = new MBodegas();
         private static readonly IAgendaC repoAgendaMedicaConsultas = new MAgendaC();
@@ -28,15 +27,15 @@ namespace ZamenisHealth.Medicina
         public RetomarHC()
         {
             InitializeComponent();
-            
-            ConfigForm.MoverForma(TittleLbl, this);
         }
 
         private void RetomarHC_Load(object sender, EventArgs e)
         {
             try
             {
-                
+                Titulo.Text = "Retomar Hitorias";
+                SubTitulo.Text = $"Zamenis Health {Conexion.VersionApp}";
+
                 var ValMed = repoBodegas.EsProfesional("Medico", Comunes.Contenedor.UsuarioLogueado);
                 if (ValMed != true)
                 {
@@ -48,6 +47,9 @@ namespace ZamenisHealth.Medicina
                     this.Close();
                     return;
                 }
+
+                gridZH1.dataGridView1.CellMouseClick += dataGridView1_CellMouseClick;
+                gridZH1.CeldaHeight = true;
                 CargarGrilla();
             }
             catch (Exception ex)
@@ -63,7 +65,6 @@ namespace ZamenisHealth.Medicina
             Fecha = dt.Columns.Add("Fecha", typeof(DateTime));
             Paciente = dt.Columns.Add("Paciente", typeof(string));
         }
-
         private void CargarGrilla()
         {
             try
@@ -91,7 +92,7 @@ namespace ZamenisHealth.Medicina
                     }
 
                     Contador = 1;
-                    Estilos(dataGridView1, dt);                    
+                    Estilos(gridZH1.dataGridView1, dt);                    
                 }
                 else
                 {
@@ -104,53 +105,10 @@ namespace ZamenisHealth.Medicina
             }
         }
         void Estilos(DataGridView D, DataTable t)
-        {
-            D.EnableHeadersVisualStyles = false;
-            D.ScrollBars = ScrollBars.Both;
-
+        {  
             D.DataSource = t;
-
-            D.Columns["Admision"].Width = 120;
-            D.Columns["Fecha"].Width = 120;
-            D.Columns["Paciente"].Width = 480;
-
-            D.ColumnHeadersDefaultCellStyle.Font = new Font(D.Font, FontStyle.Bold);
-            D.ColumnHeadersDefaultCellStyle.Font = new Font("Arial", 8, FontStyle.Bold);
-            D.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#bfdbff");
-            D.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
-            D.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
-
-            D.Columns["Admision"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            D.Columns["Fecha"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            D.Columns["Paciente"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
-            D.Columns["Admision"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            D.Columns["Fecha"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            D.Columns["Paciente"].SortMode = DataGridViewColumnSortMode.NotSortable;
-
             D.Columns["POS"].Visible = false;
-
-            foreach (DataGridViewRow row in D.Rows)
-            {
-                int Numero = Convert.ToInt32(row.Cells["POS"].Value.ToString());
-
-                if ((Numero % 2) == 0)
-                {
-                    row.DefaultCellStyle.BackColor = Color.Aquamarine;
-                }
-                else
-                {
-                    row.DefaultCellStyle.BackColor = Color.MediumAquamarine;
-                }
-            }
         }
-        private void button1_Click(object sender, EventArgs e)
-        {
-            this.Dispose();
-            this.Close();
-        }
-   
-
         private void dataGridView1_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             try
@@ -158,7 +116,7 @@ namespace ZamenisHealth.Medicina
                 if (Tipo == "MG")
                 {
                     HistoriasClinicas.Historia_MedicinaGeneral HCMG = new HistoriasClinicas.Historia_MedicinaGeneral();
-                    HCMG.Admision = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString());
+                    HCMG.Admision = Convert.ToInt32(gridZH1.dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString());
                     HCMG.Retoma = true;
                     HCMG.ShowDialog();
                 }
@@ -166,7 +124,7 @@ namespace ZamenisHealth.Medicina
                 if (Tipo == "FI")
                 {
                     HistoriasClinicas.Historia_Fisiatria HCFI = new HistoriasClinicas.Historia_Fisiatria();
-                    HCFI.Admision = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString());
+                    HCFI.Admision = Convert.ToInt32(gridZH1.dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString());
                     HCFI.Retoma = true;
                     HCFI.ShowDialog();
                 }

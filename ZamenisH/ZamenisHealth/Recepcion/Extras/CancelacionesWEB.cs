@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Drawing;
 using System.Windows.Forms;
 using Domain;
 using Domain.CXN;
@@ -61,7 +60,7 @@ namespace ZamenisHealth.Recepcion.Extras
                 }
 
                 Contador = 1;
-                Estilos(dataGridView1, dt);
+                Estilos(gridZH1.dataGridView1, dt);
             }
             else
             {
@@ -69,14 +68,9 @@ namespace ZamenisHealth.Recepcion.Extras
             }
         }
 
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-            this.Dispose();
-            this.Close();
-        }
-
         private void Encabezados()
         {
+            gridZH1.dataGridView1.DataSource = null;
             dt = new DataTable();
             POS = dt.Columns.Add("POS", typeof(int));
             Admision = dt.Columns.Add("Admision", typeof(int));
@@ -84,20 +78,20 @@ namespace ZamenisHealth.Recepcion.Extras
             Paciente = dt.Columns.Add("Paciente", typeof(string));
             Razon = dt.Columns.Add("Razon", typeof(string));    
         }
-
         private void CancelacionesWEB_Load(object sender, EventArgs e)
         {
             Titulo.Text = "Cancelaciones WEB";
-            
-        }
 
+            gridZH1.dataGridView1.CellMouseClick += dataGridView1_CellMouseClick;
+
+
+        }
         private void textBox1_DoubleClick(object sender, EventArgs e)
         {
             Comunes.BuscarPacientes Busca_Pac = new Comunes.BuscarPacientes();
             Busca_Pac.Tipo_Busca_Pac = "CANCELAWEB";
             Busca_Pac.ShowDialog();
         }
-
         public void setDatos(string tdoc, string doc)
         {
             this.TDOC = tdoc;
@@ -105,7 +99,6 @@ namespace ZamenisHealth.Recepcion.Extras
 
             textBox1.Text = this.DOC;
         }
-
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             try
@@ -139,7 +132,7 @@ namespace ZamenisHealth.Recepcion.Extras
                         }
 
                         Contador = 1;
-                        Estilos(dataGridView1, dt);
+                        Estilos(gridZH1.dataGridView1, dt);
                     }
                     else
                     {
@@ -156,15 +149,20 @@ namespace ZamenisHealth.Recepcion.Extras
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         private void dataGridView1_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            Comunes.MensajesGeneral MG = new MensajesGeneral();
-            MG.Mensaje = dataGridView1.Rows[e.RowIndex].Cells[4].Value.ToString();
-            MG.TipoImagen = 3;
-            MG.ShowDialog();
+            try
+            {
+                Comunes.MensajesGeneral MG = new MensajesGeneral();
+                MG.Mensaje = gridZH1.dataGridView1.Rows[e.RowIndex].Cells[4].Value.ToString();
+                MG.TipoImagen = 3;
+                MG.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }           
         }
-
         private void textBox1_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyData == Keys.Enter)
@@ -205,7 +203,7 @@ namespace ZamenisHealth.Recepcion.Extras
                         }
 
                         Contador = 1;
-                        Estilos(dataGridView1, dt);
+                        Estilos(gridZH1.dataGridView1, dt);
                     }
                     else
                     {
@@ -218,48 +216,12 @@ namespace ZamenisHealth.Recepcion.Extras
                 }
             }
         }
-
         void Estilos(DataGridView D, DataTable t)
         {
-            D.EnableHeadersVisualStyles = false;
-            D.ScrollBars = ScrollBars.Both;
-
-            D.DataSource = t;
-
-            D.Columns["Admision"].Width = 120;
-            D.Columns["FechaCita"].Width = 120;
-            D.Columns["Paciente"].Width = 350;            
-
-            D.ColumnHeadersDefaultCellStyle.Font = new Font(D.Font, FontStyle.Bold);
-            D.ColumnHeadersDefaultCellStyle.Font = new Font("Arial", 8, FontStyle.Bold);
-            D.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#bfdbff");
-            D.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
-            D.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
-
-            D.Columns["Admision"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            D.Columns["FechaCita"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            D.Columns["Paciente"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
-            D.Columns["Admision"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            D.Columns["FechaCita"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            D.Columns["Paciente"].SortMode = DataGridViewColumnSortMode.NotSortable;
+            D.DataSource = t;          
 
             D.Columns["POS"].Visible = false;
             D.Columns["Razon"].Visible = false;
-
-            foreach (DataGridViewRow row in D.Rows)
-            {
-                int Numero = Convert.ToInt32(row.Cells["POS"].Value.ToString());
-
-                if ((Numero % 2) == 0)
-                {
-                    row.DefaultCellStyle.BackColor = Color.Aquamarine;
-                }
-                else
-                {
-                    row.DefaultCellStyle.BackColor = Color.MediumAquamarine;
-                }
-            }
         }
     }
 }

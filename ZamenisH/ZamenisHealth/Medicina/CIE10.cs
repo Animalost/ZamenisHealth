@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Windows.Forms;
-using Domain;
+﻿using Domain;
 using Domain.CXN;
 using FormAndControls;
 using Persistence;
 using Persistence.CXN.Interfaces;
 using Persistence.CXN.Metodos;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Windows.Forms;
 using ZamenisHealth.Comunes;
 
 namespace ZamenisHealth.Medicina
@@ -35,8 +34,7 @@ namespace ZamenisHealth.Medicina
         public CIE10(string TH)
         {
             InitializeComponent();
-            Tipo_His_CIE = TH;
-            
+            Tipo_His_CIE = TH;         
         }
         private void button1_Click(object sender, EventArgs e)
         {
@@ -60,7 +58,6 @@ namespace ZamenisHealth.Medicina
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         private void CIE10_Load(object sender, EventArgs e)
         {
             Titulo.Text = "Seleccion de CIE10";
@@ -72,10 +69,14 @@ namespace ZamenisHealth.Medicina
             MenuLateral.Items.Add(btnBuscar);
             btnBuscar.Click += button1_Click;
 
-            
+            gridZH1.dataGridView1.CellClick += dataGridView1_CellClick;
+            gridZH1.CeldaHeight = true;
+
+            gridZH2.dataGridView1.CellClick += dataGridView2_CellClick;
+            gridZH2.CeldaHeight = true;
+
             CargarUltimos();
         }
-
         void CargarUltimos()
         {
             try
@@ -105,11 +106,11 @@ namespace ZamenisHealth.Medicina
                     }
 
                     Contador = 1;
-                    Estilos(dataGridView2, dt2);
+                    Estilos(gridZH2.dataGridView1, dt2);
                 }
                 else
                 {
-                    dataGridView2.DataSource = null;
+                    gridZH2.dataGridView1.DataSource = null;
                     EncabezadosUltimos();
                 }
             }
@@ -118,7 +119,6 @@ namespace ZamenisHealth.Medicina
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         void EncabezadosUltimos()
         {
             dt2 = new DataTable();
@@ -127,7 +127,6 @@ namespace ZamenisHealth.Medicina
             Servicio2 = dt2.Columns.Add("Servicio", typeof(string));
             Id2 = dt2.Columns.Add("Id", typeof(int));
         }
-
         void Encabezados()
         {
             dt = new DataTable();
@@ -136,45 +135,11 @@ namespace ZamenisHealth.Medicina
             Servicio = dt.Columns.Add("Servicio", typeof(string));
             Id = dt.Columns.Add("Id", typeof(int));
         }
-
         void Estilos(DataGridView D, DataTable t)
         {
-            D.EnableHeadersVisualStyles = false;
-            D.ScrollBars = ScrollBars.Both;
-
             D.DataSource = t;
-
-            D.Columns["Cup"].Width = 80;
-            D.Columns["Servicio"].Width = 600;
-
-            D.ColumnHeadersDefaultCellStyle.Font = new Font(D.Font, FontStyle.Bold);
-            D.ColumnHeadersDefaultCellStyle.Font = new Font("Arial", 8, FontStyle.Bold);
-            D.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#bfdbff");
-            D.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
-            D.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
-
-            D.Columns["Cup"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            D.Columns["Servicio"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
-            D.Columns["Cup"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            D.Columns["Servicio"].SortMode = DataGridViewColumnSortMode.NotSortable;
-
             D.Columns["POS"].Visible = false;
             D.Columns["Id"].Visible = false;
-
-            foreach (DataGridViewRow row in D.Rows)
-            {
-                int Numero = Convert.ToInt32(row.Cells["POS"].Value.ToString());
-
-                if ((Numero % 2) == 0)
-                {
-                    row.DefaultCellStyle.BackColor = Color.Aquamarine;
-                }
-                else
-                {
-                    row.DefaultCellStyle.BackColor = Color.MediumAquamarine;
-                }
-            }
         }
         private void PorCodigo()
         {
@@ -203,11 +168,11 @@ namespace ZamenisHealth.Medicina
                     }
 
                     Contador = 1;
-                    Estilos(dataGridView1, dt);
+                    Estilos(gridZH1.dataGridView1, dt);
                 }
                 else
                 {
-                    dataGridView1.DataSource = null;
+                    gridZH1.dataGridView1.DataSource = null;
                     Encabezados();
                 }
             }
@@ -216,7 +181,6 @@ namespace ZamenisHealth.Medicina
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         private void PorDesc()
         {
             try
@@ -244,11 +208,11 @@ namespace ZamenisHealth.Medicina
                     }
 
                     Contador = 1;
-                    Estilos(dataGridView1, dt);
+                    Estilos(gridZH1.dataGridView1, dt);
                 }
                 else
                 {
-                    dataGridView1.DataSource = null;
+                    gridZH1.dataGridView1.DataSource = null;
                     Encabezados();
                 }
             }
@@ -257,7 +221,6 @@ namespace ZamenisHealth.Medicina
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             try
@@ -282,13 +245,12 @@ namespace ZamenisHealth.Medicina
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             try
             {
-                string Cod = dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString();
-                string Serv = dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString();
+                string Cod = gridZH1.dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString();
+                string Serv = gridZH1.dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString();
 
                 if (Tipo_His_CIE == "DX1_Nota")
                 {
@@ -549,24 +511,16 @@ namespace ZamenisHealth.Medicina
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
             textBox1.CharacterCasing = CharacterCasing.Upper;
         }       
-
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-            this.Dispose();
-            this.Close();
-        }
-
         private void dataGridView2_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             try
             {
-                string Cod = dataGridView2.Rows[e.RowIndex].Cells[1].Value.ToString();
-                string Serv = dataGridView2.Rows[e.RowIndex].Cells[2].Value.ToString();
+                string Cod = gridZH2.dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString();
+                string Serv = gridZH2.dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString();
 
                 if (Tipo_His_CIE == "DX1_Nota")
                 {

@@ -153,11 +153,11 @@ namespace ZamenisHealth.FacElectron
         {
             try
             {
-                //GenerarCuraciones();
+                GenerarCuraciones();
                 GenerarBonos();
-               // GenerarVentas();
-               // GenerarFibromialgia();
-              //  GenerarNotasCredito();
+                GenerarVentas();
+                GenerarFibromialgia();
+                GenerarNotasCredito();
              
                 MG = new MensajesGeneral();
                 MG.Mensaje = "Hecho";

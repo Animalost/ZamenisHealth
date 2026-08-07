@@ -103,6 +103,7 @@ namespace ZamenisHealth.Facturacion
                 MenuLateral.Items.Add(btnGrabar);
                 btnGrabar.Click += toolStripButton6_Click;
 
+                gridZH1.CeldaHeight = true;
                 CargarMediosPago();                
             
                 List<string> Regi = repoPacientes.ListaRegimen();
@@ -360,6 +361,23 @@ namespace ZamenisHealth.Facturacion
                     boton1.Visible = false;
                     boton2.Visible = false;
                 }
+
+                comboBox3.Items.Add("02 - Presupuesto máximo");
+                comboBox3.Items.Add("03 - Prima EPS / EOC, no asegurados SOAT");
+                comboBox3.Items.Add("04 - Cobertura Póliza SOAT");
+                comboBox3.Items.Add("05 - Cobertura ARL");
+                comboBox3.Items.Add("06 - Cobertura ADRES");
+                comboBox3.Items.Add("07 - Cobertura Salud Pública");
+                comboBox3.Items.Add("08 - Cobertura entidad territorial, recursos de oferta");
+                comboBox3.Items.Add("09 - Urgencias población migrante");
+                comboBox3.Items.Add("10 - Plan complementario en salud");
+                comboBox3.Items.Add("11 - Plan medicina prepagada");
+                comboBox3.Items.Add("12 - Pólizas en salud");
+                comboBox3.Items.Add("13 - Cobertura Régimen Especial o Excepción");
+                comboBox3.Items.Add("14 - Cobertura Fondo Nacional de Salud de las Personas Privadas de la Libertad");
+                comboBox3.Items.Add("15 - Particular");
+                comboBox3.Items.Add("16 - Plan de beneficios en Salud dinanciado con UPC contributivo");
+                comboBox3.Items.Add("17 - Plan de beneficios en Salud dinanciado con UPC subsidiado");
             }
             catch (Exception ex)
             {
@@ -905,18 +923,18 @@ namespace ZamenisHealth.Facturacion
                 CXN_PACIENTES pacData = repoPacientes.LlamarPacientebyId(Pac_Id);
                 CXN_ASEGURADORA aseData = fAseguradora.getInfoFromAsebyCode(pacData.Pac_Aseguradora);
 
-                List<(int Adm, string Aut, int Cant)> listAdmition = fDigitales.getAdmitionsByFacturacion(Pac_Id, Cia, Hasta.Date, Desde.Date);
+                //List<(int Adm, string Aut, int Cant)> listAdmition = fDigitales.getAdmitionsByFacturacion(Pac_Id, Cia, Hasta.Date, Desde.Date);
 
-                if (listAdmition != null)
+                if (listAdmitionToSumVal != null)
                 {
                     List<FirmasR> lista = new List<FirmasR>();
                     int Contador = 1;
 
-                    foreach (var i in listAdmition)
+                    foreach (var i in listAdmitionToSumVal)
                     {
-                        otrosDatosPacienteHorario dataAdm = repoAge.cargarAdmision(i.Adm, "'H'");
+                        otrosDatosPacienteHorario dataAdm = repoAge.cargarAdmision(i, "'H'");
 
-                        CXN_FIRMASDIGITALES fTemp = fDigitales.getFirmas(i.Adm);
+                        CXN_FIRMASDIGITALES fTemp = fDigitales.getFirmas(i);
                         byte[] firmaByte = null;
 
                         if (fTemp == null)
@@ -955,9 +973,9 @@ namespace ZamenisHealth.Facturacion
                             FechaBase = Convert.ToDateTime(dataAdm.Hor_Pac_Fecha_Cita),
                             FirmaByte = firmaByte,
                             Con_Nombre = dataAdm.Com_Nombre_SMS,
-                            Com_Direccion = listAdmition[0].Aut, //autorizacion
-                            Admision = i.Adm,
-                            Cantidad = i.Cant
+                            Com_Direccion = textBox1.Text,// listAdmition[0].Aut, //autorizacion
+                            Admision = i,
+                            Cantidad = Convert.ToInt32(textBox13.Text),// i.Cant
                         });
 
                         if (!dataAdm.Com_Nombre_SMS.Contains("CONSULTA"))
@@ -1302,7 +1320,9 @@ namespace ZamenisHealth.Facturacion
         }
         private void boton1_Click(object sender, EventArgs e)
         {
-            FirmasPrint(true);
+            //FirmasPrint(true);
+            Facturar3 facturar3 = new Facturar3(listAdmitionToSumVal, Pac_Id);
+            facturar3.ShowDialog();
         }
         private void Encabezados()
         {
@@ -1343,7 +1363,7 @@ namespace ZamenisHealth.Facturacion
                         globalVal = Convert.ToInt32(getCargos.ValorFac);
                     }
 
-                    Estilos(dataGridView1, dt);
+                    Estilos(gridZH1.dataGridView1, dt);
                 }
                 else
                 {
@@ -1362,37 +1382,9 @@ namespace ZamenisHealth.Facturacion
         }
         void Estilos(DataGridView D, DataTable t)
         {
-            D.EnableHeadersVisualStyles = false;
-            D.ScrollBars = ScrollBars.Both;
-            D.RowHeadersVisible = false;
-
             D.DataSource = t;
-
-            D.Columns["Codigo"].Width = 120;
-            D.Columns["Item"].Width = 600;
-            D.Columns["Cantidad"].Width = 120;
-            D.Columns["Vr_Unitario"].Width = 120;
-            D.Columns["Vr_Total"].Width = 120;
-
-            D.ColumnHeadersDefaultCellStyle.Font = new Font(D.Font, FontStyle.Bold);
-            D.ColumnHeadersDefaultCellStyle.Font = new Font("Arial", 8, FontStyle.Bold);
-            D.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#bfdbff");
-            D.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
-            D.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
-
-            D.Columns["Codigo"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            D.Columns["Item"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            D.Columns["Cantidad"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            D.Columns["Vr_Unitario"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            D.Columns["Vr_Total"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
-            D.Columns["Codigo"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            D.Columns["Item"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            D.Columns["Cantidad"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            D.Columns["Vr_Unitario"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            D.Columns["Vr_Total"].SortMode = DataGridViewColumnSortMode.NotSortable;
-
             D.Columns["Tipo"].Visible = false;
+            D.EnableHeadersVisualStyles = false;
 
             foreach (DataGridViewRow row in D.Rows)
             {
@@ -1402,22 +1394,17 @@ namespace ZamenisHealth.Facturacion
                 {
                     row.DefaultCellStyle.BackColor = Color.LightBlue;
                     row.DefaultCellStyle.ForeColor = Color.Blue;
-                    row.DefaultCellStyle.Font = new Font(dataGridView1.Font, FontStyle.Italic);
+                    row.DefaultCellStyle.Font = new Font(gridZH1.dataGridView1.Font, FontStyle.Bold);
                 }
                 else if (Texto == "Nota")
                 {
                     row.DefaultCellStyle.BackColor = Color.LightGreen;
                     row.DefaultCellStyle.ForeColor = Color.Green;
-                    row.DefaultCellStyle.Font = new Font(dataGridView1.Font, FontStyle.Italic);
-                }
-                else
-                {
-                    row.DefaultCellStyle.BackColor = Color.White;
-                    row.DefaultCellStyle.ForeColor = Color.Black;
-                }
+                    row.DefaultCellStyle.Font = new Font(gridZH1.dataGridView1.Font, FontStyle.Bold);
+                } 
             }
 
-            dataGridView1.ClearSelection();
+            gridZH1.dataGridView1.ClearSelection();
         }
     }
 }

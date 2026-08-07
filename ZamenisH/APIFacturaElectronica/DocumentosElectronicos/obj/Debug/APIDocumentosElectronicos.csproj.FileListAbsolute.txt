@@ -85,9 +85,7 @@ J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\APIFacturaEle
 J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\APIFacturaElectronica\DocumentosElectronicos\bin\Debug\DocumentosElectronicos.pdb
 J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\APIFacturaElectronica\DocumentosElectronicos\bin\Debug\Domain.dll
 J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\APIFacturaElectronica\DocumentosElectronicos\bin\Debug\Microsoft.ReportViewer.Common.dll
-J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\APIFacturaElectronica\DocumentosElectronicos\bin\Debug\Microsoft.ReportViewer.DataVisualization.dll
 J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\APIFacturaElectronica\DocumentosElectronicos\bin\Debug\Microsoft.ReportViewer.Design.dll
-J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\APIFacturaElectronica\DocumentosElectronicos\bin\Debug\Microsoft.ReportViewer.ProcessingObjectModel.dll
 J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\APIFacturaElectronica\DocumentosElectronicos\bin\Debug\Microsoft.ReportViewer.WinForms.dll
 J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\APIFacturaElectronica\DocumentosElectronicos\bin\Debug\Microsoft.SqlServer.Types.dll
 J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\APIFacturaElectronica\DocumentosElectronicos\bin\Debug\Newtonsoft.Json.dll
@@ -111,16 +109,6 @@ J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\APIFacturaEle
 J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\APIFacturaElectronica\DocumentosElectronicos\bin\Debug\ru\Microsoft.ReportViewer.Common.resources.dll
 J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\APIFacturaElectronica\DocumentosElectronicos\bin\Debug\zh-CHS\Microsoft.ReportViewer.Common.resources.dll
 J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\APIFacturaElectronica\DocumentosElectronicos\bin\Debug\zh-CHT\Microsoft.ReportViewer.Common.resources.dll
-J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\APIFacturaElectronica\DocumentosElectronicos\bin\Debug\de\Microsoft.ReportViewer.DataVisualization.resources.dll
-J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\APIFacturaElectronica\DocumentosElectronicos\bin\Debug\es\Microsoft.ReportViewer.DataVisualization.resources.dll
-J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\APIFacturaElectronica\DocumentosElectronicos\bin\Debug\fr\Microsoft.ReportViewer.DataVisualization.resources.dll
-J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\APIFacturaElectronica\DocumentosElectronicos\bin\Debug\it\Microsoft.ReportViewer.DataVisualization.resources.dll
-J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\APIFacturaElectronica\DocumentosElectronicos\bin\Debug\ja\Microsoft.ReportViewer.DataVisualization.resources.dll
-J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\APIFacturaElectronica\DocumentosElectronicos\bin\Debug\ko\Microsoft.ReportViewer.DataVisualization.resources.dll
-J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\APIFacturaElectronica\DocumentosElectronicos\bin\Debug\pt\Microsoft.ReportViewer.DataVisualization.resources.dll
-J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\APIFacturaElectronica\DocumentosElectronicos\bin\Debug\ru\Microsoft.ReportViewer.DataVisualization.resources.dll
-J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\APIFacturaElectronica\DocumentosElectronicos\bin\Debug\zh-CHS\Microsoft.ReportViewer.DataVisualization.resources.dll
-J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\APIFacturaElectronica\DocumentosElectronicos\bin\Debug\zh-CHT\Microsoft.ReportViewer.DataVisualization.resources.dll
 J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\APIFacturaElectronica\DocumentosElectronicos\bin\Debug\de\Microsoft.ReportViewer.Design.resources.dll
 J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\APIFacturaElectronica\DocumentosElectronicos\bin\Debug\es\Microsoft.ReportViewer.Design.resources.dll
 J:\ZAMENIS 2024\ZHEALTH .NET FRAMEWORK 4.7.2\VS2022-Copia\ZamenisH\APIFacturaElectronica\DocumentosElectronicos\bin\Debug\fr\Microsoft.ReportViewer.Design.resources.dll

@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-using APIController.Images;
+﻿using APIController.Images;
 using Domain;
 using Domain.CXN;
 using FormAndControls;
 using Persistence;
 using Persistence.CXN.Interfaces;
 using Persistence.CXN.Metodos;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Text;
+using System.Windows.Forms;
 using ZamenisHealth.Comunes;
 using ZamenisHealth.Medicina.Extras;
 
@@ -46,7 +45,7 @@ namespace ZamenisHealth.Medicina
         }
         void Encabezados()
         {
-            dataGridView1.DataSource = null;
+            gridZH1.dataGridView1.DataSource = null;
             dt = new DataTable();
             POS = dt.Columns.Add("POS", typeof(int));
             Admision = dt.Columns.Add("Admision", typeof(string));
@@ -57,7 +56,7 @@ namespace ZamenisHealth.Medicina
         }
         void Encabezados2()
         {
-            dataGridView2.DataSource = null;
+            gridZH2.dataGridView1.DataSource = null;
 
             dt2 = new DataTable();
             POS2 = dt2.Columns.Add("POS2", typeof(int));
@@ -69,14 +68,18 @@ namespace ZamenisHealth.Medicina
         }
         private void ResumenHCMGNotas_Load(object sender, EventArgs e)
         {
-            
-
             Titulo.Text = "Resumen Historia Clinica";
 
             try
             {
                 richTextBox1.ContextMenu = new ContextMenu();
                 textBox3.ContextMenu = new ContextMenu();
+
+                gridZH1.dataGridView1.CellMouseClick += dataGridView1_CellMouseClick;
+                gridZH1.CeldaHeight = true;
+
+                gridZH2.dataGridView1.CellClick += dataGridView2_CellClick;
+                gridZH2.CeldaHeight = true;
 
                 var getHistorial = repoMG.ResumenHCMGNotas(Paci_Resumen_His);
                 if (getHistorial != null)
@@ -101,7 +104,7 @@ namespace ZamenisHealth.Medicina
                     }
 
                     Contador = 1;
-                    Estilos(dataGridView1, dt);
+                    Estilos(gridZH1.dataGridView1, dt);
                 }
                 else
                 {
@@ -120,86 +123,16 @@ namespace ZamenisHealth.Medicina
         }
         void Estilos(DataGridView D, DataTable t)
         {
-            D.EnableHeadersVisualStyles = false;
-            D.ScrollBars = ScrollBars.Both;
-
             D.DataSource = t;
-
-            D.Columns["Admision"].Width = 120;
-            D.Columns["Fecha"].Width = 120;
-            D.Columns["Profesional"].Width = 580;
-
-            D.ColumnHeadersDefaultCellStyle.Font = new Font(D.Font, FontStyle.Bold);
-            D.ColumnHeadersDefaultCellStyle.Font = new Font("Arial", 8, FontStyle.Bold);
-            D.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#bfdbff");
-            D.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
-            D.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
-
-            D.Columns["Admision"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            D.Columns["Fecha"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            D.Columns["Profesional"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
             D.Columns["POS"].Visible = false;
-
-            foreach (DataGridViewRow row in D.Rows)
-            {
-                int Numero = Convert.ToInt32(row.Cells["POS"].Value.ToString());
-
-                if ((Numero % 2) == 0)
-                {
-                    row.DefaultCellStyle.BackColor = Color.Aquamarine;
-                }
-                else
-                {
-                    row.DefaultCellStyle.BackColor = Color.MediumAquamarine;
-                }
-            }
         }
         void Estilos2(DataGridView D, DataTable t)
         {
-            D.EnableHeadersVisualStyles = false;
-            D.ScrollBars = ScrollBars.Both;
-
             D.DataSource = t;
-
-            D.Columns["Admision2"].Width = 200;
-            D.Columns["Fecha2"].Width = 200;
-            D.Columns["Profesional2"].Width = 400;
-
-            D.ColumnHeadersDefaultCellStyle.Font = new Font(D.Font, FontStyle.Bold);
-            D.ColumnHeadersDefaultCellStyle.Font = new Font("Arial", 8, FontStyle.Bold);
-            D.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#bfdbff");
-            D.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
-            D.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
-
-            D.Columns["Admision2"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            D.Columns["Fecha2"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            D.Columns["Profesional2"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
             D.Columns["POS2"].Visible = false;
             D.Columns["Grafica"].Visible = false;
             D.Columns["Ruta"].Visible = false;
-
-            foreach (DataGridViewRow row in D.Rows)
-            {
-                int Numero = Convert.ToInt32(row.Cells["POS2"].Value.ToString());
-
-                if ((Numero % 2) == 0)
-                {
-                    row.DefaultCellStyle.BackColor = Color.Aquamarine;
-                }
-                else
-                {
-                    row.DefaultCellStyle.BackColor = Color.MediumAquamarine;
-                }
-            }
         }
-        private void toolStripButton1_Click(object sender, EventArgs e)
-        {
-            this.Dispose();
-            this.Close();
-        }
-
         //CARGAR DESDE LA API
         private void Carga_List2(int Adm_Ima)
         {
@@ -244,7 +177,7 @@ namespace ZamenisHealth.Medicina
                     }
 
                     Contador = 1;
-                    Estilos2(dataGridView2, dt2);
+                    Estilos2(gridZH2.dataGridView1, dt2);
                 }
                 else
                 {
@@ -260,11 +193,11 @@ namespace ZamenisHealth.Medicina
         {
             try
             {
-                var getResum = repoMG.getResumen(Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString()));
+                var getResum = repoMG.getResumen(Convert.ToInt32(gridZH1.dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString()));
                 if (getResum != null)
                 {
                     var DAT11 = new StringBuilder();
-                    DAT11.AppendLine("DATOS DE LA HISTORIA - " + dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString());
+                    DAT11.AppendLine("DATOS DE LA HISTORIA - " + gridZH1.dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString());
                     var DAT1 = DAT11.ToString();
 
                     var DAT22 = new StringBuilder();
@@ -309,7 +242,7 @@ namespace ZamenisHealth.Medicina
                     textBox1.Text = getResum.HC_DX1 + " - " + getResum.HC_DX1T.ToString();
                     textBox3.Text = getResum.HC_CupCatalogo.ToString() + " - " + getResum.HC_ServCatalogo.ToString();                 
 
-                    Carga_List2(Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString()));
+                    Carga_List2(Convert.ToInt32(gridZH1.dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString()));
                 }
                 else
                 {
@@ -347,7 +280,7 @@ namespace ZamenisHealth.Medicina
                     return;
                 }
 
-                string getImageB64 = oController.ViewImage(dataGridView2.Rows[e.RowIndex].Cells[5].Value.ToString());
+                string getImageB64 = oController.ViewImage(gridZH2.dataGridView1.Rows[e.RowIndex].Cells[5].Value.ToString());
                 if (getImageB64 != null)
                 {
                     panel1.Visible = true;
@@ -363,7 +296,7 @@ namespace ZamenisHealth.Medicina
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + " " + dataGridView2.Rows[e.RowIndex].Cells[1].Value.ToString());
+                MessageBox.Show(ex.Message + " " + gridZH2.dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString());
             }
         }    
         private void richTextBox1_MouseDown(object sender, MouseEventArgs e)

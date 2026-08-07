@@ -1,13 +1,17 @@
 ﻿using Domain;
+
 using FormAndControls;
+
 using Persistence;
 using Persistence.CXN.Interfaces;
 using Persistence.CXN.Metodos;
+
 using System;
 using System.Data;
-using System.Drawing;
 using System.Windows.Forms;
+
 using ZamenisHealth.Clases;
+using ZamenisHealth.Clases.Controles;
 using ZamenisHealth.Comunes;
 
 namespace ZamenisHealth.Medicina
@@ -52,7 +56,9 @@ namespace ZamenisHealth.Medicina
             btnGrabar.Click += toolStripButton2_Click;
             btnGrabar.Enabled = false;
 
-            
+            gridZH1.dataGridView1.CellDoubleClick += dataGridView1_CellDoubleClick;
+            gridZH1.CeldaHeight = true;
+
             CargarDocumentos();
 
             var Cias = repositorioCompañias.getAllCompañias();
@@ -207,7 +213,7 @@ namespace ZamenisHealth.Medicina
                 }
 
                 Contador = 1;
-                Estilos(dataGridView1, dt);
+                Estilos(gridZH1.dataGridView1, dt);
             }
             else
             {
@@ -217,44 +223,12 @@ namespace ZamenisHealth.Medicina
         }
         void Estilos(DataGridView D, DataTable t)
         {
-            D.EnableHeadersVisualStyles = false;
-            D.ScrollBars = ScrollBars.Both;
-
             D.DataSource = t;
-
-            D.Columns["Id"].Width = 300;
-            D.Columns["Usuario"].Width = 300;
-            D.Columns["Fecha"].Width = 300;
-
-            D.ColumnHeadersDefaultCellStyle.Font = new Font(D.Font, FontStyle.Bold);
-            D.ColumnHeadersDefaultCellStyle.Font = new Font("Arial", 8, FontStyle.Bold);
-            D.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#bfdbff");
-            D.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
-            D.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
-
-            D.Columns["Id"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            D.Columns["Usuario"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            D.Columns["Fecha"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
-            D.Columns["POS"].Visible = false;
-
-            foreach (DataGridViewRow row in D.Rows)
-            {
-                int Numero = Convert.ToInt32(row.Cells["POS"].Value.ToString());
-
-                if ((Numero % 2) == 0)
-                {
-                    row.DefaultCellStyle.BackColor = Color.Aquamarine;
-                }
-                else
-                {
-                    row.DefaultCellStyle.BackColor = Color.MediumAquamarine;
-                }
-            }
+            D.Columns["POS"].Visible = false;          
         }
         void Encabezados()
         {
-            dataGridView1.DataSource = null;
+            gridZH1.dataGridView1.DataSource = null;
 
             dt = new DataTable();
             POS = dt.Columns.Add("POS", typeof(int));
@@ -268,7 +242,7 @@ namespace ZamenisHealth.Medicina
             {
                 Comunes.MensajesGeneral MG = new Comunes.MensajesGeneral();
 
-                var H_HCCMAN = repositorioReportes.CambiosManejo(Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString()));
+                var H_HCCMAN = repositorioReportes.CambiosManejo(Convert.ToInt32(gridZH1.dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString()));
                 if (H_HCCMAN == null)
                 {
                     MG.Mensaje = "No se logro exportar, posiblemente halla una falla al exportar o la historia no existe";

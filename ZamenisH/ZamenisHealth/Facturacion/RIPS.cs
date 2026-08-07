@@ -69,13 +69,25 @@ namespace ZamenisHealth.Facturacion
         {
             try
             {
+                if (comboBox6.Text == "")
+                {
+                    MG = new MensajesGeneral()
+                    {
+                        Mensaje = "Seleccione tipo de rips",
+                        TipoImagen = 1000
+                    };
+                    MG.ShowDialog();
+                    return;
+                }
+
                 RIPS_Class r = new RIPS_Class
                 {
                     desdeRIPS = dateTimePicker1.Value.Date,
                     hastaRIPS = dateTimePicker2.Value.Date,
                     aseRIPS = Ase,
                     ciaRIPS = Cia,
-                    tDocumentRIPS = (comboBox4.Text == "Ordenes de Pedido" ? "OP" : comboBox4.Text == "Facturas" ? "FA" : "DE")
+                    tDocumentRIPS = (comboBox4.Text == "Ordenes de Pedido" ? "OP" : comboBox4.Text == "Facturas" ? "FA" : "DE"),
+                    claseRIPS = comboBox6.Text
                 };
 
                 Dictionary<string, Transaccion> D = repoRipsJSON.GenrateTotal(r);

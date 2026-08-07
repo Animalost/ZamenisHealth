@@ -6,7 +6,6 @@ using Persistence.CXN.Metodos;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Drawing;
 using System.Windows.Forms;
 using ZamenisHealth.Comunes;
 
@@ -46,8 +45,10 @@ namespace ZamenisHealth.Medicina.VirtualMedic
             btnBuscar = createToolButton("Buscar");
             MenuLateral.Items.Add(btnBuscar);
             btnBuscar.Click += btnBuscar_Click;
-        }
 
+            gridZH1.dataGridView1.CellClick += dataGridView1_CellClick;
+            gridZH1.CeldaHeight = true;
+        }
         void btnBuscar_Click(object sender, EventArgs e) 
         {
             try
@@ -80,7 +81,7 @@ namespace ZamenisHealth.Medicina.VirtualMedic
                     }
 
                     Contador = 1;
-                    Estilos(dataGridView1, dt);
+                    Estilos(gridZH1.dataGridView1, dt);
                 }
                 else
                 {
@@ -102,52 +103,13 @@ namespace ZamenisHealth.Medicina.VirtualMedic
         }
         void Estilos(DataGridView D, DataTable t)
         {
-            D.EnableHeadersVisualStyles = false;
-            D.ScrollBars = ScrollBars.Both;
-
             D.DataSource = t;
-
-            D.Columns["Admision"].Width = 80;
-            D.Columns["Paciente"].Width = 300;
-            D.Columns["UrlCliente"].Width = 250;
-            D.Columns["Fecha"].Width = 150;
-            D.Columns["UsuarioGenera"].Width = 120;
-            D.Columns["Estado"].Width = 80;
-            D.Columns["Conectar"].Width = 120;
-
-            D.ColumnHeadersDefaultCellStyle.Font = new Font(D.Font, FontStyle.Bold);
-            D.ColumnHeadersDefaultCellStyle.Font = new Font("Arial", 8, FontStyle.Bold);
-            D.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#bfdbff");
-            D.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
-            D.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
-
-            D.Columns["Admision"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            D.Columns["Paciente"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            D.Columns["UrlCliente"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            D.Columns["Fecha"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            D.Columns["UsuarioGenera"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            D.Columns["Estado"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
             D.Columns["POS"].Visible = false; 
             D.Columns["URLADMIN"].Visible = false;
-
-            foreach (DataGridViewRow row in D.Rows)
-            {
-                int Numero = Convert.ToInt32(row.Cells["POS"].Value.ToString());
-
-                if ((Numero % 2) == 0)
-                {
-                    row.DefaultCellStyle.BackColor = Color.Aquamarine;
-                }
-                else
-                {
-                    row.DefaultCellStyle.BackColor = Color.MediumAquamarine;
-                }
-            }
         }
         void Encabezados()
         {
-            dataGridView1.DataSource = null;
+            gridZH1.dataGridView1.DataSource = null;
             dt = new DataTable();
             POS = dt.Columns.Add("POS", typeof(int));
             Admision = dt.Columns.Add("Admision", typeof(int));
@@ -159,14 +121,13 @@ namespace ZamenisHealth.Medicina.VirtualMedic
             Conectar = dt.Columns.Add("Conectar", typeof(string));
             URLADMIN = dt.Columns.Add("URLADMIN", typeof(string));
         }
-
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             try
             {
                 if (e.ColumnIndex == 3) //copiar
                 {
-                    Clipboard.SetText(dataGridView1.Rows[e.RowIndex].Cells[3].Value.ToString().Trim());
+                    Clipboard.SetText(gridZH1.dataGridView1.Rows[e.RowIndex].Cells[3].Value.ToString().Trim());
 
                     MG = new MensajesGeneral
                     {
@@ -177,9 +138,9 @@ namespace ZamenisHealth.Medicina.VirtualMedic
                 }
                 else if (e.ColumnIndex == 7)
                 {
-                    if (dataGridView1.Rows[e.RowIndex].Cells[7].Value.ToString().Trim() == "VIGENTE")
+                    if (gridZH1.dataGridView1.Rows[e.RowIndex].Cells[7].Value.ToString().Trim() == "VIGENTE")
                     {
-                        string urlConecta = dataGridView1.Rows[e.RowIndex].Cells[8].Value.ToString().Trim();
+                        string urlConecta = gridZH1.dataGridView1.Rows[e.RowIndex].Cells[8].Value.ToString().Trim();
                         System.Diagnostics.Process.Start(urlConecta);
                     }
                     else
@@ -199,7 +160,7 @@ namespace ZamenisHealth.Medicina.VirtualMedic
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                Console.WriteLine(ex.ToString());
             }
         }
     }

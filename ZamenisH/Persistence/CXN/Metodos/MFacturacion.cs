@@ -2630,5 +2630,111 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
+        int IFacturacion.getValCuotasReceived(int FacZamenis, int Cia)
+        {
+            try
+            {
+                Dictionary<string, string> getData = Conexion.Conection();
+
+                using (SqlConnection con = new SqlConnection(getData["Conexion"]))
+                {
+                    if (con != null && con.State == ConnectionState.Closed)
+                    {
+                        con.Open();
+                    }
+
+                    String Cargar_Hora = "SELECT *  " +
+                                         "FROM CXN_FACTURA " +
+                                         "WHERE Fac_Num_Fac = @param1 " +
+                                         "AND Fac_Cia = @param2";
+
+                    using (SqlCommand Carga_Command = new SqlCommand(Cargar_Hora, con))
+                    {
+                        Carga_Command.Parameters.AddWithValue("@param1", FacZamenis);
+                        Carga_Command.Parameters.AddWithValue("@param2", Cia);
+
+                        using (SqlDataReader Lectura_Hora = (Carga_Command.ExecuteReader()))
+                        {
+                            if (Lectura_Hora.Read() == true)
+                            {
+                                int Total = 0;
+
+                                Total = Lectura_Hora["VrCompartido"] == DBNull.Value ? Total + 0 : Total + Convert.ToInt32(Lectura_Hora["VrCompartido"]);
+                                Total = Lectura_Hora["Copago"] == DBNull.Value ? Total + 0 : Total + Convert.ToInt32(Lectura_Hora["Copago"]);
+                                Total = Lectura_Hora["Anticipo"] == DBNull.Value ? Total + 0 : Total + Convert.ToInt32(Lectura_Hora["Anticipo"]);
+                                Total = Lectura_Hora["Fac_Descuento"] == DBNull.Value ? Total + 0 : Total + Convert.ToInt32(Lectura_Hora["Fac_Descuento"]);
+
+                                return Total;
+                            }
+                            else
+                            {
+                                return 0;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return 0;
+            }
+        }
+        List<int> IFacturacion.getAdmitionsByFac(int FacZamenis, int Cia)
+        {
+            try
+            {
+                Dictionary<string, string> getData = Conexion.Conection();
+
+                using (SqlConnection con = new SqlConnection(getData["Conexion"]))
+                {
+                    if (con != null && con.State == ConnectionState.Closed)
+                    {
+                        con.Open();
+                    }
+
+                    String Cargar_Hora = "SELECT Car_Adm_Id  " +
+                                         "FROM CXN_CARGOS " +
+                                         "WHERE Car_Factura = @param1 " +
+                                         "AND Car_Cia = @param2 " +
+                                         "AND Car_Estado = @param3";
+
+                    using (SqlCommand Carga_Command = new SqlCommand(Cargar_Hora, con))
+                    {
+                        Carga_Command.Parameters.AddWithValue("@param1", FacZamenis);
+                        Carga_Command.Parameters.AddWithValue("@param2", Cia);
+                        Carga_Command.Parameters.AddWithValue("@param3", "F");
+
+                        using (SqlDataReader Lectura_Hora = (Carga_Command.ExecuteReader()))
+                        {
+                            if (Lectura_Hora.HasRows)
+                            {
+                                List<int> L = new List<int>();
+
+                                while (Lectura_Hora.Read() == true)
+                                {
+                                    L.Add(Convert.ToInt32(Lectura_Hora["Car_Adm_Id"]));
+                                }
+
+                                return removeDuplicates(L);
+                            }
+                            else
+                            {
+                                return null;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
+        }
+        static List<T> removeDuplicates<T>(List<T> list)
+        {
+            return new HashSet<T>(list).ToList();
+        }
     }
 }

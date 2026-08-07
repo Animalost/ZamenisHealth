@@ -129,8 +129,6 @@ namespace DocumentosElectronicos.Request
         {
             switch (clasecobPan)
             {
-                case "01 - Plan de beneficios en salud financiado con UPC":
-                    return "01";
                 case "02 - Presupuesto máximo":
                     return "02";
                 case "03 - Prima EPS / EOC, no asegurados SOAT":
@@ -159,8 +157,12 @@ namespace DocumentosElectronicos.Request
                     return "14";
                 case "15 - Particular":
                     return "15";
+                case "16 - Plan de beneficios en Salud dinanciado con UPC contributivo":
+                    return "16";
+                case "17 - Plan de beneficios en Salud dinanciado con UPC subsidiado":
+                    return "17";
                 default:
-                    return "01";
+                    return "16";
             }
         }
         public static string metodopago(string clasemetodopago)

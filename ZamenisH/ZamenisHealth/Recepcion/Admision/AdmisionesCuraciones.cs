@@ -174,8 +174,7 @@ namespace ZamenisHealth.Recepcion.Admision
         async void CargarDatosCita()
         {
             try
-            {
-                MG = new MensajesGeneral();
+            {                
                 panel1.Size = new Size(735, 762);
                 panel1.Location = new Point(1, 53);
 
@@ -231,29 +230,22 @@ namespace ZamenisHealth.Recepcion.Admision
                     Previos();
 
                     #region BONOS
-                    if (getCita.Hor_Vales == "S")
+                    if (getCita.Pac_Bonos == "A")
                     {
                         Bonos = true;
-                        pictureBox1.Image =  Resources2.comprobado;
+                        pictureBox1.Image = Resources2.comprobado;
 
-                        MG.Mensaje = "Este paciente esta marcado que debe anexar vale, bono, pin segun corresponda";
-                        MG.TipoImagen = 0;
+                        MG = new MensajesGeneral()
+                        {
+                            TipoImagen = 0,
+                            Mensaje = "Este paciente esta marcado que debe anexar vale, bono, pin segun corresponda"
+                        };
+
                         MG.ShowDialog();
                     }
                     else
                     {
-                        Bonos = false;
-                        string ConfirmaValesUltimaCita = agendaController.UltimaAdmisionValidaVales(Admision, getCita.Hor_Pac_Id, getCita.Hor_Pac_Fecha_Cita);
-                        if (ConfirmaValesUltimaCita == "S")
-                        {
-                            MG = new MensajesGeneral()
-                            {
-                                Mensaje = "Este paciente NO esta marcado para recaudo de vales o bonos, sin embargo la ultma cita asistida de este " +
-                                "paciente si anexo vale/bono a su historial medico.  Por favor verifique si realmente requiere vale o firma"
-                            };
-
-                            MG.ShowDialog();
-                        }
+                        Bonos = false;                        
                     }
                     #endregion
 
@@ -359,6 +351,58 @@ namespace ZamenisHealth.Recepcion.Admision
                         else
                         {
                             comboBox12.Text = "";
+                        }
+                    }
+                    #endregion
+
+                    #region NUEVO
+                    if (getCita.Hor_Tipo_Paciente == "N")
+                    {
+                        MG = new MensajesGeneral()
+                        {
+                            Mensaje = "Este paciente esta marcado como NUEVO",
+                            TipoImagen = 0
+                        };
+                        
+                        MG.ShowDialog();
+                    }
+                    #endregion
+
+                    #region INICIO
+                    if (getCita.Hor_AvisoCurInicio == true)
+                    {
+                        MG = new MensajesGeneral()
+                        {
+                            Mensaje = "Este paciente esta marcado como INICIO PAQUETE",
+                            TipoImagen = 0
+                        };
+
+                        MG.ShowDialog();
+                    }
+                    #endregion
+
+                    #region MARCAR AUTORIZACION - COLORIMETRIA
+                    if (getCita.Hor_Color == "N" || getCita.Hor_Color == "I")
+                    {
+                        InicioAutoriza = true;
+
+                        label37.Visible = true;
+                        label43.Visible = true;
+                        label44.Visible = true;
+                        textBox1.Visible = true;
+                        textBox2.Visible = true;
+                        label46.Visible = true;
+                        comboBox12.Visible = true;
+                        pictureBox3.Visible = true;
+                        pictureBox2.Image = Resources2.comprobado;
+
+                        if (getCita.Hor_Color == "N")
+                        {
+                            comboBox2.Text = "Paciente Nuevo";
+                        }
+                        else if(getCita.Hor_Color == "I")
+                        {
+                            comboBox2.Text = "Paciente Inicio Paquete";
                         }
                     }
                     #endregion
@@ -964,6 +1008,8 @@ namespace ZamenisHealth.Recepcion.Admision
 
                 MenuOpcionesAgenda f = Application.OpenForms.OfType<MenuOpcionesAgenda>().FirstOrDefault();
                 f.Close();
+
+                pacientesController.Bonos(PacId, Bonos == true ? "A" : "N");
 
                 this.Dispose();
                 this.Close();

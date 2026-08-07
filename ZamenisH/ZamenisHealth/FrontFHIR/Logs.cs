@@ -1,5 +1,4 @@
-﻿using Domain;
-using Domain.CXN;
+﻿using Domain.CXN;
 using FormAndControls;
 using Persistence;
 using Persistence.CXN.Interfaces;
@@ -37,12 +36,16 @@ namespace ZamenisHealth.FrontFHIR
             InitializeComponent();
             fHIR = new MFHIR();
             agendaC = new MAgendaC();
+            SoloNumeros(textBox1);
         }
 
         private void Logs_Load(object sender, EventArgs e)
         {
             Titulo.Text = "Logs FHIR - MinSalud - Zamenis Health";
             SubTitulo.Text = $"Zamenis Health {Conexion.VersionApp}";
+
+            gridZH1.dataGridView1.CellDoubleClick += dataGridView1_CellDoubleClick;
+            gridZH1.dataGridView1.CellMouseClick += dataGridView1_CellMouseClick;
 
             CargarFiltros();
         }
@@ -59,11 +62,43 @@ namespace ZamenisHealth.FrontFHIR
             }
 
             comboBox1.Text = DateTime.Now.Year.ToString();
-            comboBox2.Text = DateTime.Now.Month.ToString();
+            comboBox2.Text = GetNameMonth(DateTime.Now.Month.ToString());           
+        }
+        string GetNameMonth(string MonthNumber)
+        {
+            switch (MonthNumber)
+            {
+                case "1":
+                    return "ENERO";
+                case "2":
+                    return "FEBRERO";
+                case "3":
+                    return "MARZO";
+                case "4":
+                    return "ABRIL";
+                case "5":
+                    return "MAYO";
+                case "6":
+                    return "JUNIO";
+                case "7":
+                    return "JULIO";
+                case "8":
+                    return "AGOSTO";
+                case "9":
+                    return "SEPTIEMBRE";
+                case "10":
+                    return "OCTUBRE";
+                case "11":
+                    return "NOVIEMBRE";
+                case "12":
+                    return "DICIEMBRE";
+                default:
+                    return "";
+            }
         }
         void Encabezados()
         {
-            dataGridView1.DataSource = null;
+            gridZH1.dataGridView1.DataSource = null;
             dt = new DataTable();
             POS = dt.Columns.Add("POS", typeof(int));
             Id = dt.Columns.Add("Id", typeof(int));
@@ -80,7 +115,7 @@ namespace ZamenisHealth.FrontFHIR
                 DateTime Desde = new DateTime(Convert.ToInt32(comboBox1.Text), getMonthNumber(comboBox2.Text), 1);
                 DateTime Hasta = new DateTime(Convert.ToInt32(comboBox1.Text), getMonthNumber(comboBox2.Text), getMonthLastDay(comboBox2.Text));
 
-                List<CXN_RDA_LOG> logs = fHIR.GetLogs(Desde, Hasta);
+                List<CXN_RDA_LOG> logs = fHIR.GetLogs(Desde, Hasta, 0);
                 if (logs != null)
                 {
                     Encabezados();
@@ -106,7 +141,7 @@ namespace ZamenisHealth.FrontFHIR
                     }
 
                     Contador = 1;
-                    Estilos(dataGridView1, dt);
+                    Estilos(gridZH1.dataGridView1, dt);
                 }
                 else
                 {
@@ -120,104 +155,64 @@ namespace ZamenisHealth.FrontFHIR
         }
         void Estilos(DataGridView D, DataTable t)
         {
-            D.EnableHeadersVisualStyles = false;
-            D.ScrollBars = ScrollBars.Both;
-
             D.DataSource = t;
-
-            D.Columns["Admision"].Width = 120;
-            D.Columns["Clase"].Width = 250;
-            D.Columns["Estado"].Width = 120;
-            D.Columns["Fecha"].Width = 120;
-            D.Columns["Usuario"].Width = 120;
-
-            D.ColumnHeadersDefaultCellStyle.Font = new Font(D.Font, FontStyle.Bold);
-            D.ColumnHeadersDefaultCellStyle.Font = new Font("Arial", 8, FontStyle.Bold);
-            D.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#bfdbff");
-            D.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
-            D.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
-
-            D.Columns["Admision"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            D.Columns["Clase"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            D.Columns["Estado"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            D.Columns["Fecha"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            D.Columns["Usuario"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
             D.Columns["POS"].Visible = false;
             D.Columns["Id"].Visible = false;
-
-            foreach (DataGridViewRow row in D.Rows)
-            {
-                string esta = row.Cells["Estado"].Value.ToString();
-
-                if (esta == "ERROR")
-                {
-                    row.DefaultCellStyle.BackColor = Color.Orange;
-                    row.DefaultCellStyle.ForeColor = Color.Red;
-                }
-                else
-                {
-                    row.DefaultCellStyle.BackColor = Color.LightGreen;
-                    row.DefaultCellStyle.ForeColor = Color.Green;
-                }
-            }
         }
         private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             try
             {
-                int Pos = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString());
+                int Pos = Convert.ToInt32(gridZH1.dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString());
+                int Admi = Convert.ToInt32(gridZH1.dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString());
+                string Clase = gridZH1.dataGridView1.Rows[e.RowIndex].Cells[3].Value.ToString();
+
                 if (Pos > 0)
                 {
-                    string estado = dataGridView1.Rows[e.RowIndex].Cells[4].Value.ToString();
+                    string estado = gridZH1.dataGridView1.Rows[e.RowIndex].Cells[4].Value.ToString();
 
                     if (estado == "ERROR")
                     {
-                        Logs2 logs2 = new Logs2(Pos);   
+                        Logs2 logs2 = new Logs2(Pos, "ERROR", Clase, Admi);   
                         logs2.ShowDialog();
                     }
                     else
                     {
-                        MG = new MensajesGeneral()
-                        {
-                            Mensaje = "Este resultado se obtuvo de una consulta exitosa, por lo tanto no hay detalles para mostrar",
-                            TipoImagen = 3
-                        };
-
-                        MG.ShowDialog();
+                        Logs2 logs2 = new Logs2(Pos, "EXITOSO", Clase, Admi);
+                        logs2.ShowDialog();
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                Console.WriteLine(ex.Message);
             }
         }
-
         private void dataGridView1_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             try
             {
                 if (e.Button == MouseButtons.Right)
                 {
-                    Adm_Estado = dataGridView1.Rows[e.RowIndex].Cells[4].Value.ToString();
+                    Adm_Estado = gridZH1.dataGridView1.Rows[e.RowIndex].Cells[4].Value.ToString();
 
                     if (Adm_Estado == "ERROR")
                     {
+                        Point posicionLocal = Cursor.Position;
+
                         contextMenuStrip1.Visible = true;
-                        contextMenuStrip1.Location = new Point(dataGridView1.Location.X + 600, dataGridView1.Location.Y + 100);
-                        Adm_Selected = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString());
+                        contextMenuStrip1.Location = new Point(posicionLocal.X, posicionLocal.Y);
+                        Adm_Selected = Convert.ToInt32(gridZH1.dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString());
                     }                    
                 }
 
-                dataGridView1.ClearSelection();
+                gridZH1.dataGridView1.ClearSelection();
             }
             catch (Exception ex)
             {
-                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
+                Console.WriteLine(ex.Message);
             }
         }
-
         private void datosUsuarioToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
@@ -230,6 +225,51 @@ namespace ZamenisHealth.FrontFHIR
 
                     CrearEditarPaciente crearEditarPaciente = new CrearEditarPaciente(TDoc, Doc);
                     crearEditarPaciente.ShowDialog();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                DateTime Desde = new DateTime(Convert.ToInt32(comboBox1.Text), getMonthNumber(comboBox2.Text), 1);
+                DateTime Hasta = new DateTime(Convert.ToInt32(comboBox1.Text), getMonthNumber(comboBox2.Text), getMonthLastDay(comboBox2.Text));
+
+                List<CXN_RDA_LOG> logs = fHIR.GetLogs(Desde, Hasta, Convert.ToInt32(textBox1.Text));
+                if (logs != null)
+                {
+                    Encabezados();
+
+                    int Contador = 1;
+
+                    foreach (CXN_RDA_LOG i in logs)
+                    {
+                        DataRow row = dt.NewRow();
+
+                        row["POS"] = Contador;
+                        row["Id"] = i.Id;
+                        row["Admision"] = i.Admision;
+                        row["Clase"] = i.Clase;
+                        row["Estado"] = i.Detalle != "EXITOSO" ? "ERROR" : "EXITOSO";
+                        row["Fecha"] = Convert.ToDateTime(i.Fecha).ToString("yyyy-MM-dd");
+                        row["Usuario"] = i.Usuario;
+
+                        dt.Rows.Add(row);
+                        dt.AcceptChanges();
+
+                        Contador = Contador + 1;
+                    }
+
+                    Contador = 1;
+                    Estilos(gridZH1.dataGridView1, dt);
+                }
+                else
+                {
+                    Encabezados();
                 }
             }
             catch (Exception ex)

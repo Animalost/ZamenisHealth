@@ -844,7 +844,9 @@ namespace Domain
         public string OM_Detalle { get; set; }
         public string OM_Clasificacion { get; set; }
         public string OM_Tecnologia { get; set; }
-        
+        public int OM_Cada { get; set; }
+        public string OM_Posologia { get; set; }
+        public int OM_CantidadMedicamento { get; set; }        
     }
     
     public class RIPS_Class
@@ -857,6 +859,7 @@ namespace Domain
         public string claseRIPS { get; set; }
         public string tDocumentRIPS { get; set; }
         public string Numfac { get; set; }
+        public string TipoInd { get; set; }
     }
 
     public class RIPS2275_2023Class

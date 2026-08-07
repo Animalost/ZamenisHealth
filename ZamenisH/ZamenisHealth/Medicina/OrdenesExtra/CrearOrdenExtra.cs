@@ -6,7 +6,6 @@ using Persistence.CXN.Metodos;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Drawing;
 using System.Windows.Forms;
 using ZamenisHealth.Comunes;
 
@@ -58,6 +57,9 @@ namespace ZamenisHealth.Medicina.OrdenesExtra
             btnBuscar = createToolButton("Buscar");
             MenuLateral.Items.Add(btnBuscar);
             btnBuscar.Click += boton1_Click;
+
+            gridZH1.dataGridView1.CellClick += dataGridView1_CellClick;
+            gridZH1.CeldaHeight = true;
         }
         void button1_Click(object sender, EventArgs e)
         {
@@ -139,7 +141,7 @@ namespace ZamenisHealth.Medicina.OrdenesExtra
                     }
 
                     Contador = 1;
-                    Estilos(dataGridView1, dt);
+                    Estilos(gridZH1.dataGridView1, dt);
                 }
                 else
                 {
@@ -153,7 +155,7 @@ namespace ZamenisHealth.Medicina.OrdenesExtra
         }
         void Encabezados()
         {
-            dataGridView1.DataSource = null;
+            gridZH1.dataGridView1.DataSource = null;
             dt = new DataTable();
             POS = dt.Columns.Add("POS", typeof(int));
             Admision = dt.Columns.Add("Admision", typeof(int));
@@ -162,51 +164,25 @@ namespace ZamenisHealth.Medicina.OrdenesExtra
         }
         void Estilos(DataGridView D, DataTable t)
         {
-            D.EnableHeadersVisualStyles = false;
-            D.ScrollBars = ScrollBars.Both;
-
             D.DataSource = t;
-
-            D.ColumnHeadersDefaultCellStyle.Font = new Font(D.Font, FontStyle.Bold);
-            D.ColumnHeadersDefaultCellStyle.Font = new Font("Arial", 8, FontStyle.Bold);
-            D.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#bfdbff");
-            D.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
-
-            D.Columns["Admision"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            D.Columns["Fecha"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            D.Columns["Profesional"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
             D.Columns["POS"].Visible = false;
-
-            D.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells + 10;
-            D.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
-            D.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
-
-            foreach (DataGridViewRow row in D.Rows)
-            {
-                int Numero = Convert.ToInt32(row.Cells["POS"].Value.ToString());
-
-                if ((Numero % 2) == 0)
-                {
-                    row.DefaultCellStyle.BackColor = Color.Aquamarine;
-                }
-                else
-                {
-                    row.DefaultCellStyle.BackColor = Color.MediumAquamarine;
-                }
-            }
-
-            dataGridView1.ClearSelection();
+            gridZH1.dataGridView1.ClearSelection();
         }
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            int Adm = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString());
-            CrearOrdenExtra2 o2 = new CrearOrdenExtra2(TServ, Adm, Paciente);
-            o2.ShowDialog();
+            try
+            {
+                int Adm = Convert.ToInt32(gridZH1.dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString());
+                CrearOrdenExtra2 o2 = new CrearOrdenExtra2(TServ, Adm, Paciente);
+                o2.ShowDialog();
 
-            dataGridView1.ClearSelection();
+                gridZH1.dataGridView1.ClearSelection();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }            
         }
-
         private void textBox1_DoubleClick(object sender, EventArgs e)
         {
             BuscarPacientes a = new BuscarPacientes("OrdenesFHIRExtra");

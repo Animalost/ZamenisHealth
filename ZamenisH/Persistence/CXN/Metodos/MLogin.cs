@@ -98,7 +98,7 @@ namespace Persistence.CXN.Metodos
                 //WOUND CLINIC
                 //getCon["Conexion"] = "Data Source=slsoft.net,14330;Initial Catalog=CXN_WOUND_CLINIC;User ID=sa;Password=Sharon*55284;MultipleActiveResultSets=true;Encrypt=True;TrustServerCertificate=True;";
                 //QA
-               // getCon["Conexion"] = "Data Source=slsoft.net,14330;Initial Catalog=CXN_PRUEBAS;User ID=sa;Password=Sharon*55284;MultipleActiveResultSets=true;Encrypt=True;TrustServerCertificate=True;";
+                //getCon["Conexion"] = "Data Source=slsoft.net,14330;Initial Catalog=CXN_PRUEBAS;User ID=sa;Password=Sharon*55284;MultipleActiveResultSets=true;Encrypt=True;TrustServerCertificate=True;";
 
                 using (SqlConnection con = new SqlConnection(getCon["Conexion"]))
                 {

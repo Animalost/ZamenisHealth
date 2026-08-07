@@ -34,6 +34,7 @@ namespace ZamenisHealth.Medicina.OrdenesHistory
             oController = new MFHIR();
 
             SoloNumeros(textBox2);
+            SoloNumeros(textBox4);
             SoloNumeros(textBox13);
             SoloNumeros(textBox16);
 
@@ -82,7 +83,8 @@ namespace ZamenisHealth.Medicina.OrdenesHistory
                 if (string.IsNullOrEmpty(textBox3.Text) || string.IsNullOrEmpty(textBox1.Text) ||
                     string.IsNullOrEmpty(textBox2.Text) || string.IsNullOrEmpty(textBox15.Text) ||
                     string.IsNullOrEmpty(textBox13.Text) || string.IsNullOrEmpty(textBox16.Text) ||
-                    comboBox1.Text == "" || comboBox2.Text == "" || comboBox3.Text == "" ||
+                    string.IsNullOrEmpty(textBox4.Text) || comboBox1.Text == "" || 
+                    comboBox2.Text == "" || comboBox3.Text == "" ||
                     comboBox4.Text == "" || comboBox5.Text == "")
                 {
                     MG = new MensajesGeneral()
@@ -106,7 +108,8 @@ namespace ZamenisHealth.Medicina.OrdenesHistory
                                            textBox16.Text,
                                            comboBox2.Text,
                                            comboBox4.Text,
-                                           textBox17.Text);
+                                           textBox17.Text,
+                                           textBox4.Text);
 
                     textBox3.Text = "";
                     textBox1.Text = "";
@@ -120,6 +123,7 @@ namespace ZamenisHealth.Medicina.OrdenesHistory
                     comboBox2.Text = "";
                     comboBox4.Text = "";
                     textBox17.Text = "";
+                    textBox4.Text = "";
                 }
             }
             catch (Exception ex) 
@@ -182,6 +186,7 @@ namespace ZamenisHealth.Medicina.OrdenesHistory
                                 string Tiempo = fila.Cells["Tiempo"].Value?.ToString();
                                 string TipoTecnologia = fila.Cells["TipoTecnologia"].Value?.ToString();
                                 string Observacion = fila.Cells["Observacion"].Value?.ToString();
+                                string CantMedicament = fila.Cells["Total"].Value?.ToString();
 
                                 CXN_OM OM = new CXN_OM
                                 {
@@ -213,7 +218,10 @@ namespace ZamenisHealth.Medicina.OrdenesHistory
                                     OM_TEspecialidad = Especialidad,
                                     OM_Clasificacion = "ORDEN DE MEDICAMENTOS",
                                     OM_Tipo = "M",
-                                    OM_Bilateral = ""
+                                    OM_Bilateral = "",
+                                    OM_Cada = Convert.ToInt32(Cada),
+                                    OM_Posologia = FrecAdmi,
+                                    OM_CantidadMedicamento = Convert.ToInt32(CantMedicament)
                                 };
 
                                 ordenes.CrearOrdenM(OM);
@@ -274,6 +282,53 @@ namespace ZamenisHealth.Medicina.OrdenesHistory
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+        private double ConvertirAHoras(double valor, string unidad)
+        {
+            switch (unidad)
+            {
+                case "Minutos": return valor / 60;
+                case "Horas": return valor;
+                case "Día": return valor * 24;
+                case "Semanas": return valor * 24 * 7;
+                case "Mes": return valor * 24 * 30;
+                case "Año": return valor * 24 * 365;
+                default: return 0;
+            }
+        }
+        public double CalcularCantidad(double cada,
+                                       string frecuencia,
+                                       double duracionNumero,
+                                       string duracionUnidad)
+        {
+            if (frecuencia == "Según respuesta al tratamiento" ||
+                duracionUnidad == "Según respuesta al tratamiento")
+                return 0; // o null, o manejar como especial
+
+            double frecuenciaHoras = ConvertirAHoras(cada, frecuencia);
+            double duracionHoras = ConvertirAHoras(duracionNumero, duracionUnidad);
+
+            if (frecuenciaHoras == 0) return 0;
+
+            double dosis = duracionHoras / frecuenciaHoras;
+
+            return Math.Ceiling(dosis); // redondeo hacia arriba
+        }
+
+        private void boton3_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                textBox4.Text = 
+                CalcularCantidad(Convert.ToDouble(textBox2.Text),
+                             comboBox3.Text,
+                             Convert.ToDouble(textBox16.Text),
+                             comboBox2.Text).ToString();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }            
         }
     }
 }

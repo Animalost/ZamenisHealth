@@ -33,6 +33,17 @@ namespace ZamenisHealth.Facturacion
         {
             try
             {
+                if (comboBox6.Text == "")
+                {
+                    MG = new MensajesGeneral()
+                    {
+                        Mensaje = "Seleccione tipo de rips",
+                        TipoImagen = 1000
+                    };
+                    MG.ShowDialog();
+                    return;
+                }
+
                 CXN_CIA datCom = repositorioCompañias.getPrestadorbyName(comboBox2.Text);
                 CXN_ASEGURADORA datAse = repositorioAseguradoras.getInfoFromAsebyName(comboBox1.Text);
                 string TD = "";
@@ -66,7 +77,8 @@ namespace ZamenisHealth.Facturacion
                     ciaRIPS = datCom.Com_Identificador,
                     claseRIPS = comboBox3.Text,
                     regimenRIPS = comboBox5.Text,
-                    tDocumentRIPS = TD
+                    tDocumentRIPS = TD,
+                    TipoInd = comboBox6.Text
                 };
 
                 Transaccion T = repoRipsJson.GenrateIndividual(R);

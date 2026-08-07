@@ -46,7 +46,7 @@ namespace Persistence.CXN.Metodos
                     string incapacidadU = "";
                     string numDocumentoIdentificacionU = "";
                     string tipoDocumentoIdentificacionU = "";
-                    string tipoUsuarioU = "";
+                    string tipoUsuarioU = R.TipoInd == "EPS" ? "01" : getCodeCobertura(getFactura.Cobertura);
 
                     if (getFactura != null)
                     {
@@ -69,7 +69,7 @@ namespace Persistence.CXN.Metodos
                                     incapacidadU = "NO";
                                     numDocumentoIdentificacionU = Reader["Pac_IdNum"].ToString();
                                     tipoDocumentoIdentificacionU = repoPacientes.getTipoDoc(Reader["Pac_TipoId"].ToString());
-                                    tipoUsuarioU = Reader["Pac_Regimen"].ToString();
+                                    //tipoUsuarioU = Reader["Pac_Regimen"].ToString();
                                 }
                                 else
                                 {
@@ -622,6 +622,51 @@ namespace Persistence.CXN.Metodos
         }
         #endregion
 
+        //COBERTURAS
+        string getCodeCobertura(string Texto)
+        {
+            switch (Texto)
+            {
+                case "02 - Presupuesto máximo":
+                    return "02";
+                case "03 - Prima EPS / EOC, no asegurados SOAT":
+                    return "03";
+                case "04 - Cobertura Póliza SOAT":
+                    return "04";
+                case "05 - Cobertura ARL":
+                    return "05";
+                case "06 - Cobertura ADRES":
+                    return "06";
+                case "07 - Cobertura Salud Pública":
+                    return "07";
+                case "08 - Cobertura entidad territorial, recursos de oferta":
+                    return "08";
+                case "09 - Urgencias población migrante":
+                    return "09";
+                case "10 - Plan complementario en salud":
+                    return "10";
+                case "11 - Plan medicina prepagada":
+                    return "11";
+                case "12 - Pólizas en salud":
+                    return "12";
+                case "13 - Cobertura Régimen Especial o Excepción":
+                    return "13";
+                case "14 - Cobertura Fondo Nacional de Salud de las Personas Privadas de la Libertad":
+                    return "14";
+                case "15 - Particular":
+                    return "15";
+                case "16 - Plan de beneficios en Salud dinanciado con UPC contributivo":
+                    return "16";
+                case "17 - Plan de beneficios en Salud dinanciado con UPC subsidiado":
+                    return "17";
+                default:
+                    return "16";
+            }
+        }
+
+
+        //FIN COBERTURAS
+
         //GRUPAL
         Dictionary<string, Transaccion> IRIPSJSON.GenrateTotal(RIPS_Class R)
         {
@@ -638,7 +683,7 @@ namespace Persistence.CXN.Metodos
 
                     Dictionary<string, Transaccion> D = new Dictionary<string, Transaccion>();
 
-                    List<CXN_FACTURA> getFactura = getFacturas(R.aseRIPS, R.ciaRIPS, R.tDocumentRIPS, R.desdeRIPS, R.hastaRIPS);
+                    List<CXN_FACTURA> getFactura = getFacturas(R.aseRIPS, R.ciaRIPS, R.tDocumentRIPS, R.desdeRIPS, R.hastaRIPS); 
                     if (getFactura != null)
                     {
                         foreach (CXN_FACTURA f in getFactura)
@@ -657,7 +702,7 @@ namespace Persistence.CXN.Metodos
                             string incapacidadU = "";
                             string numDocumentoIdentificacionU = "";
                             string tipoDocumentoIdentificacionU = "";
-                            string tipoUsuarioU = "";
+                            string tipoUsuarioU = R.claseRIPS == "EPS" ? "01" : getCodeCobertura(f.Cobertura); //tabla cobertura
 
                             //USUARIOS
                             using (SqlCommand Commando = new SqlCommand(Query, con))
@@ -666,7 +711,7 @@ namespace Persistence.CXN.Metodos
 
                                 using (SqlDataReader Reader = (Commando.ExecuteReader()))
                                 {
-                                    if (Reader.Read() == true)
+                                    if (Reader.Read() == true) 
                                     {
                                         codMunicipioResidenciaU = Reader["Pac_Dep_Cod"].ToString() + Reader["Pac_Mun_Cod"].ToString();
                                         codPaisOrigenU = Reader["Pac_PaisOrigen"].ToString();
@@ -678,7 +723,7 @@ namespace Persistence.CXN.Metodos
                                         incapacidadU = "NO";
                                         numDocumentoIdentificacionU = Reader["Pac_IdNum"].ToString();
                                         tipoDocumentoIdentificacionU = repoPacientes.getTipoDoc(Reader["Pac_TipoId"].ToString());
-                                        tipoUsuarioU = Reader["Pac_Regimen"].ToString();
+                                        //tipoUsuarioU = Reader["Pac_Regimen"].ToString(); //COBERTURA
                                     }
                                     else
                                     {
@@ -955,7 +1000,7 @@ namespace Persistence.CXN.Metodos
                         con.Open();
                     }
 
-                    String Query = "SELECT Homologo, Fac_Pac, Fac_ConSub, Fac_Num_Fac " +
+                    String Query = "SELECT Homologo, Fac_Pac, Fac_ConSub, Fac_Num_Fac, Cobertura " +
                             "FROM CXN_FACTURA " +
                             "WHERE Fac_Ase = @param1 " +
                             "AND Fac_Cia = @param2 " +
@@ -985,7 +1030,8 @@ namespace Persistence.CXN.Metodos
                                         Homologo = leer["Homologo"].ToString(),
                                         Fac_Pac = Convert.ToInt32(leer["Fac_Pac"]),
                                         Fac_ConSub = leer["Fac_ConSub"].ToString(),
-                                        Fac_Num_Fac = Convert.ToInt32(leer["Fac_Num_Fac"])
+                                        Fac_Num_Fac = Convert.ToInt32(leer["Fac_Num_Fac"]),
+                                        Cobertura = leer["Cobertura"].ToString()
                                     });
                                 }
 
@@ -1020,7 +1066,7 @@ namespace Persistence.CXN.Metodos
                         con.Open();
                     }
 
-                    String Query = "SELECT Homologo, Fac_Pac, Fac_ConSub " +
+                    String Query = "SELECT Homologo, Fac_Pac, Fac_ConSub, Cobertura " +
                             "FROM CXN_FACTURA " +
                             "WHERE Fac_Ase = @param1 " +
                             "AND Fac_Cia = @param2 " +
@@ -1044,7 +1090,8 @@ namespace Persistence.CXN.Metodos
                                 {
                                     Homologo = leer["Homologo"].ToString(),
                                     Fac_Pac = Convert.ToInt32(leer["Fac_Pac"]),
-                                    Fac_ConSub = leer["Fac_ConSub"].ToString()
+                                    Fac_ConSub = leer["Fac_ConSub"].ToString(),
+                                    Cobertura = leer["Cobertura"].ToString()
                                 };
 
                                 return L;

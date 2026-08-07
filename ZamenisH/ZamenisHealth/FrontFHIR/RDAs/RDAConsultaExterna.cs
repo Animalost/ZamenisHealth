@@ -277,6 +277,74 @@ namespace ZamenisHealth.FrontFHIR.RDAs
                                                    saltemp.Minute,
                                                    00);
 
+                    #region EPS
+                    Domain.FHIR.CE.RDAConsultaExterna.Section secAse = new Domain.FHIR.CE.RDAConsultaExterna.Section();
+                    if (datosCita.Hor_Pac_Ase == 99)
+                    {
+                        secAse = new Domain.FHIR.CE.RDAConsultaExterna.Section()
+                        {
+                            title = "Entidad(es) responsable(s) por el plan de beneficios en salud (consulta)",
+                            code = new Domain.FHIR.CE.RDAConsultaExterna.Code2()
+                            {
+                                coding = new List<Domain.FHIR.CE.RDAConsultaExterna.Coding>()
+                                {
+                                    new Domain.FHIR.CE.RDAConsultaExterna.Coding
+                                    {
+                                        system = "http://loinc.org",
+                                        code = "48768-6",
+                                        display = "Payment sources Document"
+
+                                    }
+                                }
+                            },
+                            emptyReason = new Domain.FHIR.CE.RDAConsultaExterna.EmptyReason()
+                            {
+                                coding = new List<Domain.FHIR.CE.RDAConsultaExterna.Coding>()
+                                {
+                                    new Domain.FHIR.CE.RDAConsultaExterna.Coding()
+                                    {
+                                        system = "http://terminology.hl7.org/CodeSystem/list-empty-reason",
+                                        code = "nilknown",
+                                        display = "Nil Known"
+                                    }
+                                }
+                            },
+                            text = new Domain.FHIR.CE.RDAConsultaExterna.Text()
+                            {
+                                status = "generated",
+                                div = "<div xmlns = 'http://www.w3.org/1999/xhtml' > No existen elementos conocidos para esta lista y / o el paciente no declara información </div>"
+                            }
+                        };
+                    }
+                    else
+                    {
+                        secAse = new Domain.FHIR.CE.RDAConsultaExterna.Section()
+                        {
+                            title = "Entidad(es) responsable(s) por el plan de beneficios en salud (consulta)",
+                            code = new Domain.FHIR.CE.RDAConsultaExterna.Code2()
+                            {
+                                coding = new List<Domain.FHIR.CE.RDAConsultaExterna.Coding>()
+                                {
+                                    new Domain.FHIR.CE.RDAConsultaExterna.Coding
+                                    {
+                                        system = "http://loinc.org",
+                                        code = "48768-6",
+                                        display = "Payment sources Document"
+
+                                    }
+                                }
+                            },
+                            entry = new List<Domain.FHIR.CE.RDAConsultaExterna.Entry>()
+                            {
+                                new Domain.FHIR.CE.RDAConsultaExterna.Entry()
+                                {
+                                    reference = "#" + datosCita.PacienteAseguradora.Trim()
+                                }
+                            }
+
+                        };
+                    }
+                    #endregion
 
                     #region ocupation
                     Domain.FHIR.CE.RDAConsultaExterna.Section secOcupation = new Domain.FHIR.CE.RDAConsultaExterna.Section();
@@ -985,7 +1053,7 @@ namespace ZamenisHealth.FrontFHIR.RDAs
 
                     Domain.FHIR.CE.RDAConsultaExterna.Section secOrders = new Domain.FHIR.CE.RDAConsultaExterna.Section();
 
-                    if (NumOrdenSR != null)
+                    if (NumOrdenSR != null && NumOrdenSR.Count > 0)
                     {
                         secOrders = new Domain.FHIR.CE.RDAConsultaExterna.Section() //SERVICE REQUEST DERIVA ATENCION INMEDIATA Y URGENCIA N/A
                         {
@@ -1228,29 +1296,7 @@ namespace ZamenisHealth.FrontFHIR.RDAs
                         },
                         section = new List<Domain.FHIR.CE.RDAConsultaExterna.Section>()
                         {
-                            new Domain.FHIR.CE.RDAConsultaExterna.Section() //ASEGURADORAS
-                            {
-                                title = "Entidad(es) responsable(s) por el plan de beneficios en salud (consulta)",
-                                code = new Domain.FHIR.CE.RDAConsultaExterna.Code2()
-                                {
-                                    coding = new List<Domain.FHIR.CE.RDAConsultaExterna.Coding>()
-                                    {
-                                        new Domain.FHIR.CE.RDAConsultaExterna.Coding
-                                        {
-                                             system = "http://loinc.org",
-                                             code = "48768-6",
-                                             display = "Payment sources Document"
-                                        }
-                                    }
-                                },
-                                    entry = new List<Domain.FHIR.CE.RDAConsultaExterna.Entry>()
-                                    {
-                                        new Domain.FHIR.CE.RDAConsultaExterna.Entry()
-                                        {
-                                            reference = "#" + datosCita.PacienteAseguradora.Trim()
-                                        }
-                                    }
-                            },
+                            secAse,
                             secOcupation,//OCUPACION
                             new Domain.FHIR.CE.RDAConsultaExterna.Section() //DIAGNOSTICOS
                             {
@@ -1659,7 +1705,7 @@ namespace ZamenisHealth.FrontFHIR.RDAs
                     builder.AddResource(practitioner);
                     #endregion FIN RECURSO PRACTITIONER
 
-                    #region RECURSO CONDITION - DX
+                     #region RECURSO CONDITION - DX
                     var conditionPrincipal = new Domain.FHIR.CE.RDAConsultaExterna.Condition
                     {
                         resourceType = "Condition",
@@ -1879,7 +1925,6 @@ namespace ZamenisHealth.FrontFHIR.RDAs
                             builder.AddResource(i);
                         }
                     }
-
                     //SRequest
                     if (sectionSRtemp != null)
                     {
@@ -2332,21 +2377,25 @@ namespace ZamenisHealth.FrontFHIR.RDAs
                     //recurso Observation - Incapacidades
                     if (NumOrden != null)
                     {
-                        var observation = new Domain.FHIR.CE.RDAConsultaExterna.Observation()
+                        NumOrden = NumOrden.Where(x => x.Tipo == "INCAPACIDAD MEDICA").ToList();
+
+                        if (NumOrden != null && NumOrden.Count > 0)
                         {
-                            resourceType = "Observation",
-                            id = "Observation-0",
-                            meta = new Domain.FHIR.CE.RDAConsultaExterna.Meta()
+                            var observation = new Domain.FHIR.CE.RDAConsultaExterna.Observation()
                             {
-                                profile = new List<string>()
+                                resourceType = "Observation",
+                                id = "Observation-0",
+                                meta = new Domain.FHIR.CE.RDAConsultaExterna.Meta()
+                                {
+                                    profile = new List<string>()
                                 {
                                      "https://fhir.minsalud.gov.co/rda/StructureDefinition/AttendanceAllowanceRDA"
                                 }
-                            },
-                            status = "final",
-                            code = new Domain.FHIR.CE.RDAConsultaExterna.Code()
-                            {
-                                coding = new List<Domain.FHIR.CE.RDAConsultaExterna.Coding>()
+                                },
+                                status = "final",
+                                code = new Domain.FHIR.CE.RDAConsultaExterna.Code()
+                                {
+                                    coding = new List<Domain.FHIR.CE.RDAConsultaExterna.Coding>()
                                 {
                                     new Domain.FHIR.CE.RDAConsultaExterna.Coding()
                                     {
@@ -2355,17 +2404,17 @@ namespace ZamenisHealth.FrontFHIR.RDAs
                                         display = "permiso de concurrencia"
                                     }
                                 },
-                                text = "Datos incapacidad (SIPE – Sistema de Incapacidades y Prestaciones Economicas)"
-                            },
-                            subject = new Domain.FHIR.CE.RDAConsultaExterna.Subject()
-                            {
-                                reference = PATIENT_ID
-                            },
-                            encounter = new Domain.FHIR.CE.RDAConsultaExterna.Encounter()
-                            {
-                                reference = "#" + ENCOUNTER_ID
-                            },
-                            component = new List<Domain.FHIR.CE.RDAConsultaExterna.Component>()
+                                    text = "Datos incapacidad (SIPE – Sistema de Incapacidades y Prestaciones Economicas)"
+                                },
+                                subject = new Domain.FHIR.CE.RDAConsultaExterna.Subject()
+                                {
+                                    reference = PATIENT_ID
+                                },
+                                encounter = new Domain.FHIR.CE.RDAConsultaExterna.Encounter()
+                                {
+                                    reference = "#" + ENCOUNTER_ID
+                                },
+                                component = new List<Domain.FHIR.CE.RDAConsultaExterna.Component>()
                             {
                                 new Domain.FHIR.CE.RDAConsultaExterna.Component()
                                 {
@@ -2421,8 +2470,9 @@ namespace ZamenisHealth.FrontFHIR.RDAs
                                     }
                                 }
                             },
-                        };
-                        builder.AddResource(observation);
+                            };
+                            builder.AddResource(observation);
+                        }                        
                     }
 
                     #region RECURSO OBSERVATION - OCUPATION
@@ -2483,13 +2533,16 @@ namespace ZamenisHealth.FrontFHIR.RDAs
                     }
 
                     #region RECURSO ORGANIZATION
-                    var organization = new Domain.FHIR.CE.RDAConsultaExterna.Organization()
+                    if (datosCita.Hor_Pac_Ase != 99)
                     {
-                        resourceType = "Organization",
-                        id = datosCita.PacienteAseguradora.Trim(),
-                        name = datosCita.Com_Telefono_SMS.ToUpper().Trim()
-                    };
-                    builder.AddResource(organization);
+                        var organization = new Domain.FHIR.CE.RDAConsultaExterna.Organization()
+                        {
+                            resourceType = "Organization",
+                            id = datosCita.PacienteAseguradora.Trim(),
+                            name = datosCita.Com_Telefono_SMS.ToUpper().Trim()
+                        };
+                        builder.AddResource(organization);
+                    }                   
                     #endregion FIN RECURSO ORGANIZATION                    
 
                     #region RECURSO PDF
@@ -2656,7 +2709,7 @@ namespace ZamenisHealth.FrontFHIR.RDAs
 
                     if (res.Est == "OK")
                     {
-                        #region obtener id  documentreferencie propio
+                        /*#region obtener id  documentreferencie propio
                         DecompiladorRespuesta dec = new DecompiladorRespuesta();
 
                         var doc = JsonDocument.Parse(res.Resp);
@@ -2695,7 +2748,7 @@ namespace ZamenisHealth.FrontFHIR.RDAs
                                     break;
                             }
                         }
-                        #endregion FIN obtener id  documentreferencie propio
+                        #endregion FIN obtener id  documentreferencie propio*/
 
                         CXN_RDA saveRDAPaciente = new CXN_RDA
                         {
@@ -2704,7 +2757,8 @@ namespace ZamenisHealth.FrontFHIR.RDAs
                             Especialidad = Especialidad,
                             PersonaReportaRDAAmbulatorio = Contenedor.UsuarioLogueado,
                             FechaReporteRDAAmbulatorio = DateTime.Now,
-                            URLPdf = URLPdf,
+                            //URLPdf = URLPdf,
+                            URLPdf = ""
                             //idCompositionRecorded = idCompositionRecorded
                         };
 

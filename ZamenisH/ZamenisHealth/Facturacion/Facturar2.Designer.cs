@@ -56,7 +56,6 @@
             this.textBox10 = new System.Windows.Forms.TextBox();
             this.label15 = new System.Windows.Forms.Label();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
             this.textBox11 = new System.Windows.Forms.TextBox();
             this.textBox12 = new System.Windows.Forms.TextBox();
@@ -72,6 +71,7 @@
             this.label23 = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
             this.modernPanel1 = new ZamenisHealth.Clases.Controles.ModernPanel();
+            this.boton2 = new FormAndControls.Controles.Boton();
             this.boton1 = new FormAndControls.Controles.Boton();
             this.textBox13 = new System.Windows.Forms.TextBox();
             this.label20 = new System.Windows.Forms.Label();
@@ -79,8 +79,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.modernPanel2 = new ZamenisHealth.Clases.Controles.ModernPanel();
             this.label19 = new System.Windows.Forms.Label();
-            this.boton2 = new FormAndControls.Controles.Boton();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.gridZH1 = new ZamenisHealth.Clases.Controles.GridZH();
             this.modernPanel1.SuspendLayout();
             this.modernPanel2.SuspendLayout();
             this.SuspendLayout();
@@ -182,7 +181,7 @@
             // 
             this.textBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox4.ForeColor = System.Drawing.Color.Red;
-            this.textBox4.Location = new System.Drawing.Point(270, 673);
+            this.textBox4.Location = new System.Drawing.Point(270, 680);
             this.textBox4.Name = "textBox4";
             this.textBox4.ReadOnly = true;
             this.textBox4.Size = new System.Drawing.Size(422, 26);
@@ -194,7 +193,7 @@
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.ForeColor = System.Drawing.Color.Black;
-            this.label6.Location = new System.Drawing.Point(141, 679);
+            this.label6.Location = new System.Drawing.Point(141, 686);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(57, 13);
             this.label6.TabIndex = 57;
@@ -291,22 +290,7 @@
             this.comboBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.comboBox3.FormattingEnabled = true;
             this.comboBox3.Items.AddRange(new object[] {
-            "",
-            "01 - Plan de beneficios en salud financiado con UPC",
-            "02 - Presupuesto máximo",
-            "03 - Prima EPS / EOC, no asegurados SOAT",
-            "04 - Cobertura Póliza SOAT",
-            "05 - Cobertura ARL",
-            "06 - Cobertura ADRES",
-            "07 - Cobertura Salud Pública",
-            "08 - Cobertura entidad territorial, recursos de oferta",
-            "09 - Urgencias población migrante",
-            "10 - Plan complementario en salud",
-            "11 - Plan medicina prepagada",
-            "12 - Pólizas en salud",
-            "13 - Cobertura Régimen Especial o Excepción",
-            "14 - Cobertura Fondo Nacional de Salud de las Personas Privadas de la Libertad",
-            "15 - Particular"});
+            ""});
             this.comboBox3.Location = new System.Drawing.Point(684, 74);
             this.comboBox3.Name = "comboBox3";
             this.comboBox3.Size = new System.Drawing.Size(435, 28);
@@ -397,7 +381,7 @@
             // 
             this.textBox10.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox10.ForeColor = System.Drawing.Color.Red;
-            this.textBox10.Location = new System.Drawing.Point(825, 673);
+            this.textBox10.Location = new System.Drawing.Point(825, 680);
             this.textBox10.Name = "textBox10";
             this.textBox10.ReadOnly = true;
             this.textBox10.Size = new System.Drawing.Size(434, 26);
@@ -409,7 +393,7 @@
             this.label15.AutoSize = true;
             this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label15.ForeColor = System.Drawing.Color.Black;
-            this.label15.Location = new System.Drawing.Point(702, 679);
+            this.label15.Location = new System.Drawing.Point(702, 686);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(54, 13);
             this.label15.TabIndex = 79;
@@ -427,22 +411,6 @@
             this.checkBox2.Text = "Generar Soportes de Pago";
             this.checkBox2.UseVisualStyleBackColor = true;
             this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
-            // 
-            // dataGridView1
-            // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.AllowUserToResizeRows = false;
-            this.dataGridView1.BackgroundColor = System.Drawing.Color.White;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.GridColor = System.Drawing.Color.Blue;
-            this.dataGridView1.Location = new System.Drawing.Point(141, 400);
-            this.dataGridView1.MultiSelect = false;
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(1123, 267);
-            this.dataGridView1.TabIndex = 112;
             // 
             // label1
             // 
@@ -657,6 +625,22 @@
             this.modernPanel1.Size = new System.Drawing.Size(1124, 151);
             this.modernPanel1.TabIndex = 312;
             // 
+            // boton2
+            // 
+            this.boton2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(55)))), ((int)(((byte)(90)))));
+            this.boton2.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.boton2.FlatAppearance.BorderSize = 3;
+            this.boton2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.boton2.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
+            this.boton2.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.boton2.Location = new System.Drawing.Point(451, 113);
+            this.boton2.Name = "boton2";
+            this.boton2.Size = new System.Drawing.Size(118, 32);
+            this.boton2.TabIndex = 315;
+            this.boton2.Text = "Asignar";
+            this.boton2.UseVisualStyleBackColor = false;
+            this.boton2.Click += new System.EventHandler(this.boton2_Click);
+            // 
             // boton1
             // 
             this.boton1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(55)))), ((int)(((byte)(90)))));
@@ -760,21 +744,13 @@
             this.label19.TabIndex = 121;
             this.label19.Text = "Datos Obligatorios de Facturacion en Salud";
             // 
-            // boton2
+            // gridZH1
             // 
-            this.boton2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(55)))), ((int)(((byte)(90)))));
-            this.boton2.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.boton2.FlatAppearance.BorderSize = 3;
-            this.boton2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.boton2.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
-            this.boton2.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.boton2.Location = new System.Drawing.Point(451, 113);
-            this.boton2.Name = "boton2";
-            this.boton2.Size = new System.Drawing.Size(118, 32);
-            this.boton2.TabIndex = 315;
-            this.boton2.Text = "Asignar";
-            this.boton2.UseVisualStyleBackColor = false;
-            this.boton2.Click += new System.EventHandler(this.boton2_Click);
+            this.gridZH1.BackColor = System.Drawing.Color.White;
+            this.gridZH1.Location = new System.Drawing.Point(140, 403);
+            this.gridZH1.Name = "gridZH1";
+            this.gridZH1.Size = new System.Drawing.Size(1124, 271);
+            this.gridZH1.TabIndex = 314;
             // 
             // Facturar2
             // 
@@ -782,16 +758,15 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1270, 710);
+            this.Controls.Add(this.gridZH1);
             this.Controls.Add(this.modernPanel2);
             this.Controls.Add(this.modernPanel1);
-            this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.textBox10);
             this.Controls.Add(this.label15);
             this.Controls.Add(this.textBox4);
             this.Controls.Add(this.label6);
             this.Name = "Facturar2";
             this.Load += new System.EventHandler(this.Facturar2_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.modernPanel1.ResumeLayout(false);
             this.modernPanel1.PerformLayout();
             this.modernPanel2.ResumeLayout(false);
@@ -830,7 +805,6 @@
         private System.Windows.Forms.TextBox textBox10;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.CheckBox checkBox2;
-        public System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textBox11;
         private System.Windows.Forms.TextBox textBox12;
@@ -854,5 +828,6 @@
         private System.Windows.Forms.Label label20;
         private FormAndControls.Controles.Boton boton1;
         private FormAndControls.Controles.Boton boton2;
+        private Clases.Controles.GridZH gridZH1;
     }
 }

@@ -5,13 +5,12 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Threading.Tasks;
 
 namespace Persistence.CXN.Metodos
 {
     public class MFHIR : IFHIR
     {
-        async Task<List<CXN_HORARIO>> IFHIR.FiltrarEspecialidad(DateTime Fecha, string Especialidad)
+        List<CXN_HORARIO> IFHIR.FiltrarEspecialidad(DateTime Fecha, string Especialidad)
         {
             try
             {
@@ -21,7 +20,7 @@ namespace Persistence.CXN.Metodos
                 {
                     if (con != null && con.State == ConnectionState.Closed)
                     {
-                        await con.OpenAsync();
+                        con.Open();
                     }
 
                     String Cargar_Hora = "";
@@ -101,7 +100,7 @@ namespace Persistence.CXN.Metodos
                         Carga_Command.Parameters.AddWithValue("@param1", Fecha.Date);
                         Carga_Command.Parameters.AddWithValue("@param2", Fecha.Date);
 
-                        using (SqlDataReader Lectura_Hora = await (Carga_Command.ExecuteReaderAsync()))
+                        using (SqlDataReader Lectura_Hora = (Carga_Command.ExecuteReader()))
                         {
                             if (Lectura_Hora.HasRows)
                             {
@@ -109,7 +108,7 @@ namespace Persistence.CXN.Metodos
 
                                 while (Lectura_Hora.Read() == true)
                                 {
-                                    CXN_RDA r = await ConsultarEnviosRDA(Convert.ToInt32(Lectura_Hora["AdmisionUnica"])); 
+                                    CXN_RDA r = ConsultarEnviosRDA(Convert.ToInt32(Lectura_Hora["AdmisionUnica"])); 
 
                                     if (r == null)
                                     {
@@ -117,8 +116,8 @@ namespace Persistence.CXN.Metodos
                                         {
                                             Hor_Id = Convert.ToInt32(Lectura_Hora["AdmisionUnica"]),
                                             Hor_Imp_Age = Lectura_Hora["Hor_Imp_Age"].ToString(),
-                                            Hor_ArrastraHistoria = "", //RDA PACIENTE
-                                            Hor_AdmOpnened = "", //RDA AMBULATORIO
+                                            //Hor_ArrastraHistoria = "", //RDA PACIENTE
+                                            //Hor_AdmOpnened = "", //RDA AMBULATORIO
                                             Hor_Autoriza = "", //Fecha RDA Paciente
                                             Hor_RegAtn = "", //Fecha RDA Ambulatorio
                                             Hor_Usr_Admisiona = "", //Persona Reporta RDA Paciente
@@ -131,8 +130,8 @@ namespace Persistence.CXN.Metodos
                                         {
                                             Hor_Id = Convert.ToInt32(Lectura_Hora["AdmisionUnica"]),
                                             Hor_Imp_Age = Lectura_Hora["Hor_Imp_Age"].ToString(),
-                                            Hor_ArrastraHistoria = r.RDAPaciente, //RDA PACIENTE
-                                            Hor_AdmOpnened = r.RDAAmbulatorio, //RDA AMBULATORIO
+                                            //Hor_ArrastraHistoria = r.RDAPaciente, //RDA PACIENTE
+                                            //Hor_AdmOpnened = r.RDAAmbulatorio, //RDA AMBULATORIO
                                             Hor_Autoriza = string.IsNullOrEmpty(r.FechaReporteRDAPacienteText) ? "" : Convert.ToDateTime(r.FechaReporteRDAPacienteText).ToString("yyyy-MM-dd"), //Fecha RDA Paciente
                                             Hor_RegAtn = string.IsNullOrEmpty(r.FechaReporteRDAAmbulatorioText) ? "" : Convert.ToDateTime(r.FechaReporteRDAAmbulatorioText).ToString("yyyy-MM-dd"), //Fecha RDA Ambulatorio
                                             Hor_Usr_Admisiona = r.PersonaReportaRDAPaciente, //Persona Reporta RDA Paciente
@@ -157,7 +156,7 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-        async Task<CXN_RDA> ConsultarEnviosRDA(int Admision)
+        CXN_RDA ConsultarEnviosRDA(int Admision)
         {
             try
             {
@@ -167,7 +166,7 @@ namespace Persistence.CXN.Metodos
                 {
                     if (con != null && con.State == ConnectionState.Closed)
                     {
-                        await con.OpenAsync();
+                        con.Open();
                     }
 
                     String Cargar_Hora = "SELECT * " +
@@ -178,7 +177,107 @@ namespace Persistence.CXN.Metodos
                     {
                         Carga_Command.Parameters.AddWithValue("@param1", Admision);
 
-                        using (SqlDataReader Lectura_Hora = await (Carga_Command.ExecuteReaderAsync()))
+                        using (SqlDataReader Lectura_Hora = (Carga_Command.ExecuteReader()))
+                        {
+                            if (Lectura_Hora.HasRows)
+                            {
+                                List<CXN_RDA> RDATemp = new List<CXN_RDA>();
+                                DateTime? FechaRdaPaciente = null;
+                                DateTime? FechaRdaCExterna = null;
+                                string PReportaPaciente = "";
+                                string PReportaCExterna = "";
+                                int Id = 0;
+                                string Especialidad = "";
+
+                                while (Lectura_Hora.Read() == true)
+                                {
+                                    RDATemp.Add(new CXN_RDA 
+                                    {
+                                        RDAPaciente = Lectura_Hora["RDAPaciente"].ToString(),
+                                        RDAAmbulatorio = Lectura_Hora["RDAAmbulatorio"].ToString(),
+                                        FechaReporteRDAPacienteText = Lectura_Hora["FechaReporteRDAPaciente"] == DBNull.Value ? "" : Convert.ToDateTime(Lectura_Hora["FechaReporteRDAPaciente"]).ToString(),
+                                        FechaReporteRDAAmbulatorioText = Lectura_Hora["FechaReporteRDAAmbulatorio"] == DBNull.Value ? "" : Convert.ToDateTime(Lectura_Hora["FechaReporteRDAAmbulatorio"]).ToString(),
+                                        PersonaReportaRDAPaciente = Lectura_Hora["PersonaReportaRDAPaciente"].ToString(),
+                                        PersonaReportaRDAAmbulatorio = Lectura_Hora["PersonaReportaRDAAmbulatorio"].ToString(),
+                                        Id = Convert.ToInt32(Lectura_Hora["Id"]),
+                                        Especialidad = Lectura_Hora["Especialidad"].ToString(),
+                                    });
+                                }
+
+                                foreach (CXN_RDA i in RDATemp)
+                                {
+                                    if (!string.IsNullOrEmpty(i.RDAPaciente))
+                                    {
+                                        FechaRdaPaciente = Convert.ToDateTime(i.FechaReporteRDAPacienteText);
+                                        PReportaPaciente = i.PersonaReportaRDAPaciente;
+                                        Id = i.Id;
+                                        Especialidad = i.Especialidad;
+                                        break;
+                                    }
+                                }
+                                foreach (CXN_RDA i2 in RDATemp)
+                                {
+                                    if (!string.IsNullOrEmpty(i2.RDAAmbulatorio))
+                                    {
+                                        FechaRdaCExterna = Convert.ToDateTime(i2.FechaReporteRDAAmbulatorioText);
+                                        PReportaCExterna = i2.PersonaReportaRDAAmbulatorio;
+                                        Id = i2.Id;
+                                        Especialidad = i2.Especialidad;
+                                        break;
+                                    }
+                                }
+
+                                CXN_RDA r = new CXN_RDA
+                                {
+                                    Id = Convert.ToInt32(Id),
+                                    Especialidad = Especialidad,
+                                    //RDAPaciente = Lectura_Hora["RDAPaciente"].ToString(),
+                                    //RDAAmbulatorio = Lectura_Hora["RDAAmbulatorio"].ToString(),
+                                    FechaReporteRDAPacienteText = FechaRdaPaciente == null ? "" : Convert.ToDateTime(FechaRdaPaciente).ToString(),
+                                    FechaReporteRDAAmbulatorioText = FechaRdaCExterna == null ? "" : Convert.ToDateTime(FechaRdaCExterna).ToString(),
+                                    Admision = Admision,
+                                    PersonaReportaRDAPaciente = PReportaPaciente,
+                                    PersonaReportaRDAAmbulatorio = PReportaCExterna
+                                };
+
+                                return r;
+                            }
+                            else
+                            {
+                                return null;
+                            }                                                                                 
+                        }
+                    }                                           
+                }
+            }
+            catch (Exception ex)
+            {
+                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
+                return null;
+            }            
+        }
+        CXN_RDA IFHIR.ConsultarEnviosRDA(int Admision)
+        {
+            try
+            {
+                Dictionary<string, string> getData = Conexion.Conection();
+
+                using (SqlConnection con = new SqlConnection(getData["Conexion"]))
+                {
+                    if (con != null && con.State == ConnectionState.Closed)
+                    {
+                        con.Open();
+                    }
+
+                    String Cargar_Hora = "SELECT * " +
+                                         "FROM CXN_RDA " +
+                                         "WHERE Admision = @param1";
+
+                    using (SqlCommand Carga_Command = new SqlCommand(Cargar_Hora, con))
+                    {
+                        Carga_Command.Parameters.AddWithValue("@param1", Admision);
+
+                        using (SqlDataReader Lectura_Hora = (Carga_Command.ExecuteReader()))
                         {
                             if (Lectura_Hora.Read() == true)
                             {
@@ -189,7 +288,7 @@ namespace Persistence.CXN.Metodos
                                     RDAPaciente = Lectura_Hora["RDAPaciente"].ToString(),
                                     RDAAmbulatorio = Lectura_Hora["RDAAmbulatorio"].ToString(),
                                     FechaReporteRDAPacienteText = Lectura_Hora["FechaReporteRDAPaciente"] == DBNull.Value ? "" : Convert.ToDateTime(Lectura_Hora["FechaReporteRDAPaciente"]).ToString(),
-                                    FechaReporteRDAAmbulatorioText = Lectura_Hora["FechaReporteRDAAmbulatorio"] == DBNull.Value ? "" :  Convert.ToDateTime(Lectura_Hora["FechaReporteRDAAmbulatorio"]).ToString(),
+                                    FechaReporteRDAAmbulatorioText = Lectura_Hora["FechaReporteRDAAmbulatorio"] == DBNull.Value ? "" : Convert.ToDateTime(Lectura_Hora["FechaReporteRDAAmbulatorio"]).ToString(),
                                     Admision = Convert.ToInt32(Lectura_Hora["Admision"]),
                                     PersonaReportaRDAPaciente = Lectura_Hora["PersonaReportaRDAPaciente"].ToString(),
                                     PersonaReportaRDAAmbulatorio = Lectura_Hora["PersonaReportaRDAAmbulatorio"].ToString()
@@ -201,15 +300,89 @@ namespace Persistence.CXN.Metodos
                                 return null;
                             }
                         }
-                    }                                           
+                    }
                 }
             }
             catch (Exception ex)
             {
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
                 return null;
-            }            
-        } 
+            }
+        }
+        bool IFHIR.VerificarEnvio(int Admision, string Tipo)
+        {
+            try
+            {
+                Dictionary<string, string> getData = Conexion.Conection();
+
+                using (SqlConnection con = new SqlConnection(getData["Conexion"]))
+                {
+                    if (con != null && con.State == ConnectionState.Closed)
+                    {
+                        con.Open();
+                    }
+
+                    String Cargar_Hora = "SELECT RDAPaciente, RDAAmbulatorio " +
+                                         "FROM CXN_RDA " +
+                                         "WHERE Admision = @param1";
+
+                    using (SqlCommand Carga_Command = new SqlCommand(Cargar_Hora, con))
+                    {
+                        Carga_Command.Parameters.AddWithValue("@param1", Admision);
+
+                        using (SqlDataReader Lectura_Hora = (Carga_Command.ExecuteReader()))
+                        {
+                            if (Lectura_Hora.Read() == true)
+                            {
+                                if (Tipo == "CExterna")
+                                {
+                                    if (Lectura_Hora["RDAAmbulatorio"] == DBNull.Value)
+                                    {
+                                        return false;
+                                    }
+                                    else if (string.IsNullOrEmpty(Lectura_Hora["RDAAmbulatorio"].ToString()))
+                                    {
+                                        return false;
+                                    }
+                                    else
+                                    {
+                                        return true;
+                                    }
+                                }
+                                else if (Tipo == "Paciente")
+                                {
+                                    if (Lectura_Hora["RDAPaciente"] == DBNull.Value)
+                                    {
+                                        return false;
+                                    }
+                                    else if (string.IsNullOrEmpty(Lectura_Hora["RDAPaciente"].ToString()))
+                                    {
+                                        return false;
+                                    }
+                                    else
+                                    {
+                                        return true;
+                                    }
+                                }
+                                else
+                                {
+                                    return true;
+                                }                               
+                            }
+                            else
+                            {
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
+                return true;
+            }
+        }
         string IFHIR.Gender(string Tipo)
         {
             switch (Tipo)
@@ -1215,7 +1388,7 @@ namespace Persistence.CXN.Metodos
                 TXTException T = new TXTException { FechaHora = System.DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
             }
         }
-        List<CXN_RDA_LOG> IFHIR.GetLogs(DateTime Desde, DateTime Hasta)
+        List<CXN_RDA_LOG> IFHIR.GetLogs(DateTime Desde, DateTime Hasta, int Admision)
         {
             try
             {
@@ -1228,15 +1401,33 @@ namespace Persistence.CXN.Metodos
                         con.Open();
                     }
 
-                    String Query = "SELECT * " +
-                                   "FROM CXN_RDA_LOG " +
-                                   "WHERE Fecha BETWEEN @param1 AND @param2 " +
-                                   "ORDER BY Fecha, Admision DESC";
+                    String Query = "";
+
+                    if (Admision == 0)
+                    {
+                        Query = "SELECT * " +
+                                "FROM CXN_RDA_LOG " +
+                                "WHERE Fecha BETWEEN @param1 AND @param2 " +
+                                "ORDER BY Fecha DESC";
+                    }
+                    else
+                    {
+                        Query = "SELECT * " +
+                                "FROM CXN_RDA_LOG " +
+                                "WHERE Admision = @param3";
+                    }                    
 
                     using (SqlCommand Command = new SqlCommand(Query, con))
                     {
-                        Command.Parameters.AddWithValue("@param1", Convert.ToDateTime(Desde.Date));
-                        Command.Parameters.AddWithValue("@param2", Convert.ToDateTime(Hasta.Date));
+                        if (Admision == 0)
+                        {
+                            Command.Parameters.AddWithValue("@param1", Convert.ToDateTime(Desde.Date));
+                            Command.Parameters.AddWithValue("@param2", Convert.ToDateTime(Hasta.Date));
+                        }
+                        else
+                        {
+                            Command.Parameters.AddWithValue("@param3", Admision);
+                        }
 
                         using (SqlDataReader Reader = (Command.ExecuteReader()))
                         {

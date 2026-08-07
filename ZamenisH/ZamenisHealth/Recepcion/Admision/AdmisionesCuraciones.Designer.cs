@@ -1193,7 +1193,6 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1167, 818);
-            this.Controls.Add(this.boton3);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label47);
             this.Controls.Add(this.dataGridView2);
@@ -1234,6 +1233,7 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
+            this.Controls.Add(this.boton3);
             this.Name = "AdmisionesCuraciones";
             this.Text = "AdmisionesCuraciones";
             this.Load += new System.EventHandler(this.AdmisionesCuraciones_Load);

@@ -6,7 +6,6 @@ using Persistence.CXN.Metodos;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using ZamenisHealth.Medicina.OrdenesExtra;
@@ -49,11 +48,14 @@ namespace ZamenisHealth.Medicina.OrdenesHistory
             Titulo.Text = "Seleccione Servicio";
             SubTitulo.Text = $"Zamenis Health {Conexion.VersionApp}";
 
+            gridZH1.dataGridView1.CellDoubleClick += dataGridView1_CellDoubleClick;
+            gridZH1.CeldaHeight = true;
+
             CargarServicios("");
         }
         void Encabezados()
         {
-            dataGridView1.DataSource = null;
+            gridZH1.dataGridView1.DataSource = null;
             dt = new DataTable();
             POS = dt.Columns.Add("POS", typeof(int));
             Cup = dt.Columns.Add("Cup", typeof(string));
@@ -61,41 +63,8 @@ namespace ZamenisHealth.Medicina.OrdenesHistory
         }
         void Estilos(DataGridView D, DataTable t)
         {
-            D.EnableHeadersVisualStyles = false;
-            D.ScrollBars = ScrollBars.Both;
-
             D.DataSource = t;
-
-            D.Columns["Cup"].Width = 80;
-            D.Columns["Servicio"].Width = 600;
-
-            D.ColumnHeadersDefaultCellStyle.Font = new Font(D.Font, FontStyle.Bold);
-            D.ColumnHeadersDefaultCellStyle.Font = new Font("Arial", 8, FontStyle.Bold);
-            D.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#bfdbff");
-            D.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
-            D.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
-
-            D.Columns["Cup"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            D.Columns["Servicio"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
-            D.Columns["Cup"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            D.Columns["Servicio"].SortMode = DataGridViewColumnSortMode.NotSortable;
-
             D.Columns["POS"].Visible = false;
-
-            foreach (DataGridViewRow row in D.Rows)
-            {
-                int Numero = Convert.ToInt32(row.Cells["POS"].Value.ToString());
-
-                if ((Numero % 2) == 0)
-                {
-                    row.DefaultCellStyle.BackColor = Color.Aquamarine;
-                }
-                else
-                {
-                    row.DefaultCellStyle.BackColor = Color.MediumAquamarine;
-                }
-            }
         }
         void CargarServicios(string Texto)
         {
@@ -142,7 +111,7 @@ namespace ZamenisHealth.Medicina.OrdenesHistory
                     }
 
                     Contador = 1;
-                    Estilos(dataGridView1, dt);
+                    Estilos(gridZH1.dataGridView1, dt);
                 }
                 else
                 {
@@ -158,8 +127,8 @@ namespace ZamenisHealth.Medicina.OrdenesHistory
         {
             try
             {
-                string CUP = dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString();
-                string SERVICIO = dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString();
+                string CUP = gridZH1.dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString();
+                string SERVICIO = gridZH1.dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString();
 
                 if (TipoForma == "OrdenServicios")
                 {
@@ -177,7 +146,7 @@ namespace ZamenisHealth.Medicina.OrdenesHistory
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                Console.WriteLine(ex.ToString());
             }            
         }
         private void boton1_Click(object sender, EventArgs e)

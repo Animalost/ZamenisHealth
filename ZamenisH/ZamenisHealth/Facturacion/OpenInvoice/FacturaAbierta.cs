@@ -7,7 +7,6 @@ using Persistence.CXN.Metodos;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Drawing;
 using System.Windows.Forms;
 using ZamenisHealth.Comunes;
 
@@ -73,8 +72,8 @@ namespace ZamenisHealth.Facturacion
                 Car_Imp_Dx = 0
             });
 
-            dataGridView1.DataSource = null;
-            dataGridView1.Rows.Clear();
+            gridZH1.dataGridView1.DataSource = null;
+            gridZH1.dataGridView1.Rows.Clear();
 
             Encabezados();
 
@@ -94,7 +93,7 @@ namespace ZamenisHealth.Facturacion
                 dt.Rows.Add(row);
                 dt.AcceptChanges();
 
-                dataGridView1.DataSource = dt;
+                gridZH1.dataGridView1.DataSource = dt;
 
                 contador++;
 
@@ -107,51 +106,9 @@ namespace ZamenisHealth.Facturacion
         }
         void Estilos()
         {
-            dataGridView1.EnableHeadersVisualStyles = false;
-            dataGridView1.ScrollBars = ScrollBars.Both;
-
-            dataGridView1.DataSource = dt;
-            dataGridView1.Font = new Font("Arial", 11);
-
-            dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font(dataGridView1.Font, FontStyle.Bold);
-            dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Arial", 10, FontStyle.Bold);
-            dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#bfdbff");
-            dataGridView1.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
-            dataGridView1.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
-
-            dataGridView1.Columns["Codigo"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridView1.Columns["Item"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridView1.Columns["Cantidad"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridView1.Columns["VrUnitario"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridView1.Columns["VrTotal"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
-            dataGridView1.Columns["Codigo"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            dataGridView1.Columns["Item"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            dataGridView1.Columns["Cantidad"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            dataGridView1.Columns["VrUnitario"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            dataGridView1.Columns["VrTotal"].SortMode = DataGridViewColumnSortMode.NotSortable;
-
-            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells + 10;
-            dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
-            dataGridView1.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
-
-            dataGridView1.Columns["POS"].Visible = false;
-
-            foreach (DataGridViewRow row in dataGridView1.Rows)
-            {
-                int Numero = Convert.ToInt32(row.Cells["POS"].Value.ToString());
-
-                if ((Numero % 2) == 0)
-                {
-                    row.DefaultCellStyle.BackColor = Color.Aquamarine;
-                }
-                else
-                {
-                    row.DefaultCellStyle.BackColor = Color.MediumAquamarine;
-                }            
-            }
-
-            dataGridView1.ClearSelection();
+            gridZH1.dataGridView1.DataSource = dt;
+            gridZH1.dataGridView1.Columns["POS"].Visible = false;
+            gridZH1.dataGridView1.ClearSelection();
         }
         void Encabezados()
         {
@@ -262,6 +219,8 @@ namespace ZamenisHealth.Facturacion
             btnFacturar = createToolButton("Terminar Factura");
             MenuLateral.Items.Add(btnFacturar);
             btnFacturar.Click += button3_Click;
+
+            gridZH1.CeldaHeight = true;
 
             CargarAse();
             CargarCia();

@@ -1,13 +1,12 @@
 ﻿using Domain.CXN;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Persistence.CXN.Interfaces
 {
     public interface IFHIR
     {
-        Task<List<CXN_HORARIO>> FiltrarEspecialidad(DateTime Fecha, string Especialidad);
+        List<CXN_HORARIO> FiltrarEspecialidad(DateTime Fecha, string Especialidad);
         void InsertarEnvio_RDAAmbulatorio(CXN_RDA Respuesta);
         string Gender(string Tipo);
         List<string> GetConsumos();
@@ -33,8 +32,10 @@ namespace Persistence.CXN.Interfaces
         string GetCodeOcupacion(string Name);
         CXN_HCMG GetNAMG(int Admition);
         void InsertarLOG_RDA(CXN_RDA_LOG Respuesta);
-        List<CXN_RDA_LOG> GetLogs(DateTime Desde, DateTime Hasta);
+        List<CXN_RDA_LOG> GetLogs(DateTime Desde, DateTime Hasta, int Admision);
         string GetLogFHIR(int Id);
         List<CXN_DATOS_FHIR> ListaDatosConfFHIR(int Prestador);
+        bool VerificarEnvio(int Admision, string Tipo);
+        CXN_RDA ConsultarEnviosRDA(int Admision);
     }
 }
