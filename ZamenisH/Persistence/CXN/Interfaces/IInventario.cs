@@ -8,7 +8,7 @@ namespace Persistence.CXN.Interfaces
         List<Domain.CXN.CXN_INVENTARIO> getProductbyName(string Name);
         Domain.CXN.CXN_INVENTARIO getProductbyCode(string Code);
         Domain.CXN.CXN_INVENTARIO getProductbyId(int Pos);
-        (int valor, string item, string detalle) ConsultarValor(int Ase, string Cod);
+        (int valor, string item, string detalle, string codeps) ConsultarValor(int Ase, string Cod);
         List<Domain.CXN.CXN_INVENTARIO> getAllElements(int Convenio, string Dato);
         string listaPrecios(int Convenio);
         bool CrearProducto(Domain.CXN.CXN_INVENTARIO I);

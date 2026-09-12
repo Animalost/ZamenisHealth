@@ -7,7 +7,6 @@ using Persistence.CXN.Metodos;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 using System.Windows.Forms;
 using ZamenisHealth.Clases;
 using ZamenisHealth.Comunes;
@@ -17,7 +16,6 @@ namespace ZamenisHealth.Recepcion
     public partial class Asistencia : Forma
     {
         private static readonly IAgenda repositorioAgendar = new MAgenda();
-        private static readonly IAgendaC repositorioAgenda = new MAgendaC();
         private MensajesGeneral MG;
         private ToolStripButton btnBuscar;
         private bool Colorimetria;
@@ -42,7 +40,6 @@ namespace ZamenisHealth.Recepcion
         {
             InitializeComponent();
             textBox1.Text = TID;
-            Asist();
         }
 
         private void Encabezados()
@@ -51,7 +48,7 @@ namespace ZamenisHealth.Recepcion
             listView1.View = View.Details;
             listView1.GridLines = true;
             listView1.FullRowSelect = true;
-            listView1.Columns.Add("Numero", 0, HorizontalAlignment.Left);
+            listView1.Columns.Add("Numero", 100, HorizontalAlignment.Left);
             listView1.Columns.Add("Admision", 100, HorizontalAlignment.Left);
             listView1.Columns.Add("Estado", 100, HorizontalAlignment.Left);
             listView1.Columns.Add("Fecha", 100, HorizontalAlignment.Left);
@@ -66,7 +63,7 @@ namespace ZamenisHealth.Recepcion
             listView1.Columns.Add("Usuario que Cancela", 150, HorizontalAlignment.Left);
             listView1.Columns.Add("Razon de Cancelacion", 200, HorizontalAlignment.Left);
             listView1.Columns.Add("Modalidad", 150, HorizontalAlignment.Left);
-            listView1.Columns.Add("Retardos", 200, HorizontalAlignment.Left);
+            listView1.Columns.Add("Retardos", 0, HorizontalAlignment.Left);
             listView1.Columns.Add("Color", 0, HorizontalAlignment.Left);
             listView1.Columns.Add("Bodega", 0, HorizontalAlignment.Left);
             listView1.Columns.Add("Paciente", 0, HorizontalAlignment.Left);
@@ -77,24 +74,22 @@ namespace ZamenisHealth.Recepcion
         {
             try
             {
-                if (textBox1.Text != "" && comboBox1.Text != "")
+                if (textBox1.Text != "")
                 {
-                    if (comboBox1.SelectedIndex == 0) // 100 Citas
+
+                    List<CXN_HORARIO> _listaCistas = repositorioAgendar.Asistencia(textBox1.Text);
+
+                    if (_listaCistas != null)
                     {
-                        List<CXN_HORARIO> _listaCistas = repositorioAgendar.Asistencia(textBox1.Text);                        
+                        Encabezados();
 
-                        if (_listaCistas != null)
+                        foreach (CXN_HORARIO i in _listaCistas)
                         {
-                            Encabezados();
-                            int Contador = 1;
+                            string Modalidad = ModalidadName(i.Hor_Pac_Modalidad);
 
-                            foreach (CXN_HORARIO i in _listaCistas)
+                            listView1.Items.Add(new ListViewItem(new string[]
                             {
-                                string Modalidad = ModalidadName(i.Hor_Pac_Modalidad);                                
-
-                                listView1.Items.Add(new ListViewItem(new string[]
-                                {
-                                    Contador.ToString(),
+                                    i.Hor_AdmOpnened.ToString(),
                                     i.Hor_Id.ToString(),
                                     i.Hor_Estado,
                                     Convert.ToDateTime(i.Hor_Pac_Fecha_Cita).ToString(Conexion.ConectionDictionary["Format_Fecha"]),
@@ -103,7 +98,7 @@ namespace ZamenisHealth.Recepcion
                                     (i.Hor_IniciaSesion == "0" ? "" : i.Hor_IniciaSesion),
                                     i.Hor_Imp_Age,
                                     i.Hor_Regimen,
-                                    i.Hor_RegAtn.ToString(),                                   
+                                    i.Hor_RegAtn.ToString(),
                                     i.Hor_Pac_UsrGraba,
                                     i.Hor_Usr_Admisiona,
                                     i.Hor_Usr_Cancela,
@@ -114,106 +109,34 @@ namespace ZamenisHealth.Recepcion
                                     i.Hor_Pac_Bod.ToString(),
                                     i.Hor_Pac_Id.ToString(),
                                     i.Hor_Pac_Tipo_Serv
-                                }));
+                            }));
+                        }
 
-                                Contador++;
-
-                                Console.WriteLine(i.Hor_Color);
-                            }
-
-                            if (Colorimetria == true)
-                            {
-                                EstiloColorimetria();
-                            }
-                            else
-                            {
-                                Estilo();
-                            }                           
+                        if (Colorimetria == true)
+                        {
+                            EstiloColorimetria();
                         }
                         else
                         {
-                            Encabezados();
-
-                            MG = new MensajesGeneral();
-                            MG.TipoImagen = 1000;
-                            MG.Mensaje = "Paciente no existe o sin historial de citas";
-                            MG.ShowDialog();
-                        }
-                    }
-                    else if (comboBox1.SelectedIndex == 1) // Ultimas Citas desde ultima autorizacion
-                    {
-                        List<CXN_HORARIO> _listaCistas =  repositorioAgendar.AsistenciaLastAut(textBox1.Text);                        
-
-                        if (_listaCistas != null)
-                        {
-                            Encabezados();
-                            int Contador = 1;
-
-                            foreach (CXN_HORARIO i in _listaCistas)
-                            {
-                                string Modalidad = ModalidadName(i.Hor_Pac_Modalidad);
-
-                                listView1.Items.Add(new ListViewItem(new string[]
-                                {
-                                    Contador.ToString(), //0
-                                    i.Hor_Id.ToString(),//1
-                                    i.Hor_Estado,//2
-                                    Convert.ToDateTime(i.Hor_Pac_Fecha_Cita).ToString(Conexion.ConectionDictionary["Format_Fecha"]),
-                                    Convert.ToDateTime(i.Hor_Pac_Hora_Cita).ToString("HH:mm tt"),
-                                     i.Hor_Autoriza,
-                                    (i.Hor_IniciaSesion == "0" ? "" : i.Hor_IniciaSesion), //9
-                                    i.Hor_Imp_Age,//5
-                                    i.Hor_Regimen,
-                                    i.Hor_RegAtn.ToString(),                                   
-                                    i.Hor_Pac_UsrGraba,
-                                    i.Hor_Usr_Admisiona,
-                                    i.Hor_Usr_Cancela, //12
-                                    i.Hor_Pac_RCancela,
-                                    Modalidad,
-                                    i.Hor_Pac_Minutos,//15
-                                    i.Hor_Color,
-                                    i.Hor_Pac_Bod.ToString(),//17
-                                    i.Hor_Pac_Id.ToString(),//18
-                                    i.Hor_Pac_Tipo_Serv//19
-                                }));
-
-                                Contador++;
-                                Console.WriteLine(i.Hor_Color);
-                            }
-
-                            if (Colorimetria == true)
-                            {
-                                EstiloColorimetria();
-                            }
-                            else
-                            {
-                                Estilo();
-                            }
-                        }
-                        else
-                        {
-                            Encabezados();
-
-                            MG = new MensajesGeneral();
-                            MG.TipoImagen = 1000;
-                            MG.Mensaje = "Paciente no existe o sin historial de citas";
-                            MG.ShowDialog();
+                            Estilo();
                         }
                     }
                     else
                     {
+                        Encabezados();
+
                         MG = new MensajesGeneral();
                         MG.TipoImagen = 1000;
-                        MG.Mensaje = "Seleccine un filtro";
+                        MG.Mensaje = "Paciente no existe o sin historial de citas";
                         MG.ShowDialog();
                     }
                 }
                 else
                 {
-                   /* MG = new MensajesGeneral();
-                    MG.TipoImagen = 1000;
-                    MG.Mensaje = "Debe diligenciar un documento y un tipo de filtro";
-                    MG.ShowDialog();*/
+                     MG = new MensajesGeneral();
+                     MG.TipoImagen = 1000;
+                     MG.Mensaje = "Debe diligenciar un documento";
+                     MG.ShowDialog();
                 }                
             }
             catch
@@ -274,72 +197,53 @@ namespace ZamenisHealth.Recepcion
             {
                 foreach (ListViewItem lvw in listView1.Items)
                 {
-                    if (lvw.SubItems[2].Text == "C")
+                    if (lvw.SubItems[2].Text == "C")  //Cancelo cita
                     {
                         lvw.ForeColor = Color.Red;
                         lvw.BackColor = Color.Orange;
-                    }                                              
-                    else if (lvw.SubItems[16].Text == "N")
-                    {                        
+                    }
+                    else if (lvw.SubItems[16].Text == "N") //Nuevo
+                    {
                         lvw.ForeColor = Color.Purple;
                         lvw.BackColor = Color.FromArgb(255, 192, 255);
+
+                        lvw.Font = new Font("Arial", 12, FontStyle.Bold);
                     }
-                    else if (lvw.SubItems[16].Text == "I")
+                    else if (lvw.SubItems[16].Text == "I") // Inicio Paquete
                     {
                         lvw.ForeColor = Color.Sienna;
                         lvw.BackColor = Color.DarkKhaki;
-                    }                   
+
+                        lvw.Font = new Font("Arial", 12, FontStyle.Bold);
+                    }
+                    else if (lvw.SubItems[16].Text == "T") // Termina Orden
+                    {
+                        lvw.ForeColor = Color.White;
+                        lvw.BackColor = Color.DarkBlue;
+
+                        lvw.Font = new Font("Arial", 12, FontStyle.Bold);
+                    }            
                     else
                     {
-                        if (lvw.SubItems[19].Text == "CU" || lvw.SubItems[19].Text == "MG")
+                        if (lvw.SubItems[2].Text == "P")  
                         {
-                            List<CXN_HORARIO> citaConMedico = repositorioAgenda.ListarCitasXPaciente2(Convert.ToInt32(lvw.SubItems[18].Text), Convert.ToDateTime(lvw.SubItems[3].Text), Convert.ToInt32(lvw.SubItems[17].Text));
-                            if (citaConMedico != null)
-                            {
-                                if (lvw.SubItems[19].Text == "CU")
-                                {
-                                    bool existe = citaConMedico.Any(x => x.Hor_Pac_Tipo_Serv == "MG" && x.Hor_Autoriza.Length >= 1);
-                                    if (existe == true)
-                                    {
-                                        lvw.ForeColor = Color.Sienna;
-                                        lvw.BackColor = Color.DarkKhaki;
-                                    }
-                                    else
-                                    {
-                                        lvw.ForeColor = Color.DarkOrange;
-                                        lvw.BackColor = Color.Yellow;
-                                    }
-                                }
-                                else if (lvw.SubItems[19].Text == "MG")
-                                {
-                                    bool existe = citaConMedico.Any(x => x.Hor_Pac_Tipo_Serv == "CU" && x.Hor_Autoriza.Length >= 1);
-                                    if (existe == true)
-                                    {
-                                        lvw.ForeColor = Color.Sienna;
-                                        lvw.BackColor = Color.DarkKhaki;
-                                    }
-                                    else
-                                    {
-                                        lvw.ForeColor = Color.DarkOrange;
-                                        lvw.BackColor = Color.Yellow;
-                                    }
-                                }
-                                else
-                                {
-                                    lvw.ForeColor = Color.Black;
-                                    lvw.BackColor = Color.White;
-                                }
-                            }
-                            else
-                            {
-                                lvw.ForeColor = Color.Black;
-                                lvw.BackColor = Color.White;
-                            }
+                            lvw.ForeColor = Color.Green;
+                            lvw.BackColor = Color.LightGreen;
+                        }
+                        else if (lvw.SubItems[2].Text == "A")  
+                        {
+                            lvw.ForeColor = Color.Black;
+                            lvw.BackColor = Color.White;
+                        }
+                        else if (lvw.SubItems[2].Text == "H")  
+                        {
+                            lvw.ForeColor = Color.Blue;
+                            lvw.BackColor = Color.LightBlue;
                         }
                         else
                         {
                             lvw.ForeColor = Color.Black;
-                            lvw.BackColor = Color.White;
+                            lvw.BackColor = Color.LightGray;
                         }
                     }
 
@@ -356,11 +260,6 @@ namespace ZamenisHealth.Recepcion
                     else if (lvw.SubItems[2].Text == "H")
                     {
                         lvw.SubItems[2].Text = "Asistio";
-                        if (lvw.ForeColor == Color.Black && lvw.BackColor == Color.White)
-                        {
-                            lvw.ForeColor = Color.Blue;
-                            lvw.BackColor = Color.LightBlue;
-                        }
                     }
                     else if (lvw.SubItems[2].Text == "C")
                     {
@@ -435,7 +334,10 @@ namespace ZamenisHealth.Recepcion
                 panel1.Visible = false;
             }
 
-            comboBox1.SelectedIndex = 0;
+            if (!string.IsNullOrEmpty(textBox1.Text))
+            {
+                Asist();
+            }
         }
         private void textBox1_DoubleClick(object sender, EventArgs e)
         {

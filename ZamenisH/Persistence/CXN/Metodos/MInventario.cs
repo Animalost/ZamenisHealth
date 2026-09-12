@@ -166,7 +166,7 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-        (int valor, string item, string detalle) IInventario.ConsultarValor(int Ase, string Cod)
+        (int valor, string item, string detalle, string codeps) IInventario.ConsultarValor(int Ase, string Cod)
         {
             try
             {
@@ -178,7 +178,7 @@ namespace Persistence.CXN.Metodos
                     {
                         con.Open();
                     }
-                    String Query = "SELECT InvPrecio, InvItem, InvDetalle " +
+                    String Query = "SELECT InvPrecio, InvItem, InvDetalle, InvImagen " +
                                    "FROM CXN_INVENTARIO " +
                                    "WHERE InvCod = @param1 " +
                                    "AND InvConvenio = @param2";
@@ -194,11 +194,12 @@ namespace Persistence.CXN.Metodos
                             {
                                 return (Convert.ToInt32(Reader["InvPrecio"]),
                                         Reader["InvItem"].ToString(),
-                                        Reader["InvDetalle"].ToString());
+                                        Reader["InvDetalle"].ToString(),
+                                        Reader["InvImagen"].ToString());
                             }
                             else
                             {
-                                return (0, "", "");
+                                return (0, "", "", "");
                             }
                         }
                     }                                           
@@ -207,7 +208,7 @@ namespace Persistence.CXN.Metodos
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return (0, "", "");
+                return (0, "", "", "");
             }
         }
         CXN_INVENTARIO IInventario.ConsultarValor2(string Item, int Ase)
@@ -571,7 +572,7 @@ namespace Persistence.CXN.Metodos
                         con.Open();
                     }
 
-                    String Cargar_Hora = "SELECT InvId, InvItem, InvCod, InvPrecio, InvTipo, InvDetalle " +
+                    String Cargar_Hora = "SELECT InvId, InvItem, InvCod, InvPrecio, InvTipo, InvDetalle, InvImagen " +
                                          "FROM CXN_INVENTARIO " +
                                          "WHERE InvConvenio = @Aseguradora " +
                                          "AND InvTipo = @Tipo " +
@@ -597,7 +598,8 @@ namespace Persistence.CXN.Metodos
                                         InvItem = Lectura_Hora["InvItem"].ToString(),
                                         InvPrecio = Convert.ToInt32(Lectura_Hora["InvPrecio"]),
                                         InvTipo = Lectura_Hora["InvTipo"].ToString(),
-                                        InvDetalle = Lectura_Hora["InvDetalle"].ToString()
+                                        InvDetalle = Lectura_Hora["InvDetalle"].ToString(),
+                                        InvImagen = Lectura_Hora["InvImagen"].ToString()
                                     });
                                 }
 

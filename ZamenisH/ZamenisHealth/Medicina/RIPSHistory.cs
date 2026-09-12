@@ -2,19 +2,18 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using Domain;
+using FormAndControls;
 using Persistence;
 using Persistence.CXN.Interfaces;
 using Persistence.CXN.Metodos;
-using ZamenisHealth.Clases;
 using ZamenisHealth.Comunes;
 
 namespace ZamenisHealth.Medicina
 {
-    public partial class RIPSHistory : ConfigForm.BaseForm
+    public partial class RIPSHistory : Forma2
     {
         private static readonly IRIPS repoRips = new MRIPS();
         private static readonly IRIPS_Res2275_2023 repoRIp2 = new MRIPS_Res2275_2023();
-
         public int Adm_Cargo;
 
         public RIPSHistory()
@@ -26,7 +25,8 @@ namespace ZamenisHealth.Medicina
         {
             try
             {
-                
+                Titulo.Text = "Resolucion 2275 de 2023";
+
                 ToolTip toolTip1 = new ToolTip();
                 ToolTip toolTip12 = new ToolTip();
                 ToolTip toolTip13 = new ToolTip();
@@ -58,13 +58,13 @@ namespace ZamenisHealth.Medicina
                 }
 
                 ImageClose.Visible = false;
+                ImageMinimize.Visible = false;
             }
             catch (Exception ex)
             {
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         private void button1_Click(object sender, EventArgs e)
         {
             try

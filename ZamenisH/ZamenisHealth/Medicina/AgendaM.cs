@@ -8,7 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
-using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 using Tulpep.NotificationWindow;
@@ -90,9 +89,7 @@ namespace ZamenisHealth.Medicina
                         Colorimetria = (Preferencias.Colorimetria == "A" ? true : false);
                         if (this.Colorimetria == false)
                         {
-                            label20.Visible = false;
-                            label9.Visible = false;
-                            label8.Visible = false;
+                            label6.Visible = false;
                             label7.Visible = false;
                             label21.Visible = false;
                         }
@@ -534,63 +531,18 @@ namespace ZamenisHealth.Medicina
                                         row.Cells["Paciente"].Style.ForeColor = Color.Sienna;
                                         break;
 
-                                    default: //Controles 
-                                        string TipoBod = repoBodegas.getDatosCode(Med).Bod_Tipo;
-                                        if (TipoBod == "CU" || TipoBod == "MG")
-                                        {
-                                            List<CXN_HORARIO> citaConMedico = repoAgendaMedicaConsultas.ListarCitasXPaciente2(Convert.ToInt32(row.Cells["CodePaciente"].Value), dateTimePicker1.Value.Date, Med);
-                                            if (citaConMedico != null)
-                                            {
-                                                if (TipoBod == "CU")
-                                                {
-                                                    bool existe = citaConMedico.Any(x => x.Hor_Pac_Tipo_Serv == "MG");
-                                                    if (existe == true)
-                                                    {
-                                                        row.Cells["Paciente"].Style.BackColor = Color.Yellow;
-                                                        row.Cells["Paciente"].Style.ForeColor = Color.DarkOrange;
-                                                    }
-                                                    else
-                                                    {
-                                                        row.Cells["Paciente"].Style.BackColor = Color.LightGreen;
-                                                        row.Cells["Paciente"].Style.ForeColor = Color.Green;
-                                                    }
-                                                }
-                                                else if (TipoBod == "MG")
-                                                {
-                                                    bool existe = citaConMedico.Any(x => x.Hor_Pac_Tipo_Serv == "CU");
-                                                    if (existe == true)
-                                                    {
-                                                        row.Cells["Paciente"].Style.BackColor = Color.Yellow;
-                                                        row.Cells["Paciente"].Style.ForeColor = Color.DarkOrange;
-                                                    }
-                                                    else
-                                                    {
-                                                        row.Cells["Paciente"].Style.BackColor = Color.LightGreen;
-                                                        row.Cells["Paciente"].Style.ForeColor = Color.Green;
-                                                    }
-                                                }
-                                                else
-                                                {
-                                                    row.Cells["Paciente"].Style.BackColor = Color.LightGreen;
-                                                    row.Cells["Paciente"].Style.ForeColor = Color.Green;
-                                                }
-                                            }
-                                            else
-                                            {
-                                                row.Cells["Paciente"].Style.BackColor = Color.LightGreen;
-                                                row.Cells["Paciente"].Style.ForeColor = Color.Green;
-                                            }
-                                        }
-                                        else
-                                        {
-                                            row.Cells["Paciente"].Style.BackColor = Color.LightGreen;
-                                            row.Cells["Paciente"].Style.ForeColor = Color.Green;
-                                        }
+                                    case "T": //Cierra Orden
+                                        row.Cells["Paciente"].Style.BackColor = Color.DarkBlue;
+                                        row.Cells["Paciente"].Style.ForeColor = Color.White;
+                                        break;
 
+                                    default: //Controles  //Control Normal
+                                        row.Cells["Paciente"].Style.BackColor = Color.LightGreen;
+                                        row.Cells["Paciente"].Style.ForeColor = Color.Green;
                                         break;
                                 }
                             }
-                            if (Estado == "A")
+                            else if (Estado == "A")
                             {
                                 row.Cells[4].Style.BackColor = Color.White;
                                 row.Cells[6].Style.BackColor = Color.White;
@@ -605,7 +557,7 @@ namespace ZamenisHealth.Medicina
                                     row.Cells[10].Style.ForeColor = Color.Black;
                                 }
                             }
-                            if (Estado == "B")
+                            else if (Estado == "B")
                             {
                                 row.Cells[4].Style.BackColor = Color.Orange;
                                 row.Cells[6].Style.BackColor = Color.Orange;
@@ -620,7 +572,7 @@ namespace ZamenisHealth.Medicina
                                     row.Cells[10].Style.ForeColor = Color.Red;
                                 }
                             }
-                            if (Estado == "H")
+                            else if (Estado == "H")
                             {
                                 row.Cells[4].Style.BackColor = Color.LightBlue;
                                 row.Cells[6].Style.BackColor = Color.LightBlue;
@@ -813,7 +765,7 @@ namespace ZamenisHealth.Medicina
                 PacSal = dt.Columns.Add("PacSal", typeof(string));
                 Aseguradora = dt.Columns.Add("Aseguradora", typeof(string));
                 Arrastra = dt.Columns.Add("Arrastra", typeof(string));
-                Colores = dt.Columns.Add("Colores", typeof(string));
+                Colores = dt.Columns.Add("Colores", typeof(string)); //12
                 CodePaciente = dt.Columns.Add("CodePaciente", typeof(string));
             }
             else
@@ -829,7 +781,7 @@ namespace ZamenisHealth.Medicina
                 InPaquete = dt.Columns.Add("InPaquete", typeof(string));
                 PacSal = dt.Columns.Add("PacSal", typeof(string));
                 Arrastra = dt.Columns.Add("Arrastra", typeof(string));
-                Colores = dt.Columns.Add("Colores", typeof(string));
+                Colores = dt.Columns.Add("Colores", typeof(string)); //11
                 CodePaciente = dt.Columns.Add("CodePaciente", typeof(string));
             }            
         }

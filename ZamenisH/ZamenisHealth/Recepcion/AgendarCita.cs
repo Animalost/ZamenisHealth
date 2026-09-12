@@ -46,7 +46,7 @@ namespace ZamenisHealth.Recepcion
         private int ASESESIONS;
         private string TSERV;
         private DataTable dt;
-        private bool BONOS, INICIO, NUEVO, DESPACIO, DVxS;
+        private bool BONOS, INICIO, NUEVO, CIERRE, DESPACIO, DVxS;
 
         public static string Tipo_Serv = "";
         private MensajesGeneral MG;
@@ -170,6 +170,9 @@ namespace ZamenisHealth.Recepcion
                 Titulo.BackColor = Color.LightGray;
                 SubTitulo.BackColor = Color.LightGray;
 
+                pictureBox3.BringToFront();
+                label36.BringToFront();
+
                 this.Size = new Size(934, 663);               
 
                 ToolTip toolTip1 = new ToolTip();
@@ -184,14 +187,14 @@ namespace ZamenisHealth.Recepcion
                 CargarRegimen();
                 CargarIdentidadGenero();
 
-                if (this.TipoBod == "CU")
+               /* if (this.TipoBod == "CU")
                 {
                     checkBox7.Visible = true;
                 }
                 else
                 {
                     checkBox7.Visible = false;
-                }
+                }*/
 
                 List<CXN_ASEGURADORA> CargarAse =  repositorioAseguradoras.getAseguradoras();
                 
@@ -769,7 +772,7 @@ namespace ZamenisHealth.Recepcion
                     label10.Visible = true;
                     dataGridView1.Visible = false;
                     dataGridView1.DataSource = null;
-                    this.Size = new Size(944, 590);              
+                    this.Size = new Size(944, 663);              
                 }
             }
             catch (Exception ex)
@@ -1274,7 +1277,7 @@ namespace ZamenisHealth.Recepcion
                             break;
                     }
 
-                    if (TipoBod == "MG")
+                  /*  if (TipoBod == "MG")
                     {
                         Extras.TipoCitaMG TipoCitaMG = new Extras.TipoCitaMG();
                         TipoCitaMG.ShowDialog();
@@ -1282,7 +1285,7 @@ namespace ZamenisHealth.Recepcion
                     else
                     {
                         Tipo_Serv = "";
-                    }
+                    }*/
 
                     string Vales = "";
                     if (BONOS == true)
@@ -1310,6 +1313,11 @@ namespace ZamenisHealth.Recepcion
 
                     string nuevito = NUEVO == true ? "N" : "";
 
+                    string colorcito = NUEVO == true ? "N" :
+                                       INICIO == true ? "I" :
+                                       CIERRE == true ? "T" : 
+                                       "C";
+
                     CXN_HORARIO H = new CXN_HORARIO
                     {
                         Hor_Estado = "A",
@@ -1331,12 +1339,11 @@ namespace ZamenisHealth.Recepcion
                         Hor_BloqEspaces = 0,
                         Hor_GrupoServicios = IRIPS.getCodeGrupoServicios(comboBox7.Text),
                         Hor_Regimen = P.Pac_Regimen,
-                        Hor_ArrastraHistoria = checkBox7.Visible == false ? "N" : checkBox7.Checked == true ? "S" : "N",
+                        //Hor_ArrastraHistoria = checkBox7.Visible == false ? "N" : checkBox7.Checked == true ? "S" : "N",
+                        Hor_ArrastraHistoria = "N",
                         Hor_AvisoCurInicio = INICIO,
                         Hor_Tipo_Paciente = nuevito,
-                        Hor_Color = NUEVO == true ? "N" : 
-                                    INICIO == true ? "I" : 
-                                    "C"
+                        Hor_Color = colorcito
                     };
 
                     int admTemp = repositorioAgendar.AgendarPaciente(H);
@@ -1553,7 +1560,8 @@ namespace ZamenisHealth.Recepcion
                     cP.ShowDialog();
                 }                
             }
-        }
+        }       
+
         private void pictureBox1_Click(object sender, EventArgs e)
         {
             if (pictureBox1.Image == null)
@@ -1598,12 +1606,22 @@ namespace ZamenisHealth.Recepcion
             if (pictureBox5.Image == null)
             {
                 NUEVO = true;
+                CIERRE = false;
+                INICIO = false;
+
                 pictureBox5.Image = Resources2.comprobado;
+                pictureBox2.Image = null;
+                pictureBox6.Image = null;
             }
             else
             {
                 NUEVO = false;
+                CIERRE = false;
+                INICIO = false;
+
                 pictureBox5.Image = null;
+                pictureBox2.Image = null;
+                pictureBox6.Image = null;
             }
         }
         private void pictureBox2_Click(object sender, EventArgs e)
@@ -1611,12 +1629,45 @@ namespace ZamenisHealth.Recepcion
             if (pictureBox2.Image == null)
             {
                 INICIO = true;
+                NUEVO = false;
+                CIERRE = false;
+
                 pictureBox2.Image = Resources2.comprobado;
+                pictureBox5.Image = null;
+                pictureBox6.Image = null;
             }
             else
             {
                 INICIO = false;
+                NUEVO = false;
+                CIERRE = false;
+
                 pictureBox2.Image = null;
+                pictureBox5.Image = null;
+                pictureBox6.Image = null;
+            }
+        }
+        private void pictureBox6_Click(object sender, EventArgs e)
+        {
+            if (pictureBox6.Image == null)
+            {
+                INICIO = false;
+                NUEVO = false;
+                CIERRE = true;
+
+                pictureBox6.Image = Resources2.comprobado;
+                pictureBox5.Image = null;
+                pictureBox2.Image = null;
+            }
+            else
+            {
+                INICIO = false;
+                NUEVO = false;
+                CIERRE = false;
+
+                pictureBox2.Image = null;
+                pictureBox5.Image = null;
+                pictureBox6.Image = null;
             }
         }
     }

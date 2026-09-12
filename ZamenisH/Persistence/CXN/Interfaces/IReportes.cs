@@ -31,7 +31,7 @@ namespace Persistence.CXN.Interfaces
                                           int Cia,
                                           int Ase,
                                           string Tipos);
-        List<CXN_CIA> ActasMedicos(int Admision);
+        List<CXN_CIA> ActasMedicos(int Admision, string Tipos);
         List<CXN_HORARIO> BuscarHistorias(int Paciente, string Tipo);
         List<HCMG> MedicinaGeneralCompleto(int PacienteHCCompleto, DateTime Desde, DateTime Hasta, string userGenera);
         List<ReportHCFI> ReportefisiatriaCompleto(int PacienteCom, DateTime Desde, DateTime Hasta, string user);

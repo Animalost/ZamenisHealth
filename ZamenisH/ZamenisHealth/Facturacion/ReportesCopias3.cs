@@ -32,6 +32,7 @@ namespace ZamenisHealth.Facturacion
         DataColumn Fecha;
         DataColumn Homologo;
         DataColumn TipoPago;
+        DataColumn Admision;
 
         public ReportesCopias3(int cia, DateTime desde, DateTime hasta, string tipos)
         {
@@ -46,6 +47,10 @@ namespace ZamenisHealth.Facturacion
             dt = new DataTable();
             POS = dt.Columns.Add("POS", typeof(int));
             Documento = dt.Columns.Add("Documento", typeof(string));
+            if (Tipos == "Recibos de Caja")
+            {
+                Admision = dt.Columns.Add("Admision", typeof(string));
+            }
             Fecha = dt.Columns.Add("Fecha", typeof(string));
             Homologo = dt.Columns.Add("Homologo", typeof(string));
             TipoPago = dt.Columns.Add("TipoPago", typeof(string));
@@ -83,7 +88,8 @@ namespace ZamenisHealth.Facturacion
                             DataRow row = dt.NewRow();
 
                             row["POS"] = Contador;
-                            row["Documento"] = report.Admision.ToString();
+                            row["Documento"] = report.Recibo.ToString();
+                            row["Admision"] = report.Admision.ToString();
                             row["Fecha"] = Convert.ToDateTime(report.FechaBase).ToString(Conexion.ConectionDictionary["Format_Fecha"]);
                             row["Homologo"] = report.Homologo.ToString();
                             row["TipoPago"] = report.PacienteTelefono.ToString();

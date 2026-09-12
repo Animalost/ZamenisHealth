@@ -1,4 +1,5 @@
-﻿using Persistence;
+﻿using Domain;
+using Persistence;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -19,6 +20,7 @@ namespace ZamenisHealth.Clases.Controles
         private int SizeFontSelection = 16;
         public int Año, Mes, Dia;
         private bool Recargar;
+        public int DiaSeleccionadoRow, DiaSeleccionadoColumn;
 
         public CalendarHQ()
         {
@@ -308,6 +310,9 @@ namespace ZamenisHealth.Clases.Controles
                     Mes = nMesCal(cmbMes.Text);
                     Dia = Convert.ToInt32(CalControlDGV.Rows[e.RowIndex].Cells[CalControlDGV.CurrentCell.ColumnIndex].Value.ToString());
 
+                    DiaSeleccionadoRow = CalControlDGV.Rows[e.RowIndex].Index;
+                    DiaSeleccionadoColumn = CalControlDGV.Rows[e.RowIndex].Cells[CalControlDGV.CurrentCell.ColumnIndex].ColumnIndex;
+
                     MetodoPrincipal();
                 }
             }
@@ -567,7 +572,73 @@ namespace ZamenisHealth.Clases.Controles
                                 if (diasFestivos.Contains(dia))
                                 {
                                     cell.Style.BackColor = Color.LightGray;
-                                    cell.Style.ForeColor = Color.DimGray;
+                                    cell.Style.ForeColor = Color.DimGray;                                    
+                                }
+                            }
+                        }
+                    }                   
+                }
+
+                VerificarDiasLlenos(Desde);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "getBloqueosPforesional", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        void VerificarDiasLlenos(DateTime Fecha)
+        { 
+            try
+            {
+                // UNA SOLA CONSULTA A SQL
+                List<DiaCalendarios> listaDias =
+                    new CalendarController().ObtenerDiasLlenos(
+                        CodeProfesional,
+                        Fecha.Year,
+                        Fecha.Month);
+
+                if (listaDias == null || listaDias.Count == 0)
+                    return;
+
+                // Convertimos la lista en un diccionario
+                // para encontrar rápidamente el día
+                Dictionary<int, DiaCalendarios> dias =
+                    listaDias.ToDictionary(x => x.Dia);
+
+                foreach (DataGridViewRow row in CalControlDGV.Rows)
+                {
+                    foreach (DataGridViewCell cell in row.Cells)
+                    {
+                        if (cell.Value != null &&
+                            int.TryParse(cell.Value.ToString(), out int dia))
+                        {
+                            // Evitamos fechas inválidas
+                            if (dia < 1 || dia > DateTime.DaysInMonth(
+                                Fecha.Year,
+                                Fecha.Month))
+                            {
+                                continue;
+                            }
+
+                            DateTime FechaLoop =
+                                new DateTime(
+                                    Fecha.Year,
+                                    Fecha.Month,
+                                    dia);
+
+                            // Domingo no se procesa
+                            if (FechaLoop.DayOfWeek == DayOfWeek.Sunday)
+                                continue;
+
+                            // ¿Tenemos información de este día?
+                            if (dias.TryGetValue(dia, out DiaCalendarios datos))
+                            {
+                                // ¿Está lleno?
+                                if (datos.CantidadUsada >=
+                                    datos.CantidadHabilitada)
+                                {
+                                    cell.Style.BackColor = Color.LightBlue;
+                                    cell.Style.ForeColor = Color.Blue;
                                 }
                             }
                         }
@@ -576,7 +647,7 @@ namespace ZamenisHealth.Clases.Controles
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "getBloqueosPforesional", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Console.WriteLine($"ERROR DiasLLenos: {ex.Message}");
             }
         }
         void posisionarDia()

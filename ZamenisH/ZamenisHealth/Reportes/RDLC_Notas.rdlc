@@ -347,6 +347,117 @@
               </TablixCells>
             </TablixRow>
             <TablixRow>
+              <Height>0.49417cm</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox4">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style>
+                                <FontFamily>Times New Roman</FontFamily>
+                                <FontSize>8pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox4</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>White</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="CodigoEPSConvenio">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!CodigoEPSConvenio.Value</Value>
+                              <Style>
+                                <FontStyle>Italic</FontStyle>
+                                <FontSize>7pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>CodigoEPSConvenio</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>White</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <rd:Selected>true</rd:Selected>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox6">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style>
+                                <FontFamily>Times New Roman</FontFamily>
+                                <FontSize>8pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox6</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>White</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
               <Height>0.22958cm</Height>
               <TablixCells>
                 <TablixCell>
@@ -476,6 +587,7 @@
                 <TablixMember />
                 <TablixMember />
                 <TablixMember />
+                <TablixMember />
               </TablixMembers>
             </TablixMember>
           </TablixMembers>
@@ -483,7 +595,7 @@
         <DataSetName>DataSet_Notas</DataSetName>
         <Top>2.54676cm</Top>
         <Left>0.33009cm</Left>
-        <Height>2.31602cm</Height>
+        <Height>2.81019cm</Height>
         <Width>19.61329cm</Width>
         <Style>
           <Border>
@@ -571,7 +683,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox10</rd:DefaultName>
-        <Top>8.34733cm</Top>
+        <Top>9.29983cm</Top>
         <Left>0.33009cm</Left>
         <Height>0.38833cm</Height>
         <Width>19.5596cm</Width>
@@ -600,7 +712,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox10</rd:DefaultName>
-        <Top>9.19427cm</Top>
+        <Top>10.14677cm</Top>
         <Left>0.33009cm</Left>
         <Height>0.41479cm</Height>
         <Width>19.61329cm</Width>
@@ -631,7 +743,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox10</rd:DefaultName>
-        <Top>10.8526cm</Top>
+        <Top>11.8051cm</Top>
         <Left>0.33009cm</Left>
         <Height>0.38833cm</Height>
         <Width>19.5596cm</Width>
@@ -660,7 +772,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox10</rd:DefaultName>
-        <Top>11.69954cm</Top>
+        <Top>12.65204cm</Top>
         <Left>0.33009cm</Left>
         <Height>0.41479cm</Height>
         <Width>19.61329cm</Width>
@@ -691,7 +803,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox10</rd:DefaultName>
-        <Top>6.54926cm</Top>
+        <Top>7.50176cm</Top>
         <Left>0.33009cm</Left>
         <Height>0.38833cm</Height>
         <Width>19.5596cm</Width>
@@ -720,7 +832,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox10</rd:DefaultName>
-        <Top>7.3962cm</Top>
+        <Top>8.3487cm</Top>
         <Left>0.33009cm</Left>
         <Height>0.41479cm</Height>
         <Width>19.61329cm</Width>
@@ -751,7 +863,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox10</rd:DefaultName>
-        <Top>4.86529cm</Top>
+        <Top>5.81779cm</Top>
         <Left>0.33009cm</Left>
         <Height>0.38833cm</Height>
         <Width>19.5596cm</Width>
@@ -780,7 +892,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox10</rd:DefaultName>
-        <Top>5.71224cm</Top>
+        <Top>6.66474cm</Top>
         <Left>0.33009cm</Left>
         <Height>0.41479cm</Height>
         <Width>19.61329cm</Width>
@@ -842,7 +954,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox10</rd:DefaultName>
-        <Top>14.44597cm</Top>
+        <Top>15.39847cm</Top>
         <Left>0.33009cm</Left>
         <Height>0.38833cm</Height>
         <Width>19.50591cm</Width>
@@ -871,7 +983,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox10</rd:DefaultName>
-        <Top>15.29291cm</Top>
+        <Top>16.24541cm</Top>
         <Left>0.33009cm</Left>
         <Height>0.41479cm</Height>
         <Width>19.5596cm</Width>
@@ -900,7 +1012,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox10</rd:DefaultName>
-        <Top>9.97478cm</Top>
+        <Top>10.92728cm</Top>
         <Left>0.33009cm</Left>
         <Height>0.41479cm</Height>
         <Width>19.61329cm</Width>
@@ -931,7 +1043,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox10</rd:DefaultName>
-        <Top>12.77924cm</Top>
+        <Top>13.73174cm</Top>
         <Left>0.33009cm</Left>
         <Height>0.38833cm</Height>
         <Width>19.5596cm</Width>
@@ -960,7 +1072,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox10</rd:DefaultName>
-        <Top>13.62618cm</Top>
+        <Top>14.57868cm</Top>
         <Left>0.33009cm</Left>
         <Height>0.41479cm</Height>
         <Width>19.5596cm</Width>
@@ -972,7 +1084,7 @@
         </Style>
       </Textbox>
     </ReportItems>
-    <Height>6.30913in</Height>
+    <Height>6.68413in</Height>
     <Style />
   </Body>
   <Width>7.99423in</Width>
@@ -3175,6 +3287,10 @@
         </Field>
         <Field Name="HC_Cardiovascular">
           <DataField>HC_Cardiovascular</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CodigoEPSConvenio">
+          <DataField>CodigoEPSConvenio</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>

@@ -27,13 +27,13 @@ namespace ZamenisHealth.Recepcion.Extras
         {
             Titulo.Text = "Circular 016";
             LogoMain.Image = Properties.Resources.Splash;
+            ImageClose.Visible = false;
+            ImageMinimize.Visible = false;
 
             ToolStripButton btnGrabar = new ToolStripButton();
             btnGrabar = createToolButton("Grabar");
             MenuLateral.Items.Add(btnGrabar);
-            btnGrabar.Click += button3_Click;
-
-            
+            btnGrabar.Click += button3_Click;            
         }
 
         private void button3_Click(object sender, EventArgs e)

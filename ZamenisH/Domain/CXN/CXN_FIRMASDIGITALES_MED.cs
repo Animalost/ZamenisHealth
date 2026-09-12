@@ -13,6 +13,14 @@ namespace Domain.CXN
         public DateTime Fecha { get; set; }
         public string Usuario { get; set; }
         public string Tipo { get; set; }
+        public string QuienFirma { get; set; }
+        public bool Fotos { get; set; }
+        public string Acudiente { get; set; }
+        public string IdAcudiente { get; set; }
+        public string Parentesco { get; set; }
+        public string Telefono { get; set; }
+        public DateTime Hora { get; set; }
+
 
 
         public string IdPaciente { get; set; }

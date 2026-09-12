@@ -378,7 +378,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox13</rd:DefaultName>
-        <Top>17.42984cm</Top>
+        <Top>19.65234cm</Top>
         <Left>0.1825cm</Left>
         <Height>0.2384cm</Height>
         <Width>6.80705cm</Width>
@@ -522,10 +522,10 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>Por favor llegar a su cita 15 minutos antes para realizar la admision</Value>
+                <Value>Por favor llegar a su cita 20 minutos antes para realizar la admision</Value>
                 <Style>
                   <FontStyle>Italic</FontStyle>
-                  <FontSize>6pt</FontSize>
+                  <FontSize>12pt</FontSize>
                   <FontWeight>ExtraBold</FontWeight>
                 </Style>
               </TextRun>
@@ -538,7 +538,7 @@
         <rd:DefaultName>Textbox13</rd:DefaultName>
         <Top>16.90922cm</Top>
         <Left>0.18156cm</Left>
-        <Height>0.37069cm</Height>
+        <Height>1.5084cm</Height>
         <Width>6.80705cm</Width>
         <ZIndex>17</ZIndex>
         <Style>
@@ -767,13 +767,45 @@
           <VerticalAlign>Middle</VerticalAlign>
         </Style>
       </Textbox>
+      <Textbox Name="Textbox35">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>=First(Fields!Hor_Vales.Value, "DatosAdmision")</Value>
+                <Style>
+                  <FontSize>6pt</FontSize>
+                  <FontWeight>ExtraBold</FontWeight>
+                  <Color>Red</Color>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Center</TextAlign>
+            </Style>
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox13</rd:DefaultName>
+        <Top>18.7263cm</Top>
+        <Left>0.1825cm</Left>
+        <Height>0.37069cm</Height>
+        <Width>6.80705cm</Width>
+        <ZIndex>26</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Textbox>
     </ReportItems>
-    <Height>6.956in</Height>
+    <Height>7.831in</Height>
     <Style />
   </Body>
   <Width>2.86818in</Width>
   <Page>
-    <PageHeight>18cm</PageHeight>
+    <PageHeight>20.5cm</PageHeight>
     <PageWidth>8cm</PageWidth>
     <LeftMargin>0.1cm</LeftMargin>
     <RightMargin>0.1cm</RightMargin>

@@ -4539,9 +4539,9 @@
             this.panel1.Controls.Add(this.label10);
             this.panel1.Controls.Add(this.textBox7);
             this.panel1.Controls.Add(this.label9);
-            this.panel1.Location = new System.Drawing.Point(9, 199);
+            this.panel1.Location = new System.Drawing.Point(7, 196);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(890, 3817);
+            this.panel1.Size = new System.Drawing.Size(890, 313);
             this.panel1.TabIndex = 110;
             // 
             // toolStrip1
@@ -4912,10 +4912,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(920, 521);
-            this.ControlBox = false;
+            this.ClientSize = new System.Drawing.Size(902, 521);
             this.Controls.Add(this.requiereTxt);
             this.Controls.Add(this.dificilTxt);
             this.Controls.Add(this.mayorTxt);
@@ -4941,11 +4939,8 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBox1);
-            this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.KeyPreview = true;
             this.Name = "Historia_TerFisica";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Load += new System.EventHandler(this.Historia_TerFisica_Load);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();

@@ -59,9 +59,10 @@ namespace ZamenisHealth.Medicina.OrdenesHistory
                 if (!string.IsNullOrEmpty(textBox1.Text) && !string.IsNullOrEmpty(textBox2.Text) && 
                     !string.IsNullOrEmpty(textBox3.Text) && textBox3.Text != "0")
                 {
-                    dataGridView1.Rows.Add(textBox1.Text, textBox2.Text, textBox3.Text, checkBox1.Checked == true ? "S" : "N");
+                    dataGridView1.Rows.Add(textBox1.Text, textBox2.Text, textBox3.Text, checkBox1.Checked == true ? "S" : "N", textBox4.Text);
                     textBox1.Text = "";
                     textBox2.Text = "";
+                    textBox4.Text = "";
                 }
                 else
                 {
@@ -101,6 +102,7 @@ namespace ZamenisHealth.Medicina.OrdenesHistory
                                 string servicio = fila.Cells["SERVICIO"].Value?.ToString();
                                 string canti = fila.Cells["CANTIDAD"].Value?.ToString();
                                 string bilateral = fila.Cells["BILATERAL"].Value?.ToString();
+                                string detalles = fila.Cells["DETALLES"].Value?.ToString();
 
                                 Historia_MedicinaGeneral f1 = null;
                                 Historia_Fisiatria f2 = null;
@@ -124,7 +126,7 @@ namespace ZamenisHealth.Medicina.OrdenesHistory
                                     OM_Ase = datosAdm.Hor_Pac_Ase,
                                     OM_Cia = datosAdm.Hor_Pac_Cia,
                                     OM_Prof = Comunes.Contenedor.UsuarioLogueado,
-                                    OM_Desc = $"{cup} - {servicio}{Environment.NewLine + Environment.NewLine} CANTIDAD: {canti}",
+                                    OM_Desc = $"{cup} - {servicio}{Environment.NewLine + Environment.NewLine} CANTIDAD: {canti}{Environment.NewLine} {Environment.NewLine}DETALLES: {Environment.NewLine}{Environment.NewLine}{detalles}",
                                     OM_DX1 = Forma == "MEDGEN" ? f1.textBox39.Text : Forma == "FISIATRIA" ? f2.textBox52.Text : "",
                                     OM_DX2 = Forma == "MEDGEN" ? f1.textBox37.Text : Forma == "FISIATRIA" ? f2.textBox50.Text : "",
                                     OM_DX3 = Forma == "MEDGEN" ? f1.textBox35.Text : Forma == "FISIATRIA" ? f2.textBox48.Text : "",

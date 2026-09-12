@@ -421,24 +421,26 @@ namespace ZamenisHealth.Medicina
                     string unitario = row.Cells["Unitario"]?.Value?.ToString();
                     string total = row.Cells["Total"]?.Value?.ToString();
                     string descripcion = row.Cells["Descripcion"]?.Value?.ToString();
+                    string codigoeps = row.Cells["CodigoEPS"]?.Value?.ToString();
 
                     if (string.IsNullOrWhiteSpace(codigo) ||
                         string.IsNullOrWhiteSpace(item) ||
                         string.IsNullOrWhiteSpace(cantidad) ||
                         string.IsNullOrWhiteSpace(unitario) ||
                         string.IsNullOrWhiteSpace(total) ||
-                        string.IsNullOrWhiteSpace(descripcion))
+                        string.IsNullOrWhiteSpace(descripcion) ||
+                        string.IsNullOrWhiteSpace(codigoeps))
                     {
                         // Si alguna está vacía, omitimos esta fila y pasamos a la siguiente
                         continue;
                     }
 
-                    if (codigo == null || item == null || cantidad == null || unitario == null || total == null || descripcion == null)
+                    if (codigo == null || item == null || cantidad == null || unitario == null || total == null || descripcion == null || codigoeps == null)
                     {
                         TXTException T = new TXTException
                         {
                             FechaHora = DateTime.Now,
-                            Error = "No hay datos para grabar del cargo: " + textBox1.Text + " --> NO GRABADO",
+                            Error = "No hay datos para grabar del cargo: " + textBox1.Text + " --> NO GRABADO --> " + codigo,
                             Formulario = this.Name,
                             Metodo = OverridesExtern.GetCurrentMethodName(),
                             Usuario = Contenedor.UsuarioLogueado
@@ -481,7 +483,8 @@ namespace ZamenisHealth.Medicina
                                 Car_Item = P1.NombreProducto.Trim(),
                                 Car_Detalle = P1.DetalleProducto.Trim(),
                                 Car_Usr_Graba = Contenedor.UsuarioLogueado,
-                                Car_Tipo_Serv = Tipo
+                                Car_Tipo_Serv = Tipo,
+                                CarCodEPSConvenio = P1.CodigoEPS.ToString().Trim()
                             };
 
                             await repoCargos.SaveCargo(C);
@@ -603,6 +606,7 @@ namespace ZamenisHealth.Medicina
                         dataGridView2.Rows[e.RowIndex].Cells[1].Value = DatoProd.NombreProducto;
                         dataGridView2.Rows[e.RowIndex].Cells[3].Value = Convert.ToInt32(DatoProd.ValorProducto);
                         dataGridView2.Rows[e.RowIndex].Cells[5].Value = DatoProd.DetalleProducto;
+                        dataGridView2.Rows[e.RowIndex].Cells[6].Value = DatoProd.CodigoEPS;
 
                         if (dataGridView2.Rows[e.RowIndex].Cells[2].Value != null &&
                             !string.IsNullOrEmpty(dataGridView2.Rows[e.RowIndex].Cells[2].Value.ToString()) &&

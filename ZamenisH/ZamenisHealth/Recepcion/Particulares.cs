@@ -307,13 +307,9 @@ namespace ZamenisHealth.Recepcion
 
         (int valor, string item, string detalle) MethodFather(int ase, string code)
         {
-            (int valor, string item, string detalle) DatoProd = (0, "", "");
-
-            
-                DatoProd = repositorioInventario.ConsultarValor(Ase, code);
-            
-
-            return DatoProd;
+            (int valor, string item, string detalle, string codeps) DatoProd = repositorioInventario.ConsultarValor(Ase, code);
+            var dato = (DatoProd.valor, DatoProd.item, DatoProd.detalle);
+            return dato;
         }
 
         private void textBox5_TextChanged(object sender, EventArgs e)
@@ -1456,12 +1452,7 @@ namespace ZamenisHealth.Recepcion
         {
             try
             {
-                (int valor, string item, string detalle) datosProd = (0, "", "");
-
-                
-                    datosProd = repositorioInventario.ConsultarValor(Ase, Cod);
-                
-
+                (int valor, string item, string detalle, string codeps) datosProd = repositorioInventario.ConsultarValor(Ase, Cod);
                 return datosProd.valor;
             }
             catch
@@ -1469,6 +1460,5 @@ namespace ZamenisHealth.Recepcion
                 return 0;
             }
         }
-
     }
 }

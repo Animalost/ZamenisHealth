@@ -187,7 +187,7 @@ namespace ZamenisHealth.HistoriasClinicas
                     {
                         if (i.Key != "" || i.Key != null)
                         {
-                            (int valor, string item, string detalle) Dato = repositorioInventario.ConsultarValor(99, i.Key);
+                            (int valor, string item, string detalle, string codeeps) Dato = repositorioInventario.ConsultarValor(99, i.Key);
 
                             listView1.Items.Add(new ListViewItem(new string[] {
                                 i.Key,

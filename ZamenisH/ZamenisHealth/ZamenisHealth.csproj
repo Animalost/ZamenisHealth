@@ -37,8 +37,8 @@
     <SuiteName>Zamenis</SuiteName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>508</ApplicationRevision>
-    <ApplicationVersion>5.0.0.%2a</ApplicationVersion>
+    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationVersion>5.2.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -290,7 +290,9 @@
     <Reference Include="ShortLink.SDK, Version=1.0.7.0, Culture=neutral, PublicKeyToken=75ee8845ddd8c6ab, processorArchitecture=MSIL">
       <HintPath>packages\ShortLink.SDK.1.0.7\lib\netstandard2.0\ShortLink.SDK.dll</HintPath>
     </Reference>
-    <Reference Include="System" />
+    <Reference Include="System">
+      <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.dll</HintPath>
+    </Reference>
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
     </Reference>
@@ -1805,6 +1807,12 @@
     <Compile Include="Recepcion\AgendaDiaria\MenuOpcionesAgenda.Designer.cs">
       <DependentUpon>MenuOpcionesAgenda.cs</DependentUpon>
     </Compile>
+    <Compile Include="Recepcion\AgendaDiaria\RecibosAsociados.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Recepcion\AgendaDiaria\RecibosAsociados.Designer.cs">
+      <DependentUpon>RecibosAsociados.cs</DependentUpon>
+    </Compile>
     <Compile Include="Recepcion\AgendarCita.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -2002,12 +2010,6 @@
     </Compile>
     <Compile Include="Recepcion\Particulares.Designer.cs">
       <DependentUpon>Particulares.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Recepcion\ReportesRec.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Recepcion\ReportesRec.Designer.cs">
-      <DependentUpon>ReportesRec.cs</DependentUpon>
     </Compile>
     <Compile Include="Recepcion\Ventas\BuscarPaciente.cs">
       <SubType>Form</SubType>
@@ -2774,6 +2776,9 @@
     <EmbeddedResource Include="Recepcion\AgendaDiaria\MenuOpcionesAgenda.resx">
       <DependentUpon>MenuOpcionesAgenda.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Recepcion\AgendaDiaria\RecibosAsociados.resx">
+      <DependentUpon>RecibosAsociados.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Recepcion\AgendarCita.resx">
       <DependentUpon>AgendarCita.cs</DependentUpon>
     </EmbeddedResource>
@@ -2872,9 +2877,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Recepcion\Particulares.resx">
       <DependentUpon>Particulares.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Recepcion\ReportesRec.resx">
-      <DependentUpon>ReportesRec.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Recepcion\Ventas\BuscarPaciente.resx">
       <DependentUpon>BuscarPaciente.cs</DependentUpon>
@@ -2987,6 +2989,7 @@
     <EmbeddedResource Include="Reportes\RDLC_RADIOLOGIACOMPLETO.rdlc" />
     <EmbeddedResource Include="Reportes\RDLC_RcCaja.rdlc" />
     <EmbeddedResource Include="Reportes\RDLC_RcCajaImpTermica.rdlc" />
+    <EmbeddedResource Include="Reportes\RDLC_ReporteRecibosCaja.rdlc" />
     <EmbeddedResource Include="Reportes\RDLC_ReporteGeneralRecepcion.rdlc" />
     <EmbeddedResource Include="Reportes\RDLC_ServFacturados.rdlc" />
     <EmbeddedResource Include="Reportes\RDLC_SoportePagos.rdlc" />

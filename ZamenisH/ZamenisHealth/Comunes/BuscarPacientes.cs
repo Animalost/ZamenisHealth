@@ -359,7 +359,14 @@ namespace ZamenisHealth.Comunes
                         this.Dispose();
                         this.Close();
                         break;
-                        
+
+                    case "ConInf":
+                        HistoriasClinicas.Historia_MedicinaGeneral_2_2 f40 = Application.OpenForms.OfType<HistoriasClinicas.Historia_MedicinaGeneral_2_2>().LastOrDefault();
+                        f40.setDoc(Identidad);
+                        this.Dispose();
+                        this.Close();
+                        break;
+
 
                     default:
                         break;

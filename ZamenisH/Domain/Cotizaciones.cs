@@ -67,5 +67,6 @@ namespace Domain
         public string NombreProducto { get; set; }
         public int ValorProducto { get; set; }
         public string DetalleProducto { get; set; }
+        public string CodigoEPS { get; set; }
     }
 }

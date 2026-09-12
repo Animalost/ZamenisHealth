@@ -236,7 +236,8 @@ namespace ZamenisHealth.Medicina.OrdenesExtra
                     Hor_BloqEspaces = 0,
                     Hor_GrupoServicios = "01",
                     Hor_Regimen = DatosPaciente.Pac_Regimen,
-                    Hor_ArrastraHistoria = "N" 
+                    Hor_ArrastraHistoria = "N",
+                    Hor_Color = checkBox2.Checked == true ? "T" : "C"
                 };
 
                 int admTemp = horarioController.AgendarPaciente(H);
@@ -516,10 +517,11 @@ namespace ZamenisHealth.Medicina.OrdenesExtra
                 if (!string.IsNullOrEmpty(textBox8.Text) && !string.IsNullOrEmpty(textBox7.Text) &&
                     !string.IsNullOrEmpty(textBox6.Text) && textBox6.Text != "0")
                 {
-                    dataGridView2.Rows.Add(textBox8.Text, textBox7.Text, textBox6.Text, checkBox1.Checked == true ? "S" : "N");
+                    dataGridView2.Rows.Add(textBox8.Text, textBox7.Text, textBox6.Text, checkBox1.Checked == true ? "S" : "N", textBox10.Text);
                     textBox8.Text = "";
                     textBox7.Text = "";
                     textBox6.Text = "1";
+                    textBox10.Text = "";
                 }
                 else
                 {
@@ -634,6 +636,7 @@ namespace ZamenisHealth.Medicina.OrdenesExtra
                             string servicio = fila.Cells["SERVICIO"].Value?.ToString();
                             string canti = fila.Cells["CANT"].Value?.ToString();
                             string bilateral = fila.Cells["BILATERAL"].Value?.ToString();
+                            string detalles = fila.Cells["DETALLES"].Value?.ToString();
 
                             if (TServicio == "MG")
                             {
@@ -652,7 +655,7 @@ namespace ZamenisHealth.Medicina.OrdenesExtra
                                 OM_Ase = datosAdm.Hor_Pac_Ase,
                                 OM_Cia = datosAdm.Hor_Pac_Cia,
                                 OM_Prof = Comunes.Contenedor.UsuarioLogueado,
-                                OM_Desc = $"{cup} - {servicio}{Environment.NewLine + Environment.NewLine} CANTIDAD: {canti}",
+                                OM_Desc = $"{cup} - {servicio}{Environment.NewLine + Environment.NewLine} CANTIDAD: {canti}{Environment.NewLine} {Environment.NewLine}DETALLES: {Environment.NewLine}{Environment.NewLine}{detalles}",
                                 OM_DX1 = DX1,
                                 OM_DX2 = DX2,
                                 OM_DX3 = DX3,

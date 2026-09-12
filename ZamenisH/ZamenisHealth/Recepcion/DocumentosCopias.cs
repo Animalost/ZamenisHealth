@@ -273,14 +273,14 @@ namespace ZamenisHealth.Recepcion
                 if (comboBox4.Text == "Normal")
                 {
                     ConfigForm.GenerarReportViewer("DataSet_ReportGeneral",
-                                             "ZamenisHealth.Reportes.RDLC_ReporteGeneralRecepcion.rdlc",
+                                             "ZamenisHealth.Reportes.RDLC_ReporteRecibosCaja.rdlc",
                                              ExportaRpt);
                 }
                 else
                 {
                     List<ReportesRecepcion> ExportaRpt2 = ExportaRpt.Where(x => x.PacienteTelefono == comboBox4.Text).ToList();
                     ConfigForm.GenerarReportViewer("DataSet_ReportGeneral",
-                                            "ZamenisHealth.Reportes.RDLC_ReporteGeneralRecepcion.rdlc",
+                                            "ZamenisHealth.Reportes.RDLC_ReporteRecibosCaja.rdlc",
                                             ExportaRpt2);
                 }                
             }

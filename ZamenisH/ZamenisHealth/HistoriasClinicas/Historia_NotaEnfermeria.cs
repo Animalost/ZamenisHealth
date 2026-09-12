@@ -1,5 +1,6 @@
 ﻿using Domain;
 using Domain.CXN;
+using FormAndControls;
 using Persistence;
 using Persistence.CXN.Interfaces;
 using Persistence.CXN.Metodos;
@@ -16,7 +17,7 @@ using ZamenisHealth.Medicina.DocumentosWEB;
 
 namespace ZamenisHealth.HistoriasClinicas
 {
-    public partial class Historia_NotaEnfermeria : ConfigForm.BaseForm
+    public partial class Historia_NotaEnfermeria : Forma
     {
         private static readonly IPacientes repoPacs = new MPacientes();
         private static readonly IAgenda repoAgendaMedica = new MAgenda();
@@ -41,12 +42,17 @@ namespace ZamenisHealth.HistoriasClinicas
         private Extras.CondicionesP c;
         private MensajesGeneral MG;
         private string UrlEvento;
+        private ToolStripButton toolStripButton13;
+
+        public Historia_NotaEnfermeria()
+        {
+            InitializeComponent();
+        }
 
         private void toolStripButton10_Click(object sender, EventArgs e)
         {
             ActualizarPAC();
-        }
-        
+        }    
         private void textBox14_TextChanged(object sender, EventArgs e)
         {
             if (Mayus == true)
@@ -58,7 +64,6 @@ namespace ZamenisHealth.HistoriasClinicas
                 textBox14.CharacterCasing = CharacterCasing.Normal;
             }
         }
-
         private void textBox15_TextChanged(object sender, EventArgs e)
         {
             if (Mayus == true)
@@ -70,13 +75,11 @@ namespace ZamenisHealth.HistoriasClinicas
                 textBox15.CharacterCasing = CharacterCasing.Normal;
             }
         }
-
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
             Medicina.Historial_Medico_1 RM = new Medicina.Historial_Medico_1();
             RM.ShowDialog();
         }
-
         private void toolStripButton3_Click(object sender, EventArgs e)
         {
             try
@@ -99,7 +102,6 @@ namespace ZamenisHealth.HistoriasClinicas
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         private void toolStripButton8_Click(object sender, EventArgs e)
         {
             try
@@ -119,7 +121,6 @@ namespace ZamenisHealth.HistoriasClinicas
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         private void toolStripButton6_Click(object sender, EventArgs e)
         {
             Medicina.CambioManejoEnfermero CME = new Medicina.CambioManejoEnfermero();
@@ -130,7 +131,6 @@ namespace ZamenisHealth.HistoriasClinicas
             CME.textBox1.Enabled = false;
             CME.ShowDialog();
         }
-
         private void toolStripButton5_Click(object sender, EventArgs e)
         {
             try
@@ -169,7 +169,6 @@ namespace ZamenisHealth.HistoriasClinicas
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         private void toolStripButton7_Click(object sender, EventArgs e)
         {
             try
@@ -181,7 +180,6 @@ namespace ZamenisHealth.HistoriasClinicas
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         private void textBox6_Click(object sender, EventArgs e)
         {
             try
@@ -193,8 +191,7 @@ namespace ZamenisHealth.HistoriasClinicas
             {
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
-        }
-       
+        }   
         private void toolStripButton4_Click(object sender, EventArgs e)
         {
             Medicina.PlantillasEnfermeria Historia_Notas_Plantilla = new Medicina.PlantillasEnfermeria();
@@ -205,29 +202,7 @@ namespace ZamenisHealth.HistoriasClinicas
             Historia_Notas_Plantilla.btnGrabar.Enabled = false;
             Historia_Notas_Plantilla.dataGridView1.Enabled = true;
             Historia_Notas_Plantilla.ShowDialog();
-        }
-        private void CargarServicioMedico()
-        {
-            try
-            {
-                var getInfo = repoAgendaMedica.SugerenciaServicio(Paciente);
-                if (getInfo != null)
-                {
-                    textBox22.Text = getInfo["Cup"];
-                    textBox20.Text = getInfo["Servicio"];
-                }
-                else
-                {
-                    textBox22.Text = "";
-                    textBox20.Text = "";
-                }
-            }
-            catch (Exception ex)
-            {
-                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
-            }
-        }
-
+        }   
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
             try
@@ -445,6 +420,8 @@ namespace ZamenisHealth.HistoriasClinicas
                                 }
                             }
 
+                            repoPacs.setEnfermedades(Paciente, comboBox1.Text == "Positivo" ? "S" : "N", comboBox2.Text);
+
                             repoAgendaMedica.Graba_Hora_Salida(Admision);
                             Medicina.AgendaM f2 = Application.OpenForms.OfType<Medicina.AgendaM>().LastOrDefault();
                             f2.Cargar_Agenda();
@@ -459,7 +436,6 @@ namespace ZamenisHealth.HistoriasClinicas
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         void InsertarHistoria()
         {
             try
@@ -673,13 +649,11 @@ namespace ZamenisHealth.HistoriasClinicas
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         private void button4_Click(object sender, EventArgs e)
         {
             richTextBox1.Text = "No se usaron apositos en esta curacion";
             richTextBox1.Text = richTextBox1.Text;
         }
-
         private void button3_Click(object sender, EventArgs e)
         {
             textBox18.Text = "";
@@ -689,7 +663,6 @@ namespace ZamenisHealth.HistoriasClinicas
             Medicina.ActualizarPaciente Historia_Edita_Paciente = new Medicina.ActualizarPaciente(Paciente);
             Historia_Edita_Paciente.ShowDialog();
         }
-
         private void Diagnosticos(int Paciente)
         {
             try
@@ -717,7 +690,68 @@ namespace ZamenisHealth.HistoriasClinicas
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
+        void CargarBotones()
+        {
+            ToolStripButton toolStripButton10 = new ToolStripButton();
+            toolStripButton10 = createToolButton("Datos Pacientes");
+            MenuLateral.Items.Add(toolStripButton10);
+            toolStripButton10.Click += toolStripButton10_Click;
 
+            ToolStripButton toolStripButton11 = new ToolStripButton();
+            toolStripButton11 = createToolButton("Adherencia");
+            MenuLateral.Items.Add(toolStripButton11);
+            toolStripButton11.Click += toolStripButton11_Click;
+
+            ToolStripButton toolStripButton9 = new ToolStripButton();
+            toolStripButton9 = createToolButton("Documentos WEB");
+            MenuLateral.Items.Add(toolStripButton9);
+            toolStripButton9.Click += toolStripButton9_Click;
+
+            ToolStripButton toolStripButton1 = new ToolStripButton();
+            toolStripButton1 = createToolButton("Grabar");
+            MenuLateral.Items.Add(toolStripButton1);
+            toolStripButton1.Click += toolStripButton1_Click;
+
+            ToolStripButton toolStripButton2 = new ToolStripButton();
+            toolStripButton2 = createToolButton("Historia Clinica");
+            MenuLateral.Items.Add(toolStripButton2);
+            toolStripButton2.Click += toolStripButton2_Click;
+
+            toolStripButton13 = new ToolStripButton();
+            toolStripButton13 = createToolButton("Ver IHCE");
+            MenuLateral.Items.Add(toolStripButton13);
+            toolStripButton13.Click += toolStripButton13_Click;
+
+            ToolStripButton toolStripButton8 = new ToolStripButton();
+            toolStripButton8 = createToolButton("Resumen Historia");
+            MenuLateral.Items.Add(toolStripButton8);
+            toolStripButton8.Click += toolStripButton8_Click;
+
+            ToolStripButton toolStripButton6 = new ToolStripButton();
+            toolStripButton6 = createToolButton("Cambios de Manejo");
+            MenuLateral.Items.Add(toolStripButton6);
+            toolStripButton6.Click += toolStripButton6_Click;
+
+            ToolStripButton toolStripButton5 = new ToolStripButton();
+            toolStripButton5 = createToolButton("Traer Ultima");
+            MenuLateral.Items.Add(toolStripButton5);
+            toolStripButton5.Click += toolStripButton5_Click;
+
+            ToolStripButton toolStripButton4 = new ToolStripButton();
+            toolStripButton4 = createToolButton("Cargar Plantilla");
+            MenuLateral.Items.Add(toolStripButton4);
+            toolStripButton4.Click += toolStripButton4_Click;
+
+            ToolStripButton toolStripButton7 = new ToolStripButton();
+            toolStripButton7 = createToolButton("Tratamiento");
+            MenuLateral.Items.Add(toolStripButton7);
+            toolStripButton7.Click += toolStripButton7_Click;
+
+            ToolStripButton toolStripButton12 = new ToolStripButton();
+            toolStripButton12 = createToolButton("Mensajero");
+            MenuLateral.Items.Add(toolStripButton12);
+            toolStripButton12.Click += toolStripButton12_Click;
+        }
         private void Historia_NotaEnfermeria_Load(object sender, EventArgs e)
         {
             try
@@ -729,8 +763,14 @@ namespace ZamenisHealth.HistoriasClinicas
                     linkLabel1.Visible = true;
                 }
 
-                Titulo.Visible = false;
+                Titulo.Text = "Nota de Enfermeria";
+                LogoMain.Image = Properties.Resources.Splash;
+                SubTitulo.Text = $"Zamenis Health {Conexion.VersionApp}";
+
+                CargarBotones();
+
                 ImageClose.Visible = false;
+                ImageMinimize.Visible = false;
 
                 if (repoConfSystem.getListado()["IHCE"] != "A")
                 {
@@ -766,6 +806,9 @@ namespace ZamenisHealth.HistoriasClinicas
                 textBox23.Text = DatosAdmision.Hor_Observacion;
                 PACSAL = DatosAdmision.Hor_Pac_Sal;
 
+                comboBox1.Text = DatosAdmision.VIH;
+                comboBox2.Text = DatosAdmision.Hepatitis;
+
                 var VAl = repoConvenios.ServicioNombre(CUP, Ase, TSERV);
                 if (VAl == null)
                 {
@@ -784,8 +827,8 @@ namespace ZamenisHealth.HistoriasClinicas
                 Valor = VAl.Con_Valor;
                 Serv = VAl.Con_Nombre;
 
-                //textBox20.Text = Serv.ToString();
-                //textBox22.Text = CUP.ToString();
+                textBox20.Text = Serv.ToString();
+                textBox22.Text = DatosAdmision.Hor_Pac_Cup.ToString(); 
                 textBox1.Text = Admision.ToString();
                 textBox2.Text = DatosAdmision.Hor_Imp_Age.ToString();
                 textBox3.Text = Convert.ToDateTime(DatosAdmision.Pac_FechaNto).ToString(Conexion.ConectionDictionary["Format_Fecha"]);
@@ -872,7 +915,11 @@ namespace ZamenisHealth.HistoriasClinicas
                     button2.Visible = true;
                 }
 
-                CargarServicioMedico();
+                pictureBox1.Cursor = Cursors.Hand;
+                pictureBox1.Image = Properties.Resources.cerca;
+                pictureBox1.BringToFront();
+                pictureBox1.Click += toolStripButton3_Click;
+
                 CargarCantidades();
                 ActualizarPAC();
                 randomEncuestaSatisfaccion();
@@ -882,7 +929,6 @@ namespace ZamenisHealth.HistoriasClinicas
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         void CargarOpcionesRecomendaciones()
         {
             try
@@ -1034,17 +1080,14 @@ namespace ZamenisHealth.HistoriasClinicas
                 OverridesExtern.GenerarTXTException(T);
             }
         }
-
         private void button1_Click(object sender, EventArgs e)
         {
             textBox8.Text = ""; textBox10.Text = "";
         }
-
         private void button5_Click(object sender, EventArgs e)
         {
             textBox9.Text = ""; textBox11.Text = "";
         }
-
         private void textBox8_Click(object sender, EventArgs e)
         {
             try
@@ -1057,7 +1100,6 @@ namespace ZamenisHealth.HistoriasClinicas
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         private void textBox9_Click(object sender, EventArgs e)
         {
             try
@@ -1070,12 +1112,10 @@ namespace ZamenisHealth.HistoriasClinicas
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         private void label23_Click(object sender, EventArgs e)
         {
             openConditions("CAIDA");
         }
-
         void openConditions(string Tipo)
         {
             c = new CondicionesP(Tipo, this.Paciente);
@@ -1083,57 +1123,47 @@ namespace ZamenisHealth.HistoriasClinicas
 
             CargarOpcionesRecomendaciones();
         }
-
         private void label24_Click(object sender, EventArgs e)
         {
             openConditions("INFECCION");
         }
-
         private void label26_Click(object sender, EventArgs e)
         {
             openConditions("DETERIORO DE LA PIEL");
         }
-
         private void label25_Click(object sender, EventArgs e)
         {
             Alergias c = new Alergias("ALERGIA", this.Paciente);
             c.ShowDialog();
             CargarOpcionesRecomendaciones();
         }
-
         private void label28_Click(object sender, EventArgs e)
         {
             openConditions("DIFICULTAD DE COMUNICACION");
         }
-
         private void label27_Click(object sender, EventArgs e)
         {
             openConditions("PACIENTE PSIQUIATRICO");
         }
-
         private void label30_Click(object sender, EventArgs e)
         {
             openConditions("MAYOR DE 70 AÑOS");
         }
-
         private void button2_Click(object sender, EventArgs e)
         {
             Extras.CargosCuraciones cargosCuraciones = new CargosCuraciones(Admision);
             cargosCuraciones.ShowDialog();
         }
-
         private void toolStripButton9_Click(object sender, EventArgs e)
         {
             MenuDocWeb M = new MenuDocWeb();
             M.ShowDialog();
         }
-
         private void toolStripButton13_Click(object sender, EventArgs e)
         {
             FrontFHIR.VisorZamenis.VerRDA ass = new FrontFHIR.VisorZamenis.VerRDA(false, CMANTID, CMANID);
             ass.ShowDialog();
         }
-
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             try
@@ -1145,17 +1175,14 @@ namespace ZamenisHealth.HistoriasClinicas
                 MessageBox.Show(ex.Message);
             }
         }
-
         private void label29_Click(object sender, EventArgs e)
         {
             openConditions("PACIENTE DIFICIL");
         }
-
         private void label31_Click(object sender, EventArgs e)
         {
             openConditions("MEDICO LO REQUIERE");
         }
-
         string Capitalize(int Mes)
         {
             switch(Mes)
@@ -1188,7 +1215,6 @@ namespace ZamenisHealth.HistoriasClinicas
                     return "";
             }
         }
-
         void randomEncuestaSatisfaccion()
         {
             try
@@ -1230,7 +1256,6 @@ namespace ZamenisHealth.HistoriasClinicas
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         private void CargarCantidades()
         {
             try
@@ -1241,8 +1266,7 @@ namespace ZamenisHealth.HistoriasClinicas
             {
                 textBox21.Text = "Fallo en el calculo de sesiones, no hay registros de autorizaciones ingresados";
             }
-        }
-        
+        }     
         private void textBox16_TextChanged(object sender, EventArgs e)
         {
             if (Mayus == true)
@@ -1254,7 +1278,6 @@ namespace ZamenisHealth.HistoriasClinicas
                 textBox16.CharacterCasing = CharacterCasing.Normal;
             }
         }
-
         private void textBox18_TextChanged(object sender, EventArgs e)
         {
             if (Mayus == true)
@@ -1266,26 +1289,16 @@ namespace ZamenisHealth.HistoriasClinicas
                 textBox18.CharacterCasing = CharacterCasing.Normal;
             }
         }
-
         private void toolStripButton11_Click(object sender, EventArgs e)
         {
             Medicina.Adherencia historia_Notas_Adherencia = new Medicina.Adherencia("Notas");
             historia_Notas_Adherencia.ShowDialog();
             richTextBox1.Text = richTextBox1.Text;
         }
-
         private void toolStripButton12_Click(object sender, EventArgs e)
         {
             Comunes.MensajeroSend S = new Comunes.MensajeroSend();
             S.ShowDialog();
-        }
-
-        public Historia_NotaEnfermeria()
-        {
-            InitializeComponent();
-
-            
-            ConfigForm.MoverForma(panel3, this);
-        }
+        }       
     }
 }

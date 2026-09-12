@@ -33,6 +33,7 @@ namespace ZamenisHealth.HistoriasClinicas.Extras
         DataColumn Cantidad;
         DataColumn Detalle;
         DataColumn VrUnitario;
+        DataColumn CodigoEPS;
 
         public CargosCuraciones(int admision)
         {
@@ -76,7 +77,6 @@ namespace ZamenisHealth.HistoriasClinicas.Extras
 
             comboBox1.SelectedIndex = 0;
         }
-
         private void button1_Click(object sender, EventArgs e)
         {
             try
@@ -96,7 +96,6 @@ namespace ZamenisHealth.HistoriasClinicas.Extras
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         async void Grabar()
         {
             try
@@ -113,22 +112,24 @@ namespace ZamenisHealth.HistoriasClinicas.Extras
                     string cantidad = row.Cells["Cantidad"]?.Value?.ToString();
                     string unitario = row.Cells["VrUnitario"]?.Value?.ToString();
                     string detalle = row.Cells["Detalle"]?.Value?.ToString();
+                    string codigoeps = row.Cells["CodigoEPS"]?.Value?.ToString();
 
                     if (string.IsNullOrWhiteSpace(codigo) ||
                         string.IsNullOrWhiteSpace(item) ||
                         string.IsNullOrWhiteSpace(cantidad) ||
-                        string.IsNullOrWhiteSpace(unitario))
+                        string.IsNullOrWhiteSpace(unitario) || 
+                        string.IsNullOrWhiteSpace(codigoeps))
                     {
                         // Si alguna está vacía, omitimos esta fila y pasamos a la siguiente
                         continue;
                     }
 
-                    if (codigo == null || item == null || cantidad == null || unitario == null)
+                    if (codigo == null || item == null || cantidad == null || unitario == null || codigoeps == null)
                     {
                         TXTException T = new TXTException
                         {
                             FechaHora = DateTime.Now,
-                            Error = "No hay datos para grabar del cargo: " + Admision.ToString() + " --> NO GRABADO",
+                            Error = "No hay datos para grabar del cargo: " + Admision.ToString() + " --> NO GRABADO " + codigo,
                             Formulario = this.Name,
                             Metodo = OverridesExtern.GetCurrentMethodName(),
                             Usuario = Contenedor.UsuarioLogueado
@@ -155,7 +156,8 @@ namespace ZamenisHealth.HistoriasClinicas.Extras
                             Car_Item = item.Trim(),
                             Car_Detalle = detalle.Trim(),
                             Car_Usr_Graba = Contenedor.UsuarioLogueado,
-                            Car_Tipo_Serv = TipoServicio.Trim()
+                            Car_Tipo_Serv = TipoServicio.Trim(),
+                            CarCodEPSConvenio = codigoeps.ToString().Trim()
                         };
 
                         await repoCargos.SaveCargo(C);
@@ -177,7 +179,6 @@ namespace ZamenisHealth.HistoriasClinicas.Extras
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         private void Encabezados()
         {
             try
@@ -190,13 +191,13 @@ namespace ZamenisHealth.HistoriasClinicas.Extras
                 Cantidad = dt.Columns.Add("Cantidad", typeof(int));
                 Detalle = dt.Columns.Add("Detalle", typeof(string));
                 VrUnitario = dt.Columns.Add("VrUnitario", typeof(int));
+                CodigoEPS = dt.Columns.Add("CodigoEPS", typeof(string));
             }
             catch (Exception ex)
             {
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             try
@@ -235,7 +236,8 @@ namespace ZamenisHealth.HistoriasClinicas.Extras
 
                     dr[Detalle] = item.InvDetalle;
                     dr[VrUnitario] = Convert.ToInt32(item.InvPrecio);
-                    
+                    dr[CodigoEPS] = Convert.ToInt32(item.InvImagen);
+
                     dt.Rows.Add(dr);
                     dt.AcceptChanges();
 
@@ -289,6 +291,7 @@ namespace ZamenisHealth.HistoriasClinicas.Extras
             D.Columns["POS"].Visible = false;
             D.Columns["Detalle"].Visible = false;
             D.Columns["VrUnitario"].Visible = false;
+            D.Columns["CodigoEPS"].Visible = false;            
 
             foreach (DataGridViewRow row in D.Rows)
             {

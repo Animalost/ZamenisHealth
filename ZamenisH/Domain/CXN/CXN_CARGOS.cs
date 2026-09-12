@@ -37,5 +37,6 @@ namespace Domain.CXN
         public string Car_ICA { get; set; }
         public string Car_RetFte { get; set; }
         public int Car_CodeEgreso { get; set; }
+        public string CarCodEPSConvenio { get; set; }   
     }
 }

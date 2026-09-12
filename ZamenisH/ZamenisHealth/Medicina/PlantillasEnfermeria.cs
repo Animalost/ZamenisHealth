@@ -70,9 +70,9 @@ namespace ZamenisHealth.Medicina
                     }
 
                     dataGridView1.DataSource = dt;
-                    dataGridView1.Columns["Nota"].Width = 100;
-                    dataGridView1.Columns["Observacion"].Width = 100;
-                    dataGridView1.Columns["Recomendacion"].Width = 100;
+                    dataGridView1.Columns["Nota"].Width = 200;
+                    dataGridView1.Columns["Observacion"].Width = 200;
+                    dataGridView1.Columns["Recomendacion"].Width = 2000;
                     dataGridView1.Columns["Nota"].SortMode = DataGridViewColumnSortMode.NotSortable;
                     dataGridView1.Columns["Observacion"].SortMode = DataGridViewColumnSortMode.NotSortable;
                     dataGridView1.Columns["Recomendacion"].SortMode = DataGridViewColumnSortMode.NotSortable;

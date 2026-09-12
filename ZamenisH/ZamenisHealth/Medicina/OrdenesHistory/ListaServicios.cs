@@ -51,7 +51,7 @@ namespace ZamenisHealth.Medicina.OrdenesHistory
             gridZH1.dataGridView1.CellDoubleClick += dataGridView1_CellDoubleClick;
             gridZH1.CeldaHeight = true;
 
-            CargarServicios("");
+            //CargarServicios("");
         }
         void Encabezados()
         {
@@ -70,48 +70,55 @@ namespace ZamenisHealth.Medicina.OrdenesHistory
         {
             try
             {
-                List<CXN_CUP> L = new List<CXN_CUP>();
-
-                List<CXN_CONVENIOS> listaCon = convenios.getConvenios();
-                if (listaCon != null)
+                if (!string.IsNullOrEmpty(Texto))
                 {
-                    var sinDuplicados = listaCon.GroupBy(x => x.Con_Id_Serv).Select(g => g.First()).ToList();
+                    List<CXN_CUP> L = new List<CXN_CUP>();
 
-                    foreach (CXN_CONVENIOS c in sinDuplicados)
+                    List<CXN_CONVENIOS> listaCon = convenios.getConvenios();
+                    if (listaCon != null)
                     {
-                        L.Add(new CXN_CUP 
-                        { 
-                            CUP = c.Con_Id_Serv,
-                            Servicio = c.Con_Nombre
-                        });
-                    }                    
-                }
+                        var sinDuplicados = listaCon.GroupBy(x => x.Con_Id_Serv).Select(g => g.First()).ToList();
 
-                List<CXN_CUP> listado = cIE10.GetLista(Texto);
-                if (listado != null) 
-                {
-                    L.AddRange(listado);
-
-                    Encabezados();
-
-                    int Contador = 1;
-
-                    foreach (var i in L)
-                    {
-                        DataRow row = dt.NewRow();
-
-                        row[POS] = Contador;
-                        row[Cup] = i.CUP.ToString();
-                        row[Servicio] = i.Servicio.ToString();
-
-                        dt.Rows.Add(row);
-                        dt.AcceptChanges();
-
-                        Contador = Contador + 1;
+                        foreach (CXN_CONVENIOS c in sinDuplicados)
+                        {
+                            L.Add(new CXN_CUP
+                            {
+                                CUP = c.Con_Id_Serv,
+                                Servicio = c.Con_Nombre
+                            });
+                        }
                     }
 
-                    Contador = 1;
-                    Estilos(gridZH1.dataGridView1, dt);
+                    List<CXN_CUP> listado = cIE10.GetLista(Texto);
+                    if (listado != null)
+                    {
+                        L.AddRange(listado);
+
+                        Encabezados();
+
+                        int Contador = 1;
+
+                        foreach (var i in L)
+                        {
+                            DataRow row = dt.NewRow();
+
+                            row[POS] = Contador;
+                            row[Cup] = i.CUP.ToString();
+                            row[Servicio] = i.Servicio.ToString();
+
+                            dt.Rows.Add(row);
+                            dt.AcceptChanges();
+
+                            Contador = Contador + 1;
+                        }
+
+                        Contador = 1;
+                        Estilos(gridZH1.dataGridView1, dt);
+                    }
+                    else
+                    {
+                        Encabezados();
+                    }
                 }
                 else
                 {

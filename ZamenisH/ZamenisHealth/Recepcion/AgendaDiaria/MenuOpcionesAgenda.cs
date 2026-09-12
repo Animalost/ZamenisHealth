@@ -24,7 +24,6 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
         private ICompañia repoCompañia;
         private IReportes repoReportes;
         private IFirmasDigitales repoFirmas;
-        private IRcCaja repoRcCaja;
         private IPacientes repoPacientes;
         private IBodegas repoBodegas;
 
@@ -52,7 +51,6 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
             repoCompañia = new MCompañia();
             repoReportes = new MReportes();
             repoFirmas = new MFirmasDigitales();
-            repoRcCaja = new MRcCaja();
             repoPacientes = new MPacientes();
             repoBodegas = new MBodegas();
             CodePrestador = codePrestador;
@@ -707,21 +705,8 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
             {
                 if (getCita.Hor_Estado != "A")
                 {
-                    List<RCCAJA> Exporta = repoRcCaja.ReciboRpt(Convert.ToInt32(Admision));
-                    if (Exporta != null)
-                    {
-                        ConfigForm.GenerarReportViewer("ReciboCajaDataset", "ZamenisHealth.Reportes.RDLC_RcCajaImpTermica.rdlc", Exporta);
-                    }
-                    else
-                    {
-                        MG = new MensajesGeneral()
-                        {
-                            Mensaje = "Hubo un inconveniente con este recibo, ingrese por copias recepcion o consulte el administrador del sistema",
-                            TipoImagen = 1000
-                        };
-
-                        MG.ShowDialog();
-                    }
+                    RecibosAsociados RA = new RecibosAsociados(Convert.ToInt32(Admision));
+                    RA.ShowDialog();          
                 }
                 else
                 {
@@ -1023,7 +1008,7 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
         }
         private void boton24_Click(object sender, EventArgs e)
         {
-            repoAgenda2.UpdatecolorCita(Convert.ToDateTime(FechaSeleccionada), Convert.ToInt32(CodePaciente), "");
+            repoAgenda2.UpdatecolorCita(Convert.ToDateTime(FechaSeleccionada), Convert.ToInt32(CodePaciente), "T");
             f7.EventoInicial();
             this.Close();
         }

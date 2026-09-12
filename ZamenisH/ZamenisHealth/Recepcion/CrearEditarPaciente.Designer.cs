@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CrearEditarPaciente));
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
@@ -94,22 +93,8 @@
             this.comboBox3 = new System.Windows.Forms.ComboBox();
             this.textBox7 = new System.Windows.Forms.TextBox();
             this.textBox8 = new System.Windows.Forms.TextBox();
-            this.pictureBox6 = new System.Windows.Forms.PictureBox();
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
-            this.btnZamenis1 = new System.Windows.Forms.ToolStripButton();
-            this.btnZamenis2 = new System.Windows.Forms.ToolStripButton();
             this.modernPanel1 = new ZamenisHealth.Clases.Controles.ModernPanel();
-            this.button1 = new System.Windows.Forms.ToolStripButton();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
-            this.panel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-            this.toolStrip1.SuspendLayout();
             this.modernPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -222,9 +207,9 @@
             this.panel1.Controls.Add(this.comboBox3);
             this.panel1.Controls.Add(this.textBox7);
             this.panel1.Controls.Add(this.textBox8);
-            this.panel1.Location = new System.Drawing.Point(143, 137);
+            this.panel1.Location = new System.Drawing.Point(139, 131);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(636, 616);
+            this.panel1.Size = new System.Drawing.Size(636, 566);
             this.panel1.TabIndex = 110;
             // 
             // comboBox7
@@ -893,126 +878,6 @@
             this.textBox8.Size = new System.Drawing.Size(440, 26);
             this.textBox8.TabIndex = 9;
             // 
-            // pictureBox6
-            // 
-            this.pictureBox6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(55)))), ((int)(((byte)(90)))));
-            this.pictureBox6.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pictureBox6.Image = global::ZamenisHealth.Properties.Resources.Splash;
-            this.pictureBox6.Location = new System.Drawing.Point(43, 5);
-            this.pictureBox6.Name = "pictureBox6";
-            this.pictureBox6.Size = new System.Drawing.Size(50, 50);
-            this.pictureBox6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox6.TabIndex = 317;
-            this.pictureBox6.TabStop = false;
-            // 
-            // panel3
-            // 
-            this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel3.Controls.Add(this.label1);
-            this.panel3.Controls.Add(this.label2);
-            this.panel3.Controls.Add(this.pictureBox2);
-            this.panel3.Location = new System.Drawing.Point(138, 0);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(650, 56);
-            this.panel3.TabIndex = 316;
-            // 
-            // label1
-            // 
-            this.label1.BackColor = System.Drawing.Color.White;
-            this.label1.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.label1.Location = new System.Drawing.Point(34, 32);
-            this.label1.Name = "label1";
-            this.label1.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.label1.Size = new System.Drawing.Size(137, 23);
-            this.label1.TabIndex = 305;
-            this.label1.Text = "Zamenis Health";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label2
-            // 
-            this.label2.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.label2.Location = new System.Drawing.Point(-2, -2);
-            this.label2.Name = "label2";
-            this.label2.Padding = new System.Windows.Forms.Padding(30, 0, 0, 0);
-            this.label2.Size = new System.Drawing.Size(301, 43);
-            this.label2.TabIndex = 304;
-            this.label2.Text = "Crear o Editar Pacientes";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // pictureBox2
-            // 
-            this.pictureBox2.BackColor = System.Drawing.Color.White;
-            this.pictureBox2.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pictureBox2.Image = global::ZamenisHealth.Properties.Resources2.cerca;
-            this.pictureBox2.Location = new System.Drawing.Point(593, 14);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(25, 25);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox2.TabIndex = 306;
-            this.pictureBox2.TabStop = false;
-            this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
-            // 
-            // toolStrip1
-            // 
-            this.toolStrip1.AutoSize = false;
-            this.toolStrip1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(55)))), ((int)(((byte)(90)))));
-            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButton2,
-            this.button1,
-            this.btnZamenis1,
-            this.btnZamenis2});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(140, 753);
-            this.toolStrip1.TabIndex = 315;
-            // 
-            // toolStripButton2
-            // 
-            this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton2.Enabled = false;
-            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
-            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton2.Margin = new System.Windows.Forms.Padding(0, 1, 0, 10);
-            this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Padding = new System.Windows.Forms.Padding(0, 20, 0, 25);
-            this.toolStripButton2.Size = new System.Drawing.Size(138, 49);
-            // 
-            // btnZamenis1
-            // 
-            this.btnZamenis1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(85)))), ((int)(((byte)(120)))));
-            this.btnZamenis1.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.btnZamenis1.Image = global::ZamenisHealth.Properties.Resources.Administracion;
-            this.btnZamenis1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnZamenis1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnZamenis1.Margin = new System.Windows.Forms.Padding(0, 5, 0, 0);
-            this.btnZamenis1.Name = "btnZamenis1";
-            this.btnZamenis1.Padding = new System.Windows.Forms.Padding(0, 10, 0, 10);
-            this.btnZamenis1.Size = new System.Drawing.Size(138, 40);
-            this.btnZamenis1.Text = "Grabar";
-            this.btnZamenis1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnZamenis1.ToolTipText = "Generar Orden de Pedido";
-            this.btnZamenis1.Visible = false;
-            // 
-            // btnZamenis2
-            // 
-            this.btnZamenis2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(85)))), ((int)(((byte)(120)))));
-            this.btnZamenis2.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.btnZamenis2.Image = global::ZamenisHealth.Properties.Resources.Administracion;
-            this.btnZamenis2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnZamenis2.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnZamenis2.Margin = new System.Windows.Forms.Padding(0, 5, 0, 0);
-            this.btnZamenis2.Name = "btnZamenis2";
-            this.btnZamenis2.Padding = new System.Windows.Forms.Padding(0, 10, 0, 10);
-            this.btnZamenis2.Size = new System.Drawing.Size(138, 40);
-            this.btnZamenis2.Text = "Editar";
-            this.btnZamenis2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnZamenis2.ToolTipText = "Generar Orden de Pedido";
-            this.btnZamenis2.Visible = false;
-            // 
             // modernPanel1
             // 
             this.modernPanel1.AutoScroll = true;
@@ -1023,47 +888,23 @@
             this.modernPanel1.Controls.Add(this.comboBox1);
             this.modernPanel1.Controls.Add(this.textBox1);
             this.modernPanel1.Gradient = true;
-            this.modernPanel1.Location = new System.Drawing.Point(143, 62);
+            this.modernPanel1.Location = new System.Drawing.Point(139, 56);
             this.modernPanel1.Name = "modernPanel1";
             this.modernPanel1.Size = new System.Drawing.Size(636, 72);
             this.modernPanel1.TabIndex = 318;
-            // 
-            // button1
-            // 
-            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(85)))), ((int)(((byte)(120)))));
-            this.button1.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.button1.Image = global::ZamenisHealth.Properties.Resources.Administracion;
-            this.button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.button1.Margin = new System.Windows.Forms.Padding(0, 5, 0, 0);
-            this.button1.Name = "button1";
-            this.button1.Padding = new System.Windows.Forms.Padding(0, 10, 0, 10);
-            this.button1.Size = new System.Drawing.Size(138, 40);
-            this.button1.Text = "Buscar";
-            this.button1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button1.ToolTipText = "Generar Orden de Pedido";
-            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // CrearEditarPaciente
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(785, 753);
+            this.ClientSize = new System.Drawing.Size(784, 705);
             this.Controls.Add(this.modernPanel1);
-            this.Controls.Add(this.pictureBox6);
-            this.Controls.Add(this.panel3);
-            this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.panel1);
             this.Name = "CrearEditarPaciente";
             this.Load += new System.EventHandler(this.CrearEditarPaciente_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
-            this.panel3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
             this.modernPanel1.ResumeLayout(false);
             this.modernPanel1.PerformLayout();
             this.ResumeLayout(false);
@@ -1128,15 +969,6 @@
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.ComboBox comboBox6;
         private System.Windows.Forms.Label label22;
-        private System.Windows.Forms.PictureBox pictureBox6;
-        private System.Windows.Forms.Panel panel3;
-        public System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.PictureBox pictureBox2;
-        private System.Windows.Forms.ToolStrip toolStrip1;
-        private System.Windows.Forms.ToolStripButton toolStripButton2;
-        private System.Windows.Forms.ToolStripButton btnZamenis1;
-        private System.Windows.Forms.ToolStripButton btnZamenis2;
         private Clases.Controles.ModernPanel modernPanel1;
         private System.Windows.Forms.Label label24;
         private System.Windows.Forms.Label label25;
@@ -1146,6 +978,5 @@
         private System.Windows.Forms.Label label38;
         private System.Windows.Forms.ComboBox comboBox9;
         private System.Windows.Forms.Label label39;
-        private System.Windows.Forms.ToolStripButton button1;
     }
 }

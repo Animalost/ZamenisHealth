@@ -494,7 +494,7 @@ namespace ZamenisHealth.HistoriasClinicas
                     textBox19.Text = getlast.HC_Ant.ToString();
                     textBox59.Text = getlast.HC_Epidemia.ToString();
 
-                    textBox20.Text = getlast.HC_Acudiente.ToString();
+                        textBox20.Text = getlast.HC_Acudiente.ToString();
                     textBox21.Text = getlast.HC_Presart.ToString();
                     textBox22.Text = getlast.HC_Peso.ToString();
                     textBox23.Text = getlast.HC_Frecar.ToString();
@@ -518,7 +518,7 @@ namespace ZamenisHealth.HistoriasClinicas
                     textBox37.Text = getlast.HC_Cuello.ToString();
                     textBox38.Text = getlast.HC_Torax.ToString();
                     textBox39.Text = getlast.HC_Pulmonar.ToString();
-                    textBox40.Text = getlast.HC_Abdomen.ToString();
+                        textBox40.Text = getlast.HC_Abdomen.ToString();
                     //textBox41.Text = getlast.HC_Ombligo.ToString();
                     //textBox42.Text = getlast.HC_Ano.ToString();
                     //textBox43.Text = getlast.HC_Genitales.ToString();
@@ -526,24 +526,24 @@ namespace ZamenisHealth.HistoriasClinicas
                     textBox45.Text = getlast.HC_OsteoMUS.ToString();
                     textBox46.Text = getlast.HC_Piel2.ToString();
 
-                    textBox52.Text = getlast.HC_DX1.ToString();
-                    textBox50.Text = getlast.HC_DX2.ToString();
-                    textBox48.Text = getlast.HC_DX3.ToString();
-                    comboBox2.Text = getlast.HC_ImpDX1.ToString();
-                    comboBox3.Text = getlast.HC_ImpDX2.ToString();
-                    comboBox5.Text = getlast.HC_ImpDX3.ToString();
-                    textBox53.Text = getlast.HC_NotaDX1.ToString();
-                    textBox54.Text = getlast.HC_NotaDX2.ToString();
-                    textBox55.Text = getlast.HC_NotaDX3.ToString();
+                        textBox52.Text = getlast.HC_DX1.ToString();
+                        textBox50.Text = getlast.HC_DX2.ToString();
+                        textBox48.Text = getlast.HC_DX3.ToString();
+                        comboBox2.Text = getlast.HC_ImpDX1.ToString();
+                        comboBox3.Text = getlast.HC_ImpDX2.ToString();
+                        comboBox5.Text = getlast.HC_ImpDX3.ToString();
+                        textBox53.Text = getlast.HC_NotaDX1.ToString();
+                        textBox54.Text = getlast.HC_NotaDX2.ToString();
+                        textBox55.Text = getlast.HC_NotaDX3.ToString();
 
-                    var DX = repoCIE10.BuscaDX(textBox52.Text);
-                    textBox51.Text = DX.ToString();
-                    DX = repoCIE10.BuscaDX(textBox50.Text);
-                    textBox49.Text = DX.ToString();
-                    DX = repoCIE10.BuscaDX(textBox48.Text);
-                    textBox47.Text = DX.ToString();
+                        var DX = repoCIE10.BuscaDX(textBox52.Text);
+                        textBox51.Text = DX.ToString();
+                        DX = repoCIE10.BuscaDX(textBox50.Text);
+                        textBox49.Text = DX.ToString();
+                        DX = repoCIE10.BuscaDX(textBox48.Text);
+                        textBox47.Text = DX.ToString();
 
-                    comboBox6.Text = getlast.HC_Causa_Externa.ToString();
+                        comboBox6.Text = getlast.HC_Causa_Externa.ToString();
 
                     textBox56.Text = getlast.HC_Egreso.ToString();
                     textBox57.Text = getlast.HC_Analisis.ToString();

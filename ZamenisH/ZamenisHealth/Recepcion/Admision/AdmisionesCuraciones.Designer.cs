@@ -114,6 +114,8 @@
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
             this.label47 = new System.Windows.Forms.Label();
             this.boton3 = new FormAndControls.Controles.Boton();
+            this.label48 = new System.Windows.Forms.Label();
+            this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.panel6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -121,6 +123,7 @@
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -873,7 +876,7 @@
             this.textBox15.Multiline = true;
             this.textBox15.Name = "textBox15";
             this.textBox15.ReadOnly = true;
-            this.textBox15.Size = new System.Drawing.Size(586, 29);
+            this.textBox15.Size = new System.Drawing.Size(309, 29);
             this.textBox15.TabIndex = 102;
             // 
             // textBox10
@@ -1122,6 +1125,7 @@
             this.comboBox12.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
             this.comboBox12.FormattingEnabled = true;
             this.comboBox12.Items.AddRange(new object[] {
+            "",
             "Paciente Nuevo",
             "Paciente Inicio Paquete"});
             this.comboBox12.Location = new System.Drawing.Point(365, 743);
@@ -1129,6 +1133,7 @@
             this.comboBox12.Size = new System.Drawing.Size(191, 28);
             this.comboBox12.TabIndex = 126;
             this.comboBox12.Visible = false;
+            this.comboBox12.SelectedIndexChanged += new System.EventHandler(this.comboBox12_SelectedIndexChanged);
             // 
             // label46
             // 
@@ -1188,11 +1193,36 @@
             this.boton3.UseVisualStyleBackColor = false;
             this.boton3.Click += new System.EventHandler(this.boton3_Click);
             // 
+            // label48
+            // 
+            this.label48.AutoSize = true;
+            this.label48.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label48.ForeColor = System.Drawing.Color.Black;
+            this.label48.Location = new System.Drawing.Point(557, 684);
+            this.label48.Name = "label48";
+            this.label48.Size = new System.Drawing.Size(132, 17);
+            this.label48.TabIndex = 132;
+            this.label48.Text = "Termino Paquete";
+            // 
+            // pictureBox4
+            // 
+            this.pictureBox4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBox4.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pictureBox4.Location = new System.Drawing.Point(696, 676);
+            this.pictureBox4.Name = "pictureBox4";
+            this.pictureBox4.Size = new System.Drawing.Size(32, 32);
+            this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox4.TabIndex = 131;
+            this.pictureBox4.TabStop = false;
+            this.pictureBox4.Click += new System.EventHandler(this.pictureBox4_Click);
+            // 
             // AdmisionesCuraciones
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1167, 818);
+            this.Controls.Add(this.label48);
+            this.Controls.Add(this.pictureBox4);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label47);
             this.Controls.Add(this.dataGridView2);
@@ -1246,6 +1276,7 @@
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1339,5 +1370,7 @@
         private System.Windows.Forms.DataGridView dataGridView2;
         private System.Windows.Forms.Label label47;
         private FormAndControls.Controles.Boton boton3;
+        private System.Windows.Forms.Label label48;
+        private System.Windows.Forms.PictureBox pictureBox4;
     }
 }

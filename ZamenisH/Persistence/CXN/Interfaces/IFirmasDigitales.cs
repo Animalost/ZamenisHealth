@@ -13,7 +13,7 @@ namespace Persistence.CXN.Interfaces
         List<(int Adm, string Aut, int Cant)> getAdmitions(int PacienteID, int CIA, DateTime FechaLimite);
         List<(int Adm, string Aut, int Cant)> getAdmitionsByFacturacion(int PacienteID, int CIA, DateTime FechaLimite, DateTime Desde);
         string ImageNull();
-        void EliminarFirma(int Admision);
+        bool EliminarFirma(int Admision);
         List<CXN_FIRMASDIGITALES_MED> getFirmas_MEDICAL(string Paciente);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Domain;
 using Domain.CXN;
+using FormAndControls;
 using Persistence;
 using Persistence.CXN.Interfaces;
 using Persistence.CXN.Metodos;
@@ -12,7 +13,7 @@ using ZamenisHealth.Comunes;
 
 namespace ZamenisHealth.Recepcion
 {
-    public partial class CrearEditarPaciente : ConfigForm.BaseForm
+    public partial class CrearEditarPaciente : Forma
     {
         private static readonly IPacientes repositorioPacientes = new MPacientes();
         private static readonly IAseguradoras repositorioAseguradora = new MAseguradoras();
@@ -24,6 +25,10 @@ namespace ZamenisHealth.Recepcion
         private MensajesGeneral MG;
 
         private string tdoc, doc;
+
+        ToolStripButton btnZamenis1 = new ToolStripButton();
+        ToolStripButton btnZamenis2 = new ToolStripButton();
+        ToolStripButton button1 = new ToolStripButton();
 
         public CrearEditarPaciente()
         {
@@ -38,8 +43,6 @@ namespace ZamenisHealth.Recepcion
             cargarDiscapacidades();
             cargarOcupacion("");
             cargarEtnias();
-
-            ConfigForm.MoverForma(panel3, this);
         }
 
         public CrearEditarPaciente(string TDoc, string Doc)
@@ -55,8 +58,6 @@ namespace ZamenisHealth.Recepcion
             cargarDiscapacidades();
             cargarOcupacion("");
             cargarEtnias();
-
-            ConfigForm.MoverForma(panel3, this);
 
             tdoc = TDoc;
             doc = Doc;            
@@ -141,11 +142,24 @@ namespace ZamenisHealth.Recepcion
                 }
             }           
         }
+        void CargarBotones()
+        {
+            button1 = createToolButton("Buscar");
+            MenuLateral.Items.Add(button1);
+            button1.Click += button1_Click;
+
+            btnZamenis1 = createToolButton("Grabar");
+            MenuLateral.Items.Add(btnZamenis1);
+            btnZamenis1.Click += btnZamenis1_ButtonClick;
+            btnZamenis1.Visible = false;
+
+            btnZamenis2 = createToolButton("Editar");
+            MenuLateral.Items.Add(btnZamenis2);
+            btnZamenis2.Click += btnZamenis2_ButtonClick;
+            btnZamenis2.Visible = false;
+        }
         private void CrearEditarPaciente_Load(object sender, EventArgs e)
         {
-            this.Titulo.Visible = false;
-            ImageClose.Visible = false;
-
             List<CXN_ASEGURADORA> ListAse =  repositorioAseguradora.getAseguradoras();
 
             if (ListAse != null)
@@ -155,6 +169,12 @@ namespace ZamenisHealth.Recepcion
                     comboBox4.Items.Add(i.Ase_Descripcion);
                 }
             }
+
+            Titulo.Text = "Crear / Editar Paciente";
+            LogoMain.Image = Properties.Resources.Splash;
+            SubTitulo.Text = $"Zamenis Health {Conexion.VersionApp}";
+
+            CargarBotones();
 
             CargarDocumentos();
             CargarRegimen();
@@ -648,11 +668,6 @@ namespace ZamenisHealth.Recepcion
             {
                 e.Handled = true;
             }
-        }
-        private void pictureBox2_Click(object sender, EventArgs e)
-        {
-            this.Dispose();
-            this.Close();
         }
     }
 }

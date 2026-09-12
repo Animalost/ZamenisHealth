@@ -132,16 +132,38 @@ namespace ZamenisHealth.AdminSystem
                         }
                         else
                         {
-                            fDigitales.EliminarFirma(Convert.ToInt32(textBox1.Text));
-
-                            MG = new MensajesGeneral()
+                            bool del = fDigitales.EliminarFirma(Convert.ToInt32(textBox1.Text));
+                            if (del == true)
                             {
-                                Mensaje = "Firma digital eliminada exitosamente",
-                                TipoImagen = 3
-                            };
+                                MG = new MensajesGeneral()
+                                {
+                                    Mensaje = "Firma digital eliminada exitosamente",
+                                    TipoImagen = 3
+                                };
 
-                            MG.ShowDialog();
+                                MG.ShowDialog();
+                            }
+                            else
+                            {
+                                MG = new MensajesGeneral()
+                                {
+                                    Mensaje = "No se logro eliminar la firma",
+                                    TipoImagen = 1000
+                                };
+
+                                MG.ShowDialog();
+                            }                          
                         }
+                    }
+                    else
+                    {
+                        MG = new MensajesGeneral()
+                        {
+                            Mensaje = "Esta admision no existe",
+                            TipoImagen = 1000
+                        };
+
+                        MG.ShowDialog();
                     }
                 }                    
             }

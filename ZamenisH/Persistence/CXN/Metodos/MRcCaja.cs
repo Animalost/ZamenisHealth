@@ -514,5 +514,65 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
+        List<CXN_RC_CAJA> IRcCaja.ListaRecibosPorAdmision(int Admition)
+        {
+            try
+            {
+                var getCon = Conexion.Conection();
+
+                using (SqlConnection con = new SqlConnection(getCon["Conexion"]))
+                {
+                    if (con != null && con.State == ConnectionState.Closed)
+                    {
+                        con.Open();
+                    }
+
+                    String Cargar_Hora = "SELECT * " +
+                                         "FROM CXN_RC_CAJA " +
+                                         "WHERE Rc_Caja_Adm = @param1";
+
+                    using (SqlCommand Carga_Command = new SqlCommand(Cargar_Hora, con))
+                    {
+                        Carga_Command.Parameters.AddWithValue("@param1", Admition);
+
+                        using (SqlDataReader Lectura_Hora = (Carga_Command.ExecuteReader()))
+                        {
+                            if (Lectura_Hora.HasRows)
+                            {
+                                List<CXN_RC_CAJA> Class_RCCaja1 = new List<CXN_RC_CAJA>();
+
+                                if (Lectura_Hora.Read() == true)
+                                {
+                                    Class_RCCaja1.Add(new CXN_RC_CAJA
+                                    {
+                                        Rc_Caja_Adm = Convert.ToInt32(Lectura_Hora["Rc_Caja_Adm"]),
+                                        Rc_Caja_Fecha = Convert.ToDateTime(Lectura_Hora["Rc_Caja_Fecha"]),
+                                        Rc_Id = Convert.ToInt32(Lectura_Hora["Rc_Id"]),
+                                        Rc_Caja_Observacion = Lectura_Hora["Rc_Caja_Observacion"].ToString(),
+                                        Rc_Caja_UsrGraba = Lectura_Hora["Rc_Caja_UsrGraba"].ToString(),
+                                        Rc_Caja_Valor = Convert.ToInt32(Lectura_Hora["Rc_Caja_Valor"]),
+                                    });
+
+                                    return Class_RCCaja1;
+                                }
+                                else
+                                {
+                                    return null;
+                                }
+                            }
+                            else
+                            {
+                                return null;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
+                return null;
+            }
+        }
     }
 }

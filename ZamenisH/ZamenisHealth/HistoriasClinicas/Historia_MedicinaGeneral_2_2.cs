@@ -152,8 +152,9 @@ namespace ZamenisHealth.HistoriasClinicas
             {
                 int idPos = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString());
                 int adm = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString());
+                string tipo = dataGridView1.Rows[e.RowIndex].Cells[5].Value.ToString();
 
-                List<CXN_CIA> f = reportes.ActasMedicos(adm);
+                List<CXN_CIA> f = reportes.ActasMedicos(adm, tipo);
                 if (f != null)
                 {
                     CXN_FIRMASDIGITALES_MED getDoc = firmas.getFirmas_MED(idPos);
@@ -221,6 +222,17 @@ namespace ZamenisHealth.HistoriasClinicas
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private void textBox1_DoubleClick(object sender, EventArgs e)
+        {
+            BuscarPacientes buscarPacientes = new BuscarPacientes("ConInf");
+            buscarPacientes.ShowDialog();
+        }
+
+        public void setDoc(string doc)
+        {
+            textBox1.Text = doc;
         }
     }
 }

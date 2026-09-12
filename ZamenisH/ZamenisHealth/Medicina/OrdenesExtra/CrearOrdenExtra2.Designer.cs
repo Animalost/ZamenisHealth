@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.boton4 = new FormAndControls.Controles.Boton();
             this.label25 = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
@@ -43,10 +44,6 @@
             this.textBox8 = new System.Windows.Forms.TextBox();
             this.label24 = new System.Windows.Forms.Label();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
-            this.CUP = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.SERVICIO = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CANT = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.BILATERAL = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label13 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
             this.label12 = new System.Windows.Forms.Label();
@@ -57,9 +54,25 @@
             this.textBox5 = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.boton5 = new FormAndControls.Controles.Boton();
+            this.textBox9 = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.boton2 = new FormAndControls.Controles.Boton();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.Medicamento = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CodMedicamento = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Presentacion = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Via = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Cada = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FrecAdmi = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Cantidad = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.UMM = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Duracion = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Tiempo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TipoTecnologia = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Observacion = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Total = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.comboBox3 = new System.Windows.Forms.ComboBox();
@@ -85,22 +98,13 @@
             this.label17 = new System.Windows.Forms.Label();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.label22 = new System.Windows.Forms.Label();
-            this.boton5 = new FormAndControls.Controles.Boton();
-            this.textBox9 = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.Medicamento = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CodMedicamento = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Presentacion = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Via = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Cada = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FrecAdmi = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Cantidad = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.UMM = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Duracion = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Tiempo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.TipoTecnologia = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Observacion = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Total = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label26 = new System.Windows.Forms.Label();
+            this.textBox10 = new System.Windows.Forms.TextBox();
+            this.CUP = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SERVICIO = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CANT = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.BILATERAL = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DETALLES = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1.SuspendLayout();
             this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
@@ -113,6 +117,7 @@
             // 
             this.panel1.AutoScroll = true;
             this.panel1.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.panel1.Controls.Add(this.checkBox2);
             this.panel1.Controls.Add(this.boton4);
             this.panel1.Controls.Add(this.label25);
             this.panel1.Controls.Add(this.panel4);
@@ -122,6 +127,17 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1023, 595);
             this.panel1.TabIndex = 1;
+            // 
+            // checkBox2
+            // 
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBox2.Location = new System.Drawing.Point(864, 47);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(134, 17);
+            this.checkBox2.TabIndex = 406;
+            this.checkBox2.Text = "CIERRE PAQUETE";
+            this.checkBox2.UseVisualStyleBackColor = true;
             // 
             // boton4
             // 
@@ -154,6 +170,8 @@
             // panel4
             // 
             this.panel4.BackColor = System.Drawing.Color.White;
+            this.panel4.Controls.Add(this.textBox10);
+            this.panel4.Controls.Add(this.label26);
             this.panel4.Controls.Add(this.checkBox1);
             this.panel4.Controls.Add(this.label14);
             this.panel4.Controls.Add(this.textBox6);
@@ -289,7 +307,8 @@
             this.CUP,
             this.SERVICIO,
             this.CANT,
-            this.BILATERAL});
+            this.BILATERAL,
+            this.DETALLES});
             this.dataGridView2.GridColor = System.Drawing.Color.Blue;
             this.dataGridView2.Location = new System.Drawing.Point(10, 148);
             this.dataGridView2.MultiSelect = false;
@@ -297,34 +316,9 @@
             this.dataGridView2.ReadOnly = true;
             this.dataGridView2.RowHeadersVisible = false;
             this.dataGridView2.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView2.Size = new System.Drawing.Size(985, 413);
+            this.dataGridView2.Size = new System.Drawing.Size(985, 230);
             this.dataGridView2.TabIndex = 406;
             this.dataGridView2.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellDoubleClick);
-            // 
-            // CUP
-            // 
-            this.CUP.HeaderText = "CUP";
-            this.CUP.Name = "CUP";
-            this.CUP.ReadOnly = true;
-            // 
-            // SERVICIO
-            // 
-            this.SERVICIO.HeaderText = "SERVICIO";
-            this.SERVICIO.Name = "SERVICIO";
-            this.SERVICIO.ReadOnly = true;
-            this.SERVICIO.Width = 650;
-            // 
-            // CANT
-            // 
-            this.CANT.HeaderText = "CANTIDAD";
-            this.CANT.Name = "CANT";
-            this.CANT.ReadOnly = true;
-            // 
-            // BILATERAL
-            // 
-            this.BILATERAL.HeaderText = "BILATERAL";
-            this.BILATERAL.Name = "BILATERAL";
-            this.BILATERAL.ReadOnly = true;
             // 
             // label13
             // 
@@ -464,6 +458,42 @@
             this.panel2.Size = new System.Drawing.Size(1001, 712);
             this.panel2.TabIndex = 0;
             // 
+            // boton5
+            // 
+            this.boton5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(55)))), ((int)(((byte)(90)))));
+            this.boton5.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.boton5.FlatAppearance.BorderSize = 3;
+            this.boton5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.boton5.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
+            this.boton5.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.boton5.Location = new System.Drawing.Point(912, 273);
+            this.boton5.Name = "boton5";
+            this.boton5.Size = new System.Drawing.Size(81, 32);
+            this.boton5.TabIndex = 406;
+            this.boton5.Text = "Calcular";
+            this.boton5.UseVisualStyleBackColor = false;
+            this.boton5.Click += new System.EventHandler(this.boton5_Click);
+            // 
+            // textBox9
+            // 
+            this.textBox9.BackColor = System.Drawing.Color.White;
+            this.textBox9.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.textBox9.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox9.Location = new System.Drawing.Point(747, 274);
+            this.textBox9.Name = "textBox9";
+            this.textBox9.Size = new System.Drawing.Size(159, 26);
+            this.textBox9.TabIndex = 405;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(744, 252);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(64, 17);
+            this.label6.TabIndex = 404;
+            this.label6.Text = "Cantidad";
+            // 
             // label7
             // 
             this.label7.BackColor = System.Drawing.Color.Navy;
@@ -523,6 +553,108 @@
             this.dataGridView1.Size = new System.Drawing.Size(988, 245);
             this.dataGridView1.TabIndex = 401;
             this.dataGridView1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellDoubleClick);
+            // 
+            // Medicamento
+            // 
+            this.Medicamento.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.Medicamento.HeaderText = "Medicamento";
+            this.Medicamento.Name = "Medicamento";
+            this.Medicamento.ReadOnly = true;
+            this.Medicamento.Width = 96;
+            // 
+            // CodMedicamento
+            // 
+            this.CodMedicamento.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.CodMedicamento.HeaderText = "CodMedicamento";
+            this.CodMedicamento.Name = "CodMedicamento";
+            this.CodMedicamento.ReadOnly = true;
+            this.CodMedicamento.Width = 115;
+            // 
+            // Presentacion
+            // 
+            this.Presentacion.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.Presentacion.HeaderText = "Presentacion";
+            this.Presentacion.Name = "Presentacion";
+            this.Presentacion.ReadOnly = true;
+            this.Presentacion.Width = 94;
+            // 
+            // Via
+            // 
+            this.Via.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.Via.HeaderText = "Via";
+            this.Via.Name = "Via";
+            this.Via.ReadOnly = true;
+            this.Via.Width = 47;
+            // 
+            // Cada
+            // 
+            this.Cada.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.Cada.HeaderText = "Cada";
+            this.Cada.Name = "Cada";
+            this.Cada.ReadOnly = true;
+            this.Cada.Width = 57;
+            // 
+            // FrecAdmi
+            // 
+            this.FrecAdmi.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.FrecAdmi.HeaderText = "FrecAdmi";
+            this.FrecAdmi.Name = "FrecAdmi";
+            this.FrecAdmi.ReadOnly = true;
+            this.FrecAdmi.Width = 76;
+            // 
+            // Cantidad
+            // 
+            this.Cantidad.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.Cantidad.HeaderText = "Cantidad";
+            this.Cantidad.Name = "Cantidad";
+            this.Cantidad.ReadOnly = true;
+            this.Cantidad.Width = 74;
+            // 
+            // UMM
+            // 
+            this.UMM.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.UMM.HeaderText = "UMM";
+            this.UMM.Name = "UMM";
+            this.UMM.ReadOnly = true;
+            this.UMM.Width = 58;
+            // 
+            // Duracion
+            // 
+            this.Duracion.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.Duracion.HeaderText = "Duracion";
+            this.Duracion.Name = "Duracion";
+            this.Duracion.ReadOnly = true;
+            this.Duracion.Width = 75;
+            // 
+            // Tiempo
+            // 
+            this.Tiempo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.Tiempo.HeaderText = "Tiempo";
+            this.Tiempo.Name = "Tiempo";
+            this.Tiempo.ReadOnly = true;
+            this.Tiempo.Width = 67;
+            // 
+            // TipoTecnologia
+            // 
+            this.TipoTecnologia.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.TipoTecnologia.HeaderText = "TipoTecnologia";
+            this.TipoTecnologia.Name = "TipoTecnologia";
+            this.TipoTecnologia.ReadOnly = true;
+            this.TipoTecnologia.Width = 106;
+            // 
+            // Observacion
+            // 
+            this.Observacion.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.Observacion.HeaderText = "Observacion";
+            this.Observacion.Name = "Observacion";
+            this.Observacion.ReadOnly = true;
+            this.Observacion.Width = 92;
+            // 
+            // Total
+            // 
+            this.Total.HeaderText = "Total";
+            this.Total.Name = "Total";
+            this.Total.ReadOnly = true;
             // 
             // textBox2
             // 
@@ -810,143 +942,59 @@
             this.label22.Text = "Medicamento (Haga doble clic en el recuadro medicamento y seleccionelo de la list" +
     "a)";
             // 
-            // boton5
+            // label26
             // 
-            this.boton5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(55)))), ((int)(((byte)(90)))));
-            this.boton5.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.boton5.FlatAppearance.BorderSize = 3;
-            this.boton5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.boton5.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
-            this.boton5.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.boton5.Location = new System.Drawing.Point(912, 273);
-            this.boton5.Name = "boton5";
-            this.boton5.Size = new System.Drawing.Size(81, 32);
-            this.boton5.TabIndex = 406;
-            this.boton5.Text = "Calcular";
-            this.boton5.UseVisualStyleBackColor = false;
-            this.boton5.Click += new System.EventHandler(this.boton5_Click);
+            this.label26.AutoSize = true;
+            this.label26.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label26.Location = new System.Drawing.Point(10, 383);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(787, 17);
+            this.label26.TabIndex = 418;
+            this.label26.Text = "Observaciones al servicio que esta agregando para el profesional que practica y p" +
+    "ara el paciente (Este campo es opcional)";
             // 
-            // textBox9
+            // textBox10
             // 
-            this.textBox9.BackColor = System.Drawing.Color.White;
-            this.textBox9.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
-            this.textBox9.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox9.Location = new System.Drawing.Point(747, 274);
-            this.textBox9.Name = "textBox9";
-            this.textBox9.Size = new System.Drawing.Size(159, 26);
-            this.textBox9.TabIndex = 405;
+            this.textBox10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBox10.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox10.Location = new System.Drawing.Point(10, 403);
+            this.textBox10.Multiline = true;
+            this.textBox10.Name = "textBox10";
+            this.textBox10.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.textBox10.Size = new System.Drawing.Size(985, 159);
+            this.textBox10.TabIndex = 419;
             // 
-            // label6
+            // CUP
             // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(744, 252);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(64, 17);
-            this.label6.TabIndex = 404;
-            this.label6.Text = "Cantidad";
+            this.CUP.HeaderText = "CUP";
+            this.CUP.Name = "CUP";
+            this.CUP.ReadOnly = true;
             // 
-            // Medicamento
+            // SERVICIO
             // 
-            this.Medicamento.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.Medicamento.HeaderText = "Medicamento";
-            this.Medicamento.Name = "Medicamento";
-            this.Medicamento.ReadOnly = true;
-            this.Medicamento.Width = 96;
+            this.SERVICIO.HeaderText = "SERVICIO";
+            this.SERVICIO.Name = "SERVICIO";
+            this.SERVICIO.ReadOnly = true;
+            this.SERVICIO.Width = 650;
             // 
-            // CodMedicamento
+            // CANT
             // 
-            this.CodMedicamento.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.CodMedicamento.HeaderText = "CodMedicamento";
-            this.CodMedicamento.Name = "CodMedicamento";
-            this.CodMedicamento.ReadOnly = true;
-            this.CodMedicamento.Width = 115;
+            this.CANT.HeaderText = "CANTIDAD";
+            this.CANT.Name = "CANT";
+            this.CANT.ReadOnly = true;
             // 
-            // Presentacion
+            // BILATERAL
             // 
-            this.Presentacion.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.Presentacion.HeaderText = "Presentacion";
-            this.Presentacion.Name = "Presentacion";
-            this.Presentacion.ReadOnly = true;
-            this.Presentacion.Width = 94;
+            this.BILATERAL.HeaderText = "BILATERAL";
+            this.BILATERAL.Name = "BILATERAL";
+            this.BILATERAL.ReadOnly = true;
             // 
-            // Via
+            // DETALLES
             // 
-            this.Via.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.Via.HeaderText = "Via";
-            this.Via.Name = "Via";
-            this.Via.ReadOnly = true;
-            this.Via.Width = 47;
-            // 
-            // Cada
-            // 
-            this.Cada.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.Cada.HeaderText = "Cada";
-            this.Cada.Name = "Cada";
-            this.Cada.ReadOnly = true;
-            this.Cada.Width = 57;
-            // 
-            // FrecAdmi
-            // 
-            this.FrecAdmi.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.FrecAdmi.HeaderText = "FrecAdmi";
-            this.FrecAdmi.Name = "FrecAdmi";
-            this.FrecAdmi.ReadOnly = true;
-            this.FrecAdmi.Width = 76;
-            // 
-            // Cantidad
-            // 
-            this.Cantidad.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.Cantidad.HeaderText = "Cantidad";
-            this.Cantidad.Name = "Cantidad";
-            this.Cantidad.ReadOnly = true;
-            this.Cantidad.Width = 74;
-            // 
-            // UMM
-            // 
-            this.UMM.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.UMM.HeaderText = "UMM";
-            this.UMM.Name = "UMM";
-            this.UMM.ReadOnly = true;
-            this.UMM.Width = 58;
-            // 
-            // Duracion
-            // 
-            this.Duracion.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.Duracion.HeaderText = "Duracion";
-            this.Duracion.Name = "Duracion";
-            this.Duracion.ReadOnly = true;
-            this.Duracion.Width = 75;
-            // 
-            // Tiempo
-            // 
-            this.Tiempo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.Tiempo.HeaderText = "Tiempo";
-            this.Tiempo.Name = "Tiempo";
-            this.Tiempo.ReadOnly = true;
-            this.Tiempo.Width = 67;
-            // 
-            // TipoTecnologia
-            // 
-            this.TipoTecnologia.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.TipoTecnologia.HeaderText = "TipoTecnologia";
-            this.TipoTecnologia.Name = "TipoTecnologia";
-            this.TipoTecnologia.ReadOnly = true;
-            this.TipoTecnologia.Width = 106;
-            // 
-            // Observacion
-            // 
-            this.Observacion.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.Observacion.HeaderText = "Observacion";
-            this.Observacion.Name = "Observacion";
-            this.Observacion.ReadOnly = true;
-            this.Observacion.Width = 92;
-            // 
-            // Total
-            // 
-            this.Total.HeaderText = "Total";
-            this.Total.Name = "Total";
-            this.Total.ReadOnly = true;
+            this.DETALLES.HeaderText = "DETALLES";
+            this.DETALLES.Name = "DETALLES";
+            this.DETALLES.ReadOnly = true;
+            this.DETALLES.Width = 200;
             // 
             // CrearOrdenExtra2
             // 
@@ -958,6 +1006,7 @@
             this.Text = "CrearOrdenExtra2";
             this.Load += new System.EventHandler(this.CrearOrdenExtra2_Load);
             this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
@@ -1025,10 +1074,6 @@
         private System.Windows.Forms.Label label25;
         private FormAndControls.Controles.Boton boton4;
         private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn CUP;
-        private System.Windows.Forms.DataGridViewTextBoxColumn SERVICIO;
-        private System.Windows.Forms.DataGridViewTextBoxColumn CANT;
-        private System.Windows.Forms.DataGridViewTextBoxColumn BILATERAL;
         private FormAndControls.Controles.Boton boton5;
         private System.Windows.Forms.TextBox textBox9;
         private System.Windows.Forms.Label label6;
@@ -1045,5 +1090,13 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn TipoTecnologia;
         private System.Windows.Forms.DataGridViewTextBoxColumn Observacion;
         private System.Windows.Forms.DataGridViewTextBoxColumn Total;
+        private System.Windows.Forms.CheckBox checkBox2;
+        private System.Windows.Forms.TextBox textBox10;
+        private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.DataGridViewTextBoxColumn CUP;
+        private System.Windows.Forms.DataGridViewTextBoxColumn SERVICIO;
+        private System.Windows.Forms.DataGridViewTextBoxColumn CANT;
+        private System.Windows.Forms.DataGridViewTextBoxColumn BILATERAL;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DETALLES;
     }
 }

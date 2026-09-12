@@ -79,7 +79,7 @@ namespace ZamenisHealth.Recepcion.Extras
             {
                 Shows();
                 _datosAdmision = new otrosDatosPacienteHorario();
-                _datosAdmision = await cargarAdmisionAsync(this.Admision, "'A','P','H'");
+                _datosAdmision = await cargarAdmisionAsync(this.Admision, "'A','P','H'"); 
 
                 if (_datosAdmision != null)
                 {
@@ -117,7 +117,8 @@ namespace ZamenisHealth.Recepcion.Extras
                         Com_Telefono = _datosAdmision.Com_Telefono,
                         Com_Direccion = _datosAdmision.Com_Direccion,
                         HorObservaTemp = _datosAdmision.HorObservaTemp,
-                        ImageEmail = repositorioGenerales.GetBytes(PQR)
+                        ImageEmail = repositorioGenerales.GetBytes(PQR),
+                        Hor_Vales = _datosAdmision.Pac_Bonos == "A" ? "Recuerde que debe traer Cuota Moderadora el dia de su cita" : ""
                     });
 
                     reportViewer1.LocalReport.DataSources.Clear();

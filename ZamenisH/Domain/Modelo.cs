@@ -619,7 +619,8 @@ namespace Domain
     }
 
     public class ReportNotas : Notas
-    { 
+    {
+        public string CodigoEPSConvenio { get; set; }
         public string VIH { get; set; }
         public string Hepatitis { get; set; }
         public string NovedadHerida { get; set; }
@@ -694,6 +695,7 @@ namespace Domain
 
     public class ReportesRecepcion : Modelo
     {
+        public int Recibo { get; set; }
         public int ValorReciboFactura { get; set; }
         public string Homologo { get; set; }
         public DateTime Desde { get; set; }

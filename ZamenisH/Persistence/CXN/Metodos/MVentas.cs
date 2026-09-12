@@ -851,10 +851,15 @@ namespace Persistence.CXN.Metodos
                     String Cargar_Hora = "SELECT R.Rc_Caja_Fecha, R.Rc_Caja_Valor, A.Ase_Descripcion, " +
                                          "P.Pac_PrimerA + ' ' + P.Pac_SegundoA + ' ' + P.Pac_PrimerN + ' ' + P.Pac_SegundoN as Nombre, R.Rc_Caja_Valor, R.Hor_DocFEModerador, " +
                                          "R.Rc_Caja_UsrGraba, R.FormaPago, R.Num_Cruce, " +
-                                         "R.Rc_Caja_Adm, R.Rc_Id " +
+                                         "R.Rc_Caja_Adm, R.Rc_Id, H.Hor_Pac_Cup, C.Con_Nombre " +
                                          "FROM CXN_RC_CAJA R " +
                                          "INNER JOIN CXN_PACIENTES P ON R.Rc_Caja_Pac = P.Pac_Id " +
                                          "INNER JOIN CXN_ASEGURADORA A ON P.Pac_ASeguradora = A.Ase_IDentificador " +
+                                         "INNER JOIN CXN_HORARIO H ON R.Rc_Caja_Adm = H.Hor_Id " +
+                                         "INNER JOIN CXN_CONVENIOS C ON H.Hor_Pac_Cup = C.Con_Id_Serv " +
+                                         "AND H.Hor_Pac_Ase = C.Con_Aseguradora " +
+                                         "AND H.Hor_Pac_Tipo_Serv = C.Con_Tipo_Serv " +
+                                         "AND C.Con_Aseguradora = A.Ase_Identificador " +
                                          "WHERE R.Rc_Caja_Fecha BETWEEN @param1 AND @param2 " +
                                          "AND R.Rc_Caja_Cia = @param3 " +
                                          "ORDER BY R.Rc_Caja_Fecha ASC";
@@ -877,11 +882,12 @@ namespace Persistence.CXN.Metodos
                                     if (Valores0 == true)
                                     {
                                         class_RptRecepcion.Add(new ReportesRecepcion
-                                        {
+                                        { 
                                             FechaBase = Convert.ToDateTime(Lectura_Hora["Rc_Caja_Fecha"]),
                                             ValorReciboFactura = Convert.ToInt32(Lectura_Hora["Rc_Caja_Valor"]),
-                                            Admision = Convert.ToInt32(Lectura_Hora["Rc_Id"]),
-                                            PacienteAseguradora = Lectura_Hora["Ase_Descripcion"].ToString() + " --> " + Lectura_Hora["Rc_Caja_Adm"].ToString(),
+                                            Recibo = Convert.ToInt32(Lectura_Hora["Rc_Id"]),
+                                            Admision = Convert.ToInt32(Lectura_Hora["Rc_Caja_Adm"]),
+                                            PacienteAseguradora = Lectura_Hora["Ase_Descripcion"].ToString(),
                                             Homologo = Lectura_Hora["Hor_DocFEModerador"].ToString(),
                                             PacienteNombre = Lectura_Hora["Nombre"].ToString(),
                                             Desde = Convert.ToDateTime(Desde),
@@ -892,6 +898,7 @@ namespace Persistence.CXN.Metodos
                                             ProfesionalNombre = Lectura_Hora["Rc_Caja_UsrGraba"].ToString(),
                                             PacienteTelefono = string.IsNullOrEmpty(Lectura_Hora["FormaPago"].ToString()) ? "" : Lectura_Hora["FormaPago"].ToString(),
                                             Num_Cruce = Convert.ToInt32(Lectura_Hora["Num_Cruce"]),
+                                            EmpresaDireccion = Lectura_Hora["Hor_Pac_Cup"].ToString() + " - " + Lectura_Hora["Con_Nombre"].ToString(),
                                             TReport = "Recibos de Caja - Bonos"
                                         });
                                     }
@@ -903,8 +910,9 @@ namespace Persistence.CXN.Metodos
                                             {
                                                 FechaBase = Convert.ToDateTime(Lectura_Hora["Rc_Caja_Fecha"]),
                                                 ValorReciboFactura = Convert.ToInt32(Lectura_Hora["Rc_Caja_Valor"]),
-                                                Admision = Convert.ToInt32(Lectura_Hora["Rc_Id"]),
-                                                PacienteAseguradora = Lectura_Hora["Ase_Descripcion"].ToString() + " --> " + Lectura_Hora["Rc_Caja_Adm"].ToString(),
+                                                Recibo = Convert.ToInt32(Lectura_Hora["Rc_Id"]),
+                                                Admision = Convert.ToInt32(Lectura_Hora["Rc_Caja_Adm"]),
+                                                PacienteAseguradora = Lectura_Hora["Ase_Descripcion"].ToString(),
                                                 Homologo = Lectura_Hora["Hor_DocFEModerador"].ToString(),
                                                 PacienteNombre = Lectura_Hora["Nombre"].ToString(),
                                                 Desde = Convert.ToDateTime(Desde),
@@ -915,6 +923,7 @@ namespace Persistence.CXN.Metodos
                                                 ProfesionalNombre = Lectura_Hora["Rc_Caja_UsrGraba"].ToString(),
                                                 PacienteTelefono = string.IsNullOrEmpty(Lectura_Hora["FormaPago"].ToString()) ? "" : Lectura_Hora["FormaPago"].ToString(),
                                                 Num_Cruce = Convert.ToInt32(Lectura_Hora["Num_Cruce"]),
+                                                EmpresaDireccion = Lectura_Hora["Hor_Pac_Cup"].ToString() + " - " + Lectura_Hora["Con_Nombre"].ToString(),
                                                 TReport = "Recibos de Caja - Bonos"
                                             });
                                         }

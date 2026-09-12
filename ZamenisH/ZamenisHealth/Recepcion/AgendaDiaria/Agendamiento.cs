@@ -907,18 +907,6 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
                     return;
                 }
 
-                if (calendarHQ1.CalControlDGV.CurrentCell.Style.BackColor == Color.LightGray)
-                {
-                    MG = new MensajesGeneral()
-                    {
-                        Mensaje = "Este dia esta bloqueado para el profesional",
-                        TipoImagen = 0
-                    };
-                    MG.ShowDialog();
-                    dataGridView1.DataSource = null;
-                    return;
-                }
-
                 DateTime fechasel = calendarHQ1.dTPCalendar.Value.Date;
                 //Console.WriteLine(fechasel.DayOfWeek);
                 string diaSel = "";
@@ -963,12 +951,45 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
                     dataGridView1.Refresh();
 
                     calendarHQ1.CodeProfesional = CodeProfesional;
+                    calendarHQ1.CalControlDGV.CurrentCell = calendarHQ1.CalControlDGV.Rows[calendarHQ1.DiaSeleccionadoRow].Cells[calendarHQ1.DiaSeleccionadoColumn];
                     calendarHQ1.getBloqueosPforesional();
-                }                
+                    
+                    if (calendarHQ1.CalControlDGV.CurrentCell.Style.BackColor == Color.LightGray)
+                    {
+                        pictureBox1.Visible = true;
+                        dataGridView1.DataSource = null;
+
+                        CXN_DIAS_WEB razon = new CalendarController().GetRazonDiaBloqueado(fechasel, CodeProfesional);
+                        if (razon != null)
+                        {
+                            MG = new MensajesGeneral()
+                            {
+                                Mensaje = $"Este dia esta bloqueado por {razon.F_Bloquea} para este profesional por razon de: {Environment.NewLine + Environment.NewLine} {razon.R_Razon}",
+                                TipoImagen = 0
+                            };
+                            MG.ShowDialog();                            
+                            return;
+                        }
+                        else
+                        {
+                            MG = new MensajesGeneral()
+                            {
+                                Mensaje = "Este dia esta bloqueado para el profesional",
+                                TipoImagen = 0
+                            };
+                            MG.ShowDialog();
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        pictureBox1.Visible = false;
+                    }
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Error ERR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void dTPCalendar_ValueChanged(object sender, EventArgs e)
@@ -1163,62 +1184,16 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
                                             row.Cells["Paciente"].Style.ForeColor = Color.Sienna;
                                             break;
 
-                                        default: //Controles 
-                                            string TipoBod = repositorioBodegas.getDatosCode(CodeProfesional).Bod_Tipo;
-                                            if (TipoBod == "CU" || TipoBod == "MG")
-                                            {
-                                                List<CXN_HORARIO> citaConMedico = repositorioAgenda.ListarCitasXPaciente2(Convert.ToInt32(row.Cells["CodePaciente"].Value), calendarHQ1.dTPCalendar.Value, CodeProfesional);
-                                                if (citaConMedico != null)
-                                                {
-                                                    if (TipoBod == "CU")
-                                                    {
-                                                        bool existe = citaConMedico.Any(x => x.Hor_Pac_Tipo_Serv == "MG");
-                                                        if (existe == true)
-                                                        {
-                                                            row.Cells["Paciente"].Style.BackColor = Color.Yellow;
-                                                            row.Cells["Paciente"].Style.ForeColor = Color.DarkOrange;
-                                                        }
-                                                        else
-                                                        {
-                                                            row.Cells["Paciente"].Style.BackColor = Color.LightGreen;
-                                                            row.Cells["Paciente"].Style.ForeColor = Color.Green;
-                                                        }
-                                                    }
-                                                    else if (TipoBod == "MG")
-                                                    {
-                                                        bool existe = citaConMedico.Any(x => x.Hor_Pac_Tipo_Serv == "CU");
-                                                        if (existe == true)
-                                                        {
-                                                            row.Cells["Paciente"].Style.BackColor = Color.Yellow;
-                                                            row.Cells["Paciente"].Style.ForeColor = Color.DarkOrange;
-                                                        }
-                                                        else
-                                                        {
-                                                            row.Cells["Paciente"].Style.BackColor = Color.LightGreen;
-                                                            row.Cells["Paciente"].Style.ForeColor = Color.Green;
-                                                        }
-                                                    }
-                                                    else
-                                                    {
-                                                        row.Cells["Paciente"].Style.BackColor = Color.LightGreen;
-                                                        row.Cells["Paciente"].Style.ForeColor = Color.Green;
-                                                    }
-                                                }
-                                                else
-                                                {
-                                                    row.Cells["Paciente"].Style.BackColor = Color.LightGreen;
-                                                    row.Cells["Paciente"].Style.ForeColor = Color.Green;
-                                                }
-                                            }
-                                            else
-                                            {
-                                                row.Cells["Paciente"].Style.BackColor = Color.LightGreen;
-                                                row.Cells["Paciente"].Style.ForeColor = Color.Green;
-                                            }
-                                                                                       
+                                        case "T": //Cierra Orden
+                                            row.Cells["Paciente"].Style.BackColor = Color.DarkBlue;
+                                            row.Cells["Paciente"].Style.ForeColor = Color.White;
                                             break;
-                                    }
-                                   
+
+                                        default: //Controles  //Control Normal
+                                            row.Cells["Paciente"].Style.BackColor = Color.LightGreen;
+                                            row.Cells["Paciente"].Style.ForeColor = Color.Green;                                                                                       
+                                            break;
+                                    }                                  
                                 }
                                 else if (estado == "H")
                                 {
@@ -1483,7 +1458,71 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
             {
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
-        }        
+        }
+
+        private void label6_Click(object sender, EventArgs e)
+        {
+            MG = new MensajesGeneral()
+            {
+                Mensaje = "Este color indica que es un Termino o Cierre de paquete, el medico debe generar orden nueva",
+                TipoImagen = 0
+            };
+            MG.ShowDialog();
+        }
+        private void label7_Click(object sender, EventArgs e)
+        {
+            MG = new MensajesGeneral()
+            {
+                Mensaje = "Este color indica que el paciente debe traer orden medica de la EPS y consumir la autorizacion",
+                TipoImagen = 0
+            };
+            MG.ShowDialog();
+        }
+        private void label21_Click(object sender, EventArgs e)
+        {
+            MG = new MensajesGeneral()
+            {
+                Mensaje = "Este color indica que el paciente esta en tratamiento e inicia una nueva orden, debe consumirse autorizacion",
+                TipoImagen = 0
+            };
+            MG.ShowDialog();
+        }
+        private void label8_Click(object sender, EventArgs e)
+        {
+            MG = new MensajesGeneral()
+            {
+                Mensaje = "Este color indica que el paciente ya fue atendido",
+                TipoImagen = 0
+            };
+            MG.ShowDialog();
+        }
+        private void label5_Click(object sender, EventArgs e)
+        {
+            MG = new MensajesGeneral()
+            {
+                Mensaje = "Este color indica que la cita es una asistencia normal sin generar orden nueva ni consumir una autroizacion",
+                TipoImagen = 0
+            };
+            MG.ShowDialog();
+        }
+        private void label20_Click(object sender, EventArgs e)
+        {
+            MG = new MensajesGeneral()
+            {
+                Mensaje = "Este color indica que el paciente no ha asistido",
+                TipoImagen = 0
+            };
+            MG.ShowDialog();
+        }
+        private void label9_Click(object sender, EventArgs e)
+        {
+            MG = new MensajesGeneral()
+            {
+                Mensaje = "Este color indica que la hora esta bloqueada por alguna razon",
+                TipoImagen = 0
+            };
+            MG.ShowDialog();
+        }
         private void Agendamiento_KeyDown(object sender, KeyEventArgs e)
         {
             try

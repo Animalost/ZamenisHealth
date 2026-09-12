@@ -40,10 +40,13 @@
             this.label5 = new System.Windows.Forms.Label();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.textBox4 = new System.Windows.Forms.TextBox();
             this.CUP = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SERVICIO = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CANTIDAD = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.BILATERAL = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DETALLES = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -59,7 +62,8 @@
             this.CUP,
             this.SERVICIO,
             this.CANTIDAD,
-            this.BILATERAL});
+            this.BILATERAL,
+            this.DETALLES});
             this.dataGridView1.GridColor = System.Drawing.Color.Blue;
             this.dataGridView1.Location = new System.Drawing.Point(12, 174);
             this.dataGridView1.MultiSelect = false;
@@ -67,7 +71,7 @@
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowHeadersVisible = false;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(731, 413);
+            this.dataGridView1.Size = new System.Drawing.Size(731, 269);
             this.dataGridView1.TabIndex = 1;
             this.dataGridView1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellDoubleClick);
             // 
@@ -138,7 +142,7 @@
             this.boton1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.boton1.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
             this.boton1.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.boton1.Location = new System.Drawing.Point(316, 595);
+            this.boton1.Location = new System.Drawing.Point(316, 598);
             this.boton1.Name = "boton1";
             this.boton1.Size = new System.Drawing.Size(124, 32);
             this.boton1.TabIndex = 8;
@@ -193,6 +197,28 @@
             this.checkBox1.Text = "Bilateral";
             this.checkBox1.UseVisualStyleBackColor = true;
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(12, 446);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(685, 17);
+            this.label6.TabIndex = 13;
+            this.label6.Text = "Observaciones de este servicio para el paciente y para el prestador que practica " +
+    "(Este campo es Opcional)";
+            // 
+            // textBox4
+            // 
+            this.textBox4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox4.Location = new System.Drawing.Point(12, 467);
+            this.textBox4.Multiline = true;
+            this.textBox4.Name = "textBox4";
+            this.textBox4.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.textBox4.Size = new System.Drawing.Size(731, 125);
+            this.textBox4.TabIndex = 14;
+            // 
             // CUP
             // 
             this.CUP.HeaderText = "CUP";
@@ -219,11 +245,20 @@
             this.BILATERAL.ReadOnly = true;
             this.BILATERAL.Width = 70;
             // 
+            // DETALLES
+            // 
+            this.DETALLES.HeaderText = "DETALLES";
+            this.DETALLES.Name = "DETALLES";
+            this.DETALLES.ReadOnly = true;
+            this.DETALLES.Width = 200;
+            // 
             // OrdenServicios
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(755, 636);
+            this.Controls.Add(this.textBox4);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.textBox3);
@@ -259,9 +294,12 @@
         private System.Windows.Forms.Label label5;
         internal System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox textBox4;
         private System.Windows.Forms.DataGridViewTextBoxColumn CUP;
         private System.Windows.Forms.DataGridViewTextBoxColumn SERVICIO;
         private System.Windows.Forms.DataGridViewTextBoxColumn CANTIDAD;
         private System.Windows.Forms.DataGridViewTextBoxColumn BILATERAL;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DETALLES;
     }
 }

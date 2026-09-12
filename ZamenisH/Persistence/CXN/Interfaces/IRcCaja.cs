@@ -12,5 +12,6 @@ namespace Persistence.CXN.Interfaces
         (int Valor, string Concepto) getValRcCaja(int Admision);
         bool EsConsulta(int Admision, string TipoServicio);
         int getLastAdmition(int Admision);
+        List<CXN_RC_CAJA> ListaRecibosPorAdmision(int Admition);
     }
 }

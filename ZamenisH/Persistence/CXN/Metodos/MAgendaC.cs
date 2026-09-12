@@ -623,7 +623,7 @@ namespace Persistence.CXN.Metodos
                                     SegundoNombre = Lectura_Hora["Pac_SegundoN"].ToString(),
                                     IdentificacionProfesional = Lectura_Hora["Bod_Reg_Med"].ToString(),
 
-                                    Hor_Color = Lectura_Hora["Hor_Color"] == DBNull.Value ? "" : Lectura_Hora["Hor_Color"].ToString(),
+                                    Hor_Color = Lectura_Hora["Hor_Color"] == DBNull.Value ? "C" : Lectura_Hora["Hor_Color"].ToString(),
                                     Hor_Pac_Id_Hora = Lectura_Hora["Hor_Pac_Id_Hora"] == DBNull.Value ? "" : Lectura_Hora["Hor_Pac_Id_Hora"].ToString(),
                                     Hor_Pac_Tipo_Serv = Lectura_Hora["Hor_Pac_Tipo_Serv"].ToString(),
                                     Hor_Pac_Ase = Convert.ToInt32(Lectura_Hora["Hor_Pac_Ase"]),
@@ -691,7 +691,7 @@ namespace Persistence.CXN.Metodos
                                     Hor_Tipo_Paciente = Lectura_Hora["Hor_Tipo_Paciente"] == DBNull.Value ? "" : Lectura_Hora["Hor_Tipo_Paciente"].ToString()                                    
                                 };
 
-                                H.VIH = (Lectura_Hora["VIH"] == DBNull.Value ? "Negativo" : Lectura_Hora["VIH"].ToString() == "P" ? "Positivo" : "Negativo");
+                                H.VIH = (Lectura_Hora["VIH"] == DBNull.Value ? "Negativo" : Lectura_Hora["VIH"].ToString() == "S" ? "Positivo" : "Negativo");
                                 H.Hepatitis = (Lectura_Hora["Hepatitis"] == DBNull.Value ? "Negativo" : Lectura_Hora["Hepatitis"].ToString());
                                 H.Hor_CantSesion = (Lectura_Hora["Hor_CantSesion"] != DBNull.Value ? Convert.ToInt32(Lectura_Hora["Hor_CantSesion"]) : 0);
 

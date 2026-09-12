@@ -1,6 +1,4 @@
-﻿using iText.Layout.Element;
-
-using System;
+﻿using System;
 
 namespace Domain
 {
@@ -38,5 +36,12 @@ namespace Domain
             }
         }
         
+    }
+
+    public class DiaCalendarios
+    {
+        public int Dia { get; set; }
+        public int CantidadUsada { get; set; }
+        public int CantidadHabilitada { get; set; }
     }
 }

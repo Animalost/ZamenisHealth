@@ -1313,49 +1313,59 @@ namespace Persistence.CXN.Metodos
                 {
                     con.Open();
                 }
-                String Cargar_Hora = "SELECT InvPrecio, InvItem, InvDetalle " +
+                String Cargar_Hora = "SELECT InvPrecio, InvItem, InvDetalle, InvImagen, InvCod " +
                                      "FROM CXN_INVENTARIO " +
-                                     "WHERE InvConvenio = '" + Ase + "' " +
-                                     "AND InvCod = '" + Cod + "'";
-                SqlCommand Carga_Command = new SqlCommand(Cargar_Hora, con);
-                SqlDataReader Lectura_Hora = (Carga_Command.ExecuteReader());
-                if (Lectura_Hora.Read() == true)
+                                     "WHERE InvConvenio = @param1 " +
+                                     "AND InvCod = @param2";
+
+                using (SqlCommand Carga_Command = new SqlCommand(Cargar_Hora, con))
                 {
-                    ListaProd L = new ListaProd();
+                    Carga_Command.Parameters.AddWithValue("@param1", Ase);
+                    Carga_Command.Parameters.AddWithValue("@param2", Cod);
 
-                    if (Lectura_Hora["InvItem"] == DBNull.Value)
+                    using (SqlDataReader Lectura_Hora = (Carga_Command.ExecuteReader()))
                     {
-                        L.NombreProducto = "";
-                    }
-                    else
-                    {
-                        L.NombreProducto = Lectura_Hora["InvItem"].ToString();
-                    }
+                        if (Lectura_Hora.Read() == true)
+                        {
+                            ListaProd L = new ListaProd();
 
-                    if (Lectura_Hora["InvPrecio"] == DBNull.Value)
-                    {
-                        L.ValorProducto = 0;
-                    }
-                    else
-                    {
-                        L.ValorProducto = Convert.ToInt32(Lectura_Hora["InvPrecio"]);
-                    }
+                            if (Lectura_Hora["InvItem"] == DBNull.Value)
+                            {
+                                L.NombreProducto = "";
+                            }
+                            else
+                            {
+                                L.NombreProducto = Lectura_Hora["InvItem"].ToString();
+                            }
 
-                    if (Lectura_Hora["InvDetalle"] == DBNull.Value)
-                    {
-                        L.DetalleProducto = "";
-                    }
-                    else
-                    {
-                        L.DetalleProducto = Lectura_Hora["InvDetalle"].ToString();
-                    }
+                            if (Lectura_Hora["InvPrecio"] == DBNull.Value)
+                            {
+                                L.ValorProducto = 0;
+                            }
+                            else
+                            {
+                                L.ValorProducto = Convert.ToInt32(Lectura_Hora["InvPrecio"]);
+                            }
 
-                    return L;
-                }
-                else
-                {
-                    return null;
-                }
+                            if (Lectura_Hora["InvDetalle"] == DBNull.Value)
+                            {
+                                L.DetalleProducto = "";
+                            }
+                            else
+                            {
+                                L.DetalleProducto = Lectura_Hora["InvDetalle"].ToString();
+                            }
+
+                            L.CodigoEPS = Lectura_Hora["InvImagen"] == null ? Lectura_Hora["InvCod"].ToString() : Lectura_Hora["InvImagen"].ToString();
+
+                            return L;
+                        }
+                        else
+                        {
+                            return null;
+                        }
+                    }
+                }                
             }
         }
         async Task<int> ICargos.SaveCargo(CXN_CARGOS C)
@@ -1386,7 +1396,8 @@ namespace Persistence.CXN.Metodos
                                                           "Car_Item, " + //param13
                                                           "Car_Detalle, " + //param14
                                                           "Car_Usr_Graba, " + //param14
-                                                          "Car_Tipo_Serv) " + //param16
+                                                          "Car_Tipo_Serv, " +
+                                                          "CarCodEPSConvenio) " + //param16
                                  "values                  (@param1, " + // Hor_Estado
                                                           "@param2, " + // Hor_Pac_Id
                                                           "@param3, " + // Hor_Pac_Bod
@@ -1402,7 +1413,8 @@ namespace Persistence.CXN.Metodos
                                                           "@param13, " + // Hor_Pac_Id_Hora
                                                           "@param14, " + // Hor_Pac_Hora_Cita
                                                           "@param15, " + // Hor_Pac_Hora_Cita
-                                                          "@param16)", con); // Hor_Pac_Sal
+                                                          "@param16, " +
+                                                          "@param17)", con); // Hor_Pac_Sal
 
                     cmd.Parameters.AddWithValue("@param1", C.Car_Adm_Id);
                     cmd.Parameters.AddWithValue("@param2", C.Car_Pac);
@@ -1420,6 +1432,7 @@ namespace Persistence.CXN.Metodos
                     cmd.Parameters.AddWithValue("@param14", C.Car_Detalle);
                     cmd.Parameters.AddWithValue("@param15", C.Car_Usr_Graba);
                     cmd.Parameters.AddWithValue("@param16", C.Car_Tipo_Serv);
+                    cmd.Parameters.AddWithValue("@param17", C.CarCodEPSConvenio);
                     int R = await cmd.ExecuteNonQueryAsync();
                     return R;
                 }

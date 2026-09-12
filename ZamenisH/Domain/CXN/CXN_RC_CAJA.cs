@@ -34,6 +34,18 @@ namespace Domain.CXN
         public string PacienteTelefono { get; set; }
         public string PacienteDireccion { get; set; }
         public string PacienteAseguradora { get; set; }
+
+
+        //Consentimiento Informado
+        public string NombrePacienteConInformado { get; set; }
+        public string IddPacienteConInformado { get; set; }
+        public string DirPacienteConInformado { get; set; }
+        public string TelPacienteConInformado { get; set; }
+        public string NombreAcudienteConInformado { get; set; }
+        public string IddAcudienteConInformado { get; set; }
+        public string DirAcudienteConInformado { get; set; }
+        public string TelAcudienteConInformado { get; set; }
+
     }
 
     public class RCCAJA : Modelo

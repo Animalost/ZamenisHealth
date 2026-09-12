@@ -96,7 +96,7 @@ namespace ZamenisHealth.HistoriasClinicas
         {
             try
             {
-                List<CXN_CIA> f = IReports.ActasMedicos(this.Admision);
+                List<CXN_CIA> f = IReports.ActasMedicos(this.Admision, comboBox1.Text);
                 if (f != null)
                 {
                     CXN_FIRMASDIGITALES_MED getDoc = IFirmasDigitales.getFirmas_MED(scope);
@@ -166,13 +166,77 @@ namespace ZamenisHealth.HistoriasClinicas
         }
         private void boton1_Click(object sender, EventArgs e)
         {
-            FirmaDigital fD = new FirmaDigital(Admision, PacId, "Historia_MedicinaGeneral_2");
-            fD.ShowDialog();
+            if (comboBox1.Text == "Consentimiento Informado")
+            {
+                if (comboBox2.Text == "" || comboBox3.Text == "")
+                {
+                    MG = new MensajesGeneral()
+                    {
+                        Mensaje= "Debe seleccionar si autoriza el uso de fotografias o no y quien firma el consentimiento informado",
+                        TipoImagen = 1000
+                    }; 
+                    
+                    MG.ShowDialog();
+                    return;
+                }
+
+                if (comboBox3.Text == "Acudiente")
+                {
+                    if (string.IsNullOrEmpty(textBox1.Text) || string.IsNullOrEmpty(textBox2.Text) ||
+                        string.IsNullOrEmpty(textBox3.Text) || string.IsNullOrEmpty(textBox4.Text))
+                    {
+                        MG = new MensajesGeneral()
+                        {
+                            Mensaje = "Cuando selecciona que el consentimiento lo firma el acudiente, debe rellenar los campos de acudiente correspondientes",
+                            TipoImagen = 1000
+                        };
+
+                        MG.ShowDialog();
+                    }
+                    else
+                    {
+                        FirmaDigital fD = new FirmaDigital(Admision, PacId, "Historia_MedicinaGeneral_2");
+                        fD.ShowDialog();
+                    }
+                }
+                else
+                {
+                    FirmaDigital fD = new FirmaDigital(Admision, PacId, "Historia_MedicinaGeneral_2");
+                    fD.ShowDialog();
+                }
+            }
+            else
+            {
+                FirmaDigital fD = new FirmaDigital(Admision, PacId, "Historia_MedicinaGeneral_2");
+                fD.ShowDialog();
+            }            
         }
         private void boton2_Click(object sender, EventArgs e)
         {
             Historia_MedicinaGeneral_2_2 H = new Historia_MedicinaGeneral_2_2();
             H.ShowDialog();
+        }
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBox1.Text == "Consentimiento Informado") 
+            { 
+                groupBox1.Visible = true;
+            }
+            else
+            {
+                groupBox1.Visible = false;
+            }
+        }
+        private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBox3.Text == "Acudiente")
+            {
+                groupBox2.Visible = true;
+            }
+            else
+            {
+                groupBox2.Visible = false;
+            }
         }
         private void boton3_Click(object sender, EventArgs e)
         {
@@ -226,7 +290,13 @@ namespace ZamenisHealth.HistoriasClinicas
                         FirmaMedico = FirmaMed,
                         FirmaPaciente = FirmaFinalPaciente,
                         Tipo = comboBox1.Text,
-                        Usuario = Contenedor.UsuarioLogueado
+                        Usuario = Contenedor.UsuarioLogueado,
+                        Fotos = comboBox1.Text == "Consentimiento Informado" ? comboBox2.Text == "SI" ? true : false : false,
+                        Acudiente = comboBox1.Text == "Consentimiento Informado" ? textBox1.Text : "",
+                        IdAcudiente = comboBox1.Text == "Consentimiento Informado" ? textBox2.Text : "",
+                        Parentesco = comboBox1.Text == "Consentimiento Informado" ? textBox3.Text : "",
+                        Telefono = comboBox1.Text == "Consentimiento Informado" ? textBox4.Text : "",
+                        QuienFirma = comboBox1.Text == "Consentimiento Informado" ? comboBox3.Text : ""
                     };
 
                     int grabar = IFirmasDigitales.InsertSign_Med(cXN_FIRMASDIGITALES_MED);

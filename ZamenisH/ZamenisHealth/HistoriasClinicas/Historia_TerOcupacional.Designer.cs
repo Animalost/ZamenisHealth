@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Historia_TerOcupacional));
             this.textBox14 = new System.Windows.Forms.TextBox();
             this.label86 = new System.Windows.Forms.Label();
             this.label83 = new System.Windows.Forms.Label();
@@ -272,12 +271,6 @@
             this.label119 = new System.Windows.Forms.Label();
             this.label98 = new System.Windows.Forms.Label();
             this.comboBox73 = new System.Windows.Forms.ComboBox();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripLabel1 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripLabel4 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripLabel2 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripLabel6 = new System.Windows.Forms.ToolStripButton();
             this.panel1 = new System.Windows.Forms.Panel();
             this.comboBox139 = new System.Windows.Forms.ComboBox();
             this.label136 = new System.Windows.Forms.Label();
@@ -326,7 +319,6 @@
             this.label3 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
             this.requiereTxt = new System.Windows.Forms.Label();
             this.dificilTxt = new System.Windows.Forms.Label();
             this.mayorTxt = new System.Windows.Forms.Label();
@@ -338,7 +330,6 @@
             this.CaidaTxt = new System.Windows.Forms.Label();
             this.panel5.SuspendLayout();
             this.panel4.SuspendLayout();
-            this.toolStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -3189,105 +3180,6 @@
             this.comboBox73.Size = new System.Drawing.Size(39, 21);
             this.comboBox73.TabIndex = 275;
             // 
-            // toolStrip1
-            // 
-            this.toolStrip1.AutoSize = false;
-            this.toolStrip1.BackColor = System.Drawing.Color.SteelBlue;
-            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
-            this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButton3,
-            this.toolStripLabel1,
-            this.toolStripLabel4,
-            this.toolStripLabel2,
-            this.toolStripLabel6});
-            this.toolStrip1.Location = new System.Drawing.Point(8, 25);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.toolStrip1.Size = new System.Drawing.Size(891, 30);
-            this.toolStrip1.TabIndex = 108;
-            this.toolStrip1.Text = "toolStrip1";
-            // 
-            // toolStripButton3
-            // 
-            this.toolStripButton3.AutoSize = false;
-            this.toolStripButton3.BackColor = System.Drawing.Color.RoyalBlue;
-            this.toolStripButton3.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.toolStripButton3.ForeColor = System.Drawing.Color.White;
-            this.toolStripButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton3.Image")));
-            this.toolStripButton3.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton3.Name = "toolStripButton3";
-            this.toolStripButton3.Padding = new System.Windows.Forms.Padding(0, 0, 0, 10);
-            this.toolStripButton3.Size = new System.Drawing.Size(122, 29);
-            this.toolStripButton3.Text = "Actualizar Datos";
-            this.toolStripButton3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.toolStripButton3.Click += new System.EventHandler(this.toolStripButton3_Click);
-            // 
-            // toolStripLabel1
-            // 
-            this.toolStripLabel1.AutoSize = false;
-            this.toolStripLabel1.BackColor = System.Drawing.Color.RoyalBlue;
-            this.toolStripLabel1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.toolStripLabel1.ForeColor = System.Drawing.Color.White;
-            this.toolStripLabel1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripLabel1.Image")));
-            this.toolStripLabel1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.toolStripLabel1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Padding = new System.Windows.Forms.Padding(0, 0, 0, 10);
-            this.toolStripLabel1.Size = new System.Drawing.Size(122, 29);
-            this.toolStripLabel1.Text = "Guardar y Egresar";
-            this.toolStripLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.toolStripLabel1.Click += new System.EventHandler(this.toolStripLabel1_Click);
-            // 
-            // toolStripLabel4
-            // 
-            this.toolStripLabel4.AutoSize = false;
-            this.toolStripLabel4.BackColor = System.Drawing.Color.RoyalBlue;
-            this.toolStripLabel4.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.toolStripLabel4.ForeColor = System.Drawing.Color.White;
-            this.toolStripLabel4.Image = ((System.Drawing.Image)(resources.GetObject("toolStripLabel4.Image")));
-            this.toolStripLabel4.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.toolStripLabel4.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripLabel4.Name = "toolStripLabel4";
-            this.toolStripLabel4.Padding = new System.Windows.Forms.Padding(0, 0, 0, 10);
-            this.toolStripLabel4.Size = new System.Drawing.Size(122, 29);
-            this.toolStripLabel4.Text = "Ver Historias";
-            this.toolStripLabel4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.toolStripLabel4.Click += new System.EventHandler(this.toolStripLabel4_Click);
-            // 
-            // toolStripLabel2
-            // 
-            this.toolStripLabel2.AutoSize = false;
-            this.toolStripLabel2.BackColor = System.Drawing.Color.RoyalBlue;
-            this.toolStripLabel2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.toolStripLabel2.ForeColor = System.Drawing.Color.White;
-            this.toolStripLabel2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripLabel2.Image")));
-            this.toolStripLabel2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.toolStripLabel2.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripLabel2.Name = "toolStripLabel2";
-            this.toolStripLabel2.Padding = new System.Windows.Forms.Padding(0, 0, 0, 10);
-            this.toolStripLabel2.Size = new System.Drawing.Size(122, 29);
-            this.toolStripLabel2.Text = "Traer Ultima";
-            this.toolStripLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.toolStripLabel2.Click += new System.EventHandler(this.toolStripLabel2_Click);
-            // 
-            // toolStripLabel6
-            // 
-            this.toolStripLabel6.AutoSize = false;
-            this.toolStripLabel6.BackColor = System.Drawing.Color.RoyalBlue;
-            this.toolStripLabel6.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.toolStripLabel6.ForeColor = System.Drawing.Color.White;
-            this.toolStripLabel6.Image = ((System.Drawing.Image)(resources.GetObject("toolStripLabel6.Image")));
-            this.toolStripLabel6.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.toolStripLabel6.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripLabel6.Name = "toolStripLabel6";
-            this.toolStripLabel6.Padding = new System.Windows.Forms.Padding(0, 0, 0, 10);
-            this.toolStripLabel6.Size = new System.Drawing.Size(122, 29);
-            this.toolStripLabel6.Text = "Cancelar";
-            this.toolStripLabel6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.toolStripLabel6.Click += new System.EventHandler(this.toolStripLabel6_Click);
-            // 
             // panel1
             // 
             this.panel1.AutoScroll = true;
@@ -3317,9 +3209,9 @@
             this.panel1.Controls.Add(this.label10);
             this.panel1.Controls.Add(this.textBox7);
             this.panel1.Controls.Add(this.label9);
-            this.panel1.Location = new System.Drawing.Point(11, 171);
+            this.panel1.Location = new System.Drawing.Point(142, 218);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(888, 2215);
+            this.panel1.Size = new System.Drawing.Size(888, 421);
             this.panel1.TabIndex = 109;
             // 
             // comboBox139
@@ -3908,139 +3800,134 @@
             // label8
             // 
             this.label8.BackColor = System.Drawing.Color.SteelBlue;
-            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.ForeColor = System.Drawing.Color.White;
-            this.label8.Location = new System.Drawing.Point(12, 142);
+            this.label8.Location = new System.Drawing.Point(139, 187);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(887, 16);
+            this.label8.Size = new System.Drawing.Size(895, 24);
             this.label8.TabIndex = 107;
             this.label8.Text = "Datos de la Historia ";
+            this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // textBox6
             // 
-            this.textBox6.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox6.ForeColor = System.Drawing.Color.Black;
-            this.textBox6.Location = new System.Drawing.Point(387, 112);
+            this.textBox6.Location = new System.Drawing.Point(692, 125);
             this.textBox6.Name = "textBox6";
             this.textBox6.ReadOnly = true;
-            this.textBox6.Size = new System.Drawing.Size(509, 24);
+            this.textBox6.Size = new System.Drawing.Size(342, 26);
             this.textBox6.TabIndex = 106;
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(311, 115);
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(596, 125);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(49, 13);
+            this.label7.Size = new System.Drawing.Size(64, 17);
             this.label7.TabIndex = 105;
             this.label7.Text = "Tipo Cita";
             // 
             // textBox5
             // 
-            this.textBox5.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox5.ForeColor = System.Drawing.Color.Blue;
-            this.textBox5.Location = new System.Drawing.Point(796, 85);
+            this.textBox5.Location = new System.Drawing.Point(216, 154);
             this.textBox5.Name = "textBox5";
             this.textBox5.ReadOnly = true;
-            this.textBox5.Size = new System.Drawing.Size(100, 24);
+            this.textBox5.Size = new System.Drawing.Size(195, 26);
             this.textBox5.TabIndex = 104;
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(741, 88);
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(139, 158);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(49, 13);
+            this.label6.Size = new System.Drawing.Size(65, 17);
             this.label6.TabIndex = 103;
             this.label6.Text = "Admision";
             // 
             // textBox4
             // 
-            this.textBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox4.ForeColor = System.Drawing.Color.Black;
-            this.textBox4.Location = new System.Drawing.Point(205, 112);
+            this.textBox4.Location = new System.Drawing.Point(464, 119);
             this.textBox4.Name = "textBox4";
             this.textBox4.ReadOnly = true;
-            this.textBox4.Size = new System.Drawing.Size(100, 24);
+            this.textBox4.Size = new System.Drawing.Size(126, 26);
             this.textBox4.TabIndex = 102;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(167, 115);
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(417, 125);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(32, 13);
+            this.label5.Size = new System.Drawing.Size(41, 17);
             this.label5.TabIndex = 101;
             this.label5.Text = "Edad";
             // 
             // textBox3
             // 
-            this.textBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox3.ForeColor = System.Drawing.Color.Black;
-            this.textBox3.Location = new System.Drawing.Point(67, 112);
+            this.textBox3.Location = new System.Drawing.Point(215, 119);
             this.textBox3.Name = "textBox3";
             this.textBox3.ReadOnly = true;
-            this.textBox3.Size = new System.Drawing.Size(100, 24);
+            this.textBox3.Size = new System.Drawing.Size(196, 26);
             this.textBox3.TabIndex = 100;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 115);
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(139, 125);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(57, 13);
+            this.label4.Size = new System.Drawing.Size(73, 17);
             this.label4.TabIndex = 99;
             this.label4.Text = "Fecha Nto";
             // 
             // textBox2
             // 
-            this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox2.ForeColor = System.Drawing.Color.Black;
-            this.textBox2.Location = new System.Drawing.Point(387, 85);
+            this.textBox2.Location = new System.Drawing.Point(692, 89);
             this.textBox2.Name = "textBox2";
             this.textBox2.ReadOnly = true;
-            this.textBox2.Size = new System.Drawing.Size(348, 24);
+            this.textBox2.Size = new System.Drawing.Size(342, 26);
             this.textBox2.TabIndex = 98;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(311, 88);
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(596, 89);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(70, 13);
+            this.label3.Size = new System.Drawing.Size(90, 17);
             this.label3.TabIndex = 97;
             this.label3.Text = "Identificacion";
             // 
             // textBox1
             // 
-            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox1.ForeColor = System.Drawing.Color.Black;
-            this.textBox1.Location = new System.Drawing.Point(67, 85);
+            this.textBox1.Location = new System.Drawing.Point(215, 87);
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(238, 24);
+            this.textBox1.Size = new System.Drawing.Size(375, 26);
             this.textBox1.TabIndex = 96;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 88);
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(139, 89);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(49, 13);
+            this.label2.Size = new System.Drawing.Size(63, 17);
             this.label2.TabIndex = 95;
             this.label2.Text = "Paciente";
-            // 
-            // label1
-            // 
-            this.label1.BackColor = System.Drawing.Color.SteelBlue;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(-1, -1);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(909, 21);
-            this.label1.TabIndex = 94;
-            this.label1.Text = "Historia Clinica - Terapia Ocupacional";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // requiereTxt
             // 
@@ -4048,7 +3935,7 @@
             this.requiereTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.requiereTxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.requiereTxt.ForeColor = System.Drawing.Color.White;
-            this.requiereTxt.Location = new System.Drawing.Point(799, 58);
+            this.requiereTxt.Location = new System.Drawing.Point(934, 57);
             this.requiereTxt.Name = "requiereTxt";
             this.requiereTxt.Size = new System.Drawing.Size(100, 23);
             this.requiereTxt.TabIndex = 133;
@@ -4062,7 +3949,7 @@
             this.dificilTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.dificilTxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dificilTxt.ForeColor = System.Drawing.Color.AntiqueWhite;
-            this.dificilTxt.Location = new System.Drawing.Point(700, 58);
+            this.dificilTxt.Location = new System.Drawing.Point(835, 57);
             this.dificilTxt.Name = "dificilTxt";
             this.dificilTxt.Size = new System.Drawing.Size(100, 23);
             this.dificilTxt.TabIndex = 132;
@@ -4076,7 +3963,7 @@
             this.mayorTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.mayorTxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.mayorTxt.ForeColor = System.Drawing.Color.Blue;
-            this.mayorTxt.Location = new System.Drawing.Point(601, 58);
+            this.mayorTxt.Location = new System.Drawing.Point(736, 57);
             this.mayorTxt.Name = "mayorTxt";
             this.mayorTxt.Size = new System.Drawing.Size(100, 23);
             this.mayorTxt.TabIndex = 131;
@@ -4090,7 +3977,7 @@
             this.psiquiatricoTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.psiquiatricoTxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.psiquiatricoTxt.ForeColor = System.Drawing.Color.Thistle;
-            this.psiquiatricoTxt.Location = new System.Drawing.Point(502, 58);
+            this.psiquiatricoTxt.Location = new System.Drawing.Point(637, 57);
             this.psiquiatricoTxt.Name = "psiquiatricoTxt";
             this.psiquiatricoTxt.Size = new System.Drawing.Size(100, 23);
             this.psiquiatricoTxt.TabIndex = 130;
@@ -4104,7 +3991,7 @@
             this.dificultadTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.dificultadTxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dificultadTxt.ForeColor = System.Drawing.Color.Black;
-            this.dificultadTxt.Location = new System.Drawing.Point(403, 58);
+            this.dificultadTxt.Location = new System.Drawing.Point(538, 57);
             this.dificultadTxt.Name = "dificultadTxt";
             this.dificultadTxt.Size = new System.Drawing.Size(100, 23);
             this.dificultadTxt.TabIndex = 129;
@@ -4118,7 +4005,7 @@
             this.alergiaTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.alergiaTxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.alergiaTxt.ForeColor = System.Drawing.Color.White;
-            this.alergiaTxt.Location = new System.Drawing.Point(304, 58);
+            this.alergiaTxt.Location = new System.Drawing.Point(439, 57);
             this.alergiaTxt.Name = "alergiaTxt";
             this.alergiaTxt.Size = new System.Drawing.Size(100, 23);
             this.alergiaTxt.TabIndex = 128;
@@ -4132,7 +4019,7 @@
             this.deterioroTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.deterioroTxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.deterioroTxt.ForeColor = System.Drawing.Color.DarkViolet;
-            this.deterioroTxt.Location = new System.Drawing.Point(205, 58);
+            this.deterioroTxt.Location = new System.Drawing.Point(340, 57);
             this.deterioroTxt.Name = "deterioroTxt";
             this.deterioroTxt.Size = new System.Drawing.Size(100, 23);
             this.deterioroTxt.TabIndex = 127;
@@ -4146,7 +4033,7 @@
             this.infeccionTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.infeccionTxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.infeccionTxt.ForeColor = System.Drawing.Color.Green;
-            this.infeccionTxt.Location = new System.Drawing.Point(106, 58);
+            this.infeccionTxt.Location = new System.Drawing.Point(241, 57);
             this.infeccionTxt.Name = "infeccionTxt";
             this.infeccionTxt.Size = new System.Drawing.Size(100, 23);
             this.infeccionTxt.TabIndex = 126;
@@ -4160,7 +4047,7 @@
             this.CaidaTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.CaidaTxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.CaidaTxt.ForeColor = System.Drawing.Color.Navy;
-            this.CaidaTxt.Location = new System.Drawing.Point(7, 58);
+            this.CaidaTxt.Location = new System.Drawing.Point(142, 57);
             this.CaidaTxt.Name = "CaidaTxt";
             this.CaidaTxt.Size = new System.Drawing.Size(100, 23);
             this.CaidaTxt.TabIndex = 125;
@@ -4172,10 +4059,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(944, 592);
-            this.ControlBox = false;
+            this.ClientSize = new System.Drawing.Size(1042, 654);
             this.Controls.Add(this.requiereTxt);
             this.Controls.Add(this.dificilTxt);
             this.Controls.Add(this.mayorTxt);
@@ -4185,7 +4070,6 @@
             this.Controls.Add(this.deterioroTxt);
             this.Controls.Add(this.infeccionTxt);
             this.Controls.Add(this.CaidaTxt);
-            this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.textBox6);
@@ -4200,19 +4084,13 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
-            this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.KeyPreview = true;
             this.Name = "Historia_TerOcupacional";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Load += new System.EventHandler(this.Historia_TerOcupacional_Load);
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel3.ResumeLayout(false);
@@ -4469,12 +4347,6 @@
         private System.Windows.Forms.Label label119;
         private System.Windows.Forms.Label label98;
         private System.Windows.Forms.ComboBox comboBox73;
-        private System.Windows.Forms.ToolStrip toolStrip1;
-        private System.Windows.Forms.ToolStripButton toolStripButton3;
-        private System.Windows.Forms.ToolStripButton toolStripLabel1;
-        private System.Windows.Forms.ToolStripButton toolStripLabel4;
-        private System.Windows.Forms.ToolStripButton toolStripLabel2;
-        private System.Windows.Forms.ToolStripButton toolStripLabel6;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.ComboBox comboBox139;
         private System.Windows.Forms.Label label136;
@@ -4523,7 +4395,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label requiereTxt;
         private System.Windows.Forms.Label dificilTxt;
         private System.Windows.Forms.Label mayorTxt;

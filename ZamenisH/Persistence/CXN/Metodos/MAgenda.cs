@@ -1,13 +1,16 @@
-﻿using Domain.CXN;
+﻿using Domain;
+using Domain.CXN;
+
 using Persistence.CXN.Interfaces;
+
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Data;
-using System.IO;
-using System.Windows.Forms;
+using System.Data.SqlClient;
 using System.Drawing;
-using Domain;
+using System.IO;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace Persistence.CXN.Metodos
 {
@@ -54,7 +57,8 @@ namespace Persistence.CXN.Metodos
                                          "H.Hor_Id, " +
                                          "H.Hor_Color, " +
                                          "H.Hor_Pac_Bod, " +
-                                         "H.Hor_Pac_Minutos + ' ->RAZON: ' + H.Hor_Pac_Razon as Tarde " +
+                                         "H.Hor_Pac_Minutos + ' ->RAZON: ' + H.Hor_Pac_Razon as Tarde, " +
+                                         "H.Hor_IniciaSesion " +
                                          "FROM " +
                                          "CXN_PACIENTES P " +
                                          "JOIN " +
@@ -64,7 +68,7 @@ namespace Persistence.CXN.Metodos
                                          "WHERE " +
                                          "P.Pac_IdNum = @param1 " +
                                          ") " +
-                                         "SELECT TOP 100 P.Pac_Id, " +
+                                         "SELECT P.Pac_Id, " +
                                          "T2.Estado, " +
                                          "T2.Fecha,  " +
                                          "T2.Hora,  " +
@@ -91,8 +95,7 @@ namespace Persistence.CXN.Metodos
                                          "LEFT JOIN " +
                                          "MiSubConsulta T2 " +
                                          "ON P.Pac_Id = T2.Hor_Pac_Id " +
-                                         "WHERE P.Pac_IdNum = @param1 " +
-                                         "ORDER BY T2.Fecha DESC";
+                                         "WHERE P.Pac_IdNum = @param1";
 
                     using (SqlCommand Carga_CommandC = new SqlCommand(Cargar_HoraC, con))
                     {
@@ -104,6 +107,8 @@ namespace Persistence.CXN.Metodos
                             {
                                 List<CXN_HORARIO> H = new List<CXN_HORARIO>();
 
+                                int ses = 0;
+
                                 while (Lectura_HoraC.Read() == true)
                                 {
                                     string Ser = "NO HAY INFORMACION";
@@ -113,10 +118,22 @@ namespace Persistence.CXN.Metodos
                                     if (Service != null)
                                     {
                                         Ser = Service.Con_Nombre.ToString();
+                                    }         
+                                        
+                                    if (Lectura_HoraC["Hor_CantSesion"] == DBNull.Value ||
+                                        Lectura_HoraC["Hor_CantSesion"].ToString() == "0" ||
+                                        Lectura_HoraC["Hor_CantSesion"].ToString() == "")
+                                    {
+                                        ses--;
                                     }
+                                    else
+                                    {
+                                        ses = Convert.ToInt32(Lectura_HoraC["Hor_CantSesion"]);
+                                    }                                              
 
                                     H.Add(new CXN_HORARIO
                                     {
+                                        Hor_AdmOpnened = ses.ToString(),
                                         Hor_Estado = Lectura_HoraC["Estado"].ToString(),
                                         Hor_Pac_Fecha_Cita = Convert.ToDateTime(Lectura_HoraC["Fecha"]),
                                         Hor_Pac_Hora_Cita = Convert.ToDateTime(Lectura_HoraC["Hora"]),
@@ -132,14 +149,24 @@ namespace Persistence.CXN.Metodos
                                         Hor_Pac_Minutos = Lectura_HoraC["Tarde"].ToString(),
                                         Hor_Id = Convert.ToInt32(Lectura_HoraC["Hor_Id"]),
                                         Hor_Autoriza = Lectura_HoraC["Hor_Autoriza"].ToString(),
-                                        Hor_Color = Lectura_HoraC["Hor_Color"] == DBNull.Value ? "" : Lectura_HoraC["Hor_Color"].ToString(),
+                                        Hor_Color = Lectura_HoraC["Hor_Color"] == DBNull.Value ? "C" : Lectura_HoraC["Hor_Color"].ToString(),
                                         Hor_Pac_Bod = Convert.ToInt32(Lectura_HoraC["Hor_Pac_Bod"]),
                                         Hor_Pac_Tipo_Serv = Lectura_HoraC["Hor_Pac_Tipo_Serv"].ToString(),
                                         Hor_Pac_Id = Convert.ToInt32(Lectura_HoraC["Hor_Pac_Id"])
+                                        
                                     });
                                 }
 
-                                return H;
+                                List<CXN_HORARIO> listaOrdenada = H
+                                                .OrderByDescending(x => x.Hor_Pac_Fecha_Cita)
+                                                .ThenBy(x => x.Hor_Pac_Hora_Cita)
+                                                .ToList();
+
+                                List<CXN_HORARIO> ultimos100 = listaOrdenada
+                                    .Take(100)
+                                    .ToList();
+
+                                return ultimos100;
                             }
                             else
                             {

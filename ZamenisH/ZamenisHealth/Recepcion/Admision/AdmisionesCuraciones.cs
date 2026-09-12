@@ -31,7 +31,7 @@ namespace ZamenisHealth.Recepcion.Admision
         private int Admision, PacId, Ase;
         private DateTime _fechas;
 
-        private bool Bonos, Pendiente, InicioAutoriza;
+        private bool Bonos, Pendiente, InicioAutoriza, Termina, Nuevo, Inicio;
         private string CodeMun, CodeDep;
         private DataTable dt, dt2;
         private MensajesGeneral MG;
@@ -386,6 +386,19 @@ namespace ZamenisHealth.Recepcion.Admision
                     {
                         InicioAutoriza = true;
 
+                        if (getCita.Hor_Color == "N")
+                        {
+                            Inicio = false;
+                            Termina = false;
+                            Nuevo = true;
+                        }
+                        if (getCita.Hor_Color == "I")
+                        {
+                            Inicio = true;
+                            Termina = false;
+                            Nuevo = false;
+                        }
+
                         label37.Visible = true;
                         label43.Visible = true;
                         label44.Visible = true;
@@ -404,6 +417,40 @@ namespace ZamenisHealth.Recepcion.Admision
                         {
                             comboBox2.Text = "Paciente Inicio Paquete";
                         }
+                    }
+                    else if (getCita.Hor_Color == "T")
+                    {
+                        pictureBox4.Image = Resources2.comprobado;
+                        Termina = true;
+                        Nuevo = false;
+                        Inicio = false;
+
+                        label37.Visible = false;
+                        label43.Visible = false;
+                        label44.Visible = false;
+                        textBox1.Visible = false;
+                        textBox2.Visible = false;
+                        label46.Visible = false;
+                        comboBox12.Visible = false;
+                        pictureBox3.Visible = false;
+                        pictureBox2.Image = null;
+                    }
+                    else
+                    {
+                        pictureBox4.Image = null;
+                        Termina = false;
+                        Nuevo = false;
+                        Inicio = false;
+
+                        label37.Visible = false;
+                        label43.Visible = false;
+                        label44.Visible = false;
+                        textBox1.Visible = false;
+                        textBox2.Visible = false;
+                        label46.Visible = false;
+                        comboBox12.Visible = false;
+                        pictureBox3.Visible = false;
+                        pictureBox2.Image = null;
                     }
                     #endregion
                 }
@@ -634,6 +681,54 @@ namespace ZamenisHealth.Recepcion.Admision
                 pictureBox2.Image = null;
             }
         }
+        private void pictureBox4_Click(object sender, EventArgs e)
+        {
+            if (pictureBox4.Image == null)
+            {               
+                pictureBox4.Image = Resources2.comprobado;
+                Termina = true;
+
+                label37.Visible = false;
+                label43.Visible = false;
+                label44.Visible = false;
+                textBox1.Visible = false;
+                textBox2.Visible = false;
+                label46.Visible = false;
+                comboBox12.Visible = false;
+                pictureBox2.Visible = false;
+
+                pictureBox3.Image = null;
+                pictureBox2.Image = null;
+                pictureBox1.Image = null;
+
+                InicioAutoriza = false;
+                Inicio = false;
+                Nuevo = false;
+            }
+            else
+            {
+                Termina = false;
+
+                label37.Visible = false;
+                label43.Visible = false;
+                label44.Visible = false;
+                textBox1.Visible = false;
+                textBox2.Visible = false;
+                label46.Visible = false;
+                comboBox12.Visible = false;
+                pictureBox2.Visible = false;
+
+                pictureBox3.Image = null;
+                pictureBox2.Image = null;
+                pictureBox1.Image = null;
+
+                pictureBox4.Image = null;
+
+                InicioAutoriza = false;
+                Inicio = false;
+                Nuevo = false;
+            }
+        }
         private void comboBox7_SelectedIndexChanged(object sender, EventArgs e)
         {
             Ase = aseguradorasController.getInfoFromAsebyName(comboBox7.Text).Ase_Identificador;
@@ -675,11 +770,32 @@ namespace ZamenisHealth.Recepcion.Admision
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
+        private void comboBox12_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBox12.Text == "Paciente Nuevo")
+            {
+                Nuevo = true;
+                Inicio = false;
+                Termina = false;
+            }
+            else if (comboBox12.Text == "Paciente Inicio Paquete")
+            {
+                Nuevo = false;
+                Inicio = true;
+                Termina = false;
+            }
+            else if (comboBox12.Text == "")
+            {
+                Nuevo = false;
+                Inicio = false;
+                Termina = false;
+            }
+        }
         private void boton3_Click(object sender, EventArgs e)
         {
             OtrosDatosPac p = new OtrosDatosPac(PacId);
             p.ShowDialog();
-        }
+        }       
         private void boton2_Click(object sender, EventArgs e)
         {
             try
@@ -782,6 +898,7 @@ namespace ZamenisHealth.Recepcion.Admision
                     MG.ShowDialog();
                     return;
                 }
+
                 if (PacRules.ValidarRegimen(comboBox3.Text, comboBox4.Text) == false)
                 {
                     MG = new MensajesGeneral();
@@ -909,6 +1026,11 @@ namespace ZamenisHealth.Recepcion.Admision
                 DateTime Hora_Llega = DateTime.Now;
                 Hora_Llega = Convert.ToDateTime(Hora_Llega.ToString("HH:mm"));
 
+                string colour = Nuevo == true ? "N" :
+                                Inicio == true ? "I" :
+                                Termina == true ? "T" :
+                                "C";
+
                 CXN_HORARIO H = new CXN_HORARIO
                 {
                     Hor_Estado = "P",
@@ -929,9 +1051,7 @@ namespace ZamenisHealth.Recepcion.Admision
                     Hor_Id = Admision,
                     Hor_Observacion = " ||| CITA ADMISIONADA POR " + Comunes.Contenedor.UsuarioLogueado,
                     Hor_Vales = Bonos == true ? "S" : "N",
-                    Hor_Color = comboBox12.Text == "Paciente Nuevo" ? "N" :
-                                comboBox12.Text == "Paciente Inicio Paquete" ? "I" : 
-                                                   "C"
+                    Hor_Color = colour
                 };
 
                 bool _updateCita = horarioController.updateCitaAdmisionar(H);

@@ -4,16 +4,16 @@ using System.Drawing;
 using System.Windows.Forms;
 using Domain;
 using Domain.CXN;
+using FormAndControls;
 using Persistence;
 using Persistence.CXN.Interfaces;
 using Persistence.CXN.Metodos;
-using ZamenisHealth.Clases;
 using ZamenisHealth.Comunes;
 using ZamenisHealth.HistoriasClinicas.Extras;
 
 namespace ZamenisHealth.HistoriasClinicas
 {
-    public partial class Historia_TerOcupacional : ConfigForm.BaseForm
+    public partial class Historia_TerOcupacional : Forma
     {
         private static readonly ITerapiaOcupacional repoTO = new MTerapiaOcupacional();
         private static readonly IRIPS repoRIPS = new MRIPS();
@@ -28,6 +28,12 @@ namespace ZamenisHealth.HistoriasClinicas
         public int Admision;
         DateTime Fecha_Serv;
         int Paciente, Cia, Ase, Prof, Valor;
+        string CUP, TSERV, Reg_RIP, CMANTID, CMANID, Serv;
+     
+        public Historia_TerOcupacional()
+        {
+            InitializeComponent();
+        }
 
         private void toolStripLabel1_Click(object sender, EventArgs e)
         {
@@ -281,7 +287,6 @@ namespace ZamenisHealth.HistoriasClinicas
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         private void toolStripLabel2_Click(object sender, EventArgs e)
         {
             try
@@ -385,14 +390,12 @@ namespace ZamenisHealth.HistoriasClinicas
             {
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
-        }        
-        
+        }                
         private void toolStripLabel4_Click(object sender, EventArgs e)
         {
             Medicina.Historial_Medico_1 RM = new Medicina.Historial_Medico_1();
             RM.ShowDialog();
         }
-
         private void toolStripLabel6_Click(object sender, EventArgs e)
         {
             try
@@ -411,20 +414,47 @@ namespace ZamenisHealth.HistoriasClinicas
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         private void toolStripButton3_Click(object sender, EventArgs e)
         {
             ActualizarPAC();
         }
+        void Botones()
+        {
+            ToolStripButton btnUpdateData = new ToolStripButton();
+            btnUpdateData = createToolButton("Actualizar Datos");
+            MenuLateral.Items.Add(btnUpdateData);
+            btnUpdateData.Click += toolStripButton3_Click;
 
+            ToolStripButton btnGenerar = new ToolStripButton();
+            btnGenerar = createToolButton("Guardar");
+            MenuLateral.Items.Add(btnGenerar);
+            btnGenerar.Click += toolStripLabel1_Click;
+
+            ToolStripButton btnHistory = new ToolStripButton();
+            btnHistory = createToolButton("Historial");
+            MenuLateral.Items.Add(btnHistory);
+            btnHistory.Click += toolStripLabel4_Click;
+
+            ToolStripButton btnLast = new ToolStripButton();
+            btnLast = createToolButton("Traer Ultima");
+            MenuLateral.Items.Add(btnLast);
+            btnLast.Click += toolStripLabel2_Click;
+
+            ToolStripButton btnCancel = new ToolStripButton();
+            btnCancel = createToolButton("Cancelar");
+            MenuLateral.Items.Add(btnCancel);
+            btnCancel.Click += toolStripLabel6_Click;
+        }
         private void Historia_TerOcupacional_Load(object sender, EventArgs e)
         {
             try
             {
-                Titulo.Visible = false;
                 ImageClose.Visible = false;
+                Titulo.Text = "Historia Clinica Terapia Ocupacional";
+                LogoMain.Image = Properties.Resources.Splash;
+                SubTitulo.Text = $"Zamenis Health {Conexion.VersionApp}";
 
-                
+                Botones();
 
                 repoAgendaMedica.Graba_Hora_Atencion(Admision);
                 repoAgendaMedica.OpenAdmition(Admision, "S");
@@ -494,7 +524,6 @@ namespace ZamenisHealth.HistoriasClinicas
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         void CargarOpcionesRecomendaciones()
         {
             try
@@ -646,13 +675,11 @@ namespace ZamenisHealth.HistoriasClinicas
                 OverridesExtern.GenerarTXTException(T);
             }
         }
-
         private void ActualizarPAC()
         {
             Medicina.ActualizarPaciente Historia_Edita_Paciente = new Medicina.ActualizarPaciente(Paciente);
             Historia_Edita_Paciente.ShowDialog();
         }
-
         void openConditions(string Tipo)
         {
             c = new CondicionesP(Tipo, this.Paciente);
@@ -664,68 +691,49 @@ namespace ZamenisHealth.HistoriasClinicas
         {
             openConditions("CAIDA");
         }
-
         private void infeccionTxt_Click(object sender, EventArgs e)
         {
             openConditions("INFECCION");
         }
-
         private void deterioroTxt_Click(object sender, EventArgs e)
         {
             openConditions("DETERIORO DE LA PIEL");
         }
-
         private void alergiaTxt_Click(object sender, EventArgs e)
         {
             Alergias c = new Alergias("ALERGIA", this.Paciente);
             c.ShowDialog();
             CargarOpcionesRecomendaciones();
         }
-
         private void dificultadTxt_Click(object sender, EventArgs e)
         {
             openConditions("DIFICULTAD DE COMUNICACION");
         }
-
         private void psiquiatricoTxt_Click(object sender, EventArgs e)
         {
             openConditions("PACIENTE PSIQUIATRICO");
         }
-
         private void mayorTxt_Click(object sender, EventArgs e)
         {
             openConditions("MAYOR DE 70 AÑOS");
         }
-
         private void dificilTxt_Click(object sender, EventArgs e)
         {
             openConditions("PACIENTE DIFICIL");
         }
-
         private void requiereTxt_Click(object sender, EventArgs e)
         {
             openConditions("MEDICO LO REQUIERE");
         }
-
         private void textBox18_DoubleClick(object sender, EventArgs e)
         {
             Medicina.CIE10 C10 = new Medicina.CIE10("HTO");
             C10.ShowDialog();
         }
-
         private void button1_Click(object sender, EventArgs e)
         {
             textBox18.Text = "";
             textBox17.Text = "";
-        }
-
-        string CUP, TSERV, Reg_RIP, CMANTID, CMANID, Serv;
-        public Historia_TerOcupacional()
-        {
-            InitializeComponent();
-
-            
-            ConfigForm.MoverForma(label1, this);
-        }
+        }        
     }
 }
