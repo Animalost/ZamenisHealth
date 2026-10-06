@@ -103,6 +103,7 @@
             this.label33 = new System.Windows.Forms.Label();
             this.label32 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.checkBox6 = new System.Windows.Forms.CheckBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -111,6 +112,7 @@
             // 
             this.panel1.AutoScroll = true;
             this.panel1.BackColor = System.Drawing.Color.White;
+            this.panel1.Controls.Add(this.checkBox6);
             this.panel1.Controls.Add(this.label15);
             this.panel1.Controls.Add(this.button2);
             this.panel1.Controls.Add(this.checkBox5);
@@ -269,9 +271,9 @@
             this.checkBox3.BackColor = System.Drawing.Color.Transparent;
             this.checkBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.checkBox3.ForeColor = System.Drawing.Color.Red;
-            this.checkBox3.Location = new System.Drawing.Point(8, 1202);
+            this.checkBox3.Location = new System.Drawing.Point(8, 1286);
             this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(1052, 46);
+            this.checkBox3.Size = new System.Drawing.Size(1052, 33);
             this.checkBox3.TabIndex = 99;
             this.checkBox3.Text = "Traer Historia Clinica para Inicio de Paquetes";
             this.checkBox3.UseVisualStyleBackColor = false;
@@ -1005,6 +1007,18 @@
             this.pictureBox1.TabIndex = 115;
             this.pictureBox1.TabStop = false;
             // 
+            // checkBox6
+            // 
+            this.checkBox6.BackColor = System.Drawing.Color.Transparent;
+            this.checkBox6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBox6.ForeColor = System.Drawing.Color.Red;
+            this.checkBox6.Location = new System.Drawing.Point(8, 1244);
+            this.checkBox6.Name = "checkBox6";
+            this.checkBox6.Size = new System.Drawing.Size(1052, 31);
+            this.checkBox6.TabIndex = 115;
+            this.checkBox6.Text = "Marque esta opcion PARA DAR SALIDA A ESTE PACIENTE";
+            this.checkBox6.UseVisualStyleBackColor = false;
+            // 
             // Historia_NotaEnfermeria
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1134,5 +1148,6 @@
         private System.Windows.Forms.Label label32;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.CheckBox checkBox6;
     }
 }

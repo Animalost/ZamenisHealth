@@ -69,6 +69,7 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.modernPanel5 = new ZamenisHealth.Clases.Controles.ModernPanel();
             this.modernPanel4 = new ZamenisHealth.Clases.Controles.ModernPanel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.modernPanel1.SuspendLayout();
             this.modernPanel2.SuspendLayout();
@@ -76,6 +77,7 @@
             this.panel1.SuspendLayout();
             this.modernPanel5.SuspendLayout();
             this.modernPanel4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // pictureBox2
@@ -505,6 +507,7 @@
             this.modernPanel5.AutoScroll = true;
             this.modernPanel5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(229)))), ((int)(((byte)(235)))), ((int)(((byte)(255)))));
             this.modernPanel5.BorderRadius = 15;
+            this.modernPanel5.Controls.Add(this.pictureBox1);
             this.modernPanel5.Controls.Add(this.label18);
             this.modernPanel5.Controls.Add(this.button1);
             this.modernPanel5.Controls.Add(this.dateTimePicker2);
@@ -529,6 +532,17 @@
             this.modernPanel4.Size = new System.Drawing.Size(736, 83);
             this.modernPanel4.TabIndex = 85;
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::ZamenisHealth.Properties.Resources.reloj_de_arena;
+            this.pictureBox1.Location = new System.Drawing.Point(413, 37);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(79, 69);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 82;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Visible = false;
+            // 
             // MenuFacElectron
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -550,6 +564,7 @@
             this.modernPanel5.ResumeLayout(false);
             this.modernPanel4.ResumeLayout(false);
             this.modernPanel4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -598,5 +613,6 @@
         private System.Windows.Forms.Panel panel1;
         private Clases.Controles.ModernPanel modernPanel5;
         private Clases.Controles.ModernPanel modernPanel4;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }

@@ -7,6 +7,7 @@ namespace Persistence.CXN.Interfaces
 {
     public interface IReportes
     {
+        List<CXN_HCPSIQUIATRIA> ReportePsiquiatria(int Admition);
         List<FirmasR> Firmas_Print(int Adm_Selected, FirmasR F, bool Autocompletar);
         List<GerencialR> Rpt_Atenciones(DateTime Desde, DateTime Hasta);
         void Rpt_Ing_Ger(DateTime Desde, DateTime Hasta);

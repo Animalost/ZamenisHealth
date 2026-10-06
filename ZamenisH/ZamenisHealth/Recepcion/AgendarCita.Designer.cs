@@ -184,10 +184,11 @@
             // 
             this.label30.Font = new System.Drawing.Font("Arial Narrow", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label30.ForeColor = System.Drawing.Color.Red;
-            this.label30.Location = new System.Drawing.Point(520, 400);
+            this.label30.Location = new System.Drawing.Point(520, 404);
             this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(266, 55);
+            this.label30.Size = new System.Drawing.Size(266, 54);
             this.label30.TabIndex = 26;
+            this.label30.Text = "Sesion 2 de 5";
             this.label30.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // panel2
@@ -752,7 +753,7 @@
             "Telemedicina telemonitoreo"});
             this.comboBox6.Location = new System.Drawing.Point(115, 400);
             this.comboBox6.Name = "comboBox6";
-            this.comboBox6.Size = new System.Drawing.Size(399, 28);
+            this.comboBox6.Size = new System.Drawing.Size(400, 28);
             this.comboBox6.TabIndex = 18;
             // 
             // panel4

@@ -2573,63 +2573,7 @@ namespace Persistence.CXN.Metodos
             {
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);                
             }
-        }
-        List<int> IFacturacion.GetAdmitionByType(string TipoCargo, int IdPaciente, DateTime Desde, DateTime Hasta, int Ase)
-        {
-            try
-            {
-                Dictionary<string, string> getData = Conexion.Conection();
-
-                using (SqlConnection con = new SqlConnection(getData["Conexion"]))
-                {
-                    if (con != null && con.State == ConnectionState.Closed)
-                    {
-                        con.Open();
-                    }
-
-                    String Cargar_Hora = "SELECT DISTINCT Car_Adm_Id " +
-                                         "FROM CXN_CARGOS " +
-                                         "WHERE Car_Fecha BETWEEN @param1 AND @param2 " +
-                                         "AND Car_Tipo = @param3 " +
-                                         "AND Car_Pac = @param4 " +
-                                         "AND Car_Estado = 'G' " +
-                                         "AND Car_Ase = @param5";
-
-                    using (SqlCommand Carga_Command = new SqlCommand(Cargar_Hora, con))
-                    {
-                        Carga_Command.Parameters.AddWithValue("@param1", Convert.ToDateTime(Desde.Date));
-                        Carga_Command.Parameters.AddWithValue("@param2", Convert.ToDateTime(Hasta.Date));
-                        Carga_Command.Parameters.AddWithValue("@param3", TipoCargo);
-                        Carga_Command.Parameters.AddWithValue("@param4", IdPaciente);
-                        Carga_Command.Parameters.AddWithValue("@param5", Ase);
-
-                        using (SqlDataReader Lectura_Hora = (Carga_Command.ExecuteReader()))
-                        {
-                            if (Lectura_Hora.HasRows)
-                            {
-                                List<int> L = new List<int>();
-
-                                while (Lectura_Hora.Read() == true)
-                                {
-                                    L.Add(Convert.ToInt32(Lectura_Hora["Car_Adm_Id"]));
-                                }
-
-                                return L;
-                            }
-                            else
-                            {
-                                return null;
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                return null;
-            }
-        }
+        }   
         int IFacturacion.getValCuotasReceived(int FacZamenis, int Cia)
         {
             try

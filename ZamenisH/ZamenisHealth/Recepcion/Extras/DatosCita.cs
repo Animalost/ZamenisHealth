@@ -82,6 +82,7 @@ namespace ZamenisHealth.Recepcion.Extras
                     textBox16.Text = _list.Hor_Usr_Admisiona + " - " + Convert.ToDateTime(_list.Hor_Pac_Llegada).ToString("hh:mm:ss tt");
                     textBox17.Text = Convert.ToDateTime(_list.Hor_Pac_Fecha).ToString(Conexion.ConectionDictionary["Format_Fecha"]) + " - " + Convert.ToDateTime(_list.Hor_Pac_Hora).ToString("HH:mm tt");
                     textBox18.Text = Convert.ToDateTime(_list.Hor_Pac_Atendido).ToString("HH:mm tt");
+                    textBox19.Text = repositorioPacientes.Carga_Regimen(_list.Hor_Regimen);
                     pacid = Convert.ToInt32(_list.Hor_Pac_Id);
 
                     textBox15.Text = _list.Hor_CantSesion.ToString();

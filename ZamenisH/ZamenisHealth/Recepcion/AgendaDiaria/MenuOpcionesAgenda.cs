@@ -1095,6 +1095,8 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
                         {
                             Bloqueo(texto.ToString() + " ESPACIOS BLOQUEADOS DESDE RECEPCION", Convert.ToInt32(texto));
                         }
+
+                        this.Close();
                     }                  
                 }
             }

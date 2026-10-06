@@ -2,22 +2,22 @@
 using System.Windows.Forms;
 using Domain;
 using Domain.Fibromialgia;
+using FormAndControls;
 using Persistence;
 using Persistence.CXN.Interfaces;
 using Persistence.CXN.Metodos;
 using Persistence.Fibromialgia.Interfaces;
 using Persistence.Fibromialgia.Metodos;
-using ZamenisHealth.Clases;
 using ZamenisHealth.Comunes;
 
 namespace ZamenisHealth.Fibromialgia.Encuestas
 {
-    public partial class Encuesta3 : ConfigForm.BaseForm
+    public partial class Encuesta3 : Forma2
     {
         private static readonly IPacientes repoPac = new MPacientes();
         private static readonly IEncuesta3 repoEncuesta3 = new MEncuesta3();
 
-
+        private MensajesGeneral MG;
         private int CodePac;
 
         public Encuesta3(int cod)
@@ -42,10 +42,10 @@ namespace ZamenisHealth.Fibromialgia.Encuestas
 
         private void Encuesta3_Load(object sender, EventArgs e)
         {
-            Comunes.MensajesGeneral MG = new MensajesGeneral();
-
-            this.Titulo.Text = "Encuesta de Satisfaccion";
-            this.ImageClose.Visible = false;
+            Titulo.Text = "Encuesta de Satisfaccion";
+            ImageClose.Visible = false;
+            ImageMinimize.Visible = false;
+            SubTitulo.Text = $"Zamenis Health {Conexion.VersionApp}";
 
             var getPac = repoPac.LlamarPacientebyId(this.CodePac);
             if (getPac != null)
@@ -66,8 +66,6 @@ namespace ZamenisHealth.Fibromialgia.Encuestas
         {
             try
             {
-                MensajesGeneral MG = new MensajesGeneral();
-
                 if (this.CodePac <= 0 || comboBox1.Text == "" || comboBox2.Text == "" || comboBox3.Text == "" || comboBox4.Text == "" || comboBox5.Text == "" ||
                     comboBox6.Text == "" || comboBox7.Text == "" || comboBox8.Text == "" || comboBox9.Text == "" || comboBox10.Text == "")
                 {

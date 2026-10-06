@@ -198,9 +198,9 @@
             this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.label5.Location = new System.Drawing.Point(17, 32);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(85, 31);
+            this.label5.Size = new System.Drawing.Size(189, 31);
             this.label5.TabIndex = 92;
-            this.label5.Text = "Menú";
+            this.label5.Text = "Herramientas";
             // 
             // panel1
             // 

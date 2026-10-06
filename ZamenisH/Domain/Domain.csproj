@@ -150,6 +150,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Comparativos\Comparar.cs" />
+    <Compile Include="CONSUMOS\CON_ASIGNACION.cs" />
+    <Compile Include="CONSUMOS\CON_CONSUMOS.cs" />
+    <Compile Include="CONSUMOS\CON_PRODUCTOS.cs" />
     <Compile Include="Contabilidad\DocumentoSoporte.cs" />
     <Compile Include="Contabilidad\ReporteContable.cs" />
     <Compile Include="Cotizaciones.cs" />
@@ -158,6 +161,7 @@
     <Compile Include="CXN\CXN_ALERGIASINSITE.cs" />
     <Compile Include="CXN\CXN_ANTECEDENTESFAMILIARES.cs" />
     <Compile Include="CXN\CXN_ASEGURADORA.cs" />
+    <Compile Include="CXN\CXN_BARCODES.cs" />
     <Compile Include="CXN\CXN_BODEGAS.cs" />
     <Compile Include="CXN\CXN_CAMBIOSSOLICITADOS.cs" />
     <Compile Include="CXN\CXN_CARGOS.cs" />
@@ -203,6 +207,7 @@
     <Compile Include="CXN\CXN_HCMED.cs" />
     <Compile Include="CXN\CXN_HCMG.cs" />
     <Compile Include="CXN\CXN_HCPSI.cs" />
+    <Compile Include="CXN\CXN_HCPSIQUIATRIA.cs" />
     <Compile Include="CXN\CXN_HCRADIOLOGIA.cs" />
     <Compile Include="CXN\CXN_HCTF.cs" />
     <Compile Include="CXN\CXN_HCTO.cs" />
@@ -244,7 +249,7 @@
     <Compile Include="CXN\CXN_REPORTECAJA2.cs" />
     <Compile Include="CXN\CXN_RESTOREPASS.cs" />
     <Compile Include="CXN\CXN_RISK.cs" />
-    <Compile Include="CXN\CXN_ROLES.cs" />
+    <Compile Include="CXN\CXN_SALIDASENFERMERIA.cs" />
     <Compile Include="CXN\CXN_TECNOSALUD.cs" />
     <Compile Include="CXN\CXN_TECNOSALUDMOTATENCION.cs" />
     <Compile Include="CXN\CXN_TIPIFICADOR.cs" />
@@ -263,6 +268,7 @@
     <Compile Include="CXN\WS_Clients.cs" />
     <Compile Include="CXN_ADJUNTOS\Adj_Archivos.cs" />
     <Compile Include="CXN_ADJUNTOS\PDF.cs" />
+    <Compile Include="CXN_DESKTOP_ROLES.cs" />
     <Compile Include="CXN_SHORTLINKS\URLS.cs" />
     <Compile Include="FacElectronica\ClaseFacturaElectronica.cs" />
     <Compile Include="FHIR\Auxiliares.cs" />

@@ -134,10 +134,27 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
                 btnAutPendiente = createToolButton("Aut. Pendientes");
                 MenuLateral.Items.Add(btnAutPendiente);
                 btnAutPendiente.Click += btnAutPendiente_Click;
+
+                ToolStripButton btnCodPaciente = new ToolStripButton();
+                btnCodPaciente = createToolButton("Ver Tipos");
+                MenuLateral.Items.Add(btnCodPaciente);
+                btnCodPaciente.Click += btnCodPaciente_Click;
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        void btnCodPaciente_Click(object sender, EventArgs e) 
+        { 
+            try
+            {
+                TiposPaciente T = new TiposPaciente();
+                T.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
         void btnAsistencia_Click(object sender, EventArgs e)

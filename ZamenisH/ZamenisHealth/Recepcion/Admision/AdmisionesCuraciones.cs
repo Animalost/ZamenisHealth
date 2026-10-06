@@ -28,6 +28,7 @@ namespace ZamenisHealth.Recepcion.Admision
         private IPacientes pacientesController;
         private IAseguradoras aseguradorasController;
         private IZonas zonasController;
+        private IMedicinaGeneral oMedGen;
         private int Admision, PacId, Ase;
         private DateTime _fechas;
 
@@ -58,6 +59,7 @@ namespace ZamenisHealth.Recepcion.Admision
             aseguradorasController = new MAseguradoras();
             zonasController = new MZonas();
             horarioController = new MAgenda();
+            oMedGen = new MMedicinaGeneral();
         }
 
         private void AdmisionesCuraciones_Load(object sender, EventArgs e)
@@ -1130,6 +1132,11 @@ namespace ZamenisHealth.Recepcion.Admision
                 f.Close();
 
                 pacientesController.Bonos(PacId, Bonos == true ? "A" : "N");
+
+                if (checkBox4.Checked == true)
+                {
+                    int copyHisMGAlta = oMedGen.CopiarHistoriaAltaComplejidad(PacId, _fechas);
+                }
 
                 this.Dispose();
                 this.Close();

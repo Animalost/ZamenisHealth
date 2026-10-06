@@ -1272,28 +1272,37 @@ namespace Persistence.CXN.Metodos
                     }
 
                     String Cargar_Hora2 = "SELECT Car_Tipo " +
-                                             "FROM Cxn_Cargos " +
-                                             "WHERE Car_Adm_Id = '" + Admision + "' " +
-                                             "AND Car_Tipo = 'Cargo' " +
-                                             "AND Car_Estado = 'G'";
-                    SqlCommand Carga_Command2 = new SqlCommand(Cargar_Hora2, con);
-                    SqlDataReader Lectura_Hora2 = (Carga_Command2.ExecuteReader());
-                    if (Lectura_Hora2.Read() == true)
-                    {
-                        string Busqueda = "DELETE FROM Cxn_Cargos " +
-                                          "WHERE Car_Adm_Id = '" + Admision + "' " +
+                                          "FROM Cxn_Cargos " +
+                                          "WHERE Car_Adm_Id = @param1 " +
                                           "AND Car_Tipo = 'Cargo' " +
                                           "AND Car_Estado = 'G'";
-                        SqlCommand Accion = new SqlCommand(Busqueda, con);
-                        int Guarda;
-                        Guarda = Accion.ExecuteNonQuery();
 
-                        return true;
-                    }
-                    else
+                    using (SqlCommand Carga_Command2 = new SqlCommand(Cargar_Hora2, con))
                     {
-                        return false;
-                    }
+                        Carga_Command2.Parameters.AddWithValue("@param1", Admision);
+
+                        using (SqlDataReader Lectura_Hora2 = (Carga_Command2.ExecuteReader()))
+                        {
+                            if (Lectura_Hora2.Read() == true)
+                            {
+                                string Busqueda = "DELETE FROM Cxn_Cargos " +
+                                                  "WHERE Car_Adm_Id = @param2 " +
+                                                  "AND Car_Tipo = 'Cargo' " +
+                                                  "AND Car_Estado = 'G'";
+
+                                using (SqlCommand Accion = new SqlCommand(Busqueda, con))
+                                {
+                                    Accion.Parameters.AddWithValue("@param2", Admision);
+
+                                    return Accion.ExecuteNonQuery() > 0 ? true : false;
+                                }
+                            }
+                            else
+                            {
+                                return false;
+                            }
+                        }
+                    }                   
                 }
             }
             catch (Exception ex)
@@ -1302,6 +1311,51 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
 
+        }
+        CXN_INVENTARIO ICargos.DatoProdBarCode(int Ase, string Cod)
+        {
+            Dictionary<string, string> getData = Conexion.Conection();
+
+            using (SqlConnection con = new SqlConnection(getData["Conexion"]))
+            {
+                if (con != null && con.State == ConnectionState.Closed)
+                {
+                    con.Open();
+                }
+
+                String Cargar_Hora = @"SELECT InvPrecio, InvItem, InvDetalle, InvImagen, InvCod 
+                                     FROM CXN_INVENTARIO I 
+                                     INNER JOIN CXN_BARCODES B ON I.InvCod = B.Bar_Origin
+                                     WHERE B.Bar_CodeBar = @param1 
+                                     AND I.InvConvenio = @param2";
+
+                using (SqlCommand Carga_Command = new SqlCommand(Cargar_Hora, con))
+                {
+                    Carga_Command.Parameters.AddWithValue("@param1", Cod);
+                    Carga_Command.Parameters.AddWithValue("@param2", Ase);
+
+                    using (SqlDataReader Lectura_Hora = (Carga_Command.ExecuteReader()))
+                    {
+                        if (Lectura_Hora.Read() == true)
+                        {
+                            CXN_INVENTARIO L = new CXN_INVENTARIO
+                            {
+                                InvCod = Lectura_Hora["InvCod"]?.ToString() ?? "",
+                                InvPrecio = Convert.ToInt32(Lectura_Hora["InvPrecio"]),
+                                InvItem = Lectura_Hora["InvItem"]?.ToString() ?? "",
+                                InvDetalle = Lectura_Hora["InvDetalle"]?.ToString() ?? "",
+                                InvImagen = Lectura_Hora["InvImagen"]?.ToString() ?? ""                                
+                            };                            
+
+                            return L;
+                        }
+                        else
+                        {
+                            return null;
+                        }
+                    }
+                }
+            }
         }
         ListaProd ICargos.DatoProd(int Ase, string Cod)
         {

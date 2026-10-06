@@ -87,7 +87,8 @@ namespace ZamenisHealth.Recepcion
             {
                 (Dictionary<string, int> Ventas, 
                     Dictionary<string, int> Caja, 
-                    Dictionary<string, int> Particulares) ingresos = iCIerresCaja.getIngresos(Cia, Desde, Hasta);            
+                    Dictionary<string, int> Particulares, 
+                    string Facturas) ingresos = iCIerresCaja.getIngresos(Cia, Desde, Hasta);            
 
                 if (ingresos.Caja != null)
                 {
@@ -201,6 +202,8 @@ namespace ZamenisHealth.Recepcion
                 label30.Text = Convert.ToInt32(ValTotalEfectivoP + ValTotalTCP + ValTotalTDP + ValTotalNequiP + ValTotalDaviplataP + ValTotalOtrasP).ToString("N0");
 
                 label49.Text = "0";
+
+                richTextBox2.Text = ingresos.Facturas.ToString();
             }
             catch (Exception ex)
             {
@@ -250,7 +253,8 @@ namespace ZamenisHealth.Recepcion
 
                     (Dictionary<string, int> Ventas,
                      Dictionary<string, int> Caja,
-                     Dictionary<string, int> Particulares) ingresos = iCIerresCaja.getIngresos(Cia, Desde, Hasta);
+                     Dictionary<string, int> Particulares, 
+                     string Facturas) ingresos = iCIerresCaja.getIngresos(Cia, Desde, Hasta);
 
                     if (ingresos.Ventas != null || ingresos.Caja != null || ingresos.Particulares != null)
                     {                        
@@ -662,7 +666,7 @@ namespace ZamenisHealth.Recepcion
                     
                         foreach (CXN_REPORTECAJA2 i in Resultado)
                         {
-                            CXN_REPORTECAJA2 R = new CXN_REPORTECAJA2()
+                            CXN_REPORTECAJA2 R = new CXN_REPORTECAJA2
                             {
                                 Clase = i.Clase,
                                 Consecutivo = i.Consecutivo,
@@ -674,7 +678,8 @@ namespace ZamenisHealth.Recepcion
                                 Tipo = i.Tipo,
                                 Usuario = i.Usuario,
                                 Valor = i.Valor,
-                                Compañia = i.Compañia
+                                Compañia = i.Compañia,
+                                Facturas = richTextBox2.Text
                             };
 
                             iCIerresCaja.GrabarReporte2(R);

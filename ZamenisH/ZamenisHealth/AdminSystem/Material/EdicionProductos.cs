@@ -58,6 +58,7 @@ namespace ZamenisHealth.AdminSystem.Material
                     textBox3.Text = P.InvInvima;
                     textBox4.Text = Convert.ToInt32(P.InvPrecio).ToString();
                     textBox5.Text = P.InvDetalle;
+                    textBox6.Text = P.InvImagen;
                     comboBox1.Text = P.InvTipo;
                     comboBox2.Text = P.InvCobro;
                     comboBox3.Text = oAseguradora.getInfoFromAsebyCode(P.InvConvenio).Ase_Descripcion; comboBox3.Enabled = false;
@@ -121,7 +122,8 @@ namespace ZamenisHealth.AdminSystem.Material
                         InvPrecio = Convert.ToInt32(textBox4.Text),
                         InvTipo = comboBox1.Text,
                         InvFechaCre = DateTime.Now.Date,
-                        InvCodBar = textBox1.Text
+                        InvCodBar = textBox1.Text,
+                        InvImagen = textBox6.Text
                     };
 
                     if (Nuevo == true)

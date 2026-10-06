@@ -120,6 +120,29 @@ namespace ZamenisHealth.Medicina
                                     break;
                             }
                         }
+                        else if (NodoPrincipal == "PSIQUIATRIA")
+                        {
+                            switch (TittleSelected)
+                            {
+                                case "Historia Clinica":
+                                    SeleccionReporte = "PSIQ";
+                                    BuscarH(SeleccionReporte);
+                                    panel1.Visible = false;
+                                    break;
+
+                                case "Seguimiento":
+                                    SeleccionReporte = "PSIQ2";
+                                    BuscarH(SeleccionReporte);
+                                    panel1.Visible = false;
+                                    break;
+
+                                case "Evolucion":
+                                    SeleccionReporte = "PSIQ3";
+                                    BuscarH(SeleccionReporte);
+                                    panel1.Visible = false;
+                                    break;
+                            }
+                        }
                         else if (NodoPrincipal == "ENFERMERIA")
                         {
                             switch (TittleSelected)
@@ -279,6 +302,20 @@ namespace ZamenisHealth.Medicina
                 Fisi.Nodes.Add(FisiOrdenMedica);
 
                 treeView1.Nodes.Add(Fisi);
+                #endregion
+
+                #region  PSIQUIATRIA
+                TreeNode psiq = new TreeNode("PSIQUIATRIA");
+
+                TreeNode PsiqHistory = new TreeNode("Historia Clinica");
+                TreeNode PsiqHistory2 = new TreeNode("Seguimiento");
+                TreeNode PsiqHistory3 = new TreeNode("Evolucion");
+
+                psiq.Nodes.Add(PsiqHistory);
+                psiq.Nodes.Add(PsiqHistory2);
+                psiq.Nodes.Add(PsiqHistory3);
+
+                treeView1.Nodes.Add(psiq); 
                 #endregion
 
                 #region  NOTAS DE CURACION
@@ -598,6 +635,7 @@ namespace ZamenisHealth.Medicina
         }
         void NotasTotal()
         {
+            MensajesGeneral MG = new MensajesGeneral();
             try
             {
                 var getRDLCMasivo = repoReportes.NotasMetodoRDLC(Convert.ToInt32(this.Paciente),
@@ -615,17 +653,7 @@ namespace ZamenisHealth.Medicina
                     {                        
                         R.LocalReport.DataSources.Clear();
                         R.LocalReport.DataSources.Add(new ReportDataSource("DataSet_Notas", getRDLCMasivo[Contador]));
-
-                        if (Preferencias.CuracionesCORE == "A" && getRDLCMasivo[Contador][0].listaMedidas != null)
-                        {
-                            R.LocalReport.DataSources.Add(new ReportDataSource("DataSet_NotasMed", getRDLCMasivo[Contador][0].listaMedidas));
-                            R.LocalReport.ReportEmbeddedResource = "ZamenisHealth.Reportes.RDLC_NotasCore.rdlc";
-                        }
-                        else
-                        {
-                            R.LocalReport.ReportEmbeddedResource = "ZamenisHealth.Reportes.RDLC_Notas.rdlc";
-                        }                        
-                        
+                        R.LocalReport.ReportEmbeddedResource = "ZamenisHealth.Reportes.RDLC_Notas.rdlc";                        
                         R.SetDisplayMode(DisplayMode.PrintLayout);
                         R.ZoomMode = ZoomMode.Percent;
                         R.ZoomPercent = 100;
@@ -658,7 +686,7 @@ namespace ZamenisHealth.Medicina
                                           salida.ToString() + ".pdf");
 
                     R.Dispose();
-
+                    
                     MG.TipoImagen = 3;
                     MG.Mensaje = "Generado en C CXN REPORTES";
                     MG.ShowDialog();
@@ -974,6 +1002,54 @@ namespace ZamenisHealth.Medicina
                             ConfigForm.GenerarReportViewer("DataSet_HCFI",
                                        "ZamenisHealth.Reportes.RDLC_HCFI.rdlc",
                                        H_HCFI);
+
+                            break;
+
+                        case "PSIQ":
+                            var H_HCPSIQ = repoReportes.ReportePsiquiatria(Admition);
+                            if (H_HCPSIQ == null)
+                            {
+                                MG.Mensaje = "No se logro exportar, posiblemente halla una falla al exportar o la historia no existe";
+                                MG.TipoImagen = 1000;
+                                MG.ShowDialog();
+                                return;
+                            }
+
+                            ConfigForm.GenerarReportViewer("DataSet_Psiquiatria",
+                                       "ZamenisHealth.Reportes.RDLC_HCPsiquiatria.rdlc",
+                                       H_HCPSIQ);
+
+                            break;
+
+                        case "PSIQ2":
+                            var H_HCPSIQ2 = repoReportes.ReportePsiquiatria(Admition);
+                            if (H_HCPSIQ2 == null)
+                            {
+                                MG.Mensaje = "No se logro exportar, posiblemente halla una falla al exportar o la historia no existe";
+                                MG.TipoImagen = 1000;
+                                MG.ShowDialog();
+                                return;
+                            }
+
+                            ConfigForm.GenerarReportViewer("DataSet_Psiquiatria",
+                                       "ZamenisHealth.Reportes.RDLC_HCPsiquiatria2.rdlc",
+                                       H_HCPSIQ2);
+
+                            break;
+
+                        case "PSIQ3":
+                            var H_HCPSIQ3 = repoReportes.ReportePsiquiatria(Admition);  
+                            if (H_HCPSIQ3 == null)
+                            {
+                                MG.Mensaje = "No se logro exportar, posiblemente halla una falla al exportar o la historia no existe";
+                                MG.TipoImagen = 1000;
+                                MG.ShowDialog();
+                                return;
+                            }
+
+                            ConfigForm.GenerarReportViewer("DataSetPsiquiatria",
+                                       "ZamenisHealth.Reportes.RDLC_HCPsiquiatria3.rdlc",
+                                       H_HCPSIQ3);
 
                             break;
 

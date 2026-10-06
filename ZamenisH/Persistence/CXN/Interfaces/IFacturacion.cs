@@ -36,7 +36,6 @@ namespace Persistence.CXN.Interfaces
         void InsertCopyTableCargos(CXN_CARGOS C);
         int getTotalFac(int Cia, int Orden);
         bool UpdateFuenteICA(int fuente, int ica, int orden, int cia);
-        List<int> GetAdmitionByType(string TipoCargo, int IdPaciente, DateTime Desde, DateTime Hasta, int Ase);
         int getValCuotasReceived(int FacZamenis, int Cia);
         List<int> getAdmitionsByFac(int FacZamenis, int Cia);
     }

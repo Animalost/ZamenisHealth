@@ -148,6 +148,7 @@ namespace Persistence.CXN.Metodos
                                     InvDetalle = Reader["InvDetalle"].ToString(),
                                     InvInvima = Reader["InvInvima"].ToString(),
                                     InvTipo = Reader["InvTipo"].ToString(),
+                                    InvImagen = Reader["InvImagen"]?.ToString() ?? Reader["InvCod"].ToString()
                                 };
 
                                 return V;
@@ -370,7 +371,8 @@ namespace Persistence.CXN.Metodos
                                                                "InvDetalle, " + //param8
                                                                "InvConvenio, " + //param9
                                                                "InvFechaCre, " +
-                                                              "InvCodBar) " + //param16
+                                                              "InvCodBar, " +
+                                                              "InvImagen) " + //param16
                                      "values                  (@param1, " + // Hor_Estado
                                                               "@param2, " + // Hor_Pac_Id
                                                               "@param3, " + // Hor_Pac_Bod
@@ -381,7 +383,8 @@ namespace Persistence.CXN.Metodos
                                                               "@param8, " + // Hor_Pac_UsrGraba
                                                               "@param9, " + // Hor_Imp_Age
                                                               "@param11," +
-                                                              "@param12)", con); // Hor_Pac_Sal
+                                                              "@param12, " +
+                                                              "@param13)", con); // Hor_Pac_Sal
 
                     cmd.Parameters.AddWithValue("@param1", I.InvItem);
                     cmd.Parameters.AddWithValue("@param2", I.InvCod);
@@ -394,6 +397,7 @@ namespace Persistence.CXN.Metodos
                     cmd.Parameters.AddWithValue("@param9", I.InvConvenio);
                     cmd.Parameters.Add(new SqlParameter("@param11", SqlDbType.DateTime)).Value = I.InvFechaCre;
                     cmd.Parameters.AddWithValue("@param12", I.InvCodBar);
+                    cmd.Parameters.AddWithValue("@param13", I.InvImagen);
                     return cmd.ExecuteNonQuery() > 0 ? true : false;
                 }
             }
@@ -534,8 +538,9 @@ namespace Persistence.CXN.Metodos
                                       "InvTipo = @param5, " +
                                       "InvUsrGraba = @param6, " +
                                       "InvCobro = @param7, " +
-                                      "InvCodBar = @param8 " +
-                                      "WHERE InvId = @param9";
+                                      "InvCodBar = @param8, " +
+                                      "InvImagen = @param9 " +
+                                      "WHERE InvId = @param10";
 
                     using (SqlCommand Accion = new SqlCommand(Busqueda, con))
                     {
@@ -547,7 +552,8 @@ namespace Persistence.CXN.Metodos
                         Accion.Parameters.AddWithValue("@param6", I.InvUsrGraba);
                         Accion.Parameters.AddWithValue("@param7", I.InvCobro);
                         Accion.Parameters.AddWithValue("@param8", I.InvCodBar);
-                        Accion.Parameters.AddWithValue("@param9", I.InvId);
+                        Accion.Parameters.AddWithValue("@param9", I.InvImagen);
+                        Accion.Parameters.AddWithValue("@param10", I.InvId);
 
                         return Accion.ExecuteNonQuery() > 0 ? true : false;
                     }

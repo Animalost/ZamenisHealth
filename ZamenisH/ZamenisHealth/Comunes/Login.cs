@@ -1,5 +1,6 @@
 ﻿using Domain;
 using Domain.CXN;
+using FormAndControls;
 using Persistence;
 using Persistence.CXN.Interfaces;
 using Persistence.CXN.Metodos;
@@ -7,13 +8,12 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-using ZamenisHealth.Clases;
 using ZamenisHealth.Comunes.Extras;
 using ZamenisHealth.Licence;
 
 namespace ZamenisHealth.Comunes
 {
-    public partial class Login : ConfigForm.BaseForm
+    public partial class Login : Forma2
     {
         private static readonly ILogin repositorioLogin = new MLogin();                
 
@@ -32,6 +32,7 @@ namespace ZamenisHealth.Comunes
             label4.BackColor = Color.FromArgb(25, Color.Black);
             label5.BackColor = Color.FromArgb(25, Color.Black);
             label6.BackColor = Color.FromArgb(25, Color.Black);
+            label7.BackColor = Color.FromArgb(25, Color.Black);
             label8.BackColor = Color.FromArgb(25, Color.Black);
             checkBox1.BackColor = Color.FromArgb(25, Color.Black);
 
@@ -44,8 +45,7 @@ namespace ZamenisHealth.Comunes
             textBox1.TabIndex = 2;
             textBox1.Focus();
 
-            Titulo.Visible = false;
-            ImageClose.Visible = false;
+            PanelTitulo.Visible = false;
 
             Dictionary<string, string> getData = Conexion.Conection();
             label8.Text = $"Zamenis Health V.{ Conexion.VersionApp } - CopyRight 2018 Fabian Gamba"; 
@@ -142,7 +142,6 @@ namespace ZamenisHealth.Comunes
                         if (LogAdminForUser.Log_Rol_Enfermero.Equals("A")) { Content.toolStripButton8.Visible = true; } else { Content.toolStripButton8.Visible = false; }
                         if (LogAdminForUser.Log_Rol_AdminI.Equals("A")) { Content.toolStripButton11.Visible = true; } else { Content.toolStripButton11.Visible = false; }
                         if (LogAdminForUser.Log_Rol_MedGen.Equals("A")) { Content.toolStripButton7.Visible = true; } else { Content.toolStripButton7.Visible = false; }
-                        if (LogAdminForUser.Log_RolRadiologia.Equals("A")) { Content.toolStripButton14.Visible = true; } else { Content.toolStripButton14.Visible = false; }
                         if (LogAdminForUser.Log_Rol_Gerencial.Equals("A")) { Content.toolStripButton9.Visible = true; } else { Content.toolStripButton9.Visible = false; }
                         if (LogAdminForUser.Log_Rol_Psicologia.Equals("A")) { Content.toolStripButton3.Visible = true; } else { Content.toolStripButton3.Visible = false; }
                         if (LogAdminForUser.Log_Rol_TO.Equals("A")) { Content.toolStripButton5.Visible = true; } else { Content.toolStripButton5.Visible = false; }
@@ -195,7 +194,6 @@ namespace ZamenisHealth.Comunes
                             if (Log.Log_Rol_Enfermero.Equals("A")) { Content.toolStripButton8.Visible = true; } else { Content.toolStripButton8.Visible = false; }
                             if (Log.Log_Rol_AdminI.Equals("A")) { Content.toolStripButton11.Visible = true; } else { Content.toolStripButton11.Visible = false; }
                             if (Log.Log_Rol_MedGen.Equals("A")) { Content.toolStripButton7.Visible = true; } else { Content.toolStripButton7.Visible = false; }
-                            if (Log.Log_RolRadiologia.Equals("A")) { Content.toolStripButton14.Visible = true; } else { Content.toolStripButton14.Visible = false; }
                             if (Log.Log_Rol_Gerencial.Equals("A")) { Content.toolStripButton9.Visible = true; } else { Content.toolStripButton9.Visible = false; }
                             if (Log.Log_Rol_Psicologia.Equals("A")) { Content.toolStripButton3.Visible = true; } else { Content.toolStripButton3.Visible = false; }
                             if (Log.Log_Rol_TO.Equals("A")) { Content.toolStripButton5.Visible = true; } else { Content.toolStripButton5.Visible = false; }
@@ -294,6 +292,24 @@ namespace ZamenisHealth.Comunes
             {
                 Acceder();
             }
+        }
+
+        private void label7_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(textBox1.Text))
+            {
+                MG = new MensajesGeneral()
+                {
+                    Mensaje = "Debe escribir su usuario de acceso al sistema",
+                    TipoImagen = 1000,
+                };
+                MG.ShowDialog();
+            }
+            else
+            {
+                Login2 L = new Login2(this);
+                L.ShowDialog();
+            }            
         }
     }
 }

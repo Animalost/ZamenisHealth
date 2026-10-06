@@ -41,8 +41,8 @@ namespace ZamenisHealth.Comunes
         {
             Titulo.Text = "Buscar Paciente";
             SubTitulo.Text = $"Zamenis Health {Conexion.VersionApp}";
-            gridZH1.dataGridView1.CellClick += dataGridView1_CellClick;
             gridZH1.CeldaHeight = true;
+            gridZH1.dataGridView1.CellClick += dataGridView1_CellClick;            
         }
         private void toolStripButton2_Click(object sender, EventArgs e)
         {

@@ -132,18 +132,6 @@ namespace ZamenisHealth.Medicina
                         this.Close();
                         break;
 
-                    case "NotasCore":
-                        HistoriasClinicas.NotaEnfermeria.NotaCuracion f4 = Application.OpenForms.OfType<HistoriasClinicas.NotaEnfermeria.NotaCuracion>().SingleOrDefault();
-                        f4.richTextBox1.Text = Imprimir;
-                        f4.textBox15.Text = String.Join(Environment.NewLine, Ap);
-                        Comunes.MensajesGeneral MG4 = new Comunes.MensajesGeneral();
-                        MG4.Mensaje = "Recuerde MODIFICAR la observacion de la nota de curacion con los apositos elegidos";
-                        MG4.TipoImagen = 3;
-                        MG4.ShowDialog();
-                        this.Dispose();
-                        this.Close();
-                        break;
-
                     default:
                         MessageBox.Show("No se logro cargar el tipo de formulario, cierre esta pantalla y vuelva a intentarlo", "Incidencia de sistema", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                         break;

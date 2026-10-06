@@ -10,7 +10,7 @@ namespace ZamenisHealth.Clases
         public static string TCPIP { get; set; }
         public static string TicketCitas { get; set; }
         public static int Bloqueo { get; set; }
-        public static string CuracionesCORE { get; set; }
+        public static string CargosEnfermeros { get; set; }
         public static string TabletaFirmas { get; set; }
 
         public static void GetPreferences(string key, string value)
@@ -35,9 +35,9 @@ namespace ZamenisHealth.Clases
             {
                 Bloqueo = Convert.ToInt32(value);
             }
-            if (key == "CuracionesCORE")
+            if (key == "CargosEnfermeros")
             {
-                CuracionesCORE = value;
+                CargosEnfermeros = value;
             }
             if (key == "TabletaFirmas")
             {
@@ -74,10 +74,10 @@ namespace ZamenisHealth.Clases
                 iniFile.Write("PreferenciasConfig", key, value);
                 Bloqueo = Convert.ToInt32(value);
             }
-            if (key == "CuracionesCORE")
+            if (key == "CargosEnfermeros")
             {
                 iniFile.Write("PreferenciasConfig", key, value);
-                CuracionesCORE = value;
+                CargosEnfermeros = value;
             }
             if (key == "TabletaFirmas")
             {

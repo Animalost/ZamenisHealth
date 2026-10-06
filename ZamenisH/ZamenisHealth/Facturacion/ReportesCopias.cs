@@ -11,10 +11,13 @@ using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ZamenisHealth.Clases;
 using ZamenisHealth.Comunes;
+using ZamenisHealth.Recepcion;
+using ZamenisHealth.Recepcion.Extras;
 
 namespace ZamenisHealth.Facturacion
 {
@@ -24,7 +27,6 @@ namespace ZamenisHealth.Facturacion
         private static readonly ICompañia repoCia = new MCompañia();
         private static readonly IReportes repoReportes = new MReportes();
         private static readonly IVentas repoVentas = new MVentas();
-        private static readonly IPlanos repoPlanos = new MPlanos();
         private static readonly IFacElectron repoElectron = new MFacElectron();
         private static readonly IFacturacion repoFacturacion = new MFacturacion();
         private static readonly IPacientes repoPacientes = new MPacientes();
@@ -32,12 +34,15 @@ namespace ZamenisHealth.Facturacion
         private static readonly IRcCaja repoRCCaja = new MRcCaja();
         private static readonly IConvenios repoConvenios = new MConvenios();
         private static readonly IFirmasDigitales fDigitales = new MFirmasDigitales();
+        private static readonly IGenerales oGenerales = new MGenerales();
+        private static readonly IVentas oVentas = new MVentas();
 
         private Dictionary<int, string> DNotas;
         private Dictionary<int, string> DHistorias;
         private Espera E;
         int Ase, Cia, FacSelected, PACID;
         string HomologoFac, AutorPrint;
+        private bool IsAdministrator;
 
         private MensajesGeneral MG;
 
@@ -53,9 +58,10 @@ namespace ZamenisHealth.Facturacion
         DataColumn PacId;
         DataColumn Autor;
 
-        public ReportesCopias()
+        public ReportesCopias(bool isAdministrator)
         {
             InitializeComponent();
+            IsAdministrator = isAdministrator;
         }
 
         void NotasCredito(string Tipo)
@@ -85,8 +91,8 @@ namespace ZamenisHealth.Facturacion
 
                 Encabezados();
 
-                DateTime Desde = new DateTime(Convert.ToInt32(comboBox5.Text), getMonthNumber(comboBox4.Text), 01);
-                DateTime Hasta = new DateTime(Convert.ToInt32(comboBox5.Text), getMonthNumber(comboBox4.Text), getMonthLastDay(comboBox4.Text));
+                DateTime Desde = dateTimePicker1.Value.Date;
+                DateTime Hasta = dateTimePicker2.Value.Date;
 
                 List<CXN_FACTURANC> getDocc = repoElectron.GetNotasCredito(tip, Desde.Date, Hasta.Date, Cia);
                 if (getDocc == null)
@@ -171,8 +177,8 @@ namespace ZamenisHealth.Facturacion
                         return;
                 }
 
-                DateTime Desde = new DateTime(Convert.ToInt32(comboBox5.Text), getMonthNumber(comboBox4.Text), 01);
-                DateTime Hasta = new DateTime(Convert.ToInt32(comboBox5.Text), getMonthNumber(comboBox4.Text), getMonthLastDay(comboBox4.Text));
+                DateTime Desde = dateTimePicker1.Value.Date;
+                DateTime Hasta = dateTimePicker2.Value.Date;
 
                 if (comboBox1.Text == "Facturas Aseguradoras y Particulares")
                 {
@@ -298,7 +304,7 @@ namespace ZamenisHealth.Facturacion
                             row["Valor"] = "$ " + Convert.ToInt32(report.ValorReciboFactura).ToString("N0");
                             row["Paciente"] = report.PacienteNombre.ToString();
                             row["AdminRec"] = Tabla.ToString();
-                            row["PacId"] = "";
+                            row["PacId"] = report.Recibo.ToString();
                             row["Autor"] = "";
 
                             dt.Rows.Add(row);
@@ -369,11 +375,139 @@ namespace ZamenisHealth.Facturacion
             {
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
-        }      
+        }
+        void RecepcionReports()
+        { 
+            try
+            {
+                DateTime Desde = dateTimePicker1.Value.Date;
+                DateTime Hasta = dateTimePicker2.Value.Date;
+
+                switch (comboBox1.Text)
+                {
+                    case "Facturas Ventas":
+                        Rpt_FacturasVenta(Desde.Date,
+                            Hasta.Date,
+                            Cia,
+                            comboBox2.Text,
+                            "OP");
+                        break;
+
+                    case "Facturas Caja":
+                        Rpt_RecibosdeCaja(Desde.Date,
+                             Hasta.Date,
+                             Cia,
+                             comboBox2.Text);
+                        break;
+
+                    default:
+                        MG = new MensajesGeneral()
+                        {
+                            Mensaje = "Opcion no valida",
+                            TipoImagen = 1000
+                        };
+                        MG.ShowDialog();
+                        return;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        void Rpt_RecibosdeCaja(DateTime Desde, DateTime Hasta, int Cia, string Prestador)
+        {
+            try
+            {
+                List<ReportesRecepcion> ExportaRpt = oVentas.Rpt_RecibosdeCaja(Desde,
+                                                                               Hasta,
+                                                                               Cia,
+                                                                               Prestador,
+                                                                               false);
+
+                if (ExportaRpt == null)
+                {
+                    MG = new MensajesGeneral()
+                    {
+                        Mensaje = "No hay informacion para exportar",
+                        TipoImagen = 1000
+                    };
+
+                    MG.ShowDialog();
+                }
+                else
+                {
+                    if (comboBox6.Text == "Normal")
+                    {
+                        ConfigForm.GenerarReportViewer("DataSet_ReportGeneral",
+                                                 "ZamenisHealth.Reportes.RDLC_ReporteRecibosCaja.rdlc",
+                                                 ExportaRpt);
+                    }
+                    else
+                    {
+                        List<ReportesRecepcion> ExportaRpt2 = ExportaRpt.Where(x => x.PacienteTelefono == comboBox6.Text).ToList();
+                        ConfigForm.GenerarReportViewer("DataSet_ReportGeneral",
+                                                "ZamenisHealth.Reportes.RDLC_ReporteRecibosCaja.rdlc",
+                                                ExportaRpt2);
+                    }
+                }                
+            }
+            catch (Exception ex)
+            {
+                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
+            }
+        }
+        void Rpt_FacturasVenta(DateTime Desde, DateTime Hasta, int Cia, string Prestador, string Tipo)
+        {
+            try
+            {
+                List<ReportesRecepcion> ExportaRpt = oVentas.Rpt_FacturasVenta(Desde,
+                                                                     Hasta,
+                                                                     Cia,
+                                                                     Prestador,
+                                                                     Tipo);
+
+                if (ExportaRpt == null)
+                {
+                    MG = new MensajesGeneral()
+                    {
+                        Mensaje = "No hay informacion para exportar",
+                        TipoImagen = 1000
+                    };
+                    MG.ShowDialog();
+                }
+                else
+                {
+                    if (comboBox6.Text == "Normal")
+                    {
+                        ConfigForm.GenerarReportViewer("DataSet_ReportGeneral",
+                                                    "ZamenisHealth.Reportes.RDLC_ReporteGeneralRecepcion.rdlc",
+                                                    ExportaRpt);
+                    }
+                    else
+                    {
+                        List<ReportesRecepcion> ExportaRpt2 = ExportaRpt.Where(x => x.PacienteTelefono == comboBox6.Text).ToList();
+                        ConfigForm.GenerarReportViewer("DataSet_ReportGeneral",
+                                                    "ZamenisHealth.Reportes.RDLC_ReporteGeneralRecepcion.rdlc",
+                                                    ExportaRpt2);
+                    }
+                }               
+            }
+            catch (Exception ex)
+            {
+                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
+            }
+        }
         private void btnZamenis2_ButtonClick(object sender, EventArgs e)
         {
             try
             {
+                if (comboBox1.Text == "Facturas Ventas")
+                {
+                    RecepcionReports();
+                    return;
+                }
+
                 string Tips;
 
                 switch (comboBox1.SelectedIndex)
@@ -388,16 +522,12 @@ namespace ZamenisHealth.Facturacion
                         break;
 
                     default:
-                        Tips = "";
-                        MensajesGeneral M = new MensajesGeneral();
-                        M.TipoImagen = 0;
-                        M.Mensaje = "Seleccion no valida, solamente puede filtrar en tabla los datos pero para reportes ingrese por la opcion recepcion";
-                        M.ShowDialog();
+                        RecepcionReports();
                         return;
                 }
 
-                DateTime Desde = new DateTime(Convert.ToInt32(comboBox5.Text), getMonthNumber(comboBox4.Text), 01);
-                DateTime Hasta = new DateTime(Convert.ToInt32(comboBox5.Text), getMonthNumber(comboBox4.Text), getMonthLastDay(comboBox4.Text));
+                DateTime Desde = dateTimePicker1.Value.Date;
+                DateTime Hasta = dateTimePicker2.Value.Date;
 
                 List<FacturacionReports> Export = repoReportes.Exportar(Desde.Date,
                                                                       Hasta.Date,
@@ -427,43 +557,7 @@ namespace ZamenisHealth.Facturacion
         {
             try
             {
-                string Tips = "";
-
-                switch (comboBox1.SelectedIndex)
-                {
-                    case 1: //facturacs
-                        Tips = "FA";
-                        break;
-
-                    case 2: //op
-                        Tips = "OP";
-                        break;
-
-                    case 3: //DE
-                        Tips = "DE";
-                        break;
-
-                    default:
-                        MensajesGeneral M = new MensajesGeneral();
-                        M.TipoImagen = 0;
-                        M.Mensaje = "Seleccion Invalida";
-                        M.ShowDialog();
-                        break;
-                }
-
-                DateTime Desde = new DateTime(Convert.ToInt32(comboBox5.Text), getMonthNumber(comboBox4.Text), 01);
-                DateTime Hasta = new DateTime(Convert.ToInt32(comboBox5.Text), getMonthNumber(comboBox4.Text), getMonthLastDay(comboBox4.Text));
-
-                CXN_FACTURA F = new CXN_FACTURA
-                {
-                    Fac_Fecha_Des = Convert.ToDateTime(Desde.Date),
-                    Fac_Fecha_Has = Convert.ToDateTime(Hasta.Date),
-                    Fac_Cia = Cia,
-                    Fac_Ase = Ase,
-                    Fac_Tipo_Doc = Tips
-                };
-
-                repoPlanos.ExpPlanoFacturacion(F);
+                oGenerales.ExportarGrilla(gridZH1.dataGridView1);
             }
             catch (Exception ex)
             {
@@ -491,20 +585,34 @@ namespace ZamenisHealth.Facturacion
             MenuLateral.Items.Add(btnExportar);
             btnExportar.Click += btnZamenis3_ButtonClick;
 
+            ToolStripButton btnCierres = new ToolStripButton();
+            btnCierres = createToolButton("Cierres");
+            MenuLateral.Items.Add(btnExportar);
+            btnCierres.Click += btnCierres_ButtonClick;
+
+            ToolStripButton btnCierresPrevios = new ToolStripButton();
+            btnCierresPrevios = createToolButton("Cierres Previos");
+            MenuLateral.Items.Add(btnCierresPrevios);
+            btnCierresPrevios.Click += btnCierresPrevios_ButtonClick;
+
+            ToolStripButton btnCambioTPago = new ToolStripButton();
+            btnCambioTPago = createToolButton("Cambiar Pago");
+            MenuLateral.Items.Add(btnCambioTPago);
+            btnCambioTPago.Click += btnCambioTPago_ButtonClick;            
+
             gridZH1.dataGridView1.CellMouseClick += dataGridView1_CellMouseClick;
             gridZH1.dataGridView1.CellDoubleClick += dataGridView1_CellDoubleClick;
             gridZH1.CeldaHeight = true;
 
-            comboBox4.SelectedIndex = 0;
-            comboBox5.SelectedIndex = 0;
             comboBox1.SelectedIndex = 0;
+            comboBox6.SelectedIndex = 0;
 
             Encabezados();
 
-            var getCias = repoCia.getAllCompañias();
+            List<CXN_CIA> getCias = repoCia.getAllCompañias();
             if (getCias != null)
             {
-                foreach (var i in getCias)
+                foreach (CXN_CIA i in getCias)
                 {
                     comboBox2.Items.Add(i.Com_Nombre);
                 }
@@ -512,14 +620,32 @@ namespace ZamenisHealth.Facturacion
                 comboBox2.SelectedIndex = 0;
             }
 
-            var getAse = repoAse.getAseguradoras();
+            List<CXN_ASEGURADORA> getAse = repoAse.getAseguradoras();
             if (getAse != null)
             {
-                foreach (var i in getAse)
+                if (IsAdministrator == false)
                 {
-                    comboBox3.Items.Add(i.Ase_Descripcion);
+                    int[] valores = new[] { 88, 99 };
+                    getAse = getAse.Where(x => valores.Contains(x.Ase_Identificador)).ToList();
+
+                    foreach (CXN_ASEGURADORA i in getAse)
+                    {
+                        comboBox3.Items.Add(i.Ase_Descripcion);
+                    }
                 }
+                else
+                {
+                    foreach (CXN_ASEGURADORA i in getAse)
+                    {
+                        comboBox3.Items.Add(i.Ase_Descripcion);
+                    }
+                }                
             }
+        }
+        void btnCambioTPago_ButtonClick(object sender, EventArgs e)
+        {
+            ReportesCopias3 R = new ReportesCopias3(Cia, dateTimePicker1.Value.Date, dateTimePicker2.Value.Date, comboBox1.Text);
+            R.ShowDialog();
         }
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -554,37 +680,63 @@ namespace ZamenisHealth.Facturacion
             gridZH1.dataGridView1.Columns["Autor"].Visible = false;
             gridZH1.dataGridView1.Columns["AdminRec"].Visible = false;
         }
-
+        void btnCierres_ButtonClick(object sender, EventArgs e)
+        {
+            try
+            {
+                CierresCaja cierresCaja = new CierresCaja(dateTimePicker1.Value.Date, dateTimePicker2.Value.Date, Cia);
+                cierresCaja.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
+            }
+        }
+        void btnCierresPrevios_ButtonClick(Object sender, EventArgs e)
+        {
+            try
+            {
+                CierresCajaPrevios cierresCaja = new CierresCajaPrevios();
+                cierresCaja.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
+            }
+        }
         #region SOPORTES CLINICOS POR DOCUMENTO
         private void dataGridView1_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             try
             {
-                if (e.Button == MouseButtons.Right)
+                if (IsAdministrator == true)
                 {
-                    if (comboBox1.Text == "Facturas Aseguradoras y Particulares")
+                    if (e.Button == MouseButtons.Right)
                     {
-                        FacSelected = Convert.ToInt32(gridZH1.dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString());
-                        PACID = Convert.ToInt32(gridZH1.dataGridView1.Rows[e.RowIndex].Cells[7].Value.ToString());
-                        HomologoFac = gridZH1.dataGridView1.Rows[e.RowIndex].Cells[3].Value.ToString();
-                        AutorPrint = gridZH1.dataGridView1.Rows[e.RowIndex].Cells[8].Value.ToString();
+                        if (comboBox1.Text == "Facturas Aseguradoras y Particulares")
+                        {
+                            FacSelected = Convert.ToInt32(gridZH1.dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString());
+                            PACID = Convert.ToInt32(gridZH1.dataGridView1.Rows[e.RowIndex].Cells[7].Value.ToString());
+                            HomologoFac = gridZH1.dataGridView1.Rows[e.RowIndex].Cells[3].Value.ToString();
+                            AutorPrint = gridZH1.dataGridView1.Rows[e.RowIndex].Cells[8].Value.ToString();
 
-                        Point posicionLocal = Cursor.Position;
+                            Point posicionLocal = Cursor.Position;
 
-                        //Generar Documentos Clinicos
-                        contextMenuStrip1.Visible = true;
-                        contextMenuStrip1.Location = new Point(posicionLocal.X, posicionLocal.Y);
-                        contextMenuStrip1.Visible = true;
+                            //Generar Documentos Clinicos
+                            contextMenuStrip1.Visible = true;
+                            contextMenuStrip1.Location = new Point(posicionLocal.X, posicionLocal.Y);
+                            contextMenuStrip1.Visible = true;
 
-                        DNotas = new Dictionary<int, string>();
-                        DHistorias = new Dictionary<int, string>();
+                            DNotas = new Dictionary<int, string>();
+                            DHistorias = new Dictionary<int, string>();
 
-                        var GetDics = repoReportes.getAdmitionByInvoiceZamenis(FacSelected, Cia);
+                            var GetDics = repoReportes.getAdmitionByInvoiceZamenis(FacSelected, Cia);
 
-                        DNotas = GetDics.DicNotas;
-                        DHistorias = GetDics.DicHistorias;
+                            DNotas = GetDics.DicNotas;
+                            DHistorias = GetDics.DicHistorias;
+                        }
                     }
-                }
+                }               
 
                 gridZH1.dataGridView1.ClearSelection();
             }
@@ -644,17 +796,7 @@ namespace ZamenisHealth.Facturacion
 
                             R.LocalReport.DataSources.Clear();
                             R.LocalReport.DataSources.Add(new ReportDataSource("DataSet_Notas", listaClase1));
-
-                            if (Preferencias.CuracionesCORE == "A" && listaClase1[0].listaMedidas != null)
-                            {
-                                R.LocalReport.DataSources.Add(new ReportDataSource("DataSet_NotasMed", listaClase1[0].listaMedidas));
-                                R.LocalReport.ReportEmbeddedResource = "ZamenisHealth.Reportes.RDLC_NotasCore.rdlc";
-                            }
-                            else
-                            {
-                                R.LocalReport.ReportEmbeddedResource = "ZamenisHealth.Reportes.RDLC_Notas.rdlc";
-                            }
-
+                            R.LocalReport.ReportEmbeddedResource = "ZamenisHealth.Reportes.RDLC_Notas.rdlc";
                             R.SetDisplayMode(DisplayMode.PrintLayout);
                             R.ZoomMode = ZoomMode.Percent;
                             R.ZoomPercent = 100;
@@ -988,7 +1130,30 @@ namespace ZamenisHealth.Facturacion
             }
         }
         #endregion
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBox1.Text == "Facturas Ventas" || comboBox1.Text == "Facturas Caja" || comboBox1.Text == "Notas Credito")
+            {
+                comboBox3.Enabled = false;
 
+                if (comboBox1.Text == "Facturas Caja" || comboBox1.Text == "Facturas Ventas")
+                {
+                    label2.Visible = true;
+                    comboBox6.Visible = true;
+                }
+                else
+                {
+                    label2.Visible = false;
+                    comboBox6.Visible = false;
+                }
+            }
+            else
+            {
+                label2.Visible = false;
+                comboBox6.Visible = false;
+                comboBox3.Enabled = true;
+            }
+        }
         private void homologarDocumentoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AdminSystem.Homologos homologos = new AdminSystem.Homologos();
@@ -1047,6 +1212,27 @@ namespace ZamenisHealth.Facturacion
                     F.Fac_Tipo_Doc = Tips;
                     r2 = new ReportesCopias2(F, false, false);
                     r2.ShowDialog();
+                }
+                else if (comboBox1.Text == "Facturas Caja")
+                {
+                    int PosRc = Convert.ToInt32(gridZH1.dataGridView1.Rows[e.RowIndex].Cells[7].Value.ToString());
+                    List<RCCAJA> Exporta = repoRCCaja.ReciboRpt(Convert.ToInt32(PosRc));
+                    if (Exporta != null)
+                    {
+                        ConfigForm.GenerarReportViewer("ReciboCajaDataset",
+                                      "ZamenisHealth.Reportes.RDLC_RcCajaImpTermica.rdlc",
+                                      Exporta);
+                    }
+                    else
+                    {
+                        MG = new MensajesGeneral()
+                        {
+                            Mensaje = "No se logro exportar el reporte",
+                            TipoImagen = 0
+                        };
+
+                        MG.ShowDialog();
+                    }
                 }
                 else if (comboBox1.Text == "Notas Credito")
                 {

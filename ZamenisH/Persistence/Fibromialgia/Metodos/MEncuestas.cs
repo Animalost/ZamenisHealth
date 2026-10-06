@@ -10,7 +10,7 @@ namespace Persistence.Fibromialgia.Metodos
 {
     public class MEncuestas : IEncuestas
     {
-        List<FIB_ENCUESTA1> IEncuestas.getPreviosXPacEncuesta1(string tdoc, string doc)
+        List<FIB_ENCUESTA1> IEncuestas.getPreviosXPacEncuesta1(string doc)
         {
             try
             {
@@ -26,10 +26,10 @@ namespace Persistence.Fibromialgia.Metodos
                                    "P.Pac_PrimerN + ' ' + P.Pac_SegundoN AS Paciente, E.UsuarioRegistra, E.Estado " +
                                    "FROM FIB_ENCUESTA1 E  " +
                                    "INNER JOIN CXN_PACIENTES P ON E.IdPAciente = P.Pac_Id " +
-                                   "WHERE P.Pac_TipoId = '" + tdoc + "' " +
-                                   "AND P.Pac_IdNum = '" + doc + "' " +
+                                   "WHERE P.Pac_IdNum = '" + doc + "' " +
                                    "AND E.Estado = 'V' " +
                                    "ORDER BY E.Id DESC";
+
                     SqlCommand Commando = new SqlCommand(Query, con);
                     SqlDataReader Reader = (Commando.ExecuteReader());
                     if (Reader.HasRows)
@@ -110,7 +110,7 @@ namespace Persistence.Fibromialgia.Metodos
                 return null;
             }
         }
-        List<FIB_ENCUESTA2> IEncuestas.getPreviosXPacEncuesta2(string tdoc, string doc)
+        List<FIB_ENCUESTA2> IEncuestas.getPreviosXPacEncuesta2(string doc)
         {
             try
             {
@@ -126,8 +126,7 @@ namespace Persistence.Fibromialgia.Metodos
                                    "P.Pac_PrimerN + ' ' + P.Pac_SegundoN AS Paciente, E.UsuarioRegistra, E.Estado " +
                                    "FROM FIB_ENCUESTA2 E  " +
                                    "INNER JOIN CXN_PACIENTES P ON E.IdPAciente = P.Pac_Id " +
-                                   "WHERE P.Pac_TipoId = '" + tdoc + "' " +
-                                   "AND P.Pac_IdNum = '" + doc + "' " +
+                                   "WHERE P.Pac_IdNum = '" + doc + "' " +
                                    "AND E.Estado = 'V' " +
                                    "ORDER BY E.Id DESC";
                     SqlCommand Commando = new SqlCommand(Query, con);
@@ -210,7 +209,7 @@ namespace Persistence.Fibromialgia.Metodos
                 return null;
             }
         }
-        List<FIB_ENCUESTA3> IEncuestas.getPreviosXPacEncuesta3(string tdoc, string doc)
+        List<FIB_ENCUESTA3> IEncuestas.getPreviosXPacEncuesta3(string doc)
         {
             try
             {
@@ -226,8 +225,7 @@ namespace Persistence.Fibromialgia.Metodos
                                    "P.Pac_PrimerN + ' ' + P.Pac_SegundoN AS Paciente, E.UsuarioRegistra, E.Estado " +
                                    "FROM FIB_ENCUESTA3 E  " +
                                    "INNER JOIN CXN_PACIENTES P ON E.IdPAciente = P.Pac_Id " +
-                                   "WHERE P.Pac_TipoId = '" + tdoc + "' " +
-                                   "AND P.Pac_IdNum = '" + doc + "' " +
+                                   "WHERE P.Pac_IdNum = '" + doc + "' " +
                                    "AND E.Estado = 'V' " +
                                    "ORDER BY E.Id DESC";
                     SqlCommand Commando = new SqlCommand(Query, con);

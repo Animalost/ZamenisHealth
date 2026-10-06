@@ -104,27 +104,6 @@ namespace ZamenisHealth.Medicina
                     this.Close();
                     return;
                 }
-                if (Tipo_Plant == "NotasCore")
-                {
-                    HistoriasClinicas.NotaEnfermeria.NotaCuracion f2 = Application.OpenForms.OfType<HistoriasClinicas.NotaEnfermeria.NotaCuracion>().SingleOrDefault();
-                    f2.textBox14.Text = dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString();
-                    f2.textBox15.Text = dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString();
-                    f2.textBox16.Text = dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString();
-                    this.Dispose();
-                    this.Close();
-                    return;
-                }
-
-                /* if (Tipo_Plant == "RegrabaNotas")
-                 {
-                     Historia_Notas_Regrabacion.Regraba_Nota_Pla = dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString();
-                     Historia_Notas_Regrabacion.Regraba_Nota_Obs = dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString();
-                     Historia_Notas_Regrabacion.Regraba_Nota_Rec = dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString();
-                     Historia_Notas_Regrabacion.Regraba_Comprobador_Plantilla = "1";
-                     this.Dispose();
-                     this.Close();
-                     return;
-                 }*/
             }
             catch (Exception ex)
             {

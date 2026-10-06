@@ -11,7 +11,7 @@ namespace Persistence.CXN
 {
     public class MCierresCaja : ICIerresCaja
     {
-        (Dictionary<string, int> Ventas, Dictionary<string, int> Caja, Dictionary<string, int> Particulares) ICIerresCaja.getIngresos(int Code, DateTime Desde, DateTime Hasta)
+        (Dictionary<string, int> Ventas, Dictionary<string, int> Caja, Dictionary<string, int> Particulares, string Facs) ICIerresCaja.getIngresos(int Code, DateTime Desde, DateTime Hasta)
         {
             try
             {
@@ -19,15 +19,17 @@ namespace Persistence.CXN
                 var DCaja = Caja(Code, Desde, Hasta);
                 var DParticulares = Particulares(Code, Desde, Hasta);
 
-                return (DVentas, DCaja, DParticulares);
+                string Facturas = DVentas.Facturas + "\r\r" + DCaja.Facturas + "\r\r" + DParticulares.Facturas;
+
+                return (DVentas.Dic, DCaja.Dic, DParticulares.Dic, Facturas);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return (null, null, null);
+                return (null, null, null, "");
             }            
         }
-        Dictionary<string, int> Particulares(int Cia, DateTime Desde, DateTime Hasta)
+        (Dictionary<string, int> Dic, string Facturas) Particulares(int Cia, DateTime Desde, DateTime Hasta)
         {
             try
             {
@@ -40,7 +42,7 @@ namespace Persistence.CXN
                         con.Open();
                     }
 
-                    String Query = "SELECT SUM(C.Car_Val_Tot) AS Total, F.FormaPago " +
+                    String Query = "SELECT SUM(C.Car_Val_Tot) AS Total, F.Homologo, F.FormaPago " +
                                    "FROM CXN_FACTURA F " +
                                    "INNER JOIN CXN_CARGOS C ON F.Fac_Num_Fac = C.Car_Factura " +
                                    "WHERE F.Fac_Fecha BETWEEN @desde AND @hasta " +
@@ -50,7 +52,7 @@ namespace Persistence.CXN
                                    "AND C.Car_Ase = '99' " +
                                    "AND F.CUFE IS NOT NULL " +
                                    "AND F.Num_Cruce = '0' " +
-                                   "GROUP BY F.FormaPago";
+                                   "GROUP BY F.Homologo, F.FormaPago";
 
                     using (SqlCommand Commando = new SqlCommand(Query, con))
                     {
@@ -62,20 +64,35 @@ namespace Persistence.CXN
                         {
                             if (Reader.HasRows)
                             {
+                                string Facs = "PARTICULARES \r\r";
                                 Dictionary<string, int> L = new Dictionary<string, int>();
+                                List<ResultadoConsulta> V = new List<ResultadoConsulta>();
 
                                 while (Reader.Read() == true)
                                 {
-                                    L.Add(Reader["FormaPago"].ToString(), Convert.ToInt32(Reader["Total"]));
+                                    Facs = $"{Facs} ({Reader["Homologo"].ToString()} - " +
+                                           $"{Convert.ToInt32(Reader["Total"]).ToString("N0")} - " +
+                                           $"{Reader["FormaPago"].ToString()}) \r";
+
+                                    V.Add(new ResultadoConsulta
+                                    {
+                                        FormaPago = Reader["FormaPago"].ToString(),
+                                        Total = Convert.ToInt32(Reader["Total"])
+                                    });
                                 }
 
+                                Dictionary<string, int> diccionario = V.GroupBy(x => x.FormaPago).ToDictionary(g => g.Key, g => g.Sum(x => x.Total));
+                                foreach (var i in diccionario)
+                                {
+                                    L.Add(i.Key, i.Value);
+                                }
                                 L.Add("Total", L.Sum(x => x.Value));
 
-                                return L;
+                                return (L, Facs);
                             }
                             else
                             {
-                                return null;
+                                return (null, "");
                             }
                         }
                     }
@@ -84,10 +101,10 @@ namespace Persistence.CXN
             catch (Exception ex)
             {
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
-                return null;
+                return (null, "");
             }
         }
-        Dictionary<string, int> Caja(int Cia, DateTime Desde, DateTime Hasta)
+        (Dictionary<string, int> Dic, string Facturas) Caja(int Cia, DateTime Desde, DateTime Hasta)
         {
             try
             {
@@ -100,13 +117,13 @@ namespace Persistence.CXN
                         con.Open();
                     }
 
-                    String Query = "SELECT SUM(CAST(Rc_Caja_Valor AS INT)) AS Total, FormaPago " +
+                    String Query = "SELECT SUM(CAST(Rc_Caja_Valor AS INT)) AS Total, Hor_DocFEModerador, FormaPago " +
                                    "FROM CXN_RC_CAJA " +
                                    "WHERE Rc_Caja_Fecha BETWEEN @desde AND @hasta " +
                                    "AND Rc_Caja_Cia = @cia " +
                                    "AND Hor_DocFEModeradorCufe IS NOT NULL " +
                                    "AND Num_Cruce = '0' " +
-                                   "GROUP BY FormaPago";
+                                   "GROUP BY Hor_DocFEModerador, FormaPago";
 
                     using (SqlCommand Commando = new SqlCommand(Query, con))
                     {
@@ -118,20 +135,35 @@ namespace Persistence.CXN
                         {
                             if (Reader.HasRows)
                             {
+                                string Facs = "RECIBOS DE CAJA \r\r";
                                 Dictionary<string, int> L = new Dictionary<string, int>();
+                                List<ResultadoConsulta> V = new List<ResultadoConsulta>();
 
                                 while (Reader.Read() == true)
                                 {
-                                    L.Add(Reader["FormaPago"].ToString(), Convert.ToInt32(Reader["Total"]));
+                                    Facs = $"{Facs} ({Reader["Hor_DocFEModerador"].ToString()} - " +
+                                           $"{Convert.ToInt32(Reader["Total"]).ToString("N0")} - " +
+                                           $"{Reader["FormaPago"].ToString()}) \r";
+
+                                    V.Add(new ResultadoConsulta
+                                    {
+                                        FormaPago = Reader["FormaPago"].ToString(),
+                                        Total = Convert.ToInt32(Reader["Total"])
+                                    });
                                 }
 
+                                Dictionary<string, int> diccionario = V.GroupBy(x => x.FormaPago).ToDictionary(g => g.Key, g => g.Sum(x => x.Total));
+                                foreach (var i in diccionario)
+                                {
+                                    L.Add(i.Key, i.Value);
+                                }
                                 L.Add("Total", L.Sum(x => x.Value));
 
-                                return L;
+                                return (L, Facs);
                             }
                             else
                             {
-                                return null;
+                                return (null, "");
                             }
                         }
                     }
@@ -140,10 +172,10 @@ namespace Persistence.CXN
             catch (Exception ex)
             {
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
-                return null;
+                return (null, "");
             }
         }
-        Dictionary<string, int> Ventas(int Cia, DateTime Desde, DateTime Hasta)
+        (Dictionary<string, int> Dic, string Facturas) Ventas(int Cia, DateTime Desde, DateTime Hasta)
         {
             try
             {
@@ -156,14 +188,14 @@ namespace Persistence.CXN
                         con.Open();
                     }
 
-                    String Query = "SELECT SUM(Ven_Total) AS Total, FormaPago " +
+                    String Query = "SELECT SUM(Ven_Total) AS Total, Ven_Homologo, FormaPago " +
                                    "FROM CXN_VENTAS " +
                                    "WHERE Ven_Fecha BETWEEN @desde AND @hasta " +
                                    "AND Ven_Cod_Cia = @cia " +
                                    "AND Ven_Estado = 'F' " +
                                    "AND Cufe IS NOT NULL " +
                                    "AND Num_Cruce = '0' " +
-                                   "GROUP BY FormaPago";
+                                   "GROUP BY Ven_Homologo, FormaPago";
 
                     using (SqlCommand Commando = new SqlCommand(Query, con))
                     {
@@ -175,20 +207,35 @@ namespace Persistence.CXN
                         {
                             if (Reader.HasRows)
                             {
+                                string Facs = "VENTAS \r\r";
                                 Dictionary<string, int> L = new Dictionary<string, int>();
+                                List<ResultadoConsulta> V = new List<ResultadoConsulta>();
 
                                 while (Reader.Read() == true)
                                 {
-                                    L.Add(Reader["FormaPago"].ToString(), Convert.ToInt32(Reader["Total"]));
+                                    Facs = $"{Facs} ({Reader["Ven_Homologo"].ToString()} - " +
+                                           $"{Convert.ToInt32(Reader["Total"]).ToString("N0")} - " +
+                                           $"{Reader["FormaPago"].ToString()}) \r";
+
+                                    V.Add(new ResultadoConsulta
+                                    { 
+                                        FormaPago = Reader["FormaPago"].ToString(),
+                                        Total = Convert.ToInt32(Reader["Total"])
+                                    });                                    
                                 }
 
+                                Dictionary<string, int> diccionario = V.GroupBy(x => x.FormaPago).ToDictionary(g => g.Key,g => g.Sum(x => x.Total));
+                                foreach (var i in diccionario)
+                                {
+                                    L.Add(i.Key, i.Value);
+                                }
                                 L.Add("Total", L.Sum(x => x.Value));
 
-                                return L;
+                                return (L, Facs);
                             }
                             else
                             {
-                                return null;
+                                return (null, "");
                             }
                         }
                     }
@@ -197,9 +244,15 @@ namespace Persistence.CXN
             catch (Exception ex)
             {
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
-                return null;
+                return (null, "");
             }
         }
+        public class ResultadoConsulta
+        {
+            public int Total { get; set; }
+            public string FormaPago { get; set; }
+        }
+
         void ICIerresCaja.ActualizarNumCruce(int NumCruce, int Cia, DateTime Desde, DateTime Hasta)
         {
             try
@@ -290,7 +343,8 @@ namespace Persistence.CXN
                                                                   "Valor, " +//8
                                                                   "Estado, " +
                                                                   "Compañia, " +
-                                                                  "Observacion) " +//63
+                                                                  "Observacion, " +
+                                                                  "Facturas) " +//63
                                          "values                  (@param1, " +
                                                                   "@param2, " +
                                                                   "@param3, " +
@@ -301,7 +355,8 @@ namespace Persistence.CXN
                                                                   "@param8, " +
                                                                   "@param9, " +
                                                                   "@param10, " +
-                                                                  "@param11)", con);
+                                                                  "@param11, " +
+                                                                  "@param12)", con);
 
                     cmd.Parameters.AddWithValue("@param1", C.Consecutivo);
                     cmd.Parameters.AddWithValue("@param2", C.Usuario);
@@ -314,6 +369,7 @@ namespace Persistence.CXN
                     cmd.Parameters.AddWithValue("@param9", C.Estado);
                     cmd.Parameters.AddWithValue("@param10", C.Compañia);
                     cmd.Parameters.AddWithValue("@param11", C.Observacion);
+                    cmd.Parameters.AddWithValue("@param12", C.Facturas);
 
                     return cmd.ExecuteNonQuery();
                 }
@@ -368,7 +424,8 @@ namespace Persistence.CXN
                                         Generacion = Convert.ToDateTime(Lectura_Hora["Generacion"]),
                                         Tipo = Lectura_Hora["Tipo"].ToString(),
                                         Valor = Convert.ToInt32(Lectura_Hora["Valor"]),
-                                        Compañia = Convert.ToInt32(Lectura_Hora["Compañia"])
+                                        Compañia = Convert.ToInt32(Lectura_Hora["Compañia"]),
+                                        Facturas = Lectura_Hora["Facturas"].ToString()
                                     });
                                 }
 

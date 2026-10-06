@@ -62,6 +62,15 @@ namespace ZamenisHealth.Recepcion.Extras
                     comboBox3.SelectedIndex = 0;
                 }
 
+                foreach (var i in Meses())
+                {
+                    comboBox1.Items.Add(i);
+                }
+                foreach (var i in Años())
+                {
+                    comboBox2.Items.Add(i.ToString());
+                }
+
             }
             catch (Exception ex)
             {
@@ -87,7 +96,10 @@ namespace ZamenisHealth.Recepcion.Extras
         {
             try
             {
-                var lista = cierres.GetPrevios(Cia, Convert.ToDateTime(dateTimePicker1.Value.Date), Convert.ToDateTime(dateTimePicker2.Value.Date));
+                DateTime Desde = new DateTime(Convert.ToInt32(comboBox2.Text), getMonthNumber(comboBox1.Text), 1);
+                DateTime Hasta = new DateTime(Convert.ToInt32(comboBox2.Text), getMonthNumber(comboBox1.Text), getMonthLastDay(comboBox1.Text));
+
+                var lista = cierres.GetPrevios(Cia, Desde.Date, Hasta.Date);
                 if (lista != null)
                 {
                     lista = lista.Where(x => x.Tipo != "EGRESOS").ToList();

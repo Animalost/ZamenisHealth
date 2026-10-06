@@ -2,6 +2,11 @@
 using System.Windows.Forms;
 using Domain;
 using Domain.Fibromialgia;
+
+using FormAndControls;
+
+using PdfSharp.Snippets.Drawing;
+
 using Persistence;
 using Persistence.CXN.Interfaces;
 using Persistence.CXN.Metodos;
@@ -12,13 +17,15 @@ using ZamenisHealth.Comunes;
 
 namespace ZamenisHealth.Fibromialgia.Encuestas
 {
-    public partial class Encuesta2 : ConfigForm.BaseForm
+    public partial class Encuesta2 : Forma2
     {
         private static readonly IPacientes repoPac = new MPacientes();
         private static readonly IEncuesta2 repoEncuesta2 = new MEncuesta2();
 
         private int CodPac;
         private int Sumatoria = 0;
+
+        private MensajesGeneral MG;
 
         public Encuesta2(int cod)
         {
@@ -28,10 +35,11 @@ namespace ZamenisHealth.Fibromialgia.Encuestas
 
         private void Encuesta2_Load(object sender, EventArgs e)
         {
-            Comunes.MensajesGeneral MG = new MensajesGeneral();
+            Titulo.Text = "Indice de Dolor Generalizado WCI e Indice de Gravedad de Sintomas IGS Parte 1";
+            SubTitulo.Text = $"Zamenis Health {Conexion.VersionApp}";
 
-            this.Titulo.Text = "Indice de Dolor Generalizado WCI e Indice de Gravedad de Sintomas IGS Parte 1";
-            this.ImageClose.Visible = false;
+            ImageClose.Visible = false;
+            ImageMinimize.Visible = false;
 
             var getPac = repoPac.LlamarPacientebyId(this.CodPac);
             if (getPac != null)

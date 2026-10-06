@@ -16,6 +16,7 @@ namespace Domain.CXN
         public int Valor { get; set; }
         public string Estado { get; set; }
         public string Observacion { get; set; }
+        public string Facturas { get; set; }
 
         public string ObservacionGeneral { get; set; }
     }

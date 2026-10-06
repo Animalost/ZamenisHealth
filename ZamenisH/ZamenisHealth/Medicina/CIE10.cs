@@ -280,35 +280,6 @@ namespace ZamenisHealth.Medicina
                     return;
                 }
 
-                if (Tipo_His_CIE == "DX1_NotaCore")
-                {
-                    HistoriasClinicas.NotaEnfermeria.NotaCuracion f1 = Application.OpenForms.OfType<HistoriasClinicas.NotaEnfermeria.NotaCuracion>().SingleOrDefault();
-                    f1.textBox6.Text = Cod;
-                    f1.textBox7.Text = Serv;
-                    this.Dispose();
-                    this.Close();
-                    return;
-                }
-                if (Tipo_His_CIE == "DX2_NotaCore")
-                {
-                    HistoriasClinicas.NotaEnfermeria.NotaCuracion f1 = Application.OpenForms.OfType<HistoriasClinicas.NotaEnfermeria.NotaCuracion>().SingleOrDefault();
-                    f1.textBox8.Text = Cod;
-                    f1.textBox10.Text = Serv;
-                    this.Dispose();
-                    this.Close();
-                    return;
-                }
-                if (Tipo_His_CIE == "DX3_NotaCore")
-                {
-                    HistoriasClinicas.NotaEnfermeria.NotaCuracion f1 = Application.OpenForms.OfType<HistoriasClinicas.NotaEnfermeria.NotaCuracion>().SingleOrDefault();
-                    f1.textBox9.Text = Cod;
-                    f1.textBox11.Text = Serv;
-                    this.Dispose();
-                    this.Close();
-                    return;
-                }
-
-
                 if (Tipo_His_CIE == "DX1_COrdenS")
                 {
                     Medicina.OrdenesMedicas f2 = Application.OpenForms.OfType<Medicina.OrdenesMedicas>().SingleOrDefault();
@@ -550,33 +521,6 @@ namespace ZamenisHealth.Medicina
                     return;
                 }
 
-                if (Tipo_His_CIE == "DX1_NotaCore")
-                {
-                    HistoriasClinicas.NotaEnfermeria.NotaCuracion f1 = Application.OpenForms.OfType<HistoriasClinicas.NotaEnfermeria.NotaCuracion>().SingleOrDefault();
-                    f1.textBox6.Text = Cod;
-                    f1.textBox7.Text = Serv;
-                    this.Dispose();
-                    this.Close();
-                    return;
-                }
-                if (Tipo_His_CIE == "DX2_NotaCore")
-                {
-                    HistoriasClinicas.NotaEnfermeria.NotaCuracion f1 = Application.OpenForms.OfType<HistoriasClinicas.NotaEnfermeria.NotaCuracion>().SingleOrDefault();
-                    f1.textBox8.Text = Cod;
-                    f1.textBox10.Text = Serv;
-                    this.Dispose();
-                    this.Close();
-                    return;
-                }
-                if (Tipo_His_CIE == "DX3_NotaCore")
-                {
-                    HistoriasClinicas.NotaEnfermeria.NotaCuracion f1 = Application.OpenForms.OfType<HistoriasClinicas.NotaEnfermeria.NotaCuracion>().SingleOrDefault();
-                    f1.textBox9.Text = Cod;
-                    f1.textBox11.Text = Serv;
-                    this.Dispose();
-                    this.Close();
-                    return;
-                }
 
                 if (Tipo_His_CIE == "DX1_COrdenS")
                 {

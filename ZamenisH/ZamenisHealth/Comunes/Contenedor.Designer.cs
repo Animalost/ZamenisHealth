@@ -53,7 +53,6 @@ namespace ZamenisHealth.Comunes
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.Vacio = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton11 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton14 = new System.Windows.Forms.ToolStripButton();
             this.label2 = new System.Windows.Forms.Label();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.pictureBox6 = new System.Windows.Forms.PictureBox();
@@ -340,7 +339,6 @@ namespace ZamenisHealth.Comunes
             this.toolStripButton9,
             this.toolStripButton8,
             this.toolStripButton7,
-            this.toolStripButton14,
             this.toolStripButton6,
             this.toolStripButton5,
             this.toolStripButton4,
@@ -381,21 +379,6 @@ namespace ZamenisHealth.Comunes
             this.toolStripButton11.Text = "Administracion";
             this.toolStripButton11.ToolTipText = "Administrar la aplicacion y facturacion";
             this.toolStripButton11.Click += new System.EventHandler(this.toolStripButton11_Click);
-            // 
-            // toolStripButton14
-            // 
-            this.toolStripButton14.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(85)))), ((int)(((byte)(120)))));
-            this.toolStripButton14.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.toolStripButton14.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.toolStripButton14.Image = global::ZamenisHealth.Properties.Resources.MedGen;
-            this.toolStripButton14.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.toolStripButton14.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton14.Name = "toolStripButton14";
-            this.toolStripButton14.Padding = new System.Windows.Forms.Padding(0, 10, 0, 10);
-            this.toolStripButton14.Size = new System.Drawing.Size(168, 40);
-            this.toolStripButton14.Text = "Radiologia";
-            this.toolStripButton14.ToolTipText = "Modulo de Medicina General para curaciones de heridas";
-            this.toolStripButton14.Click += new System.EventHandler(this.toolStripButton14_Click);
             // 
             // label2
             // 
@@ -492,7 +475,7 @@ namespace ZamenisHealth.Comunes
             this.toolStripButton1.Name = "toolStripButton1";
             this.toolStripButton1.Size = new System.Drawing.Size(144, 25);
             this.toolStripButton1.TabIndex = 274;
-            this.toolStripButton1.Text = "Menu";
+            this.toolStripButton1.Text = "Herramientas";
             this.toolStripButton1.UseVisualStyleBackColor = false;
             this.toolStripButton1.Click += new System.EventHandler(this.toolStripButtonMenu1_Click);
             // 
@@ -930,7 +913,6 @@ namespace ZamenisHealth.Comunes
         private System.Windows.Forms.Label label3;
         public System.Windows.Forms.LinkLabel linkLabel16;
         public System.Windows.Forms.LinkLabel linkLabel17;
-        public System.Windows.Forms.ToolStripButton toolStripButton14;
         private System.Windows.Forms.Label label5;
         public System.Windows.Forms.Label label6;
         private System.Windows.Forms.PictureBox pictureBox1;

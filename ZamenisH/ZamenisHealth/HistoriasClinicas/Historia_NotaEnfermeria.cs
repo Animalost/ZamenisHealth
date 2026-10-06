@@ -13,6 +13,7 @@ using System.Windows.Forms;
 using ZamenisHealth.Clases;
 using ZamenisHealth.Comunes;
 using ZamenisHealth.HistoriasClinicas.Extras;
+using ZamenisHealth.Medicina;
 using ZamenisHealth.Medicina.DocumentosWEB;
 
 namespace ZamenisHealth.HistoriasClinicas
@@ -43,6 +44,7 @@ namespace ZamenisHealth.HistoriasClinicas
         private MensajesGeneral MG;
         private string UrlEvento;
         private ToolStripButton toolStripButton13;
+        private ToolStripButton toolStripButton11;
 
         public Historia_NotaEnfermeria()
         {
@@ -93,6 +95,12 @@ namespace ZamenisHealth.HistoriasClinicas
                 if (result == DialogResult.Yes)
                 {
                     repoAgendaMedica.OpenAdmition(Admision, "N");
+
+                    if (Preferencias.CargosEnfermeros == "A")
+                    {
+                        repoCargos.deleteCargo(Admision);
+                    }
+
                     this.Dispose();
                     this.Close();
                 }
@@ -212,6 +220,7 @@ namespace ZamenisHealth.HistoriasClinicas
                     MG = new MensajesGeneral();
                     MG.TipoImagen = 1000;
                     MG.Mensaje = "Debe diligenciar una nota";
+                    MG.ShowDialog();
                     return; 
                 }
                 if (textBox15.Text == "")
@@ -219,6 +228,7 @@ namespace ZamenisHealth.HistoriasClinicas
                     MG = new MensajesGeneral();
                     MG.TipoImagen = 1000;
                     MG.Mensaje = "Debe diligenciar una observacion";
+                    MG.ShowDialog();
                     return;
                 }
                 if (textBox16.Text == "")
@@ -226,6 +236,7 @@ namespace ZamenisHealth.HistoriasClinicas
                     MG = new MensajesGeneral();
                     MG.TipoImagen = 1000;
                     MG.Mensaje = "Debe diligenciar una recomendacion";
+                    MG.ShowDialog();
                     return; 
                 }
                 if (textBox18.Text == "")
@@ -233,6 +244,7 @@ namespace ZamenisHealth.HistoriasClinicas
                     MG = new MensajesGeneral();
                     MG.TipoImagen = 1000;
                     MG.Mensaje = "Debe diligenciar una observacion de control epidemiologico";
+                    MG.ShowDialog();
                     return; 
                 }
 
@@ -241,6 +253,7 @@ namespace ZamenisHealth.HistoriasClinicas
                     MG = new MensajesGeneral();
                     MG.TipoImagen = 1000;
                     MG.Mensaje = "Debe seleccionar los apositos usados en la curacion";
+                    MG.ShowDialog();
                     return;  
                 }
                 if (textBox6.Text == "")
@@ -248,6 +261,7 @@ namespace ZamenisHealth.HistoriasClinicas
                     MG = new MensajesGeneral();
                     MG.TipoImagen = 1000;
                     MG.Mensaje = "Debe diligenciar el Diagnostico Principal DX1, haga clic sobre el recuadro del codigo de diagnostico para seleccionar uno";
+                    MG.ShowDialog();
                     return; 
                 }
 
@@ -279,6 +293,29 @@ namespace ZamenisHealth.HistoriasClinicas
                     MG.TipoImagen = 1000;
                     MG.ShowDialog();
                     return;
+                }
+
+                if (Preferencias.CargosEnfermeros == "A")
+                {
+                    if (richTextBox1.Text == "No se usaron apositos en esta curacion")
+                    {
+                        
+                    }
+                    else
+                    {
+                        bool Grabados = repoCargos.cargoExiste(Admision);
+                        if (Grabados == false)
+                        {
+                            MG = new MensajesGeneral()
+                            {
+                                Mensaje = "Debe grabar los cargos de esta admision",
+                                TipoImagen = 1000
+                            };
+
+                            MG.ShowDialog();
+                            return;
+                        }                        
+                    }
                 }
 
                 DialogResult result = MessageBox.Show("Una vez guardada esta nota, no se podran deshacer cambios. ¿Realmente desea guardar?",
@@ -417,6 +454,23 @@ namespace ZamenisHealth.HistoriasClinicas
                                 if (this.arrastra == "S")
                                 {
                                     InsertarHistoria();
+                                }
+                            }
+
+                            if (checkBox6.Checked == true)
+                            {
+                                int copyHisMGAlta = repoMedicinaGeneral.CopiarHistoriaAltaComplejidad(Paciente, N.Not_Fecha);
+                                if (copyHisMGAlta > 0)
+                                {
+                                    CXN_SALIDASENFERMERIA S = new CXN_SALIDASENFERMERIA
+                                    {
+                                        Sal_Adm = copyHisMGAlta,
+                                        Sal_Estado = false,
+                                        Sal_Fecha = N.Not_Fecha,
+                                        Sal_Prof = N.Not_Med
+                                    };
+
+                                    repoMedicinaGeneral.GrabaSalidaEnfermeria(S);
                                 }
                             }
 
@@ -651,8 +705,26 @@ namespace ZamenisHealth.HistoriasClinicas
         }
         private void button4_Click(object sender, EventArgs e)
         {
-            richTextBox1.Text = "No se usaron apositos en esta curacion";
-            richTextBox1.Text = richTextBox1.Text;
+            if (Preferencias.CargosEnfermeros == "A")
+            {
+                DialogResult result = MessageBox.Show("Al indicar que no se usaron apositos en esta curacion, se eliminaran los cargos grabados en caso que los halla.  ¿Esta seguro?",
+                                                 "Zamenis Health - Sin Apositos",
+                                                 MessageBoxButtons.YesNo,
+                                                 MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+                    repoCargos.deleteCargo(Admision);
+
+                    richTextBox1.Text = "No se usaron apositos en esta curacion";
+                    richTextBox1.Text = richTextBox1.Text;
+                }
+            }
+            else
+            {
+                richTextBox1.Text = "No se usaron apositos en esta curacion";
+                richTextBox1.Text = richTextBox1.Text;
+            }            
         }
         private void button3_Click(object sender, EventArgs e)
         {
@@ -697,7 +769,7 @@ namespace ZamenisHealth.HistoriasClinicas
             MenuLateral.Items.Add(toolStripButton10);
             toolStripButton10.Click += toolStripButton10_Click;
 
-            ToolStripButton toolStripButton11 = new ToolStripButton();
+            toolStripButton11 = new ToolStripButton();
             toolStripButton11 = createToolButton("Adherencia");
             MenuLateral.Items.Add(toolStripButton11);
             toolStripButton11.Click += toolStripButton11_Click;
@@ -910,9 +982,10 @@ namespace ZamenisHealth.HistoriasClinicas
                     }
                 }
 
-                if (getConfig["Cargos"] == "A")
+                if (Preferencias.CargosEnfermeros == "A")
                 {
                     button2.Visible = true;
+                    toolStripButton11.Visible = false;
                 }
 
                 pictureBox1.Cursor = Cursors.Hand;
@@ -1151,8 +1224,21 @@ namespace ZamenisHealth.HistoriasClinicas
         }
         private void button2_Click(object sender, EventArgs e)
         {
-            Extras.CargosCuraciones cargosCuraciones = new CargosCuraciones(Admision);
-            cargosCuraciones.ShowDialog();
+            bool grabados = repoCargos.cargoExiste(Admision);
+            if (grabados == true)
+            {
+                MG = new MensajesGeneral()
+                {
+                    Mensaje = "Esta nota ya tiene cargos grabados",
+                    TipoImagen = 0
+                };
+                MG.ShowDialog();
+            }
+            else
+            {
+                Cargos2 cargosCuraciones = new Cargos2(Admision);
+                cargosCuraciones.ShowDialog();
+            }            
         }
         private void toolStripButton9_Click(object sender, EventArgs e)
         {

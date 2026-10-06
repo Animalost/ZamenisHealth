@@ -1,11 +1,9 @@
 ﻿using Domain;
-using Microsoft.Reporting.WinForms;
 using Persistence;
 using Persistence.CXN.Interfaces;
 using Persistence.CXN.Metodos;
 using System;
 using System.Data;
-using System.Drawing;
 using System.Windows.Forms;
 using ZamenisHealth.Clases;
 using ZamenisHealth.Comunes;
@@ -131,30 +129,10 @@ namespace ZamenisHealth.Medicina
                         MessageBoxIcon.Exclamation);
                     return;
                 }
-
-                if (Preferencias.CuracionesCORE == "A" && Reporte[0].listaMedidas != null)
-                {
-                    Reportes.Maestro maestro = new Reportes.Maestro();
-                    maestro.Universal.LocalReport.DataSources.Clear();
-                    maestro.Universal.LocalReport.DataSources.Add(new ReportDataSource("DataSet_Notas", Reporte));
-                    maestro.Universal.LocalReport.DataSources.Add(new ReportDataSource("DataSet_NotasMed", Reporte[0].listaMedidas));
-                    maestro.Universal.LocalReport.ReportEmbeddedResource = "ZamenisHealth.Reportes.RDLC_NotasCore.rdlc";
-                    maestro.Universal.SetDisplayMode(DisplayMode.PrintLayout);
-                    maestro.Universal.ZoomMode = ZoomMode.Percent;
-                    maestro.Universal.ZoomPercent = 100;
-                    maestro.Universal.LocalReport.EnableExternalImages = true;
-                    maestro.Universal.Font = new Font("Arial", 8);
-                    maestro.Universal.RefreshReport();
-                    maestro.Universal.Visible = true;
-                    maestro.Universal.Dock = System.Windows.Forms.DockStyle.Fill;
-                    maestro.ShowDialog();
-                }
-                else
-                {
-                    ConfigForm.GenerarReportViewer("DataSet_Notas",
+                              
+                 ConfigForm.GenerarReportViewer("DataSet_Notas",
                                                    "ZamenisHealth.Reportes.RDLC_Notas.rdlc",
-                                                   Reporte);
-                }                
+                                                   Reporte);                               
             }
             catch (Exception ex)
             {

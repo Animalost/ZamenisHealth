@@ -133,6 +133,7 @@ namespace ZamenisHealth.Medicina
 
             ToolStripButton btnConsultar;
             ToolStripButton btnHistorial;
+            ToolStripButton btnBar;
             ToolStripButton btnEliminar;            
 
             btnConsultar = new ToolStripButton();
@@ -144,6 +145,11 @@ namespace ZamenisHealth.Medicina
             btnHistorial = createToolButton("Historial");
             MenuLateral.Items.Add(btnHistorial);
             btnHistorial.Click += btnZamenis2_ButtonClick;
+
+            btnBar = new ToolStripButton();
+            btnBar = createToolButton("BarCode");
+            MenuLateral.Items.Add(btnBar);
+            btnBar.Click += btnBar_ButtonClick;
 
             btnEliminar = new ToolStripButton();
             btnEliminar = createToolButton("Eliminar Cargo");
@@ -161,6 +167,11 @@ namespace ZamenisHealth.Medicina
 
             
             Grid();
+        }
+        void btnBar_ButtonClick(object sender, EventArgs e)
+        {
+            Cargos2 C = new Cargos2();
+            C.ShowDialog();
         }
         public void HidePanel3()
         {

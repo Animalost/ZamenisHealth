@@ -195,7 +195,7 @@ namespace Persistence.Fibromialgia.Metodos
             }
         }
 
-        Paciente getPacId(string TID, string IDD)
+        Paciente getPacId(string IDD)
         {
             try
             {
@@ -210,8 +210,7 @@ namespace Persistence.Fibromialgia.Metodos
 
                     String Query = "SELECT * " +
                                    "FROM CXN_PACIENTES " +
-                                   "WHERE Pac_TipoId = '" + TID + "' " +
-                                   "AND Pac_IdNum = '" + IDD + "'";
+                                   "WHERE Pac_IdNum = '" + IDD + "'";
                     SqlCommand Commando = new SqlCommand(Query, con);
                     SqlDataReader Reader = (Commando.ExecuteReader());
                     if (Reader.Read() == true)
@@ -409,7 +408,7 @@ namespace Persistence.Fibromialgia.Metodos
         {
             try
             {
-                var DatoPaciente = getPacId(I.TID, I.IDD);
+                var DatoPaciente = getPacId(I.IDD);
                 if (DatoPaciente == null)
                 {
                     return null;

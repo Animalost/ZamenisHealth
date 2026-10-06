@@ -202,12 +202,19 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="CONSUMOS\Interfaces\IAsignacion.cs" />
+    <Compile Include="CONSUMOS\Interfaces\IMovimientosConsumo.cs" />
+    <Compile Include="CONSUMOS\Interfaces\IProdsConsumo.cs" />
+    <Compile Include="CONSUMOS\Metodos\MAsignacion.cs" />
+    <Compile Include="CONSUMOS\Metodos\MMovimientosConsumo.cs" />
+    <Compile Include="CONSUMOS\Metodos\MProdsConsumo.cs" />
     <Compile Include="CXN\Interfaces\IAdherencia.cs" />
     <Compile Include="CXN\Interfaces\IAgenda.cs" />
     <Compile Include="CXN\Interfaces\IAgendaC.cs" />
     <Compile Include="CXN\Interfaces\IAgendaProfesionales.cs" />
     <Compile Include="CXN\Interfaces\IAntecedentesGlobales.cs" />
     <Compile Include="CXN\Interfaces\IAseguradoras.cs" />
+    <Compile Include="CXN\Interfaces\IBarCodes.cs" />
     <Compile Include="CXN\Interfaces\IBodegas.cs" />
     <Compile Include="CXN\Interfaces\ICambiosSolicitados.cs" />
     <Compile Include="CXN\Interfaces\ICargos.cs" />
@@ -281,6 +288,7 @@
     <Compile Include="CXN\Metodos\MAgendaProfesionales.cs" />
     <Compile Include="CXN\Metodos\MAntecedentesGlobales.cs" />
     <Compile Include="CXN\Metodos\MAseguradoras.cs" />
+    <Compile Include="CXN\Metodos\MBarCodes.cs" />
     <Compile Include="CXN\Metodos\MBodegas.cs" />
     <Compile Include="CXN\Metodos\MCambiosSolicitados.cs" />
     <Compile Include="CXN\Metodos\MCargos.cs" />
@@ -382,12 +390,6 @@
     <Compile Include="Informes\Methods\MInformeEnfermeria.cs" />
     <Compile Include="Informes\Methods\MInformeEstadistico.cs" />
     <Compile Include="Informes\Methods\MInformeGerencial.cs" />
-    <Compile Include="INV\Interfaces\IBodegaPrincipal.cs" />
-    <Compile Include="INV\Interfaces\IProductos.cs" />
-    <Compile Include="INV\Interfaces\ISubBodegas.cs" />
-    <Compile Include="INV\Metodos\MBodegaPrincipal.cs" />
-    <Compile Include="INV\Metodos\MProductos.cs" />
-    <Compile Include="INV\Metodos\MSubBodegas.cs" />
     <Compile Include="OverridesExtern.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PTablesSQL.cs" />

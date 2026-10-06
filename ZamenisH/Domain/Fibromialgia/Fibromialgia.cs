@@ -414,7 +414,6 @@ namespace Domain.Fibromialgia
 
     public class DatosForInforme
     {
-        public string TID { get; set; }
         public string IDD { get; set; }
         public DateTime Desde { get; set; }
         public DateTime Hasta { get; set; }

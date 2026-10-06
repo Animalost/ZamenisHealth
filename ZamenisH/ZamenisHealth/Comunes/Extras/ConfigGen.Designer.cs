@@ -509,9 +509,9 @@
             this.label22.AutoSize = true;
             this.label22.Location = new System.Drawing.Point(142, 486);
             this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(93, 13);
+            this.label22.Size = new System.Drawing.Size(96, 13);
             this.label22.TabIndex = 60;
-            this.label22.Text = "Curaciones CORE";
+            this.label22.Text = "Cargos Enfermeros";
             // 
             // label23
             // 

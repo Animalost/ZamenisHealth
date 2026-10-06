@@ -41,5 +41,7 @@ namespace Persistence.CXN.Interfaces
         bool ConsultarNavyEnfermeria(int Paciente, int Bodega, DateTime Fecha);
         List<CXN_HORARIO> consultaCancelaWEB(DateTime Fecha);
         (string Autorizacion, string Cantidad, string Estado) CitaMismoDiaGetAutorizacion(int PacId, DateTime fecha, int Bodega);
+        List<CXN_PACIENTES> ListarTiposPaciente(string Criterio, string Tipo);
+        int UpdateTipoPaciente(int Paciente, string Tipo, bool Estado);
     }
 }

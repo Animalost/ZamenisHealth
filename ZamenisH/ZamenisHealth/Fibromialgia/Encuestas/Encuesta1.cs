@@ -2,23 +2,23 @@
 using System.Windows.Forms;
 using Domain;
 using Domain.Fibromialgia;
+using FormAndControls;
 using Persistence;
 using Persistence.CXN.Interfaces;
 using Persistence.CXN.Metodos;
 using Persistence.Fibromialgia.Interfaces;
 using Persistence.Fibromialgia.Metodos;
-using ZamenisHealth.Clases;
 using ZamenisHealth.Comunes;
 
 namespace ZamenisHealth.Fibromialgia.Encuestas
 {
-    public partial class Encuesta1 : ConfigForm.BaseForm
+    public partial class Encuesta1 : Forma2
     {
         private static readonly IPacientes repoPac = new MPacientes();
         private static readonly IEncuesta1 repoEncuesta1 = new MEncuesta1();
 
         private int CodPac;
-
+        private MensajesGeneral MG;
 
         public Encuesta1(int CodPaciente)
         {
@@ -28,10 +28,11 @@ namespace ZamenisHealth.Fibromialgia.Encuestas
 
         private void Encuesta1_Load(object sender, EventArgs e)
         {
-            Comunes.MensajesGeneral MG = new MensajesGeneral();
+            Titulo.Text = "Encuesta 1";
+            SubTitulo.Text = $"Zamenis Health {Conexion.VersionApp}";
 
-            this.Titulo.Text = "Cuestionario Español Sobre el Impacto de la Fibromialgia (FIQ) y SF36";
-            this.ImageClose.Visible = false;
+            ImageClose.Visible = false;
+            ImageMinimize.Visible = false;
 
             var getPac = repoPac.LlamarPacientebyId(this.CodPac);
             if (getPac != null)
@@ -66,8 +67,6 @@ namespace ZamenisHealth.Fibromialgia.Encuestas
         {
             try
             {
-                MensajesGeneral MG = new MensajesGeneral();
-
                 DialogResult result = MessageBox.Show("¿Desea grabar esta encuesta?",
                                                   "Zamenis Health - Encuestas Fibromialgia",
                                                   MessageBoxButtons.YesNo,

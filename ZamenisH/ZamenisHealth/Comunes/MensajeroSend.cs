@@ -84,8 +84,8 @@ namespace ZamenisHealth.Comunes
                 //this.ImageClose.Visible = false;
                 this.ImageMinimize.Visible = false;
 
-                gridZH1.dataGridView1.CellClick += dataGridView1_CellClick;
                 gridZH1.CeldaHeight = true;
+                gridZH1.dataGridView1.CellClick += dataGridView1_CellClick;                
                 LogoMain.Image = Properties.Resources.Splash;
 
                 ToolStripButton btnEnviar = new ToolStripButton();

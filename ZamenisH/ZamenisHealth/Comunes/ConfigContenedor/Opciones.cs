@@ -1,5 +1,5 @@
 ﻿using Domain;
-using Domain.CXN;
+using Newtonsoft.Json.Linq;
 using Persistence;
 using Persistence.CXN.Interfaces;
 using Persistence.CXN.Metodos;
@@ -15,108 +15,96 @@ namespace ZamenisHealth.Comunes.ConfigContenedor
     public partial class Opciones : Form
     {
         private static readonly IRoles repoRoles = new MRoles();
-        private static readonly ILogin repositorioLogin = new MLogin();
+
         public Opciones()
         {
             InitializeComponent();
-
         }
+      
         private void pictureBox38_Click(object sender, EventArgs e)
         {
             AdminSystem.Prestadores.Prestador A = new AdminSystem.Prestadores.Prestador();
             A.ShowDialog();
         }
-
         private void pictureBox39_Click(object sender, EventArgs e)
         {
             AdminSystem.Horarios H = new AdminSystem.Horarios();
             H.ShowDialog();
         }
-
         private void pictureBox40_Click(object sender, EventArgs e)
         {
             AdminSystem.Festivos festivos = new AdminSystem.Festivos();
             festivos.ShowDialog();
         }
-
         private void pictureBox41_Click(object sender, EventArgs e)
         {
             Proveedores f = new Proveedores();
             f.ShowDialog();
         }
-
         private void pictureBox42_Click(object sender, EventArgs e)
         {
             AdminSystem.UsuariosSystem A = new AdminSystem.UsuariosSystem();
             A.ShowDialog();
         }
-
         private void pictureBox43_Click(object sender, EventArgs e)
         {
             AdminSystem.CyT C = new AdminSystem.CyT();
             C.ShowDialog();
         }
-
         private void pictureBox44_Click(object sender, EventArgs e)
         {
             Cie10Admin f = new Cie10Admin();
             f.ShowDialog();
         }
-
         private void pictureBox45_Click(object sender, EventArgs e)
         {
             UsuariosSistema f = new UsuariosSistema();
             f.ShowDialog();
         }
-
         private void Opciones_Load(object sender, EventArgs e)
         {
             try
             {
-                CXN_ROLES R = repoRoles.getRoles(Contenedor.UsuarioLogueado);
-                if (R == null)
+                CXN_DESKTOP_ROLES Rol = repoRoles.getDesktopRoles(Contenedor.UsuarioLogueado);
+                if (Rol == null)
                 {
-                    pictureBox38.Enabled = false;
-                    pictureBox39.Enabled = false;
-                    pictureBox40.Enabled = false;
-                    pictureBox41.Enabled = false;
-                    pictureBox42.Enabled = false;
-                    pictureBox43.Enabled = false;
-                    pictureBox44.Enabled = false;
-                    pictureBox45.Enabled = false;
-                    pictureBox66.Enabled = false;
-
-                    label15.Enabled = false;
-                    label16.Enabled = false;
-                    label17.Enabled = false;
-                    label18.Enabled = false;
-                    label19.Enabled = false;
-                    label20.Enabled = false;
-                    label21.Enabled = false;
-                    label22.Enabled = false;
-                    label54.Enabled = false;
+                    flowLayoutPanel1.Visible = false;
                 }
                 else
                 {
-                    pictureBox38.Enabled = (R.Rol_O_Compañias == "A" ? true : false);
-                    pictureBox39.Enabled = (R.Rol_O_Horarios == "A" ? true : false);
-                    pictureBox40.Enabled = (R.Rol_O_Festivos == "A" ? true : false);
-                    pictureBox41.Enabled = (R.Rol_O_Proveedores == "A" ? true : false);
-                    pictureBox42.Enabled = (R.Rol_O_UsuariosSystem == "A" ? true : false);
-                    pictureBox43.Enabled = (R.Rol_O_Convenios == "A" ? true : false);
-                    pictureBox44.Enabled = (R.Rol_O_CIE10 == "A" ? true : false);
-                    pictureBox45.Enabled = (R.Rol_O_Bodegas == "A" ? true : false);
-                    pictureBox66.Enabled = (R.Rol_A_Productos == "A" ? true : false);
+                    flowLayoutPanel1.Visible = true;
 
-                    label15.Enabled = (R.Rol_O_Bodegas == "A" ? true : false);
-                    label16.Enabled = (R.Rol_O_CIE10 == "A" ? true : false);
-                    label17.Enabled = (R.Rol_O_Convenios == "A" ? true : false);
-                    label18.Enabled = (R.Rol_O_UsuariosSystem == "A" ? true : false);
-                    label19.Enabled = (R.Rol_O_Proveedores == "A" ? true : false);
-                    label20.Enabled = (R.Rol_O_Festivos == "A" ? true : false);
-                    label21.Enabled = (R.Rol_O_Horarios == "A" ? true : false);
-                    label22.Enabled = (R.Rol_O_Compañias == "A" ? true : false);
-                    label54.Enabled = (R.Rol_A_Productos == "A" ? true : false);
+                    JObject obj3 = JObject.Parse(Rol.Opciones);
+
+                    if (obj3["Opciones"] != null)
+                    {
+                        panel2.Visible = obj3["Opciones"]["Compañias"] != null ?
+                                            obj3["Opciones"]["Compañias"].ToString() == "A" ? true : false : false;
+                        panel3.Visible = obj3["Opciones"]["CrearEditarUsuario"] != null ?
+                                           obj3["Opciones"]["CrearEditarUsuario"].ToString() == "A" ? true : false : false;
+                        panel4.Visible = obj3["Opciones"]["Productos"] != null ?
+                                          obj3["Opciones"]["Productos"].ToString() == "A" ? true : false : false;
+                        panel5.Visible = obj3["Opciones"]["Horarios"] != null ?
+                                          obj3["Opciones"]["Horarios"].ToString() == "A" ? true : false : false;
+                        panel6.Visible = obj3["Opciones"]["Convenios"] != null ?
+                                          obj3["Opciones"]["Convenios"].ToString() == "A" ? true : false : false;
+                        panel7.Visible = obj3["Opciones"]["Preferencias"] != null ?
+                                         obj3["Opciones"]["Preferencias"].ToString() == "A" ? true : false : false;
+                        panel8.Visible = obj3["Opciones"]["Festivos"] != null ?
+                                         obj3["Opciones"]["Festivos"].ToString() == "A" ? true : false : false;
+                        panel9.Visible = obj3["Opciones"]["CIE10"] != null ?
+                                        obj3["Opciones"]["CIE10"].ToString() == "A" ? true : false : false;
+                        panel10.Visible = obj3["Opciones"]["ECuentas"] != null ?
+                                      obj3["Opciones"]["ECuentas"].ToString() == "A" ? true : false : false;
+                        panel11.Visible = obj3["Opciones"]["Compras"] != null ?
+                                      obj3["Opciones"]["Compras"].ToString() == "A" ? true : false : false;
+                        panel12.Visible = obj3["Opciones"]["Bodegas"] != null ?
+                                      obj3["Opciones"]["Bodegas"].ToString() == "A" ? true : false : false;
+                    }
+                    else
+                    {
+                        flowLayoutPanel1.Visible = false;
+                    }
                 }
             }
             catch (Exception ex)
@@ -124,13 +112,11 @@ namespace ZamenisHealth.Comunes.ConfigContenedor
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         private void pictureBox66_Click(object sender, EventArgs e)
         {
             AdminSystem.Productos P = new AdminSystem.Productos();
             P.ShowDialog();
         }
-
         private void pictureBox1_Click(object sender, EventArgs e)
         {
 
@@ -147,7 +133,6 @@ namespace ZamenisHealth.Comunes.ConfigContenedor
                 MG.ShowDialog();
             }
         }
-
         private void pictureBox2_Click(object sender, EventArgs e)
         {
             EstadoCuenta P = new EstadoCuenta();

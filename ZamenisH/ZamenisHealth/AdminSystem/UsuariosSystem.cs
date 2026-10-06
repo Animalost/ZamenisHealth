@@ -45,12 +45,10 @@ namespace ZamenisHealth.AdminSystem
             try
             {
                 if (textBox1.Text == "") { MessageBox.Show("Debe diligenciar los campos de texto"); return; }
-                if (textBox2.Text == "") { MessageBox.Show("Debe diligenciar los campos de texto"); return; }
-                if (textBox3.Text == "") { MessageBox.Show("Debe diligenciar los campos de texto"); return; }
-                if (textBox4.Text == "") { MessageBox.Show("Debe diligenciar los campos de texto"); return; }
-                if (textBox5.Text == "") { MessageBox.Show("Debe diligenciar los campos de texto"); return; }
-                if (textBox6.Text == "") { MessageBox.Show("Debe diligenciar los campos de texto"); return; }
                 if (textBox7.Text == "") { MessageBox.Show("Debe diligenciar los campos de texto"); return; }
+                if (textBox2.Text == "") { MessageBox.Show("Debe diligenciar los campos de texto"); return; }                
+                if (textBox4.Text == "") { MessageBox.Show("Debe diligenciar los campos de texto"); return; }                
+                if (textBox6.Text == "") { MessageBox.Show("Debe diligenciar los campos de texto"); return; }                
                 if (textBox8.Text == "") { MessageBox.Show("Debe diligenciar los campos de texto"); return; }
 
                 var Cel = repoPacientes.ValidaCelular(textBox8.Text);

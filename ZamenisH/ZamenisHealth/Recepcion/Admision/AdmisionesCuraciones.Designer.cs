@@ -116,6 +116,7 @@
             this.boton3 = new FormAndControls.Controles.Boton();
             this.label48 = new System.Windows.Forms.Label();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
+            this.checkBox4 = new System.Windows.Forms.CheckBox();
             this.panel6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -1216,14 +1217,29 @@
             this.pictureBox4.TabStop = false;
             this.pictureBox4.Click += new System.EventHandler(this.pictureBox4_Click);
             // 
+            // checkBox4
+            // 
+            this.checkBox4.AutoSize = true;
+            this.checkBox4.BackColor = System.Drawing.Color.Navy;
+            this.checkBox4.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.checkBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBox4.ForeColor = System.Drawing.Color.Yellow;
+            this.checkBox4.Location = new System.Drawing.Point(492, 711);
+            this.checkBox4.Name = "checkBox4";
+            this.checkBox4.Size = new System.Drawing.Size(240, 22);
+            this.checkBox4.TabIndex = 324;
+            this.checkBox4.Text = "Agregar Historia Curaciones";
+            this.checkBox4.UseVisualStyleBackColor = false;
+            // 
             // AdmisionesCuraciones
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1167, 818);
+            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.checkBox4);
             this.Controls.Add(this.label48);
             this.Controls.Add(this.pictureBox4);
-            this.Controls.Add(this.panel1);
             this.Controls.Add(this.label47);
             this.Controls.Add(this.dataGridView2);
             this.Controls.Add(this.label46);
@@ -1372,5 +1388,6 @@
         private FormAndControls.Controles.Boton boton3;
         private System.Windows.Forms.Label label48;
         private System.Windows.Forms.PictureBox pictureBox4;
+        private System.Windows.Forms.CheckBox checkBox4;
     }
 }

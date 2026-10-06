@@ -43,6 +43,7 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.label7 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
@@ -50,7 +51,9 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.Transparent;
+            this.panel1.Controls.Add(this.label7);
             this.panel1.Controls.Add(this.button2);
+            this.panel1.Controls.Add(this.label8);
             this.panel1.Controls.Add(this.button1);
             this.panel1.Controls.Add(this.textBox1);
             this.panel1.Controls.Add(this.label4);
@@ -61,9 +64,9 @@
             this.panel1.Controls.Add(this.label5);
             this.panel1.Controls.Add(this.checkBox1);
             this.panel1.Controls.Add(this.label6);
-            this.panel1.Location = new System.Drawing.Point(198, -4);
+            this.panel1.Location = new System.Drawing.Point(198, -1);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(376, 238);
+            this.panel1.Size = new System.Drawing.Size(376, 258);
             this.panel1.TabIndex = 28;
             // 
             // button2
@@ -89,7 +92,7 @@
             this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
             this.button1.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(23, 181);
+            this.button1.Location = new System.Drawing.Point(23, 191);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(329, 45);
             this.button1.TabIndex = 31;
@@ -125,7 +128,7 @@
             this.label3.BackColor = System.Drawing.SystemColors.Control;
             this.label3.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.Black;
-            this.label3.Location = new System.Drawing.Point(24, 101);
+            this.label3.Location = new System.Drawing.Point(24, 94);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(29, 14);
             this.label3.TabIndex = 26;
@@ -148,7 +151,7 @@
             this.textBox2.BackColor = System.Drawing.Color.White;
             this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox2.Location = new System.Drawing.Point(24, 120);
+            this.textBox2.Location = new System.Drawing.Point(24, 113);
             this.textBox2.Name = "textBox2";
             this.textBox2.PasswordChar = '*';
             this.textBox2.Size = new System.Drawing.Size(328, 19);
@@ -172,7 +175,7 @@
             this.label5.BackColor = System.Drawing.SystemColors.Control;
             this.label5.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.Blue;
-            this.label5.Location = new System.Drawing.Point(58, 101);
+            this.label5.Location = new System.Drawing.Point(58, 94);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(94, 14);
             this.label5.TabIndex = 19;
@@ -184,7 +187,7 @@
             this.checkBox1.BackColor = System.Drawing.SystemColors.Control;
             this.checkBox1.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold);
             this.checkBox1.ForeColor = System.Drawing.Color.Navy;
-            this.checkBox1.Location = new System.Drawing.Point(27, 151);
+            this.checkBox1.Location = new System.Drawing.Point(27, 137);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(72, 18);
             this.checkBox1.TabIndex = 24;
@@ -199,7 +202,7 @@
             this.label6.Cursor = System.Windows.Forms.Cursors.Hand;
             this.label6.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.ForeColor = System.Drawing.Color.Navy;
-            this.label6.Location = new System.Drawing.Point(239, 151);
+            this.label6.Location = new System.Drawing.Point(239, 137);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(113, 14);
             this.label6.TabIndex = 23;
@@ -211,21 +214,36 @@
             this.label8.BackColor = System.Drawing.Color.LightSteelBlue;
             this.label8.Font = new System.Drawing.Font("Calibri", 9F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.ForeColor = System.Drawing.Color.Black;
-            this.label8.Location = new System.Drawing.Point(203, 225);
+            this.label8.Location = new System.Drawing.Point(1, 238);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(347, 18);
+            this.label8.Size = new System.Drawing.Size(374, 18);
             this.label8.TabIndex = 25;
             this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // pictureBox2
             // 
             this.pictureBox2.Image = global::ZamenisHealth.Properties.Resources.Logo_RoaylBlue1;
-            this.pictureBox2.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox2.Location = new System.Drawing.Point(0, 3);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(197, 254);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox2.TabIndex = 30;
             this.pictureBox2.TabStop = false;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.BackColor = System.Drawing.SystemColors.Control;
+            this.label7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label7.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label7.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.ForeColor = System.Drawing.Color.Black;
+            this.label7.Location = new System.Drawing.Point(96, 159);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(179, 21);
+            this.label7.TabIndex = 31;
+            this.label7.Text = "Iniciar sesion con Patron";
+            this.label7.Click += new System.EventHandler(this.label7_Click);
             // 
             // Login
             // 
@@ -234,8 +252,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::ZamenisHealth.Properties.Resources2.ZamenisPpal;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(573, 249);
-            this.Controls.Add(this.label8);
+            this.ClientSize = new System.Drawing.Size(575, 257);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.panel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -265,6 +282,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.Label label7;
         //  private UserControls.Controls.CalZamenis calZamenis1;
     }
 }

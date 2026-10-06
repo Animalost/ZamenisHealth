@@ -14,5 +14,11 @@ namespace Persistence.CXN.Interfaces
         CXN_HCMG getResumen(int Admision);
         CXN_HCMG getLastHistoryToCopy(int Paciente);
         List<CXN_HCMG> ListaUltimasCitas(int Paciente, DateTime Fecha, int Medico);
+        int CopiarHistoriaAltaComplejidad(int Paciente, DateTime Fecha);
+        void GrabaSalidaEnfermeria(CXN_SALIDASENFERMERIA H);
+        List<CXN_HORARIO> GetSalidasEnfermeria();
+        int ActualizaSalidas(string Texto, int Admision, int Medico);
+        int ActualizaSalidas(int Admision);
+        void EliminarSalida(int Admision);
     }
 }

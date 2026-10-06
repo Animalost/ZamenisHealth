@@ -378,7 +378,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox13</rd:DefaultName>
-        <Top>19.65234cm</Top>
+        <Top>22.19234cm</Top>
         <Left>0.1825cm</Left>
         <Height>0.2384cm</Height>
         <Width>6.80705cm</Width>
@@ -522,7 +522,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>Por favor llegar a su cita 20 minutos antes para realizar la admision</Value>
+                <Value>Por favor llegar a su cita 20 minutos antes para realizar la admision.  Si no puedes asistir cancela tu cita en el siguiente QR</Value>
                 <Style>
                   <FontStyle>Italic</FontStyle>
                   <FontSize>12pt</FontSize>
@@ -536,9 +536,9 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox13</rd:DefaultName>
-        <Top>16.90922cm</Top>
+        <Top>16.27422cm</Top>
         <Left>0.18156cm</Left>
-        <Height>1.5084cm</Height>
+        <Height>2.01111cm</Height>
         <Width>6.80705cm</Width>
         <ZIndex>17</ZIndex>
         <Style>
@@ -691,7 +691,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox13</rd:DefaultName>
-        <Top>15.95672cm</Top>
+        <Top>15.32172cm</Top>
         <Left>0.18062cm</Left>
         <Height>0.77611cm</Height>
         <Width>6.80705cm</Width>
@@ -725,9 +725,9 @@
         <MIMEType>image/png</MIMEType>
         <Sizing>FitProportional</Sizing>
         <Top>12.57005cm</Top>
-        <Left>3.75391cm</Left>
-        <Height>3.175cm</Height>
-        <Width>3.14042cm</Width>
+        <Left>4.38891cm</Left>
+        <Height>2.45102cm</Height>
+        <Width>2.45102cm</Width>
         <ZIndex>24</ZIndex>
         <Style>
           <Border>
@@ -745,6 +745,7 @@
                 <Value>Escanea este codigo QR para dejar tus Peticiones, Quejas, Reclamos, Sugerencias o Felicitaciones si lo deseas</Value>
                 <Style>
                   <FontFamily>Arial Narrow</FontFamily>
+                  <FontSize>9pt</FontSize>
                   <FontWeight>ExtraBold</FontWeight>
                 </Style>
               </TextRun>
@@ -757,7 +758,7 @@
         <rd:DefaultName>Textbox13</rd:DefaultName>
         <Top>12.60533cm</Top>
         <Left>0.18062cm</Left>
-        <Height>3.13972cm</Height>
+        <Height>2.41574cm</Height>
         <Width>3.39502cm</Width>
         <ZIndex>25</ZIndex>
         <Style>
@@ -788,7 +789,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox13</rd:DefaultName>
-        <Top>18.7263cm</Top>
+        <Top>21.2663cm</Top>
         <Left>0.1825cm</Left>
         <Height>0.37069cm</Height>
         <Width>6.80705cm</Width>
@@ -799,13 +800,29 @@
           </Border>
         </Style>
       </Textbox>
+      <Image Name="Image5">
+        <Source>Database</Source>
+        <Value>=First(Fields!FirmaMed.Value, "DatosAdmision")</Value>
+        <MIMEType>image/png</MIMEType>
+        <Sizing>FitProportional</Sizing>
+        <Top>18.46172cm</Top>
+        <Left>2.50611cm</Left>
+        <Height>2.4525cm</Height>
+        <Width>2.66417cm</Width>
+        <ZIndex>27</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Image>
     </ReportItems>
-    <Height>7.831in</Height>
+    <Height>8.831in</Height>
     <Style />
   </Body>
   <Width>2.86818in</Width>
   <Page>
-    <PageHeight>20.5cm</PageHeight>
+    <PageHeight>23cm</PageHeight>
     <PageWidth>8cm</PageWidth>
     <LeftMargin>0.1cm</LeftMargin>
     <RightMargin>0.1cm</RightMargin>
@@ -1218,6 +1235,10 @@
         <Field Name="HorObservaTemp">
           <DataField>HorObservaTemp</DataField>
           <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="FirmaMed">
+          <DataField>FirmaMed</DataField>
+          <rd:TypeName>System.Byte[]</rd:TypeName>
         </Field>
       </Fields>
       <rd:DataSetInfo>

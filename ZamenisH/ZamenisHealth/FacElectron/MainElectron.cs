@@ -30,7 +30,6 @@ namespace ZamenisHealth.FacElectron
         private readonly static IHelisa repoWSClients = new MHelisa();
         private readonly static IFacElectron repoFelectron = new MFacElectron();
         private readonly static IGenerales repoGen = new MGenerales();
-        private readonly static IRoles repoRoles = new MRoles();
         private readonly static IConfSystem repoConfSystem = new MConfSystem();
 
         private MensajesGeneral MG;
@@ -57,15 +56,7 @@ namespace ZamenisHealth.FacElectron
 
         void Permisos()
         {
-            CXN_ROLES R = repoRoles.getRoles(Contenedor.UsuarioLogueado);
-            if (R == null)
-            {
-                btnBuscar.Enabled = false;              
-            }
-            else
-            {
-                btnBuscar.Enabled = (R.AdminGenerarToken == "A" ? true : false);              
-            }
+            btnBuscar.Enabled = true;
         }
 
         private void MainElectron_Load(object sender, EventArgs e)

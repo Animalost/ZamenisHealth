@@ -22,6 +22,7 @@ namespace Persistence.CXN.Metodos
         private static readonly ICondiciones repoCondiciones = new MCondiciones();
         private static readonly IPacientes repoPacinetes = new MPacientes();
         private static readonly IInventario repoInventario = new MInventario();
+        private static readonly IConvenios repoConvenios = new MConvenios();
 
         List<FirmasR> IReportes.Firmas_Print(int Adm_Selected, FirmasR F, bool Autocompletar)
         {
@@ -641,7 +642,7 @@ namespace Persistence.CXN.Metodos
 
                                     List<CXN_NOTASMED> lista = MedidasHeridas(Convert.ToInt32(Lectura_Hora2["Not_Adm"]));
 
-                                    String Query = "SELECT Car_Cod, Car_Item, Car_Cant, Car_Detalle, CarCodEPSConvenio " +
+                                    String Query = "SELECT Car_Cod, Car_Ase, Car_Item, Car_Cant, Car_Detalle, CarCodEPSConvenio " +
                                                    "FROM CXN_CARGOS " +
                                                    "WHERE Car_Adm_Id = @param5 " +
                                                    "AND Car_Pac = @param6 " +
@@ -1133,6 +1134,48 @@ namespace Persistence.CXN.Metodos
                                          " INNER JOIN CXN_ASEGURADORA A ON H.HC_Ase = A.Ase_Identificador " +
                                          " WHERE P.Pac_Id = '" + Paciente + "' " +
                                          " ORDER BY H.HC_Fecha DESC";
+                            break;
+
+                        case "PSIQ":
+                            Cargar_Hora2 = "SELECT P.Pac_Id AS PacienteCom, P.Pac_PrimerA + ' ' + P.Pac_SegundoA + ' ' + P.Pac_PrimerN + ' ' + P.Pac_SegundoN AS PACIENTE, " +
+                                           "H.Hor_Id AS ADM, P.Pac_TipoId AS TID, P.Pac_IdNum AS ID, B.Bod_Responsable AS PROF, H.Hor_Pac_Fecha_Cita AS FECHA " +
+                                         " FROM CXN_HCPSIQUIATRIA PS " +
+                                         " INNER JOIN CXN_HORARIO H ON H.Hor_Id = PS.PQ_Admision " +
+                                         " INNER JOIN CXN_PACIENTES P ON H.Hor_Pac_Id = P.Pac_Id " +
+                                         " INNER JOIN CXN_CIA C ON H.Hor_Pac_Cia = C.Com_Identificador " +
+                                         " INNER JOIN CXN_BODEGAS B ON H.Hor_Pac_Bod = B.Bod_Numero " +
+                                         " INNER JOIN CXN_ASEGURADORA A ON H.Hor_Pac_Ase = A.Ase_Identificador " +
+                                         " WHERE H.Hor_Pac_Id = '" + Paciente + "' " +
+                                         " AND PS.TipoConsulta = 'PSIQUIATRIA1VEZ' " +
+                                         " ORDER BY H.Hor_Pac_Fecha_Cita DESC";
+                            break;
+
+                        case "PSIQ2":
+                            Cargar_Hora2 = "SELECT P.Pac_Id AS PacienteCom, P.Pac_PrimerA + ' ' + P.Pac_SegundoA + ' ' + P.Pac_PrimerN + ' ' + P.Pac_SegundoN AS PACIENTE, " +
+                                           "H.Hor_Id AS ADM, P.Pac_TipoId AS TID, P.Pac_IdNum AS ID, B.Bod_Responsable AS PROF, H.Hor_Pac_Fecha_Cita AS FECHA " +
+                                         " FROM CXN_HCPSIQUIATRIA PS " +
+                                         " INNER JOIN CXN_HORARIO H ON H.Hor_Id = PS.PQ_Admision " +
+                                         " INNER JOIN CXN_PACIENTES P ON H.Hor_Pac_Id = P.Pac_Id " +
+                                         " INNER JOIN CXN_CIA C ON H.Hor_Pac_Cia = C.Com_Identificador " +
+                                         " INNER JOIN CXN_BODEGAS B ON H.Hor_Pac_Bod = B.Bod_Numero " +
+                                         " INNER JOIN CXN_ASEGURADORA A ON H.Hor_Pac_Ase = A.Ase_Identificador " +
+                                         " WHERE H.Hor_Pac_Id = '" + Paciente + "' " +
+                                         " AND PS.TipoConsulta = 'PSIQUIATRIA2VEZ' " +
+                                         " ORDER BY H.Hor_Pac_Fecha_Cita DESC";
+                            break;
+
+                        case "PSIQ3":
+                            Cargar_Hora2 = "SELECT P.Pac_Id AS PacienteCom, P.Pac_PrimerA + ' ' + P.Pac_SegundoA + ' ' + P.Pac_PrimerN + ' ' + P.Pac_SegundoN AS PACIENTE, " +
+                                           "H.Hor_Id AS ADM, P.Pac_TipoId AS TID, P.Pac_IdNum AS ID, B.Bod_Responsable AS PROF, H.Hor_Pac_Fecha_Cita AS FECHA " +
+                                         " FROM CXN_HCPSIQUIATRIA PS " +
+                                         " INNER JOIN CXN_HORARIO H ON H.Hor_Id = PS.PQ_Admision " +
+                                         " INNER JOIN CXN_PACIENTES P ON H.Hor_Pac_Id = P.Pac_Id " +
+                                         " INNER JOIN CXN_CIA C ON H.Hor_Pac_Cia = C.Com_Identificador " +
+                                         " INNER JOIN CXN_BODEGAS B ON H.Hor_Pac_Bod = B.Bod_Numero " +
+                                         " INNER JOIN CXN_ASEGURADORA A ON H.Hor_Pac_Ase = A.Ase_Identificador " +
+                                         " WHERE H.Hor_Pac_Id = '" + Paciente + "' " +
+                                         " AND PS.TipoConsulta = 'PSIQUIATRIA3VEZ' " +
+                                         " ORDER BY H.Hor_Pac_Fecha_Cita DESC";
                             break;
 
                         case "TF":
@@ -1861,6 +1904,119 @@ namespace Persistence.CXN.Metodos
             }
             catch
             {
+                return null;
+            }
+        }
+        List<CXN_HCPSIQUIATRIA> IReportes.ReportePsiquiatria(int Admition)
+        {
+            try
+            {
+                Dictionary<string, string> getData = Conexion.Conection();
+
+                using (SqlConnection con = new SqlConnection(getData["Conexion"]))
+                {
+                    if (con != null && con.State == ConnectionState.Closed)
+                    {
+                        con.Open();
+                    }
+                   
+                    String Cargar_Hora = @"SELECT C.Com_Direccion, C.Com_Telefono, C.Com_Nombre, C.Com_Identificacion, C.Com_Logo, 
+                                          B.Bod_Responsable, B.Bod_Reg_Med, B.Bod_Firma, 
+                                          PAC.Pac_Direccion, PAC.Pac_TipoId, PAC.Pac_IdNum, PAC.Pac_FechaNto, PAC.Pac_Sexo, 
+                                          PAC.Pac_PrimerN + ' ' + PAC.Pac_SegundoN + ' ' + PAC.Pac_PrimerA + ' ' + PAC.Pac_SegundoA AS PACIENTE,  
+                                          A.Ase_Descripcion, 
+                                          P.PQ_Admision, P.PQ_MotConsulta, P.PQ_EnfActual, P.PQ_Antecedentes, P.PQ_Objetivo, P.PQ_Analisis, 
+                                          P.PQ_Plan, P.PQ_DX1, P.PQ_DX2, P.PQ_DX3, P.PQ_NDX1, P.PQ_NDX2, P.PQ_NDX3, P.ImpDiagnostica, P.TipoConsulta, 
+                                          H.Hor_Pac_Fecha_Cita, H.Hor_Pac_Cup, H.Hor_Pac_Ase 
+                                          FROM CXN_HCPSIQUIATRIA P 
+                                          INNER JOIN CXN_HORARIO H ON P.PQ_Admision = H.Hor_Id 
+                                          INNER JOIN CXN_PACIENTES PAC ON H.Hor_Pac_Id = PAC.Pac_Id 
+                                          INNER JOIN CXN_ASEGURADORA A ON H.Hor_Pac_Ase = A.Ase_Identificador 
+                                          INNER JOIN CXN_CIA C ON H.Hor_Pac_Cia = C.Com_Identificador 
+                                          INNER JOIN CXN_BODEGAS B ON H.Hor_Pac_Bod = B.Bod_Numero 
+                                          WHERE P.PQ_Admision = @param1";
+
+                    using (SqlCommand Carga_Command = new SqlCommand(Cargar_Hora, con))
+                    {
+                        Carga_Command.Parameters.AddWithValue("@param1", Admition);
+
+                        using (SqlDataReader Lectura_Hora = (Carga_Command.ExecuteReader()))
+                        {
+                            if (Lectura_Hora.Read() == true)
+                            {
+                                List<CXN_HCPSIQUIATRIA> sub_Class_HCFI = new List<CXN_HCPSIQUIATRIA>();
+
+                                string Bod_Firma1 = Lectura_Hora["Bod_Firma"].ToString();
+                                Byte[] bytes = Convert.FromBase64String(Bod_Firma1);
+
+                                string logos = Lectura_Hora["Com_Logo"].ToString();
+                                Byte[] bytesLogo = Convert.FromBase64String(logos);
+
+                                var DX1 = repoCIE10.BuscaDX(Lectura_Hora["PQ_DX1"].ToString());
+                                var DX2 = repoCIE10.BuscaDX(Lectura_Hora["PQ_DX2"].ToString());
+                                var DX3 = repoCIE10.BuscaDX(Lectura_Hora["PQ_DX3"].ToString());
+
+                                string serviceName = "";
+                                string Tipe = "PQ";
+
+                                if (Lectura_Hora["TipoConsulta"].ToString() == "PSIQUIATRIA3VEZ")
+                                {
+                                    Tipe = "SQ";
+                                }
+
+                                CXN_CONVENIOS services = repoConvenios.ServicioNombre(Lectura_Hora["Hor_Pac_Cup"].ToString(), Convert.ToInt32(Lectura_Hora["Hor_Pac_Ase"]), Tipe);
+                                if (services != null)
+                                {
+                                    serviceName = services.Con_Id_Serv + " - " + services.Con_Nombre;
+                                }
+
+                                sub_Class_HCFI.Add(new CXN_HCPSIQUIATRIA
+                                {
+                                    Servicio = serviceName,
+                                    FirmaMed = bytes, 
+                                    Com_Direccion = Lectura_Hora["Com_Direccion"].ToString(), //
+                                    Com_Telefono = Lectura_Hora["Com_Telefono"].ToString(),
+                                    Com_Nombre = Lectura_Hora["Com_Nombre"].ToString(),
+                                    Com_Identificacion = Lectura_Hora["Com_Identificacion"].ToString(),
+                                    Logo = bytesLogo,
+                                    Profesional = Lectura_Hora["Bod_Responsable"].ToString(), //
+                                    IddProfesional = Lectura_Hora["Bod_Reg_Med"].ToString(),//
+                                    PacienteIdentificacion = Lectura_Hora["Pac_TipoId"].ToString() + " " + Lectura_Hora["Pac_IdNum"].ToString(),
+                                    PacienteNombre = Lectura_Hora["PACIENTE"].ToString(), //
+                                    FechaBase = Convert.ToDateTime(Lectura_Hora["Hor_Pac_Fecha_Cita"].ToString()),
+                                    FechaNtoPac = Convert.ToDateTime(Lectura_Hora["Pac_FechaNto"].ToString()),
+                                    PacienteDireccion = Lectura_Hora["Pac_Direccion"].ToString(),
+                                    PacienteAseguradora = Lectura_Hora["Ase_Descripcion"].ToString(), //
+                                    Sexo = Lectura_Hora["Pac_Sexo"].ToString(),
+                                    PQ_DX1 = Lectura_Hora["PQ_DX1"].ToString() + " - " + DX1.ToString(), //
+                                    PQ_DX2 = Lectura_Hora["PQ_DX2"].ToString() + " - " + DX2.ToString(), //
+                                    PQ_DX3 = Lectura_Hora["PQ_DX3"].ToString() + " - " + DX3.ToString(), //
+                                    PQ_Admision = Convert.ToInt32(Lectura_Hora["PQ_Admision"]),
+                                    PQ_Analisis = Lectura_Hora["PQ_Analisis"].ToString(),
+                                    PQ_Antecedentes = Lectura_Hora["PQ_Antecedentes"].ToString(),
+                                    PQ_EnfActual = Lectura_Hora["PQ_EnfActual"].ToString(),
+                                    PQ_MotConsulta = Lectura_Hora["PQ_MotConsulta"].ToString(),
+                                    PQ_NDX1 = Lectura_Hora["PQ_NDX1"].ToString(),
+                                    PQ_NDX2 = Lectura_Hora["PQ_NDX2"].ToString(),
+                                    PQ_NDX3 = Lectura_Hora["PQ_NDX3"].ToString(),
+                                    PQ_Objetivo = Lectura_Hora["PQ_Objetivo"].ToString(),
+                                    PQ_Plan = Lectura_Hora["PQ_Plan"].ToString()                                    
+                                });
+
+                                return sub_Class_HCFI;
+                            }
+                            else
+                            {
+                                return null;
+                            }
+
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
                 return null;
             }
         }

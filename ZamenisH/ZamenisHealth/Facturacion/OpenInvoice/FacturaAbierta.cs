@@ -1,6 +1,7 @@
 ﻿using Domain;
 using Domain.CXN;
 using FormAndControls;
+using Newtonsoft.Json.Linq;
 using Persistence;
 using Persistence.CXN.Interfaces;
 using Persistence.CXN.Metodos;
@@ -235,16 +236,25 @@ namespace ZamenisHealth.Facturacion
         {
             try
             {
-                CXN_ROLES R = repoRoles.getRoles(Contenedor.UsuarioLogueado);
-                if (R == null)
+                CXN_DESKTOP_ROLES Rol = repoRoles.getDesktopRoles(Contenedor.UsuarioLogueado);
+                if (Rol == null)
                 {
                     btnCreatePac.Enabled = false;
                 }
                 else
                 {
-                    btnCreatePac.Enabled = (R.Rol_R_CrearPacientes == "A" ? true : false);
-                   
-                }               
+                    JObject obj = JObject.Parse(Rol.Recepcion);
+
+                    if (obj["Recepción"] != null)
+                    {
+                        btnCreatePac.Enabled = obj["Recepción"]["CrearEditarPaciente"] != null ?
+                                               obj["Recepción"]["CrearEditarPaciente"].ToString() == "A" ? true : false : false;
+                    }
+                    else
+                    {
+                        btnCreatePac.Enabled = false;
+                    }
+                }             
             }
             catch (Exception ex)
             {

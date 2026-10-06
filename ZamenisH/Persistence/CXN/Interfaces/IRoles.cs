@@ -1,11 +1,10 @@
-﻿using Domain.CXN;
+﻿using Domain;
 
 namespace Persistence.CXN.Interfaces
 {
     public interface IRoles
     {
-        CXN_ROLES getRoles(string User);
-        bool updateRoles(CXN_ROLES R);
-        bool insertRoles(CXN_ROLES R);
+        CXN_DESKTOP_ROLES getDesktopRoles(string User);
+        bool SaveRoles(CXN_DESKTOP_ROLES roles, string Usuario);
     }
 }

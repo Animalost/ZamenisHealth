@@ -60,7 +60,7 @@ namespace ZamenisHealth.Comunes.Extras
                     comboBox12.Text = (Preferencias.AppSound == "A" ? comboBox12.Text = "SI" : "NO");
                     comboBox9.Text = (Preferencias.TCPIP == "A" ? comboBox9.Text = "SI" : "NO");
                     textBox1.Text = Preferencias.Bloqueo.ToString();
-                    comboBox15.Text = (Preferencias.CuracionesCORE == "A" ? comboBox15.Text = "SI" : "NO");
+                    comboBox15.Text = (Preferencias.CargosEnfermeros == "A" ? comboBox15.Text = "SI" : "NO");
                     comboBox16.Text = (Preferencias.TabletaFirmas == "A" ? comboBox16.Text = "SI" : "NO");
 
                     if (Conexion.ConectionDictionary["Videoconferencia"] == "A")
@@ -284,7 +284,7 @@ namespace ZamenisHealth.Comunes.Extras
                 Preferencias.SetPreferences("Sonido", (comboBox12.Text == "SI" ? "A" : "N"));
                 Preferencias.SetPreferences("TicketCitas", (comboBox8.Text == "SI" ? "A" : "N"));
                 Preferencias.SetPreferences("Bloqueo", (textBox1.Text == "" ? "0" : textBox1.Text));
-                Preferencias.SetPreferences("CuracionesCORE", (comboBox15.Text == "SI" ? "A" : "N"));
+                Preferencias.SetPreferences("CargosEnfermeros", (comboBox15.Text == "SI" ? "A" : "N"));
                 Preferencias.SetPreferences("TabletaFirmas", (comboBox16.Text == "SI" ? "A" : "N"));
 
                 this.Dispose();

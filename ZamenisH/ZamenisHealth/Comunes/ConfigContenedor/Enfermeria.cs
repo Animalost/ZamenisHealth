@@ -1,19 +1,19 @@
 ﻿using Domain;
 using Domain.CXN;
+using Newtonsoft.Json.Linq;
 using Persistence;
 using Persistence.CXN.Interfaces;
 using Persistence.CXN.Metodos;
 using System;
 using System.Windows.Forms;
-using ZamenisHealth.INV.Consultorios;
 using ZamenisHealth.Medicina.DocumentosWEB;
 
 namespace ZamenisHealth.Comunes.ConfigContenedor
 {
     public partial class Enfermeria : Form
     {
-        private static readonly ILogin repositorioLogin = new MLogin();
         private static readonly IBodegas repositorioBodegas = new MBodegas();
+        private static readonly IRoles repoRoles = new MRoles();
 
         private MensajesGeneral MG;
 
@@ -76,7 +76,7 @@ namespace ZamenisHealth.Comunes.ConfigContenedor
             }
             else
             {
-                VerInventario I = new VerInventario(get.Bod_Numero, true);
+                Consumos.Movimientos I = new Consumos.Movimientos();
                 I.ShowDialog();
             }
         }
@@ -84,29 +84,47 @@ namespace ZamenisHealth.Comunes.ConfigContenedor
         {
             try
             {
-                var imageJefe = repositorioLogin.getUser(Contenedor.UsuarioLogueado);
-                if (imageJefe == null)
+                CXN_DESKTOP_ROLES Rol = repoRoles.getDesktopRoles(Contenedor.UsuarioLogueado);
+                if (Rol == null)
                 {
-                    pictureBox36.Visible = false;
-                    label2.Visible = false;
-                    pictureBox1.Visible = false;
-                    label1.Visible = false;
+                    flowLayoutPanel1.Visible = false;
                 }
                 else
                 {
-                    if (imageJefe.Log_Fotos == "A")
+                    flowLayoutPanel1.Visible = true;
+
+                    JObject obj4 = JObject.Parse(Rol.Enfermeria);
+
+                    if (obj4["Enfermeria"] != null)
                     {
-                        pictureBox36.Visible = true;
-                        label2.Visible = true;
-                        pictureBox1.Visible = true;
-                        label1.Visible = true;
+                        panel2.Visible = obj4["Enfermeria"]["Notas"] != null ?
+                                            obj4["Enfermeria"]["Notas"].ToString() == "A" ? true : false : false;
+                        panel3.Visible = obj4["Enfermeria"]["Plantillas"] != null ?
+                                           obj4["Enfermeria"]["Plantillas"].ToString() == "A" ? true : false : false;
+                        panel4.Visible = obj4["Enfermeria"]["Imagenes"] != null ?
+                                          obj4["Enfermeria"]["Imagenes"].ToString() == "A" ? true : false : false;
+                        panel5.Visible = obj4["Enfermeria"]["NAclaratoria"] != null ?
+                                          obj4["Enfermeria"]["NAclaratoria"].ToString() == "A" ? true : false : false;
+                        panel6.Visible = obj4["Enfermeria"]["SearchImages"] != null ?
+                                          obj4["Enfermeria"]["SearchImages"].ToString() == "A" ? true : false : false;
+                        panel7.Visible = obj4["Enfermeria"]["Inventario"] != null ?
+                                         obj4["Enfermeria"]["Inventario"].ToString() == "A" ? true : false : false;
+                        panel8.Visible = obj4["Enfermeria"]["CManejo"] != null ?
+                                         obj4["Enfermeria"]["CManejo"].ToString() == "A" ? true : false : false;
+                        panel9.Visible = obj4["Enfermeria"]["Registros"] != null ?
+                                        obj4["Enfermeria"]["Registros"].ToString() == "A" ? true : false : false;
+                        panel10.Visible = obj4["Enfermeria"]["Estadisticas"] != null ?
+                                      obj4["Enfermeria"]["Estadisticas"].ToString() == "A" ? true : false : false;
+                        panel11.Visible = obj4["Enfermeria"]["Cargos"] != null ?
+                                      obj4["Enfermeria"]["Cargos"].ToString() == "A" ? true : false : false;
+                        panel12.Visible = obj4["Enfermeria"]["SubirDocumentos"] != null ?
+                                      obj4["Enfermeria"]["SubirDocumentos"].ToString() == "A" ? true : false : false;
+                        panel13.Visible = obj4["Enfermeria"]["DocumentosWEB"] != null ?
+                                     obj4["Enfermeria"]["DocumentosWEB"].ToString() == "A" ? true : false : false;
                     }
                     else
                     {
-                        pictureBox36.Visible = false;
-                        label2.Visible = false;
-                        pictureBox1.Visible = false;
-                        label1.Visible = false;
+                        flowLayoutPanel1.Visible = false;
                     }
                 }
             }

@@ -151,7 +151,8 @@ namespace ZamenisHealth.AdminSystem
                                    comboBox2.Text == "Medicina General" ? "MG" :
                                    comboBox2.Text == "Fisiatria" ? "FI" :
                                    comboBox2.Text == "Psicologia" ? "PS" :
-                                   comboBox2.Text == "Terapia Fisica" ? "TF" : "TO",
+                                   comboBox2.Text == "Terapia Fisica" ? "TF" : 
+                                   comboBox2.Text == "Psiquiatria" ? "PQ" : "TO",
                         Bod_Firma = FirmaB64,
                         Bod_Estado = comboBox3.Text == "SI" ? "A" : "N"                       
                     };

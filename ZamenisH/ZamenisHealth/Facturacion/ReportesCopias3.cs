@@ -6,7 +6,6 @@ using Persistence.CXN.Metodos;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Drawing;
 using System.Windows.Forms;
 using ZamenisHealth.Comunes;
 
@@ -40,27 +39,29 @@ namespace ZamenisHealth.Facturacion
             this.Cia = cia;
             this.Desde = desde;
             this.Hasta = hasta;
-            Tipos = tipos;
+            this.Tipos = tipos;
         }
         void Encabezados()
         {
             dt = new DataTable();
             POS = dt.Columns.Add("POS", typeof(int));
             Documento = dt.Columns.Add("Documento", typeof(string));
-            if (Tipos == "Recibos de Caja")
+            if (Tipos == "Facturas Caja")
             {
                 Admision = dt.Columns.Add("Admision", typeof(string));
             }
             Fecha = dt.Columns.Add("Fecha", typeof(string));
             Homologo = dt.Columns.Add("Homologo", typeof(string));
             TipoPago = dt.Columns.Add("TipoPago", typeof(string));
-        }
 
+            gridZH1.CeldaHeight = true;
+            gridZH1.dataGridView1.CellClick += dataGridView1_CellClick;
+        }
         void Cargar()
         {
             try
             {
-                if (Tipos == "Recibos de Caja")
+                if (Tipos == "Facturas Caja")
                 {
                     List<ReportesRecepcion> ExportaRpt = repositorioVentas.Rpt_RecibosdeCaja(Convert.ToDateTime(Desde).Date,
                                                                                         Convert.ToDateTime(Hasta).Date,
@@ -104,7 +105,7 @@ namespace ZamenisHealth.Facturacion
                         Estilos();
                     }
                 }
-                else if (Tipos == "Ordenes de Pedido")
+                else if (Tipos == "Facturas Ventas")
                 {
                     List<ReportesRecepcion> ExportaRpt = repositorioVentas.Rpt_FacturasVenta(Convert.ToDateTime(Desde).Date,
                                                                      Convert.ToDateTime(Hasta).Date,
@@ -147,7 +148,7 @@ namespace ZamenisHealth.Facturacion
                         Estilos();
                     }
                 }
-                else if (Tipos == "Facturas Particulares")
+                else if (Tipos == "Facturas Aseguradoras y Particulares")
                 {
                     List<FacturacionReports> Export = repoReportes.Exportar(Convert.ToDateTime(Desde).Date,
                                                                     Convert.ToDateTime(Hasta).Date,
@@ -202,15 +203,14 @@ namespace ZamenisHealth.Facturacion
                 MessageBox.Show(ex.Message);
             }
         }
-
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             try
             {
                 panel1.Visible = true;
 
-                FacZamenis = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString());
-                FormaPago = dataGridView1.Rows[e.RowIndex].Cells[4].Value.ToString();
+                FacZamenis = Convert.ToInt32(gridZH1.dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString());
+                FormaPago = gridZH1.dataGridView1.Rows[e.RowIndex].Cells[4].Value.ToString();
 
                 label1.Text = FacZamenis.ToString();
                 comboBox1.Text = FormaPago;
@@ -220,22 +220,21 @@ namespace ZamenisHealth.Facturacion
                 MessageBox.Show(ex.Message);
             }
         }
-
         private void button1_Click(object sender, EventArgs e)
         {
             try
             {
                 bool res = false;
 
-                if (Tipos == "Recibos de Caja")
+                if (Tipos == "Facturas Caja")
                 {
                     res = repoReportes.UpdateFormaPago(FacZamenis, Cia, comboBox1.Text, "Caja");
                 }
-                else if (Tipos == "Ordenes de Pedido")
+                else if (Tipos == "Facturas Ventas")
                 {
                     res = repoReportes.UpdateFormaPago(FacZamenis, Cia, comboBox1.Text, "Ventas");
                 }
-                else if (Tipos == "Facturas Particulares")
+                else if (Tipos == "Facturas Aseguradoras y Particulares")
                 {
                     res = repoReportes.UpdateFormaPago(FacZamenis, Cia, comboBox1.Text, "Particular");
                 }
@@ -269,7 +268,6 @@ namespace ZamenisHealth.Facturacion
             catch (Exception ex)
             { MessageBox.Show(ex.Message); }
         }
-
         private void ReportesCopias3_Load(object sender, EventArgs e)
         {
             Titulo.Text = "Reportes";
@@ -287,49 +285,8 @@ namespace ZamenisHealth.Facturacion
         {
             try
             {
-                dataGridView1.EnableHeadersVisualStyles = false;
-                dataGridView1.ScrollBars = ScrollBars.Both;
-
-                dataGridView1.DataSource = dt;
-
-                dataGridView1.Columns["Documento"].Width = 120;
-                dataGridView1.Columns["Fecha"].Width = 120;
-                dataGridView1.Columns["Homologo"].Width = 120;
-                dataGridView1.Columns["TipoPago"].Width = 280;
-
-                dataGridView1.Font = new Font("Arial", 11);
-
-                dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font(dataGridView1.Font, FontStyle.Bold);
-                dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Arial", 10, FontStyle.Bold);
-                dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#bfdbff");
-                dataGridView1.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
-                dataGridView1.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
-
-                dataGridView1.Columns["Documento"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                dataGridView1.Columns["Fecha"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                dataGridView1.Columns["Homologo"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                dataGridView1.Columns["TipoPago"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
-                dataGridView1.Columns["Documento"].SortMode = DataGridViewColumnSortMode.NotSortable;
-                dataGridView1.Columns["Fecha"].SortMode = DataGridViewColumnSortMode.NotSortable;
-                dataGridView1.Columns["Homologo"].SortMode = DataGridViewColumnSortMode.NotSortable;
-                dataGridView1.Columns["TipoPago"].SortMode = DataGridViewColumnSortMode.NotSortable;
-
-                dataGridView1.Columns["POS"].Visible = false;
-
-                foreach (DataGridViewRow row in dataGridView1.Rows)
-                {
-                    int Numero = Convert.ToInt32(row.Cells["POS"].Value.ToString());
-
-                    if ((Numero % 2) == 0)
-                    {
-                        row.DefaultCellStyle.BackColor = Color.Aquamarine;
-                    }
-                    else
-                    {
-                        row.DefaultCellStyle.BackColor = Color.MediumAquamarine;
-                    }
-                }
+                gridZH1.dataGridView1.DataSource = dt;
+                gridZH1.dataGridView1.Columns["POS"].Visible = false;
             }
             catch (Exception ex)
             {

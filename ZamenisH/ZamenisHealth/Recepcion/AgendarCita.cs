@@ -1346,7 +1346,7 @@ namespace ZamenisHealth.Recepcion
                         Hor_Color = colorcito
                     };
 
-                    int admTemp = repositorioAgendar.AgendarPaciente(H);
+                    int admTemp = repositorioAgendar.AgendarPaciente(H);                  
 
                     Agendamiento f1 = Application.OpenForms.OfType<Agendamiento>().FirstOrDefault();
                     f1.EventoInicial();

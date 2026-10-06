@@ -429,7 +429,8 @@
             "Terapias",
             "Fisiatria",
             "Terapias y Fisiatria",
-            "Curaciones y Consultas"});
+            "Curaciones y Consultas",
+            "Psiquiatria"});
             this.comboBox4.Location = new System.Drawing.Point(139, 15);
             this.comboBox4.Name = "comboBox4";
             this.comboBox4.Size = new System.Drawing.Size(282, 28);

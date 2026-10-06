@@ -1,5 +1,4 @@
-﻿using APIController.Services.FHIR_IHCE;
-using APIFhir.Controlador;
+﻿using APIFhir.Controlador;
 using APIFhir.Servicio;
 using Domain.CXN;
 using FormAndControls;

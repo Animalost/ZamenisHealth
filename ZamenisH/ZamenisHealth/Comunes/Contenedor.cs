@@ -154,8 +154,6 @@ namespace ZamenisHealth.Comunes
                 toolStripButton4.MouseLeave += ToolStripButton4_MouseLeave;
                 toolStripButton3.MouseMove += ToolStripButton3_MouseMove;
                 toolStripButton3.MouseLeave += ToolStripButton3_MouseLeave;
-                toolStripButton14.MouseMove += ToolStripButton14_MouseMove;
-                toolStripButton14.MouseLeave += ToolStripButton14_MouseLeave;
 
                 Conexion.BloqueosAgenda = repositorioConfSystem.getListado()["Bloqueo"];
                 Conexion.EmailAgenda = repositorioConfSystem.getListado()["Email"];
@@ -245,10 +243,6 @@ namespace ZamenisHealth.Comunes
         {
             Over(toolStripButton2);
         }
-        private void ToolStripButton14_MouseMove(object sender, EventArgs e)
-        {
-            Over(toolStripButton14);
-        }
         private void ToolStripButton2_MouseLeave(object sender, EventArgs e)
         {
             Leaves(toolStripButton2);
@@ -260,10 +254,6 @@ namespace ZamenisHealth.Comunes
         private void ToolStripButton11_MouseLeave(object sender, EventArgs e)
         {
             Leaves(toolStripButton11);
-        }
-        private void ToolStripButton14_MouseLeave(object sender, EventArgs e)
-        {
-            Leaves(toolStripButton14);
         }
         private void ToolStripButton10_MouseMove(object sender, EventArgs e)
         {
@@ -980,26 +970,7 @@ namespace ZamenisHealth.Comunes
             Comunes.MensajeroSend mensjaes_I = new Comunes.MensajeroSend();
             mensjaes_I.ShowDialog();
         }
-
-        private void toolStripButton14_Click(object sender, EventArgs e)
-        {
-            string Permiso = getCon["Rol11"];
-            if (Permiso == "A")
-            {
-                AbrirFormEnPanel2(new ConfigContenedor.Radiologia(), false);
-                CerrarPanel.Enabled = false;
-                CerrarPanel.Enabled = true;
-            }
-            else
-            {
-                MensajesGeneral MG = new MensajesGeneral();
-                MG.Mensaje = "El permiso a esta opcion se encuentra habilitado, pero no esta autorizado dentro de " +
-                    "su licencia adquirida, contacte a soporte para adquirir este modulo";
-                MG.TipoImagen = 1000;
-                MG.ShowDialog();
-                return;
-            }
-        }
+       
         void GestionPagos()
         {
             try

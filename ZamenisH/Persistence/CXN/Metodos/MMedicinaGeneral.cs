@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Data;
+﻿using Domain;
 using Domain.CXN;
 using Persistence.CXN.Interfaces;
-using Domain;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 
 namespace Persistence.CXN.Metodos
 {
@@ -115,76 +115,85 @@ namespace Persistence.CXN.Metodos
 
                     String Cargar_Cod_Prof = "SELECT TOP 1 * " +
                                              "FROM CXN_HCMG " +
-                                             "WHERE HC_PacId = '" + Paciente + "' " +
-                                             "AND HC_Fecha <> '" + Convert.ToDateTime(Fecha).ToString(getData["Format_Fecha"]) + "' " +
-                                             "AND HC_Cant = '1' " +
+                                             "WHERE HC_PacId = @param1 " +
+                                             "AND HC_Fecha <> @param2 " +
+                                             "AND HC_Cant = @param3 " +
                                              "ORDER BY HC_Fecha DESC";
-                    SqlCommand Carga_Cod_Prof = new SqlCommand(Cargar_Cod_Prof, con);
-                    SqlDataReader Lectura_Cod_Prof = (Carga_Cod_Prof.ExecuteReader());
-                    if (Lectura_Cod_Prof.Read() == true)
+
+                    using (SqlCommand Carga_Cod_Prof = new SqlCommand(Cargar_Cod_Prof, con))
                     {
-                        CXN_HCMG H = new CXN_HCMG
+                        Carga_Cod_Prof.Parameters.AddWithValue("@param1", Paciente);
+                        Carga_Cod_Prof.Parameters.AddWithValue("@param2", Convert.ToDateTime(Fecha).ToString(getData["Format_Fecha"]));
+                        Carga_Cod_Prof.Parameters.AddWithValue("@param3", "1");
+
+                        using (SqlDataReader Lectura_Cod_Prof = (Carga_Cod_Prof.ExecuteReader()))
                         {
-                            HC_MotivoC = Lectura_Cod_Prof["HC_MotivoC"].ToString(),
-                            HC_EnfA = Lectura_Cod_Prof["HC_EnfA"].ToString(),
-                            HC_PruebasDiag = Lectura_Cod_Prof["HC_PruebasDiag"].ToString(),
+                            if (Lectura_Cod_Prof.Read() == true)
+                            {
+                                CXN_HCMG H = new CXN_HCMG
+                                {
+                                    HC_MotivoC = Lectura_Cod_Prof["HC_MotivoC"].ToString(),
+                                    HC_EnfA = Lectura_Cod_Prof["HC_EnfA"].ToString(),
+                                    HC_PruebasDiag = Lectura_Cod_Prof["HC_PruebasDiag"].ToString(),
 
-                            HC_Neurologico = Lectura_Cod_Prof["HC_Neurologico"].ToString(),
-                            HC_Respiratorio = Lectura_Cod_Prof["HC_Respiratorio"].ToString(),
-                            HC_Cardiovascular = Lectura_Cod_Prof["HC_Cardiovascular"].ToString(),
-                            HC_GastroIntestinal = Lectura_Cod_Prof["HC_GastroIntestinal"].ToString(),
-                            HC_GastroUrinario = Lectura_Cod_Prof["HC_GastroUrinario"].ToString(),
-                            HC_Ocupacion = Lectura_Cod_Prof["HC_Ocupacion"].ToString(),
-                            HC_Piel = Lectura_Cod_Prof["HC_Piel"].ToString(),
-                            HC_OsteoMuscular = Lectura_Cod_Prof["HC_OsteoMuscular"].ToString(),
+                                    HC_Neurologico = Lectura_Cod_Prof["HC_Neurologico"].ToString(),
+                                    HC_Respiratorio = Lectura_Cod_Prof["HC_Respiratorio"].ToString(),
+                                    HC_Cardiovascular = Lectura_Cod_Prof["HC_Cardiovascular"].ToString(),
+                                    HC_GastroIntestinal = Lectura_Cod_Prof["HC_GastroIntestinal"].ToString(),
+                                    HC_GastroUrinario = Lectura_Cod_Prof["HC_GastroUrinario"].ToString(),
+                                    HC_Ocupacion = Lectura_Cod_Prof["HC_Ocupacion"].ToString(),
+                                    HC_Piel = Lectura_Cod_Prof["HC_Piel"].ToString(),
+                                    HC_OsteoMuscular = Lectura_Cod_Prof["HC_OsteoMuscular"].ToString(),
 
-                            HC_AntFam = Lectura_Cod_Prof["HC_AntFam"].ToString(),
-                            HC_AntPat = Lectura_Cod_Prof["HC_AntPat"].ToString(),
-                            HC_AntFarma = Lectura_Cod_Prof["HC_AntFarma"].ToString(),
-                            HC_AntQui = Lectura_Cod_Prof["HC_AntQui"].ToString(),
-                            HC_AntAle = Lectura_Cod_Prof["HC_AntAle"].ToString(),
-                            HC_Hematolin = Lectura_Cod_Prof["HC_Hematolin"].ToString(),
+                                    HC_AntFam = Lectura_Cod_Prof["HC_AntFam"].ToString(),
+                                    HC_AntPat = Lectura_Cod_Prof["HC_AntPat"].ToString(),
+                                    HC_AntFarma = Lectura_Cod_Prof["HC_AntFarma"].ToString(),
+                                    HC_AntQui = Lectura_Cod_Prof["HC_AntQui"].ToString(),
+                                    HC_AntAle = Lectura_Cod_Prof["HC_AntAle"].ToString(),
+                                    HC_Hematolin = Lectura_Cod_Prof["HC_Hematolin"].ToString(),
 
-                            HC_EstadoNut = Lectura_Cod_Prof["HC_EstadoNut"].ToString(),
-                            HC_Presart = Lectura_Cod_Prof["HC_Presart"].ToString(),
-                            HC_Frecar = Lectura_Cod_Prof["HC_Frecar"].ToString(),
-                            HC_Temp = Lectura_Cod_Prof["HC_Temp"].ToString(),
-                            HC_FreRes = Lectura_Cod_Prof["HC_FreRes"].ToString(),
-                            HC_Peso = Lectura_Cod_Prof["HC_Peso"].ToString(),
-                            HC_Altura = Lectura_Cod_Prof["HC_Altura"].ToString(),
-                            HC_IMC = Lectura_Cod_Prof["HC_IMC"].ToString(),
-                            HC_ITB = Lectura_Cod_Prof["HC_ITB"].ToString(),
+                                    HC_EstadoNut = Lectura_Cod_Prof["HC_EstadoNut"].ToString(),
+                                    HC_Presart = Lectura_Cod_Prof["HC_Presart"].ToString(),
+                                    HC_Frecar = Lectura_Cod_Prof["HC_Frecar"].ToString(),
+                                    HC_Temp = Lectura_Cod_Prof["HC_Temp"].ToString(),
+                                    HC_FreRes = Lectura_Cod_Prof["HC_FreRes"].ToString(),
+                                    HC_Peso = Lectura_Cod_Prof["HC_Peso"].ToString(),
+                                    HC_Altura = Lectura_Cod_Prof["HC_Altura"].ToString(),
+                                    HC_IMC = Lectura_Cod_Prof["HC_IMC"].ToString(),
+                                    HC_ITB = Lectura_Cod_Prof["HC_ITB"].ToString(),
 
-                            HC_TejCom = Lectura_Cod_Prof["HC_TejCom"].ToString(),
-                            HC_CaracTej = Lectura_Cod_Prof["HC_CaracTej"].ToString(),
-                            HC_SignosInf = Lectura_Cod_Prof["HC_SignosInf"].ToString(),
-                            HC_PielCirc = Lectura_Cod_Prof["HC_PielCirc"].ToString(),
-                            HC_Exudado = Lectura_Cod_Prof["HC_Exudado"].ToString(),
-                            HC_ConsCant = Lectura_Cod_Prof["HC_ConsCant"].ToString(),
-                            HC_Estado = Lectura_Cod_Prof["HC_Estado"].ToString(),
-                            HC_Dolor = Lectura_Cod_Prof["HC_Dolor"].ToString(),
-                            HC_DescHer = Lectura_Cod_Prof["HC_DescHer"].ToString(),
+                                    HC_TejCom = Lectura_Cod_Prof["HC_TejCom"].ToString(),
+                                    HC_CaracTej = Lectura_Cod_Prof["HC_CaracTej"].ToString(),
+                                    HC_SignosInf = Lectura_Cod_Prof["HC_SignosInf"].ToString(),
+                                    HC_PielCirc = Lectura_Cod_Prof["HC_PielCirc"].ToString(),
+                                    HC_Exudado = Lectura_Cod_Prof["HC_Exudado"].ToString(),
+                                    HC_ConsCant = Lectura_Cod_Prof["HC_ConsCant"].ToString(),
+                                    HC_Estado = Lectura_Cod_Prof["HC_Estado"].ToString(),
+                                    HC_Dolor = Lectura_Cod_Prof["HC_Dolor"].ToString(),
+                                    HC_DescHer = Lectura_Cod_Prof["HC_DescHer"].ToString(),
 
-                            HC_Imp_Dx = Lectura_Cod_Prof["HC_Imp_Dx"].ToString(),
-                            HC_Patologia = Lectura_Cod_Prof["HC_Patologia"].ToString(),
-                            HC_SubPat = Lectura_Cod_Prof["HC_SubPat"].ToString(),
-                            HC_RH = Lectura_Cod_Prof["HC_RH"].ToString(),
-                            HC_DX1T = Lectura_Cod_Prof["HC_DX1T"].ToString(),
-                            HC_Analisis = Lectura_Cod_Prof["HC_Analisis"].ToString(),
-                            HC_PManejo = Lectura_Cod_Prof["HC_PManejo"].ToString(),
-                            HC_Complicacion = Lectura_Cod_Prof["HC_Complicacion"].ToString(),
-                            HC_DX1 = Lectura_Cod_Prof["HC_DX1"].ToString(),
-                            HC_DX2 = Lectura_Cod_Prof["HC_DX2"].ToString(),
-                            HC_DX3 = Lectura_Cod_Prof["HC_DX3"].ToString(),
-                        };
+                                    HC_Imp_Dx = Lectura_Cod_Prof["HC_Imp_Dx"].ToString(),
+                                    HC_Patologia = Lectura_Cod_Prof["HC_Patologia"].ToString(),
+                                    HC_SubPat = Lectura_Cod_Prof["HC_SubPat"].ToString(),
+                                    HC_RH = Lectura_Cod_Prof["HC_RH"].ToString(),
+                                    HC_DX1T = Lectura_Cod_Prof["HC_DX1T"].ToString(),
+                                    HC_Analisis = Lectura_Cod_Prof["HC_Analisis"].ToString(),
+                                    HC_PManejo = Lectura_Cod_Prof["HC_PManejo"].ToString(),
+                                    HC_Complicacion = Lectura_Cod_Prof["HC_Complicacion"].ToString(),
+                                    HC_DX1 = Lectura_Cod_Prof["HC_DX1"].ToString(),
+                                    HC_DX2 = Lectura_Cod_Prof["HC_DX2"].ToString(),
+                                    HC_DX3 = Lectura_Cod_Prof["HC_DX3"].ToString(),
+                                };
 
-                        return H;
+                                return H;
 
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                            }
+                            else
+                            {
+                                return null;
+                            }
+                        }
+                    }                                         
                 }
             }
             catch (Exception ex)
@@ -806,6 +815,470 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
+
+
+
+        #region ARRASTRE HISTORIAS
+        int IMedicinaGeneral.CopiarHistoriaAltaComplejidad(int Paciente, DateTime Fecha)
+        {
+            try
+            {
+                Dictionary<string, string> getData = Conexion.Conection();
+
+                using (SqlConnection con = new SqlConnection(getData["Conexion"]))
+                {
+                    if (con != null && con.State == ConnectionState.Closed)
+                    {
+                        con.Open();
+                    }
+
+                    int nuevaAdmision = getLastHistory(Paciente, Fecha);
+                    if (nuevaAdmision > 0)
+                    {
+                        string sql = @"
+                                            DECLARE @Columnas NVARCHAR(MAX);
+
+                                            SELECT @Columnas = STUFF(
+                                            (
+                                                SELECT ', ' + QUOTENAME(COLUMN_NAME)
+                                                FROM INFORMATION_SCHEMA.COLUMNS
+                                                WHERE TABLE_NAME = 'CXN_HCMG'
+                                                  AND COLUMN_NAME NOT IN ('HC_Fecha', 'HC_Id', 'HC_Adm')
+                                                ORDER BY ORDINAL_POSITION
+                                                FOR XML PATH(''), TYPE
+                                            ).value('.', 'NVARCHAR(MAX)'), 1, 2, '');
+
+                                            DECLARE @SQL NVARCHAR(MAX);
+
+                                            SET @SQL = '
+                                            INSERT INTO CXN_HCMG
+                                            (
+                                                ' + @Columnas + ',
+                                                HC_Fecha,
+                                                HC_Adm
+                                            )
+                                            SELECT
+                                                ' + @Columnas + ',
+                                                @NuevaFecha,
+                                                @NuevaAdmision
+                                            FROM
+                                            (
+                                                SELECT TOP 1 *
+                                                FROM CXN_HCMG
+                                                WHERE HC_PacId = @Paciente
+                                                  AND HC_Fecha <> @FechaAnterior
+                                                  AND HC_Cant = @Cantidad
+                                                ORDER BY HC_Fecha DESC
+                                            ) AS X;
+                                            ';
+
+                                            EXEC sp_executesql
+                                                @SQL,
+                                                N'@Paciente INT, @FechaAnterior DATETIME, @Cantidad INT, @NuevaFecha DATETIME, @NuevaAdmision INT',
+                                                @Paciente = @param1,
+                                                @FechaAnterior = @param2,
+                                                @Cantidad = @param3,
+                                                @NuevaFecha = @param4,
+                                                @NuevaAdmision = @param5;
+                                        ";
+
+                        using (SqlCommand cmd = new SqlCommand(sql, con))
+                        {
+                            cmd.Parameters.AddWithValue("@param1", Paciente);
+                            cmd.Parameters.AddWithValue("@param2", Fecha);
+                            cmd.Parameters.AddWithValue("@param3", 1);
+                            cmd.Parameters.AddWithValue("@param4", DateTime.Now.Date);
+                            cmd.Parameters.AddWithValue("@param5", nuevaAdmision);
+
+                            int S = cmd.ExecuteNonQuery();
+                            if (S > 0)
+                            {
+                                int S2 = copyLastCargo(Paciente, Fecha, nuevaAdmision);
+                                if (S2 > 0)
+                                {
+                                    return nuevaAdmision;
+                                }
+                                else
+                                {
+                                    return 0;
+                                }
+                            }
+                            else
+                            {
+                                return 0;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        return 0;
+                    }                        
+                }
+            }
+            catch (Exception ex)
+            {
+                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
+                return 0;
+            }
+        }
+        int copyLastCargo(int Paciente, DateTime Fecha, int NuevaAdmision)
+        {
+            try
+            {
+                Dictionary<string, string> getData = Conexion.Conection();
+
+                using (SqlConnection con = new SqlConnection(getData["Conexion"]))
+                {
+                    if (con != null && con.State == ConnectionState.Closed)
+                    {
+                        con.Open();
+                    }
+
+                    string sql = @"
+                                    DECLARE @Columnas NVARCHAR(MAX);
+
+                                    SELECT @Columnas = STUFF(
+                                    (
+                                        SELECT ', ' + QUOTENAME(COLUMN_NAME)
+                                        FROM INFORMATION_SCHEMA.COLUMNS
+                                        WHERE TABLE_NAME = 'CXN_CARGOS'
+                                          AND COLUMN_NAME NOT IN ('Car_Id', 'Car_Fecha', 'Car_Adm_Id')
+                                        ORDER BY ORDINAL_POSITION
+                                        FOR XML PATH(''), TYPE
+                                    ).value('.', 'NVARCHAR(MAX)'), 1, 2, '');
+
+                                    DECLARE @SQL NVARCHAR(MAX);
+
+                                    SET @SQL = '
+                                    INSERT INTO CXN_CARGOS
+                                    (
+                                        ' + @Columnas + ',
+                                        Car_Fecha,
+                                        Car_Adm_Id
+                                    )
+                                    SELECT
+                                        ' + @Columnas + ',
+                                        @NuevaFecha,
+                                        @NuevaAdmision
+                                    FROM CXN_CARGOS
+                                    WHERE Car_Pac = @Paciente
+                                      AND Car_Fecha <> @FechaAnterior
+                                      AND Car_Tipo = ''Historia''
+                                      AND Car_Tipo_Serv = ''MG'';
+                                    ';
+
+                                    EXEC sp_executesql
+                                        @SQL,
+                                        N'@Paciente INT, @FechaAnterior DATETIME, @NuevaFecha DATETIME, @NuevaAdmision INT',
+                                        @Paciente = @param1,
+                                        @FechaAnterior = @param2,
+                                        @NuevaFecha = @param3,
+                                        @NuevaAdmision = @param4;
+                                ";
+
+                    using (SqlCommand cmd = new SqlCommand(sql, con))
+                    {
+                        cmd.Parameters.AddWithValue("@param1", Paciente);
+                        cmd.Parameters.AddWithValue("@param2", Fecha);
+                        cmd.Parameters.AddWithValue("@param3", DateTime.Now.Date);
+                        cmd.Parameters.AddWithValue("@param4", NuevaAdmision);
+
+                        return cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
+                return 0;
+            }
+        }
+        int getLastHistory(int Paciente, DateTime Fecha)
+        {
+            try
+            {
+                Dictionary<string, string> getData = Conexion.Conection();
+
+                using (SqlConnection con = new SqlConnection(getData["Conexion"]))
+                {
+                    if (con != null && con.State == ConnectionState.Closed)
+                    {
+                        con.Open();
+                    }
+
+                    string sql = @"
+                                    DECLARE @Columnas NVARCHAR(MAX);
+                                    DECLARE @SQL NVARCHAR(MAX);
+
+                                    SELECT @Columnas = STUFF(
+                                    (
+                                        SELECT ', ' + QUOTENAME(COLUMN_NAME)
+                                        FROM INFORMATION_SCHEMA.COLUMNS
+                                        WHERE TABLE_NAME = 'CXN_HORARIO'
+                                          AND COLUMN_NAME NOT IN ('Hor_Id', 'Hor_Pac_Fecha_Cita')
+                                        ORDER BY ORDINAL_POSITION
+                                        FOR XML PATH(''), TYPE
+                                    ).value('.', 'NVARCHAR(MAX)'), 1, 2, '');
+
+                                    SET @SQL = '
+                                    INSERT INTO CXN_HORARIO
+                                    (
+                                        ' + @Columnas + ',
+                                        Hor_Pac_Fecha_Cita
+                                    )
+                                    SELECT
+                                        ' + @Columnas + ',
+                                        @NuevaFecha
+                                    FROM
+                                    (
+                                        SELECT TOP 1 *
+                                        FROM CXN_HORARIO
+                                        WHERE Hor_Pac_Id = @Paciente
+                                          AND Hor_Pac_Fecha_Cita <> @FechaAnterior
+                                          AND Hor_Estado = @Estado
+                                          AND Hor_Pac_Tipo_Serv = ''MG''
+                                        ORDER BY Hor_Pac_Fecha_Cita DESC
+                                    ) AS X;
+
+                                    SELECT CAST(SCOPE_IDENTITY() AS INT);
+                                    ';
+
+                                    EXEC sp_executesql
+                                        @SQL,
+                                        N'@Paciente INT, @FechaAnterior DATETIME, @Estado VARCHAR, @NuevaFecha DATETIME',
+                                        @Paciente = @param1,
+                                        @FechaAnterior = @param2,
+                                        @Estado = @param3,
+                                        @NuevaFecha = @param4;
+                                ";
+
+                    using (SqlCommand cmd = new SqlCommand(sql, con))
+                    {
+                        cmd.Parameters.AddWithValue("@param1", Paciente);
+                        cmd.Parameters.AddWithValue("@param2", Convert.ToDateTime(Fecha));
+                        cmd.Parameters.AddWithValue("@param3", "H");
+                        cmd.Parameters.AddWithValue("@param4", DateTime.Now.Date);
+
+                        return Convert.ToInt32(cmd.ExecuteScalar());
+                    }                  
+                }
+            }
+            catch (Exception ex)
+            {
+                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
+                return 0;
+            }
+        }
+        void IMedicinaGeneral.GrabaSalidaEnfermeria(CXN_SALIDASENFERMERIA H)
+        {
+            try
+            {
+                Dictionary<string, string> getData = Conexion.Conection();
+
+                using (SqlConnection con = new SqlConnection(getData["Conexion"]))
+                {
+                    if (con != null && con.State == ConnectionState.Closed)
+                    {
+                        con.Open();
+                    }
+
+                    SqlCommand cmd = new SqlCommand(@"INSERT INTO CXN_SALIDASENFERMERIA " +
+                                                         "(Sal_Adm, " +
+                                                         "Sal_Fecha, " +
+                                                         "Sal_Prof, " +
+                                                         "Sal_Estado) " +
+                                     "VALUES                  (@param1, " +
+                                                              "@param2, " +
+                                                              "@param3, " +
+                                                              "@param4)", con);
+
+                    cmd.Parameters.AddWithValue("@param1", H.Sal_Adm);
+                    cmd.Parameters.Add(new SqlParameter("@param2", SqlDbType.DateTime)).Value = H.Sal_Fecha;
+                    cmd.Parameters.AddWithValue("@param3", H.Sal_Prof);
+                    cmd.Parameters.AddWithValue("@param4", H.Sal_Estado);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
+            }
+        }
+        List<CXN_HORARIO> IMedicinaGeneral.GetSalidasEnfermeria()
+        {
+            Dictionary<string, string> getData = Conexion.Conection();
+
+            try
+            {
+                using (SqlConnection con = new SqlConnection(getData["Conexion"]))
+                {
+                    if (con != null && con.State == ConnectionState.Closed)
+                    {
+                        con.Open();
+                    }
+                    String Cargar_Hora2 = "SELECT TOP 100 H.Hor_Id, S.Sal_Fecha, B.Bod_Responsable, S.Sal_Estado, H.Hor_Imp_Age " +
+                                          "FROM CXN_SALIDASENFERMERIA S " +
+                                          "INNER JOIN CXN_HORARIO H ON S.Sal_Adm = H.Hor_Id " +
+                                          "INNER JOIN CXN_BODEGAS B ON S.Sal_Prof = B.Bod_Numero " +
+                                          "ORDER BY S.Sal_Fecha DESC";
+
+                    using (SqlCommand Carga_Command2 = new SqlCommand(Cargar_Hora2, con))
+                    {
+                        using (SqlDataReader Lectura_Hora2 = (Carga_Command2.ExecuteReader()))
+                        {
+                            if (Lectura_Hora2.HasRows)
+                            {
+                                List<CXN_HORARIO> L = new List<CXN_HORARIO>();
+
+                                while (Lectura_Hora2.Read() == true)
+                                {
+                                    L.Add(new CXN_HORARIO
+                                    {
+                                        Hor_Id = Convert.ToInt32(Lectura_Hora2["Hor_Id"]),
+                                        Hor_Pac_Fecha_Cita = Convert.ToDateTime(Lectura_Hora2["Sal_Fecha"]),
+                                        Com_Cod_Prestador = Lectura_Hora2["Bod_Responsable"].ToString(),
+                                        Hor_Estado = (bool)Lectura_Hora2["Sal_Estado"] == true ? "APROBADO" : "PENDIENTE",
+                                        Hor_Imp_Age = Lectura_Hora2["Hor_Imp_Age"].ToString(),
+                                    });
+                                }
+
+                                return L;
+                            }
+                            else
+                            {
+                                return null;
+                            }
+                        }
+                    }                    
+                }
+            }
+            catch (Exception ex)
+            {
+                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
+                return null;
+            }
+        }
+        int IMedicinaGeneral.ActualizaSalidas(string Texto, int Admision, int Medico)
+        {
+            try
+            {
+                Dictionary<string, string> getData = Conexion.Conection();
+
+                using (SqlConnection con = new SqlConnection(getData["Conexion"]))
+                {
+                    if (con != null && con.State == ConnectionState.Closed)
+                    {
+                        con.Open();
+                    }
+
+                    string Busqueda = (@"UPDATE CXN_HCMG " +
+                                      "SET HC_PManejo = @param1, " +
+                                           "HC_Prof = @param2 " +
+                                      "WHERE HC_Adm = @param3 " +
+                                      "AND HC_Cant = @param4");
+                    SqlCommand Accion = new SqlCommand(Busqueda, con);
+
+                    Accion.Parameters.AddWithValue("@param1", Texto);
+                    Accion.Parameters.AddWithValue("@param2", Medico);
+                    Accion.Parameters.AddWithValue("@param3", Admision);
+                    Accion.Parameters.AddWithValue("@param4", "1");
+                   
+                    return Accion.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
+                return 0;
+            }
+        }
+        int IMedicinaGeneral.ActualizaSalidas(int Admision)
+        {
+            try
+            {
+                Dictionary<string, string> getData = Conexion.Conection();
+
+                using (SqlConnection con = new SqlConnection(getData["Conexion"]))
+                {
+                    if (con != null && con.State == ConnectionState.Closed)
+                    {
+                        con.Open();
+                    }
+
+                    string Busqueda = (@"UPDATE CXN_SALIDASENFERMERIA " +
+                                      "SET Sal_Estado = @param1 " +
+                                      "WHERE Sal_Adm = @param2");
+                    SqlCommand Accion = new SqlCommand(Busqueda, con);
+
+                    Accion.Parameters.AddWithValue("@param1", true);
+                    Accion.Parameters.AddWithValue("@param2", Admision);
+
+                    return Accion.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
+                return 0;
+            }
+        }
+        void IMedicinaGeneral.EliminarSalida(int Admision)
+        {
+            try
+            {
+                Dictionary<string, string> getData = Conexion.Conection();
+
+                using (SqlConnection con = new SqlConnection(getData["Conexion"]))
+                {
+                    if (con != null && con.State == ConnectionState.Closed)
+                    {
+                        con.Open();
+                    }
+
+                    string Busqueda = (@"DELETE FROM CXN_SALIDASENFERMERIA " +
+                                        "WHERE Sal_Adm = @param1");
+
+                    using (SqlCommand Accion = new SqlCommand(Busqueda, con))
+                    {
+                        Accion.Parameters.AddWithValue("@param1", Admision);
+                        Accion.ExecuteNonQuery();
+                    }
+
+                    Busqueda = (@"DELETE FROM CXN_HCMG " +
+                                 "WHERE HC_Adm = @param1");
+
+                    using (SqlCommand Accion = new SqlCommand(Busqueda, con))
+                    {
+                        Accion.Parameters.AddWithValue("@param1", Admision);
+                        Accion.ExecuteNonQuery();
+                    }
+
+                    Busqueda = (@"DELETE FROM CXN_CARGOS " +
+                                 "WHERE Car_Adm_Id = @param1");
+
+                    using (SqlCommand Accion = new SqlCommand(Busqueda, con))
+                    {
+                        Accion.Parameters.AddWithValue("@param1", Admision);
+                        Accion.ExecuteNonQuery();
+                    }
+
+                    Busqueda = (@"DELETE FROM CXN_HORARIO " +
+                                 "WHERE Hor_Id = @param1");
+
+                    using (SqlCommand Accion = new SqlCommand(Busqueda, con))
+                    {
+                        Accion.Parameters.AddWithValue("@param1", Admision);
+                        Accion.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
+            }
+        }
+        #endregion
 
     }
 }

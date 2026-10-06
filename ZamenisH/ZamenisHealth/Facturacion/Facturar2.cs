@@ -486,17 +486,7 @@ namespace ZamenisHealth.Facturacion
 
                             R.LocalReport.DataSources.Clear();
                             R.LocalReport.DataSources.Add(new ReportDataSource("DataSet_Notas", listaClase1));
-
-                            if (Preferencias.CuracionesCORE == "A" && listaClase1[0].listaMedidas != null)
-                            {
-                                R.LocalReport.DataSources.Add(new ReportDataSource("DataSet_NotasMed", listaClase1[0].listaMedidas));
-                                R.LocalReport.ReportEmbeddedResource = "ZamenisHealth.Reportes.RDLC_NotasCore.rdlc";
-                            }
-                            else
-                            {
-                                R.LocalReport.ReportEmbeddedResource = "ZamenisHealth.Reportes.RDLC_Notas.rdlc";
-                            }
-
+                            R.LocalReport.ReportEmbeddedResource = "ZamenisHealth.Reportes.RDLC_Notas.rdlc";                            
                             R.SetDisplayMode(DisplayMode.PrintLayout);
                             R.ZoomMode = ZoomMode.Percent;
                             R.ZoomPercent = 100;
@@ -1106,7 +1096,7 @@ namespace ZamenisHealth.Facturacion
                                "GROUP BY C.Car_cod, C.Car_Item, C.Car_Val_Un, C.Car_Tipo";
                         break;
 
-                    case "Radiologia":
+                    case "Psiquiatria":
                         Query = "SELECT C.Car_Cod, C.Car_Item, C.Car_Val_Un, C.Car_Tipo, " +
                                 "SUM(CAST(C.Car_Cant AS INT)) AS Cantidad, " +
                                 "SUM(CAST(C.Car_Val_Tot AS INT)) AS Total " +
@@ -1117,7 +1107,7 @@ namespace ZamenisHealth.Facturacion
                                "AND C.Car_Estado = 'G' " +
                                "AND C.Car_Cia = '" + Cia + "' " +
                                "AND C.Car_Ase = '" + Ase + "' " +
-                               "AND C.Car_Tipo_Serv IN ('RA') " +
+                               "AND C.Car_Tipo_Serv IN ('PQ','SQ') " +
                                "GROUP BY C.Car_cod, C.Car_Item, C.Car_Val_Un, C.Car_Tipo";
                         break;
 

@@ -37,7 +37,7 @@
     <SuiteName>Zamenis</SuiteName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationRevision>8</ApplicationRevision>
     <ApplicationVersion>5.2.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -384,6 +384,12 @@
     <Compile Include="AdminSystem\Autorizaciones.Designer.cs">
       <DependentUpon>Autorizaciones.cs</DependentUpon>
     </Compile>
+    <Compile Include="AdminSystem\BarCodesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AdminSystem\BarCodesForm.Designer.cs">
+      <DependentUpon>BarCodesForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="AdminSystem\Material\EdicionProductos.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -640,12 +646,6 @@
     <Compile Include="Comunes\ConfigContenedor\Opciones.Designer.cs">
       <DependentUpon>Opciones.cs</DependentUpon>
     </Compile>
-    <Compile Include="Comunes\ConfigContenedor\Radiologia.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Comunes\ConfigContenedor\Radiologia.Designer.cs">
-      <DependentUpon>Radiologia.cs</DependentUpon>
-    </Compile>
     <Compile Include="Comunes\ConfigContenedor\Recepcion.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -736,6 +736,12 @@
     <Compile Include="Comunes\Login.Designer.cs">
       <DependentUpon>Login.cs</DependentUpon>
     </Compile>
+    <Compile Include="Comunes\Login2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Comunes\Login2.Designer.cs">
+      <DependentUpon>Login2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Comunes\MensajeroSend.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -777,6 +783,54 @@
     </Compile>
     <Compile Include="Comunes\UnificadorPDFMasivo.Designer.cs">
       <DependentUpon>UnificadorPDFMasivo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Consumos\Asignacion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Consumos\Asignacion.Designer.cs">
+      <DependentUpon>Asignacion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Consumos\CrearBodega.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Consumos\CrearBodega.Designer.cs">
+      <DependentUpon>CrearBodega.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Consumos\MoverProducto.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Consumos\MoverProducto.Designer.cs">
+      <DependentUpon>MoverProducto.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Consumos\Movimientos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Consumos\Movimientos.Designer.cs">
+      <DependentUpon>Movimientos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Consumos\Products.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Consumos\Products.Designer.cs">
+      <DependentUpon>Products.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Consumos\ProductsEdition.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Consumos\ProductsEdition.Designer.cs">
+      <DependentUpon>ProductsEdition.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Consumos\VerMovimientosBasico.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Consumos\VerMovimientosBasico.Designer.cs">
+      <DependentUpon>VerMovimientosBasico.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Consumos\VerMovimientosCompleto.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Consumos\VerMovimientosCompleto.Designer.cs">
+      <DependentUpon>VerMovimientosCompleto.cs</DependentUpon>
     </Compile>
     <Compile Include="ControlUser\Clases\CalZamenisClass.cs" />
     <Compile Include="ControlUser\Controles\btnZamenis.cs">
@@ -832,12 +886,6 @@
     </Compile>
     <Compile Include="FacElectron\ResultadoRadicacion.Designer.cs">
       <DependentUpon>ResultadoRadicacion.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Facturacion\EditarCupMasivo.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Facturacion\EditarCupMasivo.Designer.cs">
-      <DependentUpon>EditarCupMasivo.cs</DependentUpon>
     </Compile>
     <Compile Include="Facturacion\Extras\Aseguradora.cs">
       <SubType>Form</SubType>
@@ -1097,12 +1145,6 @@
     <Compile Include="FrontFHIR\VisorZamenis\VisorPDF.Designer.cs">
       <DependentUpon>VisorPDF.cs</DependentUpon>
     </Compile>
-    <Compile Include="Gerenciales\Cruces.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Gerenciales\Cruces.Designer.cs">
-      <DependentUpon>Cruces.cs</DependentUpon>
-    </Compile>
     <Compile Include="Gerenciales\EncuestasSatis.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1295,30 +1337,6 @@
     <Compile Include="HistoriasClinicas\Historia_TerOcupacional.Designer.cs">
       <DependentUpon>Historia_TerOcupacional.cs</DependentUpon>
     </Compile>
-    <Compile Include="HistoriasClinicas\NotaEnfermeria\MedidasCuracion.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="HistoriasClinicas\NotaEnfermeria\MedidasCuracion.Designer.cs">
-      <DependentUpon>MedidasCuracion.cs</DependentUpon>
-    </Compile>
-    <Compile Include="HistoriasClinicas\NotaEnfermeria\MedidasPrevias.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="HistoriasClinicas\NotaEnfermeria\MedidasPrevias.Designer.cs">
-      <DependentUpon>MedidasPrevias.cs</DependentUpon>
-    </Compile>
-    <Compile Include="HistoriasClinicas\NotaEnfermeria\MedidasPrevias2.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="HistoriasClinicas\NotaEnfermeria\MedidasPrevias2.Designer.cs">
-      <DependentUpon>MedidasPrevias2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="HistoriasClinicas\NotaEnfermeria\NotaCuracion.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="HistoriasClinicas\NotaEnfermeria\NotaCuracion.Designer.cs">
-      <DependentUpon>NotaCuracion.cs</DependentUpon>
-    </Compile>
     <Compile Include="HistoriasClinicas\NotasAclaratorias.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1349,108 +1367,6 @@
     </Compile>
     <Compile Include="Inicio.Designer.cs">
       <DependentUpon>Inicio.cs</DependentUpon>
-    </Compile>
-    <Compile Include="INV\CargarBodega.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="INV\CargarBodega.Designer.cs">
-      <DependentUpon>CargarBodega.cs</DependentUpon>
-    </Compile>
-    <Compile Include="INV\CargarBodega2.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="INV\CargarBodega2.Designer.cs">
-      <DependentUpon>CargarBodega2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="INV\Consultorios\CargarConsultorio.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="INV\Consultorios\CargarConsultorio.Designer.cs">
-      <DependentUpon>CargarConsultorio.cs</DependentUpon>
-    </Compile>
-    <Compile Include="INV\Consultorios\Consultorios.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="INV\Consultorios\Consultorios.Designer.cs">
-      <DependentUpon>Consultorios.cs</DependentUpon>
-    </Compile>
-    <Compile Include="INV\Consultorios\GestionInventarios.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="INV\Consultorios\GestionInventarios.Designer.cs">
-      <DependentUpon>GestionInventarios.cs</DependentUpon>
-    </Compile>
-    <Compile Include="INV\Consultorios\Historial.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="INV\Consultorios\Historial.Designer.cs">
-      <DependentUpon>Historial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="INV\Consultorios\InvConsultorio.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="INV\Consultorios\InvConsultorio.Designer.cs">
-      <DependentUpon>InvConsultorio.cs</DependentUpon>
-    </Compile>
-    <Compile Include="INV\Consultorios\MasivoConsultorios.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="INV\Consultorios\MasivoConsultorios.Designer.cs">
-      <DependentUpon>MasivoConsultorios.cs</DependentUpon>
-    </Compile>
-    <Compile Include="INV\Consultorios\VerInventario.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="INV\Consultorios\VerInventario.Designer.cs">
-      <DependentUpon>VerInventario.cs</DependentUpon>
-    </Compile>
-    <Compile Include="INV\CrearProductos.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="INV\CrearProductos.Designer.cs">
-      <DependentUpon>CrearProductos.cs</DependentUpon>
-    </Compile>
-    <Compile Include="INV\CrearProductos2.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="INV\CrearProductos2.Designer.cs">
-      <DependentUpon>CrearProductos2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="INV\CrearProductos3.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="INV\CrearProductos3.Designer.cs">
-      <DependentUpon>CrearProductos3.cs</DependentUpon>
-    </Compile>
-    <Compile Include="INV\MasivoPpal.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="INV\MasivoPpal.Designer.cs">
-      <DependentUpon>MasivoPpal.cs</DependentUpon>
-    </Compile>
-    <Compile Include="INV\Proveedores.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="INV\Proveedores.Designer.cs">
-      <DependentUpon>Proveedores.cs</DependentUpon>
-    </Compile>
-    <Compile Include="INV\Proveedores2.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="INV\Proveedores2.Designer.cs">
-      <DependentUpon>Proveedores2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="INV\ReportesINV.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="INV\ReportesINV.Designer.cs">
-      <DependentUpon>ReportesINV.cs</DependentUpon>
-    </Compile>
-    <Compile Include="INV\VerInventarioPpal.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="INV\VerInventarioPpal.Designer.cs">
-      <DependentUpon>VerInventarioPpal.cs</DependentUpon>
     </Compile>
     <Compile Include="Licence\Acuerdo.cs">
       <SubType>Form</SubType>
@@ -1494,6 +1410,18 @@
     <Compile Include="Medicina\AgendaM.Designer.cs">
       <DependentUpon>AgendaM.cs</DependentUpon>
     </Compile>
+    <Compile Include="Medicina\AprobarSalidas.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Medicina\AprobarSalidas.Designer.cs">
+      <DependentUpon>AprobarSalidas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Medicina\AprobarSalidas2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Medicina\AprobarSalidas2.Designer.cs">
+      <DependentUpon>AprobarSalidas2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Medicina\CambioManejoEnfermero.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1511,6 +1439,24 @@
     </Compile>
     <Compile Include="Medicina\Cargos.Designer.cs">
       <DependentUpon>Cargos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Medicina\Cargos2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Medicina\Cargos2.Designer.cs">
+      <DependentUpon>Cargos2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Medicina\Cargos3.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Medicina\Cargos3.Designer.cs">
+      <DependentUpon>Cargos3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Medicina\Cargos4.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Medicina\Cargos4.Designer.cs">
+      <DependentUpon>Cargos4.cs</DependentUpon>
     </Compile>
     <Compile Include="Medicina\CIE10.cs">
       <SubType>Form</SubType>
@@ -1837,12 +1783,6 @@
     <Compile Include="Recepcion\CrearEditarPaciente.Designer.cs">
       <DependentUpon>CrearEditarPaciente.cs</DependentUpon>
     </Compile>
-    <Compile Include="Recepcion\DocumentosCopias.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Recepcion\DocumentosCopias.Designer.cs">
-      <DependentUpon>DocumentosCopias.cs</DependentUpon>
-    </Compile>
     <Compile Include="Recepcion\Extras\ActivarProfesionales.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1987,11 +1927,11 @@
     <Compile Include="Recepcion\Extras\SMSPersonaliza.Designer.cs">
       <DependentUpon>SMSPersonaliza.cs</DependentUpon>
     </Compile>
-    <Compile Include="Recepcion\Extras\TipoCitaMG.cs">
+    <Compile Include="Recepcion\Extras\TiposPaciente.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Recepcion\Extras\TipoCitaMG.Designer.cs">
-      <DependentUpon>TipoCitaMG.cs</DependentUpon>
+    <Compile Include="Recepcion\Extras\TiposPaciente.Designer.cs">
+      <DependentUpon>TiposPaciente.cs</DependentUpon>
     </Compile>
     <Compile Include="Recepcion\Extras\Zonas.cs">
       <SubType>Form</SubType>
@@ -2070,6 +2010,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AdminSystem\Autorizaciones.resx">
       <DependentUpon>Autorizaciones.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AdminSystem\BarCodesForm.resx">
+      <DependentUpon>BarCodesForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AdminSystem\Material\EdicionProductos.resx">
       <DependentUpon>EdicionProductos.cs</DependentUpon>
@@ -2191,9 +2134,6 @@
     <EmbeddedResource Include="Comunes\ConfigContenedor\Opciones.resx">
       <DependentUpon>Opciones.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Comunes\ConfigContenedor\Radiologia.resx">
-      <DependentUpon>Radiologia.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Comunes\ConfigContenedor\Recepcion.resx">
       <DependentUpon>Recepcion.cs</DependentUpon>
     </EmbeddedResource>
@@ -2239,6 +2179,9 @@
     <EmbeddedResource Include="Comunes\Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Comunes\Login2.resx">
+      <DependentUpon>Login2.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Comunes\MensajeroSend.resx">
       <DependentUpon>MensajeroSend.cs</DependentUpon>
     </EmbeddedResource>
@@ -2259,6 +2202,30 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Comunes\UnificadorPDFMasivo.resx">
       <DependentUpon>UnificadorPDFMasivo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Consumos\Asignacion.resx">
+      <DependentUpon>Asignacion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Consumos\CrearBodega.resx">
+      <DependentUpon>CrearBodega.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Consumos\MoverProducto.resx">
+      <DependentUpon>MoverProducto.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Consumos\Movimientos.resx">
+      <DependentUpon>Movimientos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Consumos\Products.resx">
+      <DependentUpon>Products.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Consumos\ProductsEdition.resx">
+      <DependentUpon>ProductsEdition.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Consumos\VerMovimientosBasico.resx">
+      <DependentUpon>VerMovimientosBasico.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Consumos\VerMovimientosCompleto.resx">
+      <DependentUpon>VerMovimientosCompleto.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ControlUser\Controles\btnZamenis.resx">
       <DependentUpon>btnZamenis.cs</DependentUpon>
@@ -2286,9 +2253,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FacElectron\ResultadoRadicacion.resx">
       <DependentUpon>ResultadoRadicacion.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Facturacion\EditarCupMasivo.resx">
-      <DependentUpon>EditarCupMasivo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Facturacion\Extras\Aseguradora.resx">
       <DependentUpon>Aseguradora.cs</DependentUpon>
@@ -2416,9 +2380,6 @@
     <EmbeddedResource Include="FrontFHIR\VisorZamenis\VisorPDF.resx">
       <DependentUpon>VisorPDF.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Gerenciales\Cruces.resx">
-      <DependentUpon>Cruces.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Gerenciales\EncuestasSatis.resx">
       <DependentUpon>EncuestasSatis.cs</DependentUpon>
     </EmbeddedResource>
@@ -2515,18 +2476,6 @@
     <EmbeddedResource Include="HistoriasClinicas\Historia_TerOcupacional.resx">
       <DependentUpon>Historia_TerOcupacional.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="HistoriasClinicas\NotaEnfermeria\MedidasCuracion.resx">
-      <DependentUpon>MedidasCuracion.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="HistoriasClinicas\NotaEnfermeria\MedidasPrevias.resx">
-      <DependentUpon>MedidasPrevias.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="HistoriasClinicas\NotaEnfermeria\MedidasPrevias2.resx">
-      <DependentUpon>MedidasPrevias2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="HistoriasClinicas\NotaEnfermeria\NotaCuracion.resx">
-      <DependentUpon>NotaCuracion.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="HistoriasClinicas\NotasAclaratorias.resx">
       <DependentUpon>NotasAclaratorias.cs</DependentUpon>
     </EmbeddedResource>
@@ -2541,57 +2490,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Inicio.resx">
       <DependentUpon>Inicio.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="INV\CargarBodega.resx">
-      <DependentUpon>CargarBodega.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="INV\CargarBodega2.resx">
-      <DependentUpon>CargarBodega2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="INV\Consultorios\CargarConsultorio.resx">
-      <DependentUpon>CargarConsultorio.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="INV\Consultorios\Consultorios.resx">
-      <DependentUpon>Consultorios.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="INV\Consultorios\GestionInventarios.resx">
-      <DependentUpon>GestionInventarios.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="INV\Consultorios\Historial.resx">
-      <DependentUpon>Historial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="INV\Consultorios\InvConsultorio.resx">
-      <DependentUpon>InvConsultorio.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="INV\Consultorios\MasivoConsultorios.resx">
-      <DependentUpon>MasivoConsultorios.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="INV\Consultorios\VerInventario.resx">
-      <DependentUpon>VerInventario.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="INV\CrearProductos.resx">
-      <DependentUpon>CrearProductos.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="INV\CrearProductos2.resx">
-      <DependentUpon>CrearProductos2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="INV\CrearProductos3.resx">
-      <DependentUpon>CrearProductos3.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="INV\MasivoPpal.resx">
-      <DependentUpon>MasivoPpal.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="INV\Proveedores.resx">
-      <DependentUpon>Proveedores.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="INV\Proveedores2.resx">
-      <DependentUpon>Proveedores2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="INV\ReportesINV.resx">
-      <DependentUpon>ReportesINV.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="INV\VerInventarioPpal.resx">
-      <DependentUpon>VerInventarioPpal.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Licence\Acuerdo.resx">
       <DependentUpon>Acuerdo.cs</DependentUpon>
@@ -2616,6 +2514,12 @@
     <EmbeddedResource Include="Medicina\AgendaM.resx">
       <DependentUpon>AgendaM.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Medicina\AprobarSalidas.resx">
+      <DependentUpon>AprobarSalidas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Medicina\AprobarSalidas2.resx">
+      <DependentUpon>AprobarSalidas2.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Medicina\CambioManejoEnfermero.resx">
       <DependentUpon>CambioManejoEnfermero.cs</DependentUpon>
     </EmbeddedResource>
@@ -2624,6 +2528,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Medicina\Cargos.resx">
       <DependentUpon>Cargos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Medicina\Cargos2.resx">
+      <DependentUpon>Cargos2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Medicina\Cargos3.resx">
+      <DependentUpon>Cargos3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Medicina\Cargos4.resx">
+      <DependentUpon>Cargos4.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Medicina\CIE10.resx">
       <DependentUpon>CIE10.cs</DependentUpon>
@@ -2791,9 +2704,6 @@
     <EmbeddedResource Include="Recepcion\CrearEditarPaciente.resx">
       <DependentUpon>CrearEditarPaciente.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Recepcion\DocumentosCopias.resx">
-      <DependentUpon>DocumentosCopias.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Recepcion\Extras\ActivarProfesionales.resx">
       <DependentUpon>ActivarProfesionales.cs</DependentUpon>
     </EmbeddedResource>
@@ -2866,8 +2776,8 @@
     <EmbeddedResource Include="Recepcion\Extras\SMSPersonaliza.resx">
       <DependentUpon>SMSPersonaliza.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Recepcion\Extras\TipoCitaMG.resx">
-      <DependentUpon>TipoCitaMG.cs</DependentUpon>
+    <EmbeddedResource Include="Recepcion\Extras\TiposPaciente.resx">
+      <DependentUpon>TiposPaciente.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Recepcion\Extras\Zonas.resx">
       <DependentUpon>Zonas.cs</DependentUpon>
@@ -2911,6 +2821,7 @@
     <EmbeddedResource Include="Reportes\Fibro\InformeGeneral\InformeGeneral.rdlc" />
     <EmbeddedResource Include="Reportes\Fibro\InformeGeneral\Ingresos.rdlc" />
     <EmbeddedResource Include="Reportes\Fibro\InformeGeneral\Prevalentes.rdlc" />
+    <EmbeddedResource Include="Reportes\Fibro\InformesEncuestas\ConsolidadoEncuestas.rdlc" />
     <EmbeddedResource Include="Reportes\Fibro\InformesEncuestas\ConsolidadoSF36.rdlc" />
     <EmbeddedResource Include="Reportes\Fibro\InformesEncuestas\ConsolidadoSF36Porcentual.rdlc" />
     <EmbeddedResource Include="Reportes\Fibro\InformesEncuestas\EncuestaSatisfaccion.rdlc" />
@@ -2949,6 +2860,9 @@
     <EmbeddedResource Include="Reportes\RDLC_FacRecepcion.rdlc" />
     <EmbeddedResource Include="Reportes\RDLC_FacRecTermica.rdlc" />
     <EmbeddedResource Include="Reportes\RDLC_FacturaIMPUESTOS.rdlc" />
+    <EmbeddedResource Include="Reportes\RDLC_HCPsiquiatria2.rdlc" />
+    <EmbeddedResource Include="Reportes\RDLC_HCPsiquiatria.rdlc" />
+    <EmbeddedResource Include="Reportes\RDLC_HCPsiquiatria3.rdlc" />
     <EmbeddedResource Include="Reportes\RDLC_HCRADIOLOGIA.rdlc" />
     <EmbeddedResource Include="Reportes\RDLC_HistorialSubBodegas.rdlc" />
     <EmbeddedResource Include="Reportes\RDLC_INV_ING_SAL.rdlc" />
@@ -3015,6 +2929,7 @@
     <None Include="Properties\DataSources\Domain.CXN.ConsentimientosTemp.datasource" />
     <None Include="Properties\DataSources\Domain.CXN.CXN_CIA.datasource" />
     <None Include="Properties\DataSources\Domain.CXN.CXN_ENCUESTASATIS.datasource" />
+    <None Include="Properties\DataSources\Domain.CXN.CXN_HCPSIQUIATRIA.datasource" />
     <None Include="Properties\DataSources\Domain.CXN.CXN_HCRADIOLOGIA.datasource" />
     <None Include="Properties\DataSources\Domain.CXN.CXN_HORARIO.datasource" />
     <None Include="Properties\DataSources\Domain.CXN.CXN_INVPPALCARGOS.datasource" />

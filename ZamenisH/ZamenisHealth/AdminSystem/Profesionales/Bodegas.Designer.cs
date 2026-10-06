@@ -148,7 +148,8 @@
             "Fisiatria",
             "Psicologia",
             "Terapia Fisica",
-            "Terapia Ocupacional"});
+            "Terapia Ocupacional",
+            "Psiquiatria"});
             this.comboBox2.Location = new System.Drawing.Point(150, 201);
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(571, 28);

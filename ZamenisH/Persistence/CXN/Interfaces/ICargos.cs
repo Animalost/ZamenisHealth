@@ -37,5 +37,6 @@ namespace Persistence.CXN.Interfaces
         CXN_CARGOS getRIPS(int Admision);
         bool cargoExiste(int Admision);
         bool updateCargosMasivo(CXN_CARGOS C);
+        CXN_INVENTARIO DatoProdBarCode(int Ase, string Cod);
     }
 }

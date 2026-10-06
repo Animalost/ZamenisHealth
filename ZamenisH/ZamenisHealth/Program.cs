@@ -266,7 +266,7 @@ namespace ZamenisHealth
                     iniFile.Write("PreferenciasCom", "TCPIP", "N");
                     iniFile.Write("PreferenciasCom", "TicketCitas", "N");
                     iniFile.Write("PreferenciasConfig", "Bloqueo", "0");
-                    iniFile.Write("PreferenciasConfig", "CuracionesCORE", "N");
+                    iniFile.Write("PreferenciasConfig", "CargosEnfermeros", "N");
                     iniFile.Write("PreferenciasConfig", "TabletaFirmas", "N");
                 }
 
@@ -306,7 +306,7 @@ namespace ZamenisHealth
                 if (!iniFile.SectionExists("PreferenciasConfig"))
                 {
                     iniFile.Write("PreferenciasConfig", "Bloqueo", "0");
-                    iniFile.Write("PreferenciasConfig", "CuracionesCORE", "N");
+                    iniFile.Write("PreferenciasConfig", "CargosEnfermeros", "N");
                     iniFile.Write("PreferenciasConfig", "TabletaFirmas", "N");
                 }
                 else
@@ -315,9 +315,9 @@ namespace ZamenisHealth
                     {
                         iniFile.Write("PreferenciasConfig", "Bloqueo", "0");
                     }
-                    if (!iniFile.KeyExists("PreferenciasConfig", "CuracionesCORE"))
+                    if (!iniFile.KeyExists("PreferenciasConfig", "CargosEnfermeros"))
                     {
-                        iniFile.Write("PreferenciasConfig", "CuracionesCORE", "N");
+                        iniFile.Write("PreferenciasConfig", "CargosEnfermeros", "N");
                     }
                     if (!iniFile.KeyExists("PreferenciasConfig", "TabletaFirmas"))
                     {
@@ -329,7 +329,7 @@ namespace ZamenisHealth
                 string tcpip = iniFile.Read("PreferenciasCom", "TCPIP", "N");
                 string ticketcitas = iniFile.Read("PreferenciasCom", "TicketCitas", "N");
                 string bloqueo = iniFile.Read("PreferenciasConfig", "Bloqueo", "0");
-                string curacionesCORE = iniFile.Read("PreferenciasConfig", "CuracionesCORE", "N");
+                string CargosEnfermeros = iniFile.Read("PreferenciasConfig", "CargosEnfermeros", "N");
                 string TabletaFirmas = iniFile.Read("PreferenciasConfig", "TabletaFirmas", "N");
 
                 Preferencias.GetPreferences("Sonido", sonido);
@@ -337,7 +337,7 @@ namespace ZamenisHealth
                 Preferencias.GetPreferences("TCPIP", tcpip);
                 Preferencias.GetPreferences("TicketCitas", ticketcitas);
                 Preferencias.GetPreferences("Bloqueo", bloqueo);
-                Preferencias.GetPreferences("CuracionesCORE", curacionesCORE);
+                Preferencias.GetPreferences("CargosEnfermeros", CargosEnfermeros);
                 Preferencias.GetPreferences("TabletaFirmas", TabletaFirmas);
             }
             catch (Exception ex)

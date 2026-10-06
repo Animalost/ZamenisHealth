@@ -14,7 +14,6 @@ using Tulpep.NotificationWindow;
 using ZamenisHealth.Clases;
 using ZamenisHealth.Comunes;
 using ZamenisHealth.HistoriasClinicas;
-using ZamenisHealth.HistoriasClinicas.NotaEnfermeria;
 using ZamenisHealth.Medicina.VirtualMedic;
 using ZamenisHealth.Recepcion.Extras;
 using Color = System.Drawing.Color;
@@ -292,15 +291,8 @@ namespace ZamenisHealth.Medicina
                                 switch (_createHistory.ToString())
                                 {
                                     case "CURACION":
-                                        if (Preferencias.CuracionesCORE == "A")
-                                        {
-                                            NotaCuracion notaCuracion = new NotaCuracion(Adm); notaCuracion.ShowDialog();
-                                        }
-                                        else
-                                        {
-                                            NE.Admision = Adm;
-                                            NE.ShowDialog();
-                                        }                                       
+                                        NE.Admision = Adm;
+                                        NE.ShowDialog();                                                                              
                                         break;
 
                                     case "NOBOSS":
@@ -351,6 +343,18 @@ namespace ZamenisHealth.Medicina
                                         HistoriasClinicas.Historia_Psicologia Hpsi = new HistoriasClinicas.Historia_Psicologia();
                                         Hpsi.Admision = Adm;
                                         Hpsi.ShowDialog();
+                                        break;
+
+                                    case "PSIQUIATRIA":
+                                        MessageBox.Show("Esta historia de Psiquiatria debe elaborarse via WEB", "Informacion", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                        break;
+
+                                    case "PSIQUIATRIA2":
+                                        MessageBox.Show("Esta historia de Psiquiatria debe elaborarse via WEB", "Informacion", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                        break;
+
+                                    case "PSIQUIATRIA3":
+                                        MessageBox.Show("Esta historia de Psiquiatria debe elaborarse via WEB", "Informacion", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                         break;
 
                                     default:

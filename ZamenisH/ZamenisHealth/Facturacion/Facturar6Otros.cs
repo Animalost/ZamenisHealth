@@ -60,21 +60,9 @@ namespace ZamenisHealth.Facturacion
             MenuLateral.Items.Add(btnGestionar);
             btnGestionar.Click += button1_Click;
 
-            if (Ase > 0 && IdPac > 0)
-            {
-                ToolStripButton btnCup = new ToolStripButton();
-                btnCup = createToolButton("CUP Masivo");
-                MenuLateral.Items.Add(btnCup);
-                btnCup.Click += button2_Click;
-            }
-
             dataGridView1.MouseWheel += new MouseEventHandler(dataGridView1_MouseWheel);          
         }
-        private void button2_Click(object sender, EventArgs e)
-        {
-            EditarCupMasivo editarCupMasivo = new EditarCupMasivo(Desde, Hasta, Ase, IdPac);
-            editarCupMasivo.ShowDialog();
-        }
+
         private void button1_Click(object sender, EventArgs e)
         {
             Buscar();

@@ -340,7 +340,7 @@ namespace ZamenisHealth.Facturacion
                                    "ORDER BY C.Car_Fecha, C.Car_Cant ASC";
                             break;
 
-                        case "Radiologia":
+                        case "Psiquiatria":
                             Query = "SELECT P.Pac_PrimerN + ' ' + P.Pac_SegundoN + ' ' + P.Pac_PrimerA + ' ' + P.Pac_SegundoA AS PAC, " +
                                    "C.Car_Id, C.Car_Adm_Id, C.Car_Tipo, C.Car_Fecha, C.Car_Cod, C.Car_Item, C.Car_Cant, C.Car_Val_Un, C.Car_Val_Tot, " +
                                    "P.Pac_TipoId, P.Pac_IdNum, P.Pac_Id " +
@@ -352,7 +352,7 @@ namespace ZamenisHealth.Facturacion
                                    "AND C.Car_Estado = 'G' " +
                                    "AND C.Car_Cia = '" + Cia + "' " +
                                    "AND C.Car_Ase = '" + Ase + "' " +
-                                   "AND C.Car_Tipo_Serv IN ('RA') " +
+                                   "AND C.Car_Tipo_Serv IN ('PQ','SQ') " +
                                    "ORDER BY C.Car_Fecha, C.Car_Cant ASC";
                             break;
 
@@ -438,7 +438,7 @@ namespace ZamenisHealth.Facturacion
                                    "ORDER BY C.Car_Fecha, C.Car_Cant ASC";
                             break;
 
-                        case "Radiologia":
+                        case "Psiquiatria":
                             Query = "SELECT P.Pac_PrimerN + ' ' + P.Pac_SegundoN + ' ' + P.Pac_PrimerA + ' ' + P.Pac_SegundoA AS PAC, " +
                                    "C.Car_Id, C.Car_Adm_Id, C.Car_Tipo, C.Car_Fecha, C.Car_Cod, C.Car_Item, C.Car_Cant, C.Car_Val_Un, C.Car_Val_Tot, " +
                                    "P.Pac_TipoId, P.Pac_IdNum, P.Pac_Id " +
@@ -448,7 +448,7 @@ namespace ZamenisHealth.Facturacion
                                    "AND C.Car_Estado = 'G' " +
                                    "AND C.Car_Cia = '" + Cia + "' " +
                                    "AND C.Car_Ase = '" + Ase + "' " +
-                                   "AND C.Car_Tipo_Serv IN ('RA') " +
+                                   "AND C.Car_Tipo_Serv IN ('PQ') " +
                                    "ORDER BY C.Car_Fecha, C.Car_Cant ASC";
                             break;
 

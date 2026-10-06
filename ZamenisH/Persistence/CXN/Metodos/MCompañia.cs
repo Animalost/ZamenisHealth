@@ -234,106 +234,123 @@ namespace Persistence.CXN.Metodos
         }
         bool ICompañia.ConsecutivoActualiza(int Cia, string TipoDoc, int NuevoCons)
         {
-            var getCone = Conexion.Conection();
-            using (SqlConnection con = new SqlConnection(getCone["Conexion"]))
+            try
             {
-                if (con != null && con.State == ConnectionState.Closed)
+                var getCone = Conexion.Conection();
+                using (SqlConnection con = new SqlConnection(getCone["Conexion"]))
                 {
-                    con.Open();
+                    if (con != null && con.State == ConnectionState.Closed)
+                    {
+                        con.Open();
+                    }
+
+                    String Query;
+
+                    switch (TipoDoc)
+                    {
+                        case "OP":
+                            Query = "UPDATE CXN_CIA " +
+                                    "SET Com_OP = @param1 " +
+                                    "WHERE Com_Identificador = @param2";
+                            break;
+
+                        case "FA":
+                            Query = "UPDATE CXN_CIA " +
+                                    "SET Com_Fac = @param1 " +
+                                    "WHERE Com_Identificador = @param2";
+                            break;
+
+                        case "COTIZA":
+                            Query = "UPDATE CXN_CIA " +
+                                    "SET Com_Cotiza = @param1 " +
+                                    "WHERE Com_Identificador = @param2";
+                            break;
+
+                        case "DE":
+                            Query = "UPDATE CXN_CIA " +
+                                    "SET Com_DE = @param1 " +
+                                    "WHERE Com_Identificador = @param2";
+                            break;
+
+                        case "OM":
+                            Query = "UPDATE CXN_CIA " +
+                                    "SET Com_OM = @param1 " +
+                                    "WHERE Com_Identificador = @param2";
+                            break;
+
+                        case "PEDPRO":
+                            Query = "UPDATE CXN_CIA " +
+                                    "SET Com_PedPro = @param1 " +
+                                    "WHERE Com_Identificador = @param2";
+                            break;
+
+                        case "RIP":
+                            Query = "UPDATE CXN_CIA " +
+                                    "SET Com_RIP = @param1 " +
+                                    "WHERE Com_Identificador = @param2";
+                            break;
+
+                        case "SMS":
+                            Query = "UPDATE CXN_CIA " +
+                                    "SET Com_SMS = @param1 " +
+                                    "WHERE Com_Identificador = @param2";
+                            break;
+
+                        case "CONSELECTRON":
+                            Query = "UPDATE CXN_CIA " +
+                                    "SET Com_Doc_Electron = @param1 " +
+                                    "WHERE Com_Identificador = @param2";
+                            break;
+
+                        case "CONSELECTRONNC":
+                            Query = "UPDATE CXN_CIA " +
+                                    "SET Com_Doc_Electron_NC = @param1 " +
+                                    "WHERE Com_Identificador = @param2";
+                            break;
+
+                        case "SOPORTE":
+                            Query = "UPDATE CXN_CIA " +
+                                    "SET Com_Doc_Soporte = @param1 " +
+                                    "WHERE Com_Identificador = @param2";
+                            break;
+
+                        case "SOPORTENC":
+                            Query = "UPDATE CXN_CIA " +
+                                    "SET Com_Doc_Soporte_NC = @param1 " +
+                                    "WHERE Com_Identificador = @param2";
+                            break;
+
+                        case "CIERRES":
+                            Query = "UPDATE CXN_CIA " +
+                                    "SET Com_Cierres = @param1 " +
+                                    "WHERE Com_Identificador = @param2";
+                            break;
+
+                        case "CONTABLE":
+                            Query = "UPDATE CXN_CIA " +
+                                    "SET Com_ConsContable = @param1 " +
+                                    "WHERE Com_Identificador = @param2";
+                            break;
+
+                        default:
+                            Query = "";
+                            return false;
+                    }
+
+                    using (SqlCommand Accion = new SqlCommand(Query, con))
+                    {
+                        Accion.Parameters.AddWithValue("@param1", NuevoCons);
+                        Accion.Parameters.AddWithValue("@param2", Cia);
+
+                        return Accion.ExecuteNonQuery() > 0 ? true : false;
+                    }
                 }
-
-                String Query;
-
-                switch (TipoDoc)
-                {
-                    case "OP":
-                        Query = "UPDATE CXN_CIA " +
-                                "SET Com_OP = '" + NuevoCons + "' " +
-                                "WHERE Com_Identificador = '" + Cia + "'";
-                        break;
-
-                    case "FA":
-                        Query = "UPDATE CXN_CIA " +
-                                "SET Com_Fac = '" + NuevoCons + "' " +
-                                "WHERE Com_Identificador = '" + Cia + "'";
-                        break;
-
-                    case "COTIZA":
-                        Query = "UPDATE CXN_CIA " +
-                                "SET Com_Cotiza = '" + NuevoCons + "' " +
-                                "WHERE Com_Identificador = '" + Cia + "'";
-                        break;
-
-                    case "DE":
-                        Query = "UPDATE CXN_CIA " +
-                                "SET Com_DE = '" + NuevoCons + "' " +
-                                "WHERE Com_Identificador = '" + Cia + "'";
-                        break;
-
-                    case "OM":
-                        Query = "UPDATE CXN_CIA " +
-                                "SET Com_OM = '" + NuevoCons + "' " +
-                                "WHERE Com_Identificador = '" + Cia + "'";
-                        break;
-
-                    case "PEDPRO":
-                        Query = "UPDATE CXN_CIA " +
-                                "SET Com_PedPro = '" + NuevoCons + "' " +
-                                "WHERE Com_Identificador = '" + Cia + "'";
-                        break;
-
-                    case "RIP":
-                        Query = "UPDATE CXN_CIA " +
-                                "SET Com_RIP = '" + NuevoCons + "' " +
-                                "WHERE Com_Identificador = '" + Cia + "'";
-                        break;
-
-                    case "SMS":
-                        Query = "UPDATE CXN_CIA " +
-                                "SET Com_SMS = '" + NuevoCons + "' " +
-                                "WHERE Com_Identificador = '" + Cia + "'";
-                        break;
-
-                    case "CONSELECTRON":
-                        Query = "UPDATE CXN_CIA " +
-                                "SET Com_Doc_Electron = '" + NuevoCons + "' " +
-                                "WHERE Com_Identificador = '" + Cia + "'";
-                        break;
-
-                    case "CONSELECTRONNC":
-                        Query = "UPDATE CXN_CIA " +
-                                "SET Com_Doc_Electron_NC = '" + NuevoCons + "' " +
-                                "WHERE Com_Identificador = '" + Cia + "'";
-                        break;
-
-                    case "SOPORTE":
-                        Query = "UPDATE CXN_CIA " +
-                                "SET Com_Doc_Soporte = '" + NuevoCons + "' " +
-                                "WHERE Com_Identificador = '" + Cia + "'";
-                        break;
-
-                    case "SOPORTENC":
-                        Query = "UPDATE CXN_CIA " +
-                                "SET Com_Doc_Soporte_NC = '" + NuevoCons + "' " +
-                                "WHERE Com_Identificador = '" + Cia + "'";
-                        break;
-
-                    case "CIERRES":
-                        Query = "UPDATE CXN_CIA " +
-                                "SET Com_Cierres = '" + NuevoCons + "' " +
-                                "WHERE Com_Identificador = '" + Cia + "'";
-                        break;
-
-                    default:
-                        Query = "";
-                        return false;
-                }
-
-                SqlCommand Accion = new SqlCommand(Query, con);
-                int Guarda;
-                Guarda = Accion.ExecuteNonQuery();
-                return true;
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }          
         }
         bool ICompañia.updateCompañia(CXN_CIA C)
         {

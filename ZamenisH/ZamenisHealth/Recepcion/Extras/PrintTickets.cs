@@ -99,9 +99,18 @@ namespace ZamenisHealth.Recepcion.Extras
                     string urlPQR = repositorioConfiguracion.getListado()["URLPQRSF"];
                     Image PQR = FormAndControls.ClasesExtra.Generales.GenerateQRCode(urlPQR);
 
+                    //Cancelar Citas Web
+                    string CodifyDoc = repositorioGenerales.Base64Encode(_datosAdmision.Pac_IdNum);
+                    string CodifyNit = repositorioGenerales.Base64Encode(_datosAdmision.Com_Identificacion);
+                    string URLCancelaCitas = $"https://slsoft.net:5010/CancelCitas/ListadoCitas?d={CodifyDoc}&n={CodifyNit}";
+                    var ImaRes = repositorioGenerales.CodifyQR(URLCancelaCitas);
+                    Byte[] bytesURL = repositorioGenerales.GetBytes(ImaRes);
+                    //FIN Cancelar Citas Web
+
                     _datosAdmisionReport = new List<otrosDatosPacienteHorario>();
                     _datosAdmisionReport.Add(new otrosDatosPacienteHorario
                     {
+                        FirmaMed = bytesURL,
                         Hor_Pac_Fecha_Cita = Convert.ToDateTime(_datosAdmision.Hor_Pac_Fecha_Cita),
                         Hor_Pac_Hora_Cita = Convert.ToDateTime(_datosAdmision.Hor_Pac_Hora_Cita),
                         Hor_Id = Convert.ToInt32(_datosAdmision.Hor_Id),

@@ -1395,77 +1395,92 @@ namespace Persistence.CXN.Metodos
                     String Query = "SELECT H.Hor_Pac_Cup, H.Hor_Pac_Tipo_Serv, C.Con_Clase " +
                                    "FROM CXN_HORARIO H " +
                                    "INNER JOIN CXN_CONVENIOS C ON H.Hor_Pac_Cup = C.Con_Id_Serv " +
-                                   "WHERE H.Hor_Id = '" + Adm + "' " +
+                                   "WHERE H.Hor_Id = @param1 " +
                                    "AND H.Hor_Pac_Tipo_Serv = C.Con_Tipo_Serv " +
                                    "AND H.Hor_Pac_Ase = C.Con_Aseguradora";
-                    SqlCommand Commando = new SqlCommand(Query, con);
-                    SqlDataReader Reader = (Commando.ExecuteReader());
-                    if (Reader.Read() == true)
-                    {
-                        if (Reader["Hor_Pac_Tipo_Serv"].ToString() == "CU" && Reader["Con_Clase"].ToString() == "QX")
-                        {
-                            return "CURACION";
-                        }
 
-                        if (Reader["Hor_Pac_Tipo_Serv"].ToString() == "CU" && Reader["Con_Clase"].ToString() == "DX")
+                    using (SqlCommand Commando = new SqlCommand(Query, con))
+                    {
+                        Commando.Parameters.AddWithValue("@param1", Adm);
+
+                        using (SqlDataReader Reader = (Commando.ExecuteReader()))
                         {
-                            var Jefe = rpoBod.getUser(user);
-                            if (Jefe == null || Jefe.Log_Varios != "A")
+                            if (Reader.Read() == true)
                             {
-                                return "NOBOSS";
+                                if (Reader["Hor_Pac_Tipo_Serv"].ToString() == "CU" && Reader["Con_Clase"].ToString() == "QX")
+                                {
+                                    return "CURACION";
+                                }
+
+                                if (Reader["Hor_Pac_Tipo_Serv"].ToString() == "CU" && Reader["Con_Clase"].ToString() == "DX")
+                                {
+                                    var Jefe = rpoBod.getUser(user);
+                                    if (Jefe == null || Jefe.Log_Varios != "A")
+                                    {
+                                        return "NOBOSS";
+                                    }
+                                    else
+                                    {
+                                        return "BOSS";
+                                    }
+                                }
+                                if (Reader["Hor_Pac_Tipo_Serv"].ToString() == "MG" && Reader["Con_Clase"].ToString() == "DX")
+                                {
+                                    return "MEDGEN";
+                                }
+                                if (Reader["Hor_Pac_Tipo_Serv"].ToString() == "FI" && Reader["Con_Clase"].ToString() == "DX")
+                                {
+                                    return "FISIATRIA";
+                                }
+                                if (Reader["Hor_Pac_Tipo_Serv"].ToString() == "TO" && Reader["Con_Clase"].ToString() == "QX")
+                                {
+                                    return "EVOLUCION";
+                                }
+                                if (Reader["Hor_Pac_Tipo_Serv"].ToString() == "TF" && Reader["Con_Clase"].ToString() == "QX")
+                                {
+                                    return "EVOLUCION";
+                                }
+                                if (Reader["Hor_Pac_Tipo_Serv"].ToString() == "PS" && Reader["Con_Clase"].ToString() == "QX")
+                                {
+                                    return "EVOLUCION";
+                                }
+                                if (Reader["Hor_Pac_Tipo_Serv"].ToString() == "TO" && Reader["Con_Clase"].ToString() == "DX")
+                                {
+                                    return "HTO";
+                                }
+                                if (Reader["Hor_Pac_Tipo_Serv"].ToString() == "TF" && Reader["Con_Clase"].ToString() == "DX")
+                                {
+                                    return "HTF";
+                                }
+                                if (Reader["Hor_Pac_Tipo_Serv"].ToString() == "PS" && Reader["Con_Clase"].ToString() == "DX")
+                                {
+                                    return "HPSI";
+                                }
+                                if (Reader["Hor_Pac_Tipo_Serv"].ToString() == "TF" && Reader["Con_Clase"].ToString() == "JM")
+                                {
+                                    return "JM";
+                                }
+                                if (Reader["Hor_Pac_Tipo_Serv"].ToString() == "PQ" && Reader["Con_Clase"].ToString() == "DX")
+                                {
+                                    return "PSIQUIATRIA";
+                                }
+                                if (Reader["Hor_Pac_Tipo_Serv"].ToString() == "PQ" && Reader["Con_Clase"].ToString() == "QX")
+                                {
+                                    return "PSIQUIATRIA2";
+                                }
+                                if (Reader["Hor_Pac_Tipo_Serv"].ToString() == "SQ" && Reader["Con_Clase"].ToString() == "DX")
+                                {
+                                    return "PSIQUIATRIA3";
+                                }
+
+                                return "";
                             }
                             else
                             {
-                                return "BOSS";
+                                return "";
                             }
                         }
-                        if (Reader["Hor_Pac_Tipo_Serv"].ToString() == "MG" && Reader["Con_Clase"].ToString() == "DX")
-                        {
-                            return "MEDGEN";
-                        }
-                        if (Reader["Hor_Pac_Tipo_Serv"].ToString() == "FI" && Reader["Con_Clase"].ToString() == "DX")
-                        {
-                            return "FISIATRIA";
-                        }
-                        if (Reader["Hor_Pac_Tipo_Serv"].ToString() == "TO" && Reader["Con_Clase"].ToString() == "QX")
-                        {
-                            return "EVOLUCION";
-                        }
-                        if (Reader["Hor_Pac_Tipo_Serv"].ToString() == "TF" && Reader["Con_Clase"].ToString() == "QX")
-                        {
-                            return "EVOLUCION";
-                        }
-                        if (Reader["Hor_Pac_Tipo_Serv"].ToString() == "PS" && Reader["Con_Clase"].ToString() == "QX")
-                        {
-                            return "EVOLUCION";
-                        }
-                        if (Reader["Hor_Pac_Tipo_Serv"].ToString() == "TO" && Reader["Con_Clase"].ToString() == "DX")
-                        {
-                            return "HTO";
-                        }
-                        if (Reader["Hor_Pac_Tipo_Serv"].ToString() == "TF" && Reader["Con_Clase"].ToString() == "DX")
-                        {
-                            return "HTF";
-                        }
-                        if (Reader["Hor_Pac_Tipo_Serv"].ToString() == "PS" && Reader["Con_Clase"].ToString() == "DX")
-                        {
-                            return "HPSI";
-                        }
-                        if (Reader["Hor_Pac_Tipo_Serv"].ToString() == "TF" && Reader["Con_Clase"].ToString() == "JM")
-                        {
-                            return "JM";
-                        }
-                        if (Reader["Hor_Pac_Tipo_Serv"].ToString() == "RA" && Reader["Con_Clase"].ToString() == "DX")
-                        {
-                            return "RADIOLOGIA";
-                        }
-
-                        return "";
-                    }
-                    else
-                    {
-                        return "";
-                    }
+                    }                  
                 }
             }
             catch (Exception ex)
@@ -1737,6 +1752,154 @@ namespace Persistence.CXN.Metodos
             {
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
             }
-        }        
+        }
+        List<CXN_PACIENTES> IAgendaC.ListarTiposPaciente(string Criterio, string Tipo)
+        {
+            try
+            {
+                var getCon = Conexion.Conection();
+
+                using (SqlConnection con = new SqlConnection(getCon["Conexion"]))
+                {
+                    if (con != null && con.State == ConnectionState.Closed)
+                    {
+                        con.Open();
+                    }
+
+                    String Cargar_Hora = "";
+
+                    if (string.IsNullOrEmpty(Criterio))
+                    {
+                        Cargar_Hora = "SELECT TOP 500 P.Pac_Doble, P.Pac_2VXS, P.Pac_Bonos, P.Pac_Id, " +
+                                      "P.Pac_PrimerA + ' ' + P.Pac_SegundoA + ' ' + P.Pac_PrimerN + ' ' + P.Pac_SegundoN AS Paciente, P.Pac_TipoId, P.Pac_IdNum " +
+                                      "FROM CXN_PACIENTES P " +
+                                      "INNER JOIN CXN_HORARIO H ON H.Hor_Pac_Id = P.Pac_Id " +
+                                      "ORDER BY H.Hor_Pac_Fecha_Cita DESC";
+                    }
+                    else
+                    {
+                        if (Tipo == "Primer Apellido")
+                        {
+                            Cargar_Hora = "SELECT TOP 1000 P.Pac_Doble, P.Pac_2VXS, P.Pac_Bonos, P.Pac_Id, " +
+                                          "P.Pac_PrimerA + ' ' + P.Pac_SegundoA + ' ' + P.Pac_PrimerN + ' ' + P.Pac_SegundoN AS Paciente, P.Pac_TipoId, P.Pac_IdNum " +
+                                          "FROM CXN_PACIENTES P " +
+                                          "INNER JOIN CXN_HORARIO H ON H.Hor_Pac_Id = P.Pac_Id " +
+                                          "WHERE P.Pac_PrimerA = @param1 " +
+                                          "ORDER BY H.Hor_Pac_Fecha_Cita DESC";
+                        }
+                        else if (Tipo == "Documento")
+                        {
+                            Cargar_Hora = "SELECT TOP 1000 P.Pac_Doble, P.Pac_2VXS, P.Pac_Bonos, P.Pac_Id, " +
+                                          "P.Pac_PrimerA + ' ' + P.Pac_SegundoA + ' ' + P.Pac_PrimerN + ' ' + P.Pac_SegundoN AS Paciente, P.Pac_TipoId, P.Pac_IdNum " +
+                                          "FROM CXN_PACIENTES P " +
+                                          "INNER JOIN CXN_HORARIO H ON H.Hor_Pac_Id = P.Pac_Id " +
+                                          "WHERE P.Pac_IdNum = @param1 " +
+                                          "ORDER BY H.Hor_Pac_Fecha_Cita DESC";
+                        }
+                        else
+                        {
+                            return null;
+                        }                      
+                    }                   
+
+                    using (SqlCommand Carga_Command = new SqlCommand(Cargar_Hora, con))
+                    {
+                        if (!string.IsNullOrEmpty(Criterio))
+                        {
+                            Carga_Command.Parameters.AddWithValue("@param1", Criterio);
+                        }
+
+                        using (SqlDataReader Lectura_Hora = (Carga_Command.ExecuteReader()))
+                        {
+                            if (Lectura_Hora.HasRows)
+                            {
+                                List<CXN_PACIENTES> H = new List<CXN_PACIENTES>();
+
+                                while (Lectura_Hora.Read() == true)
+                                {
+                                    H.Add(new CXN_PACIENTES
+                                    {
+                                        Pac_Doble = Lectura_Hora["Pac_Doble"]?.ToString() ?? "N", //N S
+                                        Pac_2VXS = Lectura_Hora["Pac_2VXS"]?.ToString() ?? "N", //N S
+                                        Pac_Bonos = Lectura_Hora["Pac_Bonos"]?.ToString() ?? "N", //N A
+                                        Pac_PrimerN = Lectura_Hora["Paciente"].ToString(),
+                                        Pac_IdNum = Lectura_Hora["Pac_IdNum"].ToString(), 
+                                        Pac_TipoId = Lectura_Hora["Pac_TipoId"].ToString(),
+                                        Pac_Id = Convert.ToInt32(Lectura_Hora["Pac_Id"])
+                                    });
+                                }
+                                return H;
+                            }
+                            else
+                            {
+                                return null;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
+        }
+        int IAgendaC.UpdateTipoPaciente(int Paciente, string Tipo, bool Estado)
+        {
+            try
+            {
+                Dictionary<string, string> getData = Conexion.Conection();
+
+                using (SqlConnection con = new SqlConnection(getData["Conexion"]))
+                {
+                    if (con != null && con.State == ConnectionState.Closed)
+                    {
+                        con.Open();
+                    }
+
+                    SqlCommand Query = null;
+
+                    if (Tipo == "Bonos")
+                    {
+                        Query = new SqlCommand(@"UPDATE CXN_PACIENTES " +
+                                                "SET Pac_Bonos = @param1 " +
+                                                "WHERE Pac_Id = @param2", con);
+                    }
+                    else if (Tipo == "DobleEspacio")
+                    {
+                        Query = new SqlCommand(@"UPDATE CXN_PACIENTES " +
+                                                "SET Pac_Doble = @param1 " +
+                                                "WHERE Pac_Id = @param2", con);
+                    }
+                    else if (Tipo == "2VxS")
+                    {
+                        Query = new SqlCommand(@"UPDATE CXN_PACIENTES " +
+                                                "SET Pac_2VXS = @param1 " +
+                                                "WHERE Pac_Id = @param2", con);
+                    }
+                    else
+                    {
+                        return 0;
+                    }
+
+                    if (Tipo == "Bonos")
+                    {
+                        Query.Parameters.AddWithValue("@param1", Estado == true ? "A" : "N");
+                    }
+                    else
+                    {
+                        Query.Parameters.AddWithValue("@param1", Estado == true ? "S" : "N");
+                    }
+
+                    Query.Parameters.AddWithValue("@param2", Paciente);
+                    return Query.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
+                return 0;
+            }
+        }
     }
 }

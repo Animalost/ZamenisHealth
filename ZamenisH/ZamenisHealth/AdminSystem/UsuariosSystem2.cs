@@ -1,11 +1,13 @@
 ﻿using Domain;
 using Domain.CXN;
 using FormAndControls;
+using Newtonsoft.Json.Linq;
 using Persistence;
 using Persistence.CXN.Interfaces;
 using Persistence.CXN.Metodos;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using ZamenisHealth.Comunes;
 
 namespace ZamenisHealth.AdminSystem
@@ -17,7 +19,7 @@ namespace ZamenisHealth.AdminSystem
         private static readonly IMensajeria repoMens = new MMensajeria();
 
         private string Funcionario;
-        private bool Existence;
+        private MensajesGeneral MG;
 
         public UsuariosSystem2()
         {
@@ -27,96 +29,174 @@ namespace ZamenisHealth.AdminSystem
         {
             try
             {
-                MensajesGeneral MG = new MensajesGeneral();
-
-                CXN_ROLES Rol = new CXN_ROLES
+                Domain.Recepcion R = new Domain.Recepcion
                 {
-                    Rol_R_Agenda_R = (checkBox1.Checked == true ? "A" : "N"),
-                    Rol_R_CrearPacientes = (checkBox2.Checked == true ? "A" : "N"),
-                    Rol_R_Asistencia = (checkBox3.Checked == true ? "A" : "N"),
-                    Rol_R_Ventas = (checkBox4.Checked == true ? "A" : "N"),
-                    Rol_R_Cargos = (checkBox5.Checked == true ? "A" : "N"),
-                    Rol_R_Copias = (checkBox6.Checked == true ? "A" : "N"),
-                    Rol_R_Precios = (checkBox7.Checked == true ? "A" : "N"),
-                    Rol_R_Mensajero = (checkBox8.Checked == true ? "A" : "N"),
-                    Rol_R_Cotizaciones = (checkBox9.Checked == true ? "A" : "N"),
-
-                    Rol_A_SMSEmail = (checkBox10.Checked == true ? "A" : "N"),
-                    Rol_A_Mensajero = (checkBox11.Checked == true ? "A" : "N"),
-                    Rol_A_Formatos = (checkBox12.Checked == true ? "A" : "N"),
-                    Rol_A_Adherencia = (checkBox13.Checked == true ? "A" : "N"),
-                    Rol_A_Productos = (checkBox14.Checked == true ? "A" : "N"),
-                    Rol_A_Anulaciones = (checkBox15.Checked == true ? "A" : "N"),
-                    Rol_A_RIPS = (checkBox16.Checked == true ? "A" : "N"),
-                    Rol_A_Cargos = (checkBox17.Checked == true ? "A" : "N"),
-                    Rol_A_Facturacion = (checkBox18.Checked == true ? "A" : "N"),
-                    Rol_A_Inventario = (checkBox19.Checked == true ? "A" : "N"),
-                    Rol_A_Autorizaciones = (checkBox20.Checked == true ? "A" : "N"),
-
-                    Rol_O_Mensajero = (checkBox21.Checked == true ? "A" : "N"),
-                    Rol_O_Bodegas = (checkBox22.Checked == true ? "A" : "N"),
-                    Rol_O_CIE10 = (checkBox23.Checked == true ? "A" : "N"),
-                    Rol_O_Convenios = (checkBox24.Checked == true ? "A" : "N"),
-                    Rol_O_UsuariosSystem = (checkBox25.Checked == true ? "A" : "N"),
-                    Rol_O_Festivos = (checkBox26.Checked == true ? "A" : "N"),
-                    Rol_O_Proveedores = (checkBox27.Checked == true ? "A" : "N"),
-                    Rol_O_Horarios = (checkBox28.Checked == true ? "A" : "N"),
-                    Rol_O_Compañias = (checkBox29.Checked == true ? "A" : "N"),
-
-                    AdminFactura = (checkBox37.Checked == true ? "A" : "N"),
-                    AdminFacturaAbierta = (checkBox35.Checked == true ? "A" : "N"),
-                    AdminElectronica = (checkBox34.Checked == true ? "A" : "N"), //este es iguala a abajo
-                    Rol_A_FacElectron = (checkBox34.Checked == true ? "A" : "N"), //este es iguala a abajo
-                    AdminReportes = (checkBox32.Checked == true ? "A" : "N"),
-                    AdminHomologos = (checkBox36.Checked == true ? "A" : "N"),
-                    AdminGPacientes = (checkBox31.Checked == true ? "A" : "N"),
-                    AdminGrupal = (checkBox33.Checked == true ? "A" : "N"),
-                    AdminHelisa = (checkBox30.Checked == true ? "A" : "N"),
-                    AdminGenerarToken = (checkBox38.Checked == true ? "A" : "N"),
-                    AdminFHIR = (checkBox39.Checked == true ? "A" : "N"),
-                    AdminReportesPagos = (checkBox40.Checked == true ? "A" : "N"),
-
-                    Rol_R_User = this.Funcionario
+                    AgendaMedica = checkBox1.Checked ? "A" : "I",
+                    Ventas = checkBox4.Checked ? "A" : "I",
+                    ListarPrecios = checkBox7.Checked ? "A" : "I",
+                    CrearEditarPaciente = checkBox2.Checked ? "A" : "I",
+                    Cargos = checkBox5.Checked ? "A" : "I",
+                    Cotizaciones = checkBox9.Checked ? "A" : "I",
+                    VerAsistencia = checkBox3.Checked ? "A" : "I",
+                    CopiaDocumentos = checkBox6.Checked ? "A" : "I"
                 };
 
-                if (Existence == true) //editar
+                Domain.Administracion A = new Domain.Administracion
                 {
-                    bool _update = repoRoles.updateRoles(Rol);
-                    if (_update == true)
+                    Facturacion = checkBox18.Checked ? "A" : "I",
+                    Anulaciones = checkBox15.Checked ? "A" : "I",
+                    Formatos = checkBox12.Checked ? "A" : "I",
+                    Cargos = checkBox17.Checked ? "A" : "I",
+                    Inventarios = checkBox19.Checked ? "A" : "I",
+                    Mensajero = checkBox11.Checked ? "A" : "I",
+                    Rips = checkBox16.Checked ? "A" : "I",
+                    Adherencia = checkBox13.Checked ? "A" : "I",
+                    Envios = checkBox10.Checked ? "A" : "I",
+                    BarCodes = checkBox41.Checked ? "A" : "I",
+                    Autorizaciones = checkBox20.Checked ? "A" : "I",
+                    RDA = checkBox39.Checked ? "A" : "I",
+                    AdministracionDetalles = new AdministracionDetalles
                     {
-                        MG.Mensaje = "Actualizado con exito";
-                        MG.TipoImagen = 3;
-                        MG.ShowDialog();
+                        GenerarFactura = checkBox37.Checked ? "A" : "I",
+                        Reportes = checkBox32.Checked ? "A" : "I",
+                        DetalleGrupal = checkBox33.Checked ? "A" : "I",
+                        FacturaAbierta = checkBox35.Checked ? "A" : "I",
+                        Homologos = checkBox36.Checked ? "A" : "I",
+                        FacturacionElectronica = checkBox34.Checked ? "A" : "I",
+                        ReportesPagos = checkBox40.Checked ? "A" : "I"
+                    }
+                };
 
-                        this.Dispose();
-                        this.Close();
-                    }
-                    else
+                Domain.Opciones O = new Domain.Opciones
+                {
+                    Compañias = checkBox49.Checked ? "A" : "I",
+                    CrearEditarUsuario = checkBox46.Checked ? "A" : "I",
+                    Productos = checkBox43.Checked ? "A" : "I",
+                    Horarios = checkBox48.Checked ? "A" : "I",
+                    Convenios = checkBox45.Checked ? "A" : "I",
+                    Preferencias = checkBox42.Checked ? "A" : "I",
+                    Festivos = checkBox47.Checked ? "A" : "I",
+                    CIE10 = checkBox44.Checked ? "A" : "I",
+                    ECuentas = checkBox50.Checked ? "A" : "I",
+                    Compras = checkBox51.Checked ? "A" : "I",
+                    Bodegas = checkBox52.Checked ? "A" : "I"
+                };
+
+                Domain.Enfermeria E = new Domain.Enfermeria
+                {
+                    Notas = checkBox30.Checked ? "A" : "I",
+                    Plantillas = checkBox27.Checked ? "A" : "I",
+                    Imagenes = checkBox25.Checked ? "A" : "I",
+                    NAclaratoria = checkBox29.Checked ? "A" : "I",
+                    SearchImages = checkBox21.Checked ? "A" : "I",
+                    Inventario = checkBox24.Checked ? "A" : "I",
+                    CManejo = checkBox28.Checked ? "A" : "I",
+                    Registros = checkBox26.Checked ? "A" : "I",
+                    Estadisticas = checkBox23.Checked ? "A" : "I",
+                    Cargos = checkBox22.Checked ? "A" : "I",
+                    SubirDocumentos = checkBox8.Checked ? "A" : "I",
+                    DocumentosWEB = checkBox14.Checked ? "A" : "I"
+                };
+
+                Domain.MedicinaGeneral MGe = new Domain.MedicinaGeneral
+                {
+                    Historia = checkBox61.Checked ? "A" : "I",
+                    Registros = checkBox58.Checked ? "A" : "I",
+                    Retomar = checkBox55.Checked ? "A" : "I",
+                    CManejo = checkBox60.Checked ? "A" : "I",
+                    Subir = checkBox57.Checked ? "A" : "I",
+                    Estadistica = checkBox54.Checked ? "A" : "I",
+                    Nota = checkBox59.Checked ? "A" : "I",
+                    Inventario = checkBox56.Checked ? "A" : "I",
+                    DocumentosWEB = checkBox53.Checked ? "A" : "I",
+                    GrabarImagenes = checkBox38.Checked ? "A" : "I",
+                    Ordenes = checkBox31.Checked ? "A" : "I",
+                    Solicitudes = checkBox62.Checked ? "A" : "I",
+                    BuscarImagenes = checkBox64.Checked ? "A" : "I",
+                    Consentimientos = checkBox65.Checked ? "A" : "I",
+                    Salidas = checkBox66.Checked ? "A" : "I"
+                };
+
+                Domain.Gerencial G = new Domain.Gerencial
+                {
+                    FacturaPaciente = checkBox77.Checked ? "A" : "I",
+                    Reportes = checkBox74.Checked ? "A" : "I",
+                    Consentimientos = checkBox72.Checked ? "A" : "I",
+                    EliminarCierreCaja = checkBox76.Checked ? "A" : "I"
+                };
+
+                Domain.Fisiatria F = new Domain.Fisiatria
+                {
+                    CrearHistoria = checkBox81.Checked ? "A" : "I",
+                    Retomar = checkBox78.Checked ? "A" : "I",
+                    SubirHistoria = checkBox73.Checked ? "A" : "I",
+                    NotaAclaratoria = checkBox80.Checked ? "A" : "I",
+                    CompletarJuntas = checkBox68.Checked ? "A" : "I",
+                    FirmarHistorias = checkBox71.Checked ? "A" : "I",
+                    CrearOrdenes = checkBox79.Checked ? "A" : "I",
+                    BuscarRegistros = checkBox75.Checked ? "A" : "I"
+                };
+
+                CXN_DESKTOP_ROLES Dr = new CXN_DESKTOP_ROLES
+                {
+                    Recepcion = new JObject
                     {
-                        MG.Mensaje = "No se logro actualizar";
-                        MG.TipoImagen = 1000;
-                        MG.ShowDialog();
-                    }
+                        ["Recepción"] = JObject.FromObject(R)
+                    }.ToString(),
+
+                    Administracion = new JObject
+                    {
+                        ["Administracion"] = JObject.FromObject(A)
+                    }.ToString(),
+
+                    Opciones = new JObject
+                    {
+                        ["Opciones"] = JObject.FromObject(O)
+                    }.ToString(),
+
+                    Enfermeria = new JObject
+                    {
+                        ["Enfermeria"] = JObject.FromObject(E)
+                    }.ToString(),
+
+                    MedicinaGeneral = new JObject
+                    {
+                        ["MedicinaGeneral"] = JObject.FromObject(MGe)
+                    }.ToString(),
+
+                    Gerencial = new JObject
+                    {
+                        ["Gerencial"] = JObject.FromObject(G)
+                    }.ToString(),
+
+                    Fisiatria = new JObject
+                    {
+                        ["Fisiatria"] = JObject.FromObject(F)
+                    }.ToString(),
+
+                    Usuario = this.Funcionario
+                };
+
+                bool result = repoRoles.SaveRoles(Dr, Funcionario);
+                if (result == true)
+                {
+                    MG = new MensajesGeneral()
+                    {
+                        Mensaje = "Roles actualizados correctamente",
+                        TipoImagen = 1
+                    };
+                    MG.ShowDialog();
+
+                    this.Close();
                 }
-
-                if (Existence == false) //insertar
+                else
                 {
-                    bool _insert = repoRoles.insertRoles(Rol);
-                    if (_insert == true)
+                    MG = new MensajesGeneral()
                     {
-                        MG.Mensaje = "Asignado con exito";
-                        MG.TipoImagen = 3;
-                        MG.ShowDialog();
-
-                        this.Dispose();
-                        this.Close();
-                    }
-                    else
-                    {
-                        MG.Mensaje = "No se logro asignar";
-                        MG.TipoImagen = 1000;
-                        MG.ShowDialog();
-                    }
+                        Mensaje = "Error grave actualizando roles, contacte al administrador",
+                        TipoImagen = 1000
+                    };
+                    MG.ShowDialog();
                 }
             }
             catch (Exception ex)
@@ -131,10 +211,11 @@ namespace ZamenisHealth.AdminSystem
                 Titulo.Text = "Usuarios";
                 SubTitulo.Text = $"Zamenis Health {Conexion.VersionApp}";
                 
-
                 List<CXN_LOGIN> getUsers = repoLogin.getUsersforSendMessage();
                 if (getUsers != null)
                 {
+                    getUsers = getUsers.Where(x => x.Log_Habilitado == "A").ToList();
+
                     foreach (var i in getUsers)
                     {
                         comboBox1.Items.Add(i.Log_PrimerA + " " + i.Log_SegundoA + " " + i.Log_PrimerN + " " + i.Log_SegundoN);
@@ -152,8 +233,6 @@ namespace ZamenisHealth.AdminSystem
         {
             try
             {
-                Comunes.MensajesGeneral MG = new Comunes.MensajesGeneral();
-
                 this.Funcionario = repoMens.getUsertoSendMessage(comboBox1.Text);
                 if (this.Funcionario == "" || this.Funcionario == null)
                 {
@@ -165,101 +244,434 @@ namespace ZamenisHealth.AdminSystem
                     this.Close();
                 }
                 else
-                {
-                    CXN_ROLES getPermisos = repoRoles.getRoles(this.Funcionario);
+                {                   
+                    CXN_LOGIN getPermisos = repoLogin.getUser(this.Funcionario);
                     if (getPermisos != null)
                     {
-                        checkBox1.Checked = (getPermisos.Rol_R_Agenda_R == "A" ? true : false);
-                        checkBox2.Checked = (getPermisos.Rol_R_CrearPacientes == "A" ? true : false);
-                        checkBox3.Checked = (getPermisos.Rol_R_Asistencia == "A" ? true : false);
-                        checkBox4.Checked = (getPermisos.Rol_R_Ventas == "A" ? true : false);
-                        checkBox5.Checked = (getPermisos.Rol_R_Cargos == "A" ? true : false);
-                        checkBox6.Checked = (getPermisos.Rol_R_Copias == "A" ? true : false);
-                        checkBox7.Checked = (getPermisos.Rol_R_Precios == "A" ? true : false);
-                        checkBox8.Checked = (getPermisos.Rol_R_Mensajero == "A" ? true : false);
-                        checkBox9.Checked = (getPermisos.Rol_R_Cotizaciones == "A" ? true : false);
+                        groupBox1.Visible = getPermisos.Log_Rol_Recepcion == "A" ? true : false; //Recepcion
+                        groupBox2.Visible = getPermisos.Log_Rol_AdminI == "A" ? true : false; //Administracion
+                        groupBox4.Visible = getPermisos.Log_Rol_AdminI == "A" ? true : false; //Administracion
+                        groupBox5.Visible = getPermisos.Log_Rol_Admin == "A" ? true : false; //Opciones
+                        groupBox3.Visible = getPermisos.Log_Rol_Enfermero == "A" ? true : false; //Enfermeria
+                        groupBox6.Visible = getPermisos.Log_Rol_MedGen == "A" ? true : false; //Enfermeria
+                        groupBox7.Visible = getPermisos.Log_Rol_Gerencial == "A" ? true : false; //Gerencial
+                        groupBox8.Visible = getPermisos.Log_Rol_FI == "A" ? true : false; //Fisiatria
 
-                        checkBox10.Checked = (getPermisos.Rol_A_SMSEmail == "A" ? true : false);
-                        checkBox11.Checked = (getPermisos.Rol_A_Mensajero == "A" ? true : false);
-                        checkBox12.Checked = (getPermisos.Rol_A_Formatos == "A" ? true : false);
-                        checkBox13.Checked = (getPermisos.Rol_A_Adherencia == "A" ? true : false);
-                        checkBox14.Checked = (getPermisos.Rol_A_Productos == "A" ? true : false);
-                        checkBox15.Checked = (getPermisos.Rol_A_Anulaciones == "A" ? true : false);
-                        checkBox16.Checked = (getPermisos.Rol_A_RIPS == "A" ? true : false);
-                        checkBox17.Checked = (getPermisos.Rol_A_Cargos == "A" ? true : false);
-                        checkBox18.Checked = (getPermisos.Rol_A_Facturacion == "A" ? true : false);
-                        checkBox19.Checked = (getPermisos.Rol_A_Inventario == "A" ? true : false);
-                        checkBox20.Checked = (getPermisos.Rol_A_Autorizaciones == "A" ? true : false);
+                        CXN_DESKTOP_ROLES Rol = repoRoles.getDesktopRoles(this.Funcionario);
+                        if (Rol == null)
+                        {
+                            //Si no esta en la tabla de Roles se muestra todo
+                            groupBox1.Visible = true; //Recepcion
+                            groupBox2.Visible = true; //Administracion
+                            groupBox4.Visible = true; //Administracion2
+                            groupBox5.Visible = true; //Opciones
+                            groupBox3.Visible = true; //Enfermeria
+                            groupBox6.Visible = true; //Enfermeria
 
-                        checkBox21.Checked = (getPermisos.Rol_O_Mensajero == "A" ? true : false);
-                        checkBox22.Checked = (getPermisos.Rol_O_Bodegas == "A" ? true : false);
-                        checkBox23.Checked = (getPermisos.Rol_O_CIE10 == "A" ? true : false);
-                        checkBox24.Checked = (getPermisos.Rol_O_Convenios == "A" ? true : false);
-                        checkBox25.Checked = (getPermisos.Rol_O_UsuariosSystem == "A" ? true : false);
-                        checkBox26.Checked = (getPermisos.Rol_O_Festivos == "A" ? true : false);
-                        checkBox27.Checked = (getPermisos.Rol_O_Proveedores == "A" ? true : false);
-                        checkBox28.Checked = (getPermisos.Rol_O_Horarios == "A" ? true : false);
-                        checkBox29.Checked = (getPermisos.Rol_O_Compañias == "A" ? true : false);
+                            //Recepcion
+                            checkBox1.Checked = false;
+                            checkBox4.Checked = false;
+                            checkBox7.Checked = false;
+                            checkBox2.Checked = false;
+                            checkBox5.Checked = false;
+                            checkBox9.Checked = false;
+                            checkBox3.Checked = false;
+                            checkBox6.Checked = false;
 
-                        checkBox37.Checked = (getPermisos.AdminFactura == "A" ? true : false);
-                        checkBox36.Checked = (getPermisos.AdminHomologos == "A" ? true : false);
-                        checkBox35.Checked = (getPermisos.AdminFacturaAbierta == "A" ? true : false);
-                        checkBox34.Checked = (getPermisos.AdminElectronica == "A" ? true : false);
-                        checkBox33.Checked = (getPermisos.AdminGrupal == "A" ? true : false);
-                        checkBox32.Checked = (getPermisos.AdminReportes == "A" ? true : false);
-                        checkBox31.Checked = (getPermisos.AdminGPacientes == "A" ? true : false);
-                        checkBox30.Checked = (getPermisos.AdminHelisa == "A" ? true : false);
-                        checkBox38.Checked = (getPermisos.AdminGenerarToken == "A" ? true : false);
-                        checkBox39.Checked = (getPermisos.AdminFHIR == "A" ? true : false);
-                        checkBox40.Checked = (getPermisos.AdminReportesPagos == "A" ? true : false);
+                            //Administracion
+                            checkBox15.Checked = false;
+                            checkBox15.Checked = false;
+                            checkBox12.Checked = false;
+                            checkBox17.Checked = false;
+                            checkBox18.Checked = false;
+                            checkBox19.Checked = false;
+                            checkBox11.Checked = false;
+                            checkBox16.Checked = false;
+                            checkBox13.Checked = false;
+                            checkBox10.Checked = false;
+                            checkBox41.Checked = false;
+                            checkBox20.Checked = false;
+                            checkBox39.Checked = false;
+                            checkBox37.Checked = false;
+                            checkBox32.Checked = false;
+                            checkBox33.Checked = false;
+                            checkBox35.Checked = false;
+                            checkBox36.Checked = false;
+                            checkBox34.Checked = false;
+                            checkBox40.Checked = false;
 
-                        Existence = true;
+                            //Opciones
+                            checkBox49.Checked = false;
+                            checkBox46.Checked = false;
+                            checkBox43.Checked = false;
+                            checkBox48.Checked = false;
+                            checkBox45.Checked = false;
+                            checkBox42.Checked = false;
+                            checkBox47.Checked = false;
+                            checkBox44.Checked = false;
+                            checkBox50.Checked = false;
+                            checkBox51.Checked = false;
+                            checkBox52.Checked = false;
+
+                            //Enfermeria
+                            checkBox30.Checked = false;
+                            checkBox27.Checked = false;
+                            checkBox25.Checked = false;
+                            checkBox29.Checked = false;
+                            checkBox21.Checked = false;
+                            checkBox24.Checked = false;
+                            checkBox28.Checked = false;
+                            checkBox26.Checked = false;
+                            checkBox23.Checked = false;
+                            checkBox22.Checked = false;
+                            checkBox8.Checked = false;
+                            checkBox14.Checked = false;
+
+                            //Medicina general
+                            checkBox61.Checked = false;
+                            checkBox58.Checked = false;
+                            checkBox55.Checked = false;
+                            checkBox60.Checked = false;
+                            checkBox57.Checked = false;
+                            checkBox54.Checked = false;
+                            checkBox59.Checked = false;
+                            checkBox56.Checked = false;
+                            checkBox53.Checked = false;
+                            checkBox38.Checked = false;
+                            checkBox31.Checked = false;
+                            checkBox62.Checked = false;
+                            checkBox64.Checked = false;
+                            checkBox65.Checked = false;
+                            checkBox66.Checked = false;
+
+                            //Gerencial
+                            checkBox77.Checked = false;
+                            checkBox74.Checked = false;
+                            checkBox72.Checked = false;
+                            checkBox76.Checked = false;
+
+                            //Fisiatria
+                            checkBox81.Checked = false;
+                            checkBox78.Checked = false;
+                            checkBox73.Checked = false;
+                            checkBox80.Checked = false;
+                            checkBox68.Checked = false;
+                            checkBox71.Checked = false;
+                            checkBox79.Checked = false;
+                            checkBox75.Checked = false;
+                        }
+                        else
+                        {
+                            //Si existe en la tabla de roles se verifica Json
+                            JObject obj = JObject.Parse(Rol.Recepcion);
+                            JObject obj2 = JObject.Parse(Rol.Administracion);
+                            JObject obj3 = JObject.Parse(Rol.Opciones);
+                            JObject obj4 = JObject.Parse(Rol.Enfermeria);
+                            JObject obj5 = JObject.Parse(Rol.MedicinaGeneral);
+                            JObject obj6 = JObject.Parse(Rol.Gerencial);
+                            JObject obj7 = JObject.Parse(Rol.Fisiatria);
+
+                            //ROL RECEPCION
+                            if (obj["Recepción"] != null)
+                            {
+                                checkBox1.Checked = obj["Recepción"]["AgendaMedica"] != null ?
+                                                    obj["Recepción"]["AgendaMedica"].ToString() == "A" ? true : false : false;
+                                checkBox4.Checked = obj["Recepción"]["Ventas"] != null ?
+                                                   obj["Recepción"]["Ventas"].ToString() == "A" ? true : false : false;
+                                checkBox7.Checked = obj["Recepción"]["ListarPrecios"] != null ?
+                                                  obj["Recepción"]["ListarPrecios"].ToString() == "A" ? true : false : false;
+                                checkBox2.Checked = obj["Recepción"]["CrearEditarPaciente"] != null ?
+                                                  obj["Recepción"]["CrearEditarPaciente"].ToString() == "A" ? true : false : false;
+                                checkBox5.Checked = obj["Recepción"]["Cargos"] != null ?
+                                                  obj["Recepción"]["Cargos"].ToString() == "A" ? true : false : false;
+                                checkBox9.Checked = obj["Recepción"]["Cotizaciones"] != null ?
+                                                 obj["Recepción"]["Cotizaciones"].ToString() == "A" ? true : false : false;
+                                checkBox3.Checked = obj["Recepción"]["VerAsistencia"] != null ?
+                                                 obj["Recepción"]["VerAsistencia"].ToString() == "A" ? true : false : false;
+                                checkBox6.Checked = obj["Recepción"]["CopiaDocumentos"] != null ?
+                                                obj["Recepción"]["CopiaDocumentos"].ToString() == "A" ? true : false : false;
+                            }
+                            else
+                            {
+                                checkBox1.Checked = false;
+                                checkBox4.Checked = false;
+                                checkBox7.Checked = false;
+                                checkBox2.Checked = false;
+                                checkBox5.Checked = false;
+                                checkBox9.Checked = false;
+                                checkBox3.Checked = false;
+                                checkBox6.Checked = false;
+                            }
+                            //ROL ADMINISTRACION
+                            if (obj2["Administracion"] != null)
+                            {
+                                checkBox18.Checked = obj2["Administracion"]["Facturacion"] != null ?
+                                                    obj2["Administracion"]["Facturacion"].ToString() == "A" ? true : false : false;
+                                checkBox15.Checked = obj2["Administracion"]["Anulaciones"] != null ?
+                                                   obj2["Administracion"]["Anulaciones"].ToString() == "A" ? true : false : false;
+                                checkBox12.Checked = obj2["Administracion"]["Formatos"] != null ?
+                                                  obj2["Administracion"]["Formatos"].ToString() == "A" ? true : false : false;
+                                checkBox17.Checked = obj2["Administracion"]["Cargos"] != null ?
+                                                  obj2["Administracion"]["Cargos"].ToString() == "A" ? true : false : false;
+                                checkBox19.Checked = obj2["Administracion"]["Inventarios"] != null ?
+                                                  obj2["Administracion"]["Inventarios"].ToString() == "A" ? true : false : false;
+                                checkBox11.Checked = obj2["Administracion"]["Mensajero"] != null ?
+                                                 obj2["Administracion"]["Mensajero"].ToString() == "A" ? true : false : false;
+                                checkBox16.Checked = obj2["Administracion"]["Rips"] != null ?
+                                                 obj2["Administracion"]["Rips"].ToString() == "A" ? true : false : false;
+                                checkBox13.Checked = obj2["Administracion"]["Adherencia"] != null ?
+                                                obj2["Administracion"]["Adherencia"].ToString() == "A" ? true : false : false;
+                                checkBox10.Checked = obj2["Administracion"]["Envios"] != null ?
+                                                obj2["Administracion"]["Envios"].ToString() == "A" ? true : false : false;
+                                checkBox41.Checked = obj2["Administracion"]["BarCodes"] != null ?
+                                                obj2["Administracion"]["BarCodes"].ToString() == "A" ? true : false : false;
+                                checkBox20.Checked = obj2["Administracion"]["Autorizaciones"] != null ?
+                                                obj2["Administracion"]["Autorizaciones"].ToString() == "A" ? true : false : false;                             
+                                checkBox39.Checked = obj2["Administracion"]["RDA"] != null ?
+                                                obj2["Administracion"]["RDA"].ToString() == "A" ? true : false : false;
+
+                                if (obj2["Administracion"]["AdministracionDetalles"] != null)
+                                {
+                                    checkBox37.Checked = obj2["Administracion"]["AdministracionDetalles"]["GenerarFactura"] != null ?
+                                                    obj2["Administracion"]["AdministracionDetalles"]["GenerarFactura"].ToString() == "A" ? true : false : false;
+                                    checkBox32.Checked = obj2["Administracion"]["AdministracionDetalles"]["Reportes"] != null ?
+                                                    obj2["Administracion"]["AdministracionDetalles"]["Reportes"].ToString() == "A" ? true : false : false;
+                                    checkBox33.Checked = obj2["Administracion"]["AdministracionDetalles"]["DetalleGrupal"] != null ?
+                                                    obj2["Administracion"]["AdministracionDetalles"]["DetalleGrupal"].ToString() == "A" ? true : false : false;
+                                    checkBox35.Checked = obj2["Administracion"]["AdministracionDetalles"]["FacturaAbierta"] != null ?
+                                                    obj2["Administracion"]["AdministracionDetalles"]["FacturaAbierta"].ToString() == "A" ? true : false : false;
+                                    checkBox36.Checked = obj2["Administracion"]["AdministracionDetalles"]["Homologos"] != null ?
+                                                    obj2["Administracion"]["AdministracionDetalles"]["Homologos"].ToString() == "A" ? true : false : false;
+                                    checkBox34.Checked = obj2["Administracion"]["AdministracionDetalles"]["FacturacionElectronica"] != null ?
+                                                    obj2["Administracion"]["AdministracionDetalles"]["FacturacionElectronica"].ToString() == "A" ? true : false : false;
+                                    checkBox40.Checked = obj2["Administracion"]["AdministracionDetalles"]["ReportesPagos"] != null ?
+                                                    obj2["Administracion"]["AdministracionDetalles"]["ReportesPagos"].ToString() == "A" ? true : false : false;
+                                }
+                             }
+                            else
+                            {
+                                checkBox15.Checked = false;
+                                checkBox15.Checked = false;
+                                checkBox12.Checked = false;
+                                checkBox17.Checked = false;
+                                checkBox18.Checked = false;
+                                checkBox19.Checked = false;
+                                checkBox11.Checked = false;
+                                checkBox16.Checked = false;
+                                checkBox13.Checked = false;
+                                checkBox10.Checked = false;
+                                checkBox41.Checked = false;
+                                checkBox20.Checked = false;
+                                checkBox39.Checked = false;
+                                checkBox37.Checked = false;
+                                checkBox32.Checked = false;
+                                checkBox33.Checked = false;
+                                checkBox35.Checked = false;
+                                checkBox36.Checked = false;
+                                checkBox34.Checked = false;
+                                checkBox40.Checked = false;
+                            }
+                            //ROL OPCIONES
+                            if (obj3["Opciones"] != null)
+                            {
+                                checkBox49.Checked = obj3["Opciones"]["Compañias"] != null ?
+                                                    obj3["Opciones"]["Compañias"].ToString() == "A" ? true : false : false;
+                                checkBox46.Checked = obj3["Opciones"]["CrearEditarUsuario"] != null ?
+                                                   obj3["Opciones"]["CrearEditarUsuario"].ToString() == "A" ? true : false : false;
+                                checkBox43.Checked = obj3["Opciones"]["Productos"] != null ?
+                                                  obj3["Opciones"]["Productos"].ToString() == "A" ? true : false : false;
+                                checkBox48.Checked = obj3["Opciones"]["Horarios"] != null ?
+                                                  obj3["Opciones"]["Horarios"].ToString() == "A" ? true : false : false;
+                                checkBox45.Checked = obj3["Opciones"]["Convenios"] != null ?
+                                                  obj3["Opciones"]["Convenios"].ToString() == "A" ? true : false : false;
+                                checkBox42.Checked = obj3["Opciones"]["Preferencias"] != null ?
+                                                 obj3["Opciones"]["Preferencias"].ToString() == "A" ? true : false : false;
+                                checkBox47.Checked = obj3["Opciones"]["Festivos"] != null ?
+                                                 obj3["Opciones"]["Festivos"].ToString() == "A" ? true : false : false;
+                                checkBox44.Checked = obj3["Opciones"]["CIE10"] != null ?
+                                                obj3["Opciones"]["CIE10"].ToString() == "A" ? true : false : false;
+                                checkBox50.Checked = obj3["Opciones"]["ECuentas"] != null ?
+                                              obj3["Opciones"]["ECuentas"].ToString() == "A" ? true : false : false;
+                                checkBox51.Checked = obj3["Opciones"]["Compras"] != null ?
+                                              obj3["Opciones"]["Compras"].ToString() == "A" ? true : false : false;
+                                checkBox52.Checked = obj3["Opciones"]["Bodegas"] != null ?
+                                              obj3["Opciones"]["Bodegas"].ToString() == "A" ? true : false : false;
+                            }
+                            else
+                            {
+                                checkBox49.Checked = false;
+                                checkBox46.Checked = false;
+                                checkBox43.Checked = false;
+                                checkBox48.Checked = false;
+                                checkBox45.Checked = false;
+                                checkBox42.Checked = false;
+                                checkBox47.Checked = false;
+                                checkBox44.Checked = false;
+                                checkBox50.Checked = false;
+                                checkBox51.Checked = false;
+                                checkBox52.Checked = false;
+                            }
+
+                            //ROL ENFERMERIA
+                            if (obj4["Enfermeria"] != null)
+                            {
+                                checkBox30.Checked = obj4["Enfermeria"]["Notas"] != null ?
+                                                    obj4["Enfermeria"]["Notas"].ToString() == "A" ? true : false : false;
+                                checkBox27.Checked = obj4["Enfermeria"]["Plantillas"] != null ?
+                                                   obj4["Enfermeria"]["Plantillas"].ToString() == "A" ? true : false : false;
+                                checkBox25.Checked = obj4["Enfermeria"]["Imagenes"] != null ?
+                                                  obj4["Enfermeria"]["Imagenes"].ToString() == "A" ? true : false : false;
+                                checkBox29.Checked = obj4["Enfermeria"]["NAclaratoria"] != null ?
+                                                  obj4["Enfermeria"]["NAclaratoria"].ToString() == "A" ? true : false : false;
+                                checkBox21.Checked = obj4["Enfermeria"]["SearchImages"] != null ?
+                                                  obj4["Enfermeria"]["SearchImages"].ToString() == "A" ? true : false : false;
+                                checkBox24.Checked = obj4["Enfermeria"]["Inventario"] != null ?
+                                                 obj4["Enfermeria"]["Inventario"].ToString() == "A" ? true : false : false;
+                                checkBox28.Checked = obj4["Enfermeria"]["CManejo"] != null ?
+                                                 obj4["Enfermeria"]["CManejo"].ToString() == "A" ? true : false : false;
+                                checkBox26.Checked = obj4["Enfermeria"]["Registros"] != null ?
+                                                obj4["Enfermeria"]["Registros"].ToString() == "A" ? true : false : false;
+                                checkBox23.Checked = obj4["Enfermeria"]["Estadisticas"] != null ?
+                                              obj4["Enfermeria"]["Estadisticas"].ToString() == "A" ? true : false : false;
+                                checkBox22.Checked = obj4["Enfermeria"]["Cargos"] != null ?
+                                              obj4["Enfermeria"]["Cargos"].ToString() == "A" ? true : false : false;
+                                checkBox8.Checked = obj4["Enfermeria"]["SubirDocumentos"] != null ?
+                                              obj4["Enfermeria"]["SubirDocumentos"].ToString() == "A" ? true : false : false;
+                                checkBox14.Checked = obj4["Enfermeria"]["DocumentosWEB"] != null ?
+                                             obj4["Enfermeria"]["DocumentosWEB"].ToString() == "A" ? true : false : false;
+                            }
+                            else
+                            {
+                                checkBox30.Checked = false;
+                                checkBox27.Checked = false;
+                                checkBox25.Checked = false;
+                                checkBox29.Checked = false;
+                                checkBox21.Checked = false;
+                                checkBox24.Checked = false;
+                                checkBox28.Checked = false;
+                                checkBox26.Checked = false;
+                                checkBox23.Checked = false;
+                                checkBox22.Checked = false;
+                                checkBox8.Checked = false;
+                                checkBox14.Checked = false;
+                            }
+
+                            //ROL MEDICINA GENERAL
+                            if (obj5["MedicinaGeneral"] != null)
+                            {
+                                checkBox61.Checked = obj5["MedicinaGeneral"]["Historia"] != null ?
+                                                    obj5["MedicinaGeneral"]["Historia"].ToString() == "A" ? true : false : false;
+                                checkBox58.Checked = obj5["MedicinaGeneral"]["Registros"] != null ?
+                                                   obj5["MedicinaGeneral"]["Registros"].ToString() == "A" ? true : false : false;
+                                checkBox55.Checked = obj5["MedicinaGeneral"]["Retomar"] != null ?
+                                                  obj5["MedicinaGeneral"]["Retomar"].ToString() == "A" ? true : false : false;
+                                checkBox60.Checked = obj5["MedicinaGeneral"]["CManejo"] != null ?
+                                                  obj5["MedicinaGeneral"]["CManejo"].ToString() == "A" ? true : false : false;
+                                checkBox57.Checked = obj5["MedicinaGeneral"]["Subir"] != null ?
+                                                  obj5["MedicinaGeneral"]["Subir"].ToString() == "A" ? true : false : false;
+                                checkBox54.Checked = obj5["MedicinaGeneral"]["Estadistica"] != null ?
+                                                 obj5["MedicinaGeneral"]["Estadistica"].ToString() == "A" ? true : false : false;
+                                checkBox59.Checked = obj5["MedicinaGeneral"]["Nota"] != null ?
+                                                 obj5["MedicinaGeneral"]["Nota"].ToString() == "A" ? true : false : false;
+                                checkBox56.Checked = obj5["MedicinaGeneral"]["Inventario"] != null ?
+                                                obj5["MedicinaGeneral"]["Inventario"].ToString() == "A" ? true : false : false;
+                                checkBox53.Checked = obj5["MedicinaGeneral"]["DocumentosWEB"] != null ?
+                                              obj5["MedicinaGeneral"]["DocumentosWEB"].ToString() == "A" ? true : false : false;
+                                checkBox38.Checked = obj5["MedicinaGeneral"]["GrabarImagenes"] != null ?
+                                              obj5["MedicinaGeneral"]["GrabarImagenes"].ToString() == "A" ? true : false : false;
+                                checkBox31.Checked = obj5["MedicinaGeneral"]["Ordenes"] != null ?
+                                              obj5["MedicinaGeneral"]["Ordenes"].ToString() == "A" ? true : false : false;
+                                checkBox62.Checked = obj5["MedicinaGeneral"]["Solicitudes"] != null ?
+                                             obj5["MedicinaGeneral"]["Solicitudes"].ToString() == "A" ? true : false : false;
+                                checkBox64.Checked = obj5["MedicinaGeneral"]["BuscarImagenes"] != null ?
+                                             obj5["MedicinaGeneral"]["BuscarImagenes"].ToString() == "A" ? true : false : false;
+                                checkBox65.Checked = obj5["MedicinaGeneral"]["Consentimientos"] != null ?
+                                             obj5["MedicinaGeneral"]["Consentimientos"].ToString() == "A" ? true : false : false;
+                                checkBox66.Checked = obj5["MedicinaGeneral"]["Salidas"] != null ?
+                                           obj5["MedicinaGeneral"]["Salidas"].ToString() == "A" ? true : false : false;
+                            }
+                            else
+                            {
+                                checkBox61.Checked = false;
+                                checkBox58.Checked = false;
+                                checkBox55.Checked = false;
+                                checkBox60.Checked = false;
+                                checkBox57.Checked = false;
+                                checkBox54.Checked = false;
+                                checkBox59.Checked = false;
+                                checkBox56.Checked = false;
+                                checkBox53.Checked = false;
+                                checkBox38.Checked = false;
+                                checkBox31.Checked = false;
+                                checkBox62.Checked = false;
+                                checkBox64.Checked = false;
+                                checkBox65.Checked = false;
+                                checkBox66.Checked = false;
+                            }
+
+                            //ROL GERENCIAL
+                            if (obj6["Gerencial"] != null)
+                            {
+                                checkBox77.Checked = obj6["Gerencial"]["FacturaPaciente"] != null ?
+                                                    obj6["Gerencial"]["FacturaPaciente"].ToString() == "A" ? true : false : false;
+                                checkBox74.Checked = obj6["Gerencial"]["Reportes"] != null ?
+                                                   obj6["Gerencial"]["Reportes"].ToString() == "A" ? true : false : false;
+                                checkBox72.Checked = obj6["Gerencial"]["Consentimientos"] != null ?
+                                                  obj6["Gerencial"]["Consentimientos"].ToString() == "A" ? true : false : false;
+                                checkBox76.Checked = obj6["Gerencial"]["EliminarCierreCaja"] != null ?
+                                                  obj6["Gerencial"]["EliminarCierreCaja"].ToString() == "A" ? true : false : false;                                
+                            }
+                            else
+                            {
+                                checkBox77.Checked = false;
+                                checkBox74.Checked = false;
+                                checkBox72.Checked = false;
+                                checkBox76.Checked = false;
+                            }
+
+                            //ROL FISIATRIA
+                            if (obj7["Fisiatria"] != null)
+                            {
+                                checkBox81.Checked = obj7["Fisiatria"]["CrearHistoria"] != null ?
+                                                    obj7["Fisiatria"]["CrearHistoria"].ToString() == "A" ? true : false : false;
+                                checkBox78.Checked = obj7["Fisiatria"]["Retomar"] != null ?
+                                                   obj7["Fisiatria"]["Retomar"].ToString() == "A" ? true : false : false;
+                                checkBox73.Checked = obj7["Fisiatria"]["SubirHistoria"] != null ?
+                                                  obj7["Fisiatria"]["SubirHistoria"].ToString() == "A" ? true : false : false;
+                                checkBox80.Checked = obj7["Fisiatria"]["NotaAclaratoria"] != null ?
+                                                  obj7["Fisiatria"]["NotaAclaratoria"].ToString() == "A" ? true : false : false;
+                                checkBox68.Checked = obj7["Fisiatria"]["CompletarJuntas"] != null ?
+                                                  obj7["Fisiatria"]["CompletarJuntas"].ToString() == "A" ? true : false : false;
+                                checkBox71.Checked = obj7["Fisiatria"]["FirmarHistorias"] != null ?
+                                                  obj7["Fisiatria"]["FirmarHistorias"].ToString() == "A" ? true : false : false;
+                                checkBox79.Checked = obj7["Fisiatria"]["CrearOrdenes"] != null ?
+                                                  obj7["Fisiatria"]["CrearOrdenes"].ToString() == "A" ? true : false : false;
+                                checkBox75.Checked = obj7["Fisiatria"]["BuscarRegistros"] != null ?
+                                                  obj7["Fisiatria"]["BuscarRegistros"].ToString() == "A" ? true : false : false;
+                            }
+                            else
+                            {
+                                checkBox81.Checked = false;
+                                checkBox78.Checked = false;
+                                checkBox73.Checked = false;
+                                checkBox80.Checked = false;
+                                checkBox68.Checked = false;
+                                checkBox71.Checked = false;
+                                checkBox79.Checked = false;
+                                checkBox75.Checked = false;
+                            }
+                        }
                     }
                     else
                     {
-                        checkBox1.Checked = false;
-                        checkBox2.Checked = false;
-                        checkBox3.Checked = false;
-                        checkBox4.Checked = false;
-                        checkBox5.Checked = false;
-                        checkBox6.Checked = false;
-                        checkBox7.Checked = false;
-                        checkBox8.Checked = false;
-                        checkBox9.Checked = false;
-                        checkBox10.Checked = false;
-                        checkBox11.Checked = false;
-                        checkBox12.Checked = false;
-                        checkBox13.Checked = false;
-                        checkBox14.Checked = false;
-                        checkBox15.Checked = false;
-                        checkBox16.Checked = false;
-                        checkBox17.Checked = false;
-                        checkBox18.Checked = false;
-                        checkBox19.Checked = false;
-                        checkBox20.Checked = false;
-                        checkBox21.Checked = false;
-                        checkBox22.Checked = false;
-                        checkBox23.Checked = false;
-                        checkBox24.Checked = false;
-                        checkBox25.Checked = false;
-                        checkBox26.Checked = false;
-                        checkBox27.Checked = false;
-                        checkBox28.Checked = false;
-                        checkBox29.Checked = false;
+                        MG = new MensajesGeneral()
+                        {
+                            Mensaje = "Error grave obteniendo datos del usuario, contacte al administrador",
+                            TipoImagen = 1000
+                        };
 
-                        checkBox37.Checked = false;
-                        checkBox36.Checked = false;
-                        checkBox35.Checked = false;
-                        checkBox34.Checked = false;
-                        checkBox33.Checked = false;
-                        checkBox32.Checked = false;
-                        checkBox31.Checked = false;
-                        checkBox30.Checked = false;
-                        checkBox38.Checked = false;
-                        checkBox39.Checked = false;
-                        checkBox40.Checked = false;
-
-                        Existence = false;
+                        MG.ShowDialog();
+                        this.Close();
                     }
                 }
             }
