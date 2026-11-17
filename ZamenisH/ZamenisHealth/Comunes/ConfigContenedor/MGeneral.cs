@@ -1,11 +1,17 @@
 ﻿using Domain;
 using Domain.CXN;
+
 using Newtonsoft.Json.Linq;
+
 using Persistence;
 using Persistence.CXN.Interfaces;
 using Persistence.CXN.Metodos;
+
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
+
 using ZamenisHealth.HistoriasClinicas;
 using ZamenisHealth.HistoriasClinicas.Extras;
 using ZamenisHealth.Medicina;
@@ -142,11 +148,19 @@ namespace ZamenisHealth.Comunes.ConfigContenedor
                     }
                 }
 
-                if (repositorioConf.getListado()["ConsentimientosWEB"] != "A")
+                List<CXN_IMAGEN_SYSTEM> d = repositorioConf.getConfSystem();
+                if (d != null)
                 {
-                    pictureBox3.Visible = false;
-                    label4.Visible = false;
-                }
+                    CXN_IMAGEN_SYSTEM d2 = d.FirstOrDefault(x => x.Tab_Nombre == "ConsentimientosWEB");
+                    if (d2 != null)
+                    {
+                        if (d2.Tab_Clave != "A")
+                        {
+                            pictureBox3.Visible = false;
+                            label4.Visible = false;
+                        }
+                    }
+                }                
             }
             catch (Exception ex)
             {

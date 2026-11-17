@@ -928,7 +928,7 @@
         </Style>
       </Tablix>
     </ReportItems>
-    <Height>2.13179in</Height>
+    <Height>2.41304in</Height>
     <Style />
   </Body>
   <Width>7.52083in</Width>
@@ -1401,6 +1401,10 @@
         </Field>
         <Field Name="RegistroMedico">
           <DataField>RegistroMedico</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DXCIE11">
+          <DataField>DXCIE11</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>

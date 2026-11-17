@@ -1,11 +1,15 @@
 ﻿using APIFhir.Controlador;
 using APIFhir.Servicio;
+
 using Domain;
 using Domain.CXN;
+
 using FormAndControls;
+
 using Persistence;
 using Persistence.CXN.Interfaces;
 using Persistence.CXN.Metodos;
+
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -13,9 +17,11 @@ using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+
 using ZamenisHealth.Comunes;
 using ZamenisHealth.FrontFHIR.RDAs;
 using ZamenisHealth.HistoriasClinicas.Extras;
+using ZamenisHealth.Medicina;
 using ZamenisHealth.Medicina.OrdenesHistory;
 
 namespace ZamenisHealth.HistoriasClinicas
@@ -45,6 +51,7 @@ namespace ZamenisHealth.HistoriasClinicas
         DateTime Fecha_Serv;
         int Paciente, Cia, Ase, Prof, Valor;
         public int edad;
+        public CXN_CIE11 cie11 = new CXN_CIE11();
 
         DataTable dt;
         DataColumn POS;
@@ -320,12 +327,31 @@ namespace ZamenisHealth.HistoriasClinicas
                             MessageBoxIcon.Information);
                     }
 
+                    CXN_HISTORIAL_ADMISION HistorialAdmision = new CXN_HISTORIAL_ADMISION
+                    {
+                        Admision = Admision,
+                        Fecha = DateTime.Now,
+                        Usuario = Contenedor.UsuarioLogueado,
+                        Gestion = "HISTORIA CREADA"
+                    };
+
+                    repoAgendaMedica.AddHistorialAdmision(HistorialAdmision);
+
+
                     Medicina.RIPSHistory for_RIPS = new Medicina.RIPSHistory();
                     for_RIPS.Adm_Cargo = Convert.ToInt32(Admision);
                     for_RIPS.ShowDialog();
 
                     repoAgendaMedica.ConsumirAdmision(Admision);
                     repoAgendaMedica.Graba_Hora_Salida(Admision);
+
+                    if (!string.IsNullOrEmpty(textBox67.Text))
+                    {
+                        cie11.Paciente = Paciente;
+                        cie11.Admision = Admision;
+
+                        repoCIE10.InsertaCIE11(cie11);
+                    }
 
                     this.Dispose();
                     this.Close();
@@ -665,13 +691,21 @@ namespace ZamenisHealth.HistoriasClinicas
                 MenuLateral.Items.Add(btn2);
                 btn2.Click += toolStripLabel4_Click;
 
-                if (repoConfSystem.getListado()["IHCE"] == "A")
+                List<CXN_IMAGEN_SYSTEM> d = repoConfSystem.getConfSystem();
+                if (d != null)
                 {
-                    ToolStripButton btnVerIHCE = new ToolStripButton();
-                    btnVerIHCE = createToolButton("Ver IHCE");
-                    MenuLateral.Items.Add(btnVerIHCE);
-                    btnVerIHCE.Click += btnVerIHCE_Click;
-                }                
+                    CXN_IMAGEN_SYSTEM d2 = d.FirstOrDefault(x => x.Tab_Nombre == "IHCE");
+                    if (d2 != null)
+                    {
+                        if (d2.Tab_Clave == "A")
+                        {
+                            ToolStripButton btnVerIHCE = new ToolStripButton();
+                            btnVerIHCE = createToolButton("Ver IHCE");
+                            MenuLateral.Items.Add(btnVerIHCE);
+                            btnVerIHCE.Click += btnVerIHCE_Click;
+                        }
+                    }
+                }                                
 
                 btn3 = new ToolStripButton();
                 btn3 = createToolButton("Recuperar ultima HC");
@@ -771,14 +805,21 @@ namespace ZamenisHealth.HistoriasClinicas
                     RecuperarIngresado();
                 }
 
-                string getRecos = repoConfSystem.getListado()["Recomendaciones"];
-                if (getRecos == "A")
+                if (d != null)
                 {
-                    Extras.Recomendaciones r = new Extras.Recomendaciones(DatosAdmision.Hor_Pac_Id);
-                    r.ShowDialog();
+                    CXN_IMAGEN_SYSTEM d2 = d.FirstOrDefault(x => x.Tab_Nombre == "Recomendaciones");
+                    if (d2 != null)
+                    {
+                        if (d2.Tab_Clave == "A")
+                        {
+                            Extras.Recomendaciones r = new Extras.Recomendaciones(DatosAdmision.Hor_Pac_Id);
+                            r.ShowDialog();
 
-                    CargarOpcionesRecomendaciones();
+                            CargarOpcionesRecomendaciones();
+                        }
+                    }
                 }
+                
                 CargarAntFHIR();                
             }
             catch (Exception ex)
@@ -1162,11 +1203,19 @@ namespace ZamenisHealth.HistoriasClinicas
         {
             try
             {
-                if (repoConfSystem.getListado()["IHCE"] == "A")
+                List<CXN_IMAGEN_SYSTEM> d = repoConfSystem.getConfSystem();
+                if (d != null)
                 {
-                    await Autoriza();
-                    CrearBundlePaciente(Admision);
-                }
+                    CXN_IMAGEN_SYSTEM d2 = d.FirstOrDefault(x => x.Tab_Nombre == "IHCE");
+                    if (d2 != null)
+                    {
+                        if (d2.Tab_Clave == "A")
+                        {
+                            await Autoriza();
+                            CrearBundlePaciente(Admision);
+                        }
+                    }
+                }             
             }
             catch (Exception ex)
             {
@@ -1228,6 +1277,18 @@ namespace ZamenisHealth.HistoriasClinicas
             Alergias c = new Alergias("ALERGIA", this.Paciente);
             c.ShowDialog();
             CargarOpcionesRecomendaciones();
+        }
+
+        private void boton6_Click(object sender, EventArgs e)
+        {
+            textBox67.Text = "";
+            textBox68.Text = "";
+        }
+
+        private void textBox67_DoubleClick(object sender, EventArgs e)
+        {
+            CIE11New N = new CIE11New("FISIATRIA");
+            N.ShowDialog();
         }
 
         private void alergiaTxt_Click(object sender, EventArgs e)

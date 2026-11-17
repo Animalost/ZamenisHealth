@@ -299,11 +299,12 @@
             // 
             // label5
             // 
+            this.label5.BackColor = System.Drawing.Color.WhiteSmoke;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.label5.Location = new System.Drawing.Point(44, 32);
+            this.label5.Location = new System.Drawing.Point(0, -1);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(744, 31);
+            this.label5.Size = new System.Drawing.Size(903, 40);
             this.label5.TabIndex = 91;
             this.label5.Text = "Fisiatría";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -319,9 +320,9 @@
             this.flowLayoutPanel1.Controls.Add(this.panel5);
             this.flowLayoutPanel1.Controls.Add(this.panel8);
             this.flowLayoutPanel1.Controls.Add(this.panel9);
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(44, 77);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(78, 54);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(744, 204);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(739, 145);
             this.flowLayoutPanel1.TabIndex = 96;
             // 
             // panel2
@@ -403,7 +404,7 @@
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(823, 304);
+            this.ClientSize = new System.Drawing.Size(903, 516);
             this.ControlBox = false;
             this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.label5);

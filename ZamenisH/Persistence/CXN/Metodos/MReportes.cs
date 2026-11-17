@@ -1,6 +1,10 @@
 ﻿using Domain;
 using Domain.CXN;
+
+using Org.BouncyCastle.Asn1.IsisMtt.X509;
+
 using Persistence.CXN.Interfaces;
+
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -8,6 +12,7 @@ using System.Data.SqlClient;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Persistence.CXN.Metodos
@@ -195,22 +200,22 @@ namespace Persistence.CXN.Metodos
 
                     FileStream Query = new FileStream("C:/Cxn/Reportes/Ingresos_" + Convert.ToDateTime(Hoy).ToString("dd-MM-yyyy") + ".txt", FileMode.Append, FileAccess.Write);
                     StreamWriter Escriba = new StreamWriter(Query);
-                    SqlCommand comando = new SqlCommand("SELECT Pac_TipoId, Pac_IdNum, Pac_FechaNto, Pac_Sexo, Pac_PrimerA, Pac_SegundoA, " +
-                                                        "Pac_PrimerN, Pac_SegundoN, Ase_Cod_Emp, Hor_Estado, Hor_Pac_Solicita, Hor_Pac_Fecha, " +
-                                                        "Hor_Pac_Fecha_Cita, Ase_Descripcion, HC_Patologia " +
-                                                        "FROM  CXN_HORARIO " +
-                                                        "INNER JOIN CXN_ASEGURADORA ON CXN_HORARIO.Hor_Pac_Ase = CXN_ASEGURADORA.Ase_Identificador " +
-                                                        "INNER JOIN CXN_PACIENTES ON CXN_HORARIO.Hor_Pac_Id = CXN_PACIENTES.Pac_Id " +
-                                                        "INNER JOIN CXN_HCMG ON CXN_HORARIO.Hor_Id = CXN_HCMG.HC_Adm " +
-                                                        "WHERE Hor_Tipo_Paciente = 'N' " +
-                                                        "AND Hor_Estado <> 'B' " +
-                                                        "AND Hor_Pac_Fecha_Cita BETWEEN '" + Convert.ToDateTime(Desde).ToString(getDataConection["Format_Fecha"]) + "' AND '" + Convert.ToDateTime(Hasta).ToString(getDataConection["Format_Fecha"]) + "'", con);
+                    SqlCommand comando = new SqlCommand(@"SELECT Pac_TipoId, Pac_IdNum, Pac_FechaNto, Pac_Sexo, Pac_PrimerA, Pac_SegundoA,
+                                                        Pac_PrimerN, Pac_SegundoN, Ase_Cod_Emp, Hor_Estado, Hor_Pac_Solicita, Hor_Pac_Fecha, 
+                                                        Hor_Pac_Fecha_Cita, Ase_Descripcion, HC_Patologia 
+                                                        FROM  CXN_HORARIO 
+                                                        INNER JOIN CXN_ASEGURADORA ON CXN_HORARIO.Hor_Pac_Ase = CXN_ASEGURADORA.Ase_Identificador 
+                                                        INNER JOIN CXN_PACIENTES ON CXN_HORARIO.Hor_Pac_Id = CXN_PACIENTES.Pac_Id 
+                                                        INNER JOIN CXN_HCMG ON CXN_HORARIO.Hor_Id = CXN_HCMG.HC_Adm 
+                                                        WHERE Hor_Tipo_Paciente = 'N' 
+                                                        AND Hor_Estado <> 'B' 
+                                                        AND Hor_Pac_Fecha_Cita BETWEEN '" + Convert.ToDateTime(Desde).ToString(getDataConection["Format_Fecha"]) + "' AND '" + Convert.ToDateTime(Hasta).ToString(getDataConection["Format_Fecha"]) + "'", con);
 
                     SqlDataReader leer;
                     leer = comando.ExecuteReader();
 
-                    Escriba.Write("TIPO DOCUMENTO PACIENTE" + "," + "DOCUMENTO PACIENTE" + "," + "FECHA NACIMIENTO" + "," + "SEXO" + "," + "PRIMER APELLIDO" + "," + "SEGUNDO APELLIDO" + "," + "PRIMER NOMBRE" + "," + "SEGUNDO NOMBRE" + "," + "CODIGO EPS" +
-                                  "," + "ESTADO CITA" + "," + "FECHA SOLICITADA POR PACIENTE" + "," + "FECHA ASIGNACION DE CITA" + "," + "FECHA DE LA CITA" + "," + "ASEGURADORA" + "," + "PATOLOGIA");
+                    Escriba.Write("TIPO DOCUMENTO PACIENTE|DOCUMENTO PACIENTE|FECHA NACIMIENTO|SEXO|PRIMER APELLIDO|SEGUNDO APELLIDO|PRIMER NOMBRE|SEGUNDO NOMBRE|CODIGO EPS|" +
+                                  "ESTADO CITA|FECHA SOLICITADA POR PACIENTE|FECHA ASIGNACION DE CITA|FECHA DE LA CITA|ASEGURADORA|PATOLOGIA");
                     Escriba.WriteLine();
                     Escriba.Flush();
 
@@ -223,20 +228,20 @@ namespace Persistence.CXN.Metodos
                         if (leer["Hor_Estado"].ToString() == "P") { Estado_Cita = "SIN NOTA O HISTORIA"; }
                         if (leer["Hor_Estado"].ToString() == "A") { Estado_Cita = "NO ASISTIO"; }
 
-                        Escriba.Write(leer["Pac_TipoId"].ToString() + ",");
-                        Escriba.Write(leer["Pac_IdNum"].ToString() + ",");
-                        Escriba.Write(Convert.ToDateTime(leer["Pac_FechaNto"].ToString()).ToString(getDataConection["Format_Fecha"]) + ",");
-                        Escriba.Write(leer["Pac_Sexo"].ToString().ToString() + ",");
-                        Escriba.Write(leer["Pac_PrimerA"].ToString() + ",");
-                        Escriba.Write(leer["Pac_SegundoA"].ToString() + ",");
-                        Escriba.Write(leer["Pac_PrimerN"].ToString() + ",");
-                        Escriba.Write(leer["Pac_SegundoN"].ToString() + ",");
-                        Escriba.Write(leer["Ase_Cod_Emp"].ToString() + ",");
-                        Escriba.Write(Estado_Cita + ",");
-                        Escriba.Write(leer["Hor_Pac_Solicita"] == DBNull.Value ? Convert.ToDateTime(leer["Hor_Pac_Fecha_Cita"]).AddDays(1).ToString("yyyy-MM-dd") : Convert.ToDateTime(leer["Hor_Pac_Solicita"]).ToString("yyyy-MM-dd") + ","); //FEcha de solicitud
-                        Escriba.Write(Convert.ToDateTime(leer["Hor_Pac_Fecha"].ToString()).ToString(getDataConection["Format_Fecha"]) + ","); //Fecha asignacion de cita
-                        Escriba.Write(Convert.ToDateTime(leer["Hor_Pac_Fecha_Cita"].ToString()).ToString(getDataConection["Format_Fecha"]) + ","); //Fecha solicitada por el usuario                        
-                        Escriba.Write(leer["Ase_Descripcion"].ToString() + ",");
+                        Escriba.Write(leer["Pac_TipoId"].ToString() + "|");
+                        Escriba.Write(leer["Pac_IdNum"].ToString() + "|");
+                        Escriba.Write(Convert.ToDateTime(leer["Pac_FechaNto"]).ToString(getDataConection["Format_Fecha"]) + "|");
+                        Escriba.Write(leer["Pac_Sexo"].ToString().ToString() + "|");
+                        Escriba.Write(leer["Pac_PrimerA"].ToString() + "|");
+                        Escriba.Write(leer["Pac_SegundoA"].ToString() + "|");
+                        Escriba.Write(leer["Pac_PrimerN"].ToString() + "|");
+                        Escriba.Write(leer["Pac_SegundoN"].ToString() + "|");
+                        Escriba.Write(leer["Ase_Cod_Emp"].ToString() + "|");
+                        Escriba.Write(Estado_Cita + "|");
+                        Escriba.Write(leer["Hor_Pac_Solicita"] == DBNull.Value ? Convert.ToDateTime(leer["Hor_Pac_Fecha_Cita"]).AddDays(1).ToString("yyyy-MM-dd") + "|" : Convert.ToDateTime(leer["Hor_Pac_Solicita"]).ToString("yyyy-MM-dd") + "|"); //FEcha de solicitud
+                        Escriba.Write(Convert.ToDateTime(leer["Hor_Pac_Fecha"]).ToString(getDataConection["Format_Fecha"]) + "|"); //Fecha asignacion de cita
+                        Escriba.Write(Convert.ToDateTime(leer["Hor_Pac_Fecha_Cita"]).ToString(getDataConection["Format_Fecha"]) + "|"); //Fecha solicitada por el usuario                        
+                        Escriba.Write(leer["Ase_Descripcion"].ToString() + "|");
                         Escriba.Write(leer["HC_Patologia"].ToString());
                         Escriba.WriteLine();
                         Escriba.Flush();
@@ -389,6 +394,63 @@ namespace Persistence.CXN.Metodos
                 Escriba.Close();
             }
         }
+
+        CXN_CIE11 GetCIE11(int Admision)
+        {
+            try
+            {
+                var getDataConection = Conexion.Conection();
+
+                using (SqlConnection con = new SqlConnection(getDataConection["Conexion"]))
+                {
+                    if (con != null && con.State == ConnectionState.Closed)
+                    {
+                        con.Open();
+                    }
+
+                    String Query = "SELECT TOP 1 * " +
+                                   "FROM CXN_CIE11 " +
+                                   "WHERE Admision = @param1 " +
+                                   "ORDER BY IdCIE11 DESC";
+
+                    using (SqlCommand Commando = new SqlCommand(Query, con))
+                    {
+                        Commando.Parameters.AddWithValue("@param1", Admision);
+
+                        using (SqlDataReader Reader = (Commando.ExecuteReader()))
+                        {
+                            if (Reader.Read() == true)
+                            {
+                                CXN_CIE11 c = new CXN_CIE11
+                                {
+                                    Admision = Convert.ToInt32(Reader["Admision"]),
+                                    IdCIE11 = Convert.ToInt32(Reader["IdCIE11"]),
+                                    Descripcion = Reader["Descripcion"].ToString(),
+                                    Capitulo = Reader["Capitulo"].ToString(),
+                                    Codigo = Reader["Codigo"].ToString(),
+                                    Identificador = Reader["Identificador"].ToString(),
+                                    Paciente = Convert.ToInt32(Reader["Paciente"]),
+                                    Puntacion = Reader["Puntacion"].ToString(),
+                                    Terminal = Reader["Terminal"].ToString()
+                                };
+
+                                return c;
+                            }
+                            else
+                            {
+                                return null;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
+                return null;
+            }
+        }
+
         #region Notas de enfermeria
         List<CXN_NOTASMED> MedidasHeridas(int Admision)
         {
@@ -500,10 +562,17 @@ namespace Persistence.CXN.Metodos
                                 var LogoImage = Genera_QR_Notas(Admision);
                                 if (LogoImage == null)
                                 {
-                                    return null;
+                                    return null; 
                                 }
 
                                 List<ReportNotas> export_notas_report = new List<ReportNotas>();
+
+                                string DXCIE11 = "";
+                                CXN_CIE11 cie11 = GetCIE11(Admision);
+                                if (cie11 != null)
+                                {
+                                    DXCIE11 = cie11.Codigo + " - " + cie11.Descripcion;
+                                }
 
                                 while (Lectura_Hora2.Read() == true)
                                 {
@@ -563,7 +632,8 @@ namespace Persistence.CXN.Metodos
                                               Lectura_Hora2["VIH"].ToString() != "N" ? "Positivo" : "Negativo",
                                         listaMedidas = lista,
                                         Hepatitis = Lectura_Hora2["Hepatitis"] == DBNull.Value ? "Negativo" :
-                                                                        Lectura_Hora2["Hepatitis"].ToString() != "N" ? "Positivo" : "Negativo"
+                                                                        Lectura_Hora2["Hepatitis"].ToString() != "N" ? "Positivo" : "Negativo",
+                                        DXCIE11 = DXCIE11
                                     });
                                 }
                                 return export_notas_report;
@@ -657,10 +727,18 @@ namespace Persistence.CXN.Metodos
                                         {
                                             if (Reader.HasRows)
                                             {
+                                                string DXCIE11 = "";
+                                                CXN_CIE11 cie11 = GetCIE11(Convert.ToInt32(Lectura_Hora2["Not_Adm"]));
+                                                if (cie11 != null)
+                                                {
+                                                    DXCIE11 = cie11.Codigo + " - " + cie11.Descripcion;
+                                                }
+
                                                 while (Reader.Read() == true)
                                                 {
                                                     export_notas_report.Add(new ReportNotas
                                                     {
+                                                        DXCIE11 = DXCIE11,
                                                         CodigoEPSConvenio = Reader["CarCodEPSConvenio"] == DBNull.Value ? repoInventario.ConsultarValor(Convert.ToInt32(Reader["Car_Ase"]), Reader["Car_Cod"].ToString()).codeps : Reader["CarCodEPSConvenio"].ToString(),
                                                         Car_Cod = Reader["Car_Cod"].ToString(),
                                                         Car_Item = Reader["Car_Item"].ToString(),
@@ -1070,7 +1148,7 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-        List<CXN_HORARIO> IReportes.BuscarHistorias(int Paciente, string Tipo)
+        async Task<List<CXN_HORARIO>> IReportes.BuscarHistorias(int Paciente, string Tipo, DateTime Desde, DateTime Hasta)
         {
             try
             {
@@ -1080,195 +1158,178 @@ namespace Persistence.CXN.Metodos
                 {
                     if (con != null && con.State == ConnectionState.Closed)
                     {
-                        con.Open();
+                        await con.OpenAsync();
                     }
 
                     List<CXN_HORARIO> H = new List<CXN_HORARIO>();
-
-                    String Cargar_Hora2 = "";
-
-                    switch (Tipo)
+                    string Cargar_Hora2 = "";
+                    
+                    if (Tipo == "CMan")
                     {
-                        case "Notas":
-                            Cargar_Hora2 = "SELECT '0' AS PacienteCom, P.Pac_PrimerA + ' ' + P.Pac_SegundoA + ' ' + P.Pac_PrimerN + ' ' + P.Pac_SegundoN AS PACIENTE, " +
-                                          "P.Pac_TipoId AS TID, P.Pac_IdNum AS ID, H.Hor_Pac_Fecha_Cita AS FECHA, B.Bod_Responsable AS PROF, Not_Adm AS ADM " +
-                                         " FROM CXN_NOTAS N " +
-                                         " INNER JOIN CXN_HORARIO H ON N.Not_Adm = H.Hor_Id " +
-                                         " INNER JOIN CXN_PACIENTES P ON H.Hor_Pac_Id = P.Pac_Id " +
-                                         " INNER JOIN CXN_BODEGAS B ON H.Hor_Pac_Bod = B.Bod_Numero " +
-                                         " WHERE P.Pac_Id = '" + Paciente + "' " +
-                                         " ORDER BY H.Hor_Pac_Fecha_Cita DESC";
-                            break;
+                        Cargar_Hora2 = @"SELECT C.Cam_Id AS Hor_Id, B.Bod_Responsable, 'CAMBIO DE MANEJO' AS Con_Nombre, A.Ase_Descripcion, 
+                                           C.Cam_Fecha AS Hor_Pac_Fecha_Cita, '' AS Hor_Pac_Tipo_Serv, '' AS Con_Clase 
+                                           FROM CXN_PACIENTES P 
+                                           INNER JOIN CXN_CMAN C ON P.Pac_Id = C.Cam_IdPac 
+                                           INNER JOIN CXN_CIA CI ON C.Cam_Cia = CI.Com_Identificador 
+                                           INNER JOIN CXN_BODEGAS B ON C.Cam_UsrGenera = B.Bod_Usuario 
+                                           INNER JOIN CXN_ASEGURADORA A ON P.Pac_Aseguradora = A.Ase_Identificador 
+                                           WHERE P.Pac_Id = @param1
+                                           AND C.Cam_Fecha BETWEEN @param2 AND @param3 
+                                           ORDER BY C.Cam_Fecha DESC";
+                    }
+                    else if (Tipo == "HJ1")
+                    {
+                        Cargar_Hora2 = @"SELECT J.Jun_Adm AS Hor_Id, B.Bod_Responsable, 'Junta1' AS Con_Nombre, A.Ase_Descripcion, 
+                                         J.Jun_Fecha AS Hor_Pac_Fecha_Cita, '' AS Hor_Pac_Tipo_Serv, '' AS Con_Clase 
+                                         FROM CXN_HCJUNTAS J 
+                                         INNER JOIN CXN_PACIENTES P ON J.Jun_Pac = P.Pac_Id 
+                                         INNER JOIN CXN_BODEGAS B ON J.Jun_Bodega = B.Bod_Numero 
+                                         INNER JOIN CXN_ASEGURADORA A ON J.Jun_Ase = A.Ase_Identificador                                           
+                                         WHERE P.Pac_Id = @param1
+                                         AND J.Jun_Tipo = 'Junta1' 
+                                         AND J.Jun_Fecha BETWEEN @param2 AND @param3 
+                                         ORDER BY J.Jun_Fecha DESC";
+                    }
+                    else if (Tipo == "HJ2")
+                    {
+                        Cargar_Hora2 = @"SELECT J.Jun_Adm AS Hor_Id, B.Bod_Responsable, 'Junta1' AS Con_Nombre, A.Ase_Descripcion, 
+                                         J.Jun_Fecha AS Hor_Pac_Fecha_Cita, '' AS Hor_Pac_Tipo_Serv, '' AS Con_Clase 
+                                         FROM CXN_HCJUNTAS J 
+                                         INNER JOIN CXN_PACIENTES P ON J.Jun_Pac = P.Pac_Id 
+                                         INNER JOIN CXN_BODEGAS B ON J.Jun_Bodega = B.Bod_Numero 
+                                         INNER JOIN CXN_ASEGURADORA A ON J.Jun_Ase = A.Ase_Identificador                                           
+                                         WHERE P.Pac_Id = @param1
+                                         AND J.Jun_Tipo = 'Junta2' 
+                                         AND J.Jun_Fecha BETWEEN @param2 AND @param3 
+                                         ORDER BY J.Jun_Fecha DESC";
+                    }
+                    else if (Tipo == "HEVO")
+                    {
+                        Cargar_Hora2 = @"SELECT E.Evo_Adm AS Hor_Id, B.Bod_Responsable, E.Evo_Tipo AS Con_Nombre, A.Ase_Descripcion, 
+                                       E.Evo_Fecha AS Hor_Pac_Fecha_Cita, E.Evo_Tipo AS Hor_Pac_Tipo_Serv, '' AS Con_Clase 
+                                       FROM CXN_EVOFIB E 
+                                       INNER JOIN CXN_PACIENTES P ON E.Evo_Pac = P.Pac_Id 
+                                       INNER JOIN CXN_BODEGAS B ON E.Evo_Med = B.Bod_Usuario 
+                                       INNER JOIN CXN_ASEGURADORA A ON E.Evo_Ase = A.Ase_Identificador                                            
+                                       WHERE P.Pac_Id = @param1
+                                       AND E.Evo_Fecha BETWEEN @param2 AND @param3 
+                                       ORDER BY E.Evo_Fecha DESC";
+                    }
+                    else if (Tipo == "PSIQ")
+                    {
+                        Cargar_Hora2 = @"SELECT H.Hor_Id, B.Bod_Responsable, PS.TipoConsulta AS Con_Nombre,A. Ase_Descripcion,  
+                                           H.Hor_Pac_Fecha_Cita, H.Hor_Pac_Tipo_Serv, '' AS Con_Clase  
+                                           FROM CXN_HCPSIQUIATRIA PS 
+                                           INNER JOIN CXN_HORARIO H ON H.Hor_Id = PS.PQ_Admision 
+                                           INNER JOIN CXN_PACIENTES P ON H.Hor_Pac_Id = P.Pac_Id 
+                                           INNER JOIN CXN_CIA C ON H.Hor_Pac_Cia = C.Com_Identificador 
+                                           INNER JOIN CXN_BODEGAS B ON H.Hor_Pac_Bod = B.Bod_Numero 
+                                           INNER JOIN CXN_ASEGURADORA A ON H.Hor_Pac_Ase = A.Ase_Identificador 
+                                           WHERE H.Hor_Pac_Id = @param1 
+                                           AND PS.TipoConsulta = 'PSIQUIATRIA1VEZ' 
+                                           AND H.Hor_Pac_Fecha_Cita BETWEEN @param2 AND @param3                                        
+                                           ORDER BY H.Hor_Pac_Fecha_Cita DESC";
+                    }
+                    else if (Tipo == "PSIQ2")
+                    {
+                        Cargar_Hora2 = @"SELECT H.Hor_Id, B.Bod_Responsable, PS.TipoConsulta AS Con_Nombre,A. Ase_Descripcion,  
+                                           H.Hor_Pac_Fecha_Cita, H.Hor_Pac_Tipo_Serv, '' AS Con_Clase 
+                                           FROM CXN_HCPSIQUIATRIA PS 
+                                           INNER JOIN CXN_HORARIO H ON H.Hor_Id = PS.PQ_Admision 
+                                           INNER JOIN CXN_PACIENTES P ON H.Hor_Pac_Id = P.Pac_Id 
+                                           INNER JOIN CXN_CIA C ON H.Hor_Pac_Cia = C.Com_Identificador 
+                                           INNER JOIN CXN_BODEGAS B ON H.Hor_Pac_Bod = B.Bod_Numero 
+                                           INNER JOIN CXN_ASEGURADORA A ON H.Hor_Pac_Ase = A.Ase_Identificador 
+                                           WHERE H.Hor_Pac_Id = @param1
+                                           AND PS.TipoConsulta = 'PSIQUIATRIA2VEZ' 
+                                           AND H.Hor_Pac_Fecha_Cita BETWEEN @param2 AND @param3 
+                                           ORDER BY H.Hor_Pac_Fecha_Cita DESC";
+                    }
+                    else if (Tipo == "PSIQ3")
+                    {
+                        Cargar_Hora2 = @"SELECT H.Hor_Id, B.Bod_Responsable, PS.TipoConsulta AS Con_Nombre,A. Ase_Descripcion,  
+                                           H.Hor_Pac_Fecha_Cita, H.Hor_Pac_Tipo_Serv, '' AS Con_Clase 
+                                           FROM CXN_HCPSIQUIATRIA PS 
+                                           INNER JOIN CXN_HORARIO H ON H.Hor_Id = PS.PQ_Admision 
+                                           INNER JOIN CXN_PACIENTES P ON H.Hor_Pac_Id = P.Pac_Id 
+                                           INNER JOIN CXN_CIA C ON H.Hor_Pac_Cia = C.Com_Identificador 
+                                           INNER JOIN CXN_BODEGAS B ON H.Hor_Pac_Bod = B.Bod_Numero 
+                                           INNER JOIN CXN_ASEGURADORA A ON H.Hor_Pac_Ase = A.Ase_Identificador 
+                                           WHERE H.Hor_Pac_Id = @param1 
+                                           AND PS.TipoConsulta = 'PSIQUIATRIA3VEZ' 
+                                           AND H.Hor_Pac_Fecha_Cita BETWEEN @param2 AND @param3 
+                                           ORDER BY H.Hor_Pac_Fecha_Cita DESC";
+                    }
+                    else
+                    {
+                        Cargar_Hora2 = @"SELECT H.Hor_Id, B.Bod_Responsable, CONVENIOS.Con_Nombre, A.Ase_Descripcion, H.Hor_Pac_Fecha_Cita, H.Hor_Pac_Tipo_Serv, 
+                                           CONVENIOS.Con_Clase 
+                                           FROM CXN_HORARIO H 
+                                           INNER JOIN CXN_BODEGAS B ON H.Hor_Pac_Bod = B.Bod_Numero 
+                                           INNER JOIN CXN_ASEGURADORA A ON H.Hor_Pac_Ase = A.Ase_Identificador                                           
+                                           INNER JOIN CXN_CONVENIOS CONVENIOS ON H.Hor_Pac_Cup = CONVENIOS.Con_Id_Serv 
+                                           AND H.Hor_Pac_Ase = CONVENIOS.Con_Aseguradora 
+                                           WHERE H.Hor_Pac_Id = @param1 
+                                           AND H.Hor_Estado = 'H' 
+                                          AND H.Hor_Pac_Fecha_Cita BETWEEN @param2 AND @param3                                            
+                                          ORDER BY H.Hor_Pac_Fecha_Cita DESC";
+                    }
 
-                        case "HisMG":
-                            Cargar_Hora2 = "SELECT H.HC_Pacid AS PacienteCom, H.HC_Adm AS ADM, P.Pac_TipoId AS TID, P.Pac_IdNum AS ID, P.Pac_PrimerA + ' ' + P.Pac_SegundoA + ' ' + P.Pac_PrimerN + ' ' + P.Pac_SegundoN AS PACIENTE, " +
-                                          "B.Bod_Responsable AS PROF, H.HC_Fecha AS FECHA " +
-                                          "FROM CXN_HCMG H " +
-                                          "INNER JOIN CXN_PACIENTES P ON H.HC_PacId = P.Pac_Id " +
-                                          "INNER JOIN CXN_CIA C ON H.HC_Com = C.Com_Identificador " +
-                                          "INNER JOIN CXN_BODEGAS B ON H.HC_Prof = B.Bod_Numero " +
-                                          "INNER JOIN CXN_ASEGURADORA A ON H.HC_Ase = A.Ase_Identificador " +
-                                          "WHERE P.Pac_Id = '" + Paciente + "' " +
-                                          "ORDER BY H.HC_Fecha DESC";
-                            break;
+                    using (SqlCommand Carga_Command2 = new SqlCommand(Cargar_Hora2, con))
+                    {
+                        Carga_Command2.Parameters.AddWithValue("@param1", Paciente);
+                        Carga_Command2.Parameters.AddWithValue("@param2", Convert.ToDateTime(Desde).Date);
+                        Carga_Command2.Parameters.AddWithValue("@param3", Convert.ToDateTime(Hasta).Date);
 
-                        case "CMan":
-                            Cargar_Hora2 = "SELECT '0' AS PacienteCom, P.Pac_PrimerA + ' ' + P.Pac_SegundoA + ' ' + P.Pac_PrimerN + ' ' + P.Pac_SegundoN AS PACIENTE, " +
-                                           "C.Cam_Id AS ADM, P.Pac_TipoId AS TID, P.Pac_IdNum AS ID, B.Bod_Responsable AS PROF, C.Cam_Fecha AS FECHA " +
-                                           "FROM CXN_PACIENTES P " +
-                                           "INNER JOIN CXN_CMAN C ON P.Pac_Id = C.Cam_IdPac " +
-                                           "INNER JOIN CXN_CIA CI ON C.Cam_Cia = CI.Com_Identificador " +
-                                           "INNER JOIN CXN_BODEGAS B ON C.Cam_UsrGenera = B.Bod_Usuario " +
-                                           "INNER JOIN CXN_ASEGURADORA A ON P.Pac_Aseguradora = A.Ase_Identificador " +
-                                           "WHERE P.Pac_Id = '" + Paciente + "' " +
-                                           "ORDER BY C.Cam_Fecha DESC";
-                            break;
-
-                        case "HFI":
-                            Cargar_Hora2 = "SELECT P.Pac_Id AS PacienteCom, P.Pac_PrimerA + ' ' + P.Pac_SegundoA + ' ' + P.Pac_PrimerN + ' ' + P.Pac_SegundoN AS PACIENTE, " +
-                                           "H.HC_Adm AS ADM, P.Pac_TipoId AS TID, P.Pac_IdNum AS ID, B.Bod_Responsable AS PROF, H.HC_Fecha AS FECHA " +
-                                         " FROM CXN_HCFI H " +
-                                         " INNER JOIN CXN_PACIENTES P ON H.HC_PacId = P.Pac_Id " +
-                                         " INNER JOIN CXN_CIA C ON H.HC_Cia = C.Com_Identificador " +
-                                         " INNER JOIN CXN_BODEGAS B ON H.HC_Prof = B.Bod_Numero " +
-                                         " INNER JOIN CXN_ASEGURADORA A ON H.HC_Ase = A.Ase_Identificador " +
-                                         " WHERE P.Pac_Id = '" + Paciente + "' " +
-                                         " ORDER BY H.HC_Fecha DESC";
-                            break;
-
-                        case "PSIQ":
-                            Cargar_Hora2 = "SELECT P.Pac_Id AS PacienteCom, P.Pac_PrimerA + ' ' + P.Pac_SegundoA + ' ' + P.Pac_PrimerN + ' ' + P.Pac_SegundoN AS PACIENTE, " +
-                                           "H.Hor_Id AS ADM, P.Pac_TipoId AS TID, P.Pac_IdNum AS ID, B.Bod_Responsable AS PROF, H.Hor_Pac_Fecha_Cita AS FECHA " +
-                                         " FROM CXN_HCPSIQUIATRIA PS " +
-                                         " INNER JOIN CXN_HORARIO H ON H.Hor_Id = PS.PQ_Admision " +
-                                         " INNER JOIN CXN_PACIENTES P ON H.Hor_Pac_Id = P.Pac_Id " +
-                                         " INNER JOIN CXN_CIA C ON H.Hor_Pac_Cia = C.Com_Identificador " +
-                                         " INNER JOIN CXN_BODEGAS B ON H.Hor_Pac_Bod = B.Bod_Numero " +
-                                         " INNER JOIN CXN_ASEGURADORA A ON H.Hor_Pac_Ase = A.Ase_Identificador " +
-                                         " WHERE H.Hor_Pac_Id = '" + Paciente + "' " +
-                                         " AND PS.TipoConsulta = 'PSIQUIATRIA1VEZ' " +
-                                         " ORDER BY H.Hor_Pac_Fecha_Cita DESC";
-                            break;
-
-                        case "PSIQ2":
-                            Cargar_Hora2 = "SELECT P.Pac_Id AS PacienteCom, P.Pac_PrimerA + ' ' + P.Pac_SegundoA + ' ' + P.Pac_PrimerN + ' ' + P.Pac_SegundoN AS PACIENTE, " +
-                                           "H.Hor_Id AS ADM, P.Pac_TipoId AS TID, P.Pac_IdNum AS ID, B.Bod_Responsable AS PROF, H.Hor_Pac_Fecha_Cita AS FECHA " +
-                                         " FROM CXN_HCPSIQUIATRIA PS " +
-                                         " INNER JOIN CXN_HORARIO H ON H.Hor_Id = PS.PQ_Admision " +
-                                         " INNER JOIN CXN_PACIENTES P ON H.Hor_Pac_Id = P.Pac_Id " +
-                                         " INNER JOIN CXN_CIA C ON H.Hor_Pac_Cia = C.Com_Identificador " +
-                                         " INNER JOIN CXN_BODEGAS B ON H.Hor_Pac_Bod = B.Bod_Numero " +
-                                         " INNER JOIN CXN_ASEGURADORA A ON H.Hor_Pac_Ase = A.Ase_Identificador " +
-                                         " WHERE H.Hor_Pac_Id = '" + Paciente + "' " +
-                                         " AND PS.TipoConsulta = 'PSIQUIATRIA2VEZ' " +
-                                         " ORDER BY H.Hor_Pac_Fecha_Cita DESC";
-                            break;
-
-                        case "PSIQ3":
-                            Cargar_Hora2 = "SELECT P.Pac_Id AS PacienteCom, P.Pac_PrimerA + ' ' + P.Pac_SegundoA + ' ' + P.Pac_PrimerN + ' ' + P.Pac_SegundoN AS PACIENTE, " +
-                                           "H.Hor_Id AS ADM, P.Pac_TipoId AS TID, P.Pac_IdNum AS ID, B.Bod_Responsable AS PROF, H.Hor_Pac_Fecha_Cita AS FECHA " +
-                                         " FROM CXN_HCPSIQUIATRIA PS " +
-                                         " INNER JOIN CXN_HORARIO H ON H.Hor_Id = PS.PQ_Admision " +
-                                         " INNER JOIN CXN_PACIENTES P ON H.Hor_Pac_Id = P.Pac_Id " +
-                                         " INNER JOIN CXN_CIA C ON H.Hor_Pac_Cia = C.Com_Identificador " +
-                                         " INNER JOIN CXN_BODEGAS B ON H.Hor_Pac_Bod = B.Bod_Numero " +
-                                         " INNER JOIN CXN_ASEGURADORA A ON H.Hor_Pac_Ase = A.Ase_Identificador " +
-                                         " WHERE H.Hor_Pac_Id = '" + Paciente + "' " +
-                                         " AND PS.TipoConsulta = 'PSIQUIATRIA3VEZ' " +
-                                         " ORDER BY H.Hor_Pac_Fecha_Cita DESC";
-                            break;
-
-                        case "TF":
-                            Cargar_Hora2 = "SELECT '0' AS PacienteCom, P.Pac_PrimerA + ' ' + P.Pac_SegundoA + ' ' + P.Pac_PrimerN + ' ' + P.Pac_SegundoN AS PACIENTE, " +
-                                           "H.HC_Adm AS ADM, P.Pac_TipoId AS TID, P.Pac_IdNum AS ID, B.Bod_Responsable AS PROF, H.HC_Fecha AS FECHA " +
-                                           " FROM CXN_HCTF H " +
-                                           " INNER JOIN CXN_PACIENTES P ON H.HC_PacId = P.Pac_Id " +
-                                           " INNER JOIN CXN_BODEGAS B ON H.HC_Prof = B.Bod_Numero " +
-                                           " WHERE P.Pac_Id = '" + Paciente + "' " +
-                                           " ORDER BY H.HC_Fecha DESC";
-                            break;
-
-                        case "TO":
-                            Cargar_Hora2 = "SELECT '0' AS PacienteCom, P.Pac_PrimerA + ' ' + P.Pac_SegundoA + ' ' + P.Pac_PrimerN + ' ' + P.Pac_SegundoN AS PACIENTE, " +
-                                           "H.HC_Adm AS ADM, P.Pac_TipoId AS TID, P.Pac_IdNum AS ID, B.Bod_Responsable AS PROF, H.HC_Fecha AS FECHA " +
-                                           " FROM CXN_HCTO H " +
-                                           " INNER JOIN CXN_PACIENTES P ON H.HC_PacId = P.Pac_Id " +
-                                           " INNER JOIN CXN_BODEGAS B ON H.HC_Prof = B.Bod_Numero " +
-                                           " WHERE P.Pac_Id = '" + Paciente + "' " +
-                                           " ORDER BY H.HC_Fecha DESC";
-                            break;
-
-                        case "PSI":
-                            Cargar_Hora2 = "SELECT '0' AS PacienteCom, P.Pac_PrimerA + ' ' + P.Pac_SegundoA + ' ' + P.Pac_PrimerN + ' ' + P.Pac_SegundoN AS PACIENTE, " +
-                                           "H.HC_Adm AS ADM, P.Pac_TipoId AS TID, P.Pac_IdNum AS ID, B.Bod_Responsable AS PROF, H.HC_Fecha AS FECHA " +
-                                         " FROM CXN_HCPSI H " +
-                                         " INNER JOIN CXN_PACIENTES P ON H.HC_Pac_Id = P.Pac_Id " +
-                                         " INNER JOIN CXN_BODEGAS B ON H.HC_Prof = B.Bod_Numero " +
-                                         " WHERE P.Pac_Id = '" + Paciente + "' " +
-                                         " ORDER BY H.HC_Fecha DESC";
-                            break;
-
-                        case "HJ1":
-                            Cargar_Hora2 = "SELECT '0' AS PacienteCom, P.Pac_PrimerA + ' ' + P.Pac_SegundoA + ' ' + P.Pac_PrimerN + ' ' + P.Pac_SegundoN AS PACIENTE, " +
-                                           "P.Pac_TipoId AS TID, P.Pac_IdNum AS ID, Pac_Id, J.Jun_Adm AS ADM, J.Jun_Fecha AS FECHA, B.Bod_Responsable AS PROF " +
-                                         " FROM CXN_HCJUNTAS J " +
-                                         " INNER JOIN CXN_PACIENTES P ON J.Jun_Pac = P.Pac_Id " +
-                                         " INNER JOIN CXN_BODEGAS B ON J.Jun_Bodega = B.Bod_Numero " +
-                                         " WHERE P.Pac_Id = '" + Paciente + "' " +
-                                         " AND J.Jun_Tipo = 'Junta1' " +
-                                         " ORDER BY J.Jun_Fecha DESC";
-                            break;
-
-                        case "HJ2":
-                            Cargar_Hora2 = "SELECT '0' AS PacienteCom, P.Pac_PrimerA + ' ' + P.Pac_SegundoA + ' ' + P.Pac_PrimerN + ' ' + P.Pac_SegundoN AS PACIENTE, " +
-                                           "P.Pac_TipoId AS TID, P.Pac_IdNum AS ID, Pac_Id, J.Jun_Adm AS ADM, J.Jun_Fecha AS FECHA, B.Bod_Responsable AS PROF " +
-                                         " FROM CXN_HCJUNTAS J " +
-                                         " INNER JOIN CXN_PACIENTES P ON J.Jun_Pac = P.Pac_Id " +
-                                         " INNER JOIN CXN_BODEGAS B ON J.Jun_Bodega = B.Bod_Numero " +
-                                         " WHERE P.Pac_Id = '" + Paciente + "' " +
-                                         " AND J.Jun_Tipo = 'Junta2' " +
-                                         " ORDER BY J.Jun_Fecha DESC";
-                            break;
-
-                        case "RA":
-                            Cargar_Hora2 = "SELECT H.Pacid AS PacienteCom, H.HCAdm AS ADM, P.Pac_TipoId AS TID, P.Pac_IdNum AS ID, P.Pac_PrimerA + ' ' + P.Pac_SegundoA + ' ' + P.Pac_PrimerN + ' ' + P.Pac_SegundoN AS PACIENTE, " +
-                                          "B.Bod_Responsable AS PROF, H.Fecha AS FECHA " +
-                                          "FROM CXN_HCRADIOLOGIA H " +
-                                          "INNER JOIN CXN_PACIENTES P ON H.PacId = P.Pac_Id " +
-                                          "INNER JOIN CXN_CIA C ON H.Compañia = C.Com_Identificador " +
-                                          "INNER JOIN CXN_BODEGAS B ON H.Medico = B.Bod_Numero " +
-                                          "INNER JOIN CXN_ASEGURADORA A ON H.Aseguradora = A.Ase_Identificador " +
-                                          "WHERE P.Pac_Id = '" + Paciente + "' " +
-                                          "ORDER BY H.Fecha DESC";
-                            break;
-
-                        case "HEVO":
-                            String Cargar_HoraEVO = "SELECT P.Pac_PrimerA + ' ' + P.Pac_SegundoA + ' ' + P.Pac_PrimerN + ' ' + P.Pac_SegundoN AS PACIENTE, " +
-                                          "P.Pac_TipoId AS TID, P.Pac_IdNum AS ID, E.Evo_Adm AS ADM, E.Evo_Fecha AS FECHA, B.Bod_Responsable AS PROF, E.Evo_Tipo " +
-                                          " FROM CXN_EVOFIB E " +
-                                          " INNER JOIN CXN_PACIENTES P ON E.Evo_Pac = P.Pac_Id " +
-                                          " INNER JOIN CXN_BODEGAS B ON E.Evo_Med = B.Bod_Usuario " +
-                                          " WHERE P.Pac_Id = '" + Paciente + "' " +
-                                          " ORDER BY E.Evo_Fecha DESC";
-                            SqlCommand Carga_CommandEVO = new SqlCommand(Cargar_HoraEVO, con);
-                            SqlDataReader Lectura_HoraEVO = (Carga_CommandEVO.ExecuteReader());
-                            if (Lectura_HoraEVO.HasRows)
+                        using (SqlDataReader Lectura_Hora = (await Carga_Command2.ExecuteReaderAsync()))
+                        {
+                            if (Lectura_Hora.HasRows)
                             {
-                                while (Lectura_HoraEVO.Read() == true)
+                                while (await Lectura_Hora.ReadAsync() == true)
                                 {
-                                    if (Lectura_HoraEVO["ADM"] != DBNull.Value)
+                                    H.Add(new CXN_HORARIO
                                     {
-                                        H.Add(new CXN_HORARIO
-                                        {
-                                            Hor_Id = Convert.ToInt32(Lectura_HoraEVO["ADM"]),
-                                            Com_Tipo_Doc = Lectura_HoraEVO["TID"].ToString(),
-                                            PacienteIdentificacion = Lectura_HoraEVO["ID"].ToString(),
-                                            Hor_Imp_Age = Lectura_HoraEVO["PACIENTE"].ToString(),
-                                            Hor_Observacion = Lectura_HoraEVO["PROF"].ToString(),
-                                            Hor_Pac_Fecha_Cita = Convert.ToDateTime(Lectura_HoraEVO["FECHA"]),
-                                            Hor_Pac_Tipo_Serv = Lectura_HoraEVO["Evo_Tipo"].ToString()
-                                        });
-                                    }                                   
+                                        Hor_Id = Convert.ToInt32(Lectura_Hora["Hor_Id"]),
+                                        Hor_Observacion = Lectura_Hora["Bod_Responsable"].ToString(),
+                                        Hor_GrupoServicios = Lectura_Hora["Con_Nombre"].ToString(),
+                                        PacienteAseguradora = Lectura_Hora["Ase_Descripcion"].ToString(),
+                                        Hor_Pac_Fecha_Cita = Convert.ToDateTime(Lectura_Hora["Hor_Pac_Fecha_Cita"]),
+                                        Hor_Pac_Tipo_Serv = Lectura_Hora["Hor_Pac_Tipo_Serv"].ToString(),
+                                        Com_Tipo_Doc = Lectura_Hora["Con_Clase"].ToString()
+                                    });
+                                }
+
+                                switch (Tipo)
+                                {
+                                    case "Notas":
+                                        H = H.Where(x => x.Hor_Pac_Tipo_Serv == "CU").ToList();
+                                        break;
+                                    case "HisMG":
+                                        H = H.Where(x => x.Hor_Pac_Tipo_Serv == "MG").ToList();
+                                        break;
+                                    case "HFI":
+                                        H = H.Where(x => x.Hor_Pac_Tipo_Serv == "FI").ToList();
+                                        break;
+                                    case "TF":
+                                        H = H.Where(x => x.Hor_Pac_Tipo_Serv == "TF" && x.Com_Tipo_Doc == "DX").ToList();
+                                        break;
+                                    case "TO":
+                                        H = H.Where(x => x.Hor_Pac_Tipo_Serv == "TO" && x.Com_Tipo_Doc == "DX").ToList();
+                                        break;
+                                    case "PSI":
+                                        H = H.Where(x => x.Hor_Pac_Tipo_Serv == "PS" && x.Com_Tipo_Doc == "DX").ToList();
+                                        break;
+                                    case "PSIQ":
+                                    case "PSIQ2":
+                                    case "PSIQ3":
+                                    case "CMan":
+                                    case "HJ1":
+                                    case "HJ2":
+                                    case "HEVO":
+                                        //re retorna tal cualS
+                                        break;
+                                    default:
+                                        return null;
                                 }
 
                                 return H;
@@ -1277,35 +1338,8 @@ namespace Persistence.CXN.Metodos
                             {
                                 return null;
                             }
-
-                        default:
-                            return null;
-                    }
-
-                    SqlCommand Carga_Command2 = new SqlCommand(Cargar_Hora2, con);
-                    SqlDataReader Lectura_Hora = (Carga_Command2.ExecuteReader());
-                    if (Lectura_Hora.HasRows)
-                    {
-                        while (Lectura_Hora.Read() == true)
-                        {
-                            H.Add(new CXN_HORARIO
-                            {
-                                Hor_Pac_Id = Convert.ToInt32(Lectura_Hora["PacienteCom"]),
-                                Hor_Id = Convert.ToInt32(Lectura_Hora["ADM"]),
-                                Com_Tipo_Doc = Lectura_Hora["TID"].ToString(),
-                                PacienteIdentificacion = Lectura_Hora["ID"].ToString(),
-                                Hor_Imp_Age = Lectura_Hora["PACIENTE"].ToString(),
-                                Hor_Observacion = Lectura_Hora["PROF"].ToString(),
-                                Hor_Pac_Fecha_Cita = Convert.ToDateTime(Lectura_Hora["FECHA"])
-                            });
                         }
-
-                        return H;
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                    }                    
                 }
             }
             catch (Exception ex)
@@ -1356,6 +1390,13 @@ namespace Persistence.CXN.Metodos
                         {
                             if (Lectura_Hora.Read() == true)
                             {
+                                string DXCIE11 = "";
+                                CXN_CIE11 cie11 = GetCIE11(Admision);
+                                if (cie11 != null)
+                                {
+                                    DXCIE11 = cie11.Codigo + " - " + cie11.Descripcion;
+                                }
+
                                 List<HCMG> sub_Class_HCMG = new List<HCMG>();
 
                                 string Bod_Firma1 = Lectura_Hora["Bod_Firma"].ToString();
@@ -1372,6 +1413,7 @@ namespace Persistence.CXN.Metodos
 
                                 sub_Class_HCMG.Add(new HCMG
                                 {
+                                    DXCIE11 = DXCIE11,
                                     PacienteAseguradora = Lectura_Hora["Ase_Descripcion"].ToString(),
                                     Admision = Admision,
                                     Firma = repoGen.GetBytes(pic.Image), //
@@ -1502,124 +1544,141 @@ namespace Persistence.CXN.Metodos
                                          " INNER JOIN CXN_ASEGURADORA ON CXN_HCMG.HC_Ase = CXN_ASEGURADORA.Ase_Identificador " +
                                          " INNER JOIN CXN_CIA ON CXN_HCMG.HC_Com = CXN_CIA.Com_Identificador " +
                                          " INNER JOIN CXN_BODEGAS ON CXN_HCMG.HC_Prof = CXN_BODEGAS.Bod_Numero " +
-                                         " WHERE CXN_HCMG.HC_Fecha BETWEEN '" + Convert.ToDateTime(Desde).ToString(getData["Format_Fecha"]) + "' AND '" + Convert.ToDateTime(Hasta).ToString(getData["Format_Fecha"]) + "' " +
-                                         " AND CXN_HCMG.HC_Pacid = '" + PacienteHCCompleto + "' " +
+                                         " WHERE CXN_HCMG.HC_Fecha BETWEEN @param1 AND @param2 " +
+                                         " AND CXN_HCMG.HC_Pacid = @param3 " +
                                          " ORDER BY CXN_HCMG.HC_Fecha DESC";
-                    SqlCommand Carga_Command = new SqlCommand(Cargar_Hora, con);
-                    SqlDataReader Lectura_Hora = (Carga_Command.ExecuteReader());
-                    if (Lectura_Hora.HasRows)
-                    {
-                        List<HCMG> sub_Class_HCMG = new List<HCMG>();
-                        DateTime Hoy = DateTime.Now.Date;
 
-                        while (Lectura_Hora.Read() == true)
+                    using (SqlCommand Carga_Command = new SqlCommand(Cargar_Hora, con))
+                    {
+                        Carga_Command.Parameters.AddWithValue("@param1", Convert.ToDateTime(Desde).ToString(getData["Format_Fecha"]));
+                        Carga_Command.Parameters.AddWithValue("@param2", Convert.ToDateTime(Hasta).ToString(getData["Format_Fecha"]));
+                        Carga_Command.Parameters.AddWithValue("@param3", PacienteHCCompleto);
+
+                        using (SqlDataReader Lectura_Hora = (Carga_Command.ExecuteReader()))
                         {
-                            string Bod_Firma1 = Lectura_Hora["Com_Logo"].ToString();
-                            Byte[] bytes = Convert.FromBase64String(Bod_Firma1);
-                            MemoryStream stmBLOBData = new MemoryStream(bytes);
-                            PictureBox pic = new PictureBox();
-                            pic.Image = Image.FromStream(stmBLOBData);
-
-                            var Diag1 = repoCIE10.BuscaDX(Lectura_Hora["HC_Dx1"].ToString());
-                            var Diag2 = repoCIE10.BuscaDX(Lectura_Hora["HC_Dx2"].ToString());
-                            var Diag3 = repoCIE10.BuscaDX(Lectura_Hora["HC_Dx3"].ToString());
-
-                            string Datos = "PACIENTE: " + Lectura_Hora["HC_Pac"].ToString() + "\n\r" +
-                                           "FECHA REPORTE: " + Convert.ToDateTime(Hoy).ToString(getData["Format_Fecha"]) + "\n\r" +
-                                           "IDENTIFICACION: " + Lectura_Hora["Pac_TipoId"].ToString() + " " + Lectura_Hora["Pac_IdNum"].ToString() + "\n\r" +
-                                           "CLINICA: " + Lectura_Hora["Com_Nombre"].ToString() + "\n\r" +
-                                           "USUARIO QUE GENERA COPIA: " + userGenera;
-                            var ImaRes = repoGen.CodifyQR(Datos);
-
-                            string CondicionesText = repoCondiciones.getCondicionesForPrint(Convert.ToInt32(Lectura_Hora["Pac_Id"]), Convert.ToDateTime(Lectura_Hora["HC_Fecha"]));
-
-                            sub_Class_HCMG.Add(new HCMG
+                            if (Lectura_Hora.HasRows)
                             {
-                                Logo = repoGen.GetBytes(ImaRes),
-                                PacienteAseguradora = Lectura_Hora["Ase_Descripcion"].ToString(),
-                                Admision = Convert.ToInt32(Lectura_Hora["HC_Adm"]),
-                                Firma = repoGen.GetBytes(pic.Image), //
-                                Ocupacion = Lectura_Hora["HC_Ocupacion"].ToString(), //
-                                EmpresaNombre = Lectura_Hora["Com_Nombre"].ToString(), //
-                                EmpresaIdentificacion = Lectura_Hora["Com_Identificacion"].ToString(), //
-                                EmpresaDireccion = Lectura_Hora["Com_Direccion"].ToString(), //
-                                EmpresaTelefono = Lectura_Hora["Com_Telefono"].ToString(), //
-                                HC_Vez = Lectura_Hora["HC_Vez"].ToString(),
-                                FechaBase = Convert.ToDateTime(Lectura_Hora["HC_Fecha"].ToString()), //
-                                ProfesionalNombre = Lectura_Hora["Bod_Responsable"].ToString(), //
-                                RegistroMedico = Lectura_Hora["Bod_Reg_Med"].ToString(), //
-                                PacienteNombre = Lectura_Hora["HC_Pac"].ToString(), //
-                                PacienteIdentificacion = Lectura_Hora["Pac_TipoId"].ToString() + " " + Lectura_Hora["Pac_IdNum"].ToString(),
-                                Pac_Acudiente = Lectura_Hora["Pac_Acudiente"].ToString(),
-                                Pac_Parentesco = Lectura_Hora["Pac_Parentesco"].ToString(),
-                                Pac_DireccionAcu = Lectura_Hora["Pac_DireccionAcu"].ToString(),
-                                Pac_TelefonoAcu = Lectura_Hora["Pac_TelefonoAcu"].ToString(),
-                                Pac_CorreoAcu = Lectura_Hora["Pac_CorreoAcu"].ToString(),
-                                PacienteDireccion = Lectura_Hora["Pac_Direccion"].ToString(),
-                                FNto = Convert.ToDateTime(Lectura_Hora["Pac_FechaNto"].ToString()),
-                                Pac_Sexo = Lectura_Hora["Pac_Sexo"].ToString(),
-                                Edad = Lectura_Hora["HC_Edad"].ToString(), //
-                                PacienteTelefono = Lectura_Hora["Pac_Telefono"].ToString(),
-                                Pac_Email = Lectura_Hora["Pac_Email"].ToString(),
-                                HC_MotivoC = Lectura_Hora["HC_MotivoC"].ToString(),
-                                HC_EnfA = Lectura_Hora["HC_EnfA"].ToString(),
-                                HC_Neurologico = Lectura_Hora["HC_Neurologico"].ToString(),
-                                HC_Cardiovascular = Lectura_Hora["HC_Cardiovascular"].ToString(),
-                                HC_Gastrourinario = Lectura_Hora["HC_Gastrourinario"].ToString(),
-                                HC_Osteomuscular = Lectura_Hora["HC_Osteomuscular"].ToString(),
-                                HC_Gastrointestinal = Lectura_Hora["HC_Gastrointestinal"].ToString(),
-                                HC_Piel = Lectura_Hora["HC_Piel"].ToString(),
-                                HC_Respiratorio = Lectura_Hora["HC_Respiratorio"].ToString(),
-                                HC_AntQui = Lectura_Hora["HC_AntQui"].ToString(),
-                                HC_AntFam = Lectura_Hora["HC_AntFam"].ToString(),
-                                HC_AntPat = Lectura_Hora["HC_AntPat"].ToString(),
-                                HC_AntFarma = Lectura_Hora["HC_AntFarma"].ToString(),
-                                HC_AntAle = Lectura_Hora["HC_AntAle"].ToString(),
-                                HC_Hematolin = Lectura_Hora["HC_Hematolin"].ToString(),
-                                HC_Presart = Lectura_Hora["HC_Presart"].ToString(),
-                                HC_FreCar = Lectura_Hora["HC_FreCar"].ToString(),
-                                HC_FreRes = Lectura_Hora["HC_FreRes"].ToString(),
-                                HC_Temp = Lectura_Hora["HC_Temp"].ToString(),
-                                HC_Peso = Lectura_Hora["HC_Peso"].ToString(),
-                                HC_IMC = Lectura_Hora["HC_IMC"].ToString(),
-                                HC_Altura = Lectura_Hora["HC_Altura"].ToString(),
-                                HC_ITB = Lectura_Hora["HC_ITB"].ToString(),
-                                HC_AparienciaG = Lectura_Hora["HC_AparienciaG"].ToString(),
-                                HC_EstadoEmo = Lectura_Hora["HC_EstadoEmo"].ToString(),
-                                HC_EstadoNut = Lectura_Hora["HC_EstadoNut"].ToString(),
-                                HC_GradoC = Lectura_Hora["HC_GradoC"].ToString(),
-                                HC_ActEje = Lectura_Hora["HC_ActEje"].ToString(),
-                                HC_TipoLes = Lectura_Hora["HC_TipoLes"].ToString(),
-                                HC_DescHer = Lectura_Hora["HC_DescHer"].ToString(),
-                                HC_ConsCant = Lectura_Hora["HC_ConsCant"].ToString(),
-                                HC_TejCom = Lectura_Hora["HC_TejCom"].ToString(),
-                                HC_CaracTej = Lectura_Hora["HC_CaracTej"].ToString(),
-                                HC_Exudado = Lectura_Hora["HC_Exudado"].ToString(),
-                                HC_SignosInf = Lectura_Hora["HC_SignosInf"].ToString(),
-                                HC_PielCirc = Lectura_Hora["HC_PielCirc"].ToString(),
-                                HC_Analisis = Lectura_Hora["HC_Analisis"].ToString(),
-                                HC_PManejo = Lectura_Hora["HC_PManejo"].ToString(),
-                                Diagnostico1 = Lectura_Hora["HC_Dx1"].ToString() + " - " + Diag1.ToString(),
-                                Diagnostico_Rel2 = Lectura_Hora["HC_Dx2"].ToString() + " - " + Diag2.ToString(),
-                                Diagnostico_Rel3 = Lectura_Hora["HC_Dx3"].ToString() + " - " + Diag3.ToString(),
-                                HC_PruebasDiag = Lectura_Hora["HC_PruebasDiag"].ToString(),
-                                HC_Complicacion = Lectura_Hora["HC_Complicacion"].ToString(),
-                                NotaAclaratoria = Lectura_Hora["HC_Nota_Acl"].ToString(),
-                                HC_Dolor = Lectura_Hora["HC_Dolor"].ToString(),
-                                HC_Estado = Lectura_Hora["HC_Estado"].ToString(),
-                                Epidemia = Lectura_Hora["HC_Epidemia"].ToString(),
-                                HC_ServCatalogo = Lectura_Hora["HC_ServCatalogo"].ToString(),
-                                HC_CupCatalogo = Lectura_Hora["HC_CupCatalogo"].ToString(),
-                                HC_Patologia = Lectura_Hora["HC_Patologia"].ToString(),
-                                Med_Determinacion = CondicionesText
-                            });
+                                List<HCMG> sub_Class_HCMG = new List<HCMG>();
+                                DateTime Hoy = DateTime.Now.Date;
+
+                                while (Lectura_Hora.Read() == true)
+                                {
+                                    string Bod_Firma1 = Lectura_Hora["Com_Logo"].ToString();
+                                    Byte[] bytes = Convert.FromBase64String(Bod_Firma1);
+                                    MemoryStream stmBLOBData = new MemoryStream(bytes);
+                                    PictureBox pic = new PictureBox();
+                                    pic.Image = Image.FromStream(stmBLOBData);
+
+                                    var Diag1 = repoCIE10.BuscaDX(Lectura_Hora["HC_Dx1"].ToString());
+                                    var Diag2 = repoCIE10.BuscaDX(Lectura_Hora["HC_Dx2"].ToString());
+                                    var Diag3 = repoCIE10.BuscaDX(Lectura_Hora["HC_Dx3"].ToString());
+
+                                    string Datos = "PACIENTE: " + Lectura_Hora["HC_Pac"].ToString() + "\n\r" +
+                                                   "FECHA REPORTE: " + Convert.ToDateTime(Hoy).ToString(getData["Format_Fecha"]) + "\n\r" +
+                                                   "IDENTIFICACION: " + Lectura_Hora["Pac_TipoId"].ToString() + " " + Lectura_Hora["Pac_IdNum"].ToString() + "\n\r" +
+                                                   "CLINICA: " + Lectura_Hora["Com_Nombre"].ToString() + "\n\r" +
+                                                   "USUARIO QUE GENERA COPIA: " + userGenera;
+                                    var ImaRes = repoGen.CodifyQR(Datos);
+
+                                    string CondicionesText = repoCondiciones.getCondicionesForPrint(Convert.ToInt32(Lectura_Hora["Pac_Id"]), Convert.ToDateTime(Lectura_Hora["HC_Fecha"]));
+
+                                    string DXCIE11 = "";
+                                    CXN_CIE11 cie11 = GetCIE11(Convert.ToInt32(Lectura_Hora["HC_Adm"]));
+                                    if (cie11 != null)
+                                    {
+                                        DXCIE11 = cie11.Codigo + " - " + cie11.Descripcion;
+                                    }
+
+                                    sub_Class_HCMG.Add(new HCMG
+                                    {
+                                        DXCIE11 = DXCIE11,
+                                        Logo = repoGen.GetBytes(ImaRes),
+                                        PacienteAseguradora = Lectura_Hora["Ase_Descripcion"].ToString(),
+                                        Admision = Convert.ToInt32(Lectura_Hora["HC_Adm"]),
+                                        Firma = repoGen.GetBytes(pic.Image), //
+                                        Ocupacion = Lectura_Hora["HC_Ocupacion"].ToString(), //
+                                        EmpresaNombre = Lectura_Hora["Com_Nombre"].ToString(), //
+                                        EmpresaIdentificacion = Lectura_Hora["Com_Identificacion"].ToString(), //
+                                        EmpresaDireccion = Lectura_Hora["Com_Direccion"].ToString(), //
+                                        EmpresaTelefono = Lectura_Hora["Com_Telefono"].ToString(), //
+                                        HC_Vez = Lectura_Hora["HC_Vez"].ToString(),
+                                        FechaBase = Convert.ToDateTime(Lectura_Hora["HC_Fecha"].ToString()), //
+                                        ProfesionalNombre = Lectura_Hora["Bod_Responsable"].ToString(), //
+                                        RegistroMedico = Lectura_Hora["Bod_Reg_Med"].ToString(), //
+                                        PacienteNombre = Lectura_Hora["HC_Pac"].ToString(), //
+                                        PacienteIdentificacion = Lectura_Hora["Pac_TipoId"].ToString() + " " + Lectura_Hora["Pac_IdNum"].ToString(),
+                                        Pac_Acudiente = Lectura_Hora["Pac_Acudiente"].ToString(),
+                                        Pac_Parentesco = Lectura_Hora["Pac_Parentesco"].ToString(),
+                                        Pac_DireccionAcu = Lectura_Hora["Pac_DireccionAcu"].ToString(),
+                                        Pac_TelefonoAcu = Lectura_Hora["Pac_TelefonoAcu"].ToString(),
+                                        Pac_CorreoAcu = Lectura_Hora["Pac_CorreoAcu"].ToString(),
+                                        PacienteDireccion = Lectura_Hora["Pac_Direccion"].ToString(),
+                                        FNto = Convert.ToDateTime(Lectura_Hora["Pac_FechaNto"].ToString()),
+                                        Pac_Sexo = Lectura_Hora["Pac_Sexo"].ToString(),
+                                        Edad = Lectura_Hora["HC_Edad"].ToString(), //
+                                        PacienteTelefono = Lectura_Hora["Pac_Telefono"].ToString(),
+                                        Pac_Email = Lectura_Hora["Pac_Email"].ToString(),
+                                        HC_MotivoC = Lectura_Hora["HC_MotivoC"].ToString(),
+                                        HC_EnfA = Lectura_Hora["HC_EnfA"].ToString(),
+                                        HC_Neurologico = Lectura_Hora["HC_Neurologico"].ToString(),
+                                        HC_Cardiovascular = Lectura_Hora["HC_Cardiovascular"].ToString(),
+                                        HC_Gastrourinario = Lectura_Hora["HC_Gastrourinario"].ToString(),
+                                        HC_Osteomuscular = Lectura_Hora["HC_Osteomuscular"].ToString(),
+                                        HC_Gastrointestinal = Lectura_Hora["HC_Gastrointestinal"].ToString(),
+                                        HC_Piel = Lectura_Hora["HC_Piel"].ToString(),
+                                        HC_Respiratorio = Lectura_Hora["HC_Respiratorio"].ToString(),
+                                        HC_AntQui = Lectura_Hora["HC_AntQui"].ToString(),
+                                        HC_AntFam = Lectura_Hora["HC_AntFam"].ToString(),
+                                        HC_AntPat = Lectura_Hora["HC_AntPat"].ToString(),
+                                        HC_AntFarma = Lectura_Hora["HC_AntFarma"].ToString(),
+                                        HC_AntAle = Lectura_Hora["HC_AntAle"].ToString(),
+                                        HC_Hematolin = Lectura_Hora["HC_Hematolin"].ToString(),
+                                        HC_Presart = Lectura_Hora["HC_Presart"].ToString(),
+                                        HC_FreCar = Lectura_Hora["HC_FreCar"].ToString(),
+                                        HC_FreRes = Lectura_Hora["HC_FreRes"].ToString(),
+                                        HC_Temp = Lectura_Hora["HC_Temp"].ToString(),
+                                        HC_Peso = Lectura_Hora["HC_Peso"].ToString(),
+                                        HC_IMC = Lectura_Hora["HC_IMC"].ToString(),
+                                        HC_Altura = Lectura_Hora["HC_Altura"].ToString(),
+                                        HC_ITB = Lectura_Hora["HC_ITB"].ToString(),
+                                        HC_AparienciaG = Lectura_Hora["HC_AparienciaG"].ToString(),
+                                        HC_EstadoEmo = Lectura_Hora["HC_EstadoEmo"].ToString(),
+                                        HC_EstadoNut = Lectura_Hora["HC_EstadoNut"].ToString(),
+                                        HC_GradoC = Lectura_Hora["HC_GradoC"].ToString(),
+                                        HC_ActEje = Lectura_Hora["HC_ActEje"].ToString(),
+                                        HC_TipoLes = Lectura_Hora["HC_TipoLes"].ToString(),
+                                        HC_DescHer = Lectura_Hora["HC_DescHer"].ToString(),
+                                        HC_ConsCant = Lectura_Hora["HC_ConsCant"].ToString(),
+                                        HC_TejCom = Lectura_Hora["HC_TejCom"].ToString(),
+                                        HC_CaracTej = Lectura_Hora["HC_CaracTej"].ToString(),
+                                        HC_Exudado = Lectura_Hora["HC_Exudado"].ToString(),
+                                        HC_SignosInf = Lectura_Hora["HC_SignosInf"].ToString(),
+                                        HC_PielCirc = Lectura_Hora["HC_PielCirc"].ToString(),
+                                        HC_Analisis = Lectura_Hora["HC_Analisis"].ToString(),
+                                        HC_PManejo = Lectura_Hora["HC_PManejo"].ToString(),
+                                        Diagnostico1 = Lectura_Hora["HC_Dx1"].ToString() + " - " + Diag1.ToString(),
+                                        Diagnostico_Rel2 = Lectura_Hora["HC_Dx2"].ToString() + " - " + Diag2.ToString(),
+                                        Diagnostico_Rel3 = Lectura_Hora["HC_Dx3"].ToString() + " - " + Diag3.ToString(),
+                                        HC_PruebasDiag = Lectura_Hora["HC_PruebasDiag"].ToString(),
+                                        HC_Complicacion = Lectura_Hora["HC_Complicacion"].ToString(),
+                                        NotaAclaratoria = Lectura_Hora["HC_Nota_Acl"].ToString(),
+                                        HC_Dolor = Lectura_Hora["HC_Dolor"].ToString(),
+                                        HC_Estado = Lectura_Hora["HC_Estado"].ToString(),
+                                        Epidemia = Lectura_Hora["HC_Epidemia"].ToString(),
+                                        HC_ServCatalogo = Lectura_Hora["HC_ServCatalogo"].ToString(),
+                                        HC_CupCatalogo = Lectura_Hora["HC_CupCatalogo"].ToString(),
+                                        HC_Patologia = Lectura_Hora["HC_Patologia"].ToString(),
+                                        Med_Determinacion = CondicionesText
+                                    });
+                                }
+                                return sub_Class_HCMG;
+                            }
+                            else
+                            {
+                                return null;
+                            }
                         }
-                        return sub_Class_HCMG;
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                    }                    
                 }
             }
             catch
@@ -1822,8 +1881,16 @@ namespace Persistence.CXN.Metodos
                                 var DX2 = repoCIE10.BuscaDX(Lectura_Hora["HC_DX2"].ToString());
                                 var DX3 = repoCIE10.BuscaDX(Lectura_Hora["HC_DX3"].ToString());
 
+                                string DXCIE11 = "";
+                                CXN_CIE11 cie11 = GetCIE11(Admition);
+                                if (cie11 != null)
+                                {
+                                    DXCIE11 = cie11.Codigo + " - " + cie11.Descripcion;
+                                }
+
                                 sub_Class_HCFI.Add(new ReportHCFI
                                 {
+                                    DXCIE11 = DXCIE11,
                                     Firma = repoGen.GetBytes(pic.Image), //publico imagen
                                     EmpresaDireccion = Lectura_Hora["Com_Direccion"].ToString(), //
                                     EmpresaTelefono = Lectura_Hora["Com_Telefono"].ToString(),
@@ -1970,8 +2037,16 @@ namespace Persistence.CXN.Metodos
                                     serviceName = services.Con_Id_Serv + " - " + services.Con_Nombre;
                                 }
 
+                                string DXCIE11 = "";
+                                CXN_CIE11 cie11 = GetCIE11(Admition);
+                                if (cie11 != null)
+                                {
+                                    DXCIE11 = cie11.Codigo + " - " + cie11.Descripcion;
+                                }
+
                                 sub_Class_HCFI.Add(new CXN_HCPSIQUIATRIA
                                 {
+                                    DXCIE11 = DXCIE11,
                                     Servicio = serviceName,
                                     FirmaMed = bytes, 
                                     Com_Direccion = Lectura_Hora["Com_Direccion"].ToString(), //
@@ -2318,103 +2393,120 @@ namespace Persistence.CXN.Metodos
                                          " INNER JOIN CXN_ASEGURADORA ON CXN_HCFI.HC_Ase = CXN_ASEGURADORA.Ase_Identificador " +
                                          " INNER JOIN CXN_CIA ON CXN_HCFI.HC_Cia = CXN_CIA.Com_Identificador " +
                                          " INNER JOIN CXN_BODEGAS ON CXN_HCFI.HC_Prof = CXN_BODEGAS.Bod_Numero " +
-                                         " WHERE CXN_HCFI.HC_Pacid = '" + PacienteCom + "' " +
-                                         " AND CXN_HCFI.HC_Fecha BETWEEN '" + Convert.ToDateTime(Desde).ToString(getData["Format_Fecha"]) + "' AND '" + Convert.ToDateTime(Hasta).ToString(getData["Format_Fecha"]) + "' ";
-                    SqlCommand Carga_Command = new SqlCommand(Cargar_Hora, con);
-                    SqlDataReader Lectura_Hora = (Carga_Command.ExecuteReader());
-                    if (Lectura_Hora.HasRows)
-                    {
-                        List<ReportHCFI> sub_Class_HCFI = new List<ReportHCFI>();
-                        DateTime Hoy = DateTime.Now.Date;
+                                         " WHERE CXN_HCFI.HC_Pacid = @param1 " +
+                                         " AND CXN_HCFI.HC_Fecha BETWEEN @param2 AND @param3 ";
 
-                        while (Lectura_Hora.Read() == true)
+                    using (SqlCommand Carga_Command = new SqlCommand(Cargar_Hora, con))
+                    {
+                        Carga_Command.Parameters.AddWithValue("@param1", PacienteCom);
+                        Carga_Command.Parameters.AddWithValue("@param2", Convert.ToDateTime(Desde).ToString(getData["Format_Fecha"]));
+                        Carga_Command.Parameters.AddWithValue("@param3", Convert.ToDateTime(Hasta).ToString(getData["Format_Fecha"]));
+
+                        using (SqlDataReader Lectura_Hora = (Carga_Command.ExecuteReader()))
                         {
-                            var DX1 = repoCIE10.BuscaDX(Lectura_Hora["HC_DX1"].ToString());
-                            var DX2 = repoCIE10.BuscaDX(Lectura_Hora["HC_DX2"].ToString());
-                            var DX3 = repoCIE10.BuscaDX(Lectura_Hora["HC_DX3"].ToString());
-
-                            string Datos = "PACIENTE: " + Lectura_Hora["HC_Pac"].ToString() + "\n\r" +
-                                           "FECHA REPORTE: " + Convert.ToDateTime(Hoy).ToString(getData["Format_Fecha"]) + "\n\r" +
-                                           "IDENTIFICACION: " + Lectura_Hora["Pac_TipoId"].ToString() + " " + Lectura_Hora["Pac_IdNum"].ToString() + "\n\r" +
-                                           "CLINICA: " + Lectura_Hora["Com_Nombre"].ToString() + "\n\r" +
-                                           "USUARIO QUE GENERA COPIA: " + user;
-                            var ImaRes = repoGen.CodifyQR(Datos);
-
-                            sub_Class_HCFI.Add(new ReportHCFI
+                            if (Lectura_Hora.HasRows)
                             {
-                                Admision = Convert.ToInt32(Lectura_Hora["HC_Adm"]),
-                                Logo = repoGen.GetBytes(ImaRes),
-                                EmpresaDireccion = Lectura_Hora["Com_Direccion"].ToString(), //
-                                EmpresaTelefono = Lectura_Hora["Com_Telefono"].ToString(),
-                                EmpresaNombre = Lectura_Hora["Com_Nombre"].ToString(),
-                                EmpresaIdentificacion = Lectura_Hora["Com_Identificacion"].ToString(),
-                                ProfesionalNombre = Lectura_Hora["Bod_Responsable"].ToString(), //
-                                RegistroMedico = Lectura_Hora["Bod_Reg_Med"].ToString(),//
-                                PacienteIdentificacion = Lectura_Hora["Pac_TipoId"].ToString() + " " + Lectura_Hora["Pac_IdNum"].ToString(),
-                                PacienteNombre = Lectura_Hora["HC_Pac"].ToString(), //
-                                FechaBase = Convert.ToDateTime(Lectura_Hora["HC_Fecha"].ToString()),
-                                FNto = Convert.ToDateTime(Lectura_Hora["HC_FechaNto"].ToString()),
-                                PacienteDireccion = Lectura_Hora["Pac_Direccion"].ToString(),
-                                PacienteAseguradora = Lectura_Hora["Ase_Descripcion"].ToString(), //
-                                Pac_Sexo = Lectura_Hora["Pac_Sexo"].ToString(),
-                                Pac_Email = Lectura_Hora["Pac_Email"].ToString(),
-                                PacienteTelefono = Lectura_Hora["Pac_Telefono"].ToString(),
-                                Diagnostico1 = Lectura_Hora["HC_DX1"].ToString() + " - " + DX1.ToString(), //
-                                Diagnostico_Rel2 = Lectura_Hora["HC_DX2"].ToString() + " - " + DX2.ToString(), //
-                                Diagnostico_Rel3 = Lectura_Hora["HC_DX3"].ToString() + " - " + DX3.ToString(), //
-                                HC_RH = Lectura_Hora["HC_RH"].ToString(),
-                                HC_EAV = Lectura_Hora["HC_EAV"].ToString(),
-                                HC_Gastrointestinal = Lectura_Hora["HC_GastroI"].ToString(),
-                                HC_Ant = Lectura_Hora["HC_Ant"].ToString(),
-                                HC_Neurologico = Lectura_Hora["HC_Neurologico"].ToString(),
-                                HC_Mental = Lectura_Hora["HC_Mental"].ToString(),
-                                HC_OrgSent = Lectura_Hora["HC_OrgSent"].ToString(),
-                                HC_Respiratorio = Lectura_Hora["HC_Respiratorio"].ToString(),
-                                HC_Cardiovascular = Lectura_Hora["HC_Cardiovascular"].ToString(),
-                                HC_Presart = Lectura_Hora["HC_Presart"].ToString(),
-                                HC_Peso = Lectura_Hora["HC_Peso"].ToString(),
-                                HC_PerimetroC = Lectura_Hora["HC_PerimetroC"].ToString(),
-                                HC_Estado = Lectura_Hora["HC_EstCons"].ToString(),
-                                HC_FreRes = Lectura_Hora["HC_FrecResp"].ToString(),
-                                HC_IMC = Lectura_Hora["HC_IMC"].ToString(),
-                                HC_Glasshow = Lectura_Hora["HC_Glasshow"].ToString(),
-                                HC_Temp = Lectura_Hora["HC_Temp"].ToString(),
-                                HC_Embriaguez = Lectura_Hora["HC_Embriaguez"].ToString(),
-                                HC_ObservaFis = Lectura_Hora["HC_ObservaFis"].ToString(),
-                                HC_ObservaNeu = Lectura_Hora["HC_ObservaNeu"].ToString(),
-                                HC_Cabeza = Lectura_Hora["HC_Cabeza"].ToString(),
-                                HC_Cuello = Lectura_Hora["HC_Cuello"].ToString(),
-                                HC_Torax = Lectura_Hora["HC_Torax"].ToString(),
-                                HC_Pulmonar = Lectura_Hora["HC_Pulmonar"].ToString(),
-                                HC_Abdomen = Lectura_Hora["HC_Abdomen"].ToString(),
-                                HC_Ombligo = Lectura_Hora["HC_Ombligo"].ToString(),
-                                HC_Ano = Lectura_Hora["HC_Ano"].ToString(),
-                                HC_Extremidades = Lectura_Hora["HC_Extremidades"].ToString(),
-                                HC_Piel = Lectura_Hora["HC_PielFan"].ToString(),
-                                HC_Orl = Lectura_Hora["HC_Orl"].ToString(),
-                                HC_Osteomuscular = Lectura_Hora["HC_OsteoM"].ToString(),
-                                HC_Genitales = Lectura_Hora["HC_Genitales"].ToString(),
-                                HC_Gastrourinario = Lectura_Hora["HC_GenitoU"].ToString(),
-                                HC_Hematolin = Lectura_Hora["HC_Hematolin"].ToString(),
-                                HC_Egreso = Lectura_Hora["HC_Egreso"].ToString(),
-                                HC_Analisis = Lectura_Hora["HC_Analisis"].ToString(),
-                                HC_PManejo = Lectura_Hora["HC_PManejo"].ToString(),
-                                NotaAclaratoria = Lectura_Hora["HC_NotaA"].ToString(), //
-                                HC_MotivoC = Lectura_Hora["HC_MotCons"].ToString(), //
-                                HC_EnfA = Lectura_Hora["HC_EnfAct"].ToString(), //
-                                Edad = Lectura_Hora["HC_Edad"].ToString(),
-                                HC_PerimetroA = Lectura_Hora["HC_PerimetroA"].ToString(),
-                                HC_FreCar = Lectura_Hora["HC_FreCar"].ToString(),
-                                Epidemia = Lectura_Hora["HC_Epidemia"].ToString(),
-                                HC_Talla = Lectura_Hora["HC_Talla"].ToString()
-                            });
+                                List<ReportHCFI> sub_Class_HCFI = new List<ReportHCFI>();
+                                DateTime Hoy = DateTime.Now.Date;
+
+                                while (Lectura_Hora.Read() == true)
+                                {
+                                    var DX1 = repoCIE10.BuscaDX(Lectura_Hora["HC_DX1"].ToString());
+                                    var DX2 = repoCIE10.BuscaDX(Lectura_Hora["HC_DX2"].ToString());
+                                    var DX3 = repoCIE10.BuscaDX(Lectura_Hora["HC_DX3"].ToString());
+
+                                    string Datos = "PACIENTE: " + Lectura_Hora["HC_Pac"].ToString() + "\n\r" +
+                                                   "FECHA REPORTE: " + Convert.ToDateTime(Hoy).ToString(getData["Format_Fecha"]) + "\n\r" +
+                                                   "IDENTIFICACION: " + Lectura_Hora["Pac_TipoId"].ToString() + " " + Lectura_Hora["Pac_IdNum"].ToString() + "\n\r" +
+                                                   "CLINICA: " + Lectura_Hora["Com_Nombre"].ToString() + "\n\r" +
+                                                   "USUARIO QUE GENERA COPIA: " + user;
+                                    var ImaRes = repoGen.CodifyQR(Datos);
+
+                                    string DXCIE11 = "";
+                                    CXN_CIE11 cie11 = GetCIE11(Convert.ToInt32(Lectura_Hora["HC_Adm"]));
+                                    if (cie11 != null)
+                                    {
+                                        DXCIE11 = cie11.Codigo + " - " + cie11.Descripcion;
+                                    }
+
+                                    sub_Class_HCFI.Add(new ReportHCFI
+                                    {
+                                        DXCIE11 = DXCIE11,
+                                        Admision = Convert.ToInt32(Lectura_Hora["HC_Adm"]),
+                                        Logo = repoGen.GetBytes(ImaRes),
+                                        EmpresaDireccion = Lectura_Hora["Com_Direccion"].ToString(), //
+                                        EmpresaTelefono = Lectura_Hora["Com_Telefono"].ToString(),
+                                        EmpresaNombre = Lectura_Hora["Com_Nombre"].ToString(),
+                                        EmpresaIdentificacion = Lectura_Hora["Com_Identificacion"].ToString(),
+                                        ProfesionalNombre = Lectura_Hora["Bod_Responsable"].ToString(), //
+                                        RegistroMedico = Lectura_Hora["Bod_Reg_Med"].ToString(),//
+                                        PacienteIdentificacion = Lectura_Hora["Pac_TipoId"].ToString() + " " + Lectura_Hora["Pac_IdNum"].ToString(),
+                                        PacienteNombre = Lectura_Hora["HC_Pac"].ToString(), //
+                                        FechaBase = Convert.ToDateTime(Lectura_Hora["HC_Fecha"].ToString()),
+                                        FNto = Convert.ToDateTime(Lectura_Hora["HC_FechaNto"].ToString()),
+                                        PacienteDireccion = Lectura_Hora["Pac_Direccion"].ToString(),
+                                        PacienteAseguradora = Lectura_Hora["Ase_Descripcion"].ToString(), //
+                                        Pac_Sexo = Lectura_Hora["Pac_Sexo"].ToString(),
+                                        Pac_Email = Lectura_Hora["Pac_Email"].ToString(),
+                                        PacienteTelefono = Lectura_Hora["Pac_Telefono"].ToString(),
+                                        Diagnostico1 = Lectura_Hora["HC_DX1"].ToString() + " - " + DX1.ToString(), //
+                                        Diagnostico_Rel2 = Lectura_Hora["HC_DX2"].ToString() + " - " + DX2.ToString(), //
+                                        Diagnostico_Rel3 = Lectura_Hora["HC_DX3"].ToString() + " - " + DX3.ToString(), //
+                                        HC_RH = Lectura_Hora["HC_RH"].ToString(),
+                                        HC_EAV = Lectura_Hora["HC_EAV"].ToString(),
+                                        HC_Gastrointestinal = Lectura_Hora["HC_GastroI"].ToString(),
+                                        HC_Ant = Lectura_Hora["HC_Ant"].ToString(),
+                                        HC_Neurologico = Lectura_Hora["HC_Neurologico"].ToString(),
+                                        HC_Mental = Lectura_Hora["HC_Mental"].ToString(),
+                                        HC_OrgSent = Lectura_Hora["HC_OrgSent"].ToString(),
+                                        HC_Respiratorio = Lectura_Hora["HC_Respiratorio"].ToString(),
+                                        HC_Cardiovascular = Lectura_Hora["HC_Cardiovascular"].ToString(),
+                                        HC_Presart = Lectura_Hora["HC_Presart"].ToString(),
+                                        HC_Peso = Lectura_Hora["HC_Peso"].ToString(),
+                                        HC_PerimetroC = Lectura_Hora["HC_PerimetroC"].ToString(),
+                                        HC_Estado = Lectura_Hora["HC_EstCons"].ToString(),
+                                        HC_FreRes = Lectura_Hora["HC_FrecResp"].ToString(),
+                                        HC_IMC = Lectura_Hora["HC_IMC"].ToString(),
+                                        HC_Glasshow = Lectura_Hora["HC_Glasshow"].ToString(),
+                                        HC_Temp = Lectura_Hora["HC_Temp"].ToString(),
+                                        HC_Embriaguez = Lectura_Hora["HC_Embriaguez"].ToString(),
+                                        HC_ObservaFis = Lectura_Hora["HC_ObservaFis"].ToString(),
+                                        HC_ObservaNeu = Lectura_Hora["HC_ObservaNeu"].ToString(),
+                                        HC_Cabeza = Lectura_Hora["HC_Cabeza"].ToString(),
+                                        HC_Cuello = Lectura_Hora["HC_Cuello"].ToString(),
+                                        HC_Torax = Lectura_Hora["HC_Torax"].ToString(),
+                                        HC_Pulmonar = Lectura_Hora["HC_Pulmonar"].ToString(),
+                                        HC_Abdomen = Lectura_Hora["HC_Abdomen"].ToString(),
+                                        HC_Ombligo = Lectura_Hora["HC_Ombligo"].ToString(),
+                                        HC_Ano = Lectura_Hora["HC_Ano"].ToString(),
+                                        HC_Extremidades = Lectura_Hora["HC_Extremidades"].ToString(),
+                                        HC_Piel = Lectura_Hora["HC_PielFan"].ToString(),
+                                        HC_Orl = Lectura_Hora["HC_Orl"].ToString(),
+                                        HC_Osteomuscular = Lectura_Hora["HC_OsteoM"].ToString(),
+                                        HC_Genitales = Lectura_Hora["HC_Genitales"].ToString(),
+                                        HC_Gastrourinario = Lectura_Hora["HC_GenitoU"].ToString(),
+                                        HC_Hematolin = Lectura_Hora["HC_Hematolin"].ToString(),
+                                        HC_Egreso = Lectura_Hora["HC_Egreso"].ToString(),
+                                        HC_Analisis = Lectura_Hora["HC_Analisis"].ToString(),
+                                        HC_PManejo = Lectura_Hora["HC_PManejo"].ToString(),
+                                        NotaAclaratoria = Lectura_Hora["HC_NotaA"].ToString(), //
+                                        HC_MotivoC = Lectura_Hora["HC_MotCons"].ToString(), //
+                                        HC_EnfA = Lectura_Hora["HC_EnfAct"].ToString(), //
+                                        Edad = Lectura_Hora["HC_Edad"].ToString(),
+                                        HC_PerimetroA = Lectura_Hora["HC_PerimetroA"].ToString(),
+                                        HC_FreCar = Lectura_Hora["HC_FreCar"].ToString(),
+                                        Epidemia = Lectura_Hora["HC_Epidemia"].ToString(),
+                                        HC_Talla = Lectura_Hora["HC_Talla"].ToString()
+                                    });
+                                }
+                                return sub_Class_HCFI;
+                            }
+                            else
+                            {
+                                return null;
+                            }
                         }
-                        return sub_Class_HCFI;
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                    }                    
                 }
             }
             catch (Exception ex)
@@ -2460,96 +2552,112 @@ namespace Persistence.CXN.Metodos
                                          " INNER JOIN CXN_ASEGURADORA ON CXN_HCPSI.HC_Ase = CXN_ASEGURADORA.Ase_Identificador " +
                                          " INNER JOIN CXN_CIA ON CXN_HCPSI.HC_Cia = CXN_CIA.Com_Identificador " +
                                          " INNER JOIN CXN_BODEGAS ON CXN_HCPSI.HC_Prof = CXN_BODEGAS.Bod_Numero " +
-                                         " WHERE CXN_HCPSI.HC_Adm = '" + Admition + "'";
-                    SqlCommand Carga_Command = new SqlCommand(Cargar_Hora, con);
-                    SqlDataReader Lectura_Hora = (Carga_Command.ExecuteReader());
-                    if (Lectura_Hora.Read() == true)
-                    {
-                        List<ReportPSI> sub_Class_HCPSI = new List<ReportPSI>();
-                        var Diag = repoCIE10.BuscaDX(Lectura_Hora["HC_CIE10"].ToString());
+                                         " WHERE CXN_HCPSI.HC_Adm = @param1";
 
-                        sub_Class_HCPSI.Add(new ReportPSI
-                        {
-                            Admision = Convert.ToInt32(Lectura_Hora["HC_Adm"]),
-                            PacienteNombre = Lectura_Hora["HC_Pac"].ToString(),
-                            PacienteIdentificacion = Lectura_Hora["Pac_TipoId"].ToString() + " " + Lectura_Hora["Pac_IdNum"].ToString(),
-                            Pac_Sexo = Lectura_Hora["Pac_Sexo"].ToString(),
-                            FechaBase = Convert.ToDateTime(Lectura_Hora["HC_Fecha"].ToString()),
-                            Edad = Lectura_Hora["HC_Edad"].ToString(),
-                            Ocupacion = Lectura_Hora["HC_Ocupacion"].ToString(),
-                            HC_Estado = Lectura_Hora["HC_Estado"].ToString(),
-                            PacienteTelefono = Lectura_Hora["Pac_Telefono"].ToString(),
-                            ProfesionalNombre = Lectura_Hora["Bod_Responsable"].ToString(),
-                            RegistroMedico = Lectura_Hora["Bod_Reg_Med"].ToString(),
-                            HC_Patologia = Lectura_Hora["HC_Patologico"].ToString(),
-                            HC_AntQui = Lectura_Hora["HC_Quirurgico"].ToString(),
-                            HC_AntFarma = Lectura_Hora["HC_Farmacologico"].ToString(),
-                            HC_Fracturas = Lectura_Hora["HC_Fracturas"].ToString(),
-                            HC_Tox_Ale = Lectura_Hora["HC_Tox_Ale"].ToString(),
-                            HC_AntFam = Lectura_Hora["HC_Familiares"].ToString(),
-                            HC_Riesgo = Lectura_Hora["HC_Riesgo"].ToString(),
-                            HC_Psicologicos = Lectura_Hora["HC_Psicologicos"].ToString(),
-                            HC_Otros = Lectura_Hora["HC_Otros"].ToString(),
-                            HC_FacPro = Lectura_Hora["HC_FacPro"].ToString(),
-                            HC_ImpDiag = Lectura_Hora["HC_ImpDiag"].ToString(),
-                            HC_Pronostico = Lectura_Hora["HC_Pronostico"].ToString(),
-                            HC_Paccion = Lectura_Hora["HC_Paccion"].ToString(),
-                            HC_Recomienda = Lectura_Hora["HC_Recomienda"].ToString(),
-                            HC_CIE10 = Lectura_Hora["HC_CIE10"].ToString() + " - " + Diag,
-                            HC_Esc_Dol = Lectura_Hora["HC_Esc_Dol"].ToString(),
-                            HC_TEvolucion = Lectura_Hora["HC_TEvolucion"].ToString(),
-                            HC_Fisiatra = Lectura_Hora["HC_Fisiatra"].ToString(),
-                            HC_Psiquiatra = Lectura_Hora["HC_Psiquiatra"].ToString(),
-                            HC_Remite = Lectura_Hora["HC_Remite"].ToString(),
-                            HC_Caracteristica = Lectura_Hora["HC_Caracteristica"].ToString(),
-                            HC_RedApSoc = Lectura_Hora["HC_RedApSoc"].ToString(),
-                            HC_FSoporte = Lectura_Hora["HC_FSoporte"].ToString(),
-                            HC_ObSoporte = Lectura_Hora["HC_ObSoporte"].ToString(),
-                            HC_OtroSoporte = Lectura_Hora["HC_OtroSoporte"].ToString(),
-                            HC_TFamilia = Lectura_Hora["HC_TFamilia"].ToString(),
-                            HC_TRelacion = Lectura_Hora["HC_TRelacion"].ToString(),
-                            HC_EstadoOtro = Lectura_Hora["HC_EstadoOtro"].ToString(),
-                            HC_TRelacion_2 = Lectura_Hora["HC_TRelacion_2"].ToString(),
-                            HC_TiRelacion = Lectura_Hora["HC_TiRelacion"].ToString(),
-                            HC_Compo = Lectura_Hora["HC_Compo"].ToString(),
-                            HC_Sust = Lectura_Hora["HC_Sust"].ToString(),
-                            HC_ApGen_3 = Lectura_Hora["HC_ApGen_3"].ToString(),
-                            HC_Sust_2 = Lectura_Hora["HC_Sust_2"].ToString(),
-                            HC_EstSex = Lectura_Hora["HC_EstSex"].ToString(),
-                            HC_ObservSex = Lectura_Hora["HC_ObservSex"].ToString(),
-                            HC_Satis = Lectura_Hora["HC_Satis"].ToString(),
-                            HC_DolMol = Lectura_Hora["HC_DolMol"].ToString(),
-                            HC_AutoEsq = Lectura_Hora["HC_AutoEsq"].ToString(),
-                            HC_ObseAuto = Lectura_Hora["HC_ObseAuto"].ToString(),
-                            HC_Suicida = Lectura_Hora["HC_Suicida"].ToString(),
-                            HC_LabEst = Lectura_Hora["HC_LabEst"].ToString(),
-                            HC_ObLav = Lectura_Hora["HC_ObLav"].ToString(),
-                            HC_TiLab = Lectura_Hora["HC_TiLab"].ToString(),
-                            HC_ApGen_1 = Lectura_Hora["HC_ApGen_1"].ToString(),
-                            HC_ApGen_2 = Lectura_Hora["HC_ApGen_2"].ToString(),
-                            HC_Sue_1 = Lectura_Hora["HC_Sue_1"].ToString(),
-                            HC_Cons = Lectura_Hora["HC_Cons"].ToString(),
-                            HC_ObCons = Lectura_Hora["HC_ObCons"].ToString(),
-                            HC_Aten_1 = Lectura_Hora["HC_Aten_1"].ToString(),
-                            HC_ObAten = Lectura_Hora["HC_ObAten"].ToString(),
-                            HC_Aten_2 = Lectura_Hora["HC_Aten_2"].ToString(),
-                            HC_Orien_1 = Lectura_Hora["HC_Orien_1"].ToString(),
-                            HC_ObOrien = Lectura_Hora["HC_ObOrien"].ToString(),
-                            HC_ObSue = Lectura_Hora["HC_ObSue"].ToString(),
-                            HC_Sue_2 = Lectura_Hora["HC_Sue_2"].ToString(),
-                            HC_Sue_3 = Lectura_Hora["HC_Sue_3"].ToString(),
-                            HC_Sue_4 = Lectura_Hora["HC_Sue_4"].ToString()
-                        });
-                        return sub_Class_HCPSI;
-                    }
-                    else
+                    using (SqlCommand Carga_Command = new SqlCommand(Cargar_Hora, con))
                     {
-                        return null;
-                    }
+                        Carga_Command.Parameters.AddWithValue("@param1", Admition);
+
+                        using (SqlDataReader Lectura_Hora = (Carga_Command.ExecuteReader()))
+                        {
+                            if (Lectura_Hora.Read() == true)
+                            {
+                                List<ReportPSI> sub_Class_HCPSI = new List<ReportPSI>();
+                                var Diag = repoCIE10.BuscaDX(Lectura_Hora["HC_CIE10"].ToString());
+
+                                string DXCIE11 = "";
+                                CXN_CIE11 cie11 = GetCIE11(Admition);
+                                if (cie11 != null)
+                                {
+                                    DXCIE11 = cie11.Codigo + " - " + cie11.Descripcion;
+                                }
+
+                                sub_Class_HCPSI.Add(new ReportPSI
+                                {
+                                    DXCIE11 = DXCIE11,
+                                    Admision = Convert.ToInt32(Lectura_Hora["HC_Adm"]),
+                                    PacienteNombre = Lectura_Hora["HC_Pac"].ToString(),
+                                    PacienteIdentificacion = Lectura_Hora["Pac_TipoId"].ToString() + " " + Lectura_Hora["Pac_IdNum"].ToString(),
+                                    Pac_Sexo = Lectura_Hora["Pac_Sexo"].ToString(),
+                                    FechaBase = Convert.ToDateTime(Lectura_Hora["HC_Fecha"].ToString()),
+                                    Edad = Lectura_Hora["HC_Edad"].ToString(),
+                                    Ocupacion = Lectura_Hora["HC_Ocupacion"].ToString(),
+                                    HC_Estado = Lectura_Hora["HC_Estado"].ToString(),
+                                    PacienteTelefono = Lectura_Hora["Pac_Telefono"].ToString(),
+                                    ProfesionalNombre = Lectura_Hora["Bod_Responsable"].ToString(),
+                                    RegistroMedico = Lectura_Hora["Bod_Reg_Med"].ToString(),
+                                    HC_Patologia = Lectura_Hora["HC_Patologico"].ToString(),
+                                    HC_AntQui = Lectura_Hora["HC_Quirurgico"].ToString(),
+                                    HC_AntFarma = Lectura_Hora["HC_Farmacologico"].ToString(),
+                                    HC_Fracturas = Lectura_Hora["HC_Fracturas"].ToString(),
+                                    HC_Tox_Ale = Lectura_Hora["HC_Tox_Ale"].ToString(),
+                                    HC_AntFam = Lectura_Hora["HC_Familiares"].ToString(),
+                                    HC_Riesgo = Lectura_Hora["HC_Riesgo"].ToString(),
+                                    HC_Psicologicos = Lectura_Hora["HC_Psicologicos"].ToString(),
+                                    HC_Otros = Lectura_Hora["HC_Otros"].ToString(),
+                                    HC_FacPro = Lectura_Hora["HC_FacPro"].ToString(),
+                                    HC_ImpDiag = Lectura_Hora["HC_ImpDiag"].ToString(),
+                                    HC_Pronostico = Lectura_Hora["HC_Pronostico"].ToString(),
+                                    HC_Paccion = Lectura_Hora["HC_Paccion"].ToString(),
+                                    HC_Recomienda = Lectura_Hora["HC_Recomienda"].ToString(),
+                                    HC_CIE10 = Lectura_Hora["HC_CIE10"].ToString() + " - " + Diag,
+                                    HC_Esc_Dol = Lectura_Hora["HC_Esc_Dol"].ToString(),
+                                    HC_TEvolucion = Lectura_Hora["HC_TEvolucion"].ToString(),
+                                    HC_Fisiatra = Lectura_Hora["HC_Fisiatra"].ToString(),
+                                    HC_Psiquiatra = Lectura_Hora["HC_Psiquiatra"].ToString(),
+                                    HC_Remite = Lectura_Hora["HC_Remite"].ToString(),
+                                    HC_Caracteristica = Lectura_Hora["HC_Caracteristica"].ToString(),
+                                    HC_RedApSoc = Lectura_Hora["HC_RedApSoc"].ToString(),
+                                    HC_FSoporte = Lectura_Hora["HC_FSoporte"].ToString(),
+                                    HC_ObSoporte = Lectura_Hora["HC_ObSoporte"].ToString(),
+                                    HC_OtroSoporte = Lectura_Hora["HC_OtroSoporte"].ToString(),
+                                    HC_TFamilia = Lectura_Hora["HC_TFamilia"].ToString(),
+                                    HC_TRelacion = Lectura_Hora["HC_TRelacion"].ToString(),
+                                    HC_EstadoOtro = Lectura_Hora["HC_EstadoOtro"].ToString(),
+                                    HC_TRelacion_2 = Lectura_Hora["HC_TRelacion_2"].ToString(),
+                                    HC_TiRelacion = Lectura_Hora["HC_TiRelacion"].ToString(),
+                                    HC_Compo = Lectura_Hora["HC_Compo"].ToString(),
+                                    HC_Sust = Lectura_Hora["HC_Sust"].ToString(),
+                                    HC_ApGen_3 = Lectura_Hora["HC_ApGen_3"].ToString(),
+                                    HC_Sust_2 = Lectura_Hora["HC_Sust_2"].ToString(),
+                                    HC_EstSex = Lectura_Hora["HC_EstSex"].ToString(),
+                                    HC_ObservSex = Lectura_Hora["HC_ObservSex"].ToString(),
+                                    HC_Satis = Lectura_Hora["HC_Satis"].ToString(),
+                                    HC_DolMol = Lectura_Hora["HC_DolMol"].ToString(),
+                                    HC_AutoEsq = Lectura_Hora["HC_AutoEsq"].ToString(),
+                                    HC_ObseAuto = Lectura_Hora["HC_ObseAuto"].ToString(),
+                                    HC_Suicida = Lectura_Hora["HC_Suicida"].ToString(),
+                                    HC_LabEst = Lectura_Hora["HC_LabEst"].ToString(),
+                                    HC_ObLav = Lectura_Hora["HC_ObLav"].ToString(),
+                                    HC_TiLab = Lectura_Hora["HC_TiLab"].ToString(),
+                                    HC_ApGen_1 = Lectura_Hora["HC_ApGen_1"].ToString(),
+                                    HC_ApGen_2 = Lectura_Hora["HC_ApGen_2"].ToString(),
+                                    HC_Sue_1 = Lectura_Hora["HC_Sue_1"].ToString(),
+                                    HC_Cons = Lectura_Hora["HC_Cons"].ToString(),
+                                    HC_ObCons = Lectura_Hora["HC_ObCons"].ToString(),
+                                    HC_Aten_1 = Lectura_Hora["HC_Aten_1"].ToString(),
+                                    HC_ObAten = Lectura_Hora["HC_ObAten"].ToString(),
+                                    HC_Aten_2 = Lectura_Hora["HC_Aten_2"].ToString(),
+                                    HC_Orien_1 = Lectura_Hora["HC_Orien_1"].ToString(),
+                                    HC_ObOrien = Lectura_Hora["HC_ObOrien"].ToString(),
+                                    HC_ObSue = Lectura_Hora["HC_ObSue"].ToString(),
+                                    HC_Sue_2 = Lectura_Hora["HC_Sue_2"].ToString(),
+                                    HC_Sue_3 = Lectura_Hora["HC_Sue_3"].ToString(),
+                                    HC_Sue_4 = Lectura_Hora["HC_Sue_4"].ToString()
+                                });
+                                return sub_Class_HCPSI;
+                            }
+                            else
+                            {
+                                return null;
+                            }
+                        }
+                    }                    
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 return null;
             }
         }
@@ -2575,52 +2683,70 @@ namespace Persistence.CXN.Metodos
                                          "INNER JOIN CXN_ASEGURADORA ON CXN_EVOFIB.Evo_Ase = CXN_ASEGURADORA.Ase_Identificador " +
                                          "INNER JOIN CXN_CIA ON CXN_EVOFIB.Evo_Cia = CXN_CIA.Com_Identificador " +
                                          "INNER JOIN CXN_BODEGAS ON CXN_EVOFIB.Evo_Med = CXN_BODEGAS.Bod_Usuario " +
-                                         "WHERE Pac_Id = '" + Paciente + "'  " +
-                                         "AND Evo_Fecha BETWEEN '" + Convert.ToDateTime(Desde.Date).ToString(getData["Format_Fecha"]) + "' AND '" + Convert.ToDateTime(Hasta.Date).ToString(getData["Format_Fecha"]) + "' " +
-                                         "AND Evo_Tipo = '" + Tipo_Evo_Rep + "' " +
+                                         "WHERE Pac_Id = @param1  " +
+                                         "AND Evo_Fecha BETWEEN @param2 AND @param3 " +
+                                         "AND Evo_Tipo = @param4 " +
                                          "ORDER BY Evo_Fecha, Evo_Sesion ASC";
-                    SqlCommand Carga_Command = new SqlCommand(Cargar_Hora, con);
-                    SqlDataReader Lectura_Hora = (Carga_Command.ExecuteReader());
-                    if (Lectura_Hora.HasRows)
-                    {
-                        List<ReportEVO> export_om_evoluciones = new List<ReportEVO>();
 
-                        while (Lectura_Hora.Read() == true)
+                    using (SqlCommand Carga_Command = new SqlCommand(Cargar_Hora, con))
+                    {
+                        Carga_Command.Parameters.AddWithValue("@param1", Paciente);
+                        Carga_Command.Parameters.AddWithValue("@param2", Convert.ToDateTime(Desde.Date).ToString(getData["Format_Fecha"]));
+                        Carga_Command.Parameters.AddWithValue("@param3", Convert.ToDateTime(Hasta.Date).ToString(getData["Format_Fecha"]));
+                        Carga_Command.Parameters.AddWithValue("@param4", Tipo_Evo_Rep);
+
+                        using (SqlDataReader Lectura_Hora = (Carga_Command.ExecuteReader()))
                         {
-                            string LogoCia = Lectura_Hora["Com_Logo"].ToString(); //trae base64
-                            Byte[] bytes = Convert.FromBase64String(LogoCia); //convierte a bytes
-                            MemoryStream stmBLOBData = new MemoryStream(bytes);
-                            PictureBox pic = new PictureBox();
-                            pic.Image = Image.FromStream(stmBLOBData);
-
-                            if (Lectura_Hora["Evo_Adm"] != DBNull.Value)
+                            if (Lectura_Hora.HasRows)
                             {
-                                export_om_evoluciones.Add(new ReportEVO
-                                {
-                                    Admision = Convert.ToInt32(Lectura_Hora["Evo_Adm"]),
-                                    Evo_Hora = Lectura_Hora["Evo_Hora"].ToString(),
-                                    FechaBase = Convert.ToDateTime(Lectura_Hora["Evo_Fecha"]),
-                                    PacienteNombre = Lectura_Hora["Pac_PrimerA"].ToString() + " " + Lectura_Hora["Pac_SegundoA"].ToString() + " " + Lectura_Hora["Pac_PrimerN"].ToString() + " " + Lectura_Hora["Pac_SegundoN"].ToString(),
-                                    PacienteIdentificacion = Lectura_Hora["Pac_TipoId"].ToString() + " " + Lectura_Hora["Pac_IdNum"].ToString(),
-                                    Edad = Lectura_Hora["Evo_Edad"].ToString(),
-                                    Evo_Sesion = Lectura_Hora["Evo_Sesion"].ToString(),
-                                    ProfesionalNombre = Lectura_Hora["Bod_Responsable"].ToString(),
-                                    RegistroMedico = Lectura_Hora["Bod_Reg_Med"].ToString(),
-                                    Evo_Evo = Lectura_Hora["Evo_Evo"].ToString(),
-                                    Evo_Fase = Lectura_Hora["Evo_Fase"].ToString(),
-                                    Logo = repoGen.GetBytes(pic.Image),
-                                    EmpresaNombre = Lectura_Hora["Com_Nombre"].ToString(),
-                                    Evo_Texto = "FIBROMIALGIA - " + Tipo_Evo_Rep
-                                });
-                            }                           
-                        }
+                                List<ReportEVO> export_om_evoluciones = new List<ReportEVO>();
 
-                        return export_om_evoluciones;
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                                while (Lectura_Hora.Read() == true)
+                                {
+                                    string LogoCia = Lectura_Hora["Com_Logo"].ToString(); //trae base64
+                                    Byte[] bytes = Convert.FromBase64String(LogoCia); //convierte a bytes
+                                    MemoryStream stmBLOBData = new MemoryStream(bytes);
+                                    PictureBox pic = new PictureBox();
+                                    pic.Image = Image.FromStream(stmBLOBData);
+
+                                    if (Lectura_Hora["Evo_Adm"] != DBNull.Value)
+                                    {
+                                        string DXCIE11 = "";
+                                        CXN_CIE11 cie11 = GetCIE11(Convert.ToInt32(Lectura_Hora["Evo_Adm"]));
+                                        if (cie11 != null)
+                                        {
+                                            DXCIE11 = cie11.Codigo + " - " + cie11.Descripcion;
+                                        }
+
+                                        export_om_evoluciones.Add(new ReportEVO
+                                        {
+                                            DXCIE11 = DXCIE11,
+                                            Admision = Convert.ToInt32(Lectura_Hora["Evo_Adm"]),
+                                            Evo_Hora = Lectura_Hora["Evo_Hora"].ToString(),
+                                            FechaBase = Convert.ToDateTime(Lectura_Hora["Evo_Fecha"]),
+                                            PacienteNombre = Lectura_Hora["Pac_PrimerA"].ToString() + " " + Lectura_Hora["Pac_SegundoA"].ToString() + " " + Lectura_Hora["Pac_PrimerN"].ToString() + " " + Lectura_Hora["Pac_SegundoN"].ToString(),
+                                            PacienteIdentificacion = Lectura_Hora["Pac_TipoId"].ToString() + " " + Lectura_Hora["Pac_IdNum"].ToString(),
+                                            Edad = Lectura_Hora["Evo_Edad"].ToString(),
+                                            Evo_Sesion = Lectura_Hora["Evo_Sesion"].ToString(),
+                                            ProfesionalNombre = Lectura_Hora["Bod_Responsable"].ToString(),
+                                            RegistroMedico = Lectura_Hora["Bod_Reg_Med"].ToString(),
+                                            Evo_Evo = Lectura_Hora["Evo_Evo"].ToString(),
+                                            Evo_Fase = Lectura_Hora["Evo_Fase"].ToString(),
+                                            Logo = repoGen.GetBytes(pic.Image),
+                                            EmpresaNombre = Lectura_Hora["Com_Nombre"].ToString(),
+                                            Evo_Texto = "FIBROMIALGIA - " + Tipo_Evo_Rep
+                                        });
+                                    }
+                                }
+
+                                return export_om_evoluciones;
+                            }
+                            else
+                            {
+                                return null;
+                            }
+                        }
+                    }                    
                 }
             }
             catch (Exception ex)
@@ -2650,53 +2776,71 @@ namespace Persistence.CXN.Metodos
                                          "INNER JOIN CXN_ASEGURADORA ON CXN_EVOFIB.Evo_Ase = CXN_ASEGURADORA.Ase_Identificador " +
                                          "INNER JOIN CXN_CIA ON CXN_EVOFIB.Evo_Cia = CXN_CIA.Com_Identificador " +
                                          "INNER JOIN CXN_BODEGAS ON CXN_EVOFIB.Evo_Med = CXN_BODEGAS.Bod_Usuario " +
-                                         "WHERE Pac_Id = '" + Paciente + "' " +
-                                         "AND Evo_Adm = '" + Admision + "' " +
-                                         "AND Evo_Tipo = '" + Tipo_Evo_Rep + "' " +
+                                         "WHERE Pac_Id = @param1 " +
+                                         "AND Evo_Adm = @param2 " +
+                                         "AND Evo_Tipo = @param3 " +
                                          "ORDER BY Evo_Fecha, Evo_Sesion ASC";
-                    SqlCommand Carga_Command = new SqlCommand(Cargar_Hora, con);
-                    SqlDataReader Lectura_Hora = (Carga_Command.ExecuteReader());
-                    if (Lectura_Hora.HasRows)
-                    {
-                        List<ReportEVO> export_om_evoluciones = new List<ReportEVO>();
 
-                        while (Lectura_Hora.Read() == true)
+                    using (SqlCommand Carga_Command = new SqlCommand(Cargar_Hora, con))
+                    {
+                        Carga_Command.Parameters.AddWithValue("@param1", Paciente);
+                        Carga_Command.Parameters.AddWithValue("@param2", Admision);
+                        Carga_Command.Parameters.AddWithValue("@param3", Tipo_Evo_Rep);
+
+                        using (SqlDataReader Lectura_Hora = (Carga_Command.ExecuteReader()))
                         {
-                            string LogoCia = Lectura_Hora["Com_Logo"].ToString(); //trae base64
-                            Byte[] bytes = Convert.FromBase64String(LogoCia); //convierte a bytes
-                            MemoryStream stmBLOBData = new MemoryStream(bytes);
-                            PictureBox pic = new PictureBox();
-                            pic.Image = Image.FromStream(stmBLOBData);
-
-                            export_om_evoluciones.Add(new ReportEVO
+                            if (Lectura_Hora.HasRows)
                             {
-                                Admision = Convert.ToInt32(Lectura_Hora["Evo_Adm"]),
-                                Evo_Hora = Lectura_Hora["Evo_Hora"].ToString(),
-                                FechaBase = Convert.ToDateTime(Lectura_Hora["Evo_Fecha"]),
-                                PacienteNombre = Lectura_Hora["Pac_PrimerA"].ToString() + " " + Lectura_Hora["Pac_SegundoA"].ToString() + " " + Lectura_Hora["Pac_PrimerN"].ToString() + " " + Lectura_Hora["Pac_SegundoN"].ToString(),
-                                PacienteIdentificacion = Lectura_Hora["Pac_TipoId"].ToString() + " " + Lectura_Hora["Pac_IdNum"].ToString(),
-                                Edad = Lectura_Hora["Evo_Edad"].ToString(),
-                                Evo_Sesion = Lectura_Hora["Evo_Sesion"].ToString(),
-                                ProfesionalNombre = Lectura_Hora["Bod_Responsable"].ToString(),
-                                RegistroMedico = Lectura_Hora["Bod_Reg_Med"].ToString(),
-                                Evo_Evo = Lectura_Hora["Evo_Evo"].ToString(),
-                                Evo_Fase = Lectura_Hora["Evo_Fase"].ToString(),
-                                Logo = repoGen.GetBytes(pic.Image),
-                                EmpresaNombre = Lectura_Hora["Com_Nombre"].ToString(),
-                                Evo_Texto = "FIBROMIALGIA - " + Tipo_Evo_Rep
-                            });
-                        }
+                                List<ReportEVO> export_om_evoluciones = new List<ReportEVO>();
 
-                        return export_om_evoluciones;
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                                string DXCIE11 = "";
+                                CXN_CIE11 cie11 = GetCIE11(Admision);
+                                if (cie11 != null)
+                                {
+                                    DXCIE11 = cie11.Codigo + " - " + cie11.Descripcion;
+                                }
+
+                                while (Lectura_Hora.Read() == true)
+                                {
+                                    string LogoCia = Lectura_Hora["Com_Logo"].ToString(); //trae base64
+                                    Byte[] bytes = Convert.FromBase64String(LogoCia); //convierte a bytes
+                                    MemoryStream stmBLOBData = new MemoryStream(bytes);
+                                    PictureBox pic = new PictureBox();
+                                    pic.Image = Image.FromStream(stmBLOBData);
+
+                                    export_om_evoluciones.Add(new ReportEVO
+                                    {
+                                        DXCIE11 = DXCIE11,
+                                        Admision = Convert.ToInt32(Lectura_Hora["Evo_Adm"]),
+                                        Evo_Hora = Lectura_Hora["Evo_Hora"].ToString(),
+                                        FechaBase = Convert.ToDateTime(Lectura_Hora["Evo_Fecha"]),
+                                        PacienteNombre = Lectura_Hora["Pac_PrimerA"].ToString() + " " + Lectura_Hora["Pac_SegundoA"].ToString() + " " + Lectura_Hora["Pac_PrimerN"].ToString() + " " + Lectura_Hora["Pac_SegundoN"].ToString(),
+                                        PacienteIdentificacion = Lectura_Hora["Pac_TipoId"].ToString() + " " + Lectura_Hora["Pac_IdNum"].ToString(),
+                                        Edad = Lectura_Hora["Evo_Edad"].ToString(),
+                                        Evo_Sesion = Lectura_Hora["Evo_Sesion"].ToString(),
+                                        ProfesionalNombre = Lectura_Hora["Bod_Responsable"].ToString(),
+                                        RegistroMedico = Lectura_Hora["Bod_Reg_Med"].ToString(),
+                                        Evo_Evo = Lectura_Hora["Evo_Evo"].ToString(),
+                                        Evo_Fase = Lectura_Hora["Evo_Fase"].ToString(),
+                                        Logo = repoGen.GetBytes(pic.Image),
+                                        EmpresaNombre = Lectura_Hora["Com_Nombre"].ToString(),
+                                        Evo_Texto = "FIBROMIALGIA - " + Tipo_Evo_Rep
+                                    });
+                                }
+
+                                return export_om_evoluciones;
+                            }
+                            else
+                            {
+                                return null;
+                            }
+                        }
+                    }                    
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 return null;
             }
         }
@@ -2724,86 +2868,102 @@ namespace Persistence.CXN.Metodos
                                          "INNER JOIN CXN_ASEGURADORA A ON J.Jun_Ase = A.Ase_Identificador " +
                                          "INNER JOIN CXN_CIA C ON J.Jun_Cia = C.Com_Identificador " +
                                          "INNER JOIN CXN_BODEGAS B ON J.Jun_Bodega = B.Bod_Numero " +
-                                         "WHERE J.Jun_Adm = '" + Admition + "' " +
-                                         "AND J.Jun_Tipo = '" + Tipo + "'";
-                    SqlCommand Carga_Command = new SqlCommand(Cargar_Hora, con);
-                    SqlDataReader Lectura_Hora = (Carga_Command.ExecuteReader());
-                    if (Lectura_Hora.Read() == true)
+                                         "WHERE J.Jun_Adm = @param1 " +
+                                         "AND J.Jun_Tipo = @param2";
+
+                    using (SqlCommand Carga_Command = new SqlCommand(Cargar_Hora, con))
                     {
-                        string Bod_Firma1 = null;
+                        Carga_Command.Parameters.AddWithValue("@param1", Admition);
+                        Carga_Command.Parameters.AddWithValue("@param2", Tipo);
 
-                        if (Lectura_Hora["Jun_Firma"].ToString() == "SI")
+                        using (SqlDataReader Lectura_Hora = (Carga_Command.ExecuteReader()))
                         {
-                            var firma = repoBodegas.getDatosUser(Lectura_Hora["Jun_MedFirma"].ToString());
-                            Bod_Firma1 = firma.Bod_Firma;
+                            if (Lectura_Hora.Read() == true)
+                            {
+                                string Bod_Firma1 = null;
+
+                                if (Lectura_Hora["Jun_Firma"].ToString() == "SI")
+                                {
+                                    var firma = repoBodegas.getDatosUser(Lectura_Hora["Jun_MedFirma"].ToString());
+                                    Bod_Firma1 = firma.Bod_Firma;
+                                }
+                                else
+                                {
+                                    Bod_Firma1 = "/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAIBAQIBAQICAgICAgICAwUDAwMDAwYEBAMFBw" +
+                                                "YHBwcGBwcICQsJCAgKCAcHCg0KCgsMDAwMBwkODw0MDgsMDAz/2wBDAQICAgMDAwYDAwYMCAcIDAwMDAw" +
+                                                "MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAz/wAARCAAZABgDASIAAhEB" +
+                                                "AxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQID" +
+                                                "AAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdIS" +
+                                                "UpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usL" +
+                                                "DxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAE" +
+                                                "CAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMz" +
+                                                "UvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6" +
+                                                "goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn" +
+                                                "6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD9/KKKKACiiigAooooAKKKKAP/2Q==";
+                                }
+
+                                Byte[] bytes = Convert.FromBase64String(Bod_Firma1);
+                                MemoryStream stmBLOBData = new MemoryStream(bytes);
+                                PictureBox pic = new PictureBox();
+                                pic.Image = Image.FromStream(stmBLOBData);
+
+                                string LogoCia = Lectura_Hora["Com_Logo"].ToString(); //trae base64
+                                Byte[] bytes2 = Convert.FromBase64String(LogoCia); //convierte a bytes
+                                MemoryStream stmBLOBData2 = new MemoryStream(bytes2);
+                                PictureBox pic2 = new PictureBox();
+                                pic2.Image = Image.FromStream(stmBLOBData2);
+
+                                string DXCIE11 = "";
+                                CXN_CIE11 cie11 = GetCIE11(Admition);
+                                if (cie11 != null)
+                                {
+                                    DXCIE11 = cie11.Codigo + " - " + cie11.Descripcion;
+                                }
+
+                                List<ReportJuntas> sub_Class_HCJUNTAS = new List<ReportJuntas>();
+                                sub_Class_HCJUNTAS.Add(new ReportJuntas
+                                {
+                                    DXCIE11 = DXCIE11,
+                                    PacienteNombre = Lectura_Hora["Pac_PrimerN"].ToString() + " " + Lectura_Hora["Pac_SegundoN"].ToString() + " " + Lectura_Hora["Pac_PrimerA"].ToString() + " " + Lectura_Hora["Pac_SegundoA"].ToString(),
+                                    PacienteIdentificacion = Lectura_Hora["Pac_TipoId"].ToString() + " " + Lectura_Hora["Pac_IdNum"].ToString(),
+                                    Edad = Lectura_Hora["Jun_Edad"].ToString(),
+                                    FechaBase = Convert.ToDateTime(Lectura_Hora["Jun_Fecha"].ToString()),
+                                    Jun_Fisiatra = Lectura_Hora["Jun_Fisiatra"].ToString(),
+                                    Jun_TF = Lectura_Hora["Jun_TF"].ToString(),
+                                    Jun_TO = Lectura_Hora["Jun_TO"].ToString(),
+                                    Jun_Psicologo = Lectura_Hora["Jun_Psicologo"].ToString(),
+                                    Jun_DX_FI = Lectura_Hora["Jun_DX_FI"].ToString(),
+                                    Jun_DX_TF = Lectura_Hora["Jun_DX_TF"].ToString(),
+                                    Jun_DX_TO = Lectura_Hora["Jun_DX_TO"].ToString(),
+                                    Jun_DX_PS = Lectura_Hora["Jun_DX_PS"].ToString(),
+                                    Jun_Pro_FI = Lectura_Hora["Jun_Pro_FI"].ToString(),
+                                    Jun_Pro_TF = Lectura_Hora["Jun_Pro_TF"].ToString(),
+                                    Jun_Pro_TO = Lectura_Hora["Jun_Pro_TO"].ToString(),
+                                    Jun_Pro_PS = Lectura_Hora["Jun_Pro_PS"].ToString(),
+                                    Jun_Con_FI = Lectura_Hora["Jun_Con_FI"].ToString(),
+                                    Jun_Con_TF = Lectura_Hora["Jun_Con_TF"].ToString(),
+                                    Jun_Con_TO = Lectura_Hora["Jun_Con_TO"].ToString(),
+                                    Jun_Con_PS = Lectura_Hora["Jun_Con_PS"].ToString(),
+                                    Jun_Observa = Lectura_Hora["Jun_Observa"].ToString(),
+                                    Jun_Prox_Cita = Convert.ToDateTime(Lectura_Hora["Jun_Prox_Cita"]),
+                                    Firma = repoGen.GetBytes(pic.Image),
+                                    Admision = Convert.ToInt32(Lectura_Hora["Jun_Adm"]),
+                                    Jun_Observa_TO = Lectura_Hora["Jun_Observa_TO"].ToString(),
+                                    Jun_Observa_PS = Lectura_Hora["Jun_Observa_PS"].ToString(),
+                                    Logo = repoGen.GetBytes(pic2.Image),
+                                    EmpresaNombre = Lectura_Hora["Com_Nombre"].ToString(),
+                                    EmpresaDireccion = Lectura_Hora["Com_Direccion"].ToString(),
+                                    EmpresaIdentificacion = Lectura_Hora["Com_Identificacion"].ToString(),
+                                    EmpresaTelefono = Lectura_Hora["Com_Telefono"].ToString()
+                                });
+                                return sub_Class_HCJUNTAS;
+                            }
+                            else
+                            {
+                                return null;
+                            }
                         }
-                        else
-                        {
-                            Bod_Firma1 = "/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAIBAQIBAQICAgICAgICAwUDAwMDAwYEBAMFBw" +
-                                        "YHBwcGBwcICQsJCAgKCAcHCg0KCgsMDAwMBwkODw0MDgsMDAz/2wBDAQICAgMDAwYDAwYMCAcIDAwMDAw" +
-                                        "MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAz/wAARCAAZABgDASIAAhEB" +
-                                        "AxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQID" +
-                                        "AAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdIS" +
-                                        "UpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usL" +
-                                        "DxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAE" +
-                                        "CAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMz" +
-                                        "UvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6" +
-                                        "goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn" +
-                                        "6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD9/KKKKACiiigAooooAKKKKAP/2Q==";
-                        }
-
-                        Byte[] bytes = Convert.FromBase64String(Bod_Firma1);
-                        MemoryStream stmBLOBData = new MemoryStream(bytes);
-                        PictureBox pic = new PictureBox();
-                        pic.Image = Image.FromStream(stmBLOBData);
-
-                        string LogoCia = Lectura_Hora["Com_Logo"].ToString(); //trae base64
-                        Byte[] bytes2 = Convert.FromBase64String(LogoCia); //convierte a bytes
-                        MemoryStream stmBLOBData2 = new MemoryStream(bytes2);
-                        PictureBox pic2 = new PictureBox();
-                        pic2.Image = Image.FromStream(stmBLOBData2);
-
-                        List<ReportJuntas> sub_Class_HCJUNTAS = new List<ReportJuntas>();
-                        sub_Class_HCJUNTAS.Add(new ReportJuntas
-                        {
-                            PacienteNombre = Lectura_Hora["Pac_PrimerN"].ToString() + " " + Lectura_Hora["Pac_SegundoN"].ToString() + " " + Lectura_Hora["Pac_PrimerA"].ToString() + " " + Lectura_Hora["Pac_SegundoA"].ToString(),
-                            PacienteIdentificacion = Lectura_Hora["Pac_TipoId"].ToString() + " " + Lectura_Hora["Pac_IdNum"].ToString(),
-                            Edad = Lectura_Hora["Jun_Edad"].ToString(),
-                            FechaBase = Convert.ToDateTime(Lectura_Hora["Jun_Fecha"].ToString()),
-                            Jun_Fisiatra = Lectura_Hora["Jun_Fisiatra"].ToString(),
-                            Jun_TF = Lectura_Hora["Jun_TF"].ToString(),
-                            Jun_TO = Lectura_Hora["Jun_TO"].ToString(),
-                            Jun_Psicologo = Lectura_Hora["Jun_Psicologo"].ToString(),
-                            Jun_DX_FI = Lectura_Hora["Jun_DX_FI"].ToString(),
-                            Jun_DX_TF = Lectura_Hora["Jun_DX_TF"].ToString(),
-                            Jun_DX_TO = Lectura_Hora["Jun_DX_TO"].ToString(),
-                            Jun_DX_PS = Lectura_Hora["Jun_DX_PS"].ToString(),
-                            Jun_Pro_FI = Lectura_Hora["Jun_Pro_FI"].ToString(),
-                            Jun_Pro_TF = Lectura_Hora["Jun_Pro_TF"].ToString(),
-                            Jun_Pro_TO = Lectura_Hora["Jun_Pro_TO"].ToString(),
-                            Jun_Pro_PS = Lectura_Hora["Jun_Pro_PS"].ToString(),
-                            Jun_Con_FI = Lectura_Hora["Jun_Con_FI"].ToString(),
-                            Jun_Con_TF = Lectura_Hora["Jun_Con_TF"].ToString(),
-                            Jun_Con_TO = Lectura_Hora["Jun_Con_TO"].ToString(),
-                            Jun_Con_PS = Lectura_Hora["Jun_Con_PS"].ToString(),
-                            Jun_Observa = Lectura_Hora["Jun_Observa"].ToString(),
-                            Jun_Prox_Cita = Convert.ToDateTime(Lectura_Hora["Jun_Prox_Cita"]),
-                            Firma = repoGen.GetBytes(pic.Image),
-                            Admision = Convert.ToInt32(Lectura_Hora["Jun_Adm"]),
-                            Jun_Observa_TO = Lectura_Hora["Jun_Observa_TO"].ToString(),
-                            Jun_Observa_PS = Lectura_Hora["Jun_Observa_PS"].ToString(),
-                            Logo = repoGen.GetBytes(pic2.Image),
-                            EmpresaNombre = Lectura_Hora["Com_Nombre"].ToString(),
-                            EmpresaDireccion = Lectura_Hora["Com_Direccion"].ToString(),
-                            EmpresaIdentificacion = Lectura_Hora["Com_Identificacion"].ToString(),
-                            EmpresaTelefono = Lectura_Hora["Com_Telefono"].ToString()
-                        });
-                        return sub_Class_HCJUNTAS;
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                    }                    
                 }
             }
             catch (Exception ex)
@@ -2839,189 +2999,205 @@ namespace Persistence.CXN.Metodos
                                          " HisPecMayD, HisRomI, HisRomD, HisAbSupI, HisAbSupD, HisAbdInfI, HisAbdInfD, HisOblicuoI, HisOblicuoD, HisExtDorsalI, HisExtDorsalD, HisExtLumbarI, HisExtLumbarD, HisGluMayI, HisGluMayD, HisGluMedI, HisGluMedD, HisCuadriI, HisCuadriD, HisIsquiI, HisIsquiD, HisGemeloI, HisGemeloD, HisTibAntI, " +
                                          " HisTibAntD, HisEscaAntI, HisEscaAntD, HisEscaMedI, HisEscaMedD, HisEscaPosI, HisEscaPosD, HisECMI, HisECMD, HisCualLumI, HisCualLumD, HisCuadI, HisCuadD, HisIsquiI2, HisIsqui2D, HisTensorI, HisTensorD, HisGastroI, HisGastroD, HisTAquilesI, HisTAquilesD, 'Vista Anterior' as VISTANT, " +
                                          " 'Vista Lateral' as VistaL, 'Vista Posterior' as VistaP, 'Cuello' as Cuello, 'Espalda Alta' as EspaAl, 'Torax' as Torax, 'Abdomen' as Abdomen, 'Espalda Baja' as EspaBa, 'Pelvis' as Pelvis, 'Escapula' as Escapula, 'Columna' as Columna, 'Crestas Iliacas' as Cresta, 'Gluteos' as Gluteos, 'Fosa Poplitea' as Fosa " +
-                                         " FROM CXN_HCTF INNER JOIN  CXN_PACIENTES ON CXN_HCTF.HC_PacId = CXN_PACIENTES.Pac_Id INNER JOIN  CXN_ASEGURADORA ON CXN_HCTF.HC_Ase = CXN_ASEGURADORA.Ase_Identificador INNER JOIN CXN_CIA ON CXN_HCTF.HC_Cia = CXN_CIA.Com_Identificador INNER JOIN CXN_BODEGAS ON CXN_HCTF.HC_Prof = CXN_BODEGAS.Bod_Numero WHERE CXN_HCTF.HC_Adm = '" + Admition + "'";
-                    SqlCommand Carga_Command = new SqlCommand(Cargar_Hora, con);
-                    SqlDataReader Lectura_Hora = (Carga_Command.ExecuteReader());
-                    if (Lectura_Hora.Read() == true)
-                    {
-                        List<ReportTF> sub_Class_HCTF = new List<ReportTF>();
+                                         " FROM CXN_HCTF INNER JOIN  CXN_PACIENTES ON CXN_HCTF.HC_PacId = CXN_PACIENTES.Pac_Id INNER JOIN  CXN_ASEGURADORA ON CXN_HCTF.HC_Ase = CXN_ASEGURADORA.Ase_Identificador INNER JOIN CXN_CIA ON CXN_HCTF.HC_Cia = CXN_CIA.Com_Identificador INNER JOIN CXN_BODEGAS ON CXN_HCTF.HC_Prof = CXN_BODEGAS.Bod_Numero WHERE CXN_HCTF.HC_Adm = @param1";
 
-                        sub_Class_HCTF.Add(new ReportTF
-                        {
-                            PacienteNombre = Lectura_Hora["HC_Pac"].ToString(),
-                            Ocupacion = Lectura_Hora["HC_Ocupacion"].ToString(),
-                            FNto = Convert.ToDateTime(Lectura_Hora["Pac_FechaNto"].ToString()),
-                            FechaBase = Convert.ToDateTime(Lectura_Hora["HC_Fecha"].ToString()),
-                            HC_Hijos = Lectura_Hora["HC_Hijos"].ToString(),
-                            Edad = Lectura_Hora["HC_Edad"].ToString(),
-                            Pac_Sexo = Lectura_Hora["Pac_Sexo"].ToString(),
-                            PacienteIdentificacion = Lectura_Hora["Pac_TipoId"].ToString() + " " + Lectura_Hora["Pac_IdNum"].ToString() + " - " + Admition,
-                            PacienteDireccion = Lectura_Hora["Pac_Direccion"].ToString(),
-                            HC_EstadoC = Lectura_Hora["HC_EstadoC"].ToString(),
-                            PacienteTelefono = Lectura_Hora["Pac_Telefono"].ToString(),
-                            HC_Estudios = Lectura_Hora["HC_Estudios"].ToString(),
-                            HC_TiempoE = Lectura_Hora["HC_TiempoE"].ToString(),
-                            HC_ExaDiag = Lectura_Hora["HC_ExaDiag"].ToString(),
-                            Pac_Email = Lectura_Hora["Pac_Email"].ToString(),
-                            Diagnostico1 = Lectura_Hora["HC_CIE10"].ToString() + " - " + Lectura_Hora["HC_Dx"].ToString(),
-                            HC_TratamientosP = Lectura_Hora["HC_TratamientosP"].ToString(),
-                            HC_MotivoC = Lectura_Hora["HC_MotivoCons"].ToString(),
-                            HC_DolorEIAN = Lectura_Hora["HC_DolorEIAN"].ToString(),
-                            HC_EVA = Lectura_Hora["HC_EVA"].ToString(),
-                            HC_CaracDol = Lectura_Hora["HC_CaracDol"].ToString(),
-                            HC_Text60 = Lectura_Hora["HC_Text60"].ToString(),
-                            HC_SensiDol = Lectura_Hora["HC_SensiDol"].ToString(),
-                            HC_SintAso = Lectura_Hora["HC_SintAso"].ToString(),
-                            HC_HabTox = Lectura_Hora["HC_HabTox"].ToString(),
-                            HC_Cual1 = Lectura_Hora["HC_Cual1"].ToString(),
-                            HC_FrecDol = Lectura_Hora["HC_FrecDol"].ToString(),
-                            HC_TipoDol = Lectura_Hora["HC_TipoDol"].ToString(),
-                            HC_Cual2 = Lectura_Hora["HC_Cual2"].ToString(),
-                            HC_AntPat = Lectura_Hora["HC_AntPat"].ToString(),
-                            HC_AntNeu = Lectura_Hora["HC_AntNeu"].ToString(),
-                            HC_SalMen = Lectura_Hora["HC_SalMen"].ToString(),
-                            HC_OsteoMusc = Lectura_Hora["HC_OsteoMusc"].ToString(),
-                            HC_Endocrino = Lectura_Hora["HC_Endocrino"].ToString(),
-                            HC_Quir = Lectura_Hora["HC_Quir"].ToString(),
-                            HC_Resp = Lectura_Hora["HC_Resp"].ToString(),
-                            HC_Derma = Lectura_Hora["HC_Derma"].ToString(),
-                            HC_Farma = Lectura_Hora["HC_Farma"].ToString(),
-                            HC_AntFam = Lectura_Hora["HC_AntFam"].ToString(),
-                            HisCabeza = Lectura_Hora["HisCabeza"].ToString(),
-                            HisHombros = Lectura_Hora["HisHombros"].ToString(),
-                            HisBrazos = Lectura_Hora["HisBrazos"].ToString(),
-                            HisCadera = Lectura_Hora["HisCadera"].ToString(),
-                            HisRodilla = Lectura_Hora["HisRodilla"].ToString(),
-                            HisRotula = Lectura_Hora["HisRotula"].ToString(),
-                            HisTibia = Lectura_Hora["HisTibia"].ToString(),
-                            HisTobillo = Lectura_Hora["HisTobillo"].ToString(),
-                            HisPie = Lectura_Hora["HisPie"].ToString(),
-                            HisDiagnostico = Lectura_Hora["HisDiagnostico"].ToString(),
-                            HisPronostico = Lectura_Hora["HisPronostico"].ToString(),
-                            HisAcciones = Lectura_Hora["HisAcciones"].ToString(),
-                            HisConducta = Lectura_Hora["HisConducta"].ToString(),
-                            Marcha_Mec = Lectura_Hora["Marcha_Mec"].ToString(),
-                            HisCuello = Lectura_Hora["HisCuello"].ToString(),
-                            HisEspaldaA = Lectura_Hora["HisEspaldaA"].ToString(),
-                            HisTorax = Lectura_Hora["HisTorax"].ToString(),
-                            HisAbdomen = Lectura_Hora["HisAbdomen"].ToString(),
-                            HisEspaldaB = Lectura_Hora["HisEspaldaB"].ToString(),
-                            HisPelvis = Lectura_Hora["HisPelvis"].ToString(),
-                            HisEscapula = Lectura_Hora["HisEscapula"].ToString(),
-                            HisColumna = Lectura_Hora["HisColumna"].ToString(),
-                            HisCrestasIliacas = Lectura_Hora["HisCrestasIliacas"].ToString(),
-                            HisGluteos = Lectura_Hora["HisGluteos"].ToString(),
-                            HisFosa = Lectura_Hora["HisFosa"].ToString(),
-                            HC_CC1 = Lectura_Hora["HC_CC1"].ToString(),
-                            HC_CC2 = Lectura_Hora["HC_CC2"].ToString(),
-                            HC_CC3 = Lectura_Hora["HC_CC3"].ToString(),
-                            HC_CC4 = Lectura_Hora["HC_CC4"].ToString(),
-                            HC_CC5 = Lectura_Hora["HC_CC5"].ToString(),
-                            HC_CC6 = Lectura_Hora["HC_CC6"].ToString(),
-                            HC_CD1 = Lectura_Hora["HC_CD1"].ToString(),
-                            HC_CD2 = Lectura_Hora["HC_CD2"].ToString(),
-                            HC_CD3 = Lectura_Hora["HC_CD3"].ToString(),
-                            HC_CD4 = Lectura_Hora["HC_CD4"].ToString(),
-                            HC_H1 = Lectura_Hora["HC_H1"].ToString(),
-                            HC_H2 = Lectura_Hora["HC_H2"].ToString(),
-                            HC_H3 = Lectura_Hora["HC_H3"].ToString(),
-                            HC_H4 = Lectura_Hora["HC_H4"].ToString(),
-                            HC_H5 = Lectura_Hora["HC_H5"].ToString(),
-                            HC_H6 = Lectura_Hora["HC_H6"].ToString(),
-                            HC_C1 = Lectura_Hora["HC_C1"].ToString(),
-                            HC_C2 = Lectura_Hora["HC_C2"].ToString(),
-                            HC_C3 = Lectura_Hora["HC_C3"].ToString(),
-                            HC_C4 = Lectura_Hora["HC_C4"].ToString(),
-                            HC_C5 = Lectura_Hora["HC_C5"].ToString(),
-                            HC_C6 = Lectura_Hora["HC_C6"].ToString(),
-                            Hc_T1 = Lectura_Hora["Hc_T1"].ToString(),
-                            Hc_T2 = Lectura_Hora["Hc_T2"].ToString(),
-                            Hc_T3 = Lectura_Hora["Hc_T3"].ToString(),
-                            Hc_T4 = Lectura_Hora["Hc_T4"].ToString(),
-                            Hc_T5 = Lectura_Hora["Hc_T5"].ToString(),
-                            Hc_T6 = Lectura_Hora["Hc_T6"].ToString(),
-                            Hc_T7 = Lectura_Hora["Hc_T7"].ToString(),
-                            Hc_T8 = Lectura_Hora["Hc_T8"].ToString(),
-                            Hc_T9 = Lectura_Hora["Hc_T9"].ToString(),
-                            Hc_T10 = Lectura_Hora["Hc_T10"].ToString(),
-                            Hc_T11 = Lectura_Hora["Hc_T11"].ToString(),
-                            Hc_T12 = Lectura_Hora["Hc_T12"].ToString(),
-                            Hc_T13 = Lectura_Hora["Hc_T13"].ToString(),
-                            Hc_T14 = Lectura_Hora["Hc_T14"].ToString(),
-                            HisExtCui = Lectura_Hora["HisExtCui"].ToString(),
-                            HisExtCuD = Lectura_Hora["HisExtCuD"].ToString(),
-                            HisEscalenosI = Lectura_Hora["HisEscalenosI"].ToString(),
-                            HisEscalenosD = Lectura_Hora["HisEscalenosD"].ToString(),
-                            HisTrapSupI = Lectura_Hora["HisTrapSupI"].ToString(),
-                            HisTrapSupD = Lectura_Hora["HisTrapSupD"].ToString(),
-                            HisTrapMedI = Lectura_Hora["HisTrapMedI"].ToString(),
-                            HisTrapMedD = Lectura_Hora["HisTrapMedD"].ToString(),
-                            HisTrapInfI = Lectura_Hora["HisTrapInfI"].ToString(),
-                            HisTrapInfD = Lectura_Hora["HisTrapInfD"].ToString(),
-                            HisSerAntI = Lectura_Hora["HisSerAntI"].ToString(),
-                            HisSerAntD = Lectura_Hora["HisSerAntD"].ToString(),
-                            HisPecMayI = Lectura_Hora["HisPecMayI"].ToString(),
-                            HisPecMayD = Lectura_Hora["HisPecMayD"].ToString(),
-                            HisRomI = Lectura_Hora["HisRomI"].ToString(),
-                            HisRomD = Lectura_Hora["HisRomD"].ToString(),
-                            HisAbSupI = Lectura_Hora["HisAbSupI"].ToString(),
-                            HisAbSupD = Lectura_Hora["HisAbSupD"].ToString(),
-                            HisAbdInfI = Lectura_Hora["HisAbdInfI"].ToString(),
-                            HisAbdInfD = Lectura_Hora["HisAbdInfD"].ToString(),
-                            HisOblicuoI = Lectura_Hora["HisOblicuoI"].ToString(),
-                            HisOblicuoD = Lectura_Hora["HisOblicuoD"].ToString(),
-                            HisExtDorsalI = Lectura_Hora["HisExtDorsalI"].ToString(),
-                            HisExtDorsalD = Lectura_Hora["HisExtDorsalD"].ToString(),
-                            HisExtLumbarI = Lectura_Hora["HisExtLumbarI"].ToString(),
-                            HisExtLumbarD = Lectura_Hora["HisExtLumbarD"].ToString(),
-                            HisGluMayI = Lectura_Hora["HisGluMayI"].ToString(),
-                            HisGluMayD = Lectura_Hora["HisGluMayD"].ToString(),
-                            HisGluMedI = Lectura_Hora["HisGluMedI"].ToString(),
-                            HisGluMedD = Lectura_Hora["HisGluMedD"].ToString(),
-                            HisCuadriI = Lectura_Hora["HisCuadriI"].ToString(),
-                            HisCuadriD = Lectura_Hora["HisCuadriD"].ToString(),
-                            HisIsquiI = Lectura_Hora["HisIsquiI"].ToString(),
-                            HisIsquiD = Lectura_Hora["HisIsquiD"].ToString(),
-                            HisGemeloI = Lectura_Hora["HisGemeloI"].ToString(),
-                            HisGemeloD = Lectura_Hora["HisGemeloD"].ToString(),
-                            HisTibAntI = Lectura_Hora["HisTibAntI"].ToString(),
-                            HisTibAntD = Lectura_Hora["HisTibAntD"].ToString(),
-                            HisEscaAntI = Lectura_Hora["HisEscaAntI"].ToString(),
-                            HisEscaAntD = Lectura_Hora["HisEscaAntD"].ToString(),
-                            HisEscaMedI = Lectura_Hora["HisEscaMedI"].ToString(),
-                            HisEscaMedD = Lectura_Hora["HisEscaMedD"].ToString(),
-                            HisEscaPosI = Lectura_Hora["HisEscaPosI"].ToString(),
-                            HisEscaPosD = Lectura_Hora["HisEscaPosD"].ToString(),
-                            HisECMI = Lectura_Hora["HisECMI"].ToString(),
-                            HisECMD = Lectura_Hora["HisECMD"].ToString(),
-                            HisCualLumI = Lectura_Hora["HisCualLumI"].ToString(),
-                            HisCualLumD = Lectura_Hora["HisCualLumD"].ToString(),
-                            HisCuadI = Lectura_Hora["HisCuadI"].ToString(),
-                            HisCuadD = Lectura_Hora["HisCuadD"].ToString(),
-                            HisIsquiI2 = Lectura_Hora["HisIsquiI2"].ToString(),
-                            HisIsqui2D = Lectura_Hora["HisIsqui2D"].ToString(),
-                            HisTensorI = Lectura_Hora["HisTensorI"].ToString(),
-                            HisTensorD = Lectura_Hora["HisTensorD"].ToString(),
-                            HisGastroI = Lectura_Hora["HisGastroI"].ToString(),
-                            HisGastroD = Lectura_Hora["HisGastroD"].ToString(),
-                            HisTAquilesI = Lectura_Hora["HisTAquilesI"].ToString(),
-                            HisTAquilesD = Lectura_Hora["HisTAquilesD"].ToString(),
-                            ProfesionalNombre = Lectura_Hora["Bod_Responsable"].ToString(),
-                            RegistroMedico = Lectura_Hora["Bod_Reg_Med"].ToString(),
-                            EmpresaNombre = Lectura_Hora["Com_Nombre"].ToString(),
-                            EmpresaIdentificacion = Lectura_Hora["Com_Identificacion"].ToString(),
-                            EmpresaTelefono = Lectura_Hora["Com_Telefono"].ToString()
-                        });
-                        return sub_Class_HCTF;
-                    }
-                    else
+                    using (SqlCommand Carga_Command = new SqlCommand(Cargar_Hora, con))
                     {
-                        return null;
-                    }
+                        Carga_Command.Parameters.AddWithValue("@param1", Admition);
+
+                        using (SqlDataReader Lectura_Hora = (Carga_Command.ExecuteReader()))
+                        {
+                            if (Lectura_Hora.Read() == true)
+                            {
+                                List<ReportTF> sub_Class_HCTF = new List<ReportTF>();
+
+                                string DXCIE11 = "";
+                                CXN_CIE11 cie11 = GetCIE11(Admition);
+                                if (cie11 != null)
+                                {
+                                    DXCIE11 = cie11.Codigo + " - " + cie11.Descripcion;
+                                }
+
+                                sub_Class_HCTF.Add(new ReportTF
+                                {
+                                    DXCIE11 = DXCIE11,
+                                    PacienteNombre = Lectura_Hora["HC_Pac"].ToString(),
+                                    Ocupacion = Lectura_Hora["HC_Ocupacion"].ToString(),
+                                    FNto = Convert.ToDateTime(Lectura_Hora["Pac_FechaNto"].ToString()),
+                                    FechaBase = Convert.ToDateTime(Lectura_Hora["HC_Fecha"].ToString()),
+                                    HC_Hijos = Lectura_Hora["HC_Hijos"].ToString(),
+                                    Edad = Lectura_Hora["HC_Edad"].ToString(),
+                                    Pac_Sexo = Lectura_Hora["Pac_Sexo"].ToString(),
+                                    PacienteIdentificacion = Lectura_Hora["Pac_TipoId"].ToString() + " " + Lectura_Hora["Pac_IdNum"].ToString() + " - " + Admition,
+                                    PacienteDireccion = Lectura_Hora["Pac_Direccion"].ToString(),
+                                    HC_EstadoC = Lectura_Hora["HC_EstadoC"].ToString(),
+                                    PacienteTelefono = Lectura_Hora["Pac_Telefono"].ToString(),
+                                    HC_Estudios = Lectura_Hora["HC_Estudios"].ToString(),
+                                    HC_TiempoE = Lectura_Hora["HC_TiempoE"].ToString(),
+                                    HC_ExaDiag = Lectura_Hora["HC_ExaDiag"].ToString(),
+                                    Pac_Email = Lectura_Hora["Pac_Email"].ToString(),
+                                    Diagnostico1 = Lectura_Hora["HC_CIE10"].ToString() + " - " + Lectura_Hora["HC_Dx"].ToString(),
+                                    HC_TratamientosP = Lectura_Hora["HC_TratamientosP"].ToString(),
+                                    HC_MotivoC = Lectura_Hora["HC_MotivoCons"].ToString(),
+                                    HC_DolorEIAN = Lectura_Hora["HC_DolorEIAN"].ToString(),
+                                    HC_EVA = Lectura_Hora["HC_EVA"].ToString(),
+                                    HC_CaracDol = Lectura_Hora["HC_CaracDol"].ToString(),
+                                    HC_Text60 = Lectura_Hora["HC_Text60"].ToString(),
+                                    HC_SensiDol = Lectura_Hora["HC_SensiDol"].ToString(),
+                                    HC_SintAso = Lectura_Hora["HC_SintAso"].ToString(),
+                                    HC_HabTox = Lectura_Hora["HC_HabTox"].ToString(),
+                                    HC_Cual1 = Lectura_Hora["HC_Cual1"].ToString(),
+                                    HC_FrecDol = Lectura_Hora["HC_FrecDol"].ToString(),
+                                    HC_TipoDol = Lectura_Hora["HC_TipoDol"].ToString(),
+                                    HC_Cual2 = Lectura_Hora["HC_Cual2"].ToString(),
+                                    HC_AntPat = Lectura_Hora["HC_AntPat"].ToString(),
+                                    HC_AntNeu = Lectura_Hora["HC_AntNeu"].ToString(),
+                                    HC_SalMen = Lectura_Hora["HC_SalMen"].ToString(),
+                                    HC_OsteoMusc = Lectura_Hora["HC_OsteoMusc"].ToString(),
+                                    HC_Endocrino = Lectura_Hora["HC_Endocrino"].ToString(),
+                                    HC_Quir = Lectura_Hora["HC_Quir"].ToString(),
+                                    HC_Resp = Lectura_Hora["HC_Resp"].ToString(),
+                                    HC_Derma = Lectura_Hora["HC_Derma"].ToString(),
+                                    HC_Farma = Lectura_Hora["HC_Farma"].ToString(),
+                                    HC_AntFam = Lectura_Hora["HC_AntFam"].ToString(),
+                                    HisCabeza = Lectura_Hora["HisCabeza"].ToString(),
+                                    HisHombros = Lectura_Hora["HisHombros"].ToString(),
+                                    HisBrazos = Lectura_Hora["HisBrazos"].ToString(),
+                                    HisCadera = Lectura_Hora["HisCadera"].ToString(),
+                                    HisRodilla = Lectura_Hora["HisRodilla"].ToString(),
+                                    HisRotula = Lectura_Hora["HisRotula"].ToString(),
+                                    HisTibia = Lectura_Hora["HisTibia"].ToString(),
+                                    HisTobillo = Lectura_Hora["HisTobillo"].ToString(),
+                                    HisPie = Lectura_Hora["HisPie"].ToString(),
+                                    HisDiagnostico = Lectura_Hora["HisDiagnostico"].ToString(),
+                                    HisPronostico = Lectura_Hora["HisPronostico"].ToString(),
+                                    HisAcciones = Lectura_Hora["HisAcciones"].ToString(),
+                                    HisConducta = Lectura_Hora["HisConducta"].ToString(),
+                                    Marcha_Mec = Lectura_Hora["Marcha_Mec"].ToString(),
+                                    HisCuello = Lectura_Hora["HisCuello"].ToString(),
+                                    HisEspaldaA = Lectura_Hora["HisEspaldaA"].ToString(),
+                                    HisTorax = Lectura_Hora["HisTorax"].ToString(),
+                                    HisAbdomen = Lectura_Hora["HisAbdomen"].ToString(),
+                                    HisEspaldaB = Lectura_Hora["HisEspaldaB"].ToString(),
+                                    HisPelvis = Lectura_Hora["HisPelvis"].ToString(),
+                                    HisEscapula = Lectura_Hora["HisEscapula"].ToString(),
+                                    HisColumna = Lectura_Hora["HisColumna"].ToString(),
+                                    HisCrestasIliacas = Lectura_Hora["HisCrestasIliacas"].ToString(),
+                                    HisGluteos = Lectura_Hora["HisGluteos"].ToString(),
+                                    HisFosa = Lectura_Hora["HisFosa"].ToString(),
+                                    HC_CC1 = Lectura_Hora["HC_CC1"].ToString(),
+                                    HC_CC2 = Lectura_Hora["HC_CC2"].ToString(),
+                                    HC_CC3 = Lectura_Hora["HC_CC3"].ToString(),
+                                    HC_CC4 = Lectura_Hora["HC_CC4"].ToString(),
+                                    HC_CC5 = Lectura_Hora["HC_CC5"].ToString(),
+                                    HC_CC6 = Lectura_Hora["HC_CC6"].ToString(),
+                                    HC_CD1 = Lectura_Hora["HC_CD1"].ToString(),
+                                    HC_CD2 = Lectura_Hora["HC_CD2"].ToString(),
+                                    HC_CD3 = Lectura_Hora["HC_CD3"].ToString(),
+                                    HC_CD4 = Lectura_Hora["HC_CD4"].ToString(),
+                                    HC_H1 = Lectura_Hora["HC_H1"].ToString(),
+                                    HC_H2 = Lectura_Hora["HC_H2"].ToString(),
+                                    HC_H3 = Lectura_Hora["HC_H3"].ToString(),
+                                    HC_H4 = Lectura_Hora["HC_H4"].ToString(),
+                                    HC_H5 = Lectura_Hora["HC_H5"].ToString(),
+                                    HC_H6 = Lectura_Hora["HC_H6"].ToString(),
+                                    HC_C1 = Lectura_Hora["HC_C1"].ToString(),
+                                    HC_C2 = Lectura_Hora["HC_C2"].ToString(),
+                                    HC_C3 = Lectura_Hora["HC_C3"].ToString(),
+                                    HC_C4 = Lectura_Hora["HC_C4"].ToString(),
+                                    HC_C5 = Lectura_Hora["HC_C5"].ToString(),
+                                    HC_C6 = Lectura_Hora["HC_C6"].ToString(),
+                                    Hc_T1 = Lectura_Hora["Hc_T1"].ToString(),
+                                    Hc_T2 = Lectura_Hora["Hc_T2"].ToString(),
+                                    Hc_T3 = Lectura_Hora["Hc_T3"].ToString(),
+                                    Hc_T4 = Lectura_Hora["Hc_T4"].ToString(),
+                                    Hc_T5 = Lectura_Hora["Hc_T5"].ToString(),
+                                    Hc_T6 = Lectura_Hora["Hc_T6"].ToString(),
+                                    Hc_T7 = Lectura_Hora["Hc_T7"].ToString(),
+                                    Hc_T8 = Lectura_Hora["Hc_T8"].ToString(),
+                                    Hc_T9 = Lectura_Hora["Hc_T9"].ToString(),
+                                    Hc_T10 = Lectura_Hora["Hc_T10"].ToString(),
+                                    Hc_T11 = Lectura_Hora["Hc_T11"].ToString(),
+                                    Hc_T12 = Lectura_Hora["Hc_T12"].ToString(),
+                                    Hc_T13 = Lectura_Hora["Hc_T13"].ToString(),
+                                    Hc_T14 = Lectura_Hora["Hc_T14"].ToString(),
+                                    HisExtCui = Lectura_Hora["HisExtCui"].ToString(),
+                                    HisExtCuD = Lectura_Hora["HisExtCuD"].ToString(),
+                                    HisEscalenosI = Lectura_Hora["HisEscalenosI"].ToString(),
+                                    HisEscalenosD = Lectura_Hora["HisEscalenosD"].ToString(),
+                                    HisTrapSupI = Lectura_Hora["HisTrapSupI"].ToString(),
+                                    HisTrapSupD = Lectura_Hora["HisTrapSupD"].ToString(),
+                                    HisTrapMedI = Lectura_Hora["HisTrapMedI"].ToString(),
+                                    HisTrapMedD = Lectura_Hora["HisTrapMedD"].ToString(),
+                                    HisTrapInfI = Lectura_Hora["HisTrapInfI"].ToString(),
+                                    HisTrapInfD = Lectura_Hora["HisTrapInfD"].ToString(),
+                                    HisSerAntI = Lectura_Hora["HisSerAntI"].ToString(),
+                                    HisSerAntD = Lectura_Hora["HisSerAntD"].ToString(),
+                                    HisPecMayI = Lectura_Hora["HisPecMayI"].ToString(),
+                                    HisPecMayD = Lectura_Hora["HisPecMayD"].ToString(),
+                                    HisRomI = Lectura_Hora["HisRomI"].ToString(),
+                                    HisRomD = Lectura_Hora["HisRomD"].ToString(),
+                                    HisAbSupI = Lectura_Hora["HisAbSupI"].ToString(),
+                                    HisAbSupD = Lectura_Hora["HisAbSupD"].ToString(),
+                                    HisAbdInfI = Lectura_Hora["HisAbdInfI"].ToString(),
+                                    HisAbdInfD = Lectura_Hora["HisAbdInfD"].ToString(),
+                                    HisOblicuoI = Lectura_Hora["HisOblicuoI"].ToString(),
+                                    HisOblicuoD = Lectura_Hora["HisOblicuoD"].ToString(),
+                                    HisExtDorsalI = Lectura_Hora["HisExtDorsalI"].ToString(),
+                                    HisExtDorsalD = Lectura_Hora["HisExtDorsalD"].ToString(),
+                                    HisExtLumbarI = Lectura_Hora["HisExtLumbarI"].ToString(),
+                                    HisExtLumbarD = Lectura_Hora["HisExtLumbarD"].ToString(),
+                                    HisGluMayI = Lectura_Hora["HisGluMayI"].ToString(),
+                                    HisGluMayD = Lectura_Hora["HisGluMayD"].ToString(),
+                                    HisGluMedI = Lectura_Hora["HisGluMedI"].ToString(),
+                                    HisGluMedD = Lectura_Hora["HisGluMedD"].ToString(),
+                                    HisCuadriI = Lectura_Hora["HisCuadriI"].ToString(),
+                                    HisCuadriD = Lectura_Hora["HisCuadriD"].ToString(),
+                                    HisIsquiI = Lectura_Hora["HisIsquiI"].ToString(),
+                                    HisIsquiD = Lectura_Hora["HisIsquiD"].ToString(),
+                                    HisGemeloI = Lectura_Hora["HisGemeloI"].ToString(),
+                                    HisGemeloD = Lectura_Hora["HisGemeloD"].ToString(),
+                                    HisTibAntI = Lectura_Hora["HisTibAntI"].ToString(),
+                                    HisTibAntD = Lectura_Hora["HisTibAntD"].ToString(),
+                                    HisEscaAntI = Lectura_Hora["HisEscaAntI"].ToString(),
+                                    HisEscaAntD = Lectura_Hora["HisEscaAntD"].ToString(),
+                                    HisEscaMedI = Lectura_Hora["HisEscaMedI"].ToString(),
+                                    HisEscaMedD = Lectura_Hora["HisEscaMedD"].ToString(),
+                                    HisEscaPosI = Lectura_Hora["HisEscaPosI"].ToString(),
+                                    HisEscaPosD = Lectura_Hora["HisEscaPosD"].ToString(),
+                                    HisECMI = Lectura_Hora["HisECMI"].ToString(),
+                                    HisECMD = Lectura_Hora["HisECMD"].ToString(),
+                                    HisCualLumI = Lectura_Hora["HisCualLumI"].ToString(),
+                                    HisCualLumD = Lectura_Hora["HisCualLumD"].ToString(),
+                                    HisCuadI = Lectura_Hora["HisCuadI"].ToString(),
+                                    HisCuadD = Lectura_Hora["HisCuadD"].ToString(),
+                                    HisIsquiI2 = Lectura_Hora["HisIsquiI2"].ToString(),
+                                    HisIsqui2D = Lectura_Hora["HisIsqui2D"].ToString(),
+                                    HisTensorI = Lectura_Hora["HisTensorI"].ToString(),
+                                    HisTensorD = Lectura_Hora["HisTensorD"].ToString(),
+                                    HisGastroI = Lectura_Hora["HisGastroI"].ToString(),
+                                    HisGastroD = Lectura_Hora["HisGastroD"].ToString(),
+                                    HisTAquilesI = Lectura_Hora["HisTAquilesI"].ToString(),
+                                    HisTAquilesD = Lectura_Hora["HisTAquilesD"].ToString(),
+                                    ProfesionalNombre = Lectura_Hora["Bod_Responsable"].ToString(),
+                                    RegistroMedico = Lectura_Hora["Bod_Reg_Med"].ToString(),
+                                    EmpresaNombre = Lectura_Hora["Com_Nombre"].ToString(),
+                                    EmpresaIdentificacion = Lectura_Hora["Com_Identificacion"].ToString(),
+                                    EmpresaTelefono = Lectura_Hora["Com_Telefono"].ToString()
+                                });
+                                return sub_Class_HCTF;
+                            }
+                            else
+                            {
+                                return null;
+                            }
+                        }
+                    }                    
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine("Error: " + ex.Message);
                 return null;
             }
         }
@@ -3047,225 +3223,241 @@ namespace Persistence.CXN.Metodos
                                          " INNER JOIN CXN_ASEGURADORA ON CXN_HCTO.HC_Ase = CXN_ASEGURADORA.Ase_Identificador " +
                                          " INNER JOIN CXN_CIA ON CXN_HCTO.HC_Cia = CXN_CIA.Com_Identificador " +
                                          " INNER JOIN CXN_BODEGAS ON CXN_HCTO.HC_Prof = CXN_BODEGAS.Bod_Numero " +
-                                         " WHERE CXN_HCTO.HC_Adm = '" + Admition + "'";
-                    SqlCommand Carga_Command = new SqlCommand(Cargar_Hora, con);
-                    SqlDataReader Lectura_Hora = (Carga_Command.ExecuteReader());
-                    if (Lectura_Hora.Read() == true)
-                    {
-                        List<ReportTO> sub_Class_HCTO = new List<ReportTO>();
+                                         " WHERE CXN_HCTO.HC_Adm = @param1";
 
-                        sub_Class_HCTO.Add(new ReportTO
+                    using (SqlCommand Carga_Command = new SqlCommand(Cargar_Hora, con))
+                    {
+                        Carga_Command.Parameters.AddWithValue("@param1", Admition);
+
+                        using (SqlDataReader Lectura_Hora = (Carga_Command.ExecuteReader()))
                         {
-                            EmpresaNombre = Lectura_Hora["Com_Nombre"].ToString(),
-                            EmpresaIdentificacion = Lectura_Hora["Com_Identificacion"].ToString(),
-                            PacienteNombre = Lectura_Hora["HC_Pac"].ToString(),
-                            HC_DiagMedico = Lectura_Hora["HC_DiagMedico"].ToString(),
-                            Ocupacion = Lectura_Hora["HC_OcuAct"].ToString(),
-                            Edad = Lectura_Hora["HC_Edad"].ToString(),
-                            FechaBase = Convert.ToDateTime(Lectura_Hora["HC_Fecha"]),
-                            Admision = Convert.ToInt32(Lectura_Hora["HC_Adm"]),
-                            PacienteIdentificacion = Lectura_Hora["Pac_TipoId"].ToString() + " " + Lectura_Hora["Pac_IdNum"].ToString(),
+                            if (Lectura_Hora.Read() == true)
+                            {
+                                List<ReportTO> sub_Class_HCTO = new List<ReportTO>();
 
-                            HC_HisFam = Lectura_Hora["HC_HisFam"].ToString(),
+                                string DXCIE11 = "";
+                                CXN_CIE11 cie11 = GetCIE11(Admition);
+                                if (cie11 != null)
+                                {
+                                    DXCIE11 = cie11.Codigo + " - " + cie11.Descripcion;
+                                }
 
-                            MSD_MCP = Lectura_Hora["MSD_MCP"].ToString(),
-                            MSD_MCA = Lectura_Hora["MSD_MCA"].ToString(),
-                            MSD_MBP = Lectura_Hora["MSD_MBP"].ToString(),
-                            MSD_MBA = Lectura_Hora["MSD_MBA"].ToString(),
-                            MSD_MHP = Lectura_Hora["MSD_MHP"].ToString(),
-                            MSD_MHA = Lectura_Hora["MSD_MHA"].ToString(),
-                            MSD_MEP = Lectura_Hora["MSD_MEP"].ToString(),
-                            MSD_MEA = Lectura_Hora["MSD_MEA"].ToString(),
-                            MSD_MCIP = Lectura_Hora["MSD_MCIP"].ToString(),
-                            MSD_MCIA = Lectura_Hora["MSD_MCIA"].ToString(),
-                            MSD_MPP = Lectura_Hora["MSD_MPP"].ToString(),
-                            MSD_MPA = Lectura_Hora["MSD_MPA"].ToString(),
-                            MSD_MRP = Lectura_Hora["MSD_MRP"].ToString(),
-                            MSD_MRA = Lectura_Hora["MSD_MRA"].ToString(),
-                            MSD_MPIEP = Lectura_Hora["MSD_MPIEP"].ToString(),
-                            MSD_MPIEA = Lectura_Hora["MSD_MPIEA"].ToString(),
+                                sub_Class_HCTO.Add(new ReportTO
+                                {
+                                    DXCIE11 = DXCIE11,
+                                    EmpresaNombre = Lectura_Hora["Com_Nombre"].ToString(),
+                                    EmpresaIdentificacion = Lectura_Hora["Com_Identificacion"].ToString(),
+                                    PacienteNombre = Lectura_Hora["HC_Pac"].ToString(),
+                                    HC_DiagMedico = Lectura_Hora["HC_DiagMedico"].ToString(),
+                                    Ocupacion = Lectura_Hora["HC_OcuAct"].ToString(),
+                                    Edad = Lectura_Hora["HC_Edad"].ToString(),
+                                    FechaBase = Convert.ToDateTime(Lectura_Hora["HC_Fecha"]),
+                                    Admision = Convert.ToInt32(Lectura_Hora["HC_Adm"]),
+                                    PacienteIdentificacion = Lectura_Hora["Pac_TipoId"].ToString() + " " + Lectura_Hora["Pac_IdNum"].ToString(),
 
-                            MSI_MCP = Lectura_Hora["MSI_MCP"].ToString(),
-                            MSI_MCA = Lectura_Hora["MSI_MCA"].ToString(),
-                            MSI_MBP = Lectura_Hora["MSI_MBP"].ToString(),
-                            MSI_MBA = Lectura_Hora["MSI_MBA"].ToString(),
-                            MSI_MHP = Lectura_Hora["MSI_MHP"].ToString(),
-                            MSI_MHA = Lectura_Hora["MSI_MHA"].ToString(),
-                            MSI_MEP = Lectura_Hora["MSI_MEP"].ToString(),
-                            MSI_MEA = Lectura_Hora["MSI_MEA"].ToString(),
-                            MSI_MCIP = Lectura_Hora["MSI_MCIP"].ToString(),
-                            MSI_MCIA = Lectura_Hora["MSI_MCIA"].ToString(),
-                            MSI_MPP = Lectura_Hora["MSI_MPP"].ToString(),
-                            MSI_MPA = Lectura_Hora["MSI_MPA"].ToString(),
-                            MSI_MRP = Lectura_Hora["MSI_MRP"].ToString(),
-                            MSI_MRA = Lectura_Hora["MSI_MRA"].ToString(),
-                            MSI_MPIEP = Lectura_Hora["MSI_MPIEP"].ToString(),
-                            MSI_MPIEA = Lectura_Hora["MSI_MPIEA"].ToString(),
+                                    HC_HisFam = Lectura_Hora["HC_HisFam"].ToString(),
 
-                            MSD_AAP = Lectura_Hora["MSD_AAP"].ToString(),
-                            MSD_AADP = Lectura_Hora["MSD_AADP"].ToString(),
-                            MSD_AATP = Lectura_Hora["MSD_AATP"].ToString(),
-                            MSD_AALP = Lectura_Hora["MSD_AALP"].ToString(),
-                            MSD_AGAP = Lectura_Hora["MSD_AGAP"].ToString(),
-                            MSD_AGACILP = Lectura_Hora["MSD_AGACILP"].ToString(),
-                            MSD_AGAESFP = Lectura_Hora["MSD_AGAESFP"].ToString(),
-                            MSD_PINFP = Lectura_Hora["MSD_PINFP"].ToString(),
-                            MSD_PINTP = Lectura_Hora["MSD_PINTP"].ToString(),
-                            MSD_PLATP = Lectura_Hora["MSD_PLATP"].ToString(),
+                                    MSD_MCP = Lectura_Hora["MSD_MCP"].ToString(),
+                                    MSD_MCA = Lectura_Hora["MSD_MCA"].ToString(),
+                                    MSD_MBP = Lectura_Hora["MSD_MBP"].ToString(),
+                                    MSD_MBA = Lectura_Hora["MSD_MBA"].ToString(),
+                                    MSD_MHP = Lectura_Hora["MSD_MHP"].ToString(),
+                                    MSD_MHA = Lectura_Hora["MSD_MHA"].ToString(),
+                                    MSD_MEP = Lectura_Hora["MSD_MEP"].ToString(),
+                                    MSD_MEA = Lectura_Hora["MSD_MEA"].ToString(),
+                                    MSD_MCIP = Lectura_Hora["MSD_MCIP"].ToString(),
+                                    MSD_MCIA = Lectura_Hora["MSD_MCIA"].ToString(),
+                                    MSD_MPP = Lectura_Hora["MSD_MPP"].ToString(),
+                                    MSD_MPA = Lectura_Hora["MSD_MPA"].ToString(),
+                                    MSD_MRP = Lectura_Hora["MSD_MRP"].ToString(),
+                                    MSD_MRA = Lectura_Hora["MSD_MRA"].ToString(),
+                                    MSD_MPIEP = Lectura_Hora["MSD_MPIEP"].ToString(),
+                                    MSD_MPIEA = Lectura_Hora["MSD_MPIEA"].ToString(),
 
-                            MSD_AAA = Lectura_Hora["MSD_AAA"].ToString(),
-                            MSD_AADA = Lectura_Hora["MSD_AADA"].ToString(),
-                            MSD_AATA = Lectura_Hora["MSD_AATA"].ToString(),
-                            MSD_AALA = Lectura_Hora["MSD_AALA"].ToString(),
-                            MSD_AGAA = Lectura_Hora["MSD_AGAA"].ToString(),
-                            MSD_AGACILA = Lectura_Hora["MSD_AGACILA"].ToString(),
-                            MSD_AGAESFA = Lectura_Hora["MSD_AGAESFA"].ToString(),
-                            MSD_PINFA = Lectura_Hora["MSD_PINFA"].ToString(),
-                            MSD_PINTA = Lectura_Hora["MSD_PINTA"].ToString(),
-                            MSD_PLATA = Lectura_Hora["MSD_PLATA"].ToString(),
+                                    MSI_MCP = Lectura_Hora["MSI_MCP"].ToString(),
+                                    MSI_MCA = Lectura_Hora["MSI_MCA"].ToString(),
+                                    MSI_MBP = Lectura_Hora["MSI_MBP"].ToString(),
+                                    MSI_MBA = Lectura_Hora["MSI_MBA"].ToString(),
+                                    MSI_MHP = Lectura_Hora["MSI_MHP"].ToString(),
+                                    MSI_MHA = Lectura_Hora["MSI_MHA"].ToString(),
+                                    MSI_MEP = Lectura_Hora["MSI_MEP"].ToString(),
+                                    MSI_MEA = Lectura_Hora["MSI_MEA"].ToString(),
+                                    MSI_MCIP = Lectura_Hora["MSI_MCIP"].ToString(),
+                                    MSI_MCIA = Lectura_Hora["MSI_MCIA"].ToString(),
+                                    MSI_MPP = Lectura_Hora["MSI_MPP"].ToString(),
+                                    MSI_MPA = Lectura_Hora["MSI_MPA"].ToString(),
+                                    MSI_MRP = Lectura_Hora["MSI_MRP"].ToString(),
+                                    MSI_MRA = Lectura_Hora["MSI_MRA"].ToString(),
+                                    MSI_MPIEP = Lectura_Hora["MSI_MPIEP"].ToString(),
+                                    MSI_MPIEA = Lectura_Hora["MSI_MPIEA"].ToString(),
 
-                            MSI_AAP = Lectura_Hora["MSI_AAP"].ToString(),
-                            MSI_AADP = Lectura_Hora["MSI_AADP"].ToString(),
-                            MSI_AATP = Lectura_Hora["MSI_AATP"].ToString(),
-                            MSI_AALP = Lectura_Hora["MSI_AALP"].ToString(),
-                            MSI_AGAP = Lectura_Hora["MSI_AGAP"].ToString(),
-                            MSI_AGACILP = Lectura_Hora["MSI_AGACILP"].ToString(),
-                            MSI_AGAESFP = Lectura_Hora["MSI_AGAESFP"].ToString(),
-                            MSI_PINFP = Lectura_Hora["MSI_PINFP"].ToString(),
-                            MSI_PINTP = Lectura_Hora["MSI_PINTP"].ToString(),
-                            MSI_PLATP = Lectura_Hora["MSI_PLATP"].ToString(),
+                                    MSD_AAP = Lectura_Hora["MSD_AAP"].ToString(),
+                                    MSD_AADP = Lectura_Hora["MSD_AADP"].ToString(),
+                                    MSD_AATP = Lectura_Hora["MSD_AATP"].ToString(),
+                                    MSD_AALP = Lectura_Hora["MSD_AALP"].ToString(),
+                                    MSD_AGAP = Lectura_Hora["MSD_AGAP"].ToString(),
+                                    MSD_AGACILP = Lectura_Hora["MSD_AGACILP"].ToString(),
+                                    MSD_AGAESFP = Lectura_Hora["MSD_AGAESFP"].ToString(),
+                                    MSD_PINFP = Lectura_Hora["MSD_PINFP"].ToString(),
+                                    MSD_PINTP = Lectura_Hora["MSD_PINTP"].ToString(),
+                                    MSD_PLATP = Lectura_Hora["MSD_PLATP"].ToString(),
 
-                            MSI_AAA = Lectura_Hora["MSI_AAA"].ToString(),
-                            MSI_AADA = Lectura_Hora["MSI_AADA"].ToString(),
-                            MSI_AATA = Lectura_Hora["MSI_AATA"].ToString(),
-                            MSI_AALA = Lectura_Hora["MSI_AALA"].ToString(),
-                            MSI_AGAA = Lectura_Hora["MSI_AGAA"].ToString(),
-                            MSI_AGACILA = Lectura_Hora["MSI_AGACILA"].ToString(),
-                            MSI_AGAESFA = Lectura_Hora["MSI_AGAESFA"].ToString(),
-                            MSI_PINFA = Lectura_Hora["MSI_PINFA"].ToString(),
-                            MSI_PINTA = Lectura_Hora["MSI_PINTA"].ToString(),
-                            MSI_PLATA = Lectura_Hora["MSI_PLATA"].ToString(),
+                                    MSD_AAA = Lectura_Hora["MSD_AAA"].ToString(),
+                                    MSD_AADA = Lectura_Hora["MSD_AADA"].ToString(),
+                                    MSD_AATA = Lectura_Hora["MSD_AATA"].ToString(),
+                                    MSD_AALA = Lectura_Hora["MSD_AALA"].ToString(),
+                                    MSD_AGAA = Lectura_Hora["MSD_AGAA"].ToString(),
+                                    MSD_AGACILA = Lectura_Hora["MSD_AGACILA"].ToString(),
+                                    MSD_AGAESFA = Lectura_Hora["MSD_AGAESFA"].ToString(),
+                                    MSD_PINFA = Lectura_Hora["MSD_PINFA"].ToString(),
+                                    MSD_PINTA = Lectura_Hora["MSD_PINTA"].ToString(),
+                                    MSD_PLATA = Lectura_Hora["MSD_PLATA"].ToString(),
 
-                            HC_A_T1 = Lectura_Hora["HC_A_T1"].ToString(),
-                            HC_A_T2 = Lectura_Hora["HC_A_T2"].ToString(),
-                            HC_A_T3 = Lectura_Hora["HC_A_T3"].ToString(),
-                            HC_A_T4 = Lectura_Hora["HC_A_T4"].ToString(),
-                            HC_A_T5 = Lectura_Hora["HC_A_T5"].ToString(),
-                            HC_A_T6 = Lectura_Hora["HC_A_T6"].ToString(),
-                            HC_A_T7 = Lectura_Hora["HC_A_T7"].ToString(),
-                            HC_A_T8 = Lectura_Hora["HC_A_T8"].ToString(),
-                            HC_A_T9 = Lectura_Hora["HC_A_T9"].ToString(),
-                            HC_A_T10 = Lectura_Hora["HC_A_T10"].ToString(),
+                                    MSI_AAP = Lectura_Hora["MSI_AAP"].ToString(),
+                                    MSI_AADP = Lectura_Hora["MSI_AADP"].ToString(),
+                                    MSI_AATP = Lectura_Hora["MSI_AATP"].ToString(),
+                                    MSI_AALP = Lectura_Hora["MSI_AALP"].ToString(),
+                                    MSI_AGAP = Lectura_Hora["MSI_AGAP"].ToString(),
+                                    MSI_AGACILP = Lectura_Hora["MSI_AGACILP"].ToString(),
+                                    MSI_AGAESFP = Lectura_Hora["MSI_AGAESFP"].ToString(),
+                                    MSI_PINFP = Lectura_Hora["MSI_PINFP"].ToString(),
+                                    MSI_PINTP = Lectura_Hora["MSI_PINTP"].ToString(),
+                                    MSI_PLATP = Lectura_Hora["MSI_PLATP"].ToString(),
 
-                            HC_A_C1 = Lectura_Hora["HC_A_C1"].ToString(),
-                            HC_A_C2 = Lectura_Hora["HC_A_C2"].ToString(),
-                            HC_A_C3 = Lectura_Hora["HC_A_C3"].ToString(),
-                            HC_A_C4 = Lectura_Hora["HC_A_C4"].ToString(),
-                            HC_A_C5 = Lectura_Hora["HC_A_C5"].ToString(),
-                            HC_A_C6 = Lectura_Hora["HC_A_C6"].ToString(),
-                            HC_A_C7 = Lectura_Hora["HC_A_C7"].ToString(),
-                            HC_A_C8 = Lectura_Hora["HC_A_C8"].ToString(),
-                            HC_A_C9 = Lectura_Hora["HC_A_C9"].ToString(),
-                            HC_A_C10 = Lectura_Hora["HC_A_C10"].ToString(),
-                            HC_A_C11 = Lectura_Hora["HC_A_C11"].ToString(),
-                            HC_A_C12 = Lectura_Hora["HC_A_C12"].ToString(),
-                            HC_A_C13 = Lectura_Hora["HC_A_C13"].ToString(),
-                            HC_A_C14 = Lectura_Hora["HC_A_C14"].ToString(),
-                            HC_A_C15 = Lectura_Hora["HC_A_C15"].ToString(),
-                            HC_A_C16 = Lectura_Hora["HC_A_C16"].ToString(),
-                            HC_A_C17 = Lectura_Hora["HC_A_C17"].ToString(),
-                            HC_A_C18 = Lectura_Hora["HC_A_C18"].ToString(),
-                            HC_A_C19 = Lectura_Hora["HC_A_C19"].ToString(),
-                            HC_A_C20 = Lectura_Hora["HC_A_C20"].ToString(),
-                            HC_A_C21 = Lectura_Hora["HC_A_C21"].ToString(),
-                            HC_A_C22 = Lectura_Hora["HC_A_C22"].ToString(),
-                            HC_A_C23 = Lectura_Hora["HC_A_C23"].ToString(),
-                            HC_A_C24 = Lectura_Hora["HC_A_C24"].ToString(),
+                                    MSI_AAA = Lectura_Hora["MSI_AAA"].ToString(),
+                                    MSI_AADA = Lectura_Hora["MSI_AADA"].ToString(),
+                                    MSI_AATA = Lectura_Hora["MSI_AATA"].ToString(),
+                                    MSI_AALA = Lectura_Hora["MSI_AALA"].ToString(),
+                                    MSI_AGAA = Lectura_Hora["MSI_AGAA"].ToString(),
+                                    MSI_AGACILA = Lectura_Hora["MSI_AGACILA"].ToString(),
+                                    MSI_AGAESFA = Lectura_Hora["MSI_AGAESFA"].ToString(),
+                                    MSI_PINFA = Lectura_Hora["MSI_PINFA"].ToString(),
+                                    MSI_PINTA = Lectura_Hora["MSI_PINTA"].ToString(),
+                                    MSI_PLATA = Lectura_Hora["MSI_PLATA"].ToString(),
 
-                            HC_A_T11 = Lectura_Hora["HC_A_T11"].ToString(),
-                            HC_A_T12 = Lectura_Hora["HC_A_T12"].ToString(),
-                            HC_A_T13 = Lectura_Hora["HC_A_T13"].ToString(),
-                            HC_A_T14 = Lectura_Hora["HC_A_T14"].ToString(),
-                            HC_A_T15 = Lectura_Hora["HC_A_T15"].ToString(),
-                            HC_A_T16 = Lectura_Hora["HC_A_T16"].ToString(),
-                            HC_A_T17 = Lectura_Hora["HC_A_T17"].ToString(),
-                            HC_A_T18 = Lectura_Hora["HC_A_T18"].ToString(),
+                                    HC_A_T1 = Lectura_Hora["HC_A_T1"].ToString(),
+                                    HC_A_T2 = Lectura_Hora["HC_A_T2"].ToString(),
+                                    HC_A_T3 = Lectura_Hora["HC_A_T3"].ToString(),
+                                    HC_A_T4 = Lectura_Hora["HC_A_T4"].ToString(),
+                                    HC_A_T5 = Lectura_Hora["HC_A_T5"].ToString(),
+                                    HC_A_T6 = Lectura_Hora["HC_A_T6"].ToString(),
+                                    HC_A_T7 = Lectura_Hora["HC_A_T7"].ToString(),
+                                    HC_A_T8 = Lectura_Hora["HC_A_T8"].ToString(),
+                                    HC_A_T9 = Lectura_Hora["HC_A_T9"].ToString(),
+                                    HC_A_T10 = Lectura_Hora["HC_A_T10"].ToString(),
 
-                            HC_A_T19 = Lectura_Hora["HC_A_T19"].ToString(),
-                            HC_A_T20 = Lectura_Hora["HC_A_T20"].ToString(),
-                            HC_A_T21 = Lectura_Hora["HC_A_T21"].ToString(),
-                            HC_A_T22 = Lectura_Hora["HC_A_T22"].ToString(),
-                            HC_A_T23 = Lectura_Hora["HC_A_T23"].ToString(),
-                            HC_A_T24 = Lectura_Hora["HC_A_T24"].ToString(),
+                                    HC_A_C1 = Lectura_Hora["HC_A_C1"].ToString(),
+                                    HC_A_C2 = Lectura_Hora["HC_A_C2"].ToString(),
+                                    HC_A_C3 = Lectura_Hora["HC_A_C3"].ToString(),
+                                    HC_A_C4 = Lectura_Hora["HC_A_C4"].ToString(),
+                                    HC_A_C5 = Lectura_Hora["HC_A_C5"].ToString(),
+                                    HC_A_C6 = Lectura_Hora["HC_A_C6"].ToString(),
+                                    HC_A_C7 = Lectura_Hora["HC_A_C7"].ToString(),
+                                    HC_A_C8 = Lectura_Hora["HC_A_C8"].ToString(),
+                                    HC_A_C9 = Lectura_Hora["HC_A_C9"].ToString(),
+                                    HC_A_C10 = Lectura_Hora["HC_A_C10"].ToString(),
+                                    HC_A_C11 = Lectura_Hora["HC_A_C11"].ToString(),
+                                    HC_A_C12 = Lectura_Hora["HC_A_C12"].ToString(),
+                                    HC_A_C13 = Lectura_Hora["HC_A_C13"].ToString(),
+                                    HC_A_C14 = Lectura_Hora["HC_A_C14"].ToString(),
+                                    HC_A_C15 = Lectura_Hora["HC_A_C15"].ToString(),
+                                    HC_A_C16 = Lectura_Hora["HC_A_C16"].ToString(),
+                                    HC_A_C17 = Lectura_Hora["HC_A_C17"].ToString(),
+                                    HC_A_C18 = Lectura_Hora["HC_A_C18"].ToString(),
+                                    HC_A_C19 = Lectura_Hora["HC_A_C19"].ToString(),
+                                    HC_A_C20 = Lectura_Hora["HC_A_C20"].ToString(),
+                                    HC_A_C21 = Lectura_Hora["HC_A_C21"].ToString(),
+                                    HC_A_C22 = Lectura_Hora["HC_A_C22"].ToString(),
+                                    HC_A_C23 = Lectura_Hora["HC_A_C23"].ToString(),
+                                    HC_A_C24 = Lectura_Hora["HC_A_C24"].ToString(),
 
-                            HC_A_C25 = Lectura_Hora["HC_A_C25"].ToString(),
-                            HC_A_C26 = Lectura_Hora["HC_A_C26"].ToString(),
-                            HC_A_C27 = Lectura_Hora["HC_A_C27"].ToString(),
-                            HC_A_C28 = Lectura_Hora["HC_A_C28"].ToString(),
-                            HC_A_C29 = Lectura_Hora["HC_A_C29"].ToString(),
+                                    HC_A_T11 = Lectura_Hora["HC_A_T11"].ToString(),
+                                    HC_A_T12 = Lectura_Hora["HC_A_T12"].ToString(),
+                                    HC_A_T13 = Lectura_Hora["HC_A_T13"].ToString(),
+                                    HC_A_T14 = Lectura_Hora["HC_A_T14"].ToString(),
+                                    HC_A_T15 = Lectura_Hora["HC_A_T15"].ToString(),
+                                    HC_A_T16 = Lectura_Hora["HC_A_T16"].ToString(),
+                                    HC_A_T17 = Lectura_Hora["HC_A_T17"].ToString(),
+                                    HC_A_T18 = Lectura_Hora["HC_A_T18"].ToString(),
 
-                            HC_A_T25 = Lectura_Hora["HC_A_T25"].ToString(),
-                            HC_A_T26 = Lectura_Hora["HC_A_T26"].ToString(),
-                            HC_A_T27 = Lectura_Hora["HC_A_T27"].ToString(),
-                            HC_A_T28 = Lectura_Hora["HC_A_T28"].ToString(),
-                            HC_A_T29 = Lectura_Hora["HC_A_T29"].ToString(),
-                            HC_A_T30 = Lectura_Hora["HC_A_T30"].ToString(),
-                            HC_A_T31 = Lectura_Hora["HC_A_T31"].ToString(),
-                            HC_A_T32 = Lectura_Hora["HC_A_T32"].ToString(),
-                            HC_A_T33 = Lectura_Hora["HC_A_T33"].ToString(),
-                            HC_A_T34 = Lectura_Hora["HC_A_T34"].ToString(),
-                            HC_A_T35 = Lectura_Hora["HC_A_T35"].ToString(),
+                                    HC_A_T19 = Lectura_Hora["HC_A_T19"].ToString(),
+                                    HC_A_T20 = Lectura_Hora["HC_A_T20"].ToString(),
+                                    HC_A_T21 = Lectura_Hora["HC_A_T21"].ToString(),
+                                    HC_A_T22 = Lectura_Hora["HC_A_T22"].ToString(),
+                                    HC_A_T23 = Lectura_Hora["HC_A_T23"].ToString(),
+                                    HC_A_T24 = Lectura_Hora["HC_A_T24"].ToString(),
 
-                            HC_A_T37 = Lectura_Hora["HC_A_T37"].ToString(),
-                            HC_A_T38 = Lectura_Hora["HC_A_T38"].ToString(),
-                            HC_A_T36 = Lectura_Hora["HC_A_T46"].ToString(),
-                            HC_A_T39 = Lectura_Hora["HC_A_T39"].ToString(),
+                                    HC_A_C25 = Lectura_Hora["HC_A_C25"].ToString(),
+                                    HC_A_C26 = Lectura_Hora["HC_A_C26"].ToString(),
+                                    HC_A_C27 = Lectura_Hora["HC_A_C27"].ToString(),
+                                    HC_A_C28 = Lectura_Hora["HC_A_C28"].ToString(),
+                                    HC_A_C29 = Lectura_Hora["HC_A_C29"].ToString(),
 
-                            HC_A_T40 = Lectura_Hora["HC_A_T40"].ToString(),
-                            HC_A_T41 = Lectura_Hora["HC_A_T41"].ToString(),
-                            HC_A_T42 = Lectura_Hora["HC_A_T42"].ToString(),
-                            HC_A_T43 = Lectura_Hora["HC_A_T43"].ToString(),
+                                    HC_A_T25 = Lectura_Hora["HC_A_T25"].ToString(),
+                                    HC_A_T26 = Lectura_Hora["HC_A_T26"].ToString(),
+                                    HC_A_T27 = Lectura_Hora["HC_A_T27"].ToString(),
+                                    HC_A_T28 = Lectura_Hora["HC_A_T28"].ToString(),
+                                    HC_A_T29 = Lectura_Hora["HC_A_T29"].ToString(),
+                                    HC_A_T30 = Lectura_Hora["HC_A_T30"].ToString(),
+                                    HC_A_T31 = Lectura_Hora["HC_A_T31"].ToString(),
+                                    HC_A_T32 = Lectura_Hora["HC_A_T32"].ToString(),
+                                    HC_A_T33 = Lectura_Hora["HC_A_T33"].ToString(),
+                                    HC_A_T34 = Lectura_Hora["HC_A_T34"].ToString(),
+                                    HC_A_T35 = Lectura_Hora["HC_A_T35"].ToString(),
 
-                            HC_A_T48 = Lectura_Hora["HC_A_T48"].ToString(),
-                            HC_A_T47 = Lectura_Hora["HC_A_T47"].ToString(),
-                            HC_A_T45 = Lectura_Hora["HC_A_T45"].ToString(),
-                            HC_A_T44 = Lectura_Hora["HC_A_T44"].ToString(),
-                            HC_A_T50 = Lectura_Hora["HC_A_T50"].ToString(),
-                            HC_A_T51 = Lectura_Hora["HC_A_T51"].ToString(),
-                            HC_A_T52 = Lectura_Hora["HC_A_T52"].ToString(),
-                            HC_A_T53 = Lectura_Hora["HC_A_T53"].ToString(),
-                            HC_A_T54 = Lectura_Hora["HC_A_T54"].ToString(),
-                            HC_A_T55 = Lectura_Hora["HC_A_T55"].ToString(),
-                            HC_A_T56 = Lectura_Hora["HC_A_T56"].ToString(),
-                            HC_A_T57 = Lectura_Hora["HC_A_T57"].ToString(),
-                            HC_A_T58 = Lectura_Hora["HC_A_T58"].ToString(),
-                            HC_A_T59 = Lectura_Hora["HC_A_T59"].ToString(),
-                            HC_A_T60 = Lectura_Hora["HC_A_T60"].ToString(),
+                                    HC_A_T37 = Lectura_Hora["HC_A_T37"].ToString(),
+                                    HC_A_T38 = Lectura_Hora["HC_A_T38"].ToString(),
+                                    HC_A_T36 = Lectura_Hora["HC_A_T46"].ToString(),
+                                    HC_A_T39 = Lectura_Hora["HC_A_T39"].ToString(),
 
-                            HC_HisOcu = Lectura_Hora["HC_HisOcu"].ToString(),
-                            HC_AntLaboral = Lectura_Hora["HC_AntLaboral"].ToString(),
-                            HC_ObservaFMS = Lectura_Hora["HC_ObservaFMS"].ToString(),
-                            HC_A_ObservaVD = Lectura_Hora["HC_A_ObservaVD"].ToString(),
-                            HC_A_ObservaH = Lectura_Hora["HC_A_ObservaH"].ToString(),
-                            HC_A_ObservaAVD = Lectura_Hora["HC_A_ObservaAVD"].ToString(),
-                            HC_HabRut = Lectura_Hora["HC_HabRut"].ToString(),
+                                    HC_A_T40 = Lectura_Hora["HC_A_T40"].ToString(),
+                                    HC_A_T41 = Lectura_Hora["HC_A_T41"].ToString(),
+                                    HC_A_T42 = Lectura_Hora["HC_A_T42"].ToString(),
+                                    HC_A_T43 = Lectura_Hora["HC_A_T43"].ToString(),
 
-                            HC_DiagOcu = Lectura_Hora["HC_DiagOcu"].ToString(),
-                            HC_PronoOcu = Lectura_Hora["HC_PronoOcu"].ToString(),
-                            HC_Acciones = Lectura_Hora["HC_Acciones"].ToString(),
-                            ProfesionalNombre = Lectura_Hora["Bod_Responsable"].ToString(),
-                            RMedico = Lectura_Hora["Bod_Reg_Med"].ToString()
-                        });
-                        return sub_Class_HCTO;
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                                    HC_A_T48 = Lectura_Hora["HC_A_T48"].ToString(),
+                                    HC_A_T47 = Lectura_Hora["HC_A_T47"].ToString(),
+                                    HC_A_T45 = Lectura_Hora["HC_A_T45"].ToString(),
+                                    HC_A_T44 = Lectura_Hora["HC_A_T44"].ToString(),
+                                    HC_A_T50 = Lectura_Hora["HC_A_T50"].ToString(),
+                                    HC_A_T51 = Lectura_Hora["HC_A_T51"].ToString(),
+                                    HC_A_T52 = Lectura_Hora["HC_A_T52"].ToString(),
+                                    HC_A_T53 = Lectura_Hora["HC_A_T53"].ToString(),
+                                    HC_A_T54 = Lectura_Hora["HC_A_T54"].ToString(),
+                                    HC_A_T55 = Lectura_Hora["HC_A_T55"].ToString(),
+                                    HC_A_T56 = Lectura_Hora["HC_A_T56"].ToString(),
+                                    HC_A_T57 = Lectura_Hora["HC_A_T57"].ToString(),
+                                    HC_A_T58 = Lectura_Hora["HC_A_T58"].ToString(),
+                                    HC_A_T59 = Lectura_Hora["HC_A_T59"].ToString(),
+                                    HC_A_T60 = Lectura_Hora["HC_A_T60"].ToString(),
+
+                                    HC_HisOcu = Lectura_Hora["HC_HisOcu"].ToString(),
+                                    HC_AntLaboral = Lectura_Hora["HC_AntLaboral"].ToString(),
+                                    HC_ObservaFMS = Lectura_Hora["HC_ObservaFMS"].ToString(),
+                                    HC_A_ObservaVD = Lectura_Hora["HC_A_ObservaVD"].ToString(),
+                                    HC_A_ObservaH = Lectura_Hora["HC_A_ObservaH"].ToString(),
+                                    HC_A_ObservaAVD = Lectura_Hora["HC_A_ObservaAVD"].ToString(),
+                                    HC_HabRut = Lectura_Hora["HC_HabRut"].ToString(),
+
+                                    HC_DiagOcu = Lectura_Hora["HC_DiagOcu"].ToString(),
+                                    HC_PronoOcu = Lectura_Hora["HC_PronoOcu"].ToString(),
+                                    HC_Acciones = Lectura_Hora["HC_Acciones"].ToString(),
+                                    ProfesionalNombre = Lectura_Hora["Bod_Responsable"].ToString(),
+                                    RMedico = Lectura_Hora["Bod_Reg_Med"].ToString()
+                                });
+                                return sub_Class_HCTO;
+                            }
+                            else
+                            {
+                                return null;
+                            }
+                        }
+                    }                    
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine("Error: " + ex.Message);
                 return null;
             }
         }        
@@ -3366,7 +3558,7 @@ namespace Persistence.CXN.Metodos
 
                             Cargar_Hora2 = "SELECT Ase_Identificador, Ase_Descripcion, Hor_Pac_Bod, Hor_Pac_id, Hor_Estado, Hor_Pac_Hora_Cita, " +
                                                   "Hor_Pac_Fecha_Cita, Hor_Imp_Age, Pac_Id, Pac_Telefono, Bod_Responsable, Hor_Id, Hor_Observacion, " +
-                                                  "Hor_Vales, Hor_AvisoCurInicio, Hor_Tipo_Paciente, Pac_Bonos " +
+                                                  "Hor_Vales, Hor_AvisoCurInicio, Hor_Tipo_Paciente, Pac_Bonos, Pac_TipoId, Pac_IdNum " +
                                                   "FROM Cxn_Horario " +
                                                   "INNER JOIN Cxn_Pacientes ON Cxn_Horario.Hor_Pac_Id = Cxn_Pacientes.Pac_Id " +
                                                   "INNER JOIN Cxn_Bodegas ON Cxn_Horario.Hor_Pac_Bod = Cxn_Bodegas.Bod_Numero " +
@@ -3383,7 +3575,7 @@ namespace Persistence.CXN.Metodos
 
                             Cargar_Hora2 = "SELECT Ase_Identificador, Ase_Descripcion, Hor_Pac_Bod, Hor_Pac_id, Hor_Estado, Hor_Pac_Hora_Cita, " +
                                                   "Hor_Pac_Fecha_Cita, Hor_Imp_Age, Pac_Id, Pac_Telefono, Bod_Responsable, Hor_Id, Hor_Observacion, " +
-                                                  "Hor_Vales, Hor_AvisoCurInicio, Hor_Tipo_Paciente, Pac_Bonos " +
+                                                  "Hor_Vales, Hor_AvisoCurInicio, Hor_Tipo_Paciente, Pac_Bonos, Pac_TipoId, Pac_IdNum " +
                                                   "FROM Cxn_Horario " +
                                                   "INNER JOIN Cxn_Pacientes ON Cxn_Horario.Hor_Pac_Id = Cxn_Pacientes.Pac_Id " +
                                                   "INNER JOIN Cxn_Bodegas ON Cxn_Horario.Hor_Pac_Bod = Cxn_Bodegas.Bod_Numero " +
@@ -3451,7 +3643,8 @@ namespace Persistence.CXN.Metodos
                                                    "VERIFICAR",
                                             Dia_Cita = ini == true ? "INICIO" :
                                                        Lectura_Hora2["Hor_Tipo_Paciente"].ToString() == "N" ?
-                                                       "NUEVO" : ""
+                                                       "NUEVO" : "",
+                                            PacienteIdentificacion = Lectura_Hora2["Pac_TipoId"].ToString() + " " + Lectura_Hora2["Pac_IdNum"].ToString()
                                         });
                                     }
 

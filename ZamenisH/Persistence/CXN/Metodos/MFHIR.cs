@@ -5,12 +5,13 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Threading.Tasks;
 
 namespace Persistence.CXN.Metodos
 {
     public class MFHIR : IFHIR
     {
-        List<CXN_HORARIO> IFHIR.FiltrarEspecialidad(DateTime Fecha, string Especialidad)
+        async Task<List<CXN_HORARIO>> IFHIR.FiltrarEspecialidad(DateTime Fecha, string Especialidad)
         {
             try
             {
@@ -20,7 +21,7 @@ namespace Persistence.CXN.Metodos
                 {
                     if (con != null && con.State == ConnectionState.Closed)
                     {
-                        con.Open();
+                        await con.OpenAsync();
                     }
 
                     String Cargar_Hora = "";
@@ -100,13 +101,13 @@ namespace Persistence.CXN.Metodos
                         Carga_Command.Parameters.AddWithValue("@param1", Fecha.Date);
                         Carga_Command.Parameters.AddWithValue("@param2", Fecha.Date);
 
-                        using (SqlDataReader Lectura_Hora = (Carga_Command.ExecuteReader()))
+                        using (SqlDataReader Lectura_Hora = (await Carga_Command.ExecuteReaderAsync()))
                         {
                             if (Lectura_Hora.HasRows)
                             {
                                 List<CXN_HORARIO> L = new List<CXN_HORARIO>();
 
-                                while (Lectura_Hora.Read() == true)
+                                while (await Lectura_Hora.ReadAsync() == true)
                                 {
                                     CXN_RDA r = ConsultarEnviosRDA(Convert.ToInt32(Lectura_Hora["AdmisionUnica"])); 
 

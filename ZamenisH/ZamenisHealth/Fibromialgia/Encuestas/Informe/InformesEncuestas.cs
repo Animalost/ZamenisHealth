@@ -53,7 +53,6 @@ namespace ZamenisHealth.Fibromialgia.Encuestas.Informe
                 Titulo.Text = "Generacion de Informes Encuestas de Pacientes";
 
                 gridZH1.CeldaHeight = true;
-                gridZH1.dataGridView1.CellDoubleClick += GridZH1_CellDoubleClick;
                 gridZH1.dataGridView1.CellMouseClick += GridZH1_CellMouseClick;
             }
             catch (Exception ex)
@@ -748,27 +747,19 @@ namespace ZamenisHealth.Fibromialgia.Encuestas.Informe
                         contextMenuStrip1.Location = new Point(posicionLocal.X, posicionLocal.Y);
                         contextMenuStrip1.Visible = true;
                     }
-                }               
+                }  
+                else if (listBox1.SelectedItem.ToString() == "Informe General Terapia Fisica")
+                {
+                    AdmitionChange = Convert.ToInt32(gridZH1.dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString());
+                    panel1.Enabled = false;
+                    groupBox1.Visible = true;
+                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
-        }
-        void GridZH1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
-            try
-            {
-                if (e.RowIndex >= 0)
-                {
-                    AdmitionChange = Convert.ToInt32(gridZH1.dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString());
-                }
-            }
-            catch (Exception ex)
-            {
-                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
-            }
-        }    
+        }   
         private void button3_Click(object sender, EventArgs e)
         {
             try
@@ -805,6 +796,12 @@ namespace ZamenisHealth.Fibromialgia.Encuestas.Informe
         private void listBox1_Click(object sender, EventArgs e)
         {
             Encabezados();
+        }
+        private void boton1_Click(object sender, EventArgs e)
+        {
+            AdmitionChange = 0;
+            panel1.Enabled = true;
+            groupBox1.Visible = false;
         }
         private void cambiarEstadoToolStripMenuItem_Click(object sender, EventArgs e)
         {

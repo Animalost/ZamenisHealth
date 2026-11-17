@@ -38,6 +38,7 @@
         public string BarCodes { get; set; }
         public string Autorizaciones { get; set; }
         public string RDA { get; set; }
+        public string Noticias { get; set; }
         public AdministracionDetalles AdministracionDetalles { get; set; }
     }
     public class AdministracionDetalles

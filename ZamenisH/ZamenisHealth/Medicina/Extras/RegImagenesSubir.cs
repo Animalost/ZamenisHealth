@@ -82,6 +82,38 @@ namespace ZamenisHealth.Medicina.Extras
                             Dictionary<string, string> getData = Conexion.Conection();
                             string cadena = getData["Conexion"];
 
+                            string ruta = "";
+
+                            List<CXN_IMAGEN_SYSTEM> d = repoConfSystem.getConfSystem();
+                            if (d != null)
+                            {
+                                CXN_IMAGEN_SYSTEM d2 = d.FirstOrDefault(x => x.Tab_Nombre == "ImagenesSistema");
+                                if (d2 != null)
+                                {
+                                    ruta = d2.Tab_Clave;
+                                }
+                                else
+                                {
+                                    MG = new MensajesGeneral
+                                    {
+                                        Mensaje = "No se logro obtener la ruta de imagenes del sistema, por favor contacte al administrador del sistema",
+                                        TipoImagen = 1000
+                                    };
+                                    MG.ShowDialog();
+                                    return;
+                                }
+                            }
+                            else
+                            {
+                                MG = new MensajesGeneral
+                                {
+                                    Mensaje = "No se logro obtener la ruta de imagenes del sistema, por favor contacte al administrador del sistema",
+                                    TipoImagen = 1000
+                                };
+                                MG.ShowDialog();
+                                return;
+                            }
+
                             CXN_IMAGENES I = new CXN_IMAGENES
                             {
                                 Ima_Adm = Convert.ToInt32(Admision),
@@ -91,7 +123,7 @@ namespace ZamenisHealth.Medicina.Extras
                                 Ima_Fecha = Convert.ToDateTime(Hoy),
                                 Pac_Usr_Web = cadena,
                                 Pac_Categoria = codingb64, 
-                                Ima_Ruta = repoConfSystem.getListado()["ImagenesSistema"].ToString().Trim()
+                                Ima_Ruta = ruta.Trim()
                             };                            
 
                             //Generar token de autorizacion

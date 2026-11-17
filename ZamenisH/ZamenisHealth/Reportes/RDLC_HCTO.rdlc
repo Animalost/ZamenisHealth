@@ -9970,7 +9970,7 @@
   <Width>7.27118in</Width>
   <Page>
     <PageHeader>
-      <Height>5.74146cm</Height>
+      <Height>6.32196cm</Height>
       <PrintOnFirstPage>true</PrintOnFirstPage>
       <PrintOnLastPage>true</PrintOnLastPage>
       <ReportItems>
@@ -10352,7 +10352,7 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox7</rd:DefaultName>
-          <Top>4.02835cm</Top>
+          <Top>4.66335cm</Top>
           <Left>0.00087cm</Left>
           <Height>0.38833cm</Height>
           <Width>2.68522cm</Width>
@@ -10382,7 +10382,7 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox7</rd:DefaultName>
-          <Top>4.02835cm</Top>
+          <Top>4.66335cm</Top>
           <Left>2.72136cm</Left>
           <Height>0.38833cm</Height>
           <Width>12.66001cm</Width>
@@ -10412,7 +10412,7 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox7</rd:DefaultName>
-          <Top>4.41668cm</Top>
+          <Top>5.05168cm</Top>
           <Left>0.00088cm</Left>
           <Height>0.38833cm</Height>
           <Width>2.68522cm</Width>
@@ -10442,7 +10442,7 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox7</rd:DefaultName>
-          <Top>4.41668cm</Top>
+          <Top>5.05168cm</Top>
           <Left>2.72138cm</Left>
           <Height>0.38833cm</Height>
           <Width>12.66001cm</Width>
@@ -10472,7 +10472,7 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox7</rd:DefaultName>
-          <Top>4.80501cm</Top>
+          <Top>5.44001cm</Top>
           <Left>0.00088cm</Left>
           <Height>0.38833cm</Height>
           <Width>2.68522cm</Width>
@@ -10505,7 +10505,7 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox7</rd:DefaultName>
-          <Top>4.80501cm</Top>
+          <Top>5.44001cm</Top>
           <Left>2.72138cm</Left>
           <Height>0.38833cm</Height>
           <Width>4.98709cm</Width>
@@ -10535,7 +10535,7 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox7</rd:DefaultName>
-          <Top>4.80501cm</Top>
+          <Top>5.44001cm</Top>
           <Left>7.74375cm</Left>
           <Height>0.38833cm</Height>
           <Width>2.68522cm</Width>
@@ -10565,7 +10565,7 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox7</rd:DefaultName>
-          <Top>4.80501cm</Top>
+          <Top>5.44001cm</Top>
           <Left>10.46423cm</Left>
           <Height>0.38833cm</Height>
           <Width>4.98709cm</Width>
@@ -10577,7 +10577,7 @@
           </Style>
         </Textbox>
         <Line Name="Line1">
-          <Top>5.47529cm</Top>
+          <Top>6.11029cm</Top>
           <Left>0.00088cm</Left>
           <Height>0cm</Height>
           <Width>18.4679cm</Width>
@@ -10642,6 +10642,44 @@
           <Height>0.38833cm</Height>
           <Width>12.66001cm</Width>
           <ZIndex>22</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+          </Style>
+        </Textbox>
+        <Textbox Name="Textbox43">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>Homologacion CIE11: </Value>
+                  <Style>
+                    <FontFamily>Times New Roman</FontFamily>
+                    <FontSize>8pt</FontSize>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
+                </TextRun>
+                <TextRun>
+                  <Value>=First(Fields!DXCIE11.Value, "DataSet_HCTO")</Value>
+                  <Style>
+                    <FontFamily>Times New Roman</FontFamily>
+                    <FontSize>8pt</FontSize>
+                    <FontWeight>Normal</FontWeight>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style />
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>Textbox7</rd:DefaultName>
+          <Top>4.13391cm</Top>
+          <Left>0.00088cm</Left>
+          <Height>0.38833cm</Height>
+          <Width>18.23071cm</Width>
+          <ZIndex>23</ZIndex>
           <Style>
             <Border>
               <Style>None</Style>
@@ -11632,6 +11670,10 @@
         </Field>
         <Field Name="RMedico">
           <DataField>RMedico</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DXCIE11">
+          <DataField>DXCIE11</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>

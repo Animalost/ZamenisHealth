@@ -45,6 +45,7 @@ namespace ZamenisHealth.HistoriasClinicas
         private string UrlEvento;
         private ToolStripButton toolStripButton13;
         private ToolStripButton toolStripButton11;
+        public CXN_CIE11 cie11 = new CXN_CIE11();
 
         public Historia_NotaEnfermeria()
         {
@@ -408,13 +409,23 @@ namespace ZamenisHealth.HistoriasClinicas
                                              MessageBoxButtons.OK,
                                              MessageBoxIcon.Information);
 
-                            bool datoEstadis = repoConfSystem.getListado()["EstadisticaEnfermeria"] == "A" ? true : false;
-                            if (datoEstadis == true)
+                            bool datoEstadis = false;
+
+                            List <CXN_IMAGEN_SYSTEM> d = repoConfSystem.getConfSystem();
+                            if (d != null)
                             {
-                                Medicina.Estadistica estadistica = new Medicina.Estadistica();
-                                estadistica.Admition = Admision;
-                                estadistica.ShowDialog();
-                            }                           
+                                CXN_IMAGEN_SYSTEM d2 = d.FirstOrDefault(x => x.Tab_Nombre == "EstadisticaEnfermeria");
+                                if (d2 != null)
+                                {
+                                    datoEstadis = d2.Tab_Clave == "A" ? true : false;
+                                    if (datoEstadis == true)
+                                    {
+                                        Medicina.Estadistica estadistica = new Medicina.Estadistica();
+                                        estadistica.Admition = Admision;
+                                        estadistica.ShowDialog();
+                                    }
+                                }
+                            }
 
                             Medicina.RIPSHistory for_RIPS = new Medicina.RIPSHistory();
                             for_RIPS.Adm_Cargo = Convert.ToInt32(Admision);
@@ -474,11 +485,30 @@ namespace ZamenisHealth.HistoriasClinicas
                                 }
                             }
 
+                            CXN_HISTORIAL_ADMISION HistorialAdmision = new CXN_HISTORIAL_ADMISION
+                            {
+                                Admision = Admision,
+                                Fecha = DateTime.Now,
+                                Usuario = Contenedor.UsuarioLogueado,
+                                Gestion = "HISTORIA CREADA"
+                            };
+
+                            repoAgendaMedica.AddHistorialAdmision(HistorialAdmision);
+
                             repoPacs.setEnfermedades(Paciente, comboBox1.Text == "Positivo" ? "S" : "N", comboBox2.Text);
 
                             repoAgendaMedica.Graba_Hora_Salida(Admision);
                             Medicina.AgendaM f2 = Application.OpenForms.OfType<Medicina.AgendaM>().LastOrDefault();
                             f2.Cargar_Agenda();
+
+                            if (!string.IsNullOrEmpty(textBox53.Text))
+                            {
+                                cie11.Paciente = Paciente;
+                                cie11.Admision = Admision;
+
+                                repoCIE10.InsertaCIE11(cie11);
+                            }
+
                             this.Dispose();
                             this.Close();
                         }
@@ -756,6 +786,13 @@ namespace ZamenisHealth.HistoriasClinicas
                     textBox12.Text = "";
                     textBox13.Text = "N/A";
                 }
+
+                CXN_CIE11 cXN_CIE11 = repoNotasCuracion.DiagnosticosCIE11(Paciente);
+                if (cXN_CIE11 != null)
+                {
+                    textBox53.Text = cXN_CIE11.Codigo;
+                    textBox54.Text = cXN_CIE11.Descripcion;
+                }
             }
             catch (Exception ex)
             {
@@ -828,11 +865,18 @@ namespace ZamenisHealth.HistoriasClinicas
         {
             try
             {
-                var data = repoConfSystem.getListado()["EVENTOSADVERSOS"];
-                if (data != "X")
+                List<CXN_IMAGEN_SYSTEM> d = repoConfSystem.getConfSystem();
+                if (d != null)
                 {
-                    UrlEvento = data;
-                    linkLabel1.Visible = true;
+                    CXN_IMAGEN_SYSTEM d2 = d.FirstOrDefault(x => x.Tab_Nombre == "EVENTOSADVERSOS");
+                    if (d2 != null)
+                    {
+                        if (d2.Tab_Config == "A")
+                        {
+                            UrlEvento = d2.Tab_Clave;
+                            linkLabel1.Visible = true;
+                        }
+                    }
                 }
 
                 Titulo.Text = "Nota de Enfermeria";
@@ -844,10 +888,17 @@ namespace ZamenisHealth.HistoriasClinicas
                 ImageClose.Visible = false;
                 ImageMinimize.Visible = false;
 
-                if (repoConfSystem.getListado()["IHCE"] != "A")
+                if (d != null)
                 {
-                    toolStripButton13.Visible = false;
-                }
+                    CXN_IMAGEN_SYSTEM d2 = d.FirstOrDefault(x => x.Tab_Nombre == "IHCE");
+                    if (d2 != null)
+                    {
+                        if (d2.Tab_Clave != "A")
+                        {
+                            toolStripButton13.Visible = false;
+                        }
+                    }
+                }                
 
                 repoAgendaMedica.Graba_Hora_Atencion(Admision);
                 repoAgendaMedica.OpenAdmition(Admision, "S");
@@ -943,29 +994,68 @@ namespace ZamenisHealth.HistoriasClinicas
                     mg.ShowDialog();
                 }
 
-                Dictionary<string, string> getConfig = repoConfSystem.getListado();
-
                 if (PACSAL == "A")
                 {
-                    if (getConfig != null)
+                    if (d != null)
                     {
-                        _ = getConfig["AutocompletarNotas"] == "A" ? checkBox3.Visible = true : checkBox3.Visible = false;
+                        CXN_IMAGEN_SYSTEM d2 = d.FirstOrDefault(x => x.Tab_Nombre == "AutocompletarNotas");
+                        if (d2 != null)
+                        {
+                            if (d2.Tab_Clave == "A")
+                            {
+                                checkBox3.Visible = true;
+                            }
+                            else
+                            {
+                                checkBox3.Visible = false;
+                            }
+                        }
+                        else
+                        {
+                            checkBox3.Visible = false;
+                        }
                     }
+                    else
+                    {
+                        checkBox3.Visible = false;
+                    }                    
                 }
                 else
                 {
                     checkBox3.Visible = false;
                 }
 
-                Mayus = (repoConfSystem.getListado()["UpperCaseNotas"] == "A" ? true : false);
+                Mayus = false;
 
-                string getRecos = repoConfSystem.getListado()["Recomendaciones"];
-                if (getRecos == "A")
+                if (d != null)
                 {
-                    Extras.Recomendaciones r = new Extras.Recomendaciones(DatosAdmision.Hor_Pac_Id);
-                    r.ShowDialog();
+                    CXN_IMAGEN_SYSTEM d2 = d.FirstOrDefault(x => x.Tab_Nombre == "UpperCaseNotas");
+                    if (d2 != null)
+                    {
+                        if (d2.Tab_Clave == "A")
+                        {
+                            Mayus = true;
+                        }
+                        else
+                        {
+                            Mayus = false;
+                        }
+                    }
+                }
 
-                    CargarOpcionesRecomendaciones();
+                if (d != null)
+                {
+                    CXN_IMAGEN_SYSTEM d2 = d.FirstOrDefault(x => x.Tab_Nombre == "Recomendaciones");
+                    if (d2 != null)
+                    {
+                        if (d2.Tab_Clave == "A")
+                        {
+                            Extras.Recomendaciones r = new Extras.Recomendaciones(DatosAdmision.Hor_Pac_Id);
+                            r.ShowDialog();
+
+                            CargarOpcionesRecomendaciones();
+                        }
+                    }
                 }
 
                 string colorimetria = Preferencias.Colorimetria;
@@ -1250,6 +1340,19 @@ namespace ZamenisHealth.HistoriasClinicas
             FrontFHIR.VisorZamenis.VerRDA ass = new FrontFHIR.VisorZamenis.VerRDA(false, CMANTID, CMANID);
             ass.ShowDialog();
         }
+
+        private void textBox53_DoubleClick(object sender, EventArgs e)
+        {
+            CIE11New N = new CIE11New("CURACIONES");
+            N.ShowDialog();
+        }
+
+        private void boton6_Click(object sender, EventArgs e)
+        {
+            textBox53.Text = "";
+            textBox54.Text = "";
+        }
+
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             try
@@ -1308,34 +1411,42 @@ namespace ZamenisHealth.HistoriasClinicas
                 DateTime Hoy = DateTime.Now.Date;
                 string Mes = Capitalize(Hoy.Month);
 
-                if (repoConfSystem.getListado()["EncuestaSatisCU"] == "A")
+                List<CXN_IMAGEN_SYSTEM> d = repoConfSystem.getConfSystem();
+                if (d != null)
                 {
-                    if (repoEncuestasSatis.getCantEncuestaCU("CU", Mes, Hoy.Year) == true)
-                    {                                              
-                        CXN_CONFENCUESTA C = new CXN_CONFENCUESTA
+                    CXN_IMAGEN_SYSTEM d2 = d.FirstOrDefault(x => x.Tab_Nombre == "EncuestaSatisCU");
+                    if (d2 != null)
+                    {
+                        if (d2.Tab_Clave == "A")
                         {
-                            Mes = Mes,
-                            Año = Hoy.Year,
-                            Servicio = "CU"
-                        };
-
-                        if (repoEncuestasSatis.getCantCitas(this.Paciente, C) == true)
-                        {
-                           if (repoEncuestasSatis.getCantEncuestasPaciente(this.Paciente, C) == true)
-                           {
-                                Random random = new Random();
-                                int numero = random.Next(1, 2);
-                                int numero2 = random.Next(1, 2);
-
-                                if (numero == numero2)
+                            if (repoEncuestasSatis.getCantEncuestaCU("CU", Mes, Hoy.Year) == true)
+                            {
+                                CXN_CONFENCUESTA C = new CXN_CONFENCUESTA
                                 {
-                                    Extras.EncuestaSatisfaccion en = new Extras.EncuestaSatisfaccion(this.Admision);
-                                    en.ShowDialog();
+                                    Mes = Mes,
+                                    Año = Hoy.Year,
+                                    Servicio = "CU"
+                                };
+
+                                if (repoEncuestasSatis.getCantCitas(this.Paciente, C) == true)
+                                {
+                                    if (repoEncuestasSatis.getCantEncuestasPaciente(this.Paciente, C) == true)
+                                    {
+                                        Random random = new Random();
+                                        int numero = random.Next(1, 2);
+                                        int numero2 = random.Next(1, 2);
+
+                                        if (numero == numero2)
+                                        {
+                                            Extras.EncuestaSatisfaccion en = new Extras.EncuestaSatisfaccion(this.Admision);
+                                            en.ShowDialog();
+                                        }
+                                    }
                                 }
-                            }                            
-                        }                            
+                            }
+                        }
                     }
-                }
+                }                
             }
             catch (Exception ex)
             {

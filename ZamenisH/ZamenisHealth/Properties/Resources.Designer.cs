@@ -22,7 +22,7 @@ namespace ZamenisHealth.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Resources {
+    internal class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace ZamenisHealth.Properties {
         ///   Devuelve la instancia de ResourceManager almacenada en caché utilizada por esta clase.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Resources.ResourceManager ResourceManager {
+        internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ZamenisHealth.Properties.Resources", typeof(Resources).Assembly);
@@ -51,7 +51,7 @@ namespace ZamenisHealth.Properties {
         ///   búsquedas de recursos mediante esta clase de recurso fuertemente tipado.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Globalization.CultureInfo Culture {
+        internal static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace ZamenisHealth.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Byte[].
         /// </summary>
-        public static byte[] Actualizacion_Citas_con_Sesiones {
+        internal static byte[] Actualizacion_Citas_con_Sesiones {
             get {
                 object obj = ResourceManager.GetObject("Actualizacion_Citas_con_Sesiones", resourceCulture);
                 return ((byte[])(obj));
@@ -73,7 +73,7 @@ namespace ZamenisHealth.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Administracion {
+        internal static System.Drawing.Bitmap Administracion {
             get {
                 object obj = ResourceManager.GetObject("Administracion", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -83,7 +83,7 @@ namespace ZamenisHealth.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Alergia {
+        internal static System.Drawing.Bitmap Alergia {
             get {
                 object obj = ResourceManager.GetObject("Alergia", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -93,7 +93,7 @@ namespace ZamenisHealth.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap CalMas {
+        internal static System.Drawing.Bitmap CalMas {
             get {
                 object obj = ResourceManager.GetObject("CalMas", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -103,7 +103,7 @@ namespace ZamenisHealth.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap CalMinus {
+        internal static System.Drawing.Bitmap CalMinus {
             get {
                 object obj = ResourceManager.GetObject("CalMinus", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -113,7 +113,7 @@ namespace ZamenisHealth.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap CalToday {
+        internal static System.Drawing.Bitmap CalToday {
             get {
                 object obj = ResourceManager.GetObject("CalToday", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -123,7 +123,7 @@ namespace ZamenisHealth.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap cancelar {
+        internal static System.Drawing.Bitmap cancelar {
             get {
                 object obj = ResourceManager.GetObject("cancelar", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -133,7 +133,7 @@ namespace ZamenisHealth.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Captura_de_pantalla_2024_01_10_100704 {
+        internal static System.Drawing.Bitmap Captura_de_pantalla_2024_01_10_100704 {
             get {
                 object obj = ResourceManager.GetObject("Captura de pantalla 2024-01-10 100704", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -143,7 +143,7 @@ namespace ZamenisHealth.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap cerca {
+        internal static System.Drawing.Bitmap cerca {
             get {
                 object obj = ResourceManager.GetObject("cerca", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -153,7 +153,7 @@ namespace ZamenisHealth.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap cerca1 {
+        internal static System.Drawing.Bitmap cerca1 {
             get {
                 object obj = ResourceManager.GetObject("cerca1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -163,7 +163,7 @@ namespace ZamenisHealth.Properties {
         /// <summary>
         ///   Busca una cadena traducida similar a El presente certificado confirma la asistencia del paciente a nuestra institucion medica, de la siguiente manera:.
         /// </summary>
-        public static string Certificado {
+        internal static string Certificado {
             get {
                 return ResourceManager.GetString("Certificado", resourceCulture);
             }
@@ -172,7 +172,7 @@ namespace ZamenisHealth.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap cirujano {
+        internal static System.Drawing.Bitmap cirujano {
             get {
                 object obj = ResourceManager.GetObject("cirujano", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -182,7 +182,7 @@ namespace ZamenisHealth.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Comunicacion {
+        internal static System.Drawing.Bitmap Comunicacion {
             get {
                 object obj = ResourceManager.GetObject("Comunicacion", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -193,7 +193,7 @@ namespace ZamenisHealth.Properties {
         ///   Busca una cadena traducida similar a {\rtf1\adeflang1025\ansi\ansicpg1252\uc1\adeff31507\deff0\stshfdbch31506\stshfloch31506\stshfhich31506\stshfbi31507\deflang3082\deflangfe3082\themelang3082\themelangfe0\themelangcs0{\fonttbl{\f0\fbidi \froman\fcharset0\fprq2{\*\panose 02020603050405020304}Times New Roman;}{\f2\fbidi \fmodern\fcharset0\fprq1{\*\panose 02070309020205020404}Courier New;}
         ///{\f3\fbidi \froman\fcharset2\fprq2{\*\panose 05050102010706020507}Symbol;}{\f10\fbidi \fnil\fcharset2\fprq2{\*\panose 05000000000000000000}Wingdings;}{\f34\f [resto de la cadena truncado]&quot;;.
         /// </summary>
-        public static string Condiciones {
+        internal static string Condiciones {
             get {
                 return ResourceManager.GetString("Condiciones", resourceCulture);
             }
@@ -202,7 +202,7 @@ namespace ZamenisHealth.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Byte[].
         /// </summary>
-        public static byte[] Consentimientos {
+        internal static byte[] Consentimientos {
             get {
                 object obj = ResourceManager.GetObject("Consentimientos", resourceCulture);
                 return ((byte[])(obj));
@@ -212,7 +212,7 @@ namespace ZamenisHealth.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Byte[].
         /// </summary>
-        public static byte[] CUVMasivo {
+        internal static byte[] CUVMasivo {
             get {
                 object obj = ResourceManager.GetObject("CUVMasivo", resourceCulture);
                 return ((byte[])(obj));
@@ -222,7 +222,7 @@ namespace ZamenisHealth.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Deterioro {
+        internal static System.Drawing.Bitmap Deterioro {
             get {
                 object obj = ResourceManager.GetObject("Deterioro", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -232,7 +232,7 @@ namespace ZamenisHealth.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Enfermeria {
+        internal static System.Drawing.Bitmap Enfermeria {
             get {
                 object obj = ResourceManager.GetObject("Enfermeria", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -242,7 +242,7 @@ namespace ZamenisHealth.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap error {
+        internal static System.Drawing.Bitmap error {
             get {
                 object obj = ResourceManager.GetObject("error", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -252,7 +252,17 @@ namespace ZamenisHealth.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap factura1_colombia_cover {
+        internal static System.Drawing.Bitmap eye {
+            get {
+                object obj = ResourceManager.GetObject("eye", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap factura1_colombia_cover {
             get {
                 object obj = ResourceManager.GetObject("factura1_colombia_cover", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -262,7 +272,7 @@ namespace ZamenisHealth.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Fisiatria {
+        internal static System.Drawing.Bitmap Fisiatria {
             get {
                 object obj = ResourceManager.GetObject("Fisiatria", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -272,7 +282,7 @@ namespace ZamenisHealth.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Gerencial {
+        internal static System.Drawing.Bitmap Gerencial {
             get {
                 object obj = ResourceManager.GetObject("Gerencial", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -282,7 +292,7 @@ namespace ZamenisHealth.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap images {
+        internal static System.Drawing.Bitmap images {
             get {
                 object obj = ResourceManager.GetObject("images", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -292,7 +302,7 @@ namespace ZamenisHealth.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap images1 {
+        internal static System.Drawing.Bitmap images1 {
             get {
                 object obj = ResourceManager.GetObject("images1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -302,7 +312,7 @@ namespace ZamenisHealth.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Infeccion {
+        internal static System.Drawing.Bitmap Infeccion {
             get {
                 object obj = ResourceManager.GetObject("Infeccion", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -312,7 +322,17 @@ namespace ZamenisHealth.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Byte[].
         /// </summary>
-        public static byte[] InventarioPpal {
+        internal static byte[] Interno {
+            get {
+                object obj = ResourceManager.GetObject("Interno", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Byte[].
+        /// </summary>
+        internal static byte[] InventarioPpal {
             get {
                 object obj = ResourceManager.GetObject("InventarioPpal", resourceCulture);
                 return ((byte[])(obj));
@@ -322,7 +342,7 @@ namespace ZamenisHealth.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Byte[].
         /// </summary>
-        public static byte[] InventarioSub {
+        internal static byte[] InventarioSub {
             get {
                 object obj = ResourceManager.GetObject("InventarioSub", resourceCulture);
                 return ((byte[])(obj));
@@ -332,7 +352,7 @@ namespace ZamenisHealth.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap logo_IHCE {
+        internal static System.Drawing.Bitmap logo_IHCE {
             get {
                 object obj = ResourceManager.GetObject("logo-IHCE", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -342,7 +362,7 @@ namespace ZamenisHealth.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Logo_RoaylBlue {
+        internal static System.Drawing.Bitmap Logo_RoaylBlue {
             get {
                 object obj = ResourceManager.GetObject("Logo RoaylBlue", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -352,7 +372,7 @@ namespace ZamenisHealth.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Logo_RoaylBlue1 {
+        internal static System.Drawing.Bitmap Logo_RoaylBlue1 {
             get {
                 object obj = ResourceManager.GetObject("Logo RoaylBlue1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -362,7 +382,7 @@ namespace ZamenisHealth.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Logo_Zamenis_APPS {
+        internal static System.Drawing.Bitmap Logo_Zamenis_APPS {
             get {
                 object obj = ResourceManager.GetObject("Logo Zamenis APPS", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -372,7 +392,7 @@ namespace ZamenisHealth.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Logo2024_3 {
+        internal static System.Drawing.Bitmap Logo2024_3 {
             get {
                 object obj = ResourceManager.GetObject("Logo2024-3", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -382,7 +402,7 @@ namespace ZamenisHealth.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap logoNuevo {
+        internal static System.Drawing.Bitmap logoNuevo {
             get {
                 object obj = ResourceManager.GetObject("logoNuevo", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -390,9 +410,19 @@ namespace ZamenisHealth.Properties {
         }
         
         /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap man {
+            get {
+                object obj = ResourceManager.GetObject("man", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Busca un recurso adaptado de tipo System.Byte[].
         /// </summary>
-        public static byte[] Manual_Carga_de_Archivos_PDF_al_sistema {
+        internal static byte[] Manual_Carga_de_Archivos_PDF_al_sistema {
             get {
                 object obj = ResourceManager.GetObject("Manual_Carga_de_Archivos_PDF_al_sistema", resourceCulture);
                 return ((byte[])(obj));
@@ -402,7 +432,17 @@ namespace ZamenisHealth.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Byte[].
         /// </summary>
-        public static byte[] Manual_Ingresos_Salidas_Medicina_General {
+        internal static byte[] MANUAL_DE_OPERACIONES_FACTURACION_ZAMENIS_HEALTH {
+            get {
+                object obj = ResourceManager.GetObject("MANUAL DE OPERACIONES FACTURACION ZAMENIS HEALTH", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Byte[].
+        /// </summary>
+        internal static byte[] Manual_Ingresos_Salidas_Medicina_General {
             get {
                 object obj = ResourceManager.GetObject("Manual_Ingresos_Salidas_Medicina_General", resourceCulture);
                 return ((byte[])(obj));
@@ -412,7 +452,7 @@ namespace ZamenisHealth.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Byte[].
         /// </summary>
-        public static byte[] Manual_Juntas_Medicas {
+        internal static byte[] Manual_Juntas_Medicas {
             get {
                 object obj = ResourceManager.GetObject("Manual_Juntas_Medicas", resourceCulture);
                 return ((byte[])(obj));
@@ -422,7 +462,7 @@ namespace ZamenisHealth.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Byte[].
         /// </summary>
-        public static byte[] Manual_V1_Zamenis_Health {
+        internal static byte[] Manual_V1_Zamenis_Health {
             get {
                 object obj = ResourceManager.GetObject("Manual_V1_Zamenis_Health", resourceCulture);
                 return ((byte[])(obj));
@@ -432,7 +472,7 @@ namespace ZamenisHealth.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Byte[].
         /// </summary>
-        public static byte[] Manual_Zamenis_Health {
+        internal static byte[] Manual_Zamenis_Health {
             get {
                 object obj = ResourceManager.GetObject("Manual_Zamenis_Health", resourceCulture);
                 return ((byte[])(obj));
@@ -442,7 +482,7 @@ namespace ZamenisHealth.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap maximizar {
+        internal static System.Drawing.Bitmap maximizar {
             get {
                 object obj = ResourceManager.GetObject("maximizar", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -452,7 +492,7 @@ namespace ZamenisHealth.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap maximizar__1_ {
+        internal static System.Drawing.Bitmap maximizar__1_ {
             get {
                 object obj = ResourceManager.GetObject("maximizar (1)", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -462,7 +502,7 @@ namespace ZamenisHealth.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap MayorQue {
+        internal static System.Drawing.Bitmap MayorQue {
             get {
                 object obj = ResourceManager.GetObject("MayorQue", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -472,7 +512,7 @@ namespace ZamenisHealth.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap MayorQue_Black {
+        internal static System.Drawing.Bitmap MayorQue_Black {
             get {
                 object obj = ResourceManager.GetObject("MayorQue_Black", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -482,7 +522,7 @@ namespace ZamenisHealth.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap MedGen {
+        internal static System.Drawing.Bitmap MedGen {
             get {
                 object obj = ResourceManager.GetObject("MedGen", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -492,7 +532,7 @@ namespace ZamenisHealth.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap mercadopago_81090 {
+        internal static System.Drawing.Bitmap mercadopago_81090 {
             get {
                 object obj = ResourceManager.GetObject("mercadopago-81090", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -502,7 +542,7 @@ namespace ZamenisHealth.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Opciones {
+        internal static System.Drawing.Bitmap Opciones {
             get {
                 object obj = ResourceManager.GetObject("Opciones", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -512,7 +552,7 @@ namespace ZamenisHealth.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Byte[].
         /// </summary>
-        public static byte[] P_Homologos {
+        internal static byte[] P_Homologos {
             get {
                 object obj = ResourceManager.GetObject("P_Homologos", resourceCulture);
                 return ((byte[])(obj));
@@ -522,7 +562,7 @@ namespace ZamenisHealth.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Byte[].
         /// </summary>
-        public static byte[] P_HomologosRcCaja {
+        internal static byte[] P_HomologosRcCaja {
             get {
                 object obj = ResourceManager.GetObject("P_HomologosRcCaja", resourceCulture);
                 return ((byte[])(obj));
@@ -532,7 +572,7 @@ namespace ZamenisHealth.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Byte[].
         /// </summary>
-        public static byte[] P_Pagos {
+        internal static byte[] P_Pagos {
             get {
                 object obj = ResourceManager.GetObject("P_Pagos", resourceCulture);
                 return ((byte[])(obj));
@@ -542,7 +582,7 @@ namespace ZamenisHealth.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap paciente {
+        internal static System.Drawing.Bitmap paciente {
             get {
                 object obj = ResourceManager.GetObject("paciente", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -552,7 +592,7 @@ namespace ZamenisHealth.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Patron {
+        internal static System.Drawing.Bitmap Patron {
             get {
                 object obj = ResourceManager.GetObject("Patron", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -562,7 +602,7 @@ namespace ZamenisHealth.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap pdf {
+        internal static System.Drawing.Bitmap pdf {
             get {
                 object obj = ResourceManager.GetObject("pdf", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -572,7 +612,7 @@ namespace ZamenisHealth.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Psicologia {
+        internal static System.Drawing.Bitmap Psicologia {
             get {
                 object obj = ResourceManager.GetObject("Psicologia", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -582,7 +622,7 @@ namespace ZamenisHealth.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap punto_de_venta {
+        internal static System.Drawing.Bitmap punto_de_venta {
             get {
                 object obj = ResourceManager.GetObject("punto-de-venta", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -592,7 +632,7 @@ namespace ZamenisHealth.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Recepcion {
+        internal static System.Drawing.Bitmap Recepcion {
             get {
                 object obj = ResourceManager.GetObject("Recepcion", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -602,7 +642,7 @@ namespace ZamenisHealth.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap reloj_de_arena {
+        internal static System.Drawing.Bitmap reloj_de_arena {
             get {
                 object obj = ResourceManager.GetObject("reloj-de-arena", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -612,7 +652,7 @@ namespace ZamenisHealth.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Seleccion {
+        internal static System.Drawing.Bitmap Seleccion {
             get {
                 object obj = ResourceManager.GetObject("Seleccion", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -622,7 +662,7 @@ namespace ZamenisHealth.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.IO.UnmanagedMemoryStream similar a System.IO.MemoryStream.
         /// </summary>
-        public static System.IO.UnmanagedMemoryStream SoundClic {
+        internal static System.IO.UnmanagedMemoryStream SoundClic {
             get {
                 return ResourceManager.GetStream("SoundClic", resourceCulture);
             }
@@ -631,7 +671,7 @@ namespace ZamenisHealth.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.IO.UnmanagedMemoryStream similar a System.IO.MemoryStream.
         /// </summary>
-        public static System.IO.UnmanagedMemoryStream SoundSeleccion {
+        internal static System.IO.UnmanagedMemoryStream SoundSeleccion {
             get {
                 return ResourceManager.GetStream("SoundSeleccion", resourceCulture);
             }
@@ -640,7 +680,7 @@ namespace ZamenisHealth.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Splash {
+        internal static System.Drawing.Bitmap Splash {
             get {
                 object obj = ResourceManager.GetObject("Splash", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -650,7 +690,7 @@ namespace ZamenisHealth.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Splash1 {
+        internal static System.Drawing.Bitmap Splash1 {
             get {
                 object obj = ResourceManager.GetObject("Splash1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -660,7 +700,7 @@ namespace ZamenisHealth.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Splash2 {
+        internal static System.Drawing.Bitmap Splash2 {
             get {
                 object obj = ResourceManager.GetObject("Splash2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -670,7 +710,7 @@ namespace ZamenisHealth.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap TerapiaF {
+        internal static System.Drawing.Bitmap TerapiaF {
             get {
                 object obj = ResourceManager.GetObject("TerapiaF", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -680,7 +720,7 @@ namespace ZamenisHealth.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap TerapiaO {
+        internal static System.Drawing.Bitmap TerapiaO {
             get {
                 object obj = ResourceManager.GetObject("TerapiaO", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -690,7 +730,17 @@ namespace ZamenisHealth.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap XML {
+        internal static System.Drawing.Bitmap woman {
+            get {
+                object obj = ResourceManager.GetObject("woman", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap XML {
             get {
                 object obj = ResourceManager.GetObject("XML", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));

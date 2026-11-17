@@ -253,6 +253,10 @@
             this.CaidaTxt = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.boton6 = new FormAndControls.Controles.Boton();
+            this.label95 = new System.Windows.Forms.Label();
+            this.textBox53 = new System.Windows.Forms.TextBox();
+            this.textBox54 = new System.Windows.Forms.TextBox();
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -398,6 +402,7 @@
             // textBox35
             // 
             this.textBox35.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.textBox35.Cursor = System.Windows.Forms.Cursors.Hand;
             this.textBox35.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox35.Location = new System.Drawing.Point(8, 213);
             this.textBox35.Name = "textBox35";
@@ -429,6 +434,7 @@
             // textBox37
             // 
             this.textBox37.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.textBox37.Cursor = System.Windows.Forms.Cursors.Hand;
             this.textBox37.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox37.Location = new System.Drawing.Point(8, 153);
             this.textBox37.Name = "textBox37";
@@ -475,6 +481,7 @@
             // textBox39
             // 
             this.textBox39.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.textBox39.Cursor = System.Windows.Forms.Cursors.Hand;
             this.textBox39.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox39.Location = new System.Drawing.Point(8, 61);
             this.textBox39.Name = "textBox39";
@@ -2522,6 +2529,10 @@
             // 
             this.tabPage6.AutoScroll = true;
             this.tabPage6.BackColor = System.Drawing.Color.White;
+            this.tabPage6.Controls.Add(this.boton6);
+            this.tabPage6.Controls.Add(this.label95);
+            this.tabPage6.Controls.Add(this.textBox53);
+            this.tabPage6.Controls.Add(this.textBox54);
             this.tabPage6.Controls.Add(this.boton5);
             this.tabPage6.Controls.Add(this.boton4);
             this.tabPage6.Controls.Add(this.comboBox3);
@@ -2562,7 +2573,7 @@
             this.boton5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.boton5.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
             this.boton5.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.boton5.Location = new System.Drawing.Point(857, 249);
+            this.boton5.Location = new System.Drawing.Point(857, 308);
             this.boton5.Name = "boton5";
             this.boton5.Size = new System.Drawing.Size(124, 32);
             this.boton5.TabIndex = 339;
@@ -2578,7 +2589,7 @@
             this.boton4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.boton4.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
             this.boton4.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.boton4.Location = new System.Drawing.Point(857, 302);
+            this.boton4.Location = new System.Drawing.Point(857, 361);
             this.boton4.Name = "boton4";
             this.boton4.Size = new System.Drawing.Size(124, 32);
             this.boton4.TabIndex = 338;
@@ -2598,7 +2609,7 @@
             "Sustancia que entran en contacto con la piel",
             "Picadura de insectos",
             "Otra"});
-            this.comboBox3.Location = new System.Drawing.Point(11, 306);
+            this.comboBox3.Location = new System.Drawing.Point(11, 365);
             this.comboBox3.Name = "comboBox3";
             this.comboBox3.Size = new System.Drawing.Size(396, 28);
             this.comboBox3.TabIndex = 337;
@@ -2607,7 +2618,7 @@
             // 
             this.label91.AutoSize = true;
             this.label91.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label91.Location = new System.Drawing.Point(10, 284);
+            this.label91.Location = new System.Drawing.Point(10, 343);
             this.label91.Name = "label91";
             this.label91.Size = new System.Drawing.Size(377, 17);
             this.label91.TabIndex = 336;
@@ -2620,7 +2631,7 @@
             this.dataGridView4.BackgroundColor = System.Drawing.Color.White;
             this.dataGridView4.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView4.GridColor = System.Drawing.Color.Blue;
-            this.dataGridView4.Location = new System.Drawing.Point(15, 365);
+            this.dataGridView4.Location = new System.Drawing.Point(15, 424);
             this.dataGridView4.Name = "dataGridView4";
             this.dataGridView4.ReadOnly = true;
             this.dataGridView4.Size = new System.Drawing.Size(966, 159);
@@ -2631,7 +2642,7 @@
             // 
             this.label92.AutoSize = true;
             this.label92.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label92.Location = new System.Drawing.Point(12, 342);
+            this.label92.Location = new System.Drawing.Point(12, 401);
             this.label92.Name = "label92";
             this.label92.Size = new System.Drawing.Size(316, 17);
             this.label92.TabIndex = 334;
@@ -2641,7 +2652,7 @@
             // 
             this.label93.AutoSize = true;
             this.label93.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label93.Location = new System.Drawing.Point(427, 284);
+            this.label93.Location = new System.Drawing.Point(427, 343);
             this.label93.Name = "label93";
             this.label93.Size = new System.Drawing.Size(488, 17);
             this.label93.TabIndex = 333;
@@ -2650,7 +2661,7 @@
             // textBox47
             // 
             this.textBox47.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox47.Location = new System.Drawing.Point(428, 306);
+            this.textBox47.Location = new System.Drawing.Point(428, 365);
             this.textBox47.Name = "textBox47";
             this.textBox47.Size = new System.Drawing.Size(426, 26);
             this.textBox47.TabIndex = 332;
@@ -2660,7 +2671,7 @@
             this.label87.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(55)))), ((int)(((byte)(90)))));
             this.label87.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label87.ForeColor = System.Drawing.Color.White;
-            this.label87.Location = new System.Drawing.Point(8, 251);
+            this.label87.Location = new System.Drawing.Point(8, 310);
             this.label87.Name = "label87";
             this.label87.Size = new System.Drawing.Size(846, 25);
             this.label87.TabIndex = 285;
@@ -3069,14 +3080,64 @@
             this.linkLabel1.Visible = false;
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
+            // boton6
+            // 
+            this.boton6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(55)))), ((int)(((byte)(90)))));
+            this.boton6.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.boton6.FlatAppearance.BorderSize = 3;
+            this.boton6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.boton6.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
+            this.boton6.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.boton6.Location = new System.Drawing.Point(859, 265);
+            this.boton6.Name = "boton6";
+            this.boton6.Size = new System.Drawing.Size(124, 32);
+            this.boton6.TabIndex = 340;
+            this.boton6.Text = "Borrar";
+            this.boton6.UseVisualStyleBackColor = false;
+            this.boton6.Click += new System.EventHandler(this.boton6_Click);
+            // 
+            // label95
+            // 
+            this.label95.AutoSize = true;
+            this.label95.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label95.Location = new System.Drawing.Point(7, 249);
+            this.label95.Name = "label95";
+            this.label95.Size = new System.Drawing.Size(304, 17);
+            this.label95.TabIndex = 341;
+            this.label95.Text = "Diagnostico Principal Clasificacion CIE11";
+            // 
+            // textBox53
+            // 
+            this.textBox53.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.textBox53.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.textBox53.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox53.ForeColor = System.Drawing.Color.Purple;
+            this.textBox53.Location = new System.Drawing.Point(10, 269);
+            this.textBox53.Name = "textBox53";
+            this.textBox53.ReadOnly = true;
+            this.textBox53.Size = new System.Drawing.Size(131, 26);
+            this.textBox53.TabIndex = 342;
+            this.textBox53.DoubleClick += new System.EventHandler(this.textBox53_DoubleClick);
+            // 
+            // textBox54
+            // 
+            this.textBox54.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.textBox54.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox54.ForeColor = System.Drawing.Color.Purple;
+            this.textBox54.Location = new System.Drawing.Point(147, 269);
+            this.textBox54.Name = "textBox54";
+            this.textBox54.ReadOnly = true;
+            this.textBox54.Size = new System.Drawing.Size(709, 26);
+            this.textBox54.TabIndex = 343;
+            // 
             // Historia_MedicinaGeneral
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1191, 828);
-            this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.panel2);
+            this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.requiereTxt);
             this.Controls.Add(this.dificilTxt);
             this.Controls.Add(this.mayorTxt);
@@ -3357,5 +3418,9 @@
         private FormAndControls.Controles.Boton boton4;
         private FormAndControls.Controles.Boton boton5;
         private System.Windows.Forms.LinkLabel linkLabel1;
+        private FormAndControls.Controles.Boton boton6;
+        private System.Windows.Forms.Label label95;
+        public System.Windows.Forms.TextBox textBox53;
+        public System.Windows.Forms.TextBox textBox54;
     }
 }

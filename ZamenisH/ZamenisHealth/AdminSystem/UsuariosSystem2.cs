@@ -55,6 +55,7 @@ namespace ZamenisHealth.AdminSystem
                     BarCodes = checkBox41.Checked ? "A" : "I",
                     Autorizaciones = checkBox20.Checked ? "A" : "I",
                     RDA = checkBox39.Checked ? "A" : "I",
+                    Noticias = checkBox63.Checked ? "A" : "I",
                     AdministracionDetalles = new AdministracionDetalles
                     {
                         GenerarFactura = checkBox37.Checked ? "A" : "I",
@@ -299,6 +300,7 @@ namespace ZamenisHealth.AdminSystem
                             checkBox36.Checked = false;
                             checkBox34.Checked = false;
                             checkBox40.Checked = false;
+                            checkBox63.Checked = false;
 
                             //Opciones
                             checkBox49.Checked = false;
@@ -429,6 +431,8 @@ namespace ZamenisHealth.AdminSystem
                                                 obj2["Administracion"]["Autorizaciones"].ToString() == "A" ? true : false : false;                             
                                 checkBox39.Checked = obj2["Administracion"]["RDA"] != null ?
                                                 obj2["Administracion"]["RDA"].ToString() == "A" ? true : false : false;
+                                checkBox63.Checked = obj2["Administracion"]["Noticias"] != null ?
+                                              obj2["Administracion"]["Noticias"].ToString() == "A" ? true : false : false;
 
                                 if (obj2["Administracion"]["AdministracionDetalles"] != null)
                                 {
@@ -470,6 +474,7 @@ namespace ZamenisHealth.AdminSystem
                                 checkBox36.Checked = false;
                                 checkBox34.Checked = false;
                                 checkBox40.Checked = false;
+                                checkBox63.Checked = false;
                             }
                             //ROL OPCIONES
                             if (obj3["Opciones"] != null)

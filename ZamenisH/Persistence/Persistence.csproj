@@ -256,6 +256,8 @@
     <Compile Include="CXN\Interfaces\IMenu.cs" />
     <Compile Include="CXN\Interfaces\INotasAclaratorias.cs" />
     <Compile Include="CXN\Interfaces\INotasCuracion.cs" />
+    <Compile Include="CXN\Interfaces\INoticias.cs" />
+    <Compile Include="CXN\Interfaces\INuevaAgenda.cs" />
     <Compile Include="CXN\Interfaces\IOrdenes.cs" />
     <Compile Include="CXN\Interfaces\IPacientes.cs" />
     <Compile Include="CXN\Interfaces\IPayments.cs" />
@@ -328,6 +330,8 @@
     <Compile Include="CXN\Metodos\MMenu.cs" />
     <Compile Include="CXN\Metodos\MNotasAclaratorias.cs" />
     <Compile Include="CXN\Metodos\MNotasCuracion.cs" />
+    <Compile Include="CXN\Metodos\MNoticias.cs" />
+    <Compile Include="CXN\Metodos\MNuevaAgenda.cs" />
     <Compile Include="CXN\Metodos\MOrdenes.cs" />
     <Compile Include="CXN\Metodos\MPacientes.cs" />
     <Compile Include="CXN\Metodos\MPayments.cs" />

@@ -15,6 +15,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using ZamenisHealth.Clases;
+using ZamenisHealth.Clases.Controles;
 using ZamenisHealth.Comunes;
 using ZamenisHealth.Recepcion.Extras;
 
@@ -39,7 +40,9 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
 
         private int CodeProfesional, CodePrestador, TipoConsultaBarras;
         private bool Amplia, Colorimetria;
+        private Dictionary<int, CXN_HORARIO> DicDatos;
         private Image ImaEmail, ImaSMS, ImaBlocked;
+        private TooltipEnriquecido tooltipAgenda;
 
         private MensajesGeneral MG;
         DataTable dt;
@@ -55,6 +58,7 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
         DataColumn SendEmail;
         DataColumn SendSMS;
         DataColumn Aseguradora;
+        DataColumn ServicioAgendado;
         DataColumn ColorFila;
         DataColumn BlockEspaces;
         DataColumn P2VxS;
@@ -81,13 +85,13 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
         }
         void CargarImagenes()
         {
-            var getData = repositorioConfsystem.getListado();
-            if (getData != null)
+            List<CXN_IMAGEN_SYSTEM> d = repositorioConfsystem.getConfSystem();
+            if (d != null)
             {
-                ImaEmail = Base64ToImage(Convert.FromBase64String(getData["Email"]));
-                ImaSMS = Base64ToImage(Convert.FromBase64String(getData["SMS"]));
-                ImaBlocked = Base64ToImage(Convert.FromBase64String(getData["Bloqueo"]));
-            }        
+                ImaEmail = Base64ToImage(Convert.FromBase64String(d.FirstOrDefault(x => x.Tab_Nombre == "Email").Tab_Clave));
+                ImaSMS = Base64ToImage(Convert.FromBase64String(d.FirstOrDefault(x => x.Tab_Nombre == "SMS").Tab_Clave));
+                ImaBlocked = Base64ToImage(Convert.FromBase64String(d.FirstOrDefault(x => x.Tab_Nombre == "Bloqueo").Tab_Clave));
+            }
         }
 
         #region BOTONES
@@ -139,11 +143,21 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
                 btnCodPaciente = createToolButton("Ver Tipos");
                 MenuLateral.Items.Add(btnCodPaciente);
                 btnCodPaciente.Click += btnCodPaciente_Click;
+
+                ToolStripButton btnHisAdm = new ToolStripButton();
+                btnHisAdm = createToolButton("Historico Admision");
+                MenuLateral.Items.Add(btnHisAdm);
+                btnHisAdm.Click += btnHisAdm_Click;
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+        void btnHisAdm_Click(object sender, EventArgs e)
+        {
+            HistorialAdmisiones H = new HistorialAdmisiones();
+            H.ShowDialog();
         }
         void btnCodPaciente_Click(object sender, EventArgs e) 
         { 
@@ -223,7 +237,10 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
         private void Agendamiento_Load(object sender, EventArgs e)
         {
             try
-            {   CargarImagenes();
+            {
+                gridZH1.ElimnarAutosize();
+
+                CargarImagenes();
                 CargarBotones();
 
                 Colorimetria = (Preferencias.Colorimetria == "A" ? true : false);
@@ -237,7 +254,7 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
 
                 typeof(DataGridView).InvokeMember("DoubleBuffered",
                 BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty,
-                null, dataGridView1, new object[] { true });
+                null, gridZH1.dataGridView1, new object[] { true });
 
                 Titulo.Text = "Agenda Medica";
                 LogoMain.Image = Properties.Resources.Splash;
@@ -246,9 +263,16 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
                 CargarProfesionales();
                 CargarPrestadores();                
 
-                calendarHQ1.dTPCalendar.Value = new DateTime(DateTime.Now.Date.Year, DateTime.Now.Date.Month, DateTime.Now.Date.Day);                
+                calendarHQ1.dTPCalendar.Value = new DateTime(DateTime.Now.Date.Year, DateTime.Now.Date.Month, DateTime.Now.Date.Day);
 
-                dataGridView1.CellClick += DataGridView1_CellClick;
+                gridZH1.dataGridView1.CellClick += DataGridView1_CellClick;                
+                gridZH1.dataGridView1.CellMouseLeave += DataGridView1_MouseLeave;
+
+                if (Preferencias.DatosCitaMouseMove == "A")
+                {
+                    gridZH1.dataGridView1.CellMouseEnter += DataGridView1_CellMouseEnter1;
+                }                
+
                 calendarHQ1.dTPCalendar.ValueChanged += dTPCalendar_ValueChanged;
 
                 comboBox3.SelectedIndex = 0;
@@ -260,6 +284,92 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }            
+        }
+        private void DataGridView1_MouseLeave(object sender, EventArgs e)
+        {
+            if (tooltipAgenda != null)
+            {
+                tooltipAgenda.Close();
+                tooltipAgenda.Dispose();
+                tooltipAgenda = null;
+            }
+        }
+        private void DataGridView1_CellMouseEnter1(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                var grid = gridZH1.dataGridView1;
+
+                if (e.RowIndex < 0 || e.ColumnIndex < 0)
+                    return;
+
+                object valor = grid.Rows[e.RowIndex].Cells[5].Value;
+
+                if (valor == null || valor == DBNull.Value)
+                    return;
+
+                if (!int.TryParse(valor.ToString(), out int id))
+                    return;
+
+                if (DicDatos == null ||
+                    !DicDatos.TryGetValue(id, out CXN_HORARIO data) ||
+                    data == null)
+                    return;
+
+                // Cerrar el tooltip anterior.
+                if (tooltipAgenda != null)
+                {
+                    tooltipAgenda.Close();
+                    tooltipAgenda.Dispose();
+                }
+
+                // Crear el tooltip enriquecido.
+                tooltipAgenda = new TooltipEnriquecido();
+
+                tooltipAgenda.AgregarLinea(
+                   "ADMISIÓN:",
+                   Convert.ToString(data.Hor_AdmOpnened));
+
+                tooltipAgenda.AgregarLinea(
+                    "PACIENTE:",
+                    Convert.ToString(data.Hor_Imp_Age));
+
+                tooltipAgenda.AgregarLinea(
+                   "USUARIO ASIGNA:",
+                   Convert.ToString(data.Hor_Pac_UsrGraba));
+
+                tooltipAgenda.AgregarLinea(
+                   "USUARIO ADMISIONA:",
+                   Convert.ToString(data.Hor_Usr_Admisiona));
+
+                tooltipAgenda.AgregarLinea("","");
+
+                tooltipAgenda.AgregarLinea(
+                    "SERVICIO:",
+                    Convert.ToString(data.Hor_GrupoServicios));
+
+                tooltipAgenda.AgregarLinea(
+                    "ASEGURADORA:",
+                    Convert.ToString(data.PacienteAseguradora));
+
+                tooltipAgenda.AgregarLinea(
+                   "TELEFONOS:",
+                   Convert.ToString(data.DatosPaciente.Pac_Telefono + " - " + data.DatosPaciente.Pac_TelefonoAux));
+
+                tooltipAgenda.AgregarLinea(
+                   "IDENTIFICACION:",
+                   Convert.ToString(data.DatosPaciente.Pac_TipoId + " " + data.DatosPaciente.Pac_IdNum));
+
+                // Posición del cursor.
+                Point posicion = Cursor.Position;
+                posicion.Offset(15, 15);
+
+                tooltipAgenda.MostrarEn(posicion);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
         void CargarPrestadores()
         {
@@ -350,7 +460,7 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
         }        
         private void boton1_Click(object sender, EventArgs e)
         {
-            if (dataGridView1.DataSource != null)
+            if (gridZH1.dataGridView1.DataSource != null)
             {
                 if (calendarHQ1.Visible == true)
                 {
@@ -359,7 +469,7 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
                     label3.Visible = false;
                     label4.Visible = false;
                     calendarHQ1.Visible = false;
-                    dataGridView1.Size = new Size(1020, 596);
+                    gridZH1.Size = new Size(1020, 564);
                 }
                 else
                 {
@@ -368,52 +478,56 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
                     label3.Visible = true;
                     label4.Visible = true;
                     calendarHQ1.Visible = true;
-                    dataGridView1.Size = new Size(620, 596);
+                    gridZH1.Size = new Size(620, 564);
                 }
 
                 if (Amplia == true)
                 {
-                    dataGridView1.Columns["Paciente"].Width = 368;
-                    dataGridView1.Columns["Aseguradora"].Width = 368;
+                    gridZH1.dataGridView1.Columns["Paciente"].Width = 368;
+                    gridZH1.dataGridView1.Columns["Aseguradora"].Width = 368;
+                    gridZH1.dataGridView1.Columns["Servicio"].Width = 368;
                 }
                 else
                 {
-                    dataGridView1.Columns["Paciente"].Width = 325;
-                    dataGridView1.Columns["Aseguradora"].Width = 325;
+                    gridZH1.dataGridView1.Columns["Paciente"].Width = 325;
+                    gridZH1.dataGridView1.Columns["Aseguradora"].Width = 325;
+                    gridZH1.dataGridView1.Columns["Servicio"].Width = 325;
                 }
-            }            
+            }
+
+            gridZH1.dataGridView1.ScrollBars = ScrollBars.Both;
         }
         private void DataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             try
             {
-                dataGridView1.ClearSelection();
+                gridZH1.dataGridView1.ClearSelection();
 
                 if (e.RowIndex >= 0)
                 {
                     if (e.ColumnIndex == 5) //Menu Principal
                     {
-                        string admision = dataGridView1.CurrentRow.Cells[5].Value.ToString();
-                        string idHora = dataGridView1.CurrentRow.Cells[0].Value.ToString();
-                        string Hora = dataGridView1.CurrentRow.Cells[4].Value.ToString();
+                        string admision = gridZH1.dataGridView1.CurrentRow.Cells[5].Value.ToString();
+                        string idHora = gridZH1.dataGridView1.CurrentRow.Cells[0].Value.ToString();
+                        string Hora = gridZH1.dataGridView1.CurrentRow.Cells[4].Value.ToString();
 
                         MenuOpcionesAgenda menuOpcionesAgenda = new MenuOpcionesAgenda(admision, idHora, CodePrestador, Hora, CodeProfesional);
                         menuOpcionesAgenda.ShowDialog();
                     }
                     else if (e.ColumnIndex == 6) //Celda paciente
                     {
-                        if (string.IsNullOrEmpty(dataGridView1.CurrentRow.Cells[6].Value.ToString()))
+                        if (string.IsNullOrEmpty(gridZH1.dataGridView1.CurrentRow.Cells[6].Value.ToString()))
                         {
                             //AGENDAR CITA
                             (int CodProf, string TipoBod) DatoProf = repositorioBodegas.ProfesionalId(comboBox1.Text);
                             CXN_CIA IdCia = repositorioCompañias.getPrestadorbyName(comboBox2.Text);
 
-                            string IDE = dataGridView1.CurrentRow.Cells[0].Value.ToString();
-                            string estadohora = dataGridView1.CurrentRow.Cells[1].Value.ToString();
+                            string IDE = gridZH1.dataGridView1.CurrentRow.Cells[0].Value.ToString();
+                            string estadohora = gridZH1.dataGridView1.CurrentRow.Cells[1].Value.ToString();
 
                             AgendarCita Agenda_Cita = new AgendarCita(DatoProf.CodProf, //Profesional
                                                                   calendarHQ1.txtDia.Text, //Nombre del dia
-                                                                  Convert.ToDateTime(dataGridView1.Rows[e.RowIndex].Cells[4].Value.ToString()), //Hora Hora
+                                                                  Convert.ToDateTime(gridZH1.dataGridView1.Rows[e.RowIndex].Cells[4].Value.ToString()), //Hora Hora
                                                                   DatoProf.TipoBod, // Tipo bodega
                                                                   IDE.ToString(), //Ide Hora
                                                                   IdCia.Com_Identificador, //Prestador
@@ -427,7 +541,7 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
                             //cargar forma si no esta vacio el espacio (datos de cita, cancelar, anular, etc)
 
                             //string estadoCita = dataGridView1.CurrentRow.Cells[2].Value.ToString();
-                            string admision = dataGridView1.CurrentRow.Cells[5].Value.ToString();
+                            string admision = gridZH1.dataGridView1.CurrentRow.Cells[5].Value.ToString();
                             string estadoCita = repositorioAgenda2.consularAdmisionEstado(Convert.ToInt32(admision));
 
                             if (estadoCita != "0")
@@ -436,8 +550,8 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
                                 if (estadoCita == "A")
                                 {
                                     //string admision = dataGridView1.CurrentRow.Cells[5].Value.ToString();
-                                    string idHora = dataGridView1.CurrentRow.Cells[0].Value.ToString();
-                                    string Hora = dataGridView1.CurrentRow.Cells[4].Value.ToString();
+                                    string idHora = gridZH1.dataGridView1.CurrentRow.Cells[0].Value.ToString();
+                                    string Hora = gridZH1.dataGridView1.CurrentRow.Cells[4].Value.ToString();
 
                                     MenuOpcionesAgenda menuOpcionesAgenda = new MenuOpcionesAgenda(admision, idHora, CodePrestador, Hora, CodeProfesional);
                                     menuOpcionesAgenda.ShowDialog();
@@ -475,12 +589,12 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
                                 (int CodProf, string TipoBod) DatoProf = repositorioBodegas.ProfesionalId(comboBox1.Text);
                                 CXN_CIA IdCia = repositorioCompañias.getPrestadorbyName(comboBox2.Text);
 
-                                string IDE = dataGridView1.CurrentRow.Cells[0].Value.ToString();
-                                string estadohora = dataGridView1.CurrentRow.Cells[1].Value.ToString();
+                                string IDE = gridZH1.dataGridView1.CurrentRow.Cells[0].Value.ToString();
+                                string estadohora = gridZH1.dataGridView1.CurrentRow.Cells[1].Value.ToString();
 
                                 AgendarCita Agenda_Cita = new AgendarCita(DatoProf.CodProf, //Profesional
                                                                       calendarHQ1.txtDia.Text, //Nombre del dia
-                                                                      Convert.ToDateTime(dataGridView1.Rows[e.RowIndex].Cells[4].Value.ToString()), //Hora Hora
+                                                                      Convert.ToDateTime(gridZH1.dataGridView1.Rows[e.RowIndex].Cells[4].Value.ToString()), //Hora Hora
                                                                       DatoProf.TipoBod, // Tipo bodega
                                                                       IDE.ToString(), //Ide Hora
                                                                       IdCia.Com_Identificador, //Prestador
@@ -493,9 +607,9 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
                     }
                     else if (e.ColumnIndex == 8) //EMAIL
                     {
-                        if (dataGridView1.Rows[e.RowIndex].Cells[5].Value.ToString() != "") //Admision
+                        if (gridZH1.dataGridView1.Rows[e.RowIndex].Cells[5].Value.ToString() != "") //Admision
                         {
-                            EnviarEmail(Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[5].Value.ToString()));
+                            EnviarEmail(Convert.ToInt32(gridZH1.dataGridView1.Rows[e.RowIndex].Cells[5].Value.ToString()));
                         }
                         else
                         {
@@ -509,9 +623,9 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
                     }
                     else if (e.ColumnIndex == 9) //SMS
                     {
-                        if (dataGridView1.Rows[e.RowIndex].Cells[5].Value.ToString() != "") //Admision
+                        if (gridZH1.dataGridView1.Rows[e.RowIndex].Cells[5].Value.ToString() != "") //Admision
                         {
-                            EnviarSMS(Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[5].Value.ToString()), "SMSAgenda"); //Admision
+                            EnviarSMS(Convert.ToInt32(gridZH1.dataGridView1.Rows[e.RowIndex].Cells[5].Value.ToString()), "SMSAgenda"); //Admision
                         }
                         else
                         {
@@ -530,12 +644,12 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
                     (int CodProf, string TipoBod) DatoProf = repositorioBodegas.ProfesionalId(comboBox1.Text);
                     CXN_CIA IdCia = repositorioCompañias.getPrestadorbyName(comboBox2.Text);
 
-                    string IDE = dataGridView1.CurrentRow.Cells[0].Value.ToString();
-                    string estadohora = dataGridView1.CurrentRow.Cells[1].Value.ToString();
+                    string IDE = gridZH1.dataGridView1.CurrentRow.Cells[0].Value.ToString();
+                    string estadohora = gridZH1.dataGridView1.CurrentRow.Cells[1].Value.ToString();
 
                     AgendarCita Agenda_Cita = new AgendarCita(DatoProf.CodProf, //Profesional
                                                           calendarHQ1.txtDia.Text, //Nombre del dia
-                                                          Convert.ToDateTime(dataGridView1.Rows[e.RowIndex].Cells[4].Value.ToString()), //Hora Hora
+                                                          Convert.ToDateTime(gridZH1.dataGridView1.Rows[e.RowIndex].Cells[4].Value.ToString()), //Hora Hora
                                                           DatoProf.TipoBod, // Tipo bodega
                                                           IDE.ToString(), //Ide Hora
                                                           IdCia.Com_Identificador, //Prestador
@@ -825,30 +939,139 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
 
                                     if (calendar != null)
                                     {
-                                        string html = "<center>" +
-                                                              "<img src='cid:imagen' />" +
-                                                              "<h2 style='background:#3D38B2; color:white;'>Hola, " + _datosCitaforEmail.Hor_Imp_Age + "</h2>" +
-                                                              "<p>Queremos recordarte que tienes una cita pendiente para el servicio de: " + _datosCitaforEmail.Hor_Pac_Inasistencia.ToUpper() + ", asignada de la siguiente manera: <br><br>" +
-                                                              "<b style='color:blue'>Prestador: </b><b style='color:black'>" + _datosCitaforEmail.Com_Nombre + "</b><br><br>" +
-                                                              "<b style='color:blue'>Direccion: </b><b style='color:black'>" + _datosCitaforEmail.Com_Direccion + "</b><br><br>" +
-                                                              "<b style='color:blue'>Telefono: </b><b style='color:black'>" + _datosCitaforEmail.Com_Telefono + "</b><br><br>" +
-                                                              "<b style='color:blue'>Fecha: </b><b style='color:black'>" + Convert.ToDateTime(_datosCitaforEmail.Hor_Pac_Fecha_Cita).ToString("yyyy-MM-dd") + "</b><br><br>" +
-                                                              "<b style='color:blue'>Hora: </b><b style='color:black'>" + Convert.ToDateTime(_datosCitaforEmail.Hor_Pac_Hora_Cita).ToString("HH:mm tt") + "</b><br><br>" +
-                                                              "</p><p><b>Conoce nuestros Productos: <a href='https://slsoft.net'>https://slsoft.net</a></b></p>" +
-                                                              "<b style='color:gray'>" +
-                                                              "AVISO LEGAL: La información transmitida a través de este correo electrónico es confidencial y dirigida única y exclusivamente para uso de " +
-                                                              "su(s) destinatario(s). Su reproducción, lectura o uso está prohibido a cualquier persona o entidad diferente, sin autorización previa por " +
-                                                              "escrito. Si usted lo ha recibido por error, por favor notifíquelo inmediatamente al remitente y elimínelo de su sistema. Cualquier uso, " +
-                                                              "divulgación, copia, distribución, impresión o acto derivado del conocimiento total o parcial de este mensaje sin autorización del remitente " +
-                                                              "será sancionado de acuerdo con las normas legales vigentes. Las opiniones, conclusiones y otra información contenida en este correo, " +
-                                                              "no relacionadas con las actividades de la institucion medica, deben entenderse como personales y de ninguna manera son avaladas por dicha " +
-                                                              "Institución. Aunque la institucion medica ha realizado su mejor esfuerzo para asegurar que el presente mensaje y sus archivos anexos se " +
-                                                              "encuentran libre de virus y defectos que puedan llegar a afectar los computadores o sistemas que lo reciban, no se hace responsable por la " +
-                                                              "eventual transmisión de virus o programas dañinos por este conducto, y por lo tanto es responsabilidad del destinatario confirmar la existencia " +
-                                                              "de este tipo de elementos al momento de recibirlo y abrirlo. No se acepta responsabilidad alguna por eventuales daños o alteraciones derivados de " +
-                                                              "la recepción o uso del presente mensaje." +
-                                                              "</p><br><hr>Identificador de Cita: <b>" + Admision + "</b><hr>" +
-                                                          "</center>";
+                                        string html = $@"<!DOCTYPE html>
+                                                            <html lang=""es"">
+
+                                                            <body style=""
+                                                                margin:0;
+                                                                padding:20px;
+                                                                background:#f2f4f7;
+                                                                font-family:Arial,sans-serif;"">
+
+                                                            <div style=""
+                                                                max-width:600px;
+                                                                margin:auto;
+                                                                background:white;
+                                                                border-radius:8px;
+                                                                overflow:hidden;"">
+
+                                                                <div style='background:#145da0;
+                                                                    padding:25px;
+                                                                    text-align:center;
+                                                                    color:white;'>
+                                                                    <h2>Recordatorio de Citas</h2>
+                                                                </div>
+
+                                                                <div style=""padding:30px;color:#333;"">
+
+                                                                    <h2>Hola, { _datosCitaforEmail.Hor_Imp_Age }</h2>
+
+                                                                    <p>
+                                                                        Le informamos acerca de su cita asignada en nuestras instalaciones
+                                                                    </p>
+
+                                                                    <table style=""
+                                                                        width:100%;
+                                                                        border-collapse:collapse;"">
+
+                                                                        <tr>
+                                                                            <td style=""padding:10px;border:1px solid #ddd;"">
+                                                                                Identificador de Cita
+                                                                            </td>
+
+                                                                            <td style=""
+                                                                                padding:10px;
+                                                                                border:1px solid #ddd;
+                                                                                color:green;
+                                                                                font-weight:bold;
+                                                                            "">
+                                                                                { Admision }
+                                                                            </td>
+                                                                        </tr>
+
+                                                                        <tr>
+                                                                            <td style=""padding:10px;border:1px solid #ddd;"">
+                                                                                Prestador: 
+                                                                            </td>
+
+                                                                            <td style=""padding:10px;border:1px solid #ddd;"">
+                                                                                { _datosCitaforEmail.Com_Nombre }
+                                                                            </td>
+                                                                        </tr>
+
+                                                                        <tr>
+                                                                            <td style=""padding:10px;border:1px solid #ddd;"">
+                                                                                Direccion: 
+                                                                            </td>
+
+                                                                            <td style=""padding:10px;border:1px solid #ddd;"">
+                                                                                {_datosCitaforEmail.Com_Direccion}
+                                                                            </td>
+                                                                        </tr>
+ 
+                                                                        <tr>
+                                                                            <td style=""padding:10px;border:1px solid #ddd;"">
+                                                                                Telefono: 
+                                                                            </td>
+
+                                                                            <td style=""padding:10px;border:1px solid #ddd;"">
+                                                                                {_datosCitaforEmail.Com_Telefono}
+                                                                            </td>
+                                                                        </tr>
+
+                                                                        <tr>
+                                                                            <td style=""padding:10px;border:1px solid #ddd;"">
+                                                                                Fecha: 
+                                                                            </td>
+
+                                                                            <td style=""padding:10px;border:1px solid #ddd;"">
+                                                                                {Convert.ToDateTime(_datosCitaforEmail.Hor_Pac_Fecha_Cita).ToString("yyyy-MM-dd")}
+                                                                            </td>
+                                                                        </tr>
+
+                                                                        <tr>
+                                                                            <td style=""padding:10px;border:1px solid #ddd;"">
+                                                                                Hora: 
+                                                                            </td>
+
+                                                                            <td style=""padding:10px;border:1px solid #ddd;"">
+                                                                                {Convert.ToDateTime(_datosCitaforEmail.Hor_Pac_Hora_Cita).ToString("HH:mm tt")}
+                                                                            </td>
+                                                                        </tr>
+
+                                                                    </table>
+
+                                                                    <p style=""margin-top:25px;"">
+                                                                        AVISO LEGAL: La información transmitida a través de este correo electrónico es confidencial y dirigida única y exclusivamente para uso de 
+                                                              su(s) destinatario(s). Su reproducción, lectura o uso está prohibido a cualquier persona o entidad diferente, sin autorización previa por 
+                                                              escrito. Si usted lo ha recibido por error, por favor notifíquelo inmediatamente al remitente y elimínelo de su sistema. Cualquier uso, 
+                                                              divulgación, copia, distribución, impresión o acto derivado del conocimiento total o parcial de este mensaje sin autorización del remitente 
+                                                              será sancionado de acuerdo con las normas legales vigentes. Las opiniones, conclusiones y otra información contenida en este correo, 
+                                                              no relacionadas con las actividades de la institucion medica, deben entenderse como personales y de ninguna manera son avaladas por dicha
+                                                              Institución. Aunque la institucion medica ha realizado su mejor esfuerzo para asegurar que el presente mensaje y sus archivos anexos se 
+                                                              encuentran libre de virus y defectos que puedan llegar a afectar los computadores o sistemas que lo reciban, no se hace responsable por la 
+                                                              eventual transmisión de virus o programas dañinos por este conducto, y por lo tanto es responsabilidad del destinatario confirmar la existencia 
+                                                              de este tipo de elementos al momento de recibirlo y abrirlo. No se acepta responsabilidad alguna por eventuales daños o alteraciones derivados de 
+                                                              la recepción o uso del presente mensaje.
+                                                                    </p>
+
+                                                                </div>
+
+                                                                <div style=""
+                                                                    padding:15px;
+                                                                    text-align:center;
+                                                                    background:#f7f7f7;
+                                                                    color:#777;
+                                                                    font-size:12px;
+                                                                "">
+                                                                    Mensaje generado automáticamente.
+                                                                </div>
+
+                                                            </div>
+
+                                                            </body>
+                                                            </html>";
+
 
                                         string calendarB64 = Convert.ToBase64String(calendar);
 
@@ -962,10 +1185,10 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
 
                     calendarHQ1.CodeProfesional = CodeProfesional;
 
-                    SendMessage(dataGridView1.Handle, WM_SETREDRAW, false, 0);
+                    SendMessage(gridZH1.dataGridView1.Handle, WM_SETREDRAW, false, 0);
                     CargarGrilla(H);
-                    SendMessage(dataGridView1.Handle, WM_SETREDRAW, true, 0);
-                    dataGridView1.Refresh();
+                    SendMessage(gridZH1.dataGridView1.Handle, WM_SETREDRAW, true, 0);
+                    gridZH1.dataGridView1.Refresh();
 
                     calendarHQ1.CodeProfesional = CodeProfesional;
                     calendarHQ1.CalControlDGV.CurrentCell = calendarHQ1.CalControlDGV.Rows[calendarHQ1.DiaSeleccionadoRow].Cells[calendarHQ1.DiaSeleccionadoColumn];
@@ -974,7 +1197,7 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
                     if (calendarHQ1.CalControlDGV.CurrentCell.Style.BackColor == Color.LightGray)
                     {
                         pictureBox1.Visible = true;
-                        dataGridView1.DataSource = null;
+                        gridZH1.dataGridView1.DataSource = null;
 
                         CXN_DIAS_WEB razon = new CalendarController().GetRazonDiaBloqueado(fechasel, CodeProfesional);
                         if (razon != null)
@@ -1019,6 +1242,7 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
             {
                 if (H != null)
                 {
+                    DicDatos = new Dictionary<int, CXN_HORARIO>();
                     List<CXN_HORARIO> agendados = repositorioAgenda.ObtenerCitasDelDia(CodePrestador, calendarHQ1.dTPCalendar.Value, CodeProfesional);
 
                     Encabezados();      
@@ -1033,7 +1257,10 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
                         string RespuestaSesion = "0";
                         string colorFila = "";
                         string bloqEspaces = "";
-                        string P2VxS = "";
+                        string P2VxSData = "";
+                        string serviceAgended = "";
+                        string usrGraba = "";
+                        string usrAdmisiona = "";
 
                         if (agendados != null)
                         {
@@ -1047,7 +1274,10 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
                                 CodigoPaciente = datoCita.Hor_Pac_Id.ToString();
                                 colorFila = datoCita.Hor_Color.ToString();
                                 bloqEspaces = datoCita.Hor_BloqEspaces.ToString();
-                                P2VxS = datoCita.Hor_Valida.ToString();
+                                P2VxSData = datoCita.Hor_Valida.ToString();
+                                serviceAgended = datoCita.Hor_GrupoServicios.ToString();
+                                usrGraba = datoCita.Hor_Pac_UsrGraba.ToString();
+                                usrAdmisiona = datoCita.Hor_Usr_Admisiona.ToString();
 
                                 if (datoCita.Hor_Pac_Tipo_Serv == "CU" || datoCita.Hor_Pac_Tipo_Serv == "MG")
                                 {
@@ -1056,7 +1286,26 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
                                     ObtenerValores(canactual, out v1, out v2);
                                     RespuestaSesion = $"{v1} / {v2}";
                                 }
-                                
+
+                                if (EstadoCitaAagendada != "B")
+                                {
+                                    DicDatos.Add(datoCita.Hor_Id, new CXN_HORARIO
+                                    {
+                                        Hor_AdmOpnened = AdmisionAgenda,
+                                        Hor_Imp_Age = PacienteAgendado,
+                                        PacienteAseguradora = AseguradoraAgendada,
+                                        Hor_GrupoServicios = serviceAgended,
+                                        Hor_Usr_Admisiona = usrAdmisiona,
+                                        Hor_Pac_UsrGraba = usrGraba,
+                                        DatosPaciente = new CXN_PACIENTES 
+                                        {
+                                            Pac_Telefono = datoCita.DatosPaciente.Pac_Telefono, 
+                                            Pac_TelefonoAux = datoCita.DatosPaciente.Pac_TelefonoAux,
+                                            Pac_TipoId = datoCita.DatosPaciente.Pac_TipoId,
+                                            Pac_IdNum = datoCita.DatosPaciente.Pac_IdNum,
+                                        }
+                                    });
+                                }                                
                             }                            
                         }
 
@@ -1069,22 +1318,23 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
 
                         row[Hora] = Convert.ToDateTime(i.Hora).ToString("HH:mm tt");
                         row[Admisiona] = AdmisionAgenda;
-                        row["Paciente"] = PacienteAgendado;
+                        row[Paciente] = PacienteAgendado;
                         row[Sesiones] = RespuestaSesion;
                         row[SendEmail] = !string.IsNullOrEmpty(PacienteAgendado) ? ImaEmail : ImaBlocked;
                         row[SendSMS] = !string.IsNullOrEmpty(PacienteAgendado) ? ImaSMS : ImaBlocked;
-                        row["Aseguradora"] = AseguradoraAgendada;
-                        row["ColorFila"] = colorFila;
-                        row["BlockEspaces"] = bloqEspaces;
-                        row["P2VxS"] = P2VxS;
+                        row[ServicioAgendado] = serviceAgended;
+                        row[ColorFila] = colorFila;
+                        row[BlockEspaces] = bloqEspaces;
+                        row[P2VxS] = P2VxSData;                        
+                        row[Aseguradora] = AseguradoraAgendada;
 
                         dt.Rows.Add(row);
                         dt.AcceptChanges();
                     }
 
-                    dataGridView1.DataSource = dt;
+                    gridZH1.dataGridView1.DataSource = dt;
 
-                    Estilos();
+                    Estilos2();
                 }
                 else
                 {
@@ -1097,74 +1347,76 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        void Estilos()
+        void Estilos2()
         {
             try
             {
-                if (dataGridView1.RowCount > 0)
+                if (gridZH1.dataGridView1.RowCount > 0)
                 {
-                    dataGridView1.EnableHeadersVisualStyles = false;
-                    dataGridView1.ScrollBars = ScrollBars.Both;
+                    gridZH1.dataGridView1.EnableHeadersVisualStyles = false;
+                    gridZH1.dataGridView1.ScrollBars = ScrollBars.Both;
 
-                    dataGridView1.Columns["Hora"].Width = 80;
-                    dataGridView1.Columns["Admision"].Width = 65;
+                    gridZH1.dataGridView1.Columns["Hora"].Width = 80;
+                    gridZH1.dataGridView1.Columns["Admision"].Width = 65;
 
                     if (Amplia == true)
                     {
-                        dataGridView1.Columns["Paciente"].Width = 500;
-                        dataGridView1.Columns["Aseguradora"].Width = 500;
+                        gridZH1.dataGridView1.Columns["Paciente"].Width = 500;
+                        gridZH1.dataGridView1.Columns["Aseguradora"].Width = 500;
+                        gridZH1.dataGridView1.Columns["Servicio"].Width = 500;
                     }
                     else
                     {
-                        dataGridView1.Columns["Paciente"].Width = 325;
-                        dataGridView1.Columns["Aseguradora"].Width = 325;
+                        gridZH1.dataGridView1.Columns["Paciente"].Width = 325;
+                        gridZH1.dataGridView1.Columns["Aseguradora"].Width = 325;
+                        gridZH1.dataGridView1.Columns["Servicio"].Width = 325;
                     }
 
-                    dataGridView1.Columns["Sesion"].Width = 50;
-                    dataGridView1.Columns["@"].Width = 27;
-                    dataGridView1.Columns["S"].Width = 27;
+                    gridZH1.dataGridView1.Columns["Sesion"].Width = 50;
+                    gridZH1.dataGridView1.Columns["@"].Width = 27;
+                    gridZH1.dataGridView1.Columns["S"].Width = 27;
 
-                    dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font(dataGridView1.Font, FontStyle.Bold);
-                    dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Arial", 8, FontStyle.Bold);
-                    dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.LightGray;
-                    dataGridView1.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
-                    dataGridView1.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
+                    gridZH1.dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font(gridZH1.dataGridView1.Font, FontStyle.Bold);
+                    gridZH1.dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Arial", 8, FontStyle.Bold);
+                    gridZH1.dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.LightGray;
+                    gridZH1.dataGridView1.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
+                    gridZH1.dataGridView1.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
 
-                    dataGridView1.Columns["Hora"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                    dataGridView1.Columns["Admision"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                    dataGridView1.Columns["Paciente"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                    dataGridView1.Columns["Aseguradora"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                    gridZH1.dataGridView1.Columns["Hora"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                    gridZH1.dataGridView1.Columns["Admision"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                    gridZH1.dataGridView1.Columns["Paciente"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                    gridZH1.dataGridView1.Columns["Aseguradora"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
-                    dataGridView1.Columns["IdHora"].Visible = false;
-                    dataGridView1.Columns["EstadoHora"].Visible = false;
-                    dataGridView1.Columns["EstadoCita"].Visible = false;
-                    dataGridView1.Columns["CodePaciente"].Visible = false;
-                    dataGridView1.Columns["ColorFila"].Visible = false;
-                    dataGridView1.Columns["BlockEspaces"].Visible = false;
-                    dataGridView1.Columns["P2VxS"].Visible = false;                    
+                    gridZH1.dataGridView1.Columns["IdHora"].Visible = false;
+                    gridZH1.dataGridView1.Columns["EstadoHora"].Visible = false;
+                    gridZH1.dataGridView1.Columns["EstadoCita"].Visible = false;
+                    gridZH1.dataGridView1.Columns["CodePaciente"].Visible = false;
+                    gridZH1.dataGridView1.Columns["ColorFila"].Visible = false;
+                    gridZH1.dataGridView1.Columns["BlockEspaces"].Visible = false;
+                    gridZH1.dataGridView1.Columns["P2VxS"].Visible = false;
 
-                    dataGridView1.Columns["Admision"].DefaultCellStyle.BackColor = Color.LightGray;
-                    dataGridView1.Columns["Admision"].DefaultCellStyle.Font = new Font("Arial", 9, FontStyle.Bold);
-                    dataGridView1.Columns["Hora"].DefaultCellStyle.BackColor = Color.LightGray;                    
-                    dataGridView1.Columns["Hora"].DefaultCellStyle.Font = new Font("Arial", 9, FontStyle.Bold);
-                    dataGridView1.Columns["Sesion"].DefaultCellStyle.Font = new Font("Arial", 9, FontStyle.Bold);
-                    
+                    gridZH1.dataGridView1.Columns["Admision"].DefaultCellStyle.BackColor = Color.LightGray;
+                    gridZH1.dataGridView1.Columns["Admision"].DefaultCellStyle.Font = new Font("Arial", 9, FontStyle.Bold);
+                    gridZH1.dataGridView1.Columns["Hora"].DefaultCellStyle.BackColor = Color.LightGray;
+                    gridZH1.dataGridView1.Columns["Hora"].DefaultCellStyle.Font = new Font("Arial", 9, FontStyle.Bold);
+                    gridZH1.dataGridView1.Columns["Sesion"].DefaultCellStyle.Font = new Font("Arial", 9, FontStyle.Bold);
+
                     #region VALIDACIONES
                     if (Colorimetria == true)
                     {
-                        foreach (DataGridViewRow row in dataGridView1.Rows)
+                        foreach (DataGridViewRow row in gridZH1.dataGridView1.Rows)
                         {
                             if (row.Cells["P2VxS"].Value.ToString() == "S")
                             {
                                 int currentIndex = row.Index;
 
-                                if (currentIndex < dataGridView1.Rows.Count - 1)
+                                if (currentIndex < gridZH1.dataGridView1.Rows.Count - 1)
                                 {
-                                    DataGridViewRow nextRow = dataGridView1.Rows[currentIndex + 1];
+                                    DataGridViewRow nextRow = gridZH1.dataGridView1.Rows[currentIndex + 1];
 
                                     if (nextRow.Cells["Paciente"].Value == null || nextRow.Cells["Paciente"].Value.ToString() == "")
                                     {
-                                        dataGridView1.Rows[currentIndex + 1].Visible = false;
+                                        gridZH1.dataGridView1.Rows[currentIndex + 1].Visible = false;
                                     }
                                 }
                             }
@@ -1190,10 +1442,10 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
                                 if (estado == "P")
                                 {
                                     switch (colorFila)
-                                    {                                       
+                                    {
                                         case "N": //Nuevo
                                             row.Cells["Paciente"].Style.BackColor = Color.FromArgb(255, 192, 255);
-                                            row.Cells["Paciente"].Style.ForeColor = Color.Purple;                                            
+                                            row.Cells["Paciente"].Style.ForeColor = Color.Purple;
                                             break;
 
                                         case "I": //Inicio Paquete
@@ -1208,9 +1460,9 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
 
                                         default: //Controles  //Control Normal
                                             row.Cells["Paciente"].Style.BackColor = Color.LightGreen;
-                                            row.Cells["Paciente"].Style.ForeColor = Color.Green;                                                                                       
+                                            row.Cells["Paciente"].Style.ForeColor = Color.Green;
                                             break;
-                                    }                                  
+                                    }
                                 }
                                 else if (estado == "H")
                                 {
@@ -1232,19 +1484,19 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
                     }
                     else //Si no hay colorimetria
                     {
-                        foreach (DataGridViewRow row in dataGridView1.Rows)
+                        foreach (DataGridViewRow row in gridZH1.dataGridView1.Rows)
                         {
                             if (row.Cells["P2VxS"].Value.ToString() == "S")
                             {
                                 int currentIndex = row.Index;
 
-                                if (currentIndex < dataGridView1.Rows.Count - 1)
+                                if (currentIndex < gridZH1.dataGridView1.Rows.Count - 1)
                                 {
-                                    DataGridViewRow nextRow = dataGridView1.Rows[currentIndex + 1];
+                                    DataGridViewRow nextRow = gridZH1.dataGridView1.Rows[currentIndex + 1];
 
                                     if (nextRow.Cells["Paciente"].Value == null || nextRow.Cells["Paciente"].Value.ToString() == "")
                                     {
-                                        dataGridView1.Rows[currentIndex + 1].Visible = false;
+                                        gridZH1.dataGridView1.Rows[currentIndex + 1].Visible = false;
                                     }
                                 }
                             }
@@ -1291,8 +1543,8 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
                     }
                     #endregion
 
-                    ExcluirIdesBloqueadosRange();
-                    dataGridView1.ClearSelection();
+                    ExcluirIdesBloqueadosRange2();
+                    gridZH1.dataGridView1.ClearSelection();
                 }
             }
             catch (Exception ex)
@@ -1301,38 +1553,38 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
                 //MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        void ExcluirIdesBloqueadosRange()
+        void ExcluirIdesBloqueadosRange2()
         {
             try
             {
-                foreach (DataGridViewRow row in dataGridView1.Rows)
+                foreach (DataGridViewRow row in gridZH1.dataGridView1.Rows)
                 {
                     if (row.Cells["BlockEspaces"].Value != null)
                     {
                         if (row.Cells["BlockEspaces"].Value.ToString() != "")
                         {
                             int Conteo = Convert.ToInt32(row.Cells["BlockEspaces"].Value);
-                            
+
                             if (Conteo > 0)
                             {
                                 for (int i = 1; i < Conteo; i++)
                                 {
                                     int currentIndex = row.Index;
 
-                                    if (currentIndex < dataGridView1.Rows.Count - 1)
+                                    if (currentIndex < gridZH1.dataGridView1.Rows.Count - 1)
                                     {
-                                        DataGridViewRow nextRow = dataGridView1.Rows[currentIndex + i];
+                                        DataGridViewRow nextRow = gridZH1.dataGridView1.Rows[currentIndex + i];
 
                                         if (nextRow.Cells["Paciente"].Value == null || nextRow.Cells["Paciente"].Value.ToString() == "")
                                         {
-                                            dataGridView1.Rows[currentIndex + i].Visible = false;
+                                            gridZH1.dataGridView1.Rows[currentIndex + i].Visible = false;
                                         }
                                     }
                                 }
                             }
 
-                        }                                               
-                    }                       
+                        }
+                    }
                 }
             }
             catch (Exception ex)
@@ -1342,7 +1594,7 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
         }
         void Encabezados()
         {
-            dataGridView1.DataSource = null;
+            gridZH1.dataGridView1.DataSource = null;
             dt = new DataTable();
             IdHora = dt.Columns.Add("IdHora", typeof(string));
             EstadoHora = dt.Columns.Add("EstadoHora", typeof(string));
@@ -1355,10 +1607,11 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
             Sesiones = dt.Columns.Add("Sesion", typeof(string));
             SendEmail = dt.Columns.Add("@", typeof(Image));
             SendSMS = dt.Columns.Add("S", typeof(Image));
-            Aseguradora = dt.Columns.Add("Aseguradora", typeof(string));
+            ServicioAgendado = dt.Columns.Add("Servicio", typeof(string));
             ColorFila = dt.Columns.Add("ColorFila", typeof(string));
             BlockEspaces = dt.Columns.Add("BlockEspaces", typeof(string));
-            P2VxS = dt.Columns.Add("P2VxS", typeof(string)); 
+            P2VxS = dt.Columns.Add("P2VxS", typeof(string));
+            Aseguradora = dt.Columns.Add("Aseguradora", typeof(string));
         }
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -1476,7 +1729,6 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         private void label6_Click(object sender, EventArgs e)
         {
             MG = new MensajesGeneral()
@@ -1539,6 +1791,15 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
                 TipoImagen = 0
             };
             MG.ShowDialog();
+        }
+        private void Agendamiento_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (tooltipAgenda != null)
+            {
+                tooltipAgenda.Close();
+                tooltipAgenda.Dispose();
+                tooltipAgenda = null;
+            }
         }
         private void Agendamiento_KeyDown(object sender, KeyEventArgs e)
         {

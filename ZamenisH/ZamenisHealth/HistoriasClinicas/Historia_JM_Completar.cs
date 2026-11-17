@@ -1,15 +1,19 @@
-﻿using System;
+﻿using Domain;
+using Domain.CXN;
+
+using Persistence;
+using Persistence.CXN.Interfaces;
+using Persistence.CXN.Metodos;
+
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
-using Domain;
-using Domain.CXN;
-using Persistence;
-using Persistence.CXN.Interfaces;
-using Persistence.CXN.Metodos;
+
 using ZamenisHealth.Clases;
 using ZamenisHealth.Comunes;
+using ZamenisHealth.Medicina;
 
 namespace ZamenisHealth.HistoriasClinicas
 {
@@ -25,6 +29,7 @@ namespace ZamenisHealth.HistoriasClinicas
         private static readonly IAgendaC repoAgendaMedicaC = new MAgendaC();
         private static readonly IConvenios repoConv = new MConvenios();
 
+        public CXN_CIE11 cie11 = new CXN_CIE11();
         private string TipoUsuario, Regimen;
         private MensajesGeneral MG;
         private int AdmiSelected;
@@ -582,6 +587,16 @@ namespace ZamenisHealth.HistoriasClinicas
                         }
                         else
                         {
+                            CXN_HISTORIAL_ADMISION HistorialAdmision = new CXN_HISTORIAL_ADMISION
+                            {
+                                Admision = AdmiSelected,
+                                Fecha = DateTime.Now,
+                                Usuario = Contenedor.UsuarioLogueado,
+                                Gestion = "HISTORIA CREADA"
+                            };
+
+                            repoAgendaMedica.AddHistorialAdmision(HistorialAdmision);
+
                             repoAgendaMedica.Graba_Hora_Salida(AdmiSelected);
 
                             Medicina.RIPSHistory for_RIPS = new Medicina.RIPSHistory();
@@ -594,6 +609,14 @@ namespace ZamenisHealth.HistoriasClinicas
                             MG.ShowDialog();
 
                             repoAgendaMedica.ConsumirAdmision(AdmiSelected);
+
+                            if (!string.IsNullOrEmpty(textBox53.Text))
+                            {
+                                cie11.Paciente = datoCita.Hor_Pac_Id;
+                                cie11.Admision = AdmiSelected;
+
+                                repoCIE10.InsertaCIE11(cie11);
+                            }
 
                             this.Dispose();
                             this.Close();
@@ -698,6 +721,13 @@ namespace ZamenisHealth.HistoriasClinicas
                         MG.TipoImagen = 3;
                         MG.Mensaje = "Junta Medica Actualizada con Exito";
                         MG.ShowDialog();
+
+                        if (!string.IsNullOrEmpty(textBox53.Text))
+                        {
+                            cie11.Admision = AdmiSelected;
+
+                            repoCIE10.UpdateCIE11(cie11);
+                        }
 
                         this.Dispose();
                         this.Close();
@@ -1024,6 +1054,18 @@ namespace ZamenisHealth.HistoriasClinicas
         private void label34_Click(object sender, EventArgs e)
         {
             ExpandeContraer(label34, panel8, 39, 354);
+        }
+
+        private void boton6_Click(object sender, EventArgs e)
+        {
+            textBox53.Text = "";
+            textBox54.Text = "";
+        }
+
+        private void textBox53_DoubleClick(object sender, EventArgs e)
+        {
+            CIE11New N = new CIE11New("JUNTAS");
+            N.ShowDialog();
         }
 
         private void comboBox4_SelectedIndexChanged(object sender, EventArgs e)

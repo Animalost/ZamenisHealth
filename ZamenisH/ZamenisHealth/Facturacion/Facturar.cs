@@ -1,15 +1,19 @@
 ﻿using Domain;
 using Domain.CXN;
+
 using FormAndControls;
+
 using Persistence;
 using Persistence.CXN.Interfaces;
 using Persistence.CXN.Metodos;
+
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
-using ZamenisHealth.Clases;
+
+using ZamenisHealth.Clases.Controles;
 using ZamenisHealth.Comunes;
 
 namespace ZamenisHealth.Facturacion
@@ -37,32 +41,30 @@ namespace ZamenisHealth.Facturacion
         DataColumn Paciente;
         DataColumn Documento;
         DataColumn Pac_Id2;
-
+       
+        public Facturar()
+        {
+            InitializeComponent();
+        }
+       
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
             var Code = repoAse.getInfoFromAsebyName(comboBox2.Text);
             Ase = Code.Ase_Identificador;
             label11.Text = Ase.ToString();
         }
-
         private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
         {
             var Code = repoCia.getPrestadorbyName(comboBox3.Text);
             Cia = Code.Com_Identificador;
             label12.Text = Cia.ToString();
         }
-
         private void textBox1_DoubleClick(object sender, EventArgs e)
         {
             Comunes.BuscarPacientes buscarPacientes = new Comunes.BuscarPacientes();
             buscarPacientes.Tipo_Busca_Pac = "Facturacion";
             buscarPacientes.ShowDialog();
-        }
-
-        public Facturar()
-        {
-            InitializeComponent();
-        }
+        } 
         private void btnZamenis1_ButtonClick(object sender, EventArgs e)
         {
             try
@@ -149,7 +151,6 @@ namespace ZamenisHealth.Facturacion
             Facturar6Otros facturar6Otros = new Facturar6Otros(dateTimePicker1.Value.Date, dateTimePicker2.Value.Date, Ase, Pac_Id);
             facturar6Otros.ShowDialog();
         }
-
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
             if (checkBox1.Checked == true)
@@ -163,7 +164,6 @@ namespace ZamenisHealth.Facturacion
                 panel2.Visible = true;
             }
         }
-
         private void label15_Click(object sender, EventArgs e)
         {
             MessageBox.Show("El color verde indica que el servicio esta marcado como Procedimiento, " +
@@ -172,7 +172,6 @@ namespace ZamenisHealth.Facturacion
                MessageBoxButtons.OK,
                MessageBoxIcon.Information);
         }
-
         private void label16_Click(object sender, EventArgs e)
         {
             MessageBox.Show("El color rojo indica que el servicio esta marcado como Consultas, " +
@@ -181,21 +180,18 @@ namespace ZamenisHealth.Facturacion
               MessageBoxButtons.OK,
               MessageBoxIcon.Information);
         }
-
         private void comboBox6_SelectedIndexChanged(object sender, EventArgs e)
         {
             var Ases = repoAse.getInfoFromAsebyName(comboBox6.Text);
             Ase = Ases.Ase_Identificador;
             label19.Text = Ases.Ase_Identificador.ToString();
         }
-
         private void comboBox5_SelectedIndexChanged(object sender, EventArgs e)
         {
             var Cias = repoCia.getPrestadorbyName(comboBox5.Text);
             Cia = Cias.Com_Identificador;
             label18.Text = Cias.Com_Identificador.ToString();
         }
-
         private void cambiarAServicioDeProcedimientoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
@@ -209,7 +205,6 @@ namespace ZamenisHealth.Facturacion
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         private void excluirEsteCargoDeEstaFacturaToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
@@ -223,7 +218,6 @@ namespace ZamenisHealth.Facturacion
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         private void cambiarValorYCantidadDeEsteCargoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
@@ -237,7 +231,6 @@ namespace ZamenisHealth.Facturacion
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         private void holaToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
@@ -289,7 +282,7 @@ namespace ZamenisHealth.Facturacion
                                    "AND C.Car_Cia = '" + Cia + "' " +
                                    "AND C.Car_Ase = '" + Ase + "' " +
                                    "AND C.Car_Tipo_Serv IN ('CU','MG') " +
-                                   "ORDER BY C.Car_Fecha, C.Car_Cant ASC";
+                                   "ORDER BY C.Car_Fecha, C.Car_Id ASC";
                             break;
 
                         case "Terapias":
@@ -393,7 +386,7 @@ namespace ZamenisHealth.Facturacion
                                    "AND C.Car_Cia = '" + Cia + "' " +
                                    "AND C.Car_Ase = '" + Ase + "' " +
                                    "AND C.Car_Tipo_Serv IN ('CU','MG') " +
-                                   "ORDER BY C.Car_Fecha, C.Car_Cant ASC";
+                                   "ORDER BY C.Car_Fecha, C.Car_Id ASC";
                             break;
 
                         case "Terapias":
@@ -467,7 +460,6 @@ namespace ZamenisHealth.Facturacion
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         private void Facturar_Load(object sender, EventArgs e)
         {
             try
@@ -485,6 +477,10 @@ namespace ZamenisHealth.Facturacion
                         comboBox5.Items.Add(i2.Com_Nombre);
                     }
                 }
+
+                gridZH1.CeldaHeight = false;
+                gridZH1.ElimnarAutosize();
+                gridZH1.dataGridView1.CellMouseClick += dataGridView1_CellMouseClick;
 
                 comboBox8.SelectedIndex = 0;
 
@@ -534,13 +530,6 @@ namespace ZamenisHealth.Facturacion
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
-        private void mODIFICAROTROSDATOSToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Facturar6Otros facturar6Otros = new Facturar6Otros(Adm_Selected.ToString());
-            facturar6Otros.ShowDialog();
-        }
-
         private void CargarDocumentos()
         {
             var ListaDocs = repoPacs.ListaDocs();
@@ -552,42 +541,37 @@ namespace ZamenisHealth.Facturacion
                 }
             }
         }
-
         private void dataGridView1_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             try
             {
                 if (e.Button == MouseButtons.Right)
                 {
+                    Point posicionLocal = Cursor.Position;
+
                     contextMenuStrip1.Visible = true;
-                    contextMenuStrip1.Location = new Point(dataGridView1.Location.X + 600, dataGridView1.Location.Y + 100);
-                    Pos_Selected = dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString();
-                    Adm_Selected = dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString();
+                    contextMenuStrip1.Location = new Point(posicionLocal.X, posicionLocal.Y);
+                    contextMenuStrip1.Visible = true;
+                    Pos_Selected = gridZH1.dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString();
+                    Adm_Selected = gridZH1.dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString();
                 }
 
-                dataGridView1.ClearSelection();
+                gridZH1.dataGridView1.ClearSelection();
             }
             catch (Exception ex)
             {
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
-        private void pictureBox2_Click(object sender, EventArgs e)
+        private void modificarCargoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.Dispose();
-            this.Close();
+            Facturar6Otros facturar6Otros = new Facturar6Otros(Adm_Selected.ToString());
+            facturar6Otros.ShowDialog();
         }
-
-        private void panel3_MouseDown(object sender, MouseEventArgs e)
-        {
-            ConfigForm.ReleaseCapturing();
-            ConfigForm.SendMessageMove(this.Handle, 0x112, 0xf012, 0);
-        }
-
         public void Encabezados() 
         {
-            dataGridView1.DataSource = null;
+            gridZH1.dataGridView1.DataSource = null;
+
             dt = new DataTable();
             POSCargo = dt.Columns.Add("POSCargo", typeof(int));
             TipoCargo = dt.Columns.Add("TipoCargo", typeof(string));
@@ -601,8 +585,9 @@ namespace ZamenisHealth.Facturacion
             Paciente = dt.Columns.Add("Paciente", typeof(string));
             Documento = dt.Columns.Add("Documento", typeof(string));
             Pac_Id2 = dt.Columns.Add("Pac_Id2", typeof(int));
-        }
 
+            Estilos(gridZH1.dataGridView1, dt);
+        }
         private void FiltroFacturas(string Query)
         {
             try
@@ -644,7 +629,7 @@ namespace ZamenisHealth.Facturacion
                         }
                     }
 
-                    Estilos(dataGridView1, dt);                  
+                    Estilos(gridZH1.dataGridView1, dt);                  
                 }
                 else
                 {
@@ -667,12 +652,8 @@ namespace ZamenisHealth.Facturacion
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         void Estilos(DataGridView D, DataTable t)
         {
-            D.EnableHeadersVisualStyles = false;
-            D.ScrollBars = ScrollBars.Both;
-            D.RowHeadersVisible = false;
             D.Font = new Font("Arial", 9, FontStyle.Bold);
 
             D.DataSource = t;
@@ -680,18 +661,12 @@ namespace ZamenisHealth.Facturacion
             D.Columns["Admision"].Width = 80;
             D.Columns["Fecha"].Width = 80;
             D.Columns["Codigo"].Width = 80;
-            D.Columns["Item"].Width = 350;
+            D.Columns["Item"].Width = 385;
             D.Columns["Cantidad"].Width = 80;
-            D.Columns["Vr_Unitario"].Width = 80;
-            D.Columns["Vr_Total"].Width = 80;
+            D.Columns["Vr_Unitario"].Width = 100;
+            D.Columns["Vr_Total"].Width = 100;
             D.Columns["Paciente"].Width = 200;
             D.Columns["Documento"].Width = 120;
-
-            D.ColumnHeadersDefaultCellStyle.Font = new Font(D.Font, FontStyle.Bold);
-            D.ColumnHeadersDefaultCellStyle.Font = new Font("Arial", 10, FontStyle.Bold);
-            D.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#bfdbff");
-            D.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
-            D.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
 
             D.Columns["Admision"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
             D.Columns["Fecha"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
@@ -701,21 +676,7 @@ namespace ZamenisHealth.Facturacion
             D.Columns["Vr_Unitario"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
             D.Columns["Vr_Total"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
             D.Columns["Paciente"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            D.Columns["Documento"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
-            D.Columns["Admision"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            D.Columns["Fecha"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            D.Columns["Codigo"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            D.Columns["Item"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            D.Columns["Cantidad"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            D.Columns["Vr_Unitario"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            D.Columns["Vr_Total"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            D.Columns["Paciente"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            D.Columns["Documento"].SortMode = DataGridViewColumnSortMode.NotSortable;
-
-            D.Columns["PosCargo"].Visible = false;
-            D.Columns["TipoCargo"].Visible = false;
-            D.Columns["Pac_Id2"].Visible = false;
+            D.Columns["Documento"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;    
 
             foreach (DataGridViewRow row in D.Rows)
             {
@@ -723,24 +684,30 @@ namespace ZamenisHealth.Facturacion
 
                 if (Texto == "Historia")
                 {
-                    row.DefaultCellStyle.BackColor = Color.LightBlue;
+                   // row.DefaultCellStyle.BackColor = Color.LightBlue;
                     row.DefaultCellStyle.ForeColor = Color.Blue;
-                    row.DefaultCellStyle.Font = new Font(dataGridView1.Font, FontStyle.Bold);
+                    row.DefaultCellStyle.Font = new Font(gridZH1.dataGridView1.Font, FontStyle.Bold);
                 }
                 else if (Texto == "Nota")
                 {
-                    row.DefaultCellStyle.BackColor = Color.LightGreen;
-                    row.DefaultCellStyle.ForeColor = Color.Green;
-                    row.DefaultCellStyle.Font = new Font(dataGridView1.Font, FontStyle.Bold);
+                   // row.DefaultCellStyle.BackColor = Color.LightGreen;
+                    row.DefaultCellStyle.ForeColor = Color.Red;
+                    row.DefaultCellStyle.Font = new Font(gridZH1.dataGridView1.Font, FontStyle.Bold);
                 }
                 else
                 {
-                    row.DefaultCellStyle.BackColor = Color.White;
+                  //  row.DefaultCellStyle.BackColor = Color.White;
                     row.DefaultCellStyle.ForeColor = Color.Black;
                 }
             }
 
-            dataGridView1.ClearSelection();
+            D.Columns["PosCargo"].Visible = false;
+            D.Columns["TipoCargo"].Visible = false;
+            D.Columns["Pac_Id2"].Visible = false;
+            D.Columns["Paciente"].Visible = false;
+            D.Columns["Documento"].Visible = false;
+
+            gridZH1.dataGridView1.ClearSelection();
         }
     }
 }

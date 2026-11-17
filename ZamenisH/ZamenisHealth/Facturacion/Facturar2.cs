@@ -125,7 +125,7 @@ namespace ZamenisHealth.Facturacion
                 Facturar fTemp = Application.OpenForms.OfType<Facturar>().LastOrDefault();
                 List<int> numAdmToFac = new List<int>();
 
-                foreach (DataGridViewRow row in fTemp.dataGridView1.Rows)
+                foreach (DataGridViewRow row in fTemp.gridZH1.dataGridView1.Rows)
                 {
                     int Admition = Convert.ToInt32(row.Cells["Admision"].Value.ToString());
                     numAdmToFac.Add(Admition);
@@ -198,7 +198,7 @@ namespace ZamenisHealth.Facturacion
                                         PacienteNombre = DataPaciente.Pac_PrimerA + " " + DataPaciente.Pac_SegundoA + " " + DataPaciente.Pac_PrimerN + " " + DataPaciente.Pac_SegundoN,
                                         PacienteIdentificacion = DataPaciente.Pac_TipoId + " " + DataPaciente.Pac_IdNum
                                     });
-                                }                                    
+                                }
 
                                 if (repoRCCaja.EsConsulta(numRC, "DX") == true)
                                 {
@@ -245,7 +245,7 @@ namespace ZamenisHealth.Facturacion
                                         PacienteNombre = DataPaciente.Pac_PrimerA + " " + DataPaciente.Pac_SegundoA + " " + DataPaciente.Pac_PrimerN + " " + DataPaciente.Pac_SegundoN,
                                         PacienteIdentificacion = DataPaciente.Pac_TipoId + " " + DataPaciente.Pac_IdNum
                                     });
-                                }                                    
+                                }
 
                                 ValDescuentoAnticipo04 = ValDescuentoAnticipo04 + dato.Valor;
                                 break;
@@ -310,6 +310,7 @@ namespace ZamenisHealth.Facturacion
                 if (C != null)
                 {
                     textBox6.Text = C.Com_Cod_Prestador_2.ToString();
+                    textBox5.Text = C.CUCON.ToString();
                     NitCia = C.Com_Identificacion;
                 }
 
@@ -383,7 +384,7 @@ namespace ZamenisHealth.Facturacion
             {
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
-        }    
+        }        
         static List<T> removeDuplicates<T>(List<T> list)
         {
             return new HashSet<T>(list).ToList();
@@ -392,6 +393,8 @@ namespace ZamenisHealth.Facturacion
         {
             try
             {
+                CXN_CIA Doc = repoCompañia.getPrestadorbyCode(Convert.ToInt32(Cia));
+
                 ReportViewer R = new ReportViewer();
                 
                 R.LocalReport.DataSources.Clear();
@@ -407,7 +410,7 @@ namespace ZamenisHealth.Facturacion
                 R.Dock = System.Windows.Forms.DockStyle.Fill;
 
                 byte[] bytes = R.LocalReport.Render("PDF");
-                FileStream fss = new FileStream("C:\\CXN\\Reportes\\CRC_" + NitCia.ToString() + "_FACTURA.pdf", FileMode.Create);
+                FileStream fss = new FileStream("C:\\CXN\\Reportes\\CRC_" + NitCia.ToString() + "_" + Doc.Com_OP.ToString() + ".pdf", FileMode.Create);
                 fss.Write(bytes, 0, bytes.Length);
                 fss.Close();
             }
@@ -431,7 +434,7 @@ namespace ZamenisHealth.Facturacion
 
                 Facturar f2 = Application.OpenForms.OfType<Facturar>().LastOrDefault();
 
-                foreach (DataGridViewRow row in f2.dataGridView1.Rows)
+                foreach (DataGridViewRow row in f2.gridZH1.dataGridView1.Rows)
                 {
                     string Texto = row.Cells["TipoCargo"].Value.ToString();
                     int Admition = Convert.ToInt32(row.Cells["Admision"].Value.ToString());
@@ -474,6 +477,8 @@ namespace ZamenisHealth.Facturacion
 
                 if (getRDLCMasivo != null)
                 {
+                    CXN_CIA Doc = repoCompañia.getPrestadorbyCode(Convert.ToInt32(Cia));
+
                     //CIURACIONES
                     int Contador = 1;
                     ReportViewer R = new ReportViewer();
@@ -512,7 +517,7 @@ namespace ZamenisHealth.Facturacion
                         U.Unificar_Estructura(@"C:\CXN\Reportes\Notas\",
                                               1.ToString(),
                                               Contador.ToString(),
-                                              "PDX_" + NitCia + "_FACTURA.pdf");
+                                              "PDX_" + NitCia + "_" + Doc.Com_OP.ToString() + ".pdf");
 
                         foreach (string archivo in Directory.GetFiles(@"C:\CXN\Reportes\Notas\", "*.pdf"))
                         {
@@ -556,7 +561,7 @@ namespace ZamenisHealth.Facturacion
                         U1.Unificar_Estructura(@"C:\CXN\Reportes\Historias\",
                                               1.ToString(),
                                               Contador.ToString(),
-                                              "HEV_" + NitCia + "_FACTURA.pdf");
+                                              "HEV_" + NitCia + "_" + Doc.Com_OP.ToString() + ".pdf");
 
                         foreach (string archivo in Directory.GetFiles(@"C:\CXN\Reportes\Historias\", "*.pdf"))
                         {
@@ -603,7 +608,7 @@ namespace ZamenisHealth.Facturacion
                         U2.Unificar_Estructura(@"C:\CXN\Reportes\Notas\",
                                               1.ToString(),
                                               Contador.ToString(),
-                                              "OPF_" + NitCia + "_FACTURA.pdf");
+                                              "OPF_" + NitCia + "_" + Doc.Com_OP.ToString() + ".pdf");
 
 
                         foreach (string archivo in Directory.GetFiles(@"C:\CXN\Reportes\Notas\", "*.pdf"))
@@ -866,7 +871,7 @@ namespace ZamenisHealth.Facturacion
 
                                 if (checkBox3.Checked == true)
                                 {
-                                    FirmasPrint(false);
+                                    FirmasPrint(false, F.Fac_Num_Fac);
                                 }                               
 
                                 MessageBox.Show("Hecho, numero de documento: " + Doc.Com_OP.ToString(),
@@ -904,7 +909,7 @@ namespace ZamenisHealth.Facturacion
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-        void FirmasPrint(bool See)
+        void FirmasPrint(bool See, int PreFactura)
         {
             try
             {
@@ -991,7 +996,7 @@ namespace ZamenisHealth.Facturacion
                         R.Dock = System.Windows.Forms.DockStyle.Fill;
 
                         byte[] bytes = R.LocalReport.Render("PDF");
-                        FileStream fss = new FileStream("C:\\CXN\\Reportes\\CRC_" + NitCia.ToString() + "_FACTURA.pdf", FileMode.Create);
+                        FileStream fss = new FileStream("C:\\CXN\\Reportes\\CRC_" + NitCia.ToString() + "_" + PreFactura.ToString(), FileMode.Create);
                         fss.Write(bytes, 0, bytes.Length);
                         fss.Close();
                     }
@@ -1310,9 +1315,25 @@ namespace ZamenisHealth.Facturacion
         }
         private void boton1_Click(object sender, EventArgs e)
         {
-            //FirmasPrint(true);
-            Facturar3 facturar3 = new Facturar3(listAdmitionToSumVal, Pac_Id);
-            facturar3.ShowDialog();
+            if (checkBox3.Checked == true)
+            {
+                Facturar3 facturar3 = new Facturar3(listAdmitionToSumVal, Pac_Id);
+                facturar3.ShowDialog();
+            }
+            else if (checkBox2.Checked == true)
+            {
+                ConfigForm.GenerarReportViewer("DataSet_SoportesPagos", "ZamenisHealth.Reportes.RDLC_SoportePagos.rdlc", H);
+            }
+            else
+            {
+                MG = new MensajesGeneral()
+                {
+                    Mensaje = "Seleccione una opcion valida",
+                    TipoImagen = 1000
+                };
+                MG.ShowDialog();
+            }
+            //FirmasPrint(true);            
         }
         private void Encabezados()
         {

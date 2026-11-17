@@ -10,7 +10,7 @@ namespace Domain
     public class ReportEVO : Evoluciones { }
     public class ReportJuntas : Juntas { }
     public class ReportTF : HCTF { }
-    public class ReportTO : HCTO { }
+    public class ReportTO : HCTO { public string DXCIE11 { get; set; } }
     public class ReportEpicrisis : HistoriasMedicasReports { }
     public class PrntAgendas : AgendasRecepcionImprime { }
     public class FacturacionReports : ReportesRecepcion { public string TReport { get; set; } }
@@ -102,7 +102,7 @@ namespace Domain
     }
 
     public class HCMG : HistoriasMedicasReports
-    {
+    {        
         public string Pac_Acudiente { get; set; }
         public string Pac_Parentesco { get; set; }
         public string Pac_DireccionAcu { get; set; }
@@ -620,6 +620,7 @@ namespace Domain
 
     public class ReportNotas : Notas
     {
+        public string DXCIE11 { get; set; }
         public string CodigoEPSConvenio { get; set; }
         public string VIH { get; set; }
         public string Hepatitis { get; set; }
@@ -642,6 +643,7 @@ namespace Domain
 
     public class HistoriasMedicasReports : Modelo
     {
+        public string DXCIE11 { get; set; }
         public string Diagnostico1 { get; set; }
         public string Diagnostico_Rel2 { get; set; }
         public string Diagnostico_Rel3 { get; set; }
@@ -821,6 +823,7 @@ namespace Domain
 
     public class Ordenes : Modelo
     {
+        public string OM_TipoAfiliacion { get; set; }
         // General Servicios y Medicamentos
         public Byte[] QR { get; set; }
         public byte[] Firma { get; set; }

@@ -1171,6 +1171,132 @@ namespace DocumentosElectronicos.Servicio
                 return null;
             }
         }
+        public static List<FacturacionRpt> ExportarFacturaVentasNC(int cia, string Tipo, string Numeronc)
+        {
+            try
+            {
+                var getDataCon = Conexion.Conection();
+
+                using (SqlConnection con = new SqlConnection(getDataCon["Conexion"]))
+                {
+                    if (con != null && con.State == ConnectionState.Closed)
+                    {
+                        con.Open();
+                    }
+
+                    String Cargar_Hora = @"SELECT V.Ven_Usr_Graba, V.Ven_Factura, C.Com_Direccion, C.Com_Telefono, C.Com_Identificacion, C.Com_Prefijo_Electron, C.Com_Doc_Electron, C.Com_Resolucion_Electron, P.Pac_TipoId, P.Pac_PrimerN, P.Pac_SegundoN, P.Pac_PrimerA, P.Pac_SegundoA, P.Pac_IdNum, P.Pac_Email, 
+                                         P.Pac_Direccion, P.Pac_Telefono, NC.FechaNC, C.Com_Logo, C.Com_Nombre, V.Ven_Res, V.Ven_Dcto, V.Ven_Cod, Ven_Item, V.Ven_Cantidad, V.Ven_Precio, V.Ven_Total, NC.Cufe, NC.NumeroNC, V.Ven_Homologo, V.Ven_Dcto, 
+                                         V.DiasVencimiento, V.MedioPago, V.MetodoPago, V.Hora, 
+                                         SUM(CAST(V.Ven_Total as int)) as ValTot 
+                                         FROM CXN_VENTAS V 
+                                         INNER JOIN CXN_PACIENTES P ON V.Ven_Cod_Pac = P.Pac_Id 
+                                         INNER JOIN CXN_CIA C ON V.Ven_Cod_Cia = C.Com_Identificador 
+                                         INNER JOIN CXN_FACTURANC NC ON V.Ven_Homologo = NC.Facturaelectronica 
+                                         AND NC.OrdenPedido = V.Ven_Factura 
+                                         WHERE V.Ven_Cod_Cia = @param2 
+                                         AND V.Ven_Tipo_Doc = @param3 
+                                         AND NC.NumeroNC = @param4 
+                                         GROUP BY V.Ven_Usr_Graba, V.Ven_Factura, C.Com_Direccion, C.Com_Telefono, C.Com_Identificacion, C.Com_Prefijo_Electron, C.Com_Doc_Electron, C.Com_Resolucion_Electron, P.Pac_TipoId, P.Pac_PrimerN, P.Pac_SegundoN, P.Pac_PrimerA, P.Pac_SegundoA, P.Pac_IdNum, P.Pac_Email, 
+                                         P.Pac_Direccion, P.Pac_Telefono, NC.FechaNC, C.Com_Logo, C.Com_Nombre, V.Ven_Res, V.Ven_Dcto, V.Ven_Cod, Ven_Item, V.Ven_Cantidad, V.Ven_Precio, V.Ven_Total, NC.Cufe, NC.NumeroNC, V.Ven_Homologo, V.Ven_Dcto, 
+                                         V.DiasVencimiento, V.MedioPago, V.MetodoPago, V.Hora";
+
+                    using (SqlCommand Carga_Command = new SqlCommand(Cargar_Hora, con))
+                    {
+                        Carga_Command.Parameters.AddWithValue("@param2", cia);
+                        Carga_Command.Parameters.AddWithValue("@param3", Tipo);
+                        Carga_Command.Parameters.AddWithValue("@param4", Numeronc);
+
+                        using (SqlDataReader Lectura_Hora = (Carga_Command.ExecuteReader()))
+                        {
+                            if (Lectura_Hora.HasRows)
+                            {
+                                List<FacturacionRpt> Class_FacVen1 = new List<FacturacionRpt>();
+                                //var SubT = SubTotalRec(Docu_Ven, cia, Tipo);
+
+                                Image QRReal = null;
+
+                                while (Lectura_Hora.Read() == true)
+                                {
+                                    string QrElectron = "https://catalogo-vpfe.dian.gov.co/document/searchqr?documentkey=" + Lectura_Hora["Cufe"].ToString();
+                                    QRReal = repositorioGenerales.CodifyQR(QrElectron);
+
+                                    string Bod_Firma1 = Lectura_Hora["Com_Logo"].ToString(); //trae base64
+                                    Byte[] bytes = Convert.FromBase64String(Bod_Firma1); //convierte a bytes
+                                    MemoryStream stmBLOBData = new MemoryStream(bytes);
+                                    PictureBox pic = new PictureBox();
+                                    pic.Image = Image.FromStream(stmBLOBData);
+
+                                    string Letra;
+                                    Letra = repositorioFacturacion.enletras(Convert.ToInt32(Lectura_Hora["ValTot"]).ToString()).ToUpper() + " PESOS";
+
+                                    string NumFacturaReal = Lectura_Hora["NumeroNC"].ToString();
+
+                                    DateTime hTemp = new DateTime(DateTime.Now.Date.Year, DateTime.Now.Date.Month, DateTime.Now.Date.Day,
+                                        00, 00, 00);
+
+                                    if (!string.IsNullOrEmpty(Lectura_Hora["Hora"].ToString()))
+                                    {
+                                        hTemp = Convert.ToDateTime(Lectura_Hora["Hora"]);
+                                    }
+
+                                    Class_FacVen1.Add(new FacturacionRpt
+                                    {
+                                        Descuento = Convert.ToInt32(Lectura_Hora["Ven_Dcto"]),
+                                        CodigoProd = Lectura_Hora["Ven_Cod"].ToString().Trim(),
+                                        ItemProd = Lectura_Hora["Ven_Item"].ToString(),
+                                        CantidadProd = Lectura_Hora["Ven_Cantidad"].ToString(),
+                                        VrUnitarioProd = Convert.ToInt32(Lectura_Hora["Ven_Precio"]),
+                                        VrTotalProd = Convert.ToInt32(Lectura_Hora["Ven_Total"]),
+                                        ValorLetras = Letra,
+                                        VrNetoaPagar = Convert.ToInt32(Lectura_Hora["ValTot"]),
+                                        Deduccion = 0,
+                                        VrTotalFac = Convert.ToInt32(Lectura_Hora["ValTot"]),
+                                        UsuarioFactura = Lectura_Hora["Ven_Usr_Graba"].ToString(),
+                                        NumFac = NumFacturaReal,
+                                        EmpresaDireccion = Lectura_Hora["Com_Direccion"].ToString(),
+                                        EmpresaTelefono = Lectura_Hora["Com_Telefono"].ToString(),
+                                        EmpresaNombre = Lectura_Hora["Com_Nombre"].ToString(),
+                                        EmpresaIdentificacion = Lectura_Hora["Com_Identificacion"].ToString(),
+                                        PacienteNombre = Lectura_Hora["Pac_PrimerN"].ToString() + " " + Lectura_Hora["Pac_SegundoN"].ToString() + " " + Lectura_Hora["Pac_PrimerA"].ToString() + " " + Lectura_Hora["Pac_SegundoA"].ToString(),
+                                        PacienteIdentificacion = Lectura_Hora["Pac_TipoId"].ToString() + " " + Lectura_Hora["Pac_IdNum"].ToString(),
+                                        PacienteDireccion = Lectura_Hora["Pac_Direccion"].ToString(),
+                                        PacienteTelefono = Lectura_Hora["Pac_Telefono"].ToString(),
+                                        FechaBase = Convert.ToDateTime(Lectura_Hora["FechaNC"]),
+                                        Logo = repositorioGenerales.GetBytes(pic.Image),
+                                        Resolucion = Lectura_Hora["Ven_Res"].ToString(),
+                                        CUFE = Lectura_Hora["Cufe"].ToString() + "\n\n" + "Nota Credito Numero " + NumFacturaReal + " asociada a la Factura Electronica Numero " + Lectura_Hora["Ven_Homologo"].ToString(),
+                                        Dcto = Convert.ToInt32(Lectura_Hora["Ven_Dcto"]),
+                                        QRLogo = (QRReal != null ? repositorioGenerales.GetBytes(QRReal) : null),
+                                        LetraImpuestos = Lectura_Hora["Cufe"]?.ToString() ?? "",
+                                        Com_Direccion = Lectura_Hora["Pac_TipoId"].ToString(),
+                                        PacienteAseguradora = Lectura_Hora["Pac_IdNum"].ToString(),
+                                        ProfesionalNombre = Lectura_Hora["Pac_Email"].ToString(),
+                                        Com_Resolucion_Electron = Lectura_Hora["Com_Resolucion_Electron"].ToString(),
+                                        PrefijoElectron = Lectura_Hora["Com_Prefijo_Electron"].ToString(),
+                                        NumElectron = Convert.ToInt32(Lectura_Hora["Com_Doc_Electron"]),
+
+                                        Dias = (Lectura_Hora["DiasVencimiento"] == DBNull.Value ? 30 : Convert.ToInt32(Lectura_Hora["DiasVencimiento"])),
+                                        MedioP = Lectura_Hora["MedioPago"].ToString(),
+                                        MetodoP = Lectura_Hora["MetodoPago"].ToString(),
+                                        Hora = Convert.ToDateTime(hTemp)
+                                    });
+                                }
+                                return Class_FacVen1;
+                            }
+                            else
+                            {
+                                return null;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
+        }
         public static List<RCCAJA> ExportarReciboCajaNC(int PosId)
         {
             try
@@ -1200,7 +1326,7 @@ namespace DocumentosElectronicos.Servicio
                     {
                         Carga_Command.Parameters.AddWithValue("@param1", PosId);
 
-                        using (SqlDataReader Lectura_Hora = (Carga_Command.ExecuteReader()))
+                        using (SqlDataReader Lectura_Hora = (Carga_Command.ExecuteReader())) 
                         {
                             if (Lectura_Hora.HasRows)
                             {
@@ -1275,7 +1401,112 @@ namespace DocumentosElectronicos.Servicio
                 return null;
             }
         }
+        public static List<RCCAJA> ExportarReciboCajaNC(string NumeroNotaCredito, int Compañia)
+        {
+            try
+            {
+                var getDataCon = Conexion.Conection();
 
+                using (SqlConnection con = new SqlConnection(getDataCon["Conexion"]))
+                {
+                    if (con != null && con.State == ConnectionState.Closed)
+                    {
+                        con.Open();
+                    }
+
+                    String Cargar_Hora = @"SELECT TOP 1 C.Com_Logo, P.Pac_PrimerA, P.Pac_PrimerN, P.Pac_SegundoA, P.Pac_SegundoN, P.Pac_TipoId, P.Pac_IdNum, 
+                                          P.Pac_Telefono, P.Pac_TelefonoAux, P.Pac_Direccion, A.Ase_Descripcion, C.Com_Nombre, C.Com_Identificacion, 
+                                          C.Com_Direccion, C.Com_Telefono, C.Com_Resolucion_Electron, C.Com_Prefijo_Electron, C.Com_Doc_Electron, R.Rc_Caja_UsrGraba, 
+                                          R.Rc_Caja_Fecha, R.Rc_Caja_Observacion, R.Rc_Caja_Valor, R.Hor_DocFEModerador, P.Pac_Email, R.Rc_Id,  
+                                          R.Hor_DocFEModeradorCUFE, R.Hor_DocFEModeradorRes, A.Ase_Identificador, R.Hor_DocFEModeradorFechaHora, F.Cufe, F.FechaNC, F.NumeroNC, R.Rc_Caja_Adm 
+                                          FROM CXN_RC_CAJA R 
+                                          INNER JOIN CXN_PACIENTES P ON R.Rc_Caja_Pac = P.Pac_Id 
+                                          INNER JOIN CXN_FACTURANC F ON R.Rc_Caja_Adm = F.OrdenPedido 
+                                          INNER JOIN CXN_ASEGURADORA A ON R.Rc_Caja_Ase = A.Ase_Identificador 
+                                          INNER JOIN CXN_CIA C ON R.Rc_Caja_Cia = C.Com_Identificador 
+                                          WHERE F.NumeroNC = @param1 
+                                          AND F.Prestador = @param2";
+
+                    using (SqlCommand Carga_Command = new SqlCommand(Cargar_Hora, con))
+                    {
+                        Carga_Command.Parameters.AddWithValue("@param1", NumeroNotaCredito);
+                        Carga_Command.Parameters.AddWithValue("@param2", Compañia);
+
+                        using (SqlDataReader Lectura_Hora = (Carga_Command.ExecuteReader()))
+                        {
+                            if (Lectura_Hora.HasRows)
+                            {
+                                List<RCCAJA> Class_RCCaja1 = new List<RCCAJA>();
+
+                                if (Lectura_Hora.Read() == true)
+                                {
+                                    string Bod_Firma1 = Lectura_Hora["Com_Logo"].ToString();
+                                    Byte[] bytes = Convert.FromBase64String(Bod_Firma1);
+                                    MemoryStream stmBLOBData = new MemoryStream(bytes);
+                                    PictureBox pic = new PictureBox();
+                                    pic.Image = Image.FromStream(stmBLOBData);
+
+                                    string QRElectron = "https://catalogo-vpfe.dian.gov.co/document/searchqr?documentkey=" + Lectura_Hora["Cufe"].ToString();
+                                    Image Code_QR_Fac = repositorioGenerales.CodifyQR(QRElectron);
+
+                                    DateTime fooDate = Convert.ToDateTime(Lectura_Hora["FechaNC"]);
+
+                                    Class_RCCaja1.Add(new RCCAJA
+                                    {
+                                        PacienteNombre = Lectura_Hora["Pac_PrimerA"].ToString() + " " + Lectura_Hora["Pac_SegundoA"].ToString() + " " + Lectura_Hora["Pac_PrimerN"].ToString() + " " + Lectura_Hora["Pac_SegundoN"].ToString(),
+                                        PacienteIdentificacion = Lectura_Hora["Pac_TipoId"].ToString() + " " + Lectura_Hora["Pac_IdNum"].ToString(),
+                                        PacienteTelefono = Lectura_Hora["Pac_Telefono"].ToString() + " " + Lectura_Hora["Pac_TelefonoAux"].ToString(),
+                                        PacienteDireccion = Lectura_Hora["Pac_Direccion"].ToString(),
+                                        PacienteAseguradora = Lectura_Hora["Pac_IdNum"].ToString(),
+                                        EmpresaNombre = Lectura_Hora["Com_Nombre"].ToString(),
+                                        EmpresaIdentificacion = Lectura_Hora["Com_Identificacion"].ToString(),
+                                        EmpresaDireccion = Lectura_Hora["Com_Direccion"].ToString(),
+                                        EmpresaTelefono = Lectura_Hora["Com_Telefono"].ToString(),
+                                        Vendedor = Lectura_Hora["Rc_Caja_UsrGraba"].ToString(),
+                                        FechaBase = Convert.ToDateTime(fooDate),
+                                        Recibo = Convert.ToInt32(Lectura_Hora["Rc_Id"]),
+                                        Cantidad = 1,
+                                        Observacion = Lectura_Hora["Rc_Caja_Observacion"].ToString() + " " + Lectura_Hora["Rc_Caja_Adm"].ToString(),
+                                        Logo = repositorioGenerales.GetBytes(pic.Image),
+                                        Valor = Convert.ToInt32(Lectura_Hora["Rc_Caja_Valor"]),
+                                        ProfesionalNombre = Lectura_Hora["NumeroNC"].ToString(),
+                                        Letras = repositorioFacturacion.enletras(Convert.ToInt32(Lectura_Hora["Rc_Caja_Valor"]).ToString()).ToUpper() + " PESOS",
+                                        QRImage = repositorioGenerales.GetBytes(Code_QR_Fac),
+                                        Correo = Lectura_Hora["Pac_Email"].ToString(),
+                                        Com_Direccion = Lectura_Hora["Cufe"].ToString(), //cufe
+                                        Resolucion = Lectura_Hora["Hor_DocFEModeradorRes"].ToString(),
+
+                                        TDocReceptor = Lectura_Hora["Pac_TipoId"].ToString(),
+                                        DocReceptor = Lectura_Hora["Pac_IdNum"].ToString(),
+                                        AseIdentificator = Convert.ToInt32(Lectura_Hora["Ase_Identificador"]),
+                                        ResElectron = Lectura_Hora["Hor_DocFEModeradorRes"].ToString(),
+                                        PrefijoElectron = Lectura_Hora["Hor_DocFEModerador"].ToString(),
+                                        NumeroElectron = Convert.ToInt32(Numeros(Lectura_Hora["Hor_DocFEModerador"].ToString())),
+                                        FechaRealElectron = Convert.ToDateTime(fooDate),
+
+                                    });
+
+                                    return Class_RCCaja1;
+                                }
+                                else
+                                {
+                                    return null;
+                                }
+                            }
+                            else
+                            {
+                                return null;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
+        }
 
         //TOTALES Y QR NC
         static int SubTotalAseguradorasNC(string NumeroNC, string Tipo)

@@ -50,21 +50,29 @@ namespace ZamenisHealth.Recepcion
         {
             try
             {
-                Dictionary<string, string> getConfig = new Dictionary<string, string>();
-                                    
-                getConfig = RepoConfSystem.getListado();
-                                
-                
-                if (getConfig != null)
-                {                    
-                    if (getConfig["AutocompletarFirmas"] == "A")
+                List<CXN_IMAGEN_SYSTEM> d = RepoConfSystem.getConfSystem();
+                if (d != null)
+                {
+                    CXN_IMAGEN_SYSTEM d2 = d.FirstOrDefault(x => x.Tab_Nombre == "AutocompletarFirmas");
+                    if (d2 != null)
                     {
-                        FirmasAutoComplete = true;
+                        if (d2.Tab_Clave == "A")
+                        {
+                            FirmasAutoComplete = true;
+                        }
+                        else
+                        {
+                            FirmasAutoComplete = false;
+                        }
                     }
                     else
                     {
                         FirmasAutoComplete = false;
                     }
+                }
+                else
+                {
+                    FirmasAutoComplete = false;
                 }
             }
             catch (Exception ex)
@@ -848,7 +856,18 @@ namespace ZamenisHealth.Recepcion
                         Hor_Vales = checkBox6.Checked == true ? "S" : "N"
                     };
 
-                    bool _updateCita =  repositorioHorario.updateCitaAdmisionar(H);                    
+                    bool _updateCita =  repositorioHorario.updateCitaAdmisionar(H);
+
+                    CXN_HISTORIAL_ADMISION HistorialAdmision = new CXN_HISTORIAL_ADMISION
+                    {
+                        Admision = H.Hor_Id,
+                        Fecha = DateTime.Now,
+                        Usuario = Contenedor.UsuarioLogueado,
+                        Gestion = "CITA ADMISIONADA"
+                    };
+
+                    repositorioHorario.AddHistorialAdmision(HistorialAdmision);
+
 
                     if (checkBox3.Checked == true) 
                     { 

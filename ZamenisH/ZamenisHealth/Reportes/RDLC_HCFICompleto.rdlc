@@ -9620,6 +9620,10 @@
           <DataField>RegistroMedico</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+		  <Field Name="DXCIE11">
+			  <DataField>DXCIE11</DataField>
+			  <rd:TypeName>System.String</rd:TypeName>
+		  </Field>
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>ZHealth.ClasesReportes</rd:DataSetName>

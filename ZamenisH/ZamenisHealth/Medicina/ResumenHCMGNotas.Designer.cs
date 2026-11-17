@@ -36,9 +36,11 @@
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.gridZH2 = new ZamenisHealth.Clases.Controles.GridZH();
             this.label3 = new System.Windows.Forms.Label();
             this.gridZH1 = new ZamenisHealth.Clases.Controles.GridZH();
-            this.gridZH2 = new ZamenisHealth.Clases.Controles.GridZH();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -46,7 +48,7 @@
             // 
             this.textBox3.BackColor = System.Drawing.SystemColors.InactiveBorder;
             this.textBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox3.Location = new System.Drawing.Point(6, 65);
+            this.textBox3.Location = new System.Drawing.Point(6, 116);
             this.textBox3.Name = "textBox3";
             this.textBox3.ReadOnly = true;
             this.textBox3.Size = new System.Drawing.Size(819, 26);
@@ -58,7 +60,7 @@
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(3, 49);
+            this.label7.Location = new System.Drawing.Point(3, 100);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(281, 13);
             this.label7.TabIndex = 61;
@@ -98,11 +100,11 @@
             // 
             this.richTextBox1.BackColor = System.Drawing.SystemColors.InactiveBorder;
             this.richTextBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.richTextBox1.Location = new System.Drawing.Point(6, 110);
+            this.richTextBox1.Location = new System.Drawing.Point(6, 166);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.ReadOnly = true;
             this.richTextBox1.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.richTextBox1.Size = new System.Drawing.Size(819, 225);
+            this.richTextBox1.Size = new System.Drawing.Size(819, 169);
             this.richTextBox1.TabIndex = 51;
             this.richTextBox1.Text = "";
             this.richTextBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.richTextBox1_KeyDown);
@@ -112,7 +114,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(3, 94);
+            this.label1.Location = new System.Drawing.Point(3, 150);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(187, 13);
             this.label1.TabIndex = 50;
@@ -121,6 +123,8 @@
             // panel1
             // 
             this.panel1.AutoScroll = true;
+            this.panel1.Controls.Add(this.textBox2);
+            this.panel1.Controls.Add(this.label5);
             this.panel1.Controls.Add(this.gridZH2);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.textBox1);
@@ -133,6 +137,14 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(852, 535);
             this.panel1.TabIndex = 192;
+            // 
+            // gridZH2
+            // 
+            this.gridZH2.BackColor = System.Drawing.Color.White;
+            this.gridZH2.Location = new System.Drawing.Point(6, 356);
+            this.gridZH2.Name = "gridZH2";
+            this.gridZH2.Size = new System.Drawing.Size(819, 240);
+            this.gridZH2.TabIndex = 69;
             // 
             // label3
             // 
@@ -152,13 +164,25 @@
             this.gridZH1.Size = new System.Drawing.Size(852, 152);
             this.gridZH1.TabIndex = 193;
             // 
-            // gridZH2
+            // textBox2
             // 
-            this.gridZH2.BackColor = System.Drawing.Color.White;
-            this.gridZH2.Location = new System.Drawing.Point(6, 356);
-            this.gridZH2.Name = "gridZH2";
-            this.gridZH2.Size = new System.Drawing.Size(819, 240);
-            this.gridZH2.TabIndex = 69;
+            this.textBox2.BackColor = System.Drawing.SystemColors.InactiveBorder;
+            this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox2.Location = new System.Drawing.Point(7, 69);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.ReadOnly = true;
+            this.textBox2.Size = new System.Drawing.Size(819, 26);
+            this.textBox2.TabIndex = 71;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(4, 53);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(125, 13);
+            this.label5.TabIndex = 70;
+            this.label5.Text = "Homologacion CIE11";
             // 
             // ResumenHCMGNotas
             // 
@@ -191,5 +215,7 @@
         private System.Windows.Forms.Label label3;
         private Clases.Controles.GridZH gridZH1;
         private Clases.Controles.GridZH gridZH2;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.Label label5;
     }
 }

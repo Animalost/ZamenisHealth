@@ -1,10 +1,15 @@
 ﻿using Domain;
+using Domain.CXN;
 using Domain.Licence;
+
 using Persistence.CXN.Interfaces;
 using Persistence.CXN.Metodos;
+
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
+
 using ZXing;
 
 namespace Persistence
@@ -15,8 +20,11 @@ namespace Persistence
         public static string BloqueosAgenda { get; set; }
         public static string SMSAgenda { get; set; }
         public static string EmailAgenda { get; set; }
+        public static string URL_CIE11 { get; set; }
+        public static string URL_Version_CIE11 { get; set; }
         public static Dictionary<string, string> ConectionDictionary = new Dictionary<string, string>();
         public static string VersionApp = "5.3.0 R1";
+        public static string EmailDestinoDefecto = "FacturacionInterna@caihcron.com";
 
         public static Dictionary<string, string> Conection()
         {
@@ -76,11 +84,31 @@ namespace Persistence
 
         public static string getURLRestorePass()
         {
-            return repoConf.getListado()["URLRestorePass"];
+            List<CXN_IMAGEN_SYSTEM> d = repoConf.getConfSystem();
+            if (d != null)
+            {
+                CXN_IMAGEN_SYSTEM d2 = d.FirstOrDefault(x => x.Tab_Nombre == "URLRestorePass");
+                if (d2 != null)
+                {
+                    return d2.Tab_Clave;
+                }
+            }
+
+            return "NO DISPONIBLE";
         }
         public static string getURLPrincipal()
         {
-            return repoConf.getListado()["URLPrincipal"];
+            List<CXN_IMAGEN_SYSTEM> d = repoConf.getConfSystem();
+            if (d != null)
+            {
+                CXN_IMAGEN_SYSTEM d2 = d.FirstOrDefault(x => x.Tab_Nombre == "URLPrincipal");
+                if (d2 != null)
+                {
+                    return d2.Tab_Clave;
+                }
+            }
+
+            return "NO DISPONIBLE";
         }
         public static string getCadenaSQLServer(string Servidor, string Usuario, string Base, string Clave)
         {

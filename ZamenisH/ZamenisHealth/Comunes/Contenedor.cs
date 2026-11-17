@@ -1,5 +1,6 @@
 ﻿using Domain;
 using Domain.CXN;
+using FormAndControls;
 using Persistence;
 using Persistence.CXN.Interfaces;
 using Persistence.CXN.Metodos;
@@ -7,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Speech.Recognition;
 using System.Speech.Synthesis;
@@ -18,7 +20,7 @@ using ZamenisHealth.PagosApp;
 
 namespace ZamenisHealth.Comunes
 {
-    public partial class Contenedor : ConfigForm.BaseForm
+    public partial class Contenedor : Forma
     {
         [DllImport("user32.dll")]
         private static extern IntPtr GetSystemMenu(IntPtr hWnd, bool bRevert);
@@ -33,11 +35,25 @@ namespace ZamenisHealth.Comunes
         private readonly static IMensajeria repositorioMensajeria = new MMensajeria();
         private readonly static IConfSystem repositorioConfSystem = new MConfSystem();
         private readonly static IGenerales repositorioGenerales = new MGenerales();
-        private readonly static ILogin repositorioLogin = new MLogin();       
-        
+        private readonly static ILogin repositorioLogin = new MLogin();
+        private static readonly IRoles repoRoles = new MRoles();
+
         public static string UsuarioLogueado;
         public string UsuarioLogueado1;
         public string PassChange;
+        public string Tittle;
+        public string SubTittle;
+
+        private ToolStripButton toolStripButton2 = new ToolStripButton();
+        private ToolStripButton toolStripButton11 = new ToolStripButton();
+        private ToolStripButton toolStripButton10 = new ToolStripButton();
+        private ToolStripButton toolStripButton9 = new ToolStripButton();
+        private ToolStripButton toolStripButton8 = new ToolStripButton();
+        private ToolStripButton toolStripButton7 = new ToolStripButton();
+        private ToolStripButton toolStripButton6 = new ToolStripButton();
+        private ToolStripButton toolStripButton5 = new ToolStripButton();
+        private ToolStripButton toolStripButton4 = new ToolStripButton();
+        private ToolStripButton toolStripButton3 = new ToolStripButton();
 
         private Dictionary<string, string> getCon = new Dictionary<string, string>();
         SpeechRecognitionEngine oSpeechRecognitionEngine = null;
@@ -47,7 +63,6 @@ namespace ZamenisHealth.Comunes
         {
             InitializeComponent();
             
-            ConfigForm.MoverForma(label1, this);
             linkLabel12.Visible = true;
             linkLabel11.Visible = true;
         }
@@ -61,12 +76,222 @@ namespace ZamenisHealth.Comunes
 
             // Deshabilitar el botón de cerrar
             EnableMenuItem(hMenu, SC_CLOSE, MF_BYCOMMAND | MF_GRAYED);
-        }        
+        }
+        void Botones()
+        {
+            ToolStripButton Espaciado = new ToolStripButton();
+            Espaciado = createToolButton("");
+            MenuLateral.Items.Add(Espaciado);
 
+            toolStripButton2 = new ToolStripButton();
+            toolStripButton2 = createToolButton("Opciones");
+            MenuLateral.Items.Add(toolStripButton2);
+            toolStripButton2.Click += toolStripButton2_Click;
+
+            toolStripButton11 = new ToolStripButton();
+            toolStripButton11 = createToolButton("Administracion");
+            MenuLateral.Items.Add(toolStripButton11);
+            toolStripButton11.Click += toolStripButton11_Click;
+
+            toolStripButton10 = new ToolStripButton();
+            toolStripButton10 = createToolButton("Recepcion");
+            MenuLateral.Items.Add(toolStripButton10);
+            toolStripButton10.Click += toolStripButton10_Click;
+
+            toolStripButton9 = new ToolStripButton();
+            toolStripButton9 = createToolButton("Gerencial");
+            MenuLateral.Items.Add(toolStripButton9);
+            toolStripButton9.Click += toolStripButton9_Click;
+
+            toolStripButton8 = new ToolStripButton();
+            toolStripButton8 = createToolButton("Enfermeria");
+            MenuLateral.Items.Add(toolStripButton8);
+            toolStripButton8.Click += toolStripButton8_Click;
+
+            toolStripButton7 = new ToolStripButton();
+            toolStripButton7 = createToolButton("Medico General");
+            MenuLateral.Items.Add(toolStripButton7);
+            toolStripButton7.Click += toolStripButton7_Click;
+
+            toolStripButton6 = new ToolStripButton();
+            toolStripButton6 = createToolButton("Fisiatria");
+            MenuLateral.Items.Add(toolStripButton6);
+            toolStripButton6.Click += toolStripButton6_Click;
+
+            toolStripButton5 = new ToolStripButton();
+            toolStripButton5 = createToolButton("T. Ocupacional");
+            MenuLateral.Items.Add(toolStripButton5);
+            toolStripButton5.Click += toolStripButton5_Click;
+
+            toolStripButton4 = new ToolStripButton();
+            toolStripButton4 = createToolButton("T. Fisica");
+            MenuLateral.Items.Add(toolStripButton4);
+            toolStripButton4.Click += toolStripButton4_Click;
+
+            toolStripButton3 = new ToolStripButton();
+            toolStripButton3 = createToolButton("Psicologia");
+            MenuLateral.Items.Add(toolStripButton3);
+            toolStripButton3.Click += toolStripButton3_Click;
+
+            toolStripButton2.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
+            toolStripButton3.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
+            toolStripButton4.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
+            toolStripButton5.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
+            toolStripButton6.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
+            toolStripButton7.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
+            toolStripButton8.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
+            toolStripButton9.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
+            toolStripButton10.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
+            toolStripButton11.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
+
+            toolStripButton2.Image = Properties.Resources.Opciones;
+            toolStripButton3.Image = Properties.Resources.Opciones;
+            toolStripButton4.Image = Properties.Resources.Opciones;
+            toolStripButton5.Image = Properties.Resources.Opciones;
+            toolStripButton6.Image = Properties.Resources.Opciones;
+            toolStripButton7.Image = Properties.Resources.Opciones;
+            toolStripButton8.Image = Properties.Resources.Opciones;
+            toolStripButton9.Image = Properties.Resources.Opciones;
+            toolStripButton10.Image = Properties.Resources.Opciones;
+            toolStripButton11.Image = Properties.Resources.Opciones;
+
+            toolStripButton2.ImageAlign = ContentAlignment.MiddleLeft;
+            toolStripButton3.ImageAlign = ContentAlignment.MiddleLeft;
+            toolStripButton4.ImageAlign = ContentAlignment.MiddleLeft;
+            toolStripButton5.ImageAlign = ContentAlignment.MiddleLeft;
+            toolStripButton6.ImageAlign = ContentAlignment.MiddleLeft;
+            toolStripButton7.ImageAlign = ContentAlignment.MiddleLeft;
+            toolStripButton8.ImageAlign = ContentAlignment.MiddleLeft;
+            toolStripButton9.ImageAlign = ContentAlignment.MiddleLeft;
+            toolStripButton10.ImageAlign = ContentAlignment.MiddleLeft;
+            toolStripButton11.ImageAlign = ContentAlignment.MiddleLeft;
+
+            toolStripButton2.TextAlign = ContentAlignment.MiddleLeft;
+            toolStripButton3.TextAlign = ContentAlignment.MiddleLeft;
+            toolStripButton4.TextAlign = ContentAlignment.MiddleLeft;
+            toolStripButton5.TextAlign = ContentAlignment.MiddleLeft;
+            toolStripButton6.TextAlign = ContentAlignment.MiddleLeft;
+            toolStripButton7.TextAlign = ContentAlignment.MiddleLeft;
+            toolStripButton8.TextAlign = ContentAlignment.MiddleLeft;
+            toolStripButton9.TextAlign = ContentAlignment.MiddleLeft;
+            toolStripButton10.TextAlign = ContentAlignment.MiddleLeft;
+            toolStripButton11.TextAlign = ContentAlignment.MiddleLeft;
+
+            toolStripButton2.Size = new Size(MenuLateral.Width, 45);
+            toolStripButton3.Size = new Size(MenuLateral.Width, 45);
+            toolStripButton4.Size = new Size(MenuLateral.Width, 45);
+            toolStripButton5.Size = new Size(MenuLateral.Width, 45);
+            toolStripButton6.Size = new Size(MenuLateral.Width, 45);
+            toolStripButton7.Size = new Size(MenuLateral.Width, 45);
+            toolStripButton8.Size = new Size(MenuLateral.Width, 45);
+            toolStripButton9.Size = new Size(MenuLateral.Width, 45);
+            toolStripButton10.Size = new Size(MenuLateral.Width, 45);
+            toolStripButton11.Size = new Size(MenuLateral.Width, 45);
+
+            Espaciado.Size = new Size(MenuLateral.Width, 25);
+            Espaciado.BackColor = Color.FromArgb(25, 55, 90);
+
+            toolStripButton2.MouseEnter += CursorHand;
+            toolStripButton2.MouseLeave += UnCursorHand;
+            toolStripButton3.MouseEnter += CursorHand;
+            toolStripButton3.MouseLeave += UnCursorHand;
+            toolStripButton4.MouseEnter += CursorHand;
+            toolStripButton4.MouseLeave += UnCursorHand;
+            toolStripButton5.MouseEnter += CursorHand;
+            toolStripButton5.MouseLeave += UnCursorHand;
+            toolStripButton6.MouseEnter += CursorHand;
+            toolStripButton6.MouseLeave += UnCursorHand;
+            toolStripButton7.MouseEnter += CursorHand;
+            toolStripButton7.MouseLeave += UnCursorHand;
+            toolStripButton8.MouseEnter += CursorHand;
+            toolStripButton8.MouseLeave += UnCursorHand;
+            toolStripButton9.MouseEnter += CursorHand;
+            toolStripButton9.MouseLeave += UnCursorHand;
+            toolStripButton10.MouseEnter += CursorHand;
+            toolStripButton10.MouseLeave += UnCursorHand;
+            toolStripButton11.MouseEnter += CursorHand;
+            toolStripButton11.MouseLeave += UnCursorHand;
+
+            Permisos();
+        }
+        void Permisos()
+        {
+            try
+            {
+                CXN_LOGIN LogAdminForUser = repositorioLogin.getUser(UsuarioLogueado1);
+                if (LogAdminForUser != null)
+                {
+                    toolStripButton2.Visible = LogAdminForUser.Log_Rol_AdminI == "A" ? true : false; // Opciones
+                    toolStripButton3.Visible = LogAdminForUser.Log_Rol_Psicologia == "A" ? true : false; //Psicologia
+                    toolStripButton4.Visible = LogAdminForUser.Log_Rol_TF == "A" ? true : false; // T Fisica
+                    toolStripButton5.Visible = LogAdminForUser.Log_Rol_TO == "A" ? true : false;  //T Ocupacional
+                    toolStripButton6.Visible = LogAdminForUser.Log_Rol_FI == "A" ? true : false; //Fisiatria
+                    toolStripButton7.Visible = LogAdminForUser.Log_Rol_MedGen == "A" ? true : false; //Medicina general
+                    toolStripButton8.Visible = LogAdminForUser.Log_Rol_Enfermero == "A" ? true : false; //Enfermeria
+                    toolStripButton9.Visible = LogAdminForUser.Log_Rol_Gerencial == "A" ? true : false; //Gerencial
+                    toolStripButton10.Visible = LogAdminForUser.Log_Rol_Recepcion == "A" ? true : false;  //Recepcion
+                    toolStripButton11.Visible = LogAdminForUser.Log_Rol_Admin == "A" ? true : false; // Administracion
+                }
+                else
+                {
+                    toolStripButton2.Visible = false;
+                    toolStripButton3.Visible = false;
+                    toolStripButton4.Visible = false;
+                    toolStripButton5.Visible = false;
+                    toolStripButton6.Visible = false;
+                    toolStripButton7.Visible = false;
+                    toolStripButton8.Visible = false;
+                    toolStripButton9.Visible = false;
+                    toolStripButton10.Visible = false;
+                    toolStripButton11.Visible = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        private void CursorHand(object sender, EventArgs e)
+        {
+            this.Cursor = Cursors.Hand;
+        }
+        private void UnCursorHand(object sender, EventArgs e)
+        {
+            this.Cursor = Cursors.Default;
+        }
         private void Contenedor_Load(object sender, EventArgs e)
         {
             try
             {
+                PanelTitulo.Height = 75;
+
+                Titulo.Text = Tittle;
+                LogoMain.Image = Properties.Resources.Splash;
+                SubTitulo.Text = SubTittle;
+                Titulo.Padding = new Padding(110, 7, 0, 0);
+                Titulo.Width = PanelTitulo.Width - 100;
+                SubTitulo.Padding = new Padding(90, 10, 0, 0);
+
+                //Boton Cerrar
+                ImageClose.Visible = false;
+                PanelTitulo.Controls.Add(pictureBox2);
+                pictureBox2.BackColor = Color.FromArgb(237, 237, 237);
+                pictureBox2.Location = new Point(PanelTitulo.Width - 180, 21);
+                pictureBox2.Anchor = AnchorStyles.Top;
+                pictureBox2.Anchor = AnchorStyles.Right;
+                pictureBox2.Cursor = Cursors.Hand;
+                pictureBox2.BringToFront();
+                //FIN Boton Cerrar
+
+                label78.BringToFront();
+                label7.BringToFront();
+                label72.BringToFront();
+                label73.BringToFront();
+                pictureBox4.BringToFront();
+                pictureBox4.BackColor = Color.FromArgb(237, 237, 237);
+
+                Botones();
+
                 if (Conexion.ConectionDictionary["Mensaje"] == "Vencido" || Conexion.ConectionDictionary["Mensaje"] == "Cancelado")
                 {
                     label3.Visible = true;
@@ -75,9 +300,6 @@ namespace ZamenisHealth.Comunes
                 {
                     label3.Visible = false;
                 }
-
-                Titulo.Visible = false;
-                ImageClose.Visible = false;              
 
                 UsuarioLogueado = UsuarioLogueado1;
 
@@ -100,7 +322,7 @@ namespace ZamenisHealth.Comunes
                 toolTipNovedades.ShowAlways = true;
 
                 toolTip1.SetToolTip(pictureBox2, "Cerrar la Aplicacion");
-                toolTip12.SetToolTip(pictureBox3, "Minimizar Aplicacion");
+                toolTip12.SetToolTip(ImageMinimize, "Minimizar Aplicacion");
                 toolTip14.SetToolTip(linkLabel5, "Abrir Reloj Analogo");
                 toolTip15.SetToolTip(pictureBox4, "Haga doble click aqui para cambiar su avatar");
                 toolTip78.SetToolTip(label78, "¿Que es esto?");
@@ -112,26 +334,23 @@ namespace ZamenisHealth.Comunes
 
                 chargeAvatar();
                 _ = ConfigForm.FadeInControl(pictureBox4);
-                _ = ConfigForm.FadeInControl(pictureBox1);
 
                 bool noticia = false;
 
-                
-                    if (repositorioConfSystem.getDatoNoticias().Noticia == true)
+                List<CXN_IMAGEN_SYSTEM> d = repositorioConfSystem.getConfSystem();
+                if (d != null)
+                {
+                    CXN_IMAGEN_SYSTEM d2 = d.FirstOrDefault(x => x.Tab_Nombre == "Noticia");
+                    if (d2 != null)
                     {
-                        noticia = true;
+                        noticia = d2.Tab_Clave == "A" ? true : false;
                     }
-                
+                }
 
                 if (noticia == true)
                 {
                     Comunes.Noticias N = new Comunes.Noticias();
                     N.ShowDialog();
-                    label2.Visible = true;
-                }
-                else
-                {
-                    label2.Visible = false;
                 }
 
                 toolStripButton2.MouseMove += ToolStripButton2_MouseMove;
@@ -155,22 +374,54 @@ namespace ZamenisHealth.Comunes
                 toolStripButton3.MouseMove += ToolStripButton3_MouseMove;
                 toolStripButton3.MouseLeave += ToolStripButton3_MouseLeave;
 
-                Conexion.BloqueosAgenda = repositorioConfSystem.getListado()["Bloqueo"];
-                Conexion.EmailAgenda = repositorioConfSystem.getListado()["Email"];
-                Conexion.SMSAgenda = repositorioConfSystem.getListado()["SMS"];
-
-                label4.Text = repositorioConfSystem.getListado()["Base"];
+                List<CXN_IMAGEN_SYSTEM> d22 = repositorioConfSystem.getConfSystem();
+                if (d22 != null)
+                {
+                    Conexion.BloqueosAgenda = d22.FirstOrDefault(x => x.Tab_Nombre == "Bloqueo").Tab_Clave;
+                    Conexion.EmailAgenda = d22.FirstOrDefault(x => x.Tab_Nombre == "Email").Tab_Clave;
+                    Conexion.SMSAgenda = d22.FirstOrDefault(x => x.Tab_Nombre == "SMS").Tab_Clave;
+                    label4.Text = d22.FirstOrDefault(x => x.Tab_Nombre == "Base").Tab_Clave;
+                }                
 
                 GestionPagos();
-                ConsultarIA();
                 ConsultarPatron();
+                EstablecerCIE11();
             }
             catch (Exception ex)
             {
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
+        void EstablecerCIE11()
+        {
+            try
+            {
+                List<CXN_IMAGEN_SYSTEM> d = repositorioConfSystem.getConfSystem();
+                if (d != null)
+                {
+                    CXN_IMAGEN_SYSTEM d2 = d.FirstOrDefault(x => x.Tab_Nombre == "API-CIE11");
+                    if (d2 != null)
+                    {
+                        Conexion.URL_CIE11 = d2.Tab_Clave;
+                        Conexion.URL_Version_CIE11 = d2.Tab_Config;
+                    }
+                    else
+                    {
+                        Conexion.URL_CIE11 = "";
+                        Conexion.URL_Version_CIE11 = "";
+                    }
+                }
+                else
+                {
+                    Conexion.URL_CIE11 = "";
+                    Conexion.URL_Version_CIE11 = "";
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
         void ConsultarPatron()
         {
             try
@@ -195,37 +446,6 @@ namespace ZamenisHealth.Comunes
                 MessageBox.Show(ex.Message);
             }
         }
-
-        void ConsultarIA()
-        {
-            try
-            {
-                if (Conexion.ConectionDictionary["Perplexity"] == "A")
-                {
-                    var IA_Consult = repositorioConfSystem.getListado()["Perplexity"];
-                    if (IA_Consult == "A")
-                    {
-                        linkLabel18.Visible = true;
-                        linkLabel19.Visible = true;
-                    }
-                    else
-                    {
-                        linkLabel19.Visible = false;
-                        linkLabel18.Visible = false;
-                    }
-                }
-                else
-                {
-                    linkLabel19.Visible = false;
-                    linkLabel18.Visible = false;
-                }               
-            }
-            catch (Exception ex)
-            {
-                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
-            }
-        }
-
         #region // Over and Leaves
         void Over(ToolStripButton T)
         {
@@ -237,8 +457,6 @@ namespace ZamenisHealth.Comunes
             T.BackColor = Color.FromArgb(55, 85, 120);
             T.ForeColor = Color.WhiteSmoke;
         }
-
-
         private void ToolStripButton2_MouseMove(object sender, EventArgs e)
         {
             Over(toolStripButton2);
@@ -320,7 +538,6 @@ namespace ZamenisHealth.Comunes
             Leaves(toolStripButton3);
         }
         #endregion //Over and Leaves
-
         void chargeAvatar()
         {
             try
@@ -330,7 +547,6 @@ namespace ZamenisHealth.Comunes
                 {
                     Image recoveryImage = repositorioGenerales.ByteToImage(_getAvatar);
                     pictureBox4.Image = recoveryImage;
-                    pictureBox1.Image = recoveryImage;
                 }
             }
             catch (Exception ex)
@@ -338,7 +554,6 @@ namespace ZamenisHealth.Comunes
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         private void timer1_Tick(object sender, EventArgs e)
         {
             try
@@ -354,7 +569,6 @@ namespace ZamenisHealth.Comunes
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         private void toolStripButton11_Click(object sender, EventArgs e)
         {
             string Permiso = getCon["Rol5"];
@@ -374,7 +588,6 @@ namespace ZamenisHealth.Comunes
                 return;
             }
         }
-
         private void toolStripButton10_Click(object sender, EventArgs e)
         {
             string Permiso = getCon["Rol1"];
@@ -394,7 +607,6 @@ namespace ZamenisHealth.Comunes
                 return;
             }
         }
-
         private void toolStripButton9_Click(object sender, EventArgs e)
         {
             string Permiso = getCon["Rol6"];
@@ -414,7 +626,6 @@ namespace ZamenisHealth.Comunes
                 return;
             }
         }
-
         private void toolStripButton8_Click(object sender, EventArgs e)
         {
 
@@ -435,7 +646,6 @@ namespace ZamenisHealth.Comunes
                 return;
             }
         }
-
         private void toolStripButton7_Click(object sender, EventArgs e)
         {
             string Permiso = getCon["Rol3"];
@@ -455,7 +665,6 @@ namespace ZamenisHealth.Comunes
                 return;
             }
         }
-
         private void toolStripButton6_Click(object sender, EventArgs e)
         {
             var Permiso = getCon["Rol7"];
@@ -475,7 +684,6 @@ namespace ZamenisHealth.Comunes
                 return;
             }
         }
-
         private void toolStripButton5_Click(object sender, EventArgs e)
         {
             var Permiso = getCon["Rol10"];
@@ -495,7 +703,6 @@ namespace ZamenisHealth.Comunes
                 return;
             }
         }
-
         private void toolStripButton4_Click(object sender, EventArgs e)
         {
             var Permiso = getCon["Rol9"];
@@ -515,7 +722,6 @@ namespace ZamenisHealth.Comunes
                 return;
             }
         }
-
         private void toolStripButton3_Click(object sender, EventArgs e)
         {
             var Permiso = getCon["Rol8"];
@@ -535,7 +741,6 @@ namespace ZamenisHealth.Comunes
                 return;
             }
         }
-
         private void timer2_Tick(object sender, EventArgs e)
         {
             try
@@ -548,13 +753,11 @@ namespace ZamenisHealth.Comunes
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         private void toolStripButton12_Click(object sender, EventArgs e)
         {           
             AbrirFormEnPanel2(new ConfigContenedor.DatosPac(), true);
             CerrarPanel.Enabled = false;
         }
-
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
             var Permiso = getCon["Rol4"];
@@ -574,25 +777,6 @@ namespace ZamenisHealth.Comunes
                 return;
             }
         }
-
-        private void pictureBox3_Click(object sender, EventArgs e)
-        {
-            this.WindowState = FormWindowState.Minimized;
-        }
-
-        private async void pictureBox2_Click(object sender, EventArgs e)
-        {
-            DialogResult result = MessageBox.Show("Desea Salir de la Aplicacion?",
-                                                  "Zamenis Health - Cerrar Aplicacion",
-                                                  MessageBoxButtons.YesNo,
-                                                  MessageBoxIcon.Question);
-
-            if (result == DialogResult.Yes)
-            {
-                Application.Exit();
-            }
-        }
-    
         private async void timer3_Tick(object sender, EventArgs e)
         {
             try
@@ -666,7 +850,6 @@ namespace ZamenisHealth.Comunes
                 }));       */         
             }
         }
-
         private void AbrirFormEnPanel2(object Formhijo, bool Grande)
         {
             Panel pnltemp = new Panel();
@@ -695,7 +878,6 @@ namespace ZamenisHealth.Comunes
             CerrarPanel.Enabled = true;
             fh.Show();
         }     
-
         private async Task FadeInControl(Control control)
         {
             try
@@ -756,31 +938,26 @@ namespace ZamenisHealth.Comunes
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         public void panelToAdmin2()
         {
             AbrirFormEnPanel2(new ConfigContenedor.Administracion2(), false);
         }
-
         public void Claves()
         {
             Claves C = new Claves(PassChange, UsuarioLogueado1);
             C.toolStripButton3.Enabled = true;
             C.ShowDialog();
         }
-
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
             Extras.AcercaDE s = new AcercaDE();
             s.ShowDialog();
         }
-
         private void label2_Click(object sender, EventArgs e)
         {
-            Noticias N = new Noticias();
+            NoticiasHistorial N = new NoticiasHistorial();
             N.ShowDialog();
         }
-
         private void Contenedor_KeyDown(object sender, KeyEventArgs e)
         {
             try
@@ -808,13 +985,11 @@ namespace ZamenisHealth.Comunes
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         private void label3_Click(object sender, EventArgs e)
         {
             Opiniones O = new Opiniones();
             O.ShowDialog();
         }
-
         private void pictureBox4_DoubleClick(object sender, EventArgs e)
         {
             try
@@ -846,7 +1021,6 @@ namespace ZamenisHealth.Comunes
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         private void label78_Click(object sender, EventArgs e)
         {
 
@@ -862,7 +1036,6 @@ namespace ZamenisHealth.Comunes
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         async void Send()
         {
             try
@@ -882,7 +1055,6 @@ namespace ZamenisHealth.Comunes
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         void Voz()
         {
             try
@@ -912,32 +1084,27 @@ namespace ZamenisHealth.Comunes
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         private void toolStripButtonMenu1_Click(object sender, EventArgs e)
         {
             AbrirFormEnPanel2(new ConfigContenedor.Menu(), false);
             CerrarPanel.Enabled = false;
             CerrarPanel.Enabled = true;
         }
-
         public void CierraPanel()
         {
             CerrarPanel.Enabled = false;
             panel1.Visible = false;
         }
-
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             System.Diagnostics.Process.Start(linkLabel2.Text);
         }
-
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             /*System.Diagnostics.Process.Start(Conexion.getURLPrincipal() + "/Android");
             System.Diagnostics.Process.Start(repositorioConfSystem.getListado()["APPAndroid"]);*/
             System.Diagnostics.Process.Start(Conexion.getURLPrincipal() + ":8200");
         }
-
         private void linkLabel5_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Analogo f = new Analogo();
@@ -945,18 +1112,15 @@ namespace ZamenisHealth.Comunes
             linkLabel5.Visible = false;
             linkLabel6.Visible = false;
         }
-
         private void linkLabel8_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             System.Diagnostics.Process.Start(Conexion.getURLPrincipal() + "/UpdateZamenis");
         }
-
         private void linkLabel12_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Manuales m = new Manuales();
             m.ShowDialog();
         }
-
         private void linkLabel15_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             timer3.Enabled = false;
@@ -964,13 +1128,11 @@ namespace ZamenisHealth.Comunes
             linkLabel17.Visible = true;
             linkLabel16.Visible = true;
         }
-
         private void linkLabel17_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Comunes.MensajeroSend mensjaes_I = new Comunes.MensajeroSend();
             mensjaes_I.ShowDialog();
-        }
-       
+        } 
         void GestionPagos()
         {
             try
@@ -997,24 +1159,27 @@ namespace ZamenisHealth.Comunes
                 MessageBox.Show(ex.Message);
             }
         }
-
         private void label5_Click(object sender, EventArgs e)
         {
             EstadoCuenta P = new EstadoCuenta();
             P.ShowDialog();
         }
-
         private void toolStrip2_MouseDown(object sender, MouseEventArgs e)
         {
             ConfigForm.ReleaseCapturing();
             ConfigForm.SendMessageMove(this.Handle, 0x112, 0xf012, 0);
         }
-
-        private void linkLabel19_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void pictureBox2_Click(object sender, EventArgs e)
         {
-            IAS.Perplexity perplexity = new IAS.Perplexity();   
-            perplexity.ShowDialog();
+            DialogResult result = MessageBox.Show("Desea Salir de la Aplicacion?",
+                                                  "Zamenis Health - Cerrar Aplicacion",
+                                                  MessageBoxButtons.YesNo,
+                                                  MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                Application.Exit();
+            }
         }
-        
     }
 }

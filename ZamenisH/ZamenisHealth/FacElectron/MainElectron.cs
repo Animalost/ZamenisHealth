@@ -1,21 +1,28 @@
 ﻿using DocumentosElectronicos;
 using DocumentosElectronicos.Request;
 using DocumentosElectronicos.Servicio;
+
 using Domain;
 using Domain.CXN;
+
 using FormAndControls;
+
 using Microsoft.Reporting.WinForms;
+
 using Persistence;
 using Persistence.CXN.Interfaces;
 using Persistence.CXN.Metodos;
+
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+
 using ZamenisHealth.Clases;
 using ZamenisHealth.Comunes;
 
@@ -422,11 +429,19 @@ namespace ZamenisHealth.FacElectron
                             int vrNeto = getFacturaZamenis[0].Fac_Total; //aqui taigo este total sin descuentos, no los estoy reportando cuotas, copagos, etc para reporarlos se cambia a Fac_Neto
                             string letra = getFacturaZamenis[0].Letras;
 
-                            if (repoConfSystem.getListado()["ReportarImpuestosDIAN"] == "A")
+                            List<CXN_IMAGEN_SYSTEM> d = repoConfSystem.getConfSystem();
+                            if (d != null)
                             {
-                                vrimpuestosretenidos = getFacturaZamenis[0].VrFUENTE + getFacturaZamenis[0].VrICA;
-                                vrNeto = getFacturaZamenis[0].Fac_Total - getFacturaZamenis[0].VrFUENTE - getFacturaZamenis[0].VrICA;
-                                letra = getFacturaZamenis[0].LetrasImpuestos;
+                                CXN_IMAGEN_SYSTEM d2 = d.FirstOrDefault(x => x.Tab_Nombre == "ReportarImpuestosDIAN");
+                                if (d2 != null)
+                                {
+                                    if (d2.Tab_Clave == "A")
+                                    {
+                                        vrimpuestosretenidos = getFacturaZamenis[0].VrFUENTE + getFacturaZamenis[0].VrICA;
+                                        vrNeto = getFacturaZamenis[0].Fac_Total - getFacturaZamenis[0].VrFUENTE - getFacturaZamenis[0].VrICA;
+                                        letra = getFacturaZamenis[0].LetrasImpuestos;
+                                    }
+                                }
                             }
 
                             var factura = new Factura
@@ -441,7 +456,7 @@ namespace ZamenisHealth.FacElectron
                                     nitreceptor = getFacturaZamenis[0].Admision == 99 || getFacturaZamenis[0].Admision == 88 ? getFacturaZamenis[0].DocE_1 : getFacturaZamenis[0].Ase_NitCia,
                                     digitoverificacion = getFacturaZamenis[0].Admision == 99 || getFacturaZamenis[0].Admision == 88 ? "" : getFacturaZamenis[0].Ase_DVNitCia,
                                     nombrereceptor = getFacturaZamenis[0].Admision == 99 || getFacturaZamenis[0].Admision == 88 ? getFacturaZamenis[0].PacienteNombre : getFacturaZamenis[0].PacienteAseguradora,
-                                    mailreceptor = getFacturaZamenis[0].Admision == 99 || getFacturaZamenis[0].Admision == 88 ? string.IsNullOrEmpty(getFacturaZamenis[0].DocE_2) ? "administrador@slsoft.net" : getFacturaZamenis[0].DocE_2 : string.IsNullOrEmpty(getFacturaZamenis[0].DocE_3) ? "administrador@slsoft.net" : getFacturaZamenis[0].DocE_3,
+                                    mailreceptor = getFacturaZamenis[0].Admision == 99 || getFacturaZamenis[0].Admision == 88 ? string.IsNullOrEmpty(getFacturaZamenis[0].DocE_2) ? Conexion.EmailDestinoDefecto : getFacturaZamenis[0].DocE_2 : string.IsNullOrEmpty(getFacturaZamenis[0].DocE_3) ? Conexion.EmailDestinoDefecto : getFacturaZamenis[0].DocE_3,
                                     tipocomprobante = Definiciones.tipocomprobante("Factura de Venta Nacional"),
 
                                     noresolucion = getDataFacElectron.Com_Resolucion_Electron,
@@ -627,14 +642,30 @@ namespace ZamenisHealth.FacElectron
                                                     RepoTemp.LocalReport.DataSources.Clear();
                                                     RepoTemp.LocalReport.DataSources.Add(new ReportDataSource("DataSet_Facturacion", Exportar));
 
-                                                    if (repoConfSystem.getListado()["ReportarImpuestosDIAN"] == "A")
+                                                    List<CXN_IMAGEN_SYSTEM> dr = repoConfSystem.getConfSystem();
+                                                    if (dr != null)
                                                     {
-                                                        RepoTemp.LocalReport.ReportEmbeddedResource = "ZamenisHealth.Reportes.FacElectron.FacturaElectronicaSaludIMPUESTOS.rdlc";
+                                                        CXN_IMAGEN_SYSTEM d2 = dr.FirstOrDefault(x => x.Tab_Nombre == "ReportarImpuestosDIAN");
+                                                        if (d2 != null)
+                                                        {
+                                                            if (d2.Tab_Clave == "A")
+                                                            {
+                                                                RepoTemp.LocalReport.ReportEmbeddedResource = "ZamenisHealth.Reportes.FacElectron.FacturaElectronicaSaludIMPUESTOS.rdlc";
+                                                            }
+                                                            else
+                                                            {
+                                                                RepoTemp.LocalReport.ReportEmbeddedResource = "ZamenisHealth.Reportes.FacElectron.FacturaElectronicaSalud.rdlc";
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            RepoTemp.LocalReport.ReportEmbeddedResource = "ZamenisHealth.Reportes.FacElectron.FacturaElectronicaSalud.rdlc";
+                                                        }
                                                     }
                                                     else
                                                     {
                                                         RepoTemp.LocalReport.ReportEmbeddedResource = "ZamenisHealth.Reportes.FacElectron.FacturaElectronicaSalud.rdlc";
-                                                    }
+                                                    }                                                    
                                                     
                                                     RepoTemp.SetDisplayMode(DisplayMode.PrintLayout);
                                                     RepoTemp.ZoomMode = ZoomMode.Percent;
@@ -724,12 +755,20 @@ namespace ZamenisHealth.FacElectron
                             int vrNeto = getFacturaZamenis[0].VrNetoaPagar; //aqui taigo este total sin descuentos, no los estoy reportando cuotas, copagos, etc para reporarlos se cambia a VrTotalFac pero ahi que arreglarlo cuando lo trae
                             string letra = getFacturaZamenis[0].ValorLetras;
 
-                            if (repoConfSystem.getListado()["ReportarImpuestosDIAN"] == "A")
+                            List<CXN_IMAGEN_SYSTEM> d = repoConfSystem.getConfSystem();
+                            if (d != null)
                             {
-                                vrimpuestosretenidos = getFacturaZamenis[0].VrFUENTE + getFacturaZamenis[0].VrICA;
-                                vrNeto = getFacturaZamenis[0].VrNetoaPagar - getFacturaZamenis[0].VrFUENTE - getFacturaZamenis[0].VrICA;
-                                letra = getFacturaZamenis[0].LetraImpuestos;
-                            }
+                                CXN_IMAGEN_SYSTEM d2 = d.FirstOrDefault(x => x.Tab_Nombre == "ReportarImpuestosDIAN");
+                                if (d2 != null)
+                                {
+                                    if (d2.Tab_Clave == "A")
+                                    {
+                                        vrimpuestosretenidos = getFacturaZamenis[0].VrFUENTE + getFacturaZamenis[0].VrICA;
+                                        vrNeto = getFacturaZamenis[0].VrNetoaPagar - getFacturaZamenis[0].VrFUENTE - getFacturaZamenis[0].VrICA;
+                                        letra = getFacturaZamenis[0].LetraImpuestos;
+                                    }
+                                }
+                            }                           
 
                             var factura = new Factura
                             {
@@ -742,7 +781,7 @@ namespace ZamenisHealth.FacElectron
                                     tipoDocRec = Definiciones.tipoDocRec(88, Definiciones.tipoDocRec(88, repoPacs.getTipoDoc(getFacturaZamenis[0].Com_Direccion))),
                                     nitreceptor = getFacturaZamenis[0].PacienteAseguradora,
                                     nombrereceptor = getFacturaZamenis[0].PacienteNombre,
-                                    mailreceptor = string.IsNullOrEmpty(getFacturaZamenis[0].ProfesionalNombre) ? "administrador@slsoft.net" : repoPacs.ValidaEmail(getFacturaZamenis[0].ProfesionalNombre) == false ? "administrador@slsoft.net" : getFacturaZamenis[0].ProfesionalNombre,
+                                    mailreceptor = string.IsNullOrEmpty(getFacturaZamenis[0].ProfesionalNombre) ? Conexion.EmailDestinoDefecto : repoPacs.ValidaEmail(getFacturaZamenis[0].ProfesionalNombre) == false ? Conexion.EmailDestinoDefecto : getFacturaZamenis[0].ProfesionalNombre,
                                     tipocomprobante = Definiciones.tipocomprobante("Factura de Venta Nacional"),
 
                                     noresolucion = getDataFacElectron.Com_Resolucion_Electron,
@@ -991,14 +1030,30 @@ namespace ZamenisHealth.FacElectron
                                                     RVenta.LocalReport.DataSources.Clear();
                                                     RVenta.LocalReport.DataSources.Add(new ReportDataSource("DataSet_Facturacion", rTemp));
 
-                                                    if (repoConfSystem.getListado()["ReportarImpuestosDIAN"] == "A")
+                                                    List<CXN_IMAGEN_SYSTEM> dr = repoConfSystem.getConfSystem();
+                                                    if (dr != null)
                                                     {
-                                                        RVenta.LocalReport.ReportEmbeddedResource = "ZamenisHealth.Reportes.FacElectron.FacturaElectronicaSaludIMPUESTOS.rdlc";
+                                                        CXN_IMAGEN_SYSTEM d2 = dr.FirstOrDefault(x => x.Tab_Nombre == "ReportarImpuestosDIAN");
+                                                        if (d2 != null)
+                                                        {
+                                                            if (d2.Tab_Clave == "A")
+                                                            {
+                                                                RVenta.LocalReport.ReportEmbeddedResource = "ZamenisHealth.Reportes.FacElectron.FacturaElectronicaSaludIMPUESTOS.rdlc";
+                                                            }
+                                                            else
+                                                            {
+                                                                RVenta.LocalReport.ReportEmbeddedResource = "ZamenisHealth.Reportes.FacElectron.FacturaElectronicaSalud.rdlc";
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            RVenta.LocalReport.ReportEmbeddedResource = "ZamenisHealth.Reportes.FacElectron.FacturaElectronicaSalud.rdlc";
+                                                        }
                                                     }
                                                     else
                                                     {
                                                         RVenta.LocalReport.ReportEmbeddedResource = "ZamenisHealth.Reportes.FacElectron.FacturaElectronicaSalud.rdlc";
-                                                    }
+                                                    }                                                    
                                                    
                                                     RVenta.SetDisplayMode(DisplayMode.PrintLayout);
                                                     RVenta.ZoomMode = ZoomMode.Percent;
@@ -1086,7 +1141,7 @@ namespace ZamenisHealth.FacElectron
                                     tipoDocRec = Definiciones.tipoDocRec(99, Definiciones.tipoDocRec(88, repoPacs.getTipoDoc(getFacturaZamenis[0].TDocReceptor))),
                                     nitreceptor = getFacturaZamenis[0].PacienteAseguradora,
                                     nombrereceptor = getFacturaZamenis[0].PacienteNombre,
-                                    mailreceptor = string.IsNullOrEmpty(getFacturaZamenis[0].Correo) ? "administrador@slsoft.net" : getFacturaZamenis[0].Correo,
+                                    mailreceptor = string.IsNullOrEmpty(getFacturaZamenis[0].Correo) ? Conexion.EmailDestinoDefecto : getFacturaZamenis[0].Correo,
                                     tipocomprobante = Definiciones.tipocomprobante("Factura de Venta Nacional"),
                                     extra1 = "",
 

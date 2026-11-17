@@ -141,6 +141,7 @@ namespace APIController.Services.Images
 
                     string endpoint = URLAPIConexion.TrimEnd('/') + "/api/Images/ViewImage";
                     HttpResponseMessage response = await client.PostAsync(endpoint, content).ConfigureAwait(false);
+                    //HttpResponseMessage response = await client.PostAsync("https://localhost:5102/api/Images/ViewImage", content).ConfigureAwait(false);
 
                     if (response.IsSuccessStatusCode)
                     {

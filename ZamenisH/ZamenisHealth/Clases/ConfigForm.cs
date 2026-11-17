@@ -383,7 +383,6 @@ namespace ZamenisHealth.Clases
                 SendMessageMove(F.Handle, 0x112, 0xf012, 0);
             };
         }
-
         public static void MoverForma(Panel L, Form F)
         {
             L.MouseDown += (sender, e) =>
@@ -572,7 +571,6 @@ namespace ZamenisHealth.Clases
                 }
             };            
         }
-
         public static void OpenIniFile()
         {
             string iniPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "ZamenisIni", "config.ini");

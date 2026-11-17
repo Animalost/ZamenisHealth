@@ -1,10 +1,10 @@
-﻿using Domain.CXN;
-using Domain;
+﻿using Domain;
+using Domain.CXN;
 using Persistence.CXN.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Data;
+using System.Data.SqlClient;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -1137,8 +1137,10 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-        async Task<List<CXN_HORARIO>> ICargos.ListaCargos(DateTime fecha, bool Hecho)
+        async Task<List<CXN_HORARIO>> ICargos.ListaCargos(DateTime fecha)
         {
+            List<CXN_HORARIO> H = new List<CXN_HORARIO>();
+
             try
             {
                 Dictionary<string,string> getData = Conexion.Conection();
@@ -1148,66 +1150,67 @@ namespace Persistence.CXN.Metodos
                     if (con != null && con.State == ConnectionState.Closed)
                     {
                         await con.OpenAsync();
-                    }
+                    }                    
 
-                    DateTime Hoy = DateTime.Now;
+                    String Cargar = @"SELECT DISTINCT
+                                            H.Hor_Id,
+                                            H.Hor_Pac_Fecha_Cita,
+                                            H.Hor_Imp_Age,
+                                            B.Bod_Responsable
+                                        FROM CXN_HORARIO H
+                                        INNER JOIN CXN_BODEGAS B
+                                            ON H.Hor_Pac_Bod = B.Bod_Numero
+                                        WHERE EXISTS
+                                        (
+                                            SELECT 1
+                                            FROM CXN_CARGOS C
+                                            WHERE C.Car_Adm_Id = H.Hor_Id
+                                              AND C.Car_Fecha >= @Fecha
+                                              AND C.Car_Fecha < DATEADD(DAY, 1, @Fecha)
+                                              AND C.Car_Tipo_Serv = @TipoServicio
+                                        )
+                                        AND NOT EXISTS
+                                        (
+                                            SELECT 1
+                                            FROM CXN_CARGOS C
+                                            WHERE C.Car_Adm_Id = H.Hor_Id
+                                              AND C.Car_Fecha >= @Fecha
+                                              AND C.Car_Fecha < DATEADD(DAY, 1, @Fecha)
+                                              AND C.Car_Tipo_Serv = @TipoServicio
+                                              AND C.Car_Tipo = @TipoCargo
+                                        );";
 
-                    SqlCommand cmd = new SqlCommand("ConsultaCargos", con);
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@Fecha", Convert.ToDateTime(fecha).ToString(getData["Format_Fecha"]));
-                    SqlDataReader Lectura_Hora = await cmd.ExecuteReaderAsync();
-                    if (Lectura_Hora.HasRows)
+                    using (SqlCommand Carga = new SqlCommand(Cargar, con))
                     {
-                        List<CXN_HORARIO> H = new List<CXN_HORARIO>();
+                        Carga.Parameters.AddWithValue("@Fecha", Convert.ToDateTime(fecha).Date);
+                        Carga.Parameters.AddWithValue("@TipoServicio", "CU");
+                        Carga.Parameters.AddWithValue("@TipoCargo", "Cargo");
 
-                        while (Lectura_Hora.Read() == true)
+                        using (SqlDataReader Lectura = await (Carga.ExecuteReaderAsync()))
                         {
-                            SqlCommand cmd2 = new SqlCommand("ConsultaAdmisionCargo", con);
-                            cmd2.CommandType = CommandType.StoredProcedure;
-                            cmd2.Parameters.AddWithValue("@Admision", Convert.ToInt32(Lectura_Hora["Hor_Id"]));
-                            SqlDataReader Lectura_Hora2 = await cmd2.ExecuteReaderAsync();
-                            if (Lectura_Hora2.Read() == true)
+                            if (Lectura.HasRows)
                             {
-                                if (Hecho == true)
+                                while (await Lectura.ReadAsync() == true)
                                 {
                                     H.Add(new CXN_HORARIO
                                     {
-                                        Hor_Id = Convert.ToInt32(Lectura_Hora["Hor_Id"]),
-                                        Hor_Imp_Age = Lectura_Hora["Hor_Imp_Age"].ToString(),
-                                        Hor_Pac_Fecha_Cita = Convert.ToDateTime(Lectura_Hora["Hor_Pac_Fecha_Cita"]),
-                                        Hor_Observacion = Lectura_Hora["Bod_Responsable"].ToString(),
-                                        Hor_Estado = "Hecho"
+                                        Hor_Id = Convert.ToInt32(Lectura["Hor_Id"]),
+                                        Hor_Pac_Fecha_Cita = Convert.ToDateTime(Lectura["Hor_Pac_Fecha_Cita"]),
+                                        Hor_Imp_Age = Lectura["Hor_Imp_Age"].ToString(),
+                                        Hor_Observacion = Lectura["Bod_Responsable"].ToString()
                                     });
-                                }
-                            }
-                            else
-                            {
-                                if (Hecho == false)
-                                {
-                                    H.Add(new CXN_HORARIO
-                                    {
-                                        Hor_Id = Convert.ToInt32(Lectura_Hora["Hor_Id"]),
-                                        Hor_Imp_Age = Lectura_Hora["Hor_Imp_Age"].ToString(),
-                                        Hor_Pac_Fecha_Cita = Convert.ToDateTime(Lectura_Hora["Hor_Pac_Fecha_Cita"]),
-                                        Hor_Observacion = Lectura_Hora["Bod_Responsable"].ToString(),
-                                        Hor_Estado = "Pendiente"
-                                    });
-                                }
+                                }                                
                             }
                         }
+                    }
 
-                        return H;
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                    return H;
                 }
             }
             catch (Exception ex)
             {
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
-                return null;
+                return H;
             }
         }
         List<CXN_CARGOS> ICargos.CargosAnt(int Admi)

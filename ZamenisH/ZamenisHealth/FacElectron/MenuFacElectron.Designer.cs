@@ -68,16 +68,16 @@
             this.modernPanel3 = new ZamenisHealth.Clases.Controles.ModernPanel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.modernPanel5 = new ZamenisHealth.Clases.Controles.ModernPanel();
-            this.modernPanel4 = new ZamenisHealth.Clases.Controles.ModernPanel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.modernPanel4 = new ZamenisHealth.Clases.Controles.ModernPanel();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.modernPanel1.SuspendLayout();
             this.modernPanel2.SuspendLayout();
             this.modernPanel3.SuspendLayout();
             this.panel1.SuspendLayout();
             this.modernPanel5.SuspendLayout();
-            this.modernPanel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.modernPanel4.SuspendLayout();
             this.SuspendLayout();
             // 
             // pictureBox2
@@ -299,7 +299,7 @@
             this.textBox7.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox7.Location = new System.Drawing.Point(236, 35);
             this.textBox7.Name = "textBox7";
-            this.textBox7.Size = new System.Drawing.Size(100, 26);
+            this.textBox7.Size = new System.Drawing.Size(196, 26);
             this.textBox7.TabIndex = 50;
             // 
             // label12
@@ -339,11 +339,9 @@
             this.comboBox2.FormattingEnabled = true;
             this.comboBox2.Items.AddRange(new object[] {
             "Salud",
-            "Otras",
             "Caja",
             "Ventas",
             "SaludNC",
-            "OtrasNC",
             "VentasNC",
             "CajaNC"});
             this.comboBox2.Location = new System.Drawing.Point(236, 70);
@@ -518,6 +516,17 @@
             this.modernPanel5.Size = new System.Drawing.Size(736, 116);
             this.modernPanel5.TabIndex = 86;
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::ZamenisHealth.Properties.Resources.reloj_de_arena;
+            this.pictureBox1.Location = new System.Drawing.Point(413, 37);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(79, 69);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 82;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Visible = false;
+            // 
             // modernPanel4
             // 
             this.modernPanel4.AutoScroll = true;
@@ -531,17 +540,6 @@
             this.modernPanel4.Name = "modernPanel4";
             this.modernPanel4.Size = new System.Drawing.Size(736, 83);
             this.modernPanel4.TabIndex = 85;
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = global::ZamenisHealth.Properties.Resources.reloj_de_arena;
-            this.pictureBox1.Location = new System.Drawing.Point(413, 37);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(79, 69);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 82;
-            this.pictureBox1.TabStop = false;
-            this.pictureBox1.Visible = false;
             // 
             // MenuFacElectron
             // 
@@ -562,9 +560,9 @@
             this.modernPanel3.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.modernPanel5.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.modernPanel4.ResumeLayout(false);
             this.modernPanel4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

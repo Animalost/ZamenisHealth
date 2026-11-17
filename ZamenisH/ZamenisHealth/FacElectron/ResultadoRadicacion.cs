@@ -1,14 +1,19 @@
 ﻿using Domain;
 using Domain.CXN;
+
 using FormAndControls;
+
 using Persistence;
 using Persistence.CXN.Interfaces;
 using Persistence.CXN.Metodos;
+
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
+
 using ZamenisHealth.Clases;
 using ZamenisHealth.Comunes;
 
@@ -166,18 +171,38 @@ namespace ZamenisHealth.FacElectron
                     }
                     else
                     {
-                        if (repositorioConfSystem.getListado()["ReportarImpuestosDIAN"] == "A")
+                        List<CXN_IMAGEN_SYSTEM> d = repositorioConfSystem.getConfSystem();
+                        if (d != null)
                         {
-                            ConfigForm.GenerarReportViewer("DataSet_Facturacion",
-                                                  "ZamenisHealth.Reportes.FacElectron.FacturaElectronicaSaludIMPUESTOS.rdlc",
-                                                  GenerarDocumentoGrafico);
+                            CXN_IMAGEN_SYSTEM d2 = d.FirstOrDefault(x => x.Tab_Nombre == "ReportarImpuestosDIAN");
+                            if (d2 != null)
+                            {
+                                if (d2.Tab_Clave == "A")
+                                {
+                                    ConfigForm.GenerarReportViewer("DataSet_Facturacion",
+                                                          "ZamenisHealth.Reportes.FacElectron.FacturaElectronicaSaludIMPUESTOS.rdlc",
+                                                          GenerarDocumentoGrafico);
+                                }
+                                else
+                                {
+                                    ConfigForm.GenerarReportViewer("DataSet_Facturacion",
+                                                          "ZamenisHealth.Reportes.FacElectron.FacturaElectronicaSalud.rdlc",
+                                                          GenerarDocumentoGrafico);
+                                }
+                            }
+                            else
+                            {
+                                ConfigForm.GenerarReportViewer("DataSet_Facturacion",
+                                                          "ZamenisHealth.Reportes.FacElectron.FacturaElectronicaSalud.rdlc",
+                                                          GenerarDocumentoGrafico);
+                            }
                         }
                         else
                         {
                             ConfigForm.GenerarReportViewer("DataSet_Facturacion",
-                                                  "ZamenisHealth.Reportes.FacElectron.FacturaElectronicaSalud.rdlc",
-                                                  GenerarDocumentoGrafico);
-                        }                       
+                                                          "ZamenisHealth.Reportes.FacElectron.FacturaElectronicaSalud.rdlc",
+                                                          GenerarDocumentoGrafico);
+                        }                                               
                     }
                 }
                 else if (TipoSel == "Ventas")
@@ -192,18 +217,38 @@ namespace ZamenisHealth.FacElectron
                     }
                     else
                     {
-                        if (repositorioConfSystem.getListado()["ReportarImpuestosDIAN"] == "A")
+                        List<CXN_IMAGEN_SYSTEM> d = repositorioConfSystem.getConfSystem();
+                        if (d != null)
                         {
-                            ConfigForm.GenerarReportViewer("Dataset_Facturacion",
-                                             "ZamenisHealth.Reportes.RDLC_FacRecepcionIMPUESTOS.rdlc",
-                                             Exportar);
+                            CXN_IMAGEN_SYSTEM d2 = d.FirstOrDefault(x => x.Tab_Nombre == "ReportarImpuestosDIAN");
+                            if (d2 != null)
+                            {
+                                if (d2.Tab_Clave == "A")
+                                {
+                                    ConfigForm.GenerarReportViewer("Dataset_Facturacion",
+                                                     "ZamenisHealth.Reportes.RDLC_FacRecepcionIMPUESTOS.rdlc",
+                                                     Exportar);
+                                }
+                                else
+                                {
+                                    ConfigForm.GenerarReportViewer("Dataset_Facturacion",
+                                                     "ZamenisHealth.Reportes.RDLC_FacRecepcion.rdlc",
+                                                     Exportar);
+                                }
+                            }
+                            else
+                            {
+                                ConfigForm.GenerarReportViewer("Dataset_Facturacion",
+                                                     "ZamenisHealth.Reportes.RDLC_FacRecepcion.rdlc",
+                                                     Exportar);
+                            }
                         }
                         else
                         {
                             ConfigForm.GenerarReportViewer("Dataset_Facturacion",
-                                             "ZamenisHealth.Reportes.RDLC_FacRecepcion.rdlc",
-                                             Exportar);
-                        }                        
+                                                     "ZamenisHealth.Reportes.RDLC_FacRecepcion.rdlc",
+                                                     Exportar);
+                        }                                                
                     }
                 }
                 if (TipoSel == "Caja")

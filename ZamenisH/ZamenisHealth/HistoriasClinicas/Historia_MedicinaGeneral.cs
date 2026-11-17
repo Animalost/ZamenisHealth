@@ -1,11 +1,15 @@
 ﻿using APIFhir.Controlador;
 using APIFhir.Servicio;
+
 using Domain;
 using Domain.CXN;
+
 using FormAndControls;
+
 using Persistence;
 using Persistence.CXN.Interfaces;
 using Persistence.CXN.Metodos;
+
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -13,11 +17,15 @@ using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+
 using ZamenisHealth.Clases;
 using ZamenisHealth.Comunes;
 using ZamenisHealth.FrontFHIR.RDAs;
 using ZamenisHealth.HistoriasClinicas.Extras;
+using ZamenisHealth.Medicina;
 using ZamenisHealth.Medicina.OrdenesHistory;
+
+using static Org.BouncyCastle.Utilities.Test.FixedSecureRandom;
 
 namespace ZamenisHealth.HistoriasClinicas
 {
@@ -47,6 +55,7 @@ namespace ZamenisHealth.HistoriasClinicas
         int Paciente, Cia, Ase, Prof, Valor, ValorCatalogo;
         private string INGSAL = "";
         string CUP, TSERV, Reg_RIP, CMANTID, CMANID, Serv, UrlEvento;
+        public CXN_CIE11 cie11 = new CXN_CIE11();
 
         private ToolStripButton btnDatosPaciente, btnGuardarEgreso, btnGuardarNoEgreso,
                                 btnVerHistorias, btnVerIHCE, btnVerImagenes, btnCrearOrdenes,
@@ -387,8 +396,8 @@ namespace ZamenisHealth.HistoriasClinicas
                     comboBox15.Text = getTemporal.HC_ConsCant.ToString();
                     comboBox14.Text = getTemporal.HC_Estado.ToString();
                     comboBox13.Text = getTemporal.HC_Dolor.ToString();
-                    textBox33.Text = getTemporal.HC_DescHer.ToString();
-                    label62.Text = getTemporal.HC_TejCom.ToString();
+                    //textBox33.Text = getTemporal.HC_DescHer.ToString(); //inactivado para que se tenga que escribir
+                    //label62.Text = getTemporal.HC_TejCom.ToString(); //inactivado para que se tenga que seleccionar
                     label60.Text = getTemporal.HC_CaracTej.ToString();
                     label58.Text = getTemporal.HC_SignosInf.ToString();
                     label56.Text = getTemporal.HC_PielCirc.ToString();
@@ -912,13 +921,31 @@ namespace ZamenisHealth.HistoriasClinicas
                         repoPacs.PacEspecial(Paciente, "N");
                     }
 
-                    repoPacs.SexAndDate(Paciente, (comboBox1.SelectedIndex == 0 ? "M" : comboBox1.SelectedIndex == 1 ? "F" : "I"), dateTimePicker1.Value.Date);                    
+                    repoPacs.SexAndDate(Paciente, (comboBox1.SelectedIndex == 0 ? "M" : comboBox1.SelectedIndex == 1 ? "F" : "I"), dateTimePicker1.Value.Date);
+
+                    CXN_HISTORIAL_ADMISION HistorialAdmision = new CXN_HISTORIAL_ADMISION
+                    {
+                        Admision = Admision,
+                        Fecha = DateTime.Now,
+                        Usuario = Contenedor.UsuarioLogueado,
+                        Gestion = "HISTORIA CREADA"
+                    };
+
+                    repositorioAgendaMedica.AddHistorialAdmision(HistorialAdmision);
 
                     Medicina.RIPSHistory for_RIPS = new Medicina.RIPSHistory();
                     for_RIPS.Adm_Cargo = Convert.ToInt32(Admision);
                     for_RIPS.ShowDialog();
 
                     repositorioAgendaMedica.Graba_Hora_Salida(Admision);
+
+                    if(!string.IsNullOrEmpty(textBox53.Text))
+                    {
+                        cie11.Paciente = Paciente;
+                        cie11.Admision = Admision;
+
+                        repositorioCIE10.InsertaCIE11(cie11);
+                    }
 
                     this.Dispose();
                     this.Close();
@@ -1186,34 +1213,50 @@ namespace ZamenisHealth.HistoriasClinicas
         {
             try
             {
-                if (repoConfSystem.getListado()["MedicinaGeneralEstadistica"] == "A")
+                List<CXN_IMAGEN_SYSTEM> d = repoConfSystem.getConfSystem();
+                if (d != null)
                 {
-                    CatalogodePacientes();
-                    CargarServiciosLista();
-
-                    panel2.Size = new Size(1044, 768);
-                    panel2.Location = new Point(140, 55);
-
-                    var VAl = repositorioConvenios.ServicioNombre(CUP, Ase, TSERV);
-                    if (VAl == null)
+                    CXN_IMAGEN_SYSTEM d2 = d.FirstOrDefault(x => x.Tab_Nombre == "MedicinaGeneralEstadistica");
+                    if (d2 != null)
                     {
-                        MessageBox.Show("Error grave cargardo valor del servicio, vuelva a ingresar a la admision",
-                            "Error",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Error);
-                        return;
-                    }
+                        if (d2.Tab_Clave == "A")
+                        {
+                            CatalogodePacientes();
+                            CargarServiciosLista();
 
-                    Serv = VAl.Con_Nombre;
-                    CUP = VAl.Con_Id_Serv;
-                    textBox49.Text = Serv.ToString();
-                    textBox48.Text = CUP.ToString();
-                    panel2.Visible = true;
+                            panel2.Size = new Size(1044, 768);
+                            panel2.Location = new Point(140, 55);
+
+                            var VAl = repositorioConvenios.ServicioNombre(CUP, Ase, TSERV);
+                            if (VAl == null)
+                            {
+                                MessageBox.Show("Error grave cargardo valor del servicio, vuelva a ingresar a la admision",
+                                    "Error",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Error);
+                                return;
+                            }
+
+                            Serv = VAl.Con_Nombre;
+                            CUP = VAl.Con_Id_Serv;
+                            textBox49.Text = Serv.ToString();
+                            textBox48.Text = CUP.ToString();
+                            panel2.Visible = true;
+                        }
+                        else
+                        {
+                            GrabarHistoria();
+                        }
+                    }
+                    else
+                    {
+                        GrabarHistoria();
+                    }
                 }
                 else
                 {
                     GrabarHistoria();
-                }                    
+                }                                    
             }
             catch (Exception ex)
             {
@@ -1407,13 +1450,21 @@ namespace ZamenisHealth.HistoriasClinicas
             MenuLateral.Items.Add(btnVerHistorias);
             btnVerHistorias.Click += toolStripLabel4_Click;
 
-            if (repoConfSystem.getListado()["IHCE"] == "A")
+            List<CXN_IMAGEN_SYSTEM> d = repoConfSystem.getConfSystem();
+            if (d != null)
             {
-                btnVerIHCE = new ToolStripButton();
-                btnVerIHCE = createToolButton("Ver IHCE");
-                MenuLateral.Items.Add(btnVerIHCE);
-                btnVerIHCE.Click += toolStripButton8_Click;
-            }           
+                CXN_IMAGEN_SYSTEM d2 = d.FirstOrDefault(x => x.Tab_Nombre == "IHCE");
+                if (d2 != null)
+                {
+                    if (d2.Tab_Clave == "A")
+                    {
+                        btnVerIHCE = new ToolStripButton();
+                        btnVerIHCE = createToolButton("Ver IHCE");
+                        MenuLateral.Items.Add(btnVerIHCE);
+                        btnVerIHCE.Click += toolStripButton8_Click;
+                    }
+                }
+            }                       
 
             btnVerImagenes = new ToolStripButton();
             btnVerImagenes = createToolButton("Ver Imagenes");
@@ -1464,13 +1515,19 @@ namespace ZamenisHealth.HistoriasClinicas
         {
             try
             {
-                var data = repoConfSystem.getListado()["EVENTOSADVERSOS"];
-                if (data != "X")
+                List<CXN_IMAGEN_SYSTEM> d = repoConfSystem.getConfSystem();
+                if (d != null)
                 {
-                    UrlEvento = data;
-                    linkLabel1.Visible = true;
+                    CXN_IMAGEN_SYSTEM d2 = d.FirstOrDefault(x => x.Tab_Nombre == "EVENTOSADVERSOS");
+                    if (d2 != null)
+                    {
+                        if (d2.Tab_Config == "A")
+                        {
+                            UrlEvento = d2.Tab_Clave;
+                            linkLabel1.Visible = true;
+                        }
+                    }
                 }
-
 
                 ImageClose.Visible = false;
                 ImageMinimize.Visible = false;
@@ -1595,37 +1652,50 @@ namespace ZamenisHealth.HistoriasClinicas
                     RecuperarIngresado();
                 }
 
-                AbrirFormEnPanel(new Extras.MedidasMG(Admision, Paciente));           
+                AbrirFormEnPanel(new Extras.MedidasMG(Admision, Paciente));
 
-                string getRecos = repoConfSystem.getListado()["Recomendaciones"];
-                if (getRecos == "A")
+                if (d != null)
                 {
-                    Extras.Recomendaciones r = new Extras.Recomendaciones(DatosAdmision.Hor_Pac_Id);
-                    r.ShowDialog();
+                    CXN_IMAGEN_SYSTEM d2 = d.FirstOrDefault(x => x.Tab_Nombre == "Recomendaciones");
+                    if (d2 != null)
+                    {
+                        if (d2.Tab_Clave == "A")
+                        {
+                            Extras.Recomendaciones r = new Extras.Recomendaciones(DatosAdmision.Hor_Pac_Id);
+                            r.ShowDialog();
 
-                    CargarOpcionesRecomendaciones();
+                            CargarOpcionesRecomendaciones();
+                        }
+                    }
                 }
-                
-                if (repoConfSystem.getListado()["RellenarVaciosMG"] == "A")
+
+                if (d != null)
                 {
-                    string textoARellenar = repoConfSystem.getListado()["RellenarVaciosMG1"];
+                    CXN_IMAGEN_SYSTEM d2 = d.FirstOrDefault(x => x.Tab_Nombre == "RellenarVaciosMG");
+                    if (d2 != null)
+                    {
+                        if (d2.Tab_Clave == "A")
+                        {
+                            string textoARellenar = d2.Tab_Config;
 
-                    textBox18.Text = textoARellenar;
-                    textBox17.Text = textoARellenar;
-                    textBox16.Text = textoARellenar;
-                    textBox15.Text = textoARellenar;
-                    textBox14.Text = textoARellenar;
-                    textBox13.Text = textoARellenar;
+                            textBox18.Text = textoARellenar;
+                            textBox17.Text = textoARellenar;
+                            textBox16.Text = textoARellenar;
+                            textBox15.Text = textoARellenar;
+                            textBox14.Text = textoARellenar;
+                            textBox13.Text = textoARellenar;
 
-                    textBox24.Text = "NIEGA";
-                    textBox23.Text = "NIEGA";
-                    textBox22.Text = "NIEGA";
-                    textBox21.Text = "NIEGA"; 
-                    textBox20.Text = "NIEGA"; 
-                    textBox19.Text = "NIEGA";
+                            textBox24.Text = "NIEGA";
+                            textBox23.Text = "NIEGA";
+                            textBox22.Text = "NIEGA";
+                            textBox21.Text = "NIEGA";
+                            textBox20.Text = "NIEGA";
+                            textBox19.Text = "NIEGA";
 
-                    textBox40.Text = "NINGUNA";
-                }
+                            textBox40.Text = "NINGUNA";
+                        }
+                    }
+                }                
             }
             catch (Exception ex)
             {
@@ -1739,6 +1809,18 @@ namespace ZamenisHealth.HistoriasClinicas
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private void boton6_Click(object sender, EventArgs e)
+        {
+            textBox53.Text = "";
+            textBox54.Text = "";
+        }
+
+        private void textBox53_DoubleClick(object sender, EventArgs e)
+        {
+            CIE11New N = new CIE11New("MEDGEN");
+            N.ShowDialog();
         }
 
         private void boton5_Click(object sender, EventArgs e)
@@ -1968,11 +2050,19 @@ namespace ZamenisHealth.HistoriasClinicas
         {
             try
             {
-                if (repoConfSystem.getListado()["IHCE"] == "A")
+                List<CXN_IMAGEN_SYSTEM> d = repoConfSystem.getConfSystem();
+                if (d != null)
                 {
-                    await Autoriza();
-                    CrearBundlePaciente(Admision);
-                }              
+                    CXN_IMAGEN_SYSTEM d2 = d.FirstOrDefault(x => x.Tab_Nombre == "IHCE");
+                    if (d2 != null)
+                    {
+                        if (d2.Tab_Clave == "A")
+                        {
+                            await Autoriza();
+                            CrearBundlePaciente(Admision);
+                        }
+                    }
+                }                              
             }
             catch (Exception ex)
             {

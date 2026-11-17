@@ -1,14 +1,21 @@
 ﻿using DocumentosElectronicos.Servicio;
+
 using Domain;
+using Domain.CXN;
+
 using FormAndControls;
+
 using Persistence;
 using Persistence.CXN.Interfaces;
 using Persistence.CXN.Metodos;
+
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
+
 using ZamenisHealth.Clases;
 using ZamenisHealth.Comunes;
 
@@ -175,18 +182,38 @@ namespace ZamenisHealth.Facturacion.Extras
                 //ASEGURADORAS Y PARTICULARES GRAFICA ZAMENIS OP
                 if (EsVenta == false && Exportar == null && AseguradorasYParticulares != null)
                 {
-                    if (repoConfSystem.getListado()["ReportarImpuestosDIAN"] == "A")
+                    List<CXN_IMAGEN_SYSTEM> d = repoConfSystem.getConfSystem();
+                    if (d != null)
                     {
-                        ConfigForm.GenerarReportViewer("DataSet_Facturacion",
-                                                   "ZamenisHealth.Reportes.FacElectron.FacturaElectronicaSaludIMPUESTOS.rdlc",
-                                                   AseguradorasYParticulares);
+                        CXN_IMAGEN_SYSTEM d2 = d.FirstOrDefault(x => x.Tab_Nombre == "ReportarImpuestosDIAN");
+                        if (d2 != null)
+                        {
+                            if (d2.Tab_Clave == "A")
+                            {
+                                ConfigForm.GenerarReportViewer("DataSet_Facturacion",
+                                                           "ZamenisHealth.Reportes.FacElectron.FacturaElectronicaSaludIMPUESTOS.rdlc",
+                                                           AseguradorasYParticulares);
+                            }
+                            else
+                            {
+                                ConfigForm.GenerarReportViewer("DataSet_Facturacion",
+                                                           "ZamenisHealth.Reportes.FacElectron.FacturaElectronicaSalud.rdlc",
+                                                           AseguradorasYParticulares);
+                            }
+                        }
+                        else
+                        {
+                            ConfigForm.GenerarReportViewer("DataSet_Facturacion",
+                                                           "ZamenisHealth.Reportes.FacElectron.FacturaElectronicaSalud.rdlc",
+                                                           AseguradorasYParticulares);
+                        }
                     }
                     else
                     {
                         ConfigForm.GenerarReportViewer("DataSet_Facturacion",
-                                                   "ZamenisHealth.Reportes.FacElectron.FacturaElectronicaSalud.rdlc",
-                                                   AseguradorasYParticulares);
-                    }                    
+                                                           "ZamenisHealth.Reportes.FacElectron.FacturaElectronicaSalud.rdlc",
+                                                           AseguradorasYParticulares);
+                    }                                        
                 }
                 //VENTAS
                 else if (EsVenta == true && Exportar != null && AseguradorasYParticulares == null)

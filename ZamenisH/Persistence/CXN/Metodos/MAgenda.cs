@@ -1851,6 +1851,27 @@ namespace Persistence.CXN.Metodos
 
             }
         }
+        void IAgenda.deleteCIE11(int Admision)
+        {
+            var getDataConection = Conexion.Conection();
+
+            using (SqlConnection con = new SqlConnection(getDataConection["Conexion"]))
+            {
+                if (con != null && con.State == ConnectionState.Closed)
+                {
+                    con.Open();
+                }
+
+                string nota = "DELETE FROM CXN_CIE11 " +
+                              "WHERE Admision = @param1";
+
+                using (SqlCommand commandnota = new SqlCommand(nota, con))
+                {
+                    commandnota.Parameters.AddWithValue("@param1", Admision);
+                    commandnota.ExecuteNonQuery();
+                }
+            }
+        }
         void IAgenda.addFestivo(DateTime Fecha, string Motivo)
         {
             var getDataConection = Conexion.Conection();
@@ -1974,6 +1995,40 @@ namespace Persistence.CXN.Metodos
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
             }
         }
+        void IAgenda.AddHistorialAdmision(CXN_HISTORIAL_ADMISION Historial)
+        {
+            try
+            {
+                var getDataConection = Conexion.Conection();
+
+                using (SqlConnection con = new SqlConnection(getDataConection["Conexion"]))
+                {
+                    if (con != null && con.State == ConnectionState.Closed)
+                    {
+                        con.Open();
+                    }
+
+                    SqlCommand cmd = new SqlCommand(@"Insert into CXN_HISTORIAL_ADMISION (Admision, " + //param1
+                                                                 "Fecha, " +
+                                                                 "Usuario, " +
+                                                                 "Gestion) " + //param16
+                                        "values                  (@param1, " + // Hor_Estado
+                                                                 "@param2, " +
+                                                                 "@param3, " +
+                                                                 "@param4)", con); // Hor_Pac_Sal
+
+                    cmd.Parameters.AddWithValue("@param1", Historial.Admision);
+                    cmd.Parameters.AddWithValue("@param2", Convert.ToDateTime(Historial.Fecha));
+                    cmd.Parameters.AddWithValue("@param3", Historial.Usuario);
+                    cmd.Parameters.AddWithValue("@param4", Historial.Gestion);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
+            }
+        }        
         List<CXN_HORARIO> IAgenda.getListPendientes()
         {
             try

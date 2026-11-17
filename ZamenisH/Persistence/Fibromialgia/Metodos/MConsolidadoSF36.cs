@@ -241,9 +241,7 @@ namespace Persistence.Fibromialgia.Metodos
                 return null;
             }
         }
-        List<E1Respuestas> getResultPacE1(DateTime desde,
-                                                 DateTime hasta,
-                                                 int Paciente)
+        List<E1Respuestas> getResultPacE1(DateTime desde, DateTime hasta, int Paciente)
         {
             try
             {

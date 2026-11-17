@@ -17,6 +17,7 @@ namespace Persistence.CXN.Interfaces
         List<CXN_HORARIO> CitasProximas(int PacId, DateTime Fecha);
         int AgendarPaciente(CXN_HORARIO horario);
         string Observacioprevia(int Admision);
+        void deleteCIE11(int Admision);
         CXN_HORARIO DatosforMailSMS(int Admision);
         void desbloquearEspacio(string Usuario, int Admision);
         string consularAdmisionEstado(int Admision);
@@ -51,5 +52,6 @@ namespace Persistence.CXN.Interfaces
         void updateObservaTemp(string ObTemp, int Admision);
         bool addSALECONSULTA(int Admision);
         void UpdatecolorCita(DateTime FechaCita, int Paciente, string Color);
+        void AddHistorialAdmision(CXN_HISTORIAL_ADMISION Historial);
     }
 }

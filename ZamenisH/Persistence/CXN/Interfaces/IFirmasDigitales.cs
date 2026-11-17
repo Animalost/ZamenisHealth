@@ -15,5 +15,6 @@ namespace Persistence.CXN.Interfaces
         string ImageNull();
         bool EliminarFirma(int Admision);
         List<CXN_FIRMASDIGITALES_MED> getFirmas_MEDICAL(string Paciente);
+
     }
 }

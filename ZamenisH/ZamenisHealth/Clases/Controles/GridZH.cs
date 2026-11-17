@@ -16,6 +16,14 @@ namespace ZamenisHealth.Clases.Controles
             dataGridView1.EnableHeadersVisualStyles = false;
         }
 
+        public void DisableRowsAdded()
+        {
+            dataGridView1.RowsAdded -= dataGridView1_RowsAdded;
+        }
+        public void ElimnarAutosize()
+        {
+            dataGridView1.RowsAdded -= dataGridView1_RowsAdded;
+        }
         private void dataGridView1_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
             try
@@ -46,7 +54,7 @@ namespace ZamenisHealth.Clases.Controles
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-            }            
+            }
         }
         private void dataGridView1_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e)
         {
@@ -67,12 +75,12 @@ namespace ZamenisHealth.Clases.Controles
                 {
                     col.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
                     col.SortMode = DataGridViewColumnSortMode.NotSortable;
-                }                
+                }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-            }            
+            }
         }
     }
     public class DataGridViewSinOrden : DataGridView

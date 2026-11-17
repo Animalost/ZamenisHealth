@@ -40,7 +40,6 @@
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.timer3 = new System.Windows.Forms.Timer(this.components);
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label9 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
@@ -49,7 +48,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.gridZH1 = new ZamenisHealth.Clases.Controles.GridZH();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -163,25 +162,6 @@
             // 
             this.timer3.Interval = 30000;
             this.timer3.Tick += new System.EventHandler(this.timer3_Tick);
-            // 
-            // dataGridView1
-            // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.AllowUserToResizeColumns = false;
-            this.dataGridView1.AllowUserToResizeRows = false;
-            this.dataGridView1.BackgroundColor = System.Drawing.Color.White;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.GridColor = System.Drawing.Color.Blue;
-            this.dataGridView1.Location = new System.Drawing.Point(138, 123);
-            this.dataGridView1.MultiSelect = false;
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.RowHeadersVisible = false;
-            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(1171, 547);
-            this.dataGridView1.TabIndex = 106;
-            this.dataGridView1.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView1_CellMouseClick);
             // 
             // panel1
             // 
@@ -297,6 +277,15 @@
             this.label21.Text = "Inicio Paquete";
             this.label21.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // gridZH1
+            // 
+            this.gridZH1.BackColor = System.Drawing.Color.White;
+            this.gridZH1.Location = new System.Drawing.Point(138, 120);
+            this.gridZH1.Name = "gridZH1";
+            this.gridZH1.Size = new System.Drawing.Size(1179, 553);
+            this.gridZH1.TabIndex = 136;
+            this.gridZH1.MouseLeave += new System.EventHandler(this.gridZH1_MouseLeave);
+            // 
             // AgendaM
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -304,9 +293,9 @@
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1321, 674);
+            this.Controls.Add(this.gridZH1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.checkBox1);
-            this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
@@ -317,7 +306,7 @@
             this.Name = "AgendaM";
             this.Load += new System.EventHandler(this.AgendaM_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.AgendaM_KeyDown);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.MouseLeave += new System.EventHandler(this.AgendaM_MouseLeave);
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -336,7 +325,6 @@
         public System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.Timer timer3;
-        private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label6;
@@ -345,5 +333,6 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label21;
+        private Clases.Controles.GridZH gridZH1;
     }
 }

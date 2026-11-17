@@ -328,6 +328,10 @@
             this.deterioroTxt = new System.Windows.Forms.Label();
             this.infeccionTxt = new System.Windows.Forms.Label();
             this.CaidaTxt = new System.Windows.Forms.Label();
+            this.boton6 = new FormAndControls.Controles.Boton();
+            this.label1 = new System.Windows.Forms.Label();
+            this.textBox53 = new System.Windows.Forms.TextBox();
+            this.textBox54 = new System.Windows.Forms.TextBox();
             this.panel5.SuspendLayout();
             this.panel4.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -1569,7 +1573,7 @@
             // 
             this.button1.BackColor = System.Drawing.Color.RoyalBlue;
             this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(800, 290);
+            this.button1.Location = new System.Drawing.Point(800, 222);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(66, 25);
             this.button1.TabIndex = 76;
@@ -1581,7 +1585,7 @@
             // 
             this.textBox17.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox17.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
-            this.textBox17.Location = new System.Drawing.Point(118, 291);
+            this.textBox17.Location = new System.Drawing.Point(118, 223);
             this.textBox17.Name = "textBox17";
             this.textBox17.ReadOnly = true;
             this.textBox17.Size = new System.Drawing.Size(676, 24);
@@ -1591,7 +1595,7 @@
             // 
             this.textBox18.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox18.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
-            this.textBox18.Location = new System.Drawing.Point(50, 290);
+            this.textBox18.Location = new System.Drawing.Point(50, 222);
             this.textBox18.Name = "textBox18";
             this.textBox18.ReadOnly = true;
             this.textBox18.Size = new System.Drawing.Size(62, 24);
@@ -1601,7 +1605,7 @@
             // label113
             // 
             this.label113.AutoSize = true;
-            this.label113.Location = new System.Drawing.Point(7, 293);
+            this.label113.Location = new System.Drawing.Point(7, 225);
             this.label113.Name = "label113";
             this.label113.Size = new System.Drawing.Size(22, 13);
             this.label113.TabIndex = 73;
@@ -1610,7 +1614,7 @@
             // textBox9
             // 
             this.textBox9.BackColor = System.Drawing.Color.White;
-            this.textBox9.Location = new System.Drawing.Point(6, 212);
+            this.textBox9.Location = new System.Drawing.Point(6, 144);
             this.textBox9.Multiline = true;
             this.textBox9.Name = "textBox9";
             this.textBox9.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -1620,7 +1624,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(3, 196);
+            this.label11.Location = new System.Drawing.Point(3, 128);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(90, 13);
             this.label11.TabIndex = 71;
@@ -1629,17 +1633,17 @@
             // textBox8
             // 
             this.textBox8.BackColor = System.Drawing.Color.White;
-            this.textBox8.Location = new System.Drawing.Point(6, 113);
+            this.textBox8.Location = new System.Drawing.Point(6, 81);
             this.textBox8.Multiline = true;
             this.textBox8.Name = "textBox8";
             this.textBox8.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox8.Size = new System.Drawing.Size(862, 75);
+            this.textBox8.Size = new System.Drawing.Size(862, 45);
             this.textBox8.TabIndex = 2;
             // 
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(3, 97);
+            this.label10.Location = new System.Drawing.Point(3, 65);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(105, 13);
             this.label10.TabIndex = 69;
@@ -3183,6 +3187,10 @@
             // panel1
             // 
             this.panel1.AutoScroll = true;
+            this.panel1.Controls.Add(this.boton6);
+            this.panel1.Controls.Add(this.label1);
+            this.panel1.Controls.Add(this.textBox53);
+            this.panel1.Controls.Add(this.textBox54);
             this.panel1.Controls.Add(this.comboBox139);
             this.panel1.Controls.Add(this.label136);
             this.panel1.Controls.Add(this.panel5);
@@ -3224,7 +3232,7 @@
             "CONFIRMADO NUEVO",
             "CONFIRMADO ANTIGUO",
             "IMPRESION DIAGNOSTICA"});
-            this.comboBox139.Location = new System.Drawing.Point(118, 259);
+            this.comboBox139.Location = new System.Drawing.Point(118, 191);
             this.comboBox139.Name = "comboBox139";
             this.comboBox139.Size = new System.Drawing.Size(630, 28);
             this.comboBox139.TabIndex = 147;
@@ -3232,7 +3240,7 @@
             // label136
             // 
             this.label136.AutoSize = true;
-            this.label136.Location = new System.Drawing.Point(7, 263);
+            this.label136.Location = new System.Drawing.Point(7, 195);
             this.label136.Name = "label136";
             this.label136.Size = new System.Drawing.Size(111, 13);
             this.label136.TabIndex = 95;
@@ -3794,7 +3802,7 @@
             this.textBox7.Multiline = true;
             this.textBox7.Name = "textBox7";
             this.textBox7.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox7.Size = new System.Drawing.Size(862, 70);
+            this.textBox7.Size = new System.Drawing.Size(862, 45);
             this.textBox7.TabIndex = 1;
             // 
             // label8
@@ -4054,6 +4062,56 @@
             this.CaidaTxt.Text = "CAIDA";
             this.CaidaTxt.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.CaidaTxt.Click += new System.EventHandler(this.CaidaTxt_Click);
+            // 
+            // boton6
+            // 
+            this.boton6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(55)))), ((int)(((byte)(90)))));
+            this.boton6.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.boton6.FlatAppearance.BorderSize = 3;
+            this.boton6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.boton6.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
+            this.boton6.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.boton6.Location = new System.Drawing.Point(742, 274);
+            this.boton6.Name = "boton6";
+            this.boton6.Size = new System.Drawing.Size(124, 32);
+            this.boton6.TabIndex = 344;
+            this.boton6.Text = "Borrar";
+            this.boton6.UseVisualStyleBackColor = false;
+            this.boton6.Click += new System.EventHandler(this.boton6_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(4, 256);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(304, 17);
+            this.label1.TabIndex = 345;
+            this.label1.Text = "Diagnostico Principal Clasificacion CIE11";
+            // 
+            // textBox53
+            // 
+            this.textBox53.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.textBox53.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.textBox53.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox53.ForeColor = System.Drawing.Color.Purple;
+            this.textBox53.Location = new System.Drawing.Point(7, 276);
+            this.textBox53.Name = "textBox53";
+            this.textBox53.ReadOnly = true;
+            this.textBox53.Size = new System.Drawing.Size(131, 26);
+            this.textBox53.TabIndex = 346;
+            this.textBox53.DoubleClick += new System.EventHandler(this.textBox53_DoubleClick);
+            // 
+            // textBox54
+            // 
+            this.textBox54.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.textBox54.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox54.ForeColor = System.Drawing.Color.Purple;
+            this.textBox54.Location = new System.Drawing.Point(144, 276);
+            this.textBox54.Name = "textBox54";
+            this.textBox54.ReadOnly = true;
+            this.textBox54.Size = new System.Drawing.Size(594, 26);
+            this.textBox54.TabIndex = 347;
             // 
             // Historia_TerOcupacional
             // 
@@ -4404,5 +4462,9 @@
         private System.Windows.Forms.Label deterioroTxt;
         private System.Windows.Forms.Label infeccionTxt;
         private System.Windows.Forms.Label CaidaTxt;
+        private FormAndControls.Controles.Boton boton6;
+        private System.Windows.Forms.Label label1;
+        public System.Windows.Forms.TextBox textBox53;
+        public System.Windows.Forms.TextBox textBox54;
     }
 }

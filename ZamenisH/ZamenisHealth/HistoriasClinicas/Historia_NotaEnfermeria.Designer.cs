@@ -30,6 +30,11 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Historia_NotaEnfermeria));
             this.panel1 = new System.Windows.Forms.Panel();
+            this.boton6 = new FormAndControls.Controles.Boton();
+            this.label95 = new System.Windows.Forms.Label();
+            this.textBox53 = new System.Windows.Forms.TextBox();
+            this.textBox54 = new System.Windows.Forms.TextBox();
+            this.checkBox6 = new System.Windows.Forms.CheckBox();
             this.label15 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
             this.checkBox5 = new System.Windows.Forms.CheckBox();
@@ -103,7 +108,6 @@
             this.label33 = new System.Windows.Forms.Label();
             this.label32 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.checkBox6 = new System.Windows.Forms.CheckBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -112,6 +116,10 @@
             // 
             this.panel1.AutoScroll = true;
             this.panel1.BackColor = System.Drawing.Color.White;
+            this.panel1.Controls.Add(this.boton6);
+            this.panel1.Controls.Add(this.label95);
+            this.panel1.Controls.Add(this.textBox53);
+            this.panel1.Controls.Add(this.textBox54);
             this.panel1.Controls.Add(this.checkBox6);
             this.panel1.Controls.Add(this.label15);
             this.panel1.Controls.Add(this.button2);
@@ -154,10 +162,72 @@
             this.panel1.Size = new System.Drawing.Size(1080, 378);
             this.panel1.TabIndex = 106;
             // 
+            // boton6
+            // 
+            this.boton6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(55)))), ((int)(((byte)(90)))));
+            this.boton6.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.boton6.FlatAppearance.BorderSize = 3;
+            this.boton6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.boton6.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
+            this.boton6.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.boton6.Location = new System.Drawing.Point(936, 240);
+            this.boton6.Name = "boton6";
+            this.boton6.Size = new System.Drawing.Size(124, 32);
+            this.boton6.TabIndex = 344;
+            this.boton6.Text = "Borrar";
+            this.boton6.UseVisualStyleBackColor = false;
+            this.boton6.Click += new System.EventHandler(this.boton6_Click);
+            // 
+            // label95
+            // 
+            this.label95.AutoSize = true;
+            this.label95.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label95.Location = new System.Drawing.Point(6, 224);
+            this.label95.Name = "label95";
+            this.label95.Size = new System.Drawing.Size(304, 17);
+            this.label95.TabIndex = 345;
+            this.label95.Text = "Diagnostico Principal Clasificacion CIE11";
+            // 
+            // textBox53
+            // 
+            this.textBox53.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.textBox53.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.textBox53.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox53.ForeColor = System.Drawing.Color.Purple;
+            this.textBox53.Location = new System.Drawing.Point(9, 244);
+            this.textBox53.Name = "textBox53";
+            this.textBox53.ReadOnly = true;
+            this.textBox53.Size = new System.Drawing.Size(131, 26);
+            this.textBox53.TabIndex = 346;
+            this.textBox53.DoubleClick += new System.EventHandler(this.textBox53_DoubleClick);
+            // 
+            // textBox54
+            // 
+            this.textBox54.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.textBox54.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox54.ForeColor = System.Drawing.Color.Purple;
+            this.textBox54.Location = new System.Drawing.Point(146, 244);
+            this.textBox54.Name = "textBox54";
+            this.textBox54.ReadOnly = true;
+            this.textBox54.Size = new System.Drawing.Size(786, 26);
+            this.textBox54.TabIndex = 347;
+            // 
+            // checkBox6
+            // 
+            this.checkBox6.BackColor = System.Drawing.Color.Transparent;
+            this.checkBox6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBox6.ForeColor = System.Drawing.Color.Red;
+            this.checkBox6.Location = new System.Drawing.Point(8, 1329);
+            this.checkBox6.Name = "checkBox6";
+            this.checkBox6.Size = new System.Drawing.Size(1052, 31);
+            this.checkBox6.TabIndex = 115;
+            this.checkBox6.Text = "Marque esta opcion PARA DAR SALIDA A ESTE PACIENTE";
+            this.checkBox6.UseVisualStyleBackColor = false;
+            // 
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(7, 1381);
+            this.label15.Location = new System.Drawing.Point(7, 1425);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(81, 13);
             this.label15.TabIndex = 114;
@@ -169,7 +239,7 @@
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button2.ForeColor = System.Drawing.Color.White;
-            this.button2.Location = new System.Drawing.Point(836, 751);
+            this.button2.Location = new System.Drawing.Point(836, 840);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(109, 20);
             this.button2.TabIndex = 113;
@@ -259,7 +329,7 @@
             this.checkBox4.BackColor = System.Drawing.Color.Transparent;
             this.checkBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.checkBox4.ForeColor = System.Drawing.Color.Blue;
-            this.checkBox4.Location = new System.Drawing.Point(8, 1156);
+            this.checkBox4.Location = new System.Drawing.Point(8, 1241);
             this.checkBox4.Name = "checkBox4";
             this.checkBox4.Size = new System.Drawing.Size(1052, 46);
             this.checkBox4.TabIndex = 100;
@@ -271,7 +341,7 @@
             this.checkBox3.BackColor = System.Drawing.Color.Transparent;
             this.checkBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.checkBox3.ForeColor = System.Drawing.Color.Red;
-            this.checkBox3.Location = new System.Drawing.Point(8, 1286);
+            this.checkBox3.Location = new System.Drawing.Point(8, 1371);
             this.checkBox3.Name = "checkBox3";
             this.checkBox3.Size = new System.Drawing.Size(1052, 33);
             this.checkBox3.TabIndex = 99;
@@ -283,7 +353,7 @@
             this.checkBox2.BackColor = System.Drawing.Color.Transparent;
             this.checkBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.checkBox2.ForeColor = System.Drawing.Color.Blue;
-            this.checkBox2.Location = new System.Drawing.Point(8, 1111);
+            this.checkBox2.Location = new System.Drawing.Point(8, 1196);
             this.checkBox2.Name = "checkBox2";
             this.checkBox2.Size = new System.Drawing.Size(1052, 46);
             this.checkBox2.TabIndex = 98;
@@ -295,7 +365,7 @@
             this.checkBox1.BackColor = System.Drawing.Color.Transparent;
             this.checkBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.checkBox1.ForeColor = System.Drawing.Color.Blue;
-            this.checkBox1.Location = new System.Drawing.Point(8, 1061);
+            this.checkBox1.Location = new System.Drawing.Point(8, 1146);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(1052, 46);
             this.checkBox1.TabIndex = 97;
@@ -306,7 +376,7 @@
             // 
             this.richTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.richTextBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.richTextBox1.Location = new System.Drawing.Point(3, 775);
+            this.richTextBox1.Location = new System.Drawing.Point(3, 864);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.ReadOnly = true;
             this.richTextBox1.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
@@ -320,7 +390,7 @@
             this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.button4.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button4.ForeColor = System.Drawing.Color.White;
-            this.button4.Location = new System.Drawing.Point(951, 751);
+            this.button4.Location = new System.Drawing.Point(951, 840);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(109, 20);
             this.button4.TabIndex = 95;
@@ -357,9 +427,9 @@
             this.label16.BackColor = System.Drawing.Color.White;
             this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label16.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.label16.Location = new System.Drawing.Point(31, 751);
+            this.label16.Location = new System.Drawing.Point(26, 840);
             this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(1029, 21);
+            this.label16.Size = new System.Drawing.Size(1034, 21);
             this.label16.TabIndex = 94;
             this.label16.Text = "Metodos de Adherencia de Apositos en Servicio de Curacion";
             this.label16.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -370,7 +440,7 @@
             this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button3.ForeColor = System.Drawing.Color.White;
-            this.button3.Location = new System.Drawing.Point(951, 910);
+            this.button3.Location = new System.Drawing.Point(951, 999);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(109, 20);
             this.button3.TabIndex = 90;
@@ -382,7 +452,7 @@
             // 
             this.textBox18.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBox18.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox18.Location = new System.Drawing.Point(8, 940);
+            this.textBox18.Location = new System.Drawing.Point(8, 1025);
             this.textBox18.Multiline = true;
             this.textBox18.Name = "textBox18";
             this.textBox18.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -396,7 +466,7 @@
             this.label1.BackColor = System.Drawing.Color.White;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.label1.Location = new System.Drawing.Point(32, 909);
+            this.label1.Location = new System.Drawing.Point(32, 998);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(913, 21);
             this.label1.TabIndex = 88;
@@ -406,7 +476,7 @@
             // 
             this.textBox16.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBox16.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox16.Location = new System.Drawing.Point(3, 624);
+            this.textBox16.Location = new System.Drawing.Point(3, 713);
             this.textBox16.Multiline = true;
             this.textBox16.Name = "textBox16";
             this.textBox16.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -418,7 +488,7 @@
             // 
             this.textBox15.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBox15.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox15.Location = new System.Drawing.Point(6, 472);
+            this.textBox15.Location = new System.Drawing.Point(6, 562);
             this.textBox15.Multiline = true;
             this.textBox15.Name = "textBox15";
             this.textBox15.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -453,9 +523,9 @@
             this.label14.BackColor = System.Drawing.Color.White;
             this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label14.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.label14.Location = new System.Drawing.Point(31, 599);
+            this.label14.Location = new System.Drawing.Point(26, 689);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(1029, 21);
+            this.label14.Size = new System.Drawing.Size(1034, 21);
             this.label14.TabIndex = 85;
             this.label14.Text = "Recomendaciones de Curacion";
             this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -477,7 +547,7 @@
             this.label13.BackColor = System.Drawing.Color.White;
             this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label13.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.label13.Location = new System.Drawing.Point(22, 448);
+            this.label13.Location = new System.Drawing.Point(22, 538);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(1038, 21);
             this.label13.TabIndex = 84;
@@ -500,11 +570,11 @@
             // 
             this.textBox14.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBox14.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox14.Location = new System.Drawing.Point(6, 244);
+            this.textBox14.Location = new System.Drawing.Point(6, 303);
             this.textBox14.Multiline = true;
             this.textBox14.Name = "textBox14";
             this.textBox14.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox14.Size = new System.Drawing.Size(1054, 201);
+            this.textBox14.Size = new System.Drawing.Size(1054, 232);
             this.textBox14.TabIndex = 83;
             this.textBox14.TextChanged += new System.EventHandler(this.textBox14_TextChanged);
             // 
@@ -524,7 +594,7 @@
             this.label2.BackColor = System.Drawing.Color.White;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.label2.Location = new System.Drawing.Point(22, 218);
+            this.label2.Location = new System.Drawing.Point(22, 279);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(1038, 21);
             this.label2.TabIndex = 82;
@@ -1007,18 +1077,6 @@
             this.pictureBox1.TabIndex = 115;
             this.pictureBox1.TabStop = false;
             // 
-            // checkBox6
-            // 
-            this.checkBox6.BackColor = System.Drawing.Color.Transparent;
-            this.checkBox6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBox6.ForeColor = System.Drawing.Color.Red;
-            this.checkBox6.Location = new System.Drawing.Point(8, 1244);
-            this.checkBox6.Name = "checkBox6";
-            this.checkBox6.Size = new System.Drawing.Size(1052, 31);
-            this.checkBox6.TabIndex = 115;
-            this.checkBox6.Text = "Marque esta opcion PARA DAR SALIDA A ESTE PACIENTE";
-            this.checkBox6.UseVisualStyleBackColor = false;
-            // 
             // Historia_NotaEnfermeria
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1149,5 +1207,9 @@
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.CheckBox checkBox6;
+        private FormAndControls.Controles.Boton boton6;
+        private System.Windows.Forms.Label label95;
+        public System.Windows.Forms.TextBox textBox53;
+        public System.Windows.Forms.TextBox textBox54;
     }
 }

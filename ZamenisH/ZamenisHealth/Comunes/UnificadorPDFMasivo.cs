@@ -185,6 +185,72 @@ namespace ZamenisHealth.Comunes
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        public void Unificar_Estructura_2(string ruta,
+                                         string inicial,
+                                         string final,
+                                         string Rutasalida, 
+                                         string NumbreArchivoSalida)
+        {
+            try
+            {
+                int Total = Convert.ToInt32(final) + 1;
+                int Inicio = Convert.ToInt32(inicial);
+                int Pos = 0;
+
+                string[] lstFiles = new string[Total];
+
+                foreach (int number in EvenSequence(Inicio, Total))
+                {
+                    lstFiles[Pos] = ruta + number + ".pdf";
+                    Pos = Pos + 1;
+                }
+
+                PdfReader reader = null;
+                Document sourceDocument = null;
+                PdfCopy pdfCopyProvider = null;
+                PdfImportedPage importedPage;
+                string outputPdfPath = Rutasalida + "/" + NumbreArchivoSalida;
+
+                sourceDocument = new Document();
+                pdfCopyProvider = new PdfCopy(sourceDocument, new System.IO.FileStream(outputPdfPath, System.IO.FileMode.Create));
+
+                //Open the output file
+                sourceDocument.Open();
+
+                try
+                {
+                    for (int f = 0; f < lstFiles.Length - 1; f++)
+                    {
+                        int pages = get_pageCcount(lstFiles[f]);
+
+                        reader = new PdfReader(lstFiles[f]);
+                        PdfReader.unethicalreading = true;
+
+                        for (int i = 1; i <= pages; i++)
+                        {
+                            importedPage = pdfCopyProvider.GetImportedPage(reader, i);
+                            pdfCopyProvider.AddPage(importedPage);
+                        }
+
+                        reader.Close();
+                    }
+
+                    sourceDocument.Close();
+                }
+                catch (Exception ex)
+
+                {
+                    Log(ruta, NumbreArchivoSalida, ex.Message);
+                    //throw ex;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         private void Log(string RUTA,
                          string SALIDA,
                          string ERROR)

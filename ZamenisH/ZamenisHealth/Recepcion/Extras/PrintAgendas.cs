@@ -128,6 +128,7 @@ namespace ZamenisHealth.Recepcion.Extras
 
                 gridZH1.CeldaHeight = true;
                 groupBox3.Location = new System.Drawing.Point(142, 152);
+                gridZH1.dataGridView1.CellClick += DataGridView1_CellClick;
 
                 CargarDocumentos();
                 CargarGrilla();
@@ -135,6 +136,34 @@ namespace ZamenisHealth.Recepcion.Extras
             catch (Exception ex)
             {
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
+            }
+        }
+        private void DataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                int PosRow = e.RowIndex;
+                int PosCol = e.ColumnIndex;
+
+                DataGridViewRow row = gridZH1.dataGridView1.Rows[PosRow];
+
+                object valor = row.Cells["✔"].Value;
+                bool isChecked = valor != null && Convert.ToBoolean(valor);
+
+                if (isChecked == true)
+                {
+                    isChecked = false;
+                }
+                else
+                {
+                    isChecked = true;
+                }
+
+                row.Cells["✔"].Value = isChecked;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
         void CargarDocumentos()

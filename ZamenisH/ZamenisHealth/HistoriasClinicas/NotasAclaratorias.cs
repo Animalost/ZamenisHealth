@@ -1,25 +1,23 @@
 ﻿using Domain;
-
+using Domain.CXN;
+using FormAndControls;
 using Persistence;
 using Persistence.CXN.Interfaces;
 using Persistence.CXN.Metodos;
-
 using System;
 using System.Data;
-using System.Drawing;
 using System.Windows.Forms;
-
-using ZamenisHealth.Clases;
 using ZamenisHealth.Comunes;
 
 namespace ZamenisHealth.HistoriasClinicas
 {
-    public partial class NotasAclaratorias : ConfigForm.BaseForm
+    public partial class NotasAclaratorias : Forma
     {
         private static readonly INotasAclaratorias repoNotasAclaratorias = new MNotasAclaratorias();
         private static readonly IPacientes repoPacientes = new MPacientes();
         private static readonly ICManejo repoManejo = new MCManenejo();
         private static readonly ILogin repositorioLogin = new MLogin();
+        private static readonly IAgenda repoAgenda = new MAgenda();
 
         public string TipoNota;
 
@@ -29,16 +27,17 @@ namespace ZamenisHealth.HistoriasClinicas
         DataColumn Fecha;
         DataColumn Profesional;
 
+        private ToolStripButton toolStripButton5;
+        private ToolStripButton toolStripButton4;
+        private MensajesGeneral MG;
+
         public NotasAclaratorias()
         {
             InitializeComponent();
-            
-            ConfigForm.MoverForma(label29, this);
-            ConfigForm.MoverForma(panel3, this);
         }
         void Encabezados()
         {
-            dataGridView1.DataSource = null;
+            gridZH1.dataGridView1.DataSource = null;
             dt = new DataTable();
             POS = dt.Columns.Add("POS", typeof(int));
             Admision = dt.Columns.Add("Admision", typeof(int));
@@ -56,14 +55,32 @@ namespace ZamenisHealth.HistoriasClinicas
                 }
             }
         }
+        void CargarBotones()
+        {
+            toolStripButton4 = new ToolStripButton();
+            toolStripButton4 = createToolButton("Buscar");
+            MenuLateral.Items.Add(toolStripButton4);
+            toolStripButton4.Click += button1_Click;
 
+            toolStripButton5 = new ToolStripButton();
+            toolStripButton5 = createToolButton("Grabar");
+            MenuLateral.Items.Add(toolStripButton5);
+            toolStripButton5.Click += toolStripButton2_Click;
+            toolStripButton5.Enabled = false;
+        }
         private void NotasAclaratorias_Load(object sender, EventArgs e)
         {
-            Titulo.Visible = false;
-            ImageClose.Visible = false;
+            Titulo.Text = "Notas Aclaratorias";
+            LogoMain.Image = Properties.Resources.Splash;
+            SubTitulo.Text = $"Zamenis Health {Conexion.VersionApp}";
 
-            Comunes.MensajesGeneral MG = new MensajesGeneral();
-            
+            panel1.Size = new System.Drawing.Size(811, 589);
+            panel1.Location = new System.Drawing.Point(140, 54);
+
+            gridZH1.CeldaHeight = true;
+            gridZH1.dataGridView1.CellClick += dataGridView1_CellClick;
+
+            CargarBotones();
             CargarDocumentos();
 
             var imageJefe = repositorioLogin.getUser(Contenedor.UsuarioLogueado);
@@ -84,8 +101,12 @@ namespace ZamenisHealth.HistoriasClinicas
                 }
                 else
                 {
-                    MG.Mensaje = "Su usuario no tiene permiso para realizar notas aclaratorias";
-                    MG.TipoImagen = 1000;
+                    MG = new MensajesGeneral()
+                    {
+                        Mensaje = "Su usuario no tiene permiso para realizar notas aclaratorias",
+                        TipoImagen = 1000
+                    };
+                    
                     MG.ShowDialog();
 
                     this.Dispose();
@@ -93,7 +114,6 @@ namespace ZamenisHealth.HistoriasClinicas
                 }
             }
         }
-
         private void button1_Click(object sender, EventArgs e)
         {
             try
@@ -112,15 +132,14 @@ namespace ZamenisHealth.HistoriasClinicas
                         NotasMedicas(TipoNota);
                         break;
 
-                    case "Radiologia":
-                        NotasMedicas(TipoNota);
-                        break;
-
                     default:
-                        MessageBox.Show("Hubo un error inesperado, cierre esta pantalla y vuelva a ingresar",
-                            "Error",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Error);
+                        MG = new MensajesGeneral()
+                        {
+                            Mensaje = "Hubo un error inesperado, cierre esta pantalla y vuelva a ingresar",
+                            TipoImagen = 1000
+                        };
+
+                        MG.ShowDialog();
                         break;
                 }
             }
@@ -129,7 +148,6 @@ namespace ZamenisHealth.HistoriasClinicas
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         private void NotasMedicas(string Tipo)
         {
             try
@@ -157,7 +175,7 @@ namespace ZamenisHealth.HistoriasClinicas
                         label4.Text = i.Hor_Imp_Age.ToString();
                     }
 
-                    Estilos(dataGridView1, dt);
+                    Estilos(gridZH1.dataGridView1, dt);
                 }
                 else
                 {
@@ -172,40 +190,13 @@ namespace ZamenisHealth.HistoriasClinicas
         }
         void Estilos(DataGridView D, DataTable t)
         {
-            D.EnableHeadersVisualStyles = false;
-            D.ScrollBars = ScrollBars.Both;
-
             D.DataSource = t;
 
             D.Columns["Admision"].Width = 120;
             D.Columns["Fecha"].Width = 120;
             D.Columns["Profesional"].Width = 500;
 
-            D.ColumnHeadersDefaultCellStyle.Font = new Font(D.Font, FontStyle.Bold);
-            D.ColumnHeadersDefaultCellStyle.Font = new Font("Arial", 8, FontStyle.Bold);
-            D.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#bfdbff");
-            D.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
-            D.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
-
-            D.Columns["Admision"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            D.Columns["Fecha"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            D.Columns["Profesional"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
             D.Columns["POS"].Visible = false;
-
-            foreach (DataGridViewRow row in D.Rows)
-            {
-                int Numero = Convert.ToInt32(row.Cells["POS"].Value.ToString());
-
-                if ((Numero % 2) == 0)
-                {
-                    row.DefaultCellStyle.BackColor = Color.Aquamarine;
-                }
-                else
-                {
-                    row.DefaultCellStyle.BackColor = Color.MediumAquamarine;
-                }
-            }
         }
         private void textBox1_DoubleClick(object sender, EventArgs e)
         {
@@ -213,7 +204,6 @@ namespace ZamenisHealth.HistoriasClinicas
             P.Tipo_Busca_Pac = "NotaAcla";
             P.ShowDialog();
         }
-
         private void button2_Click(object sender, EventArgs e)
         {
             toolStripButton4.Enabled = false;
@@ -221,7 +211,6 @@ namespace ZamenisHealth.HistoriasClinicas
             richTextBox1.Text = "";
             label7.Text = "";
         }
-
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
             try
@@ -239,16 +228,34 @@ namespace ZamenisHealth.HistoriasClinicas
                     var Graba1 = repoManejo.GrabarManejo(TipoNota, Convert.ToInt32(label7.Text), richTextBox1.Text, Comunes.Contenedor.UsuarioLogueado);
                     if (Graba1 != true)
                     {
-                        MessageBox.Show("No se logro agrgar la nota aclaratoria a la historia clinica",
-                            "Error",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Error);
+                        MG = new MensajesGeneral()
+                        {
+                            Mensaje = "No se logro agrgar la nota aclaratoria a la historia clinica",
+                            TipoImagen = 1000
+                        };
+
+                        MG.ShowDialog();
                         return;
                     }
-                    MessageBox.Show("Nota aclaratoria agregada con exito",
-                        "Hecho",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Exclamation);
+
+                    CXN_HISTORIAL_ADMISION HistorialAdmision = new CXN_HISTORIAL_ADMISION
+                    {
+                        Admision = Convert.ToInt32(label7.Text),
+                        Fecha = DateTime.Now,
+                        Usuario = Contenedor.UsuarioLogueado,
+                        Gestion = "NOTA ACLARATORIA CREADA"
+                    };
+
+                    repoAgenda.AddHistorialAdmision(HistorialAdmision);
+
+                    MG = new MensajesGeneral()
+                    {
+                        Mensaje = "Nota aclaratoria agregada con exito",
+                        TipoImagen = 3
+                    };
+
+                    MG.ShowDialog();
+
                     this.Dispose();
                     this.Close();
                 }
@@ -258,18 +265,11 @@ namespace ZamenisHealth.HistoriasClinicas
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
-        private void pictureBox2_Click(object sender, EventArgs e)
-        {
-            this.Dispose();
-            this.Close();
-        }
-
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             toolStripButton5.Enabled = true;
             panel1.Visible = true;
-            label7.Text = dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString();
+            label7.Text = gridZH1.dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString();
             richTextBox1.Text = "";
         }
     }

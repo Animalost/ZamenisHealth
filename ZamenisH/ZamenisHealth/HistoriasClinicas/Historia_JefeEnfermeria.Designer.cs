@@ -74,12 +74,16 @@
             this.infeccionTxt = new System.Windows.Forms.Label();
             this.CaidaTxt = new System.Windows.Forms.Label();
             this.TittleLbl = new System.Windows.Forms.Label();
+            this.boton6 = new FormAndControls.Controles.Boton();
+            this.label95 = new System.Windows.Forms.Label();
+            this.textBox53 = new System.Windows.Forms.TextBox();
+            this.textBox54 = new System.Windows.Forms.TextBox();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // richTextBox1
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(12, 402);
+            this.richTextBox1.Location = new System.Drawing.Point(12, 449);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
             this.richTextBox1.Size = new System.Drawing.Size(927, 199);
@@ -215,7 +219,7 @@
             // label1
             // 
             this.label1.ForeColor = System.Drawing.Color.Blue;
-            this.label1.Location = new System.Drawing.Point(9, 343);
+            this.label1.Location = new System.Drawing.Point(9, 392);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(930, 54);
             this.label1.TabIndex = 130;
@@ -637,13 +641,66 @@
             this.TittleLbl.Text = "Control Clinico";
             this.TittleLbl.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // boton6
+            // 
+            this.boton6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(55)))), ((int)(((byte)(90)))));
+            this.boton6.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.boton6.FlatAppearance.BorderSize = 3;
+            this.boton6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.boton6.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
+            this.boton6.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.boton6.Location = new System.Drawing.Point(819, 359);
+            this.boton6.Name = "boton6";
+            this.boton6.Size = new System.Drawing.Size(124, 32);
+            this.boton6.TabIndex = 344;
+            this.boton6.Text = "Borrar";
+            this.boton6.UseVisualStyleBackColor = false;
+            this.boton6.Click += new System.EventHandler(this.boton6_Click);
+            // 
+            // label95
+            // 
+            this.label95.AutoSize = true;
+            this.label95.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label95.Location = new System.Drawing.Point(11, 343);
+            this.label95.Name = "label95";
+            this.label95.Size = new System.Drawing.Size(304, 17);
+            this.label95.TabIndex = 345;
+            this.label95.Text = "Diagnostico Principal Clasificacion CIE11";
+            // 
+            // textBox53
+            // 
+            this.textBox53.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.textBox53.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.textBox53.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox53.ForeColor = System.Drawing.Color.Purple;
+            this.textBox53.Location = new System.Drawing.Point(14, 363);
+            this.textBox53.Name = "textBox53";
+            this.textBox53.ReadOnly = true;
+            this.textBox53.Size = new System.Drawing.Size(131, 26);
+            this.textBox53.TabIndex = 346;
+            this.textBox53.DoubleClick += new System.EventHandler(this.textBox53_DoubleClick);
+            // 
+            // textBox54
+            // 
+            this.textBox54.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.textBox54.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox54.ForeColor = System.Drawing.Color.Purple;
+            this.textBox54.Location = new System.Drawing.Point(151, 363);
+            this.textBox54.Name = "textBox54";
+            this.textBox54.ReadOnly = true;
+            this.textBox54.Size = new System.Drawing.Size(662, 26);
+            this.textBox54.TabIndex = 347;
+            // 
             // Historia_JefeEnfermeria
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(951, 603);
-            this.ControlBox = false;
+            this.ClientSize = new System.Drawing.Size(951, 657);
+            this.Controls.Add(this.boton6);
+            this.Controls.Add(this.label95);
+            this.Controls.Add(this.textBox53);
+            this.Controls.Add(this.textBox54);
             this.Controls.Add(this.TittleLbl);
             this.Controls.Add(this.requiereTxt);
             this.Controls.Add(this.dificilTxt);
@@ -682,11 +739,8 @@
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.toolStrip1);
-            this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.KeyPreview = true;
             this.Name = "Historia_JefeEnfermeria";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Load += new System.EventHandler(this.Historia_JefeEnfermeria_Load);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
@@ -742,5 +796,9 @@
         private System.Windows.Forms.Label infeccionTxt;
         private System.Windows.Forms.Label CaidaTxt;
         private System.Windows.Forms.Label TittleLbl;
+        private FormAndControls.Controles.Boton boton6;
+        private System.Windows.Forms.Label label95;
+        public System.Windows.Forms.TextBox textBox53;
+        public System.Windows.Forms.TextBox textBox54;
     }
 }

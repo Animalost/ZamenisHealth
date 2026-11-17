@@ -1,10 +1,15 @@
 ﻿using Domain;
+using Domain.CXN;
+
 using FormAndControls;
+
 using Persistence;
 using Persistence.CXN.Interfaces;
 using Persistence.CXN.Metodos;
+
 using System;
 using System.Windows.Forms;
+
 using ZamenisHealth.Clases;
 using ZamenisHealth.Comunes;
 
@@ -135,6 +140,16 @@ namespace ZamenisHealth.AdminSystem
                             bool del = fDigitales.EliminarFirma(Convert.ToInt32(textBox1.Text));
                             if (del == true)
                             {
+                                CXN_HISTORIAL_ADMISION HistorialAdmision = new CXN_HISTORIAL_ADMISION
+                                {
+                                    Admision = Convert.ToInt32(textBox1.Text),
+                                    Fecha = DateTime.Now,
+                                    Usuario = Contenedor.UsuarioLogueado,
+                                    Gestion = "FIRMA ELIMINADA"
+                                };
+
+                                repoAgendaMedica.AddHistorialAdmision(HistorialAdmision);
+
                                 MG = new MensajesGeneral()
                                 {
                                     Mensaje = "Firma digital eliminada exitosamente",
@@ -207,11 +222,24 @@ namespace ZamenisHealth.AdminSystem
 
                     repoAgendaMedica.deleteHistoria(Convert.ToInt32(textBox1.Text), this.TipServ);
 
+                    repoAgendaMedica.deleteCIE11(Convert.ToInt32(textBox1.Text));
+
                     MessageBox.Show("Eliminado del sistema, se ha grabado el registro de eliminacion con fecha y hora asociado " +
                        "a su usuario y documento de identificacion",
                        "Eliminado",
                        MessageBoxButtons.OK,
                        MessageBoxIcon.Exclamation);
+
+                    CXN_HISTORIAL_ADMISION HistorialAdmision = new CXN_HISTORIAL_ADMISION
+                    {
+                        Admision = Convert.ToInt32(textBox1.Text),
+                        Fecha = DateTime.Now,
+                        Usuario = Contenedor.UsuarioLogueado,
+                        Gestion = "HISTORIA ELIMINADA"
+                    };
+
+                    repoAgendaMedica.AddHistorialAdmision(HistorialAdmision);
+
                     this.Dispose();
                     this.Close();
                 }

@@ -1,7 +1,5 @@
 ﻿using FormAndControls;
-
 using Persistence;
-
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -62,6 +60,14 @@ namespace ZamenisHealth.Comunes.Extras
 
                     case "Consentimientos":
                         existFile = Properties.Resources.Consentimientos;
+                        break;
+
+                    case "Facturacion":
+                        existFile = Properties.Resources.MANUAL_DE_OPERACIONES_FACTURACION_ZAMENIS_HEALTH;
+                        break;
+
+                    case "Interno":
+                        existFile = Properties.Resources.Interno;
                         break;
 
                     default:
@@ -166,6 +172,30 @@ namespace ZamenisHealth.Comunes.Extras
             try
             {
                 AbrirPDF("Consentimientos");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al abrir el archivo PDF: {ex.Message}");
+            }
+        }
+
+        private void linkLabel8_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            try
+            {
+                AbrirPDF("Facturacion");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al abrir el archivo PDF: {ex.Message}");
+            }
+        }
+
+        private void linkLabel9_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            try
+            {
+                AbrirPDF("Interno");
             }
             catch (Exception ex)
             {

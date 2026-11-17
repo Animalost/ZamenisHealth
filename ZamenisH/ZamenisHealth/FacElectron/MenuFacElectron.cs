@@ -1,5 +1,8 @@
-﻿using Domain.CXN;
+﻿using DocumentosElectronicos.Servicio;
+using Domain;
+using Domain.CXN;
 using FormAndControls;
+using Microsoft.Reporting.WinForms;
 using Persistence;
 using Persistence.CXN.Interfaces;
 using Persistence.CXN.Metodos;
@@ -18,6 +21,9 @@ namespace ZamenisHealth.FacElectron
     {
         private static readonly IFacElectron repoFacElectron = new MFacElectron();
         private static readonly ICompañia repoCia = new MCompañia();
+        private static readonly IHelisa repoWSClients = new MHelisa();
+        private static readonly IRcCaja repoRCCaja = new MRcCaja();
+        private static readonly IVentas repoVentas = new MVentas();
 
         private MensajesGeneral MG;
         private int Cia;
@@ -216,13 +222,210 @@ namespace ZamenisHealth.FacElectron
                     MessageBox.Show("No hay resultados para tokens generados, genere uno nuevo antes de emitir facturacion");
                     return;
                 }
+                Dictionary<string, string> dataWS = repoWSClients.Claves("Factura1XML", Cia);
+                if (dataWS == null)
+                {
+                    MessageBox.Show("No hay resultados para login de Facturacion Electronica");
+                    return;
+                }
 
-                GenerateXMLPDF.ReenviarPDFSalud(textBox7.Text, Cia, comboBox2.Text, TokenGenerado);
+                ReportViewer R = new ReportViewer();
+                R.LocalReport.DataSources.Clear();
 
-                MG = new MensajesGeneral();
-                MG.Mensaje = "Hecho";
-                MG.TipoImagen = 3;
-                MG.ShowDialog();
+                if (comboBox2.Text == "CajaNC")
+                {
+                    List<RCCAJA> Exportar = ExportarPDF.ExportarReciboCajaNC(textBox7.Text, Cia);
+                    if (Exportar == null)
+                    {
+                        MessageBox.Show("No se encontro la nota credito");
+                    }
+                    else
+                    {
+
+                        R.LocalReport.DataSources.Add(new ReportDataSource("ReciboCajaDataset", Exportar));
+                        R.LocalReport.ReportEmbeddedResource = "ZamenisHealth.Reportes.FacElectron.FacturaElectronicaCajaNC.rdlc";
+                        R.SetDisplayMode(DisplayMode.PrintLayout);
+                        R.ZoomMode = ZoomMode.Percent;
+                        R.ZoomPercent = 100;
+                        R.Font = new System.Drawing.Font("Arial", 7);
+                        R.LocalReport.EnableExternalImages = true;
+                        R.RefreshReport();
+                        R.Dock = System.Windows.Forms.DockStyle.Fill;
+
+                        byte[] bytes = R.LocalReport.Render("PDF");
+                        string CUFEFACElectron = Exportar[0].Com_Direccion; //CUFE  de la NC
+                        if (string.IsNullOrEmpty(CUFEFACElectron))
+                        {
+                            MessageBox.Show("No se logro radicar el PDF", "Novedad", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        }
+                        else
+                        {
+                            string Conversion = Convert.ToBase64String(bytes);
+                            RadicarPDF radicarPDF = new RadicarPDF();
+                            radicarPDF.SendPDF(TokenGenerado, Program.URLApiConexion, dataWS["User"], dataWS["Pass"], Cia, Conversion, CUFEFACElectron, textBox1.Text).GetAwaiter().GetResult();
+
+                            MessageBox.Show("PDF radicado correctamente", "Exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                    }
+                }
+                else if (comboBox2.Text == "VentasNC")
+                {
+                    List<FacturacionRpt> Exportar = ExportarPDF.ExportarFacturaVentasNC(Cia, "OP", textBox7.Text);
+                    if (Exportar == null)
+                    {
+                        MessageBox.Show("No se encontro la nota credito");
+                    }
+                    else
+                    {
+
+                        R.LocalReport.DataSources.Add(new ReportDataSource("DataSet_Facturacion", Exportar));
+                        R.LocalReport.ReportEmbeddedResource = "ZamenisHealth.Reportes.FacElectron.FacturaElectronicaSaludNC.rdlc";
+                        R.SetDisplayMode(DisplayMode.PrintLayout);
+                        R.ZoomMode = ZoomMode.Percent;
+                        R.ZoomPercent = 100;
+                        R.Font = new System.Drawing.Font("Arial", 7);
+                        R.LocalReport.EnableExternalImages = true;
+                        R.RefreshReport();
+                        R.Dock = System.Windows.Forms.DockStyle.Fill;
+
+                        byte[] bytes = R.LocalReport.Render("PDF");
+                        string CUFEFACElectron = Exportar[0].LetraImpuestos; //CUFE  de la NC
+                        if (string.IsNullOrEmpty(CUFEFACElectron))
+                        {
+                            MessageBox.Show("No se logro radicar el PDF", "Novedad", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        }
+                        else
+                        {
+                            string Conversion = Convert.ToBase64String(bytes);
+                            RadicarPDF radicarPDF = new RadicarPDF();
+                            radicarPDF.SendPDF(TokenGenerado, Program.URLApiConexion, dataWS["User"], dataWS["Pass"], Cia, Conversion, CUFEFACElectron, textBox1.Text).GetAwaiter().GetResult();
+
+                            MessageBox.Show("PDF radicado correctamente", "Exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                    }
+                }
+                else if (comboBox2.Text == "SaludNC")
+                {
+                    List<FacturasR> Exportar = ExportarPDF.ExportarFacturaAseguradorasNC(textBox7.Text, Cia);
+                    if (Exportar == null)
+                    {
+                        MessageBox.Show("No se encontro la nota credito");
+                    }
+                    else
+                    {
+
+                        R.LocalReport.DataSources.Add(new ReportDataSource("DataSet_Facturacion", Exportar));
+                        R.LocalReport.ReportEmbeddedResource = "ZamenisHealth.Reportes.FacElectron.FacturaElectronicaSaludNC.rdlc";
+                        R.SetDisplayMode(DisplayMode.PrintLayout);
+                        R.ZoomMode = ZoomMode.Percent;
+                        R.ZoomPercent = 100;
+                        R.Font = new System.Drawing.Font("Arial", 7);
+                        R.LocalReport.EnableExternalImages = true;
+                        R.RefreshReport();
+                        R.Dock = System.Windows.Forms.DockStyle.Fill;
+
+                        byte[] bytes = R.LocalReport.Render("PDF");
+                        string CUFEFACElectron = Exportar[0].Cufe; //CUFE  de la NC
+                        if (string.IsNullOrEmpty(CUFEFACElectron))
+                        {
+                            MessageBox.Show("No se logro radicar el PDF", "Novedad", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        }
+                        else
+                        {
+                            string Conversion = Convert.ToBase64String(bytes);
+                            RadicarPDF radicarPDF = new RadicarPDF();
+                            radicarPDF.SendPDF(TokenGenerado, Program.URLApiConexion, dataWS["User"], dataWS["Pass"], Cia, Conversion, CUFEFACElectron, textBox1.Text).GetAwaiter().GetResult();
+
+                            MessageBox.Show("PDF radicado correctamente", "Exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                    }
+                }
+                else if (comboBox2.Text == "Salud")
+                {
+                    GenerateXMLPDF.ReenviarPDFSalud(textBox7.Text, Cia, comboBox2.Text, TokenGenerado);
+                }
+                else if (comboBox2.Text == "Caja")
+                {
+                    List<RCCAJA> Exportar = repoRCCaja.ReciboRpt(textBox7.Text, Cia);
+                    if (Exportar == null)
+                    {
+                        MessageBox.Show("No se encontro la factura");
+                    }
+                    else
+                    {
+
+                        R.LocalReport.DataSources.Add(new ReportDataSource("ReciboCajaDataset", Exportar));
+                        R.LocalReport.ReportEmbeddedResource = "ZamenisHealth.Reportes.RDLC_RcCajaImpTermica.rdlc";
+                        R.SetDisplayMode(DisplayMode.PrintLayout);
+                        R.ZoomMode = ZoomMode.Percent;
+                        R.ZoomPercent = 100;
+                        R.Font = new System.Drawing.Font("Arial", 7);
+                        R.LocalReport.EnableExternalImages = true;
+                        R.RefreshReport();
+                        R.Dock = System.Windows.Forms.DockStyle.Fill;
+
+                        byte[] bytes = R.LocalReport.Render("PDF");
+                        string CUFEFACElectron = Exportar[0].Com_Direccion; //CUFE  de la NC
+                        if (string.IsNullOrEmpty(CUFEFACElectron))
+                        {
+                            MessageBox.Show("No se logro radicar el PDF", "Novedad", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        }
+                        else
+                        {
+                            string Conversion = Convert.ToBase64String(bytes);
+                            RadicarPDF radicarPDF = new RadicarPDF();
+                            radicarPDF.SendPDF(TokenGenerado, Program.URLApiConexion, dataWS["User"], dataWS["Pass"], Cia, Conversion, CUFEFACElectron, textBox1.Text).GetAwaiter().GetResult();
+
+                            MessageBox.Show("PDF radicado correctamente", "Exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                    }
+                }
+                else if (comboBox2.Text == "Ventas")
+                {
+                    List<FacturacionRpt> Exportar = repoVentas.Exp_Fac_Ven(textBox7.Text, Cia);
+                    if (Exportar == null)
+                    {
+                        MessageBox.Show("No se encontro la factura");
+                    }
+                    else
+                    {
+
+                        R.LocalReport.DataSources.Add(new ReportDataSource("Dataset_Facturacion", Exportar));
+                        R.LocalReport.ReportEmbeddedResource = "ZamenisHealth.Reportes.RDLC_FacRecepcion.rdlc";
+                        R.SetDisplayMode(DisplayMode.PrintLayout);
+                        R.ZoomMode = ZoomMode.Percent;
+                        R.ZoomPercent = 100;
+                        R.Font = new System.Drawing.Font("Arial", 7);
+                        R.LocalReport.EnableExternalImages = true;
+                        R.RefreshReport();
+                        R.Dock = System.Windows.Forms.DockStyle.Fill;
+
+                        byte[] bytes = R.LocalReport.Render("PDF");
+                        string CUFEFACElectron = Exportar[0].CUFE; //CUFE  de la NC
+                        if (string.IsNullOrEmpty(CUFEFACElectron))
+                        {
+                            MessageBox.Show("No se logro radicar el PDF", "Novedad", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        }
+                        else
+                        {
+                            string Conversion = Convert.ToBase64String(bytes);
+                            RadicarPDF radicarPDF = new RadicarPDF();
+                            radicarPDF.SendPDF(TokenGenerado, Program.URLApiConexion, dataWS["User"], dataWS["Pass"], Cia, Conversion, CUFEFACElectron, textBox1.Text).GetAwaiter().GetResult();
+
+                            MessageBox.Show("PDF radicado correctamente", "Exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                    }
+                }
+                else
+                {
+                    MG = new MensajesGeneral()
+                    {
+                        Mensaje = "Seleccion invalida",
+                        TipoImagen = 1000
+                    };
+
+                    MG.ShowDialog();
+                }
             }
             catch (Exception ex)
             {

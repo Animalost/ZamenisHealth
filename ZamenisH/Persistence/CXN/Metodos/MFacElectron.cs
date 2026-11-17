@@ -682,6 +682,81 @@ namespace Persistence.CXN.Metodos
                 return "";
             }
         }
+        string IFacElectron.GetCUFE(int Cia, string Homologo, string Tipo)
+        {
+            try
+            {
+                Dictionary<string, string> getData = Conexion.Conection();
+
+                using (SqlConnection con = new SqlConnection(getData["Conexion"]))
+                {
+                    if (con != null && con.State == ConnectionState.Closed)
+                    {
+                        con.Open();
+                    }
+
+                    String Cargar_Hora = "";
+
+                    if (Tipo == "Salud")
+                    {
+                        Cargar_Hora = "SELECT Cufe AS CUFE  " +
+                                      "FROM CXN_FACTURA " +
+                                      "WHERE Fac_Cia = @param1 " +
+                                      "AND Homologo = @param2";
+                    }
+                    else if (Tipo == "Caja")
+                    {
+                        Cargar_Hora = "SELECT TOP 1 Hor_DocFEModeradorCUFE AS CUFE " +
+                                      "FROM CXN_RC_CAJA " +
+                                      "WHERE Rc_Caja_Cia = @param1 " +
+                                      "AND Hor_DocFEModerador = @param2 " +
+                                      "ORDER BY Rc_Id DESC";
+                    }
+                    else if (Tipo == "CajaNC")
+                    {
+                        Cargar_Hora = "SELECT TOP 1 FacturaElectronica AS CUFE " +
+                                      "FROM CXN_FACTURANC " +
+                                      "WHERE Prestador = @param1 " +
+                                      "AND NumeroNC = @param2 " +
+                                      "ORDER BY Id DESC";
+                    }
+                    else if (Tipo == "Ventas")
+                    {
+                        Cargar_Hora = "SELECT Cufe AS CUFE " +
+                                      "FROM CXN_VENTAS " +
+                                      "WHERE Ven_Cod_Cia = @param1 " +
+                                      "AND Ven_Homologo = @param2";
+                    }
+                    else
+                    {
+                        return "";
+                    }
+
+                    using (SqlCommand Carga_Command = new SqlCommand(Cargar_Hora, con))
+                    {
+                        Carga_Command.Parameters.AddWithValue("@param1", Cia);
+                        Carga_Command.Parameters.AddWithValue("@param2", Homologo);
+
+                        using (SqlDataReader Lectura_Hora = (Carga_Command.ExecuteReader()))
+                        {
+                            if (Lectura_Hora.Read() == true)
+                            {
+                                return Lectura_Hora["CUFE"].ToString();
+                            }
+                            else
+                            {
+                                return "";
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
+                return "";
+            }
+        }
     }
     public class UpdateFacturaElectronica
     {

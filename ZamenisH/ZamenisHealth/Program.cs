@@ -268,6 +268,7 @@ namespace ZamenisHealth
                     iniFile.Write("PreferenciasConfig", "Bloqueo", "0");
                     iniFile.Write("PreferenciasConfig", "CargosEnfermeros", "N");
                     iniFile.Write("PreferenciasConfig", "TabletaFirmas", "N");
+                    iniFile.Write("PreferenciasConfig", "DatosCitaMouseMove", "N");
                 }
 
                 if (!iniFile.SectionExists("PreferenciasUIUX")) 
@@ -308,6 +309,7 @@ namespace ZamenisHealth
                     iniFile.Write("PreferenciasConfig", "Bloqueo", "0");
                     iniFile.Write("PreferenciasConfig", "CargosEnfermeros", "N");
                     iniFile.Write("PreferenciasConfig", "TabletaFirmas", "N");
+                    iniFile.Write("PreferenciasConfig", "DatosCitaMouseMove", "N");
                 }
                 else
                 {
@@ -331,6 +333,7 @@ namespace ZamenisHealth
                 string bloqueo = iniFile.Read("PreferenciasConfig", "Bloqueo", "0");
                 string CargosEnfermeros = iniFile.Read("PreferenciasConfig", "CargosEnfermeros", "N");
                 string TabletaFirmas = iniFile.Read("PreferenciasConfig", "TabletaFirmas", "N");
+                string DatosCitaMouseMove = iniFile.Read("PreferenciasConfig", "DatosCitaMouseMove", "N");
 
                 Preferencias.GetPreferences("Sonido", sonido);
                 Preferencias.GetPreferences("Colorimetria", colorimetria);                
@@ -339,6 +342,7 @@ namespace ZamenisHealth
                 Preferencias.GetPreferences("Bloqueo", bloqueo);
                 Preferencias.GetPreferences("CargosEnfermeros", CargosEnfermeros);
                 Preferencias.GetPreferences("TabletaFirmas", TabletaFirmas);
+                Preferencias.GetPreferences("DatosCitaMouseMove", DatosCitaMouseMove);
             }
             catch (Exception ex)
             {

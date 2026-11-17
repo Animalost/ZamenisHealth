@@ -480,75 +480,87 @@ namespace Persistence.CXN.Metodos
                     con.Open();
                 }
 
-                String Query = "Select Pac_IdNum, Pac_TipoId, Pac_PrimerA, Pac_SegundoA, Pac_PrimerN, Pac_SegundoN " +
+                String Query = "Select Pac_IdNum, Pac_TipoId, Pac_PrimerA, Pac_SegundoA, Pac_PrimerN, Pac_SegundoN, Pac_Sexo " +
                                "FROM CXN_PACIENTES " +
                                "WHERE Pac_PrimerA LIKE '%" + PApellido + "%' " +
                                "AND Pac_PrimerN LIKE '%" + PNombre + "%' " +
                                "ORDER BY Pac_PrimerA ASC";
-                SqlCommand Command = new SqlCommand(Query, con);
-                SqlDataReader Reader = (Command.ExecuteReader());
-                if (Reader.HasRows)
-                {
-                    List<CXN_PACIENTES> DP = new List<CXN_PACIENTES>();
 
-                    while (Reader.Read() == true)
+                using (SqlCommand Command = new SqlCommand(Query, con))
+                {
+                    using (SqlDataReader Reader = (Command.ExecuteReader()))
                     {
-                        string TID = "";
-                        string ID = "";
-                        string PN = "";
-                        string SN = "";
-                        string PA = "";
-                        string SA = "";
-
-                        if (Reader["Pac_TipoId"] != DBNull.Value)
+                        if (Reader.HasRows)
                         {
-                            TID = Reader["Pac_TipoId"].ToString();
+                            List<CXN_PACIENTES> DP = new List<CXN_PACIENTES>();
+
+                            while (Reader.Read() == true)
+                            {
+                                string TID = "";
+                                string ID = "";
+                                string PN = "";
+                                string SN = "";
+                                string PA = "";
+                                string SA = "";
+                                string Sex = "I";
+
+                                if (Reader["Pac_TipoId"] != DBNull.Value)
+                                {
+                                    TID = Reader["Pac_TipoId"].ToString();
+                                }
+
+
+                                if (Reader["Pac_IdNum"] != DBNull.Value)
+                                {
+                                    ID = Reader["Pac_IdNum"].ToString();
+                                }
+
+
+                                if (Reader["Pac_PrimerN"] != DBNull.Value)
+                                {
+                                    PN = Reader["Pac_PrimerN"].ToString();
+                                }
+
+
+                                if (Reader["Pac_SegundoN"] != DBNull.Value)
+                                {
+                                    SN = Reader["Pac_SegundoN"].ToString();
+                                }
+
+
+                                if (Reader["Pac_PrimerA"] != DBNull.Value)
+                                {
+                                    PA = Reader["Pac_PrimerA"].ToString();
+                                }
+
+
+                                if (Reader["Pac_SegundoA"] != DBNull.Value)
+                                {
+                                    SA = Reader["Pac_SegundoA"].ToString();
+                                }
+
+                                if (Reader["Pac_Sexo"] != DBNull.Value)
+                                {
+                                    Sex = Reader["Pac_Sexo"].ToString();
+                                }
+
+                                DP.Add(new CXN_PACIENTES
+                                {
+                                    Pac_TipoId = TID,
+                                    Pac_IdNum = ID,
+                                    Pac_PrimerN = PA + " " + SA + " " + PN + " " + SN,
+                                    Pac_Sexo = Sex
+                                });
+                            }
+
+                            return DP;
                         }
-
-
-                        if (Reader["Pac_IdNum"] != DBNull.Value)
+                        else
                         {
-                            ID = Reader["Pac_IdNum"].ToString();
+                            return null;
                         }
-
-
-                        if (Reader["Pac_PrimerN"] != DBNull.Value)
-                        {
-                            PN = Reader["Pac_PrimerN"].ToString();
-                        }
-
-
-                        if (Reader["Pac_SegundoN"] != DBNull.Value)
-                        {
-                            SN = Reader["Pac_SegundoN"].ToString();
-                        }
-
-
-                        if (Reader["Pac_PrimerA"] != DBNull.Value)
-                        {
-                            PA = Reader["Pac_PrimerA"].ToString();
-                        }
-
-
-                        if (Reader["Pac_SegundoA"] != DBNull.Value)
-                        {
-                            SA = Reader["Pac_SegundoA"].ToString();
-                        }
-
-                        DP.Add(new CXN_PACIENTES
-                        {
-                            Pac_TipoId = TID,
-                            Pac_IdNum = ID,
-                            Pac_PrimerN = PA + " " + SA + " " + PN + " " + SN
-                        });
                     }
-
-                    return DP;
-                }
-                else
-                {
-                    return null;
-                }
+                }                
             }
         }        
         string IPacientes.Carga_Regimen(string Cod_Reg)
@@ -1658,12 +1670,18 @@ namespace Persistence.CXN.Metodos
                     {
                         con.Open();
                     }
-                    string Busqueda = "UPDATE CXN_PACIENTES " +
-                                      "SET Pac_Email = '" + Email + "' " +
-                                      "WHERE Pac_Id = '" + IdPac + "'";
-                    SqlCommand Accion = new SqlCommand(Busqueda, con);
-                    int Guarda;
-                    Guarda = Accion.ExecuteNonQuery();
+                    
+                    string Busqueda = @"UPDATE CXN_PACIENTES 
+                                      SET Pac_Email = @param1 
+                                      WHERE Pac_Id = @param2";
+
+                    using (SqlCommand Accion = new SqlCommand(Busqueda, con))
+                    {
+                        Accion.Parameters.AddWithValue("@param1", Email);
+                        Accion.Parameters.AddWithValue("@param2", IdPac);
+
+                        Accion.ExecuteNonQuery();
+                    }
                 }
             }
             catch (Exception ex)

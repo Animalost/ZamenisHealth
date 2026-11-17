@@ -228,9 +228,9 @@
             this.label8.ForeColor = System.Drawing.Color.Blue;
             this.label8.Location = new System.Drawing.Point(561, 42);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(104, 13);
+            this.label8.Size = new System.Drawing.Size(50, 13);
             this.label8.TabIndex = 64;
-            this.label8.Text = "Contrato o Poliza";
+            this.label8.Text = "CUCON";
             // 
             // textBox6
             // 

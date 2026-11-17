@@ -171,6 +171,16 @@ namespace ZamenisHealth.Recepcion
                 Agendamiento f7 = Application.OpenForms.OfType<Agendamiento>().FirstOrDefault();
                 f7.EventoInicial();
 
+                CXN_HISTORIAL_ADMISION HistorialAdmision = new CXN_HISTORIAL_ADMISION
+                {
+                    Admision = Admi,
+                    Fecha = DateTime.Now,
+                    Usuario = Contenedor.UsuarioLogueado,
+                    Gestion = "CITA CANCELADA"
+                };
+
+                repositorioHorario.AddHistorialAdmision(HistorialAdmision);
+
                 this.Dispose();
                 this.Close();
             }

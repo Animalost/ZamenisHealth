@@ -417,7 +417,6 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
-                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell>
@@ -1090,7 +1089,7 @@
   <Width>7.99423in</Width>
   <Page>
     <PageHeader>
-      <Height>10.54626cm</Height>
+      <Height>11.21833cm</Height>
       <PrintOnFirstPage>true</PrintOnFirstPage>
       <PrintOnLastPage>true</PrintOnLastPage>
       <ReportItems>
@@ -1847,7 +1846,7 @@
           </Style>
         </Textbox>
         <Line Name="Line1">
-          <Top>10.31875cm</Top>
+          <Top>10.95375cm</Top>
           <Left>0.01181cm</Left>
           <Height>0cm</Height>
           <Width>20.29354cm</Width>
@@ -2851,6 +2850,42 @@
             </Border>
           </Style>
         </Textbox>
+        <Textbox Name="Textbox99">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>Homologacion CIE11: </Value>
+                  <Style>
+                    <FontSize>8pt</FontSize>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
+                </TextRun>
+                <TextRun>
+                  <Value>=First(Fields!DXCIE11.Value, "DataSet_Notas")</Value>
+                  <Style>
+                    <FontSize>8pt</FontSize>
+                    <FontWeight>Normal</FontWeight>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style />
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>Textbox10</rd:DefaultName>
+          <Top>10.34175cm</Top>
+          <Left>0.35415cm</Left>
+          <Height>0.38833cm</Height>
+          <Width>19.61285cm</Width>
+          <ZIndex>61</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+          </Style>
+        </Textbox>
       </ReportItems>
       <Style>
         <Border>
@@ -3291,6 +3326,10 @@
         </Field>
         <Field Name="CodigoEPSConvenio">
           <DataField>CodigoEPSConvenio</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DXCIE11">
+          <DataField>DXCIE11</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>

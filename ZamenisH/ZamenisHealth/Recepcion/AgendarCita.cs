@@ -434,22 +434,30 @@ namespace ZamenisHealth.Recepcion
 
                             }
 
-                            if (repoConf.getListado()["MedicinaGeneralEstadistica"] == "A")
+                            List<CXN_IMAGEN_SYSTEM> d = repoConf.getConfSystem();
+                            if (d != null)
                             {
-                                Dictionary<string, string> SGSEERV = repositorioHorario.SugerenciaServicio(Convert.ToInt32(Pac_Id));
-                                
-                                if (SGSEERV != null)
+                                CXN_IMAGEN_SYSTEM d2 = d.FirstOrDefault(x => x.Tab_Nombre == "MedicinaGeneralEstadistica");
+                                if (d2 != null)
                                 {
-                                    toolTipServicio.SetToolTip(comboBox5, "Se sugiere asignar el servicio: " + SGSEERV["Servicio"].ToString().ToUpper());
-                                    comboBox5.Text = SGSEERV["Servicio"].ToString();
+                                    if (d2.Tab_Clave == "A")
+                                    {
+                                        Dictionary<string, string> SGSEERV = repositorioHorario.SugerenciaServicio(Convert.ToInt32(Pac_Id));
 
-                                    //AQUI IRIA ESA PARTE DE LAS CONSULTAS Y VERIFICAR
+                                        if (SGSEERV != null)
+                                        {
+                                            toolTipServicio.SetToolTip(comboBox5, "Se sugiere asignar el servicio: " + SGSEERV["Servicio"].ToString().ToUpper());
+                                            comboBox5.Text = SGSEERV["Servicio"].ToString();
+
+                                            //AQUI IRIA ESA PARTE DE LAS CONSULTAS Y VERIFICAR
+                                        }
+                                        else
+                                        {
+                                            toolTipServicio.SetToolTip(comboBox5, "No hay sugerencias disponibles");
+                                        }
+                                    }
                                 }
-                                else
-                                {
-                                    toolTipServicio.SetToolTip(comboBox5, "No hay sugerencias disponibles");
-                                }
-                            }                            
+                            }                                                        
                         }
                         catch
                         {
@@ -604,22 +612,28 @@ namespace ZamenisHealth.Recepcion
                         label30.Text = canactual.ToString();
                     }
 
-                    string MedEstadiscica =  repoConf.getListado()["MedicinaGeneralEstadistica"];
-
-                    if (repoConf.getListado()["MedicinaGeneralEstadistica"] == "A")
+                    List<CXN_IMAGEN_SYSTEM> d = repoConf.getConfSystem();
+                    if (d != null)
                     {
-                        Dictionary<string, string> SGSEERV = repositorioHorario.SugerenciaServicio(Convert.ToInt32(Pac_Id));
+                        CXN_IMAGEN_SYSTEM d2 = d.FirstOrDefault(x => x.Tab_Nombre == "MedicinaGeneralEstadistica");
+                        if (d2 != null)
+                        {
+                            if (d2.Tab_Clave == "A")
+                            {
+                                Dictionary<string, string> SGSEERV = repositorioHorario.SugerenciaServicio(Convert.ToInt32(Pac_Id));
 
-                        if (SGSEERV != null)
-                        {
-                            toolTipServicio.SetToolTip(comboBox5, "Se sugiere asignar el servicio: " + SGSEERV["Servicio"].ToString().ToUpper());
-                            comboBox5.Text = SGSEERV["Servicio"].ToString();
+                                if (SGSEERV != null)
+                                {
+                                    toolTipServicio.SetToolTip(comboBox5, "Se sugiere asignar el servicio: " + SGSEERV["Servicio"].ToString().ToUpper());
+                                    comboBox5.Text = SGSEERV["Servicio"].ToString();
+                                }
+                                else
+                                {
+                                    toolTipServicio.SetToolTip(comboBox5, "No hay sugerencias disponibles");
+                                }
+                            }
                         }
-                        else
-                        {
-                            toolTipServicio.SetToolTip(comboBox5, "No hay sugerencias disponibles");
-                        }
-                    }                  
+                    }                                
                 }
                 catch
                 {
@@ -1346,7 +1360,17 @@ namespace ZamenisHealth.Recepcion
                         Hor_Color = colorcito
                     };
 
-                    int admTemp = repositorioAgendar.AgendarPaciente(H);                  
+                    int admTemp = repositorioAgendar.AgendarPaciente(H);
+
+                    CXN_HISTORIAL_ADMISION HistorialAdmision = new CXN_HISTORIAL_ADMISION
+                    {
+                        Admision = admTemp,
+                        Fecha = DateTime.Now,
+                        Usuario = Contenedor.UsuarioLogueado,
+                        Gestion = "CITA AGENDADA"
+                    };
+
+                    repositorioAgendar.AddHistorialAdmision(HistorialAdmision);
 
                     Agendamiento f1 = Application.OpenForms.OfType<Agendamiento>().FirstOrDefault();
                     f1.EventoInicial();

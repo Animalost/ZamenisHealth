@@ -19,6 +19,7 @@ namespace ZamenisHealth.Medicina
     {
         private static readonly IMedicinaGeneral repoMG = new MMedicinaGeneral();
         private static readonly IImagenes repoImagenes = new MImagenes();
+        private static readonly ICIE10 repoCIE10 = new MCIE10();
         private ImagesController oController;
 
         private MensajesGeneral MG;
@@ -243,6 +244,12 @@ namespace ZamenisHealth.Medicina
                     textBox3.Text = getResum.HC_CupCatalogo.ToString() + " - " + getResum.HC_ServCatalogo.ToString();                 
 
                     Carga_List2(Convert.ToInt32(gridZH1.dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString()));
+
+                    CXN_CIE11 cXN_CIE11 = repoCIE10.GetCIE11ByAdm(Convert.ToInt32(gridZH1.dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString()));
+                    if (cXN_CIE11 != null)
+                    {
+                        textBox2.Text = cXN_CIE11.Codigo + " - " + cXN_CIE11.Descripcion;
+                    }
                 }
                 else
                 {

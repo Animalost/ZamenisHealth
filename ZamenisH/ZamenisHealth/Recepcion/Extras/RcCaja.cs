@@ -40,56 +40,63 @@ namespace ZamenisHealth.Recepcion.Extras
         public RcCaja(int Adm)
         {
             InitializeComponent();
+
+            ConfigForm.SoloNumeros(textBox1);
             this.Adm_RC = Adm;
         }
 
         private void RcCaja_Load(object sender, EventArgs e)
         {
-            ConfigForm.SoloNumeros(textBox1);
-
-            Titulo.Text = "Recaudos";
-
-            
-            comboBox1.SelectedIndex = 0;
-
-            int idPac = repoAgendaMedicaConsultas.getIdPacByAdmition(this.Adm_RC, "P");            
-
-            if (idPac != 0)
+            try
             {
-                CXN_PACIENTES Cat = repoAgendaMedicaPacientes.LlamarPacientebyId(idPac);                
+                Titulo.Text = "Recaudos";
+                SubTitulo.Text = $"Zamenis Health {Conexion.VersionApp}";
 
-                if (Cat != null)
+                comboBox1.SelectedIndex = 0;
+
+                int idPac = repoAgendaMedicaConsultas.getIdPacByAdmition(this.Adm_RC, "P");
+
+                if (idPac != 0)
                 {
-                    switch (Cat.Pac_Categoria)
+                    CXN_PACIENTES Cat = repoAgendaMedicaPacientes.LlamarPacientebyId(idPac);
+
+                    if (Cat != null)
                     {
-                        case "A":
-                            comboBox2.SelectedIndex = 0;
-                            textBox1.Text = repoCategoria.getValor("A").ToString();
-                            break;
-                        case "B":
-                            comboBox2.SelectedIndex = 1;
-                            textBox1.Text = repoCategoria.getValor("B").ToString();
-                            break;
+                        switch (Cat.Pac_Categoria)
+                        {
+                            case "A":
+                                comboBox2.SelectedIndex = 0;
+                                textBox1.Text = repoCategoria.getValor("A").ToString();
+                                break;
+                            case "B":
+                                comboBox2.SelectedIndex = 1;
+                                textBox1.Text = repoCategoria.getValor("B").ToString();
+                                break;
 
-                        case "C":
-                            comboBox2.SelectedIndex = 2;
-                            textBox1.Text = repoCategoria.getValor("C").ToString();
-                            break;
+                            case "C":
+                                comboBox2.SelectedIndex = 2;
+                                textBox1.Text = repoCategoria.getValor("C").ToString();
+                                break;
 
-                        case "Z":
-                            comboBox2.SelectedIndex = 3;
-                            textBox1.Text = repoCategoria.getValor("Z").ToString();
-                            break;
+                            case "Z":
+                                comboBox2.SelectedIndex = 3;
+                                textBox1.Text = repoCategoria.getValor("Z").ToString();
+                                break;
 
-                        default:
-                            comboBox2.SelectedIndex = 4;
-                            textBox1.Text = repoCategoria.getValor("N").ToString();
-                            break;
+                            default:
+                                comboBox2.SelectedIndex = 4;
+                                textBox1.Text = repoCategoria.getValor("N").ToString();
+                                break;
+                        }
+
+                        textBox4.Text = Cat.Pac_Email.ToString();
                     }
-
-                    textBox4.Text = Cat.Pac_Email.ToString();
-                }              
+                }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }          
         }
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
@@ -150,14 +157,6 @@ namespace ZamenisHealth.Recepcion.Extras
 
                 conRecaudo = "05";
 
-                /*
-                    NO APLICA
-                    CUOTA MODERADORA
-                    COPAGO
-                    PAGOS COMPARTIDOS EN PLANES VOLUNTARIOS DE SALUD
-                    ANTICIPO
-                */
-
                 switch (comboBox1.SelectedIndex)
                 {
                     case 0:
@@ -183,94 +182,91 @@ namespace ZamenisHealth.Recepcion.Extras
                     default:
                         conRecaudo = "05"; //NO APLICA
                         break;
-                }                
+                }
 
-             //   bool updateHor = repoRcCaja.updateReciboHorario(Convert.ToInt32(textBox1.Text), Adm_RC, conRecaudo, "", comboBox3.Text);                
+                otrosDatosPacienteHorario DatosAdmision = repoAgendaMedicaConsultas.cargarAdmision(Adm_RC, "'P','H','A'");
 
-               /* if (updateHor != true)
+                if (DatosAdmision != null)
                 {
-                    MG.TipoImagen = 1000;
-                    MG.Mensaje = "No se actualizo el recibo de caja, Ingrese por la opcion recibos de la agenda y agreguelo de nuevo";
-                    MG.ShowDialog();
-                }*/
-                //else
-                //{
-                    otrosDatosPacienteHorario DatosAdmision = repoAgendaMedicaConsultas.cargarAdmision(Adm_RC, "'P','H','A'");                    
+                    DateTime Hoy = DateTime.Now;
 
-                    if (DatosAdmision != null)
+                    if (textBox2.Text == "")
                     {
-                        DateTime Hoy = DateTime.Now;
-
-                        if (textBox2.Text == "")
-                        {
-                            Rc_Caja_Observacion = "Venta o Recaudo Pines / Bonos";
-                        }
-                        else
-                        {
-                            Rc_Caja_Observacion = textBox2.Text;
-                        }
-
-                        DateTime f = new DateTime(DatosAdmision.Hor_Pac_Fecha_Cita.Year,
-                                                  DatosAdmision.Hor_Pac_Fecha_Cita.Month,
-                                                  DatosAdmision.Hor_Pac_Fecha_Cita.Day,
-                                                  DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
-
-                        CXN_RC_CAJA R = new CXN_RC_CAJA
-                        {
-                            Rc_Caja_Pac = DatosAdmision.Hor_Pac_Id,
-                            Rc_Caja_Ase = DatosAdmision.Hor_Pac_Ase,
-                            Rc_Caja_Cia = DatosAdmision.Hor_Pac_Cia,
-                            Rc_Caja_Fecha = f,
-                            Rc_Caja_UsrGraba = Comunes.Contenedor.UsuarioLogueado,
-                            Rc_Caja_Valor = Convert.ToInt32(textBox1.Text),
-                            Rc_Caja_Adm = Adm_RC,
-                            Rc_Caja_Observacion = Rc_Caja_Observacion,
-                            FormaPago = comboBox3.Text,
-                            Hor_ConceptoRecaudo = conRecaudo,
-                            Num_Cruce = 0
-                        };
-
-                        int insertRc = repoRcCaja.AgregarRecibo(R);                        
-
-                        if (insertRc <= 0)
-                        {
-                            MG.TipoImagen = 1000;
-                            MG.Mensaje = "No logro insertar el recibo de caja, Error grave";
-                            MG.ShowDialog();
-                        }
-                        else
-                        {
-                            if (!string.IsNullOrEmpty(textBox4.Text))
-                            {                     
-                                repoAgendaMedicaPacientes.updateEmail(R.Rc_Caja_Pac, textBox4.Text);                                  
-                            }                            
-
-                            DialogResult result = MessageBox.Show("Seleccione SI para imprrimir recibo de caja termico, seleccione NO para imprimir recibo de caja tamaño carta",
-                                                 "Zamenis Health - Impresion de Recibos",
-                                                 MessageBoxButtons.YesNo,
-                                                 MessageBoxIcon.Question);
-
-                            if (result == DialogResult.Yes)
-                            {
-                                Exporta(insertRc, true);
-                            }
-
-                            if (result == DialogResult.No)
-                            {
-                                Exporta(insertRc, false);
-                            }
-                        }
+                        Rc_Caja_Observacion = "Venta o Recaudo Pines / Bonos";
                     }
                     else
                     {
-                        MG.TipoImagen = 1000;
-                        MG.Mensaje = "No logro cargar la admision, Error grave";
-                        MG.ShowDialog();
-
-                        this.Dispose();
-                        this.Close();
+                        Rc_Caja_Observacion = textBox2.Text;
                     }
-                //}
+
+                    DateTime f = new DateTime(DatosAdmision.Hor_Pac_Fecha_Cita.Year,
+                                              DatosAdmision.Hor_Pac_Fecha_Cita.Month,
+                                              DatosAdmision.Hor_Pac_Fecha_Cita.Day,
+                                              DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
+
+                    CXN_RC_CAJA R = new CXN_RC_CAJA
+                    {
+                        Rc_Caja_Pac = DatosAdmision.Hor_Pac_Id,
+                        Rc_Caja_Ase = DatosAdmision.Hor_Pac_Ase,
+                        Rc_Caja_Cia = DatosAdmision.Hor_Pac_Cia,
+                        Rc_Caja_Fecha = f,
+                        Rc_Caja_UsrGraba = Comunes.Contenedor.UsuarioLogueado,
+                        Rc_Caja_Valor = Convert.ToInt32(textBox1.Text),
+                        Rc_Caja_Adm = Adm_RC,
+                        Rc_Caja_Observacion = Rc_Caja_Observacion,
+                        FormaPago = comboBox3.Text,
+                        Hor_ConceptoRecaudo = conRecaudo,
+                        Num_Cruce = 0
+                    };
+
+                    int insertRc = repoRcCaja.AgregarRecibo(R);
+
+                    if (insertRc <= 0)
+                    {
+                        MG.TipoImagen = 1000;
+                        MG.Mensaje = "No logro insertar el recibo de caja, Error grave";
+                        MG.ShowDialog();
+                    }
+                    else
+                    {
+                        if (!string.IsNullOrEmpty(textBox4.Text))
+                        {
+                            if (repoAgendaMedicaPacientes.ValidaEmail(textBox4.Text) == false)
+                            {
+                                MG.TipoImagen = 1000;
+                                MG.Mensaje = "El formato del email, no es valido.  Si no lo conoce deje el campo en blanco";
+                                MG.ShowDialog();
+                                return;
+                            }
+
+                            repoAgendaMedicaPacientes.updateEmail(R.Rc_Caja_Pac, textBox4.Text);
+                        }
+
+                        DialogResult result = MessageBox.Show("Seleccione SI para imprrimir recibo de caja termico, seleccione NO para imprimir recibo de caja tamaño carta",
+                                             "Zamenis Health - Impresion de Recibos",
+                                             MessageBoxButtons.YesNo,
+                                             MessageBoxIcon.Question);
+
+                        if (result == DialogResult.Yes)
+                        {
+                            Exporta(insertRc, true);
+                        }
+
+                        if (result == DialogResult.No)
+                        {
+                            Exporta(insertRc, false);
+                        }
+                    }
+                }
+                else
+                {
+                    MG.TipoImagen = 1000;
+                    MG.Mensaje = "No logro cargar la admision, Error grave";
+                    MG.ShowDialog();
+
+                    this.Dispose();
+                    this.Close();
+                }
             }
             catch (Exception ex)
             {
@@ -278,236 +274,239 @@ namespace ZamenisHealth.Recepcion.Extras
                 return;
             }
         } 
-
         async Task GenerarFacturaElectronica(int PosId)
         {
             try
             {
-                List<RCCAJA> getFacturaZamenis = ExportarPDF.ExportarReciboCaja(PosId);
-                int Cia = getFacturaZamenis[0].Admision; //identifiador cia
-                CXN_CIA getDataFacElectron = repoCia.getPrestadorbyCode(Cia);
-
-                var factura = new Factura
+                await Task.Run(() =>
                 {
-                    Encabezado = new Encabezado
+                    List<RCCAJA> getFacturaZamenis = ExportarPDF.ExportarReciboCaja(PosId);
+                    int Cia = getFacturaZamenis[0].Admision; //identifiador cia
+                    CXN_CIA getDataFacElectron = repoCia.getPrestadorbyCode(Cia);
+
+                    var factura = new Factura
                     {
-                        llaveComprobante = getDataFacElectron.Com_Prefijo_Electron + getDataFacElectron.Com_Doc_Electron,
-                        nitemisor = getFacturaZamenis[0].EmpresaIdentificacion,
-                        codSucursal = getFacturaZamenis[0].EmpresaIdentificacion,
-                        tiporeceptor = getFacturaZamenis[0].TDocReceptor == "NIT" ? "1" : "2",
-                        tipoDocRec = Definiciones.tipoDocRec(99, Definiciones.tipoDocRec(88, repoAgendaMedicaPacientes.getTipoDoc(getFacturaZamenis[0].TDocReceptor))),
-                        nitreceptor = getFacturaZamenis[0].PacienteAseguradora,
-                        nombrereceptor = getFacturaZamenis[0].PacienteNombre,
-                        mailreceptor = string.IsNullOrEmpty(getFacturaZamenis[0].Correo) ? "administrador@slsoft.net" : getFacturaZamenis[0].Correo,
-                        tipocomprobante = Definiciones.tipocomprobante("Factura de Venta Nacional"),
-                        extra1 = "",
-
-                        noresolucion = getDataFacElectron.Com_Resolucion_Electron,
-                        prefijo = getDataFacElectron.Com_Prefijo_Electron,
-                        folio = getDataFacElectron.Com_Doc_Electron.ToString(),
-
-                        fecha = DateTime.Now.ToString("yyyy-MM-dd"),
-                        hora = DateTime.Now.ToString("HH:mm:ss"),
-                        moneda = "COP",
-                        subtotal = ConvertirDecimal.ConvertirValor(getFacturaZamenis[0].Valor),
-                        metodopago = Definiciones.metodopago("Contado"),
-                        mediopago = "10",
-                        fechavencimiento = DateTime.Now.AddDays(0).ToString("yyyy-MM-dd"),
-                        terminospago = "1",
-                        baseimpuesto = ConvertirDecimal.ConvertirValor(0),
-                        totalsindescuento = ConvertirDecimal.ConvertirValor(getFacturaZamenis[0].Valor),
-                        totaldescuentos = ConvertirDecimal.ConvertirValor(0),
-                        totalimpuestos = ConvertirDecimal.ConvertirValor(0),
-                        totalimpuestosretenidos = ConvertirDecimal.ConvertirValor(0),
-                        total = ConvertirDecimal.ConvertirValor(getFacturaZamenis[0].Valor),
-                        montoletra = getFacturaZamenis[0].Letras,
-                        tipoOpera = "10",
-                        ordenCompra = Adm_RC.ToString(),
-                    },
-                    Detalle = new List<Detalle>(),
-                    Impuestos = new List<Impuesto>()
-                };
-
-                int comprobante = 1;
-
-                foreach (RCCAJA i in getFacturaZamenis)
-                {
-                    factura.Detalle.Add(new Detalle
-                    {
-                        llaveComprobante = getDataFacElectron.Com_Prefijo_Electron + getDataFacElectron.Com_Doc_Electron,
-                        idConcepto = comprobante.ToString(),
-                        cantidad = Convert.ToInt32(i.Cantidad).ToString("N2").Replace(",", "."),
-                        unidadmedida = "EA",
-                        descripcion = i.Observacion,
-                        precioUnitario = ConvertirDecimal.ConvertirValor(i.Valor),
-                        importe = ConvertirDecimal.ConvertirValor(Convert.ToInt32(i.Valor) * Convert.ToInt32(i.Cantidad)),
-                        impuestolinea = ConvertirDecimal.ConvertirValor(0),
-                        tasa = ConvertirDecimal.ConvertirValor(0).ToString("N2").Replace(",", "."),
-                        tipo = "01",
-                        baseimpuestos = ConvertirDecimal.ConvertirValor(0),
-                        identificacionproductos = "100000"
-                    });
-
-                    comprobante++;
-                }
-
-                comprobante = 1;
-
-                factura.Impuestos.Add(new Impuesto
-                {
-                    llaveComprobante = getDataFacElectron.Com_Prefijo_Electron + getDataFacElectron.Com_Doc_Electron,
-                    idImpuesto = comprobante.ToString(),
-                    baseimpuestos = ConvertirDecimal.ConvertirValor(0),
-                    tasa = ConvertirDecimal.ConvertirValor(0),
-                    tipoImpuesto = "01",
-                    importe = ConvertirDecimal.ConvertirValor(0)
-                });
-
-                PrintXML.Print(factura, getDataFacElectron.Com_Prefijo_Electron + getDataFacElectron.Com_Doc_Electron);
-
-                Dictionary<string, string> dataWS = repoWSClients.Claves("Factura1XML", Cia);
-                if (dataWS == null)
-                {
-                   /* listResultados.Add(new CXN_FACTURA
-                    {
-                        Fac_Tipo_Doc = "Caja",
-                        Fac_Estado = "Error",
-                        Fac_Num_Fac = facturaZ,
-                        Fac_Cia = Cia,
-                        Homologo = "",
-                        Fac_Observa = "No hay resultados para login de Facturacion Electronica"
-                    });*/
-                }
-                else
-                {
-                    string TokenGenerado = repoFelectron.GetTokenSaved(Cia).Trim();
-                    if (string.IsNullOrEmpty(TokenGenerado))
-                    {
-                        bool generar = GenerateTokens.GenerarTokenNuevo(Cia);
-                        if (generar == false)
+                        Encabezado = new Encabezado
                         {
-                           /* listResultados.Add(new CXN_FACTURA
-                            {
-                                Fac_Tipo_Doc = "Caja",
-                                Fac_Estado = "Error",
-                                Fac_Num_Fac = facturaZ,
-                                Fac_Cia = Cia,
-                                Homologo = "",
-                                Fac_Observa = "No hay resultados para tokens generados, genere uno nuevo antes de emitir facturacion"
-                            });
+                            llaveComprobante = getDataFacElectron.Com_Prefijo_Electron + getDataFacElectron.Com_Doc_Electron,
+                            nitemisor = getFacturaZamenis[0].EmpresaIdentificacion,
+                            codSucursal = getFacturaZamenis[0].EmpresaIdentificacion,
+                            tiporeceptor = getFacturaZamenis[0].TDocReceptor == "NIT" ? "1" : "2",
+                            tipoDocRec = Definiciones.tipoDocRec(99, Definiciones.tipoDocRec(88, repoAgendaMedicaPacientes.getTipoDoc(getFacturaZamenis[0].TDocReceptor))),
+                            nitreceptor = getFacturaZamenis[0].PacienteAseguradora,
+                            nombrereceptor = getFacturaZamenis[0].PacienteNombre,
+                            mailreceptor = string.IsNullOrEmpty(getFacturaZamenis[0].Correo) ? Conexion.EmailDestinoDefecto : getFacturaZamenis[0].Correo,
+                            tipocomprobante = Definiciones.tipocomprobante("Factura de Venta Nacional"),
+                            extra1 = "",
 
-                            ResultadoRadicacion resultadoRadicacion2 = new ResultadoRadicacion(listResultados);
-                            resultadoRadicacion2.ShowDialog();*/
+                            noresolucion = getDataFacElectron.Com_Resolucion_Electron,
+                            prefijo = getDataFacElectron.Com_Prefijo_Electron,
+                            folio = getDataFacElectron.Com_Doc_Electron.ToString(),
 
-                            return;
-                        }
-                        else
-                        {
-                            TokenGenerado = repoFelectron.GetTokenSaved(Cia).Trim();
-                        }
-                    }
-
-                    RequestRecibidoFElectronDecodificado sendXML = new RequestRecibidoFElectronDecodificado
-                    {
-                        TipoFactura = "Caja",
-                        Contraseña = dataWS["Pass"],
-                        Usuario = dataWS["User"],
-                        Factura = factura,
-                        ClaveTecnica = TokenGenerado
+                            fecha = DateTime.Now.ToString("yyyy-MM-dd"),
+                            hora = DateTime.Now.ToString("HH:mm:ss"),
+                            moneda = "COP",
+                            subtotal = ConvertirDecimal.ConvertirValor(getFacturaZamenis[0].Valor),
+                            metodopago = Definiciones.metodopago("Contado"),
+                            mediopago = "10",
+                            fechavencimiento = DateTime.Now.AddDays(0).ToString("yyyy-MM-dd"),
+                            terminospago = "1",
+                            baseimpuesto = ConvertirDecimal.ConvertirValor(0),
+                            totalsindescuento = ConvertirDecimal.ConvertirValor(getFacturaZamenis[0].Valor),
+                            totaldescuentos = ConvertirDecimal.ConvertirValor(0),
+                            totalimpuestos = ConvertirDecimal.ConvertirValor(0),
+                            totalimpuestosretenidos = ConvertirDecimal.ConvertirValor(0),
+                            total = ConvertirDecimal.ConvertirValor(getFacturaZamenis[0].Valor),
+                            montoletra = getFacturaZamenis[0].Letras,
+                            tipoOpera = "10",
+                            ordenCompra = Adm_RC.ToString(),
+                        },
+                        Detalle = new List<Detalle>(),
+                        Impuestos = new List<Impuesto>()
                     };
 
-                    GenerarXML G = new GenerarXML();
+                    int comprobante = 1;
 
-                    /*XMLResponseF1 res = new XMLResponseF1()
+                    foreach (RCCAJA i in getFacturaZamenis)
                     {
-                        StatusCode = "00",
-                        error = "",
-                    };*/
-                    
-                    var res = G.SendXML(sendXML, Program.URLApiConexion).GetAwaiter().GetResult();
-                    if (res != null)
-                    {
-                        if (res.StatusCode == "00" && res.error == "")
+                        factura.Detalle.Add(new Detalle
                         {
-                            string resolucion = "Res. DIAN No. " + getDataFacElectron.Com_Resolucion_Electron + " Habilitada para Facturación Electrónica de " + Convert.ToDateTime(getDataFacElectron.Com_Fecha_Electron).ToString("yyyy-MM-dd") + ", " + getDataFacElectron.Com_Numeracion_Electron;
+                            llaveComprobante = getDataFacElectron.Com_Prefijo_Electron + getDataFacElectron.Com_Doc_Electron,
+                            idConcepto = comprobante.ToString(),
+                            cantidad = Convert.ToInt32(i.Cantidad).ToString("N2").Replace(",", "."),
+                            unidadmedida = "EA",
+                            descripcion = i.Observacion,
+                            precioUnitario = ConvertirDecimal.ConvertirValor(i.Valor),
+                            importe = ConvertirDecimal.ConvertirValor(Convert.ToInt32(i.Valor) * Convert.ToInt32(i.Cantidad)),
+                            impuestolinea = ConvertirDecimal.ConvertirValor(0),
+                            tasa = ConvertirDecimal.ConvertirValor(0).ToString("N2").Replace(",", "."),
+                            tipo = "01",
+                            baseimpuestos = ConvertirDecimal.ConvertirValor(0),
+                            identificacionproductos = "100000"
+                        });
 
-                            UpdateFacturaElectronica datosNuevosFacElectron = new UpdateFacturaElectronica
+                        comprobante++;
+                    }
+
+                    comprobante = 1;
+
+                    factura.Impuestos.Add(new Impuesto
+                    {
+                        llaveComprobante = getDataFacElectron.Com_Prefijo_Electron + getDataFacElectron.Com_Doc_Electron,
+                        idImpuesto = comprobante.ToString(),
+                        baseimpuestos = ConvertirDecimal.ConvertirValor(0),
+                        tasa = ConvertirDecimal.ConvertirValor(0),
+                        tipoImpuesto = "01",
+                        importe = ConvertirDecimal.ConvertirValor(0)
+                    });
+
+                    PrintXML.Print(factura, getDataFacElectron.Com_Prefijo_Electron + getDataFacElectron.Com_Doc_Electron);
+
+                    Dictionary<string, string> dataWS = repoWSClients.Claves("Factura1XML", Cia);
+                    if (dataWS == null)
+                    {
+                        /* listResultados.Add(new CXN_FACTURA
+                         {
+                             Fac_Tipo_Doc = "Caja",
+                             Fac_Estado = "Error",
+                             Fac_Num_Fac = facturaZ,
+                             Fac_Cia = Cia,
+                             Homologo = "",
+                             Fac_Observa = "No hay resultados para login de Facturacion Electronica"
+                         });*/
+                    }
+                    else
+                    {
+                        string TokenGenerado = repoFelectron.GetTokenSaved(Cia).Trim();
+                        if (string.IsNullOrEmpty(TokenGenerado))
+                        {
+                            bool generar = GenerateTokens.GenerarTokenNuevo(Cia);
+                            if (generar == false)
                             {
-                                FacturaElectronica = getDataFacElectron.Com_Prefijo_Electron + getDataFacElectron.Com_Doc_Electron,
-                                FacturaZamenis = PosId,
-                                Hora = DateTime.Now,
-                                Fecha = DateTime.Now.Date,
-                                Cufe = res.cufe,
-                                Resolucion = resolucion,
-                                ResolucionNumeracion = getDataFacElectron.Com_Numeracion_Electron,
-                                Prestador = Cia
-                            };
+                                /* listResultados.Add(new CXN_FACTURA
+                                 {
+                                     Fac_Tipo_Doc = "Caja",
+                                     Fac_Estado = "Error",
+                                     Fac_Num_Fac = facturaZ,
+                                     Fac_Cia = Cia,
+                                     Homologo = "",
+                                     Fac_Observa = "No hay resultados para tokens generados, genere uno nuevo antes de emitir facturacion"
+                                 });
 
-                            bool uRc = ActualizarDocumentos.AddHomologoCaja(datosNuevosFacElectron);
-                            if (uRc != true)
-                            {
+                                 ResultadoRadicacion resultadoRadicacion2 = new ResultadoRadicacion(listResultados);
+                                 resultadoRadicacion2.ShowDialog();*/
 
+                                return;
                             }
                             else
                             {
-                                int NueCons = getDataFacElectron.Com_Doc_Electron + 1;
-                                repoCia.ConsecutivoActualiza(Cia, "CONSELECTRON", NueCons);
+                                TokenGenerado = repoFelectron.GetTokenSaved(Cia).Trim();
+                            }
+                        }
 
-                                List<RCCAJA> Exportar = ExportarPDF.ExportarReciboCaja(PosId);
-                                if (Exportar == null)
+                        RequestRecibidoFElectronDecodificado sendXML = new RequestRecibidoFElectronDecodificado
+                        {
+                            TipoFactura = "Caja",
+                            Contraseña = dataWS["Pass"],
+                            Usuario = dataWS["User"],
+                            Factura = factura,
+                            ClaveTecnica = TokenGenerado
+                        };
+
+                        GenerarXML G = new GenerarXML();
+
+                        /*XMLResponseF1 res = new XMLResponseF1()
+                        {
+                            StatusCode = "00",
+                            error = "",
+                        };*/
+
+                        var res = G.SendXML(sendXML, Program.URLApiConexion).GetAwaiter().GetResult();
+                        if (res != null)
+                        {
+                            if (res.StatusCode == "00" && res.error == "")
+                            {
+                                string resolucion = "Res. DIAN No. " + getDataFacElectron.Com_Resolucion_Electron + " Habilitada para Facturación Electrónica de " + Convert.ToDateTime(getDataFacElectron.Com_Fecha_Electron).ToString("yyyy-MM-dd") + ", " + getDataFacElectron.Com_Numeracion_Electron;
+
+                                UpdateFacturaElectronica datosNuevosFacElectron = new UpdateFacturaElectronica
+                                {
+                                    FacturaElectronica = getDataFacElectron.Com_Prefijo_Electron + getDataFacElectron.Com_Doc_Electron,
+                                    FacturaZamenis = PosId,
+                                    Hora = DateTime.Now,
+                                    Fecha = DateTime.Now.Date,
+                                    Cufe = res.cufe,
+                                    Resolucion = resolucion,
+                                    ResolucionNumeracion = getDataFacElectron.Com_Numeracion_Electron,
+                                    Prestador = Cia
+                                };
+
+                                bool uRc = ActualizarDocumentos.AddHomologoCaja(datosNuevosFacElectron);
+                                if (uRc != true)
                                 {
 
                                 }
                                 else
                                 {
-                                    ReportViewer RCaja = new ReportViewer();
+                                    int NueCons = getDataFacElectron.Com_Doc_Electron + 1;
+                                    repoCia.ConsecutivoActualiza(Cia, "CONSELECTRON", NueCons);
 
-                                    var resources = Assembly.GetExecutingAssembly().GetManifestResourceNames();
+                                    List<RCCAJA> Exportar = ExportarPDF.ExportarReciboCaja(PosId);
+                                    if (Exportar == null)
+                                    {
 
-                                    RCaja.LocalReport.DataSources.Clear();
-                                    RCaja.LocalReport.DataSources.Add(new ReportDataSource("ReciboCajaDataset", Exportar));
-                                    RCaja.LocalReport.ReportEmbeddedResource = "ZamenisHealth.Reportes.RDLC_RcCajaImpTermica.rdlc";
-                                    RCaja.SetDisplayMode(DisplayMode.PrintLayout);
-                                    RCaja.ZoomMode = ZoomMode.Percent;
-                                    RCaja.ZoomPercent = 100;
-                                    RCaja.Font = new System.Drawing.Font("Arial", 7);
-                                    RCaja.LocalReport.EnableExternalImages = true;
-                                    RCaja.RefreshReport();
-                                    RCaja.Dock = System.Windows.Forms.DockStyle.Fill;
+                                    }
+                                    else
+                                    {
+                                        ReportViewer RCaja = new ReportViewer();
 
-                                    byte[] bytes = RCaja.LocalReport.Render("PDF");
+                                        var resources = Assembly.GetExecutingAssembly().GetManifestResourceNames();
 
-                                    string GetCUFE = ActualizarDocumentos.GetCUFE(datosNuevosFacElectron.FacturaElectronica, Cia, "Caja");
-                                    //Radicar PDF
-                                    GenerateXMLPDF.GenerarBase64PDF(bytes, Cia, GetCUFE, datosNuevosFacElectron.FacturaElectronica, sendXML.ClaveTecnica);
+                                        RCaja.LocalReport.DataSources.Clear();
+                                        RCaja.LocalReport.DataSources.Add(new ReportDataSource("ReciboCajaDataset", Exportar));
+                                        RCaja.LocalReport.ReportEmbeddedResource = "ZamenisHealth.Reportes.RDLC_RcCajaImpTermica.rdlc";
+                                        RCaja.SetDisplayMode(DisplayMode.PrintLayout);
+                                        RCaja.ZoomMode = ZoomMode.Percent;
+                                        RCaja.ZoomPercent = 100;
+                                        RCaja.Font = new System.Drawing.Font("Arial", 7);
+                                        RCaja.LocalReport.EnableExternalImages = true;
+                                        RCaja.RefreshReport();
+                                        RCaja.Dock = System.Windows.Forms.DockStyle.Fill;
 
-                                    FileStream fss = new FileStream("C:\\CXN\\RespuestasDIAN\\RespuestaPDF\\FEV_" + getDataFacElectron.Com_Identificacion + "_" + datosNuevosFacElectron.FacturaElectronica + ".pdf", FileMode.Create);
-                                    fss.Write(bytes, 0, bytes.Length);
-                                    fss.Close();
+                                        byte[] bytes = RCaja.LocalReport.Render("PDF");
+
+                                        string GetCUFE = ActualizarDocumentos.GetCUFE(datosNuevosFacElectron.FacturaElectronica, Cia, "Caja");
+                                        //Radicar PDF
+                                        GenerateXMLPDF.GenerarBase64PDF(bytes, Cia, GetCUFE, datosNuevosFacElectron.FacturaElectronica, sendXML.ClaveTecnica);
+
+                                        FileStream fss = new FileStream("C:\\CXN\\RespuestasDIAN\\RespuestaPDF\\FEV_" + getDataFacElectron.Com_Identificacion + "_" + datosNuevosFacElectron.FacturaElectronica + ".pdf", FileMode.Create);
+                                        fss.Write(bytes, 0, bytes.Length);
+                                        fss.Close();
+                                    }
                                 }
+                            }
+                            else
+                            {
+                                return;
                             }
                         }
                         else
                         {
-                            return;
+
                         }
                     }
-                    else
-                    {
-
-                    }
-                }
+                });               
             }
             catch (Exception ex)
             {
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         private async void Exporta(int PosId, bool TRecibo)
         {
             try
             {
+                boton1.Enabled = false;
+
                 ExportaReport = repoRcCaja.ReciboRpt(PosId);
 
                 await GenerarFacturaElectronica(PosId);

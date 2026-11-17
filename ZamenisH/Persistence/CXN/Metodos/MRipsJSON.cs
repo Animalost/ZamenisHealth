@@ -14,6 +14,7 @@ namespace Persistence.CXN.Metodos
         private static readonly ICompañia repoCia = new MCompañia();
         private static readonly IPacientes repoPacientes = new MPacientes();
         private static readonly IFacturacion repoFacturacion = new MFacturacion();
+        private static readonly ICIE10 repoCIE10 = new MCIE10();
 
         //INDIVIDUAL
         Transaccion IRIPSJSON.GenrateIndividual(RIPS_Class R)
@@ -174,35 +175,81 @@ namespace Persistence.CXN.Metodos
 
                                         while (ReaderConsultas.Read() == true)
                                         {
-                                            transaccion.usuarios[0].servicios.consultas.Add(new Consultas
+                                            CXN_CIE11 cie11 = repoCIE10.GetCIE11ByAdm(Convert.ToInt32(ReaderConsultas["Hor_Id"]));
+                                            if (cie11 != null)
                                             {
-                                                codPrestador = ReaderConsultas["Com_Cod_Prestador"].ToString(),
-                                                fechaInicioAtencion = Convert.ToDateTime(ReaderConsultas["Car_Fecha"]).ToString("yyyy-MM-dd") + " " + Convert.ToDateTime(ReaderConsultas["Hor_Pac_Hora_Cita"]).ToString("hh:mm"),
-                                                numAutorizacion = (ReaderConsultas["Fac_Num_Aut"] == DBNull.Value || ReaderConsultas["Fac_Num_Aut"].ToString() == "" ? "" : ReaderConsultas["Fac_Num_Aut"].ToString()),
-                                                codConsulta = ReaderConsultas["Con_CUP"].ToString(),
-                                                modalidadGrupoServicioTecSal = (ReaderConsultas["Hor_Pac_Modalidad"] == DBNull.Value || ReaderConsultas["Hor_Pac_Modalidad"].ToString() == "" ? "" : ReaderConsultas["Hor_Pac_Modalidad"].ToString()),
-                                                grupoServicios = (ReaderConsultas["Hor_GrupoServicios"] == DBNull.Value || ReaderConsultas["Hor_GrupoServicios"].ToString() == "" ? "01" : ReaderConsultas["Hor_GrupoServicios"].ToString()),
-                                                codServicio = Convert.ToInt32(ReaderConsultas["Con_CodServicio"]),
-                                                finalidadTecnologiaSalud = "15", //(ReaderConsultas["HorTecnoSalud"] == DBNull.Value || ReaderConsultas["HorTecnoSalud"].ToString() == "" ? "01" : ReaderConsultas["HorTecnoSalud"].ToString()),
-                                                causaMotivoAtencion = Convert.ToInt32(ReaderConsultas["Car_CExterna"]).ToString(),
-                                                codDiagnosticoPrincipal = (ReaderConsultas["Car_Dx1"] == DBNull.Value || ReaderConsultas["Car_Dx1"].ToString() == "" ? null : ReaderConsultas["Car_Dx1"].ToString()),
-                                                codDiagnosticoRelacionado1 = (ReaderConsultas["Car_Dx2"] == DBNull.Value || ReaderConsultas["Car_Dx2"].ToString() == "" ? null : ReaderConsultas["Car_Dx2"].ToString()),
-                                                codDiagnosticoRelacionado2 = (ReaderConsultas["Car_Dx3"] == DBNull.Value || ReaderConsultas["Car_Dx3"].ToString() == "" ? null : ReaderConsultas["Car_Dx3"].ToString()),
-                                                codDiagnosticoRelacionado3 = null,
-                                                tipoDiagnosticoPrincipal = (ReaderConsultas["Car_Imp_Dx"].ToString() == "1" ? "01" : ReaderConsultas["Car_Imp_Dx"].ToString() == "2" ? "02" : "03"),
-                                                tipoDocumentoIdentificacion = "CC",
-                                                numDocumentoIdentificacion = ReaderConsultas["Bod_Reg_Med"].ToString(),
-                                                vrServicio = Convert.ToInt32(ReaderConsultas["Car_val_Tot"]),
+                                                transaccion.usuarios[0].servicios.consultas.Add(new Consultas
+                                                {
+                                                    codPrestador = ReaderConsultas["Com_Cod_Prestador"].ToString(),
+                                                    fechaInicioAtencion = Convert.ToDateTime(ReaderConsultas["Car_Fecha"]).ToString("yyyy-MM-dd") + " " + Convert.ToDateTime(ReaderConsultas["Hor_Pac_Hora_Cita"]).ToString("hh:mm"),
+                                                    numAutorizacion = (ReaderConsultas["Fac_Num_Aut"] == DBNull.Value || ReaderConsultas["Fac_Num_Aut"].ToString() == "" ? "" : ReaderConsultas["Fac_Num_Aut"].ToString()),
+                                                    codConsulta = ReaderConsultas["Con_CUP"].ToString(),
+                                                    modalidadGrupoServicioTecSal = (ReaderConsultas["Hor_Pac_Modalidad"] == DBNull.Value || ReaderConsultas["Hor_Pac_Modalidad"].ToString() == "" ? "" : ReaderConsultas["Hor_Pac_Modalidad"].ToString()),
+                                                    grupoServicios = (ReaderConsultas["Hor_GrupoServicios"] == DBNull.Value || ReaderConsultas["Hor_GrupoServicios"].ToString() == "" ? "01" : ReaderConsultas["Hor_GrupoServicios"].ToString()),
+                                                    codServicio = Convert.ToInt32(ReaderConsultas["Con_CodServicio"]),
+                                                    finalidadTecnologiaSalud = "15", //(ReaderConsultas["HorTecnoSalud"] == DBNull.Value || ReaderConsultas["HorTecnoSalud"].ToString() == "" ? "01" : ReaderConsultas["HorTecnoSalud"].ToString()),
+                                                    causaMotivoAtencion = Convert.ToInt32(ReaderConsultas["Car_CExterna"]).ToString(),
+                                                    codDiagnosticoPrincipal = (ReaderConsultas["Car_Dx1"] == DBNull.Value || ReaderConsultas["Car_Dx1"].ToString() == "" ? null : ReaderConsultas["Car_Dx1"].ToString()),
+                                                    codDiagnosticoRelacionado1 = (ReaderConsultas["Car_Dx2"] == DBNull.Value || ReaderConsultas["Car_Dx2"].ToString() == "" ? null : ReaderConsultas["Car_Dx2"].ToString()),
+                                                    codDiagnosticoRelacionado2 = (ReaderConsultas["Car_Dx3"] == DBNull.Value || ReaderConsultas["Car_Dx3"].ToString() == "" ? null : ReaderConsultas["Car_Dx3"].ToString()),
+                                                    codDiagnosticoRelacionado3 = null,
 
-                                                conceptoRecaudo = "05",
-                                                valorPagoModerador = 0,
-                                                numFEVPagoModerador = "",
+                                                    codDiagnosticoPrincipalCIE11 = cie11.Codigo,
+                                                    nomCodDiagnosticoPrincipalCIE11 = cie11.Descripcion,
+                                                    codDiagnosticoRelacionado1CIE11 = null,
+                                                    nomCodDiagnosticoRelacionado1CIE11 = null,
+                                                    codDiagnosticoRelacionado2CIE11 = null,
+                                                    nomCodDiagnosticoRelacionado2CIE11 = null,
+                                                    codDiagnosticoRelacionado3CIE11 = null,
+                                                    nomCodDiagnosticoRelacionado3CIE11 = null,
 
-                                                //conceptoRecaudo = (ReaderConsultas["Hor_RcCaja"] == DBNull.Value || ReaderConsultas["Hor_RcCaja"].ToString() == "" ? "05" : ReaderConsultas["Hor_ConceptoRecaudo"].ToString()),
-                                                //valorPagoModerador = (ReaderConsultas["Hor_RcCaja"] == DBNull.Value || ReaderConsultas["Hor_RcCaja"].ToString() == "" ? 0 : Convert.ToInt32(ReaderConsultas["Hor_RcCaja"])),
-                                                //numFEVPagoModerador = (ReaderConsultas["Hor_DocFEModerador"] == DBNull.Value || ReaderConsultas["Hor_DocFEModerador"].ToString() == "" ? "" : ReaderConsultas["Hor_DocFEModerador"].ToString()),
-                                                consecutivo = consCon
-                                            });
+                                                    tipoDiagnosticoPrincipal = (ReaderConsultas["Car_Imp_Dx"].ToString() == "1" ? "01" : ReaderConsultas["Car_Imp_Dx"].ToString() == "2" ? "02" : "03"),
+                                                    tipoDocumentoIdentificacion = "CC",
+                                                    numDocumentoIdentificacion = ReaderConsultas["Bod_Reg_Med"].ToString(),
+                                                    vrServicio = Convert.ToInt32(ReaderConsultas["Car_val_Tot"]),
+
+                                                    conceptoRecaudo = "05",
+                                                    valorPagoModerador = 0,
+                                                    numFEVPagoModerador = "",
+
+                                                    //conceptoRecaudo = (ReaderConsultas["Hor_RcCaja"] == DBNull.Value || ReaderConsultas["Hor_RcCaja"].ToString() == "" ? "05" : ReaderConsultas["Hor_ConceptoRecaudo"].ToString()),
+                                                    //valorPagoModerador = (ReaderConsultas["Hor_RcCaja"] == DBNull.Value || ReaderConsultas["Hor_RcCaja"].ToString() == "" ? 0 : Convert.ToInt32(ReaderConsultas["Hor_RcCaja"])),
+                                                    //numFEVPagoModerador = (ReaderConsultas["Hor_DocFEModerador"] == DBNull.Value || ReaderConsultas["Hor_DocFEModerador"].ToString() == "" ? "" : ReaderConsultas["Hor_DocFEModerador"].ToString()),
+                                                    consecutivo = consCon
+                                                });
+                                            }
+                                            else
+                                            {
+                                                transaccion.usuarios[0].servicios.consultas.Add(new Consultas
+                                                {
+                                                    codPrestador = ReaderConsultas["Com_Cod_Prestador"].ToString(),
+                                                    fechaInicioAtencion = Convert.ToDateTime(ReaderConsultas["Car_Fecha"]).ToString("yyyy-MM-dd") + " " + Convert.ToDateTime(ReaderConsultas["Hor_Pac_Hora_Cita"]).ToString("hh:mm"),
+                                                    numAutorizacion = (ReaderConsultas["Fac_Num_Aut"] == DBNull.Value || ReaderConsultas["Fac_Num_Aut"].ToString() == "" ? "" : ReaderConsultas["Fac_Num_Aut"].ToString()),
+                                                    codConsulta = ReaderConsultas["Con_CUP"].ToString(),
+                                                    modalidadGrupoServicioTecSal = (ReaderConsultas["Hor_Pac_Modalidad"] == DBNull.Value || ReaderConsultas["Hor_Pac_Modalidad"].ToString() == "" ? "" : ReaderConsultas["Hor_Pac_Modalidad"].ToString()),
+                                                    grupoServicios = (ReaderConsultas["Hor_GrupoServicios"] == DBNull.Value || ReaderConsultas["Hor_GrupoServicios"].ToString() == "" ? "01" : ReaderConsultas["Hor_GrupoServicios"].ToString()),
+                                                    codServicio = Convert.ToInt32(ReaderConsultas["Con_CodServicio"]),
+                                                    finalidadTecnologiaSalud = "15", //(ReaderConsultas["HorTecnoSalud"] == DBNull.Value || ReaderConsultas["HorTecnoSalud"].ToString() == "" ? "01" : ReaderConsultas["HorTecnoSalud"].ToString()),
+                                                    causaMotivoAtencion = Convert.ToInt32(ReaderConsultas["Car_CExterna"]).ToString(),
+                                                    codDiagnosticoPrincipal = (ReaderConsultas["Car_Dx1"] == DBNull.Value || ReaderConsultas["Car_Dx1"].ToString() == "" ? null : ReaderConsultas["Car_Dx1"].ToString()),
+                                                    codDiagnosticoRelacionado1 = (ReaderConsultas["Car_Dx2"] == DBNull.Value || ReaderConsultas["Car_Dx2"].ToString() == "" ? null : ReaderConsultas["Car_Dx2"].ToString()),
+                                                    codDiagnosticoRelacionado2 = (ReaderConsultas["Car_Dx3"] == DBNull.Value || ReaderConsultas["Car_Dx3"].ToString() == "" ? null : ReaderConsultas["Car_Dx3"].ToString()),
+                                                    codDiagnosticoRelacionado3 = null,
+                                                    tipoDiagnosticoPrincipal = (ReaderConsultas["Car_Imp_Dx"].ToString() == "1" ? "01" : ReaderConsultas["Car_Imp_Dx"].ToString() == "2" ? "02" : "03"),
+                                                    tipoDocumentoIdentificacion = "CC",
+                                                    numDocumentoIdentificacion = ReaderConsultas["Bod_Reg_Med"].ToString(),
+                                                    vrServicio = Convert.ToInt32(ReaderConsultas["Car_val_Tot"]),
+
+                                                    conceptoRecaudo = "05",
+                                                    valorPagoModerador = 0,
+                                                    numFEVPagoModerador = "",
+
+                                                    //conceptoRecaudo = (ReaderConsultas["Hor_RcCaja"] == DBNull.Value || ReaderConsultas["Hor_RcCaja"].ToString() == "" ? "05" : ReaderConsultas["Hor_ConceptoRecaudo"].ToString()),
+                                                    //valorPagoModerador = (ReaderConsultas["Hor_RcCaja"] == DBNull.Value || ReaderConsultas["Hor_RcCaja"].ToString() == "" ? 0 : Convert.ToInt32(ReaderConsultas["Hor_RcCaja"])),
+                                                    //numFEVPagoModerador = (ReaderConsultas["Hor_DocFEModerador"] == DBNull.Value || ReaderConsultas["Hor_DocFEModerador"].ToString() == "" ? "" : ReaderConsultas["Hor_DocFEModerador"].ToString()),
+                                                    consecutivo = consCon
+                                                });
+                                            }                                                
 
                                             consCon++;
                                         }
@@ -228,34 +275,78 @@ namespace Persistence.CXN.Metodos
 
                                         while (ReaderNotas.Read() == true)
                                         {
-                                            transaccion.usuarios[0].servicios.procedimientos.Add(new Procedimientos
+                                            CXN_CIE11 cie11 = repoCIE10.GetCIE11ByAdm(Convert.ToInt32(ReaderNotas["Hor_Id"]));
+                                            if (cie11 != null)
                                             {
-                                                codPrestador = ReaderNotas["Com_Cod_Prestador"].ToString(),
-                                                fechaInicioAtencion = Convert.ToDateTime(ReaderNotas["Car_Fecha"]).ToString("yyyy-MM-dd") + " " + Convert.ToDateTime(ReaderNotas["Hor_Pac_Hora_Cita"]).ToString("hh:mm"),
-                                                idMIPRES = null,
-                                                numAutorizacion = (ReaderNotas["Fac_Num_Aut"] == DBNull.Value || ReaderNotas["Fac_Num_Aut"].ToString() == "" ? "" : ReaderNotas["Fac_Num_Aut"].ToString()),
-                                                codProcedimiento = ReaderNotas["Con_CUP"].ToString(),
-                                                viaIngresoServicioSalud = "02",
-                                                modalidadGrupoServicioTecSal = (ReaderNotas["Hor_Pac_Modalidad"] == DBNull.Value || ReaderNotas["Hor_Pac_Modalidad"].ToString() == "" ? "" : ReaderNotas["Hor_Pac_Modalidad"].ToString()),
-                                                grupoServicios = (ReaderNotas["Hor_GrupoServicios"] == DBNull.Value || ReaderNotas["Hor_GrupoServicios"].ToString() == "" ? "01" : ReaderNotas["Hor_GrupoServicios"].ToString()),
-                                                codServicio = Convert.ToInt32(ReaderNotas["Con_CodServicio"]),
-                                                finalidadTecnologiaSalud = (ReaderNotas["HorTecnoSalud"] == DBNull.Value || ReaderNotas["HorTecnoSalud"].ToString() == "" ? "16" : ReaderNotas["HorTecnoSalud"].ToString()),
-                                                tipoDocumentoIdentificacion = "CC",
-                                                numDocumentoIdentificacion = ReaderNotas["Bod_Reg_Med"].ToString(),
-                                                codDiagnosticoPrincipal = (ReaderNotas["Car_Dx1"] == DBNull.Value || ReaderNotas["Car_Dx1"].ToString() == "" ? null : ReaderNotas["Car_Dx1"].ToString()),
-                                                codDiagnosticoRelacionado = (ReaderNotas["Car_Dx2"] == DBNull.Value || ReaderNotas["Car_Dx2"].ToString() == "" ? null : ReaderNotas["Car_Dx2"].ToString()),
-                                                codComplicacion = (ReaderNotas["Car_Dx3"] == DBNull.Value || ReaderNotas["Car_Dx3"].ToString() == "" ? null : ReaderNotas["Car_Dx3"].ToString()),
-                                                vrServicio = Convert.ToInt32(ReaderNotas["Car_val_Tot"]),
+                                                transaccion.usuarios[0].servicios.procedimientos.Add(new Procedimientos 
+                                                {
+                                                    codPrestador = ReaderNotas["Com_Cod_Prestador"].ToString(),
+                                                    fechaInicioAtencion = Convert.ToDateTime(ReaderNotas["Car_Fecha"]).ToString("yyyy-MM-dd") + " " + Convert.ToDateTime(ReaderNotas["Hor_Pac_Hora_Cita"]).ToString("hh:mm"),
+                                                    idMIPRES = null,
+                                                    numAutorizacion = (ReaderNotas["Fac_Num_Aut"] == DBNull.Value || ReaderNotas["Fac_Num_Aut"].ToString() == "" ? "" : ReaderNotas["Fac_Num_Aut"].ToString()),
+                                                    codProcedimiento = ReaderNotas["Con_CUP"].ToString(),
+                                                    viaIngresoServicioSalud = "02",
+                                                    modalidadGrupoServicioTecSal = (ReaderNotas["Hor_Pac_Modalidad"] == DBNull.Value || ReaderNotas["Hor_Pac_Modalidad"].ToString() == "" ? "" : ReaderNotas["Hor_Pac_Modalidad"].ToString()),
+                                                    grupoServicios = (ReaderNotas["Hor_GrupoServicios"] == DBNull.Value || ReaderNotas["Hor_GrupoServicios"].ToString() == "" ? "01" : ReaderNotas["Hor_GrupoServicios"].ToString()),
+                                                    codServicio = Convert.ToInt32(ReaderNotas["Con_CodServicio"]),
+                                                    finalidadTecnologiaSalud = (ReaderNotas["HorTecnoSalud"] == DBNull.Value || ReaderNotas["HorTecnoSalud"].ToString() == "" ? "16" : ReaderNotas["HorTecnoSalud"].ToString()),
+                                                    tipoDocumentoIdentificacion = "CC",
+                                                    numDocumentoIdentificacion = ReaderNotas["Bod_Reg_Med"].ToString(),
+                                                    codDiagnosticoPrincipal = (ReaderNotas["Car_Dx1"] == DBNull.Value || ReaderNotas["Car_Dx1"].ToString() == "" ? null : ReaderNotas["Car_Dx1"].ToString()),
+                                                    codDiagnosticoRelacionado = (ReaderNotas["Car_Dx2"] == DBNull.Value || ReaderNotas["Car_Dx2"].ToString() == "" ? null : ReaderNotas["Car_Dx2"].ToString()),
+                                                    codComplicacion = (ReaderNotas["Car_Dx3"] == DBNull.Value || ReaderNotas["Car_Dx3"].ToString() == "" ? null : ReaderNotas["Car_Dx3"].ToString()),
 
-                                                conceptoRecaudo = "05",
-                                                valorPagoModerador = 0,
-                                                numFEVPagoModerador = "",
+                                                    codDiagnosticoPrincipalCIE11 = cie11.Codigo,
+                                                    nomCodDiagnosticoPrincipalCIE11 = cie11.Descripcion,
 
-                                                //conceptoRecaudo = (ReaderNotas["Hor_RcCaja"] == DBNull.Value || ReaderNotas["Hor_RcCaja"].ToString() == "" ? "05" : ReaderNotas["Hor_ConceptoRecaudo"].ToString()),
-                                                //valorPagoModerador = (ReaderNotas["Hor_RcCaja"] == DBNull.Value || ReaderNotas["Hor_RcCaja"].ToString() == "" ? 0 : Convert.ToInt32(ReaderNotas["Hor_RcCaja"])),
-                                                //numFEVPagoModerador = ReaderNotas["Hor_DocFEModerador"].ToString(),
-                                                consecutivo = ConsNota
-                                            });
+                                                    codDiagnosticoRelacionadoCIE11 = null,
+                                                    nomCodDiagnosticoRelacionadoCIE11 = null,
+                                                    codComplicacionCIE11 = null,
+                                                    nomComplicacionCIE11 = null,
+
+                                                    vrServicio = Convert.ToInt32(ReaderNotas["Car_val_Tot"]),
+
+                                                    conceptoRecaudo = "05",
+                                                    valorPagoModerador = 0,
+                                                    numFEVPagoModerador = "",
+
+                                                    //conceptoRecaudo = (ReaderNotas["Hor_RcCaja"] == DBNull.Value || ReaderNotas["Hor_RcCaja"].ToString() == "" ? "05" : ReaderNotas["Hor_ConceptoRecaudo"].ToString()),
+                                                    //valorPagoModerador = (ReaderNotas["Hor_RcCaja"] == DBNull.Value || ReaderNotas["Hor_RcCaja"].ToString() == "" ? 0 : Convert.ToInt32(ReaderNotas["Hor_RcCaja"])),
+                                                    //numFEVPagoModerador = ReaderNotas["Hor_DocFEModerador"].ToString(),
+                                                    consecutivo = ConsNota
+                                                });
+                                            }
+                                            else
+                                            {
+                                                transaccion.usuarios[0].servicios.procedimientos.Add(new Procedimientos
+                                                {
+                                                    codPrestador = ReaderNotas["Com_Cod_Prestador"].ToString(),
+                                                    fechaInicioAtencion = Convert.ToDateTime(ReaderNotas["Car_Fecha"]).ToString("yyyy-MM-dd") + " " + Convert.ToDateTime(ReaderNotas["Hor_Pac_Hora_Cita"]).ToString("hh:mm"),
+                                                    idMIPRES = null,
+                                                    numAutorizacion = (ReaderNotas["Fac_Num_Aut"] == DBNull.Value || ReaderNotas["Fac_Num_Aut"].ToString() == "" ? "" : ReaderNotas["Fac_Num_Aut"].ToString()),
+                                                    codProcedimiento = ReaderNotas["Con_CUP"].ToString(),
+                                                    viaIngresoServicioSalud = "02",
+                                                    modalidadGrupoServicioTecSal = (ReaderNotas["Hor_Pac_Modalidad"] == DBNull.Value || ReaderNotas["Hor_Pac_Modalidad"].ToString() == "" ? "" : ReaderNotas["Hor_Pac_Modalidad"].ToString()),
+                                                    grupoServicios = (ReaderNotas["Hor_GrupoServicios"] == DBNull.Value || ReaderNotas["Hor_GrupoServicios"].ToString() == "" ? "01" : ReaderNotas["Hor_GrupoServicios"].ToString()),
+                                                    codServicio = Convert.ToInt32(ReaderNotas["Con_CodServicio"]),
+                                                    finalidadTecnologiaSalud = (ReaderNotas["HorTecnoSalud"] == DBNull.Value || ReaderNotas["HorTecnoSalud"].ToString() == "" ? "16" : ReaderNotas["HorTecnoSalud"].ToString()),
+                                                    tipoDocumentoIdentificacion = "CC",
+                                                    numDocumentoIdentificacion = ReaderNotas["Bod_Reg_Med"].ToString(),
+                                                    codDiagnosticoPrincipal = (ReaderNotas["Car_Dx1"] == DBNull.Value || ReaderNotas["Car_Dx1"].ToString() == "" ? null : ReaderNotas["Car_Dx1"].ToString()),
+                                                    codDiagnosticoRelacionado = (ReaderNotas["Car_Dx2"] == DBNull.Value || ReaderNotas["Car_Dx2"].ToString() == "" ? null : ReaderNotas["Car_Dx2"].ToString()),
+                                                    codComplicacion = (ReaderNotas["Car_Dx3"] == DBNull.Value || ReaderNotas["Car_Dx3"].ToString() == "" ? null : ReaderNotas["Car_Dx3"].ToString()),
+                                                    vrServicio = Convert.ToInt32(ReaderNotas["Car_val_Tot"]),
+
+                                                    conceptoRecaudo = "05",
+                                                    valorPagoModerador = 0,
+                                                    numFEVPagoModerador = "",
+
+                                                    //conceptoRecaudo = (ReaderNotas["Hor_RcCaja"] == DBNull.Value || ReaderNotas["Hor_RcCaja"].ToString() == "" ? "05" : ReaderNotas["Hor_ConceptoRecaudo"].ToString()),
+                                                    //valorPagoModerador = (ReaderNotas["Hor_RcCaja"] == DBNull.Value || ReaderNotas["Hor_RcCaja"].ToString() == "" ? 0 : Convert.ToInt32(ReaderNotas["Hor_RcCaja"])),
+                                                    //numFEVPagoModerador = ReaderNotas["Hor_DocFEModerador"].ToString(),
+                                                    consecutivo = ConsNota
+                                                });
+                                            }                                            
 
                                             ConsNota++;
                                         }
@@ -842,30 +933,71 @@ namespace Persistence.CXN.Metodos
 
                                             while (ReaderConsultas.Read() == true)
                                             {
-                                                transaccion.usuarios[0].servicios.consultas.Add(new Consultas
+                                                CXN_CIE11 cie11 = repoCIE10.GetCIE11ByAdm(Convert.ToInt32(ReaderConsultas["Hor_Id"]));
+                                                if (cie11 != null)
                                                 {
-                                                    codPrestador = ReaderConsultas["Com_Cod_Prestador"].ToString(),
-                                                    fechaInicioAtencion = Convert.ToDateTime(ReaderConsultas["Car_Fecha"]).ToString("yyyy-MM-dd") + " " + Convert.ToDateTime(ReaderConsultas["Hor_Pac_Hora_Cita"]).ToString("hh:mm"),
-                                                    numAutorizacion = (ReaderConsultas["Fac_Num_Aut"] == DBNull.Value || ReaderConsultas["Fac_Num_Aut"].ToString() == "" ? "" : ReaderConsultas["Fac_Num_Aut"].ToString()),
-                                                    codConsulta = ReaderConsultas["Con_CUP"].ToString(),
-                                                    modalidadGrupoServicioTecSal = (ReaderConsultas["Hor_Pac_Modalidad"] == DBNull.Value || ReaderConsultas["Hor_Pac_Modalidad"].ToString() == "" ? "" : ReaderConsultas["Hor_Pac_Modalidad"].ToString()),
-                                                    grupoServicios = (ReaderConsultas["Hor_GrupoServicios"] == DBNull.Value || ReaderConsultas["Hor_GrupoServicios"].ToString() == "" ? "01" : ReaderConsultas["Hor_GrupoServicios"].ToString()),
-                                                    codServicio = Convert.ToInt32(ReaderConsultas["Con_CodServicio"]),
-                                                    finalidadTecnologiaSalud = "15", //(ReaderConsultas["HorTecnoSalud"] == DBNull.Value || ReaderConsultas["HorTecnoSalud"].ToString() == "" ? "01" : ReaderConsultas["HorTecnoSalud"].ToString()),
-                                                    causaMotivoAtencion = Convert.ToInt32(ReaderConsultas["Car_CExterna"]).ToString(),
-                                                    codDiagnosticoPrincipal = (ReaderConsultas["Car_Dx1"] == DBNull.Value || ReaderConsultas["Car_Dx1"].ToString() == "" ? null : ReaderConsultas["Car_Dx1"].ToString()),
-                                                    codDiagnosticoRelacionado1 = (ReaderConsultas["Car_Dx2"] == DBNull.Value || ReaderConsultas["Car_Dx2"].ToString() == "" ? null : ReaderConsultas["Car_Dx2"].ToString()),
-                                                    codDiagnosticoRelacionado2 = (ReaderConsultas["Car_Dx3"] == DBNull.Value || ReaderConsultas["Car_Dx3"].ToString() == "" ? null : ReaderConsultas["Car_Dx3"].ToString()),
-                                                    codDiagnosticoRelacionado3 = null,
-                                                    tipoDiagnosticoPrincipal = (ReaderConsultas["Car_Imp_Dx"].ToString() == "1" ? "01" : ReaderConsultas["Car_Imp_Dx"].ToString() == "2" ? "02" : "03"),
-                                                    tipoDocumentoIdentificacion = "CC",
-                                                    numDocumentoIdentificacion = ReaderConsultas["Bod_Reg_Med"].ToString(),
-                                                    vrServicio = Convert.ToInt32(ReaderConsultas["Car_val_Tot"]),
-                                                    conceptoRecaudo = (ReaderConsultas["Hor_RcCaja"] == DBNull.Value || ReaderConsultas["Hor_RcCaja"].ToString() == "" ? "05" : ReaderConsultas["Hor_ConceptoRecaudo"].ToString()),
-                                                    valorPagoModerador = (ReaderConsultas["Hor_RcCaja"] == DBNull.Value || ReaderConsultas["Hor_RcCaja"].ToString() == "" ? 0 : Convert.ToInt32(ReaderConsultas["Hor_RcCaja"])),
-                                                    numFEVPagoModerador = (ReaderConsultas["Hor_DocFEModerador"] == DBNull.Value || ReaderConsultas["Hor_DocFEModerador"].ToString() == "" ? "" : ReaderConsultas["Hor_DocFEModerador"].ToString()),
-                                                    consecutivo = consCon
-                                                });
+                                                    transaccion.usuarios[0].servicios.consultas.Add(new Consultas
+                                                    {
+                                                        codPrestador = ReaderConsultas["Com_Cod_Prestador"].ToString(),
+                                                        fechaInicioAtencion = Convert.ToDateTime(ReaderConsultas["Car_Fecha"]).ToString("yyyy-MM-dd") + " " + Convert.ToDateTime(ReaderConsultas["Hor_Pac_Hora_Cita"]).ToString("hh:mm"),
+                                                        numAutorizacion = (ReaderConsultas["Fac_Num_Aut"] == DBNull.Value || ReaderConsultas["Fac_Num_Aut"].ToString() == "" ? "" : ReaderConsultas["Fac_Num_Aut"].ToString()),
+                                                        codConsulta = ReaderConsultas["Con_CUP"].ToString(),
+                                                        modalidadGrupoServicioTecSal = (ReaderConsultas["Hor_Pac_Modalidad"] == DBNull.Value || ReaderConsultas["Hor_Pac_Modalidad"].ToString() == "" ? "" : ReaderConsultas["Hor_Pac_Modalidad"].ToString()),
+                                                        grupoServicios = (ReaderConsultas["Hor_GrupoServicios"] == DBNull.Value || ReaderConsultas["Hor_GrupoServicios"].ToString() == "" ? "01" : ReaderConsultas["Hor_GrupoServicios"].ToString()),
+                                                        codServicio = Convert.ToInt32(ReaderConsultas["Con_CodServicio"]),
+                                                        finalidadTecnologiaSalud = "15", //(ReaderConsultas["HorTecnoSalud"] == DBNull.Value || ReaderConsultas["HorTecnoSalud"].ToString() == "" ? "01" : ReaderConsultas["HorTecnoSalud"].ToString()),
+                                                        causaMotivoAtencion = Convert.ToInt32(ReaderConsultas["Car_CExterna"]).ToString(),
+                                                        codDiagnosticoPrincipal = (ReaderConsultas["Car_Dx1"] == DBNull.Value || ReaderConsultas["Car_Dx1"].ToString() == "" ? null : ReaderConsultas["Car_Dx1"].ToString()),
+                                                        codDiagnosticoRelacionado1 = (ReaderConsultas["Car_Dx2"] == DBNull.Value || ReaderConsultas["Car_Dx2"].ToString() == "" ? null : ReaderConsultas["Car_Dx2"].ToString()),
+                                                        codDiagnosticoRelacionado2 = (ReaderConsultas["Car_Dx3"] == DBNull.Value || ReaderConsultas["Car_Dx3"].ToString() == "" ? null : ReaderConsultas["Car_Dx3"].ToString()),
+                                                        codDiagnosticoRelacionado3 = null,
+
+                                                        codDiagnosticoPrincipalCIE11 = cie11.Codigo,
+                                                        nomCodDiagnosticoPrincipalCIE11 = cie11.Descripcion,
+                                                        codDiagnosticoRelacionado1CIE11 = null,
+                                                        nomCodDiagnosticoRelacionado1CIE11 = null,
+                                                        codDiagnosticoRelacionado2CIE11 = null,
+                                                        nomCodDiagnosticoRelacionado2CIE11 = null,
+                                                        codDiagnosticoRelacionado3CIE11 = null,
+                                                        nomCodDiagnosticoRelacionado3CIE11 = null,
+
+                                                        tipoDiagnosticoPrincipal = (ReaderConsultas["Car_Imp_Dx"].ToString() == "1" ? "01" : ReaderConsultas["Car_Imp_Dx"].ToString() == "2" ? "02" : "03"),
+                                                        tipoDocumentoIdentificacion = "CC",
+                                                        numDocumentoIdentificacion = ReaderConsultas["Bod_Reg_Med"].ToString(),
+                                                        vrServicio = Convert.ToInt32(ReaderConsultas["Car_val_Tot"]),
+                                                        conceptoRecaudo = (ReaderConsultas["Hor_RcCaja"] == DBNull.Value || ReaderConsultas["Hor_RcCaja"].ToString() == "" ? "05" : ReaderConsultas["Hor_ConceptoRecaudo"].ToString()),
+                                                        valorPagoModerador = (ReaderConsultas["Hor_RcCaja"] == DBNull.Value || ReaderConsultas["Hor_RcCaja"].ToString() == "" ? 0 : Convert.ToInt32(ReaderConsultas["Hor_RcCaja"])),
+                                                        numFEVPagoModerador = (ReaderConsultas["Hor_DocFEModerador"] == DBNull.Value || ReaderConsultas["Hor_DocFEModerador"].ToString() == "" ? "" : ReaderConsultas["Hor_DocFEModerador"].ToString()),
+                                                        consecutivo = consCon
+                                                    });
+                                                }
+                                                else
+                                                {
+                                                    transaccion.usuarios[0].servicios.consultas.Add(new Consultas
+                                                    {
+                                                        codPrestador = ReaderConsultas["Com_Cod_Prestador"].ToString(),
+                                                        fechaInicioAtencion = Convert.ToDateTime(ReaderConsultas["Car_Fecha"]).ToString("yyyy-MM-dd") + " " + Convert.ToDateTime(ReaderConsultas["Hor_Pac_Hora_Cita"]).ToString("hh:mm"),
+                                                        numAutorizacion = (ReaderConsultas["Fac_Num_Aut"] == DBNull.Value || ReaderConsultas["Fac_Num_Aut"].ToString() == "" ? "" : ReaderConsultas["Fac_Num_Aut"].ToString()),
+                                                        codConsulta = ReaderConsultas["Con_CUP"].ToString(),
+                                                        modalidadGrupoServicioTecSal = (ReaderConsultas["Hor_Pac_Modalidad"] == DBNull.Value || ReaderConsultas["Hor_Pac_Modalidad"].ToString() == "" ? "" : ReaderConsultas["Hor_Pac_Modalidad"].ToString()),
+                                                        grupoServicios = (ReaderConsultas["Hor_GrupoServicios"] == DBNull.Value || ReaderConsultas["Hor_GrupoServicios"].ToString() == "" ? "01" : ReaderConsultas["Hor_GrupoServicios"].ToString()),
+                                                        codServicio = Convert.ToInt32(ReaderConsultas["Con_CodServicio"]),
+                                                        finalidadTecnologiaSalud = "15", //(ReaderConsultas["HorTecnoSalud"] == DBNull.Value || ReaderConsultas["HorTecnoSalud"].ToString() == "" ? "01" : ReaderConsultas["HorTecnoSalud"].ToString()),
+                                                        causaMotivoAtencion = Convert.ToInt32(ReaderConsultas["Car_CExterna"]).ToString(),
+                                                        codDiagnosticoPrincipal = (ReaderConsultas["Car_Dx1"] == DBNull.Value || ReaderConsultas["Car_Dx1"].ToString() == "" ? null : ReaderConsultas["Car_Dx1"].ToString()),
+                                                        codDiagnosticoRelacionado1 = (ReaderConsultas["Car_Dx2"] == DBNull.Value || ReaderConsultas["Car_Dx2"].ToString() == "" ? null : ReaderConsultas["Car_Dx2"].ToString()),
+                                                        codDiagnosticoRelacionado2 = (ReaderConsultas["Car_Dx3"] == DBNull.Value || ReaderConsultas["Car_Dx3"].ToString() == "" ? null : ReaderConsultas["Car_Dx3"].ToString()),
+                                                        codDiagnosticoRelacionado3 = null,
+                                                        tipoDiagnosticoPrincipal = (ReaderConsultas["Car_Imp_Dx"].ToString() == "1" ? "01" : ReaderConsultas["Car_Imp_Dx"].ToString() == "2" ? "02" : "03"),
+                                                        tipoDocumentoIdentificacion = "CC",
+                                                        numDocumentoIdentificacion = ReaderConsultas["Bod_Reg_Med"].ToString(),
+                                                        vrServicio = Convert.ToInt32(ReaderConsultas["Car_val_Tot"]),
+                                                        conceptoRecaudo = (ReaderConsultas["Hor_RcCaja"] == DBNull.Value || ReaderConsultas["Hor_RcCaja"].ToString() == "" ? "05" : ReaderConsultas["Hor_ConceptoRecaudo"].ToString()),
+                                                        valorPagoModerador = (ReaderConsultas["Hor_RcCaja"] == DBNull.Value || ReaderConsultas["Hor_RcCaja"].ToString() == "" ? 0 : Convert.ToInt32(ReaderConsultas["Hor_RcCaja"])),
+                                                        numFEVPagoModerador = (ReaderConsultas["Hor_DocFEModerador"] == DBNull.Value || ReaderConsultas["Hor_DocFEModerador"].ToString() == "" ? "" : ReaderConsultas["Hor_DocFEModerador"].ToString()),
+                                                        consecutivo = consCon
+                                                    });
+                                                }                                                
 
                                                 consCon++;
                                             }
@@ -891,29 +1023,68 @@ namespace Persistence.CXN.Metodos
 
                                             while (ReaderNotas.Read() == true)
                                             {
-                                                transaccion.usuarios[0].servicios.procedimientos.Add(new Procedimientos
+                                                CXN_CIE11 cie11 = repoCIE10.GetCIE11ByAdm(Convert.ToInt32(ReaderNotas["Hor_Id"]));
+                                                if (cie11 != null)
                                                 {
-                                                    codPrestador = ReaderNotas["Com_Cod_Prestador"].ToString(),
-                                                    fechaInicioAtencion = Convert.ToDateTime(ReaderNotas["Car_Fecha"]).ToString("yyyy-MM-dd") + " " + Convert.ToDateTime(ReaderNotas["Hor_Pac_Hora_Cita"]).ToString("hh:mm"),
-                                                    idMIPRES = null,
-                                                    numAutorizacion = (ReaderNotas["Fac_Num_Aut"] == DBNull.Value || ReaderNotas["Fac_Num_Aut"].ToString() == "" ? "" : ReaderNotas["Fac_Num_Aut"].ToString()),
-                                                    codProcedimiento = ReaderNotas["Con_CUP"].ToString(),
-                                                    viaIngresoServicioSalud = "02",
-                                                    modalidadGrupoServicioTecSal = (ReaderNotas["Hor_Pac_Modalidad"] == DBNull.Value || ReaderNotas["Hor_Pac_Modalidad"].ToString() == "" ? "" : ReaderNotas["Hor_Pac_Modalidad"].ToString()),
-                                                    grupoServicios = (ReaderNotas["Hor_GrupoServicios"] == DBNull.Value || ReaderNotas["Hor_GrupoServicios"].ToString() == "" ? "01" : ReaderNotas["Hor_GrupoServicios"].ToString()),
-                                                    codServicio = Convert.ToInt32(ReaderNotas["Con_CodServicio"]),
-                                                    finalidadTecnologiaSalud = (ReaderNotas["HorTecnoSalud"] == DBNull.Value || ReaderNotas["HorTecnoSalud"].ToString() == "" ? "16" : ReaderNotas["HorTecnoSalud"].ToString()),
-                                                    tipoDocumentoIdentificacion = "CC",
-                                                    numDocumentoIdentificacion = ReaderNotas["Bod_Reg_Med"].ToString(),
-                                                    codDiagnosticoPrincipal = (ReaderNotas["Car_Dx1"] == DBNull.Value || ReaderNotas["Car_Dx1"].ToString() == "" ? null : ReaderNotas["Car_Dx1"].ToString()),
-                                                    codDiagnosticoRelacionado = (ReaderNotas["Car_Dx2"] == DBNull.Value || ReaderNotas["Car_Dx2"].ToString() == "" ? null : ReaderNotas["Car_Dx2"].ToString()),
-                                                    codComplicacion = (ReaderNotas["Car_Dx3"] == DBNull.Value || ReaderNotas["Car_Dx3"].ToString() == "" ? null : ReaderNotas["Car_Dx3"].ToString()),
-                                                    vrServicio = Convert.ToInt32(ReaderNotas["Car_val_Tot"]),
-                                                    conceptoRecaudo = (ReaderNotas["Hor_RcCaja"] == DBNull.Value || ReaderNotas["Hor_RcCaja"].ToString() == "" ? "05" : ReaderNotas["Hor_ConceptoRecaudo"].ToString()),
-                                                    valorPagoModerador = (ReaderNotas["Hor_RcCaja"] == DBNull.Value || ReaderNotas["Hor_RcCaja"].ToString() == "" ? 0 : Convert.ToInt32(ReaderNotas["Hor_RcCaja"])),
-                                                    numFEVPagoModerador = ReaderNotas["Hor_DocFEModerador"].ToString(),
-                                                    consecutivo = ConsNota
-                                                });
+                                                    transaccion.usuarios[0].servicios.procedimientos.Add(new Procedimientos
+                                                    {
+                                                        codPrestador = ReaderNotas["Com_Cod_Prestador"].ToString(),
+                                                        fechaInicioAtencion = Convert.ToDateTime(ReaderNotas["Car_Fecha"]).ToString("yyyy-MM-dd") + " " + Convert.ToDateTime(ReaderNotas["Hor_Pac_Hora_Cita"]).ToString("hh:mm"),
+                                                        idMIPRES = null,
+                                                        numAutorizacion = (ReaderNotas["Fac_Num_Aut"] == DBNull.Value || ReaderNotas["Fac_Num_Aut"].ToString() == "" ? "" : ReaderNotas["Fac_Num_Aut"].ToString()),
+                                                        codProcedimiento = ReaderNotas["Con_CUP"].ToString(),
+                                                        viaIngresoServicioSalud = "02",
+                                                        modalidadGrupoServicioTecSal = (ReaderNotas["Hor_Pac_Modalidad"] == DBNull.Value || ReaderNotas["Hor_Pac_Modalidad"].ToString() == "" ? "" : ReaderNotas["Hor_Pac_Modalidad"].ToString()),
+                                                        grupoServicios = (ReaderNotas["Hor_GrupoServicios"] == DBNull.Value || ReaderNotas["Hor_GrupoServicios"].ToString() == "" ? "01" : ReaderNotas["Hor_GrupoServicios"].ToString()),
+                                                        codServicio = Convert.ToInt32(ReaderNotas["Con_CodServicio"]),
+                                                        finalidadTecnologiaSalud = (ReaderNotas["HorTecnoSalud"] == DBNull.Value || ReaderNotas["HorTecnoSalud"].ToString() == "" ? "16" : ReaderNotas["HorTecnoSalud"].ToString()),
+                                                        tipoDocumentoIdentificacion = "CC",
+                                                        numDocumentoIdentificacion = ReaderNotas["Bod_Reg_Med"].ToString(),
+                                                        codDiagnosticoPrincipal = (ReaderNotas["Car_Dx1"] == DBNull.Value || ReaderNotas["Car_Dx1"].ToString() == "" ? null : ReaderNotas["Car_Dx1"].ToString()),
+                                                        codDiagnosticoRelacionado = (ReaderNotas["Car_Dx2"] == DBNull.Value || ReaderNotas["Car_Dx2"].ToString() == "" ? null : ReaderNotas["Car_Dx2"].ToString()),
+                                                        codComplicacion = (ReaderNotas["Car_Dx3"] == DBNull.Value || ReaderNotas["Car_Dx3"].ToString() == "" ? null : ReaderNotas["Car_Dx3"].ToString()),
+
+                                                        codDiagnosticoPrincipalCIE11 = cie11.Codigo,
+                                                        nomCodDiagnosticoPrincipalCIE11 = cie11.Descripcion,
+
+                                                        codDiagnosticoRelacionadoCIE11 = null,
+                                                        nomCodDiagnosticoRelacionadoCIE11 = null,
+                                                        codComplicacionCIE11 = null,
+                                                        nomComplicacionCIE11 = null,
+
+                                                        vrServicio = Convert.ToInt32(ReaderNotas["Car_val_Tot"]),
+                                                        conceptoRecaudo = (ReaderNotas["Hor_RcCaja"] == DBNull.Value || ReaderNotas["Hor_RcCaja"].ToString() == "" ? "05" : ReaderNotas["Hor_ConceptoRecaudo"].ToString()),
+                                                        valorPagoModerador = (ReaderNotas["Hor_RcCaja"] == DBNull.Value || ReaderNotas["Hor_RcCaja"].ToString() == "" ? 0 : Convert.ToInt32(ReaderNotas["Hor_RcCaja"])),
+                                                        numFEVPagoModerador = ReaderNotas["Hor_DocFEModerador"].ToString(),
+                                                        consecutivo = ConsNota
+                                                    });
+                                                }
+                                                else
+                                                {
+                                                    transaccion.usuarios[0].servicios.procedimientos.Add(new Procedimientos
+                                                    {
+                                                        codPrestador = ReaderNotas["Com_Cod_Prestador"].ToString(),
+                                                        fechaInicioAtencion = Convert.ToDateTime(ReaderNotas["Car_Fecha"]).ToString("yyyy-MM-dd") + " " + Convert.ToDateTime(ReaderNotas["Hor_Pac_Hora_Cita"]).ToString("hh:mm"),
+                                                        idMIPRES = null,
+                                                        numAutorizacion = (ReaderNotas["Fac_Num_Aut"] == DBNull.Value || ReaderNotas["Fac_Num_Aut"].ToString() == "" ? "" : ReaderNotas["Fac_Num_Aut"].ToString()),
+                                                        codProcedimiento = ReaderNotas["Con_CUP"].ToString(),
+                                                        viaIngresoServicioSalud = "02",
+                                                        modalidadGrupoServicioTecSal = (ReaderNotas["Hor_Pac_Modalidad"] == DBNull.Value || ReaderNotas["Hor_Pac_Modalidad"].ToString() == "" ? "" : ReaderNotas["Hor_Pac_Modalidad"].ToString()),
+                                                        grupoServicios = (ReaderNotas["Hor_GrupoServicios"] == DBNull.Value || ReaderNotas["Hor_GrupoServicios"].ToString() == "" ? "01" : ReaderNotas["Hor_GrupoServicios"].ToString()),
+                                                        codServicio = Convert.ToInt32(ReaderNotas["Con_CodServicio"]),
+                                                        finalidadTecnologiaSalud = (ReaderNotas["HorTecnoSalud"] == DBNull.Value || ReaderNotas["HorTecnoSalud"].ToString() == "" ? "16" : ReaderNotas["HorTecnoSalud"].ToString()),
+                                                        tipoDocumentoIdentificacion = "CC",
+                                                        numDocumentoIdentificacion = ReaderNotas["Bod_Reg_Med"].ToString(),
+                                                        codDiagnosticoPrincipal = (ReaderNotas["Car_Dx1"] == DBNull.Value || ReaderNotas["Car_Dx1"].ToString() == "" ? null : ReaderNotas["Car_Dx1"].ToString()),
+                                                        codDiagnosticoRelacionado = (ReaderNotas["Car_Dx2"] == DBNull.Value || ReaderNotas["Car_Dx2"].ToString() == "" ? null : ReaderNotas["Car_Dx2"].ToString()),
+                                                        codComplicacion = (ReaderNotas["Car_Dx3"] == DBNull.Value || ReaderNotas["Car_Dx3"].ToString() == "" ? null : ReaderNotas["Car_Dx3"].ToString()),
+                                                        vrServicio = Convert.ToInt32(ReaderNotas["Car_val_Tot"]),
+                                                        conceptoRecaudo = (ReaderNotas["Hor_RcCaja"] == DBNull.Value || ReaderNotas["Hor_RcCaja"].ToString() == "" ? "05" : ReaderNotas["Hor_ConceptoRecaudo"].ToString()),
+                                                        valorPagoModerador = (ReaderNotas["Hor_RcCaja"] == DBNull.Value || ReaderNotas["Hor_RcCaja"].ToString() == "" ? 0 : Convert.ToInt32(ReaderNotas["Hor_RcCaja"])),
+                                                        numFEVPagoModerador = ReaderNotas["Hor_DocFEModerador"].ToString(),
+                                                        consecutivo = ConsNota
+                                                    });
+                                                }                                                
 
                                                 ConsNota++;
                                             }

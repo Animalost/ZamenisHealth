@@ -78,19 +78,8 @@ namespace ZamenisHealth.Comunes
                         Contenedor Content = new Contenedor();
                         Content.UsuarioLogueado1 = oLogin.textBox1.Text;
                         Content.PassChange = Log.Log_ClaveC;
-                        Content.label1.Text = Log.Log_PrimerA + " " + Log.Log_SegundoA + " " + Log.Log_PrimerN + " " + Log.Log_SegundoN;
-                        Content.label6.Text = "Usuario, " + Content.UsuarioLogueado1;
-
-                        if (Log.Log_Rol_Admin.Equals("A")) { Content.toolStripButton2.Visible = true; } else { Content.toolStripButton2.Visible = false; }
-                        if (Log.Log_Rol_Recepcion.Equals("A")) { Content.toolStripButton10.Visible = true; } else { Content.toolStripButton10.Visible = false; }
-                        if (Log.Log_Rol_Enfermero.Equals("A")) { Content.toolStripButton8.Visible = true; } else { Content.toolStripButton8.Visible = false; }
-                        if (Log.Log_Rol_AdminI.Equals("A")) { Content.toolStripButton11.Visible = true; } else { Content.toolStripButton11.Visible = false; }
-                        if (Log.Log_Rol_MedGen.Equals("A")) { Content.toolStripButton7.Visible = true; } else { Content.toolStripButton7.Visible = false; }                        
-                        if (Log.Log_Rol_Gerencial.Equals("A")) { Content.toolStripButton9.Visible = true; } else { Content.toolStripButton9.Visible = false; }
-                        if (Log.Log_Rol_Psicologia.Equals("A")) { Content.toolStripButton3.Visible = true; } else { Content.toolStripButton3.Visible = false; }
-                        if (Log.Log_Rol_TO.Equals("A")) { Content.toolStripButton5.Visible = true; } else { Content.toolStripButton5.Visible = false; }
-                        if (Log.Log_Rol_TF.Equals("A")) { Content.toolStripButton4.Visible = true; } else { Content.toolStripButton4.Visible = false; }
-                        if (Log.Log_Rol_FI.Equals("A")) { Content.toolStripButton6.Visible = true; } else { Content.toolStripButton6.Visible = false; }
+                        Content.Tittle = Log.Log_PrimerA + " " + Log.Log_SegundoA + " " + Log.Log_PrimerN + " " + Log.Log_SegundoN;
+                        Content.SubTittle = "Usuario, " + Content.UsuarioLogueado1;
 
                         DateTime Hoy = DateTime.Now.Date;
 

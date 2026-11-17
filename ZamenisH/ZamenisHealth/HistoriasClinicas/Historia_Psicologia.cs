@@ -1,20 +1,25 @@
-﻿using System;
+﻿using Domain;
+using Domain.CXN;
+
+using FormAndControls;
+
+using Persistence;
+using Persistence.CXN.Interfaces;
+using Persistence.CXN.Metodos;
+
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using Domain;
-using Domain.CXN;
-using Persistence;
-using Persistence.CXN.Interfaces;
-using Persistence.CXN.Metodos;
-using ZamenisHealth.Clases;
+
 using ZamenisHealth.Comunes;
 using ZamenisHealth.HistoriasClinicas.Extras;
+using ZamenisHealth.Medicina;
 
 namespace ZamenisHealth.HistoriasClinicas
 {
-    public partial class Historia_Psicologia : ConfigForm.BaseForm
+    public partial class Historia_Psicologia : Forma
     {
         private static readonly IAgendaC repoAgendaMedicaConsultas = new MAgendaC();
         private static readonly ICondiciones repoCond = new MCondiciones();
@@ -24,36 +29,40 @@ namespace ZamenisHealth.HistoriasClinicas
         private static readonly ICargos repositorioCargos = new MCargos();
         private static readonly IRIPS repositorioRIPS = new MRIPS();
         private static readonly IConfSystem repoConfSystem = new MConfSystem();
+        private static readonly ICIE10 repoCIE10 = new MCIE10();
 
+        public CXN_CIE11 cie11 = new CXN_CIE11();
         private Extras.CondicionesP c;
         public int Admision;
         DateTime Fecha_Serv;
         int Paciente, Cia, Ase, Prof, Valor;
+        private ToolStripButton toolStripButton2;
+        string CUP, TSERV, Reg_RIP, CMANTID, CMANID, Serv;
+        public Historia_Psicologia()
+        {
+            InitializeComponent();
+        }
 
         private void button2_Click(object sender, EventArgs e)
         {
             textBox33.Text = "";
             textBox32.Text = "";
         }
-
         private void textBox37_DoubleClick(object sender, EventArgs e)
         {
             Medicina.CIE10 C10 = new Medicina.CIE10("PS1");
             C10.ShowDialog();
         }
-
         private void textBox35_DoubleClick(object sender, EventArgs e)
         {
             Medicina.CIE10 C10 = new Medicina.CIE10("PS2");
             C10.ShowDialog();
         }
-
         private void textBox33_DoubleClick(object sender, EventArgs e)
         {
             Medicina.CIE10 C10 = new Medicina.CIE10("PS3");
             C10.ShowDialog();
         }
-
         private void toolStripLabel2_Click(object sender, EventArgs e)
         {
             try
@@ -137,7 +146,6 @@ namespace ZamenisHealth.HistoriasClinicas
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         private void toolStripLabel1_Click(object sender, EventArgs e)
         {
             try
@@ -318,6 +326,16 @@ namespace ZamenisHealth.HistoriasClinicas
                         }
                     }
 
+                    CXN_HISTORIAL_ADMISION HistorialAdmision = new CXN_HISTORIAL_ADMISION
+                    {
+                        Admision = Admision,
+                        Fecha = DateTime.Now,
+                        Usuario = Contenedor.UsuarioLogueado,
+                        Gestion = "HISTORIA CREADA"
+                    };
+
+                    repositorioAgendaMedica.AddHistorialAdmision(HistorialAdmision);
+
                     repositorioAgendaMedica.ConsumirAdmision(Admision);
 
                     Medicina.RIPSHistory for_RIPS = new Medicina.RIPSHistory();
@@ -329,6 +347,14 @@ namespace ZamenisHealth.HistoriasClinicas
 
                     repositorioAgendaMedica.Graba_Hora_Salida(Admision);
 
+                    if (!string.IsNullOrEmpty(textBox53.Text))
+                    {
+                        cie11.Paciente = Paciente;
+                        cie11.Admision = Admision;
+
+                        repoCIE10.InsertaCIE11(cie11);
+                    }
+
                     this.Dispose();
                     this.Close();
                 }
@@ -337,8 +363,7 @@ namespace ZamenisHealth.HistoriasClinicas
             {
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
-        }
-       
+        }  
         private void toolStripLabel6_Click(object sender, EventArgs e)
         {
             try
@@ -357,26 +382,64 @@ namespace ZamenisHealth.HistoriasClinicas
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         private void toolStripLabel4_Click(object sender, EventArgs e)
         {
             Medicina.Historial_Medico_1 RM = new Medicina.Historial_Medico_1();
             RM.ShowDialog();
         }
-
         private void toolStripButton3_Click(object sender, EventArgs e)
         {
             ActualizarPAC();
         }
+        void Botones()
+        {
+            ToolStripButton toolStripButton3 = new ToolStripButton();
+            toolStripButton3 = createToolButton("Actualizar Datos");
+            MenuLateral.Items.Add(toolStripButton3);
+            toolStripButton3.Click += toolStripButton3_Click;
 
+            ToolStripButton toolStripLabel1 = new ToolStripButton();
+            toolStripLabel1 = createToolButton("Guardar y Egresar");
+            MenuLateral.Items.Add(toolStripLabel1);
+            toolStripLabel1.Click += toolStripLabel1_Click;
+
+            ToolStripButton toolStripLabel4 = new ToolStripButton();
+            toolStripLabel4 = createToolButton("Ver Historias");
+            MenuLateral.Items.Add(toolStripLabel4);
+            toolStripLabel4.Click += toolStripLabel4_Click;
+
+            ToolStripButton toolStripLabel2 = new ToolStripButton();
+            toolStripLabel2 = createToolButton("Traer Ultima");
+            MenuLateral.Items.Add(toolStripLabel2);
+            toolStripLabel2.Click += toolStripLabel2_Click;
+
+            ToolStripButton toolStripButton1 = new ToolStripButton();
+            toolStripButton1 = createToolButton("Consentimientos");
+            MenuLateral.Items.Add(toolStripButton1);
+            toolStripButton1.Click += toolStripButton1_Click;
+
+            toolStripButton2 = new ToolStripButton();
+            toolStripButton2 = createToolButton("Videollamada");
+            MenuLateral.Items.Add(toolStripButton2);
+            toolStripButton2.Click += toolStripButton2_Click;
+
+            ToolStripButton toolStripLabel6 = new ToolStripButton();
+            toolStripLabel6 = createToolButton("Cancelar");
+            MenuLateral.Items.Add(toolStripLabel6);
+            toolStripLabel6.Click += toolStripLabel6_Click;
+        }
         private void Historia_Psicologia_Load(object sender, EventArgs e)
         {
             try
             {
-                Titulo.Visible = false;
                 ImageClose.Visible = false;
 
-                
+                Titulo.Text = "Historia Psicologia";
+                LogoMain.Image = Properties.Resources.Splash;
+                SubTitulo.Text = $"Zamenis Health {Conexion.VersionApp}";
+
+                Botones();
+
                 repositorioAgendaMedica.Graba_Hora_Atencion(Admision);
                 repositorioAgendaMedica.OpenAdmition(Admision, "S");
 
@@ -432,35 +495,57 @@ namespace ZamenisHealth.HistoriasClinicas
                 ActualizarPAC();
                 VideoLlamada();
 
-                string getRecos = repoConfSystem.getListado()["Recomendaciones"];
-                if (getRecos == "A")
+                List<CXN_IMAGEN_SYSTEM> d = repoConfSystem.getConfSystem();
+                if (d != null)
                 {
-                    Extras.Recomendaciones r = new Extras.Recomendaciones(DatosAdmision.Hor_Pac_Id);
-                    r.ShowDialog();
+                    CXN_IMAGEN_SYSTEM d2 = d.FirstOrDefault(x => x.Tab_Nombre == "Recomendaciones");
+                    if (d2 != null)
+                    {
+                        if (d2.Tab_Clave == "A")
+                        {
+                            Extras.Recomendaciones r = new Extras.Recomendaciones(DatosAdmision.Hor_Pac_Id);
+                            r.ShowDialog();
 
-                    CargarOpcionesRecomendaciones();
-                }
+                            CargarOpcionesRecomendaciones();
+                        }
+                    }
+                }                
             }
             catch (Exception ex)
             {
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         void VideoLlamada()
         {
             try
             {
                 if (Conexion.ConectionDictionary["Videoconferencia"] == "A")
                 {
-                    if (repoConfSystem.getListado()["VideoconferenciaTwilio"] == "A")
+                    List<CXN_IMAGEN_SYSTEM> d = repoConfSystem.getConfSystem();
+                    if (d != null)
                     {
-                        toolStripButton2.Visible = true;
+                        CXN_IMAGEN_SYSTEM d2 = d.FirstOrDefault(x => x.Tab_Nombre == "VideoconferenciaTwilio");
+                        if (d2 != null)
+                        {
+                            if (d2.Tab_Clave == "A")
+                            {
+                                toolStripButton2.Visible = true;
+                            }
+                            else
+                            {
+                                toolStripButton2.Visible = false;
+                            }
+                        }
+                        else
+                        {
+                            toolStripButton2.Visible = false;
+                        }
                     }
                     else
                     {
                         toolStripButton2.Visible = false;
-                    }
+                    }                    
                 }   
                 else
                 {
@@ -480,7 +565,6 @@ namespace ZamenisHealth.HistoriasClinicas
                 OverridesExtern.GenerarTXTException(T);
             }
         }
-
         void CargarOpcionesRecomendaciones()
         {
             try
@@ -632,13 +716,11 @@ namespace ZamenisHealth.HistoriasClinicas
                 OverridesExtern.GenerarTXTException(T);
             }
         }
-
         private void ActualizarPAC()
         {
             Medicina.ActualizarPaciente Historia_Edita_Paciente = new Medicina.ActualizarPaciente(Paciente);
             Historia_Edita_Paciente.ShowDialog();
         }
-
         void openConditions(string Tipo)
         {
             c = new CondicionesP(Tipo, this.Paciente);
@@ -646,22 +728,18 @@ namespace ZamenisHealth.HistoriasClinicas
 
             CargarOpcionesRecomendaciones();
         }
-
         private void CaidaTxt_Click(object sender, EventArgs e)
         {
             openConditions("CAIDA");
         }
-
         private void infeccionTxt_Click(object sender, EventArgs e)
         {
             openConditions("INFECCION");
         }
-
         private void deterioroTxt_Click(object sender, EventArgs e)
         {
             openConditions("DETERIORO DE LA PIEL");
         }
-
         private void alergiaTxt_Click(object sender, EventArgs e)
         {
             Alergias c = new Alergias("ALERGIA", this.Paciente);
@@ -669,62 +747,58 @@ namespace ZamenisHealth.HistoriasClinicas
             CargarOpcionesRecomendaciones();
         }
 
+        private void boton6_Click(object sender, EventArgs e)
+        {
+            textBox53.Text = "";
+            textBox54.Text = "";
+        }
+
+        private void textBox53_DoubleClick(object sender, EventArgs e)
+        {
+            CIE11New N = new CIE11New("PSICOLOGIA");
+            N.ShowDialog();
+        }
+
         private void dificultadTxt_Click(object sender, EventArgs e)
         {
             openConditions("DIFICULTAD DE COMUNICACION");
         }
-
         private void psiquiatricoTxt_Click(object sender, EventArgs e)
         {
             openConditions("PACIENTE PSIQUIATRICO");
         }
-
         private void mayorTxt_Click(object sender, EventArgs e)
         {
             openConditions("MAYOR DE 70 AÑOS");
         }
-
         private void dificilTxt_Click(object sender, EventArgs e)
         {
             openConditions("PACIENTE DIFICIL");
         }
-
         private void requiereTxt_Click(object sender, EventArgs e)
         {
             openConditions("MEDICO LO REQUIERE");
         }
-
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
             Medicina.DocumentosWEB.MenuDocWeb menuDocWeb = new Medicina.DocumentosWEB.MenuDocWeb();
             menuDocWeb.ShowDialog();
         }
-
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
             Medicina.VirtualMedic.TwilioForm twilioForm = new Medicina.VirtualMedic.TwilioForm(Admision);
             twilioForm.ShowDialog();
         }
-
         private void button3_Click(object sender, EventArgs e)
         {
             textBox35.Text = "";
             textBox34.Text = "";
         }
-
         private void button1_Click(object sender, EventArgs e)
         {
             textBox37.Text = "";
             textBox36.Text = "";
         }
-
-        string CUP, TSERV, Reg_RIP, CMANTID, CMANID, Serv;
-        public Historia_Psicologia()
-        {
-            InitializeComponent();
-
-            
-            ConfigForm.MoverForma(panel3, this);
-        }
+        
     }
 }

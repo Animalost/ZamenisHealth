@@ -1,6 +1,8 @@
 ﻿using Domain;
 using Domain.CXN;
+
 using Persistence.CXN.Interfaces;
+
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -8,6 +10,8 @@ using System.Data.SqlClient;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+
+using static IronPython.Modules._ast;
 
 namespace Persistence.CXN.Metodos
 {
@@ -893,7 +897,7 @@ namespace Persistence.CXN.Metodos
                     {
                         con.Open();
                     }
-                    String Cargar_Hora = "SELECT Com_Nombre, Com_Identificacion, Com_Telefono, Com_Direccion, Bod_Responsable, Pac_PrimerN, Pac_SegundoN, Pac_PrimerA, " +
+                    String Cargar_Hora = "SELECT Com_Nombre, Com_Identificacion, Com_Telefono, Com_Direccion, Bod_Responsable, Pac_PrimerN, Pac_SegundoN, Pac_PrimerA, Pac_Regimen, " +
                                          "Pac_SegundoA, OM_Num, OM_Fecha, Pac_TipoId, Pac_IdNum, Ase_Descripcion, Pac_Telefono, Bod_Responsable, OM_Desc, Com_Logo, " +
                                          "OM_DX1, OM_DX2, OM_DX3, OM_DX1T, OM_DX2T, OM_DX3T, OM_Edad, OM_Genero, OM_Direccion, OM_Telefono, OM_Duracion, " +
                                          "OM_Cantidad, OM_Via, OM_Medicamento, OM_Presentacion, OM_Detalle, OM_Firma, Bod_Firma, Bod_Reg_Med, OM_Tecnologia, OM_Cada, OM_Posologia, OM_CantidadMedicamento " +
@@ -918,7 +922,7 @@ namespace Persistence.CXN.Metodos
 
                                 while (Lectura_Hora.Read() == true)
                                 {
-                                    //GENERADOR QR
+                                    //GENERADOR QR 
                                     string Text_Codifica = "PACIENTE: " + Lectura_Hora["Pac_PrimerA"].ToString() + " " + Lectura_Hora["Pac_SegundoA"].ToString() + " " + Lectura_Hora["Pac_PrimerN"].ToString() + " " + Lectura_Hora["Pac_SegundoN"].ToString() + "\n" +
                                                            "FECHA: " + Convert.ToDateTime(Lectura_Hora["OM_Fecha"]).ToString(getCon["Format_Fecha"]) + "\n" +
                                                            "ORDEN DE MEDICAMENTOS NUMERO: " + Lectura_Hora["OM_Num"].ToString() + "\n" +
@@ -997,6 +1001,19 @@ namespace Persistence.CXN.Metodos
                                         OM_Cada = Lectura_Hora["OM_Cada"] == DBNull.Value ? 0 : Convert.ToInt32(Lectura_Hora["OM_Cada"]),
                                         OM_Posologia = Lectura_Hora["OM_Posologia"] == DBNull.Value ? "" : Lectura_Hora["OM_Posologia"].ToString(),
                                         OM_CantidadMedicamento = Lectura_Hora["OM_CantidadMedicamento"] == DBNull.Value ? 0 : Convert.ToInt32(Lectura_Hora["OM_CantidadMedicamento"]),
+                                        OM_TipoAfiliacion = Lectura_Hora["Pac_Regimen"] == DBNull.Value ? 
+                                                            "EPS" :
+                                                            Lectura_Hora["Pac_Regimen"].ToString() == "01" ? "Contributivo Cotizante" : 
+                                                            Lectura_Hora["Pac_Regimen"].ToString() == "02" ? "Contributivo Beneficiario" :
+                                                            Lectura_Hora["Pac_Regimen"].ToString() == "03" ? "Contributivo Adicional" :
+                                                            Lectura_Hora["Pac_Regimen"].ToString() == "04" ? "Subsidiado" :
+                                                            Lectura_Hora["Pac_Regimen"].ToString() == "05" ? "Medicina Prepagada" :
+                                                            Lectura_Hora["Pac_Regimen"].ToString() == "06" ? "Especial o Excepción cotizante" :
+                                                            Lectura_Hora["Pac_Regimen"].ToString() == "07" ? "Especial o Excepción beneficiario" :
+                                                            Lectura_Hora["Pac_Regimen"].ToString() == "08" ? "Tomador / Amparado ARL" :
+                                                            Lectura_Hora["Pac_Regimen"].ToString() == "09" ? "Tomador / Amparado SOAT" :
+                                                            Lectura_Hora["Pac_Regimen"].ToString() == "10" ? "Tomador / Amparado SOAT" :
+                                                            "Particular"
                                     });
                                 }
                                 return export_om_report;
@@ -1108,7 +1125,7 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
-        List<CXN_OM> IOrdenes.getOrdenes(int Paciente, string Especialidad)
+        List<CXN_OM> IOrdenes.getOrdenes(int Paciente, string Especialidad, DateTime Desde, DateTime Hasta)
         {
             try
             {
@@ -1121,18 +1138,24 @@ namespace Persistence.CXN.Metodos
                         con.Open();
                     }
 
-                    String Cargar_Hora = "SELECT DISTINCT O.OM_Tipo, O.OM_Num, O.OM_Fecha, P.Pac_PrimerA, P.Pac_SegundoA, P.Pac_PrimerN, P.Pac_SegundoN, B.Bod_Responsable, O.OM_TEspecialidad, O.OM_Cia, O.OM_Planillar, " +
-                                         "O.OM_Radicada, O.OM_Autorizacion, O.OM_Consumida, OM_Clasificacion " +
-                                         "FROM CXN_PACIENTES P " +
-                                         "INNER JOIN CXN_OM O ON P.Pac_Id = O.OM_Pac " +
-                                         "INNER JOIN CXN_BODEGAS B ON O.OM_Prof = B.Bod_Usuario " +
-                                         "WHERE P.Pac_Id = '" + Paciente + "' " +
-                                         "AND O.OM_TEspecialidad = '" + Especialidad + "' " +
-                                         "GROUP BY O.OM_Tipo, O.OM_Num, O.OM_Fecha, P.Pac_PrimerA, P.Pac_SegundoA, P.Pac_PrimerN, P.Pac_SegundoN, B.Bod_Responsable, O.OM_TEspecialidad, O.OM_Cia, O.OM_Planillar, O.OM_Radicada, O.OM_Autorizacion, O.OM_Consumida, OM_Clasificacion " +
-                                         "ORDER BY O.OM_Num DESC";
+                    String Cargar_Hora = @"SELECT DISTINCT O.OM_Tipo, O.OM_Num, O.OM_Fecha, P.Pac_PrimerA, P.Pac_SegundoA, P.Pac_PrimerN, P.Pac_SegundoN, B.Bod_Responsable, O.OM_TEspecialidad, O.OM_Cia, O.OM_Planillar, 
+                                         O.OM_Radicada, O.OM_Autorizacion, O.OM_Consumida, OM_Clasificacion 
+                                         FROM CXN_PACIENTES P 
+                                         INNER JOIN CXN_OM O ON P.Pac_Id = O.OM_Pac 
+                                         INNER JOIN CXN_BODEGAS B ON O.OM_Prof = B.Bod_Usuario 
+                                         WHERE P.Pac_Id = @param1 
+                                         AND O.OM_TEspecialidad = @param2
+                                         AND O.OM_Fecha BETWEEN @param3 AND @param4
+                                         GROUP BY O.OM_Tipo, O.OM_Num, O.OM_Fecha, P.Pac_PrimerA, P.Pac_SegundoA, P.Pac_PrimerN, P.Pac_SegundoN, B.Bod_Responsable, O.OM_TEspecialidad, O.OM_Cia, O.OM_Planillar, O.OM_Radicada, O.OM_Autorizacion, O.OM_Consumida, OM_Clasificacion 
+                                         ORDER BY O.OM_Num DESC";
 
                     using (SqlCommand Carga_Command = new SqlCommand(Cargar_Hora, con))
                     {
+                        Carga_Command.Parameters.AddWithValue("@param1", Paciente);
+                        Carga_Command.Parameters.AddWithValue("@param2", Especialidad);
+                        Carga_Command.Parameters.AddWithValue("@param3", Convert.ToDateTime(Desde).Date);
+                        Carga_Command.Parameters.AddWithValue("@param4", Convert.ToDateTime(Hasta).Date);
+
                         using (SqlDataReader Lectura_Hora = (Carga_Command.ExecuteReader()))
                         {
                             if (Lectura_Hora.HasRows)

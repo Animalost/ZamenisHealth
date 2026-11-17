@@ -66,6 +66,8 @@ namespace ZamenisHealth.Fibromialgia.Encuestas
         {
             try
             {
+                MG = new MensajesGeneral();
+
                 if (this.CodePac <= 0 || comboBox1.Text == "" || comboBox2.Text == "" || comboBox3.Text == "" || comboBox4.Text == "" || comboBox5.Text == "" ||
                     comboBox6.Text == "" || comboBox7.Text == "" || comboBox8.Text == "" || comboBox9.Text == "" || comboBox10.Text == "")
                 {
@@ -103,7 +105,7 @@ namespace ZamenisHealth.Fibromialgia.Encuestas
                     return;
                 }
 
-                MG.TipoImagen = 3;
+                MG.TipoImagen = 3; 
                 MG.Mensaje = "Grabado Exitosamente";
                 MG.ShowDialog();
 

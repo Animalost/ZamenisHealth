@@ -1,12 +1,17 @@
 ﻿using Domain;
 using Domain.CXN;
+
 using FormAndControls;
+
 using Persistence;
 using Persistence.CXN.Interfaces;
 using Persistence.CXN.Metodos;
+
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
+
 using ZamenisHealth.Clases;
 
 namespace ZamenisHealth.Comunes.Extras
@@ -39,21 +44,21 @@ namespace ZamenisHealth.Comunes.Extras
 
                 MensajesGeneral MG;
 
-                Dictionary<string, string> getConfig = repoConf.getListado();      
+                List<CXN_IMAGEN_SYSTEM> d = repoConf.getConfSystem();
 
-                if (getConfig != null) 
+                if (d != null) 
                 {
-                    comboBox0.Text = (getConfig["Noticia"] == "A" ? comboBox0.Text = "Habilitar" : "Deshabilitar");
-                    comboBox4.Text = (getConfig["EncuestaSatisCU"] == "A" ? comboBox4.Text = "SI" : "NO");
-                    comboBox1.Text = (getConfig["AutocompletarNotas"] == "A" ? comboBox1.Text = "SI" : "NO");
-                    comboBox2.Text = (getConfig["UpperCaseNotas"] == "A" ? comboBox2.Text = "SI" : "NO");
-                    comboBox3.Text = (getConfig["EstadisticaEnfermeria"] == "A" ? comboBox3.Text = "SI" : "NO");                                        
-                    comboBox6.Text = (getConfig["Recomendaciones"] == "A" ? comboBox6.Text = "SI" : "NO");
-                    comboBox7.Text = (getConfig["AutocompletarFirmas"] == "A" ? comboBox7.Text = "SI" : "NO");
-                    comboBox10.Text = (getConfig["MedicinaGeneralEstadistica"] == "A" ? comboBox10.Text = "SI" : "NO");
-                    comboBox13.Text = (getConfig["EncuestaQRWeb"] == "A" ? comboBox13.Text = "SI" : "NO");
-                    comboBox14.Text = (getConfig["ReportarImpuestosDIAN"] == "A" ? comboBox14.Text = "SI" : "NO");
-                    comboBox17.Text = (getConfig["IHCE"] == "A" ? comboBox17.Text = "SI" : "NO");
+                    comboBox0.Text = d.FirstOrDefault(x => x.Tab_Nombre == "Noticia").Tab_Clave == "A" ? comboBox0.Text = "Habilitar" : "Deshabilitar";
+                    comboBox4.Text = d.FirstOrDefault(x => x.Tab_Nombre == "EncuestaSatisCU").Tab_Clave == "A" ? comboBox4.Text = "SI" : "NO";
+                    comboBox1.Text = d.FirstOrDefault(x => x.Tab_Nombre == "AutocompletarNotas").Tab_Clave == "A" ? comboBox1.Text = "SI" : "NO";
+                    comboBox2.Text = d.FirstOrDefault(x => x.Tab_Nombre == "UpperCaseNotas").Tab_Clave == "A" ? comboBox2.Text = "SI" : "NO";
+                    comboBox3.Text = d.FirstOrDefault(x => x.Tab_Nombre == "EstadisticaEnfermeria").Tab_Clave == "A" ? comboBox3.Text = "SI" : "NO";                                        
+                    comboBox6.Text = d.FirstOrDefault(x => x.Tab_Nombre == "Recomendaciones").Tab_Clave == "A" ? comboBox6.Text = "SI" : "NO";
+                    comboBox7.Text = d.FirstOrDefault(x => x.Tab_Nombre == "AutocompletarFirmas").Tab_Clave == "A" ? comboBox7.Text = "SI" : "NO";
+                    comboBox10.Text = d.FirstOrDefault(x => x.Tab_Nombre == "MedicinaGeneralEstadistica").Tab_Clave == "A" ? comboBox10.Text = "SI" : "NO";
+                    comboBox13.Text = d.FirstOrDefault(x => x.Tab_Nombre == "EncuestaQRWeb").Tab_Clave == "A" ? comboBox13.Text = "SI" : "NO";
+                    comboBox14.Text = d.FirstOrDefault(x => x.Tab_Nombre == "ReportarImpuestosDIAN").Tab_Clave == "A" ? comboBox14.Text = "SI" : "NO";
+                    comboBox17.Text = d.FirstOrDefault(x => x.Tab_Nombre == "IHCE").Tab_Clave == "A" ? comboBox17.Text = "SI" : "NO";
 
                     comboBox5.Text = (Preferencias.Colorimetria == "A" ? comboBox5.Text = "SI" : "NO");
                     comboBox8.Text = (Preferencias.TicketCitas == "A" ? comboBox8.Text = "SI" : "NO");
@@ -62,12 +67,13 @@ namespace ZamenisHealth.Comunes.Extras
                     textBox1.Text = Preferencias.Bloqueo.ToString();
                     comboBox15.Text = (Preferencias.CargosEnfermeros == "A" ? comboBox15.Text = "SI" : "NO");
                     comboBox16.Text = (Preferencias.TabletaFirmas == "A" ? comboBox16.Text = "SI" : "NO");
+                    comboBox18.Text = (Preferencias.DatosCitaMouseMove == "A" ? comboBox18.Text = "SI" : "NO");
 
                     if (Conexion.ConectionDictionary["Videoconferencia"] == "A")
                     {
                         label13.Visible = true;
                         comboBox11.Visible = true;
-                        comboBox11.Text = (getConfig["Teleconsulta"] == "A" ? comboBox11.Text = "SI" : "NO");
+                        comboBox11.Text = d.FirstOrDefault(x => x.Tab_Nombre == "Teleconsulta").Tab_Clave == "A" ? comboBox11.Text = "SI" : "NO";
                     }
                     else
                     {
@@ -286,6 +292,7 @@ namespace ZamenisHealth.Comunes.Extras
                 Preferencias.SetPreferences("Bloqueo", (textBox1.Text == "" ? "0" : textBox1.Text));
                 Preferencias.SetPreferences("CargosEnfermeros", (comboBox15.Text == "SI" ? "A" : "N"));
                 Preferencias.SetPreferences("TabletaFirmas", (comboBox16.Text == "SI" ? "A" : "N"));
+                Preferencias.SetPreferences("DatosCitaMouseMove", (comboBox18.Text == "SI" ? "A" : "N"));
 
                 this.Dispose();
                 this.Close();

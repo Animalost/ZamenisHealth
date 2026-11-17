@@ -1,15 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Windows.Forms;
-using Domain;
+﻿using Domain;
 using Domain.CXN;
+
 using FormAndControls;
+
 using Persistence;
 using Persistence.CXN.Interfaces;
 using Persistence.CXN.Metodos;
+
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+using System.Windows.Forms;
+
 using ZamenisHealth.Comunes;
 using ZamenisHealth.HistoriasClinicas.Extras;
+using ZamenisHealth.Medicina;
 
 namespace ZamenisHealth.HistoriasClinicas
 {
@@ -23,7 +29,9 @@ namespace ZamenisHealth.HistoriasClinicas
         private static readonly ICondiciones repoCond = new MCondiciones();
         private static readonly IAgendaC repoAgendaMedicaConsultas = new MAgendaC();
         private static readonly IConfSystem repoConfSystem = new MConfSystem();
+        private static readonly ICIE10 repoCIE10 = new MCIE10();
 
+        public CXN_CIE11 cie11 = new CXN_CIE11();
         private Extras.CondicionesP c;
         public int Admision;
         DateTime Fecha_Serv;
@@ -273,6 +281,24 @@ namespace ZamenisHealth.HistoriasClinicas
                         repoAgendaMedica.ConsumirAdmision(Admision);
                         repoAgendaMedica.Graba_Hora_Salida(Admision);
 
+                        CXN_HISTORIAL_ADMISION HistorialAdmision = new CXN_HISTORIAL_ADMISION
+                        {
+                            Admision = Admision,
+                            Fecha = DateTime.Now,
+                            Usuario = Contenedor.UsuarioLogueado,
+                            Gestion = "HISTORIA CREADA"
+                        };
+
+                        repoAgendaMedica.AddHistorialAdmision(HistorialAdmision);
+
+                        if (!string.IsNullOrEmpty(textBox53.Text))
+                        {
+                            cie11.Paciente = Paciente;
+                            cie11.Admision = Admision;
+
+                            repoCIE10.InsertaCIE11(cie11);
+                        }
+
                         Medicina.RIPSHistory for_RIPS = new Medicina.RIPSHistory();
                         for_RIPS.Adm_Cargo = Convert.ToInt32(Admision);
                         for_RIPS.ShowDialog();
@@ -510,13 +536,21 @@ namespace ZamenisHealth.HistoriasClinicas
 
                 ActualizarPAC();
 
-                string getRecos = repoConfSystem.getListado()["Recomendaciones"];
-                if (getRecos == "A")
+                List<CXN_IMAGEN_SYSTEM> d = repoConfSystem.getConfSystem();
+                if (d != null)
                 {
-                    Extras.Recomendaciones r = new Extras.Recomendaciones(DatosAdmision.Hor_Pac_Id);
-                    r.ShowDialog();
+                    CXN_IMAGEN_SYSTEM d2 = d.FirstOrDefault(x => x.Tab_Nombre == "Recomendaciones");
+                    if (d2 != null)
+                    {
+                        if (d2.Tab_Clave == "A")
+                        {
+                            Extras.Recomendaciones r = new Extras.Recomendaciones(DatosAdmision.Hor_Pac_Id);
+                            r.ShowDialog();
 
-                    CargarOpcionesRecomendaciones();
+                            CargarOpcionesRecomendaciones();
+
+                        }
+                    }
                 }
             }
             catch (Exception ex)
@@ -695,6 +729,19 @@ namespace ZamenisHealth.HistoriasClinicas
         {
             openConditions("INFECCION");
         }
+
+        private void boton6_Click(object sender, EventArgs e)
+        {
+            textBox53.Text = "";
+            textBox54.Text = "";
+        }
+
+        private void textBox53_DoubleClick(object sender, EventArgs e)
+        {
+            CIE11New N = new CIE11New("TOCUPACIONAL");
+            N.ShowDialog();
+        }
+
         private void deterioroTxt_Click(object sender, EventArgs e)
         {
             openConditions("DETERIORO DE LA PIEL");

@@ -36,6 +36,7 @@ namespace ZamenisHealth.Facturacion
         private static readonly IFirmasDigitales fDigitales = new MFirmasDigitales();
         private static readonly IGenerales oGenerales = new MGenerales();
         private static readonly IVentas oVentas = new MVentas();
+        private static readonly ICManejo repoCManejo = new MCManenejo();
 
         private Dictionary<int, string> DNotas;
         private Dictionary<int, string> DHistorias;
@@ -598,7 +599,12 @@ namespace ZamenisHealth.Facturacion
             ToolStripButton btnCambioTPago = new ToolStripButton();
             btnCambioTPago = createToolButton("Cambiar Pago");
             MenuLateral.Items.Add(btnCambioTPago);
-            btnCambioTPago.Click += btnCambioTPago_ButtonClick;            
+            btnCambioTPago.Click += btnCambioTPago_ButtonClick;
+
+            ToolStripButton btnDwLdMasivo = new ToolStripButton();
+            btnDwLdMasivo = createToolButton("Docs. Masivos");
+            MenuLateral.Items.Add(btnDwLdMasivo);
+            btnDwLdMasivo.Click += btnDwLdMasivo_ButtonClick;
 
             gridZH1.dataGridView1.CellMouseClick += dataGridView1_CellMouseClick;
             gridZH1.dataGridView1.CellDoubleClick += dataGridView1_CellDoubleClick;
@@ -641,6 +647,19 @@ namespace ZamenisHealth.Facturacion
                     }
                 }                
             }
+        }
+        void btnDwLdMasivo_ButtonClick(object sender, EventArgs e)
+        {
+            CXN_FACTURA F = new CXN_FACTURA
+            {
+                Fac_Cia = Cia,
+                Fac_Ase = Ase,
+                Fac_Fecha_Des = dateTimePicker1.Value.Date,
+                Fac_Fecha_Has = dateTimePicker2.Value.Date,
+            };
+
+            ReportesCopias4 R4 = new ReportesCopias4(F, IsAdministrator);
+            R4.ShowDialog();
         }
         void btnCambioTPago_ButtonClick(object sender, EventArgs e)
         {
@@ -775,12 +794,29 @@ namespace ZamenisHealth.Facturacion
         private void ProcesarDocumentos()
         {
             try
-            {
+            {                
                 CXN_CIA CIA = repoCia.getPrestadorbyCode(Cia);
+
+                string Carpeta = $"C:\\CXN\\Reportes\\{CIA.Com_Identificacion}_{ HomologoFac }";
+
+                List<int> getIdCamManejo = new List<int>();
+
+                CXN_FACTURA dataFac = repoFacturacion.getFacturasTable(HomologoFac, Cia);
+                if (dataFac != null)
+                {
+                    getIdCamManejo = repoCManejo.getManejosxPaciente(dataFac.Fac_Pac, dataFac.Fac_Fecha_Des, dataFac.Fac_Fecha_Has);
+                }
 
                 Dictionary<int, object> getRDLCMasivoNotas = repoReportes.NotasMetodoRDLC(DNotas);
                 Dictionary<int, object> getRDLCMasivoHistorias = repoReportes.NotasMetodoRDLC(DHistorias);
 
+                //Si no existe la carpeta, se crea, si existe pasa 
+                if (!Directory.Exists(Carpeta))
+                {
+                    Directory.CreateDirectory(Carpeta);
+                }
+
+                //Notas de Curacion
                 if (getRDLCMasivoNotas != null)
                 {
                     int Contador = 1;
@@ -816,9 +852,10 @@ namespace ZamenisHealth.Facturacion
 
                     Contador = Contador - 1;
                     Comunes.UnificadorPDFMasivo U = new Comunes.UnificadorPDFMasivo();
-                    U.Unificar_Estructura(@"C:\CXN\Reportes\Notas\",
+                    U.Unificar_Estructura_2(@"C:\CXN\Reportes\Notas\",
                                           1.ToString(),
                                           totalArchivos.ToString(),
+                                          Carpeta, 
                                           "PDX_" + CIA.Com_Identificacion + "_" + HomologoFac + ".pdf");
 
                     R.Dispose();
@@ -829,6 +866,7 @@ namespace ZamenisHealth.Facturacion
                     }
                 }
 
+                //Historias Clinicas
                 if (getRDLCMasivoHistorias != null)
                 {
                     int Contador2 = 1;
@@ -861,9 +899,10 @@ namespace ZamenisHealth.Facturacion
 
                     Contador2 = Contador2 - 1;
                     Comunes.UnificadorPDFMasivo U = new Comunes.UnificadorPDFMasivo();
-                    U.Unificar_Estructura(@"C:\CXN\Reportes\Historias\",
+                    U.Unificar_Estructura_2(@"C:\CXN\Reportes\Historias\",
                                           1.ToString(),
                                           totalArchivos2.ToString(),
+                                          Carpeta,
                                           "HEV_" + CIA.Com_Identificacion + "_" + HomologoFac + ".pdf");
 
                     R2.Dispose();
@@ -874,15 +913,63 @@ namespace ZamenisHealth.Facturacion
                     }
                 }
 
+                //Cambios de Manejo
+                if (getIdCamManejo != null && getIdCamManejo.Count > 0)
+                {
+                    ReportViewer R3 = new ReportViewer();
+                    int Contador3 = 1;
+                    int totalArchivos = getIdCamManejo.Count;
+
+                    foreach (int i in getIdCamManejo)
+                    {
+                        List<ReportCMAN> H_HCCMAN = repoReportes.CambiosManejo(i);
+                        if (H_HCCMAN != null)
+                        {
+                            R3.LocalReport.DataSources.Clear();
+                            R3.LocalReport.DataSources.Add(new ReportDataSource("DataSet_CMAN", H_HCCMAN));
+                            R3.LocalReport.ReportEmbeddedResource = "ZamenisHealth.Reportes.RDLC_CMAN.rdlc";
+                            R3.SetDisplayMode(DisplayMode.PrintLayout);
+                            R3.ZoomMode = ZoomMode.Percent;
+                            R3.ZoomPercent = 100;
+                            R3.Font = new System.Drawing.Font("Arial", 7);
+                            R3.LocalReport.EnableExternalImages = true;
+                            R3.RefreshReport();
+                            //maestro.Visible = true;
+                            R3.Dock = System.Windows.Forms.DockStyle.Fill;
+
+                            byte[] bytes = R3.LocalReport.Render("PDF");
+                            FileStream fss = new FileStream("C:\\CXN\\Reportes\\Notas\\" + Contador3.ToString() + ".pdf", FileMode.Create);
+                            fss.Write(bytes, 0, bytes.Length);
+                            fss.Close();
+                            Contador3 = Contador3 + 1;
+                        }
+                    }
+
+                    Contador3 = Contador3 - 1;
+                    Comunes.UnificadorPDFMasivo U = new Comunes.UnificadorPDFMasivo();
+                    U.Unificar_Estructura_2(@"C:\CXN\Reportes\Notas\",
+                                          1.ToString(),
+                                          totalArchivos.ToString(),
+                                          Carpeta,
+                                          "OPF_" + CIA.Com_Identificacion + "_" + HomologoFac + ".pdf");
+
+                    R3.Dispose();
+
+                    foreach (string archivo in Directory.GetFiles(@"C:\CXN\Reportes\Notas\", "*.pdf"))
+                    {
+                        BorrarArchivoConReintentos(archivo);
+                    }
+                }
+
                 if (repoFacturacion.getValCuotasReceived(FacSelected, Cia) > 0)
                 {
                     //hoja de cuotas
-                    Cuotas();
+                    Cuotas(Carpeta);
                 }
                 else
                 {
                     //hoja de firmas
-                    Firmas();
+                    Firmas(Carpeta);
                 }
 
                 //Factura
@@ -904,7 +991,7 @@ namespace ZamenisHealth.Facturacion
                     R.Dock = System.Windows.Forms.DockStyle.Fill;
 
                     byte[] bytes = R.LocalReport.Render("PDF");
-                    FileStream fss = new FileStream("C:\\CXN\\Reportes\\FEV_" + CIA.Com_Identificacion.ToString() + "_" + HomologoFac + ".pdf", FileMode.Create);
+                    FileStream fss = new FileStream(Carpeta + "\\FEV_" + CIA.Com_Identificacion.ToString() + "_" + HomologoFac + ".pdf", FileMode.Create);
                     fss.Write(bytes, 0, bytes.Length);
                     fss.Close();
                 }
@@ -917,7 +1004,7 @@ namespace ZamenisHealth.Facturacion
                 MessageBox.Show(ex.Message);
             }
         }
-        void Firmas()
+        void Firmas(string Carpet)
         {
             try
             {
@@ -1000,7 +1087,7 @@ namespace ZamenisHealth.Facturacion
                     R.Dock = System.Windows.Forms.DockStyle.Fill;
 
                     byte[] bytes = R.LocalReport.Render("PDF");
-                    FileStream fss = new FileStream("C:\\CXN\\Reportes\\CRC_" + DatNombre.Com_Identificacion.ToString() + "_" + HomologoFac + ".pdf", FileMode.Create);
+                    FileStream fss = new FileStream(Carpet + "\\CRC_" + DatNombre.Com_Identificacion.ToString() + "_" + HomologoFac + ".pdf", FileMode.Create);
                     fss.Write(bytes, 0, bytes.Length);
                     fss.Close();
                 }
@@ -1010,7 +1097,7 @@ namespace ZamenisHealth.Facturacion
                 MessageBox.Show(ex.Message);
             }
         }
-        void Cuotas()
+        void Cuotas(string Carpet)
         {
             try
             {
@@ -1120,7 +1207,7 @@ namespace ZamenisHealth.Facturacion
                 R.Dock = System.Windows.Forms.DockStyle.Fill;
 
                 byte[] bytes = R.LocalReport.Render("PDF");
-                FileStream fss = new FileStream("C:\\CXN\\Reportes\\CRC_" + DataCompany.Com_Identificacion.ToString() + "_" + HomologoFac +".pdf", FileMode.Create);
+                FileStream fss = new FileStream(Carpet + "\\CRC_" + DataCompany.Com_Identificacion.ToString() + "_" + HomologoFac +".pdf", FileMode.Create);
                 fss.Write(bytes, 0, bytes.Length);
                 fss.Close();
             }

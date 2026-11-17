@@ -120,6 +120,17 @@
   <data name="linkLabel1.Text" xml:space="preserve">
     <value>Una vez halla generado los enlaces y se lo halla notificado al paciente, ya puede cerrar esta ventana y continuar con la historia clinica, si desea generar un nuevo enlace para este mismo paciente, genere una nueva reunion en el boton de arriba</value>
   </data>
+  <data name="linkLabel5.Text" xml:space="preserve">
+    <value>INSTRUCCION GENERAL
+
+Por favor, tenga presente que puede consultar el historial de links generados y que cada link tiene una vigencia de 1 hora para acceder desde el momento que se halla generado.
+
+Recuerde informar al paciente que en lo posible si presenta inconvenientes de acceso, que lo haga en una ventana de incognito en el navegador o que elimine el historial de navegacion y cookies.
+
+Si genero un link y lo extravio y no fue informado al paciente, si no ha pasado 1 hora desde su generacion, puede ingresar al historial y reenviarlo o copiarlo nuevamente.
+
+Los links distinguen entre mayusculas y minusculas, por favor tenga esto presente y ninguno lleva espacio.</value>
+  </data>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>30</value>
   </metadata>

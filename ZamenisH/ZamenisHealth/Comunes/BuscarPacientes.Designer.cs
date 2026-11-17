@@ -32,7 +32,6 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.gridZH1 = new ZamenisHealth.Clases.Controles.GridZH();
             this.boton1 = new FormAndControls.Controles.Boton();
             this.SuspendLayout();
             // 
@@ -80,14 +79,6 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Primer Apellido *";
             // 
-            // gridZH1
-            // 
-            this.gridZH1.BackColor = System.Drawing.Color.White;
-            this.gridZH1.Location = new System.Drawing.Point(12, 113);
-            this.gridZH1.Name = "gridZH1";
-            this.gridZH1.Size = new System.Drawing.Size(614, 436);
-            this.gridZH1.TabIndex = 37;
-            // 
             // boton1
             // 
             this.boton1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(55)))), ((int)(((byte)(90)))));
@@ -109,10 +100,9 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(639, 557);
+            this.ClientSize = new System.Drawing.Size(636, 557);
             this.Controls.Add(this.boton1);
             this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.gridZH1);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -130,7 +120,6 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private Clases.Controles.GridZH gridZH1;
         private FormAndControls.Controles.Boton boton1;
     }
 }

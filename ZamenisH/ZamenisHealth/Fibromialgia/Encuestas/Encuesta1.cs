@@ -67,6 +67,8 @@ namespace ZamenisHealth.Fibromialgia.Encuestas
         {
             try
             {
+                MG = new MensajesGeneral();
+
                 DialogResult result = MessageBox.Show("¿Desea grabar esta encuesta?",
                                                   "Zamenis Health - Encuestas Fibromialgia",
                                                   MessageBoxButtons.YesNo,
@@ -166,7 +168,7 @@ namespace ZamenisHealth.Fibromialgia.Encuestas
                     }
                     else
                     {
-                        MG.TipoImagen = 3;
+                        MG.TipoImagen = 3; 
                         MG.Mensaje = "Grabado Exitosamente";
                         MG.ShowDialog();
 

@@ -129,7 +129,54 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value />
+                <Value>Nota aclaratoria:</Value>
+                <Style>
+                  <FontStyle>Normal</FontStyle>
+                  <FontSize>9pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                  <TextDecoration>None</TextDecoration>
+                  <Color>#000000</Color>
+                </Style>
+              </TextRun>
+              <TextRun>
+                <Value>
+Sr(a) paciente, se recuerda que después de 3 inasistencias injustificadas al programa, este se dará por finalizado, teniendo encuenta que la adherencia es un factor importante para el éxito del mismo. Dicha novedad será notificada a su entidad aseguradora.</Value>
+                <Style>
+                  <FontStyle>Normal</FontStyle>
+                  <FontSize>9pt</FontSize>
+                  <FontWeight>Normal</FontWeight>
+                  <TextDecoration>None</TextDecoration>
+                  <Color>#000000</Color>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value xml:space="preserve">
+</Value>
+                <Style>
+                  <FontStyle>Normal</FontStyle>
+                  <FontSize>9pt</FontSize>
+                  <FontWeight>Normal</FontWeight>
+                  <TextDecoration>None</TextDecoration>
+                  <Color>#000000</Color>
+                </Style>
+              </TextRun>
+              <TextRun>
+                <Value>*</Value>
+                <Style>
+                  <FontStyle>Normal</FontStyle>
+                  <FontSize>9pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                  <TextDecoration>None</TextDecoration>
+                  <Color>#000000</Color>
+                </Style>
+              </TextRun>
+              <TextRun>
+                <Value> De acuerdo a los protocolos establecidos y en casos especiales la sesión de Psicología puede ser programada de forma virtual</Value>
                 <Style>
                   <FontStyle>Normal</FontStyle>
                   <FontSize>9pt</FontSize>
@@ -145,7 +192,7 @@
         <rd:DefaultName>Textbox21</rd:DefaultName>
         <Top>0.17639cm</Top>
         <Left>0.31751cm</Left>
-        <Height>7.9025cm</Height>
+        <Height>11.0775cm</Height>
         <Width>18.04935cm</Width>
         <Style>
           <Border>
@@ -174,7 +221,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox22</rd:DefaultName>
-        <Top>17.95562cm</Top>
+        <Top>21.13062cm</Top>
         <Left>0.5027cm</Left>
         <Height>0.6cm</Height>
         <Width>17.67896cm</Width>
@@ -194,7 +241,7 @@
         <Value>=First(Fields!FirmaPac.Value, "DataSetConsentimientos")</Value>
         <MIMEType>image/png</MIMEType>
         <Sizing>FitProportional</Sizing>
-        <Top>18.69674cm</Top>
+        <Top>21.87174cm</Top>
         <Left>0.5027cm</Left>
         <Height>2.24083cm</Height>
         <Width>6.42125cm</Width>
@@ -229,7 +276,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox22</rd:DefaultName>
-        <Top>20.93757cm</Top>
+        <Top>24.11257cm</Top>
         <Left>0.5027cm</Left>
         <Height>0.6cm</Height>
         <Width>17.67896cm</Width>
@@ -268,7 +315,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox22</rd:DefaultName>
-        <Top>21.67868cm</Top>
+        <Top>24.85368cm</Top>
         <Left>0.5027cm</Left>
         <Height>0.6cm</Height>
         <Width>17.67896cm</Width>
@@ -311,7 +358,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox22</rd:DefaultName>
-        <Top>22.45479cm</Top>
+        <Top>25.62979cm</Top>
         <Left>0.5027cm</Left>
         <Height>0.6cm</Height>
         <Width>17.67896cm</Width>
@@ -345,7 +392,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox22</rd:DefaultName>
-        <Top>23.86433cm</Top>
+        <Top>27.03933cm</Top>
         <Left>0.68791cm</Left>
         <Height>0.6cm</Height>
         <Width>17.67896cm</Width>
@@ -365,7 +412,7 @@
         <Value>=First(Fields!FirmaDoc.Value, "DataSetConsentimientos")</Value>
         <MIMEType>image/png</MIMEType>
         <Sizing>FitProportional</Sizing>
-        <Top>24.60545cm</Top>
+        <Top>27.78045cm</Top>
         <Left>11.80041cm</Left>
         <Height>2.24083cm</Height>
         <Width>6.42125cm</Width>
@@ -402,7 +449,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox22</rd:DefaultName>
-        <Top>26.84628cm</Top>
+        <Top>30.02128cm</Top>
         <Left>0.68791cm</Left>
         <Height>0.6cm</Height>
         <Width>17.67896cm</Width>
@@ -443,7 +490,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox22</rd:DefaultName>
-        <Top>27.62267cm</Top>
+        <Top>30.79767cm</Top>
         <Left>0.68791cm</Left>
         <Height>0.6cm</Height>
         <Width>17.67896cm</Width>
@@ -589,7 +636,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox29</rd:DefaultName>
-        <Top>8.39656cm</Top>
+        <Top>11.57156cm</Top>
         <Left>0.3175cm</Left>
         <Height>5.78583cm</Height>
         <Width>18.04937cm</Width>
@@ -645,7 +692,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox29</rd:DefaultName>
-        <Top>14.49191cm</Top>
+        <Top>17.66691cm</Top>
         <Left>0.3175cm</Left>
         <Height>2.98125cm</Height>
         <Width>18.04937cm</Width>
@@ -661,7 +708,7 @@
         </Style>
       </Textbox>
     </ReportItems>
-    <Height>11.18421in</Height>
+    <Height>12.36129in</Height>
     <Style />
   </Body>
   <Width>7.35605in</Width>

@@ -9,13 +9,13 @@ using Persistence.CXN_ADJUNTOS.Interfaces;
 using Persistence.CXN_ADJUNTOS.Metodos;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ZamenisHealth.Clases;
+using ZamenisHealth.Clases.Controles;
 using ZamenisHealth.Comunes;
 
 namespace ZamenisHealth.Medicina
@@ -26,25 +26,22 @@ namespace ZamenisHealth.Medicina
         private static readonly IOrdenes repoOrdenes = new MOrdenes();
         private static readonly IAdjuntos repoAdjuntos = new MAdjuntos();
 
-        DataTable dt = new DataTable();
-        DataColumn POS;
-        DataColumn Admision;
-        DataColumn Pacientes;
-        DataColumn Profesional;
-        DataColumn Fecha;
-        DataColumn Tipo;
-        DataColumn Cia;
-        DataColumn Clasificacion;
+        FlowLayoutPanel flow;
+        private readonly Font fuenteNormal = new Font("Microsoft Sans Serif", 10, FontStyle.Regular);
+        private readonly Font fuenteNegrita = new Font("Microsoft Sans Serif", 10, FontStyle.Bold);
+        private ToolTip toolBntSee = new ToolTip();
 
         private int Paciente;
         private string SeleccionReporte;
         private string TipoTerapia;
         private string TipoNodoGrupal;
+        string NodoPrincipal2, TittleSelected2;
+
         List<HCMG> H_HCMGHC;
-        List<CXN_HCRADIOLOGIA> cXN_HCRADIOLOGIA;
         List<ReportHCFI> H_HCFICompleto;
         List<ReportEVO> H_HCEVO;
         private MensajesGeneral MG;
+        
 
         public Historial_Medico_2(int paciente)
         {
@@ -60,11 +57,13 @@ namespace ZamenisHealth.Medicina
 
                 if (treeView1.SelectedNode != null)
                 {
-                    string TittleSelected = treeView1.SelectedNode.Text.ToString();                    
+                    string TittleSelected = treeView1.SelectedNode.Text.ToString();
+                    TittleSelected2 = treeView1.SelectedNode.Text.ToString();
 
                     if (e.Node.Parent != null)
                     {
                         string NodoPrincipal = e.Node.Parent.Text.ToString();
+                        NodoPrincipal2 = e.Node.Parent.Text.ToString();
 
                         if (NodoPrincipal == "MEDICINA GENERAL")
                         {
@@ -257,14 +256,22 @@ namespace ZamenisHealth.Medicina
                         }
                         else
                         {
-                            return;
+                            if (flow != null)
+                                flow.Dispose();
                         }                        
                     }
+                }
+                else
+                {
+                    if (flow != null)
+                        flow.Dispose();
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
+                if (flow != null)
+                    flow.Dispose();
             }
         }
         void ConfigTree()
@@ -406,12 +413,15 @@ namespace ZamenisHealth.Medicina
         {
             try
             {
+                dateTimePicker3.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+                dateTimePicker4.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+
                 treeView1.AfterSelect += treeView1_AfterSelect;
-                gridZH1.dataGridView1.CellDoubleClick += dataGridView1_CellDoubleClick;
-                gridZH1.CeldaHeight = true;
                 ConfigTree();
                 Titulo.Text = "Registros Medicos";
                 SubTitulo.Text = Conexion.VersionApp;
+
+                this.DoubleBuffered = true;
             }
             catch (Exception ex)
             {
@@ -433,41 +443,81 @@ namespace ZamenisHealth.Medicina
                 this.Close();
             }
         }
-        void BuscarAdjuntos()
+        async Task BuscarAdjuntos()
         {
             try
             {
-                EncabezadosAdjuntos();
+                pictureBox1.Visible = true;
+                pictureBox1.BringToFront();
+
+                await Task.Delay(100);
 
                 List<CXN_HORARIO> H = repoAdjuntos.getAdjuntos(this.Paciente);
                 if (H != null)
                 {
-                    int Contador = 1;
-
-                    foreach (var h in H)
+                    if (flow != null)
                     {
-                        DataRow row = dt.NewRow();
-
-                        row["POS"] = Contador;
-                        row["Admision"] = Convert.ToInt32(h.Hor_Id);
-                        row["Paciente"] = h.Hor_Imp_Age.ToString();
-                        row["Profesional"] = h.Hor_Observacion.ToString();
-                        row["Tipo"] = h.Com_Tipo_Doc.ToString();
-                        row["Fecha"] = Convert.ToDateTime(h.Hor_Pac_Fecha_Cita).ToString(Conexion.ConectionDictionary["Format_Fecha"]);                      
-
-                        dt.Rows.Add(row);
-                        dt.AcceptChanges();
-
-                        Contador = Contador + 1;
+                        flow.Dispose();
+                        flow = null;
                     }
 
-                    Contador = 1;
-                    Estilos();
+                    flow = new FlowLayoutPanel();
+                    flow.AutoScroll = true;
+                    flow.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+                    flow.BackColor = Color.WhiteSmoke;
+                    flow.BorderStyle = BorderStyle.None;
+                    flow.FlowDirection = FlowDirection.TopDown;
+                    flow.Size = new Size(747, 581);
+                    flow.Location = new Point(297, 77);
+                    flow.WrapContents = false;
+                    this.Controls.Add(flow);
+                    flow.BringToFront();
+                    flow.SuspendLayout();
+
+                    flow.Visible = false;
+
+                    try
+                    {
+                        int contador = 0;
+
+                        foreach (var i in H)
+                        {
+                            CreaPanel(i.Hor_Id, i.Hor_Observacion, i.Com_Tipo_Doc, "ARCHIVO EXTRA SUBIDO", i.Hor_Pac_Fecha_Cita, "");
+
+                            contador++;
+
+                            if (contador % 10 == 0)
+                            {
+                                flow.ResumeLayout(true);
+                                await Task.Delay(1);
+                                flow.SuspendLayout();
+                            }
+                        }
+                    }
+                    finally
+                    {
+                        flow.ResumeLayout(true);
+                        if (flow != null)
+                            flow.Visible = true;
+                        pictureBox1.SendToBack();
+                        flow.BringToFront();
+                    }
+                }
+                else
+                {
+                    if (flow != null)
+                        flow.Dispose();
+                        flow = null;
+                        pictureBox1.SendToBack();
                 }
             }
             catch (Exception ex)
             {
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
+                if (flow != null)
+                    flow.Dispose();
+                    flow = null;
+                    pictureBox1.SendToBack();
             }
         }        
         void Shows()
@@ -703,523 +753,204 @@ namespace ZamenisHealth.Medicina
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-        void EncabezadosEvo()
-        {
-            gridZH1.dataGridView1.DataSource = null;
-            dt = new DataTable();
-            POS = dt.Columns.Add("POS", typeof(int));
-            Admision = dt.Columns.Add("Admision", typeof(int));
-            Pacientes = dt.Columns.Add("Paciente", typeof(string));
-            Profesional = dt.Columns.Add("Profesional", typeof(string));
-            Fecha = dt.Columns.Add("Fecha", typeof(DateTime));
-            Tipo = dt.Columns.Add("Tipo", typeof(string));
-        }
-        void Encabezados()
-        {
-            gridZH1.dataGridView1.DataSource = null;
-            dt = new DataTable();
-            POS = dt.Columns.Add("POS", typeof(int));
-            Admision = dt.Columns.Add("Admision", typeof(int));
-            Pacientes = dt.Columns.Add("Paciente", typeof(string));
-            Profesional = dt.Columns.Add("Profesional", typeof(string));
-            Fecha = dt.Columns.Add("Fecha", typeof(DateTime));
-        }
-        void EncabezadosAdjuntos()
-        {
-            gridZH1.dataGridView1.DataSource = null;
-            dt = new DataTable();
-            POS = dt.Columns.Add("POS", typeof(int));
-            Admision = dt.Columns.Add("Admision", typeof(int));
-            Pacientes = dt.Columns.Add("Paciente", typeof(string));
-            Profesional = dt.Columns.Add("Profesional", typeof(string));
-            Tipo = dt.Columns.Add("Tipo", typeof(string));
-            Fecha = dt.Columns.Add("Fecha", typeof(DateTime));
-        }
-        void EncabezadosOM()
-        {
-            gridZH1.dataGridView1.DataSource = null;
-            dt = new DataTable();
-            POS = dt.Columns.Add("POS", typeof(int));
-            Admision = dt.Columns.Add("Admision", typeof(int));
-            Pacientes = dt.Columns.Add("Paciente", typeof(string));
-            Profesional = dt.Columns.Add("Profesional", typeof(string));
-            Fecha = dt.Columns.Add("Fecha", typeof(DateTime));
-            Tipo = dt.Columns.Add("Tipo", typeof(string));
-            Cia = dt.Columns.Add("Cia", typeof(string));
-            Clasificacion = dt.Columns.Add("Clasificacion", typeof(string));
-        }
-        void Estilos()
-        {
-            gridZH1.dataGridView1.DataSource = dt;
-            gridZH1.dataGridView1.Columns["POS"].Visible = false;
-
-            if (SeleccionReporte == "MG" || SeleccionReporte == "FI")
-            {
-                gridZH1.dataGridView1.Columns["Cia"].Visible = false;
-                //gridZH1.dataGridView1.Columns["Clasificacion"].Width = 200;
-            }
-        }
-        void BuscarOM(string TipoEs)
+        async Task BuscarOM(string TipoEs)
         {
             try
             {
-                var getOM = repoOrdenes.getOrdenes(this.Paciente, TipoEs);
+                pictureBox1.Visible = true;
+                pictureBox1.BringToFront();
+
+                await Task.Delay(100);
+
+                List<CXN_OM> getOM = repoOrdenes.getOrdenes(this.Paciente, TipoEs, dateTimePicker3.Value.Date, dateTimePicker4.Value.Date);
                 if (getOM != null)
                 {
-                    EncabezadosOM();
-
-                    int Contador = 1;
-
-                    foreach (var i in getOM)
+                    if (flow != null)
                     {
-                        DataRow row = dt.NewRow();
-
-                        row["POS"] = Contador;
-                        row["Admision"] = Convert.ToInt32(i.OM_Num);
-                        row["Paciente"] = i.OM_Detalle.ToString();
-                        row["Profesional"] = i.OM_Prof.ToString();
-                        row["Fecha"] = Convert.ToDateTime(i.OM_Fecha).ToString(Conexion.ConectionDictionary["Format_Fecha"]);
-                        row["Tipo"] = i.OM_Tipo.ToString();
-                        row["Cia"] = i.OM_Cia.ToString();
-                        row["Clasificacion"] = i.OM_Clasificacion.ToString();
-
-                        dt.Rows.Add(row);
-                        dt.AcceptChanges();
-
-                        Contador = Contador + 1;
+                        flow.Dispose();
+                        flow = null;
                     }
 
-                    Contador = 1;
-                    Estilos();
+                    flow = new FlowLayoutPanel();
+                    flow.AutoScroll = true;
+                    flow.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+                    flow.BackColor = Color.White;
+                    flow.BorderStyle = BorderStyle.None;
+                    flow.FlowDirection = FlowDirection.TopDown;
+                    flow.Size = new Size(747, 581);
+                    flow.Location = new Point(297, 77);
+                    flow.WrapContents = false;
+                    this.Controls.Add(flow);
+                    flow.BringToFront();
+                    flow.SuspendLayout();
+
+                    flow.Visible = false;
+
+                    try
+                    {
+                        int contador = 0;
+
+                        foreach (var i in getOM)
+                        {
+                            Console.WriteLine(i.OM_Num);
+                            CreaPanel(i.OM_Num, i.OM_Prof, i.OM_Tipo, i.OM_Clasificacion, i.OM_Fecha, i.OM_Cia.ToString());
+
+                            contador++;
+
+                            if (contador % 10 == 0)
+                            {
+                                flow.ResumeLayout(true);
+                                await Task.Delay(1);
+                                flow.SuspendLayout();
+                            }
+                        }
+                    }
+                    finally 
+                    {
+                        flow.ResumeLayout(true);
+                        if (flow != null)
+                            flow.Visible = true;
+                            pictureBox1.SendToBack();
+                            flow.BringToFront();
+                    }
                 }
                 else
                 {
-                    gridZH1.dataGridView1.DataSource = null;
-                    EncabezadosOM();                    
+                    if (flow != null)
+                        flow.Dispose();
+                        flow = null;
+                        pictureBox1.SendToBack();
                 }
             }
             catch (Exception ex)
             {
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
+                if (flow != null)
+                    flow.Dispose();
+                    flow = null;
+                    pictureBox1.SendToBack();
             }
         }        
-        private void BuscarH(string Tipo)
+        private async Task BuscarH(string Tipo)
         {
             try
-            {                
-                var getHistorias = repoReportes.BuscarHistorias(this.Paciente, Tipo);
-                if (getHistorias != null)
+            {
+                // Mostrar indicador de carga inmediatamente
+                pictureBox1.Visible = true;
+                pictureBox1.BringToFront();                
+
+                // Permitir que Windows pinte el PictureBox
+                await Task.Delay(100);
+
+                // Consultar historias
+                List<CXN_HORARIO> getHistorias =
+                    await repoReportes.BuscarHistorias(this.Paciente, Tipo, dateTimePicker3.Value.Date, dateTimePicker4.Value.Date);
+
+                if (flow != null)
                 {
-                    int Contador = 1;
+                    flow.Dispose();
+                    flow = null;
+                }
 
-                    if (Tipo == "HEVO")
+                if (getHistorias != null && getHistorias.Count > 0)
+                {
+                    flow = new FlowLayoutPanel();
+
+                    flow.AutoScroll = true;
+                    flow.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+                    flow.BackColor = Color.White;
+                    flow.BorderStyle = BorderStyle.None;
+                    flow.FlowDirection = FlowDirection.TopDown;
+                    flow.Size = new Size(747, 581);
+                    flow.Location = new Point(297, 77);
+                    flow.WrapContents = false;
+
+                    this.Controls.Add(flow);
+
+                    flow.SuspendLayout();
+
+                    flow.Visible = false;
+
+                    bool mostrarPaneles =
+                        (Tipo == "HEVO" && SeleccionReporte != "") ||
+                        (Tipo != "HEVO" && SeleccionReporte != "");
+
+                    if (mostrarPaneles)
                     {
-                        EncabezadosEvo();
+                        int contador = 0;
 
-                        foreach (var i in getHistorias)
+                        try
                         {
-                            DataRow row = dt.NewRow();
+                            foreach (var i in getHistorias)
+                            {
+                                string junta = Tipo == "HEVO"
+                                    ? i.Hor_Pac_Tipo_Serv
+                                    : "";
 
-                            row["POS"] = Contador;
-                            row["Admision"] = Convert.ToInt32(i.Hor_Id);
-                            row["Paciente"] = i.Hor_Imp_Age.ToString();
-                            row["Profesional"] = i.Hor_Observacion.ToString();
-                            row["Fecha"] = Convert.ToDateTime(i.Hor_Pac_Fecha_Cita).ToString(Conexion.ConectionDictionary["Format_Fecha"]);
-                            row["Tipo"] = i.Hor_Pac_Tipo_Serv.ToString();
+                                CreaPanel(
+                                    i.Hor_Id,
+                                    i.Hor_Observacion,
+                                    i.Hor_GrupoServicios,
+                                    i.PacienteAseguradora,
+                                    i.Hor_Pac_Fecha_Cita,
+                                    junta
+                                );
 
-                            dt.Rows.Add(row);
-                            dt.AcceptChanges();
+                                contador++;
 
-                            Contador = Contador + 1;
+                                // Cada 10 historias permitimos actualizar la interfaz
+                                if (contador % 10 == 0)
+                                {
+                                    flow.ResumeLayout(true);
+
+                                    await Task.Delay(1);
+
+                                    flow.SuspendLayout();
+                                }
+                            }
+                        }
+                        finally
+                        {
+                            flow.ResumeLayout(true);
                         }
 
-                        Contador = 1;
-                        Estilos();                        
+                        flow.BringToFront();
+                        panel1.SendToBack();
                     }
                     else
                     {
-                        Encabezados();
+                        flow.Dispose();
+                        flow = null;
 
-                        foreach (var i in getHistorias)
-                        {
-                            DataRow row = dt.NewRow();
-
-                            row["POS"] = Contador;
-                            row["Admision"] = Convert.ToInt32(i.Hor_Id);
-                            row["Paciente"] = i.Hor_Imp_Age.ToString();
-                            row["Profesional"] = i.Hor_Observacion.ToString();
-                            row["Fecha"] = Convert.ToDateTime(i.Hor_Pac_Fecha_Cita).ToString(Conexion.ConectionDictionary["Format_Fecha"]);
-
-                            dt.Rows.Add(row);
-                            dt.AcceptChanges();
-
-                            Contador = Contador + 1;
-                        }
-
-                        Contador = 1;
-                        Estilos();                        
+                        panel1.BringToFront();
                     }
-
-                    gridZH1.dataGridView1.ClearSelection();
-                    panel1.Enabled = true;
                 }
                 else
                 {
-                    panel1.Enabled = false;
-                    gridZH1.dataGridView1.DataSource = null;
-                    Encabezados();
+                    panel1.BringToFront();
                 }
             }
             catch (Exception ex)
             {
-                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
+                TXTException T = new TXTException
+                {
+                    FechaHora = DateTime.Now,
+                    Error = ex.Message,
+                    Formulario = this.Name,
+                    Metodo = OverridesExtern.GetCurrentMethodName(),
+                    Usuario = Contenedor.UsuarioLogueado
+                };
+
+                OverridesExtern.GenerarTXTException(T);
+            }
+            finally
+            {
+                pictureBox1.Visible = false;
+                
+                if (flow != null)
+                    flow.Visible = true;
             }
         }        
-        private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
-            try
-            {
-                Comunes.MensajesGeneral MG = new Comunes.MensajesGeneral();
-
-                if (this.SeleccionReporte == "Adjuntos")
-                {
-                    int PosAd = Convert.ToInt32(gridZH1.dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString());
-
-                    //Exportar PDF desde Binario
-                    if (e.ColumnIndex == 0 || e.ColumnIndex == 1 || e.ColumnIndex == 2 || e.ColumnIndex == 4 || e.ColumnIndex == 5)
-                    {
-                        byte[] _pdf = repoAdjuntos.getPDF(PosAd);
-                        if (_pdf != null)
-                        {
-                            byte[] nuevoPDFBytes = JoinImagesToPDF.ConvertirBinarioAPDF(_pdf);
-                            JoinImagesToPDF.AbrirPDFDesdeBytes(nuevoPDFBytes);
-                        }
-                        else
-                        {
-                            MG.TipoImagen = 1000;
-                            MG.Mensaje = "No se logro exportar el documento";
-                            MG.ShowDialog();
-                        }
-                    }
-                    //Observacion
-                    if (e.ColumnIndex == 3)
-                    {
-                        MG.TipoImagen = 0;
-                        MG.Mensaje = gridZH1.dataGridView1.Rows[e.RowIndex].Cells[3].Value.ToString();
-                        MG.ShowDialog();
-                    }
-
-                    return;
-                }
-
-                if (e.ColumnIndex == 0 || e.ColumnIndex == 1 || e.ColumnIndex == 2 || e.ColumnIndex == 3 ||
-                    e.ColumnIndex == 4) 
-                {
-                    int Admition = Convert.ToInt32(gridZH1.dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString());
-                    //int _cia = 0;
-
-                    switch (SeleccionReporte)
-                    {
-                        case "MG":
-                            Historial_Medico_3 H = new Historial_Medico_3(Admition, 
-                                                                          gridZH1.dataGridView1.Rows[e.RowIndex].Cells[5].Value.ToString(), 
-                                                                          "MG",
-                                                                           Convert.ToInt32(gridZH1.dataGridView1.Rows[e.RowIndex].Cells[6].Value.ToString()));
-                            H.ShowDialog();
-                            return;
-
-                        case "FI":
-                            Historial_Medico_3 H2 = new Historial_Medico_3(Admition,
-                                                                          gridZH1.dataGridView1.Rows[e.RowIndex].Cells[5].Value.ToString(),
-                                                                          "FI",
-                                                                           Convert.ToInt32(gridZH1.dataGridView1.Rows[e.RowIndex].Cells[6].Value.ToString()));
-                            H2.ShowDialog();
-                            return;
-
-                        case "Notas":
-                            Medicina.NotasReportPrevio A = new Medicina.NotasReportPrevio();
-                            A.Adm_Nota_Export = Admition;
-                            A.ShowDialog();
-                            break;
-
-                        case "HisMG":
-                            var H_HCMG = repoReportes.MedicinaGeneral(Admition);
-                            if (H_HCMG == null)
-                            {
-                                MG.Mensaje = "No se logro exportar, posiblemente halla una falla al exportar o la historia no existe";
-                                MG.TipoImagen = 1000;
-                                MG.ShowDialog();
-                                return;
-                            }
-
-                            ConfigForm.GenerarReportViewer("DataSet_HCMG",
-                                          "ZamenisHealth.Reportes.RDLC_HCMG.rdlc",
-                                          H_HCMG);
-                            break;                       
-
-                        case "HisMGDiametro":
-                            var H_HCMGDIA = repoReportes.DiametrosHeridas(Admition);
-                            if (H_HCMGDIA == null)
-                            {
-                                MG.Mensaje = "No se logro exportar, posiblemente halla una falla al exportar o la historia no existe";
-                                MG.TipoImagen = 1000;
-                                MG.ShowDialog();
-                                return;
-                            }
-
-                            ConfigForm.GenerarReportViewer("DataSet_HCMG",
-                                          "ZamenisHealth.Reportes.RDLC_HCMGDIA.rdlc",
-                                          H_HCMGDIA);
-
-                            break;
-
-                        case "CMan":
-                            var H_HCCMAN = repoReportes.CambiosManejo(Admition);
-                            if (H_HCCMAN == null)
-                            {
-                                MG.Mensaje = "No se logro exportar, posiblemente halla una falla al exportar o la historia no existe";
-                                MG.TipoImagen = 1000;
-                                MG.ShowDialog();
-                                return;
-                            }
-
-                            ConfigForm.GenerarReportViewer("DataSet_CMAN",
-                                         "ZamenisHealth.Reportes.RDLC_CMAN.rdlc",
-                                         H_HCCMAN);
-
-                            break;
-
-                        case "HFI":
-                            var H_HCFI = repoReportes.ReporteFisiatria(Admition);
-                            if (H_HCFI == null)
-                            {
-                                MG.Mensaje = "No se logro exportar, posiblemente halla una falla al exportar o la historia no existe";
-                                MG.TipoImagen = 1000;
-                                MG.ShowDialog();
-                                return;
-                            }
-
-                            ConfigForm.GenerarReportViewer("DataSet_HCFI",
-                                       "ZamenisHealth.Reportes.RDLC_HCFI.rdlc",
-                                       H_HCFI);
-
-                            break;
-
-                        case "PSIQ":
-                            var H_HCPSIQ = repoReportes.ReportePsiquiatria(Admition);
-                            if (H_HCPSIQ == null)
-                            {
-                                MG.Mensaje = "No se logro exportar, posiblemente halla una falla al exportar o la historia no existe";
-                                MG.TipoImagen = 1000;
-                                MG.ShowDialog();
-                                return;
-                            }
-
-                            ConfigForm.GenerarReportViewer("DataSet_Psiquiatria",
-                                       "ZamenisHealth.Reportes.RDLC_HCPsiquiatria.rdlc",
-                                       H_HCPSIQ);
-
-                            break;
-
-                        case "PSIQ2":
-                            var H_HCPSIQ2 = repoReportes.ReportePsiquiatria(Admition);
-                            if (H_HCPSIQ2 == null)
-                            {
-                                MG.Mensaje = "No se logro exportar, posiblemente halla una falla al exportar o la historia no existe";
-                                MG.TipoImagen = 1000;
-                                MG.ShowDialog();
-                                return;
-                            }
-
-                            ConfigForm.GenerarReportViewer("DataSet_Psiquiatria",
-                                       "ZamenisHealth.Reportes.RDLC_HCPsiquiatria2.rdlc",
-                                       H_HCPSIQ2);
-
-                            break;
-
-                        case "PSIQ3":
-                            var H_HCPSIQ3 = repoReportes.ReportePsiquiatria(Admition);  
-                            if (H_HCPSIQ3 == null)
-                            {
-                                MG.Mensaje = "No se logro exportar, posiblemente halla una falla al exportar o la historia no existe";
-                                MG.TipoImagen = 1000;
-                                MG.ShowDialog();
-                                return;
-                            }
-
-                            ConfigForm.GenerarReportViewer("DataSetPsiquiatria",
-                                       "ZamenisHealth.Reportes.RDLC_HCPsiquiatria3.rdlc",
-                                       H_HCPSIQ3);
-
-                            break;
-
-                        case "PSI":
-                            var H_HCPSI = repoReportes.ReportePsicologia(Admition);
-                            if (H_HCPSI == null)
-                            {
-                                MG.Mensaje = "No se logro exportar, posiblemente halla una falla al exportar o la historia no existe";
-                                MG.TipoImagen = 1000;
-                                MG.ShowDialog();
-                                return;
-                            }
-
-                            ConfigForm.GenerarReportViewer("DataSet_HCPSI",
-                                       "ZamenisHealth.Reportes.RDLC_HCPSI.rdlc",
-                                       H_HCPSI);
-
-                            break;
-
-                        case "RA":
-                            var H_HCRA = repoReportes.RadiologiaReport(Admition);
-                            if (H_HCRA == null)
-                            {
-                                MG.Mensaje = "No se logro exportar, posiblemente halla una falla al exportar o la historia no existe";
-                                MG.TipoImagen = 1000;
-                                MG.ShowDialog();
-                                return;
-                            }
-
-                            ConfigForm.GenerarReportViewer("DataSetRadiologia",
-                                          "ZamenisHealth.Reportes.RDLC_HCRADIOLOGIA.rdlc",
-                                          H_HCRA);
-                            return;
-
-                        case "HEVO":
-                            var H_HCEVO = repoReportes.ReporteEvoluciones(this.Paciente,
-                                                                                      Admition,
-                                                                                      gridZH1.dataGridView1.Rows[e.RowIndex].Cells[5].Value.ToString());
-                            if (H_HCEVO == null)
-                            {
-                                MG.Mensaje = "No se logro exportar, posiblemente halla una falla al exportar o la historia no existe";
-                                MG.TipoImagen = 1000;
-                                MG.ShowDialog();
-                                return;
-                            }
-
-                            ConfigForm.GenerarReportViewer("DataSet_HCEVO",
-                                      "ZamenisHealth.Reportes.RDLC_HCEVO.rdlc",
-                                      H_HCEVO);
-
-                            break;
-
-                        case "HJ2":
-                            var H_HCJUN2 = repoReportes.ReporteJuntas(Admition, "Junta2");
-                            if (H_HCJUN2 == null)
-                            {
-                                MG.Mensaje = "No se logro exportar, posiblemente halla una falla al exportar o la historia no existe";
-                                MG.TipoImagen = 1000;
-                                MG.ShowDialog();
-                                return;
-                            }
-
-                            ConfigForm.GenerarReportViewer("DataSet_JUNTAS",
-                                   "ZamenisHealth.Reportes.RDLC_JUNTA2.rdlc",
-                                   H_HCJUN2);
-
-                            break;
-
-                        case "HJ1":
-                            var H_HCJUN1 = repoReportes.ReporteJuntas(Admition, "Junta1");
-                            if (H_HCJUN1 == null)
-                            {
-                                MG.Mensaje = "No se logro exportar, posiblemente halla una falla al exportar o la historia no existe";
-                                MG.TipoImagen = 1000;
-                                MG.ShowDialog();
-                                return;
-                            }
-
-                            ConfigForm.GenerarReportViewer("DataSet_JUNTAS",
-                                   "ZamenisHealth.Reportes.RDLC_JUNTA1.rdlc",
-                                   H_HCJUN1);
-
-                            break;
-
-                        case "TF":
-                            var H_HCTF = repoReportes.ReporteTerapiaFisica(Admition);
-                            if (H_HCTF == null)
-                            {
-                                MG.Mensaje = "No se logro exportar, posiblemente halla una falla al exportar o la historia no existe";
-                                MG.TipoImagen = 1000;
-                                MG.ShowDialog();
-                                return;
-                            }
-
-                            ConfigForm.GenerarReportViewer("DataSet_HCTF",
-                                  "ZamenisHealth.Reportes.RDLC_HCFT.rdlc",
-                                  H_HCTF);
-
-                            break;
-
-                        case "TO":
-                            var H_HCTO = repoReportes.ReporteTerapiaOcupacional(Admition);
-                            if (H_HCTO == null)
-                            {
-                                MG.Mensaje = "No se logro exportar, posiblemente halla una falla al exportar o la historia no existe";
-                                MG.TipoImagen = 1000;
-                                MG.ShowDialog();
-                                return;
-                            }
-
-                            ConfigForm.GenerarReportViewer("DataSet_HCTO",
-                                 "ZamenisHealth.Reportes.RDLC_HCTO.rdlc",
-                                 H_HCTO);
-
-                            break;
-
-                        case "Adjuntos":
-
-                            return;
-
-                        default:
-                            MG.Mensaje = "Seleccione una opcion de reporte valida";
-                            MG.TipoImagen = 1000;
-                            MG.ShowDialog();
-                            return;
-                    }
-
-                    /*if (SeleccionReporte != "Notas")
-                    {
-                        maestro.Universal.SetDisplayMode(DisplayMode.PrintLayout);
-                        maestro.Universal.ZoomMode = ZoomMode.Percent;
-                        maestro.Universal.ZoomPercent = 100;
-                        maestro.Universal.LocalReport.EnableExternalImages = true;
-                        maestro.Universal.Font = new Font("Arial", 8);
-                        maestro.Universal.RefreshReport();
-                        maestro.Universal.Visible = true;
-                        maestro.Universal.Dock = System.Windows.Forms.DockStyle.Fill;
-                        maestro.ShowDialog();
-                    }*/
-
-                    if (SeleccionReporte == "HisMG")
-                    {
-                        DialogResult result = MessageBox.Show("¿Desea generar el reporte de medidas de esta admision?",
-                                                      "Zamenis Health - Diametros de Heridas",
-                                                      MessageBoxButtons.YesNo,
-                        MessageBoxIcon.Question);
-
-                        if (result == DialogResult.Yes)
-                        {
-                            var Diametros = repoReportes.DiametrosHeridas(Admition);
-                            if (Diametros == null)
-                            {
-                                MG.Mensaje = "No se encontraron reportes de medidas ingresados por el medico";
-                                MG.TipoImagen = 3;
-                                MG.ShowDialog();
-                                return;
-                            }
-
-                            ConfigForm.GenerarReportViewer("DataSet_HCMG",
-                                 "ZamenisHealth.Reportes.RDLC_HCMGDIA.rdlc",
-                                 Diametros);
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-            }
-        }
         private async void button1_Click(object sender, EventArgs e)
         {
             try
@@ -1283,6 +1014,636 @@ namespace ZamenisHealth.Medicina
             catch (Exception ex)
             {
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
+            }
+        }
+        void CreaPanel(int txtAdmition, string txtProfesional, string txtServicio, string txtAseguradora, DateTime txtFecha, string txtJunta)
+        {
+            try
+            {
+                PanelCSS panel = new PanelCSS();
+                panel.BackColor = Color.White;
+                panel.BorderStyle = BorderStyle.None;
+                panel.Size = new Size(715, 138);
+
+                flow.Controls.Add(panel);
+
+                //Titulos
+                Label labelAdmision = new Label();
+                labelAdmision.Text = "Admisión";
+                labelAdmision.Font = fuenteNormal;
+                labelAdmision.AutoSize = true;
+                labelAdmision.ForeColor = Color.Black;
+                labelAdmision.Location = new Point(20, 21);
+                panel.Controls.Add(labelAdmision);
+
+                Label labelProfesional = new Label();
+                labelProfesional.Text = "Profesional";
+                labelProfesional.Font = fuenteNormal;
+                labelProfesional.AutoSize = true;
+                labelProfesional.ForeColor = Color.Black;
+                labelProfesional.Location = new Point(20, 46);
+                panel.Controls.Add(labelProfesional);
+
+                Label labelServicio = new Label();
+                labelServicio.Text = "Servicio";
+                labelServicio.Font = fuenteNormal;
+                labelServicio.AutoSize = true;
+                labelServicio.ForeColor = Color.Black;
+                labelServicio.Location = new Point(20, 70);
+                panel.Controls.Add(labelServicio);
+
+                Label labelAseguradora = new Label();
+                labelAseguradora.Text = "Aseguradora";
+                labelAseguradora.Font = fuenteNormal;
+                labelAseguradora.AutoSize = true;
+                labelAseguradora.ForeColor = Color.Black;
+                labelAseguradora.Location = new Point(20, 95);
+                panel.Controls.Add(labelAseguradora);
+
+                Label labelFecha = new Label();
+                labelFecha.Text = "Fecha";
+                labelFecha.Font = fuenteNormal;
+                labelFecha.AutoSize = true;
+                labelFecha.ForeColor = Color.Black;
+                labelFecha.Location = new Point(496, 21);
+                panel.Controls.Add(labelFecha);
+
+                //Botones
+                Button botonVer = new Button();
+                botonVer.BackColor = Color.White;
+                botonVer.Cursor = Cursors.Hand;
+                botonVer.Image = Properties.Resources.eye;
+                botonVer.FlatStyle = FlatStyle.Standard;
+                botonVer.Text = "";
+                botonVer.Location = new Point(636, 88);
+                botonVer.Size = new Size(59, 32);
+                panel.Controls.Add(botonVer);
+
+                toolBntSee.SetToolTip(botonVer, "Click para ver el documento");
+                toolBntSee.ShowAlways = true;
+
+                //VALORES
+                Label labelAdmisionValor = new Label();
+                labelAdmisionValor.Text = txtAdmition.ToString();
+                labelAdmisionValor.Font = fuenteNegrita;
+                labelAdmisionValor.AutoSize = true;
+                labelAdmisionValor.ForeColor = Color.Green;
+                labelAdmisionValor.Location = new Point(124, 21);
+                panel.Controls.Add(labelAdmisionValor);
+
+                Label labelProfesionalValor = new Label();
+                labelProfesionalValor.Text = txtProfesional;
+                labelProfesionalValor.Font = fuenteNegrita;
+                labelProfesionalValor.AutoSize = true;
+                labelProfesionalValor.ForeColor = Color.Blue;
+                labelProfesionalValor.Location = new Point(124, 46);
+                panel.Controls.Add(labelProfesionalValor);
+
+                Label labelServicioValor = new Label();
+                labelServicioValor.Text = txtServicio;
+                labelServicioValor.Font = fuenteNegrita;
+                labelServicioValor.AutoSize = true;
+                labelServicioValor.ForeColor = Color.Blue;
+                labelServicioValor.Location = new Point(124, 70);
+                panel.Controls.Add(labelServicioValor);
+
+                Label labelAseguradoraValor = new Label();
+                labelAseguradoraValor.Text = txtAseguradora;
+                labelAseguradoraValor.Font = fuenteNegrita;
+                labelAseguradoraValor.AutoSize = false;
+                labelAseguradoraValor.Size = new Size(516, 24);
+                labelAseguradoraValor.ForeColor = Color.Blue;
+                labelAseguradoraValor.Location = new Point(124, 95);
+                panel.Controls.Add(labelAseguradoraValor);
+
+                Label labelFechaValor = new Label();
+                labelFechaValor.Text = txtFecha.ToString("yyyy-MM-dd");
+                labelFechaValor.Font = fuenteNegrita;
+                labelFechaValor.AutoSize = true;
+                labelFechaValor.ForeColor = Color.Red;
+                labelFechaValor.Location = new Point(566, 21);
+                panel.Controls.Add(labelFechaValor);
+
+                //JUNTAS
+                Label labelEvolucionValor = new Label();
+                labelEvolucionValor.Text = txtJunta;
+                labelEvolucionValor.Font = fuenteNegrita;
+                labelEvolucionValor.AutoSize = true;
+                labelEvolucionValor.ForeColor = Color.Purple;
+                labelEvolucionValor.Location = new Point(304, 21);
+                panel.Controls.Add(labelEvolucionValor);                               
+
+                botonVer.Click += (s, e) =>
+                {
+                    try
+                    {
+                        Exportar(txtAdmition, txtServicio, txtJunta);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                };
+
+                botonVer.MouseHover += (e, s) =>
+                {
+                    panel.BackColor = Color.Thistle;
+                };
+                botonVer.MouseLeave += (e, s) =>
+                {
+                    panel.BackColor = Color.White;
+                };
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }        
+        void Exportar(int Admition, string Servicio, string Tipo)
+        {
+            try
+            {
+                Comunes.MensajesGeneral MG = new Comunes.MensajesGeneral();
+
+                if (this.SeleccionReporte == "Adjuntos")
+                {
+                    byte[] _pdf = repoAdjuntos.getPDF(Admition);
+                    if (_pdf != null)
+                    {
+                        byte[] nuevoPDFBytes = JoinImagesToPDF.ConvertirBinarioAPDF(_pdf);
+                        JoinImagesToPDF.AbrirPDFDesdeBytes(nuevoPDFBytes);
+                    }
+                    else
+                    {
+                        MG.TipoImagen = 1000;
+                        MG.Mensaje = "No se logro exportar el documento";
+                        MG.ShowDialog();
+                    }
+                }
+                else
+                {
+                    switch (SeleccionReporte)
+                    {
+                        case "MG":
+                            Historial_Medico_3 H = new Historial_Medico_3(Admition,
+                                                                          Servicio,
+                                                                          "MG",
+                                                                          Convert.ToInt32(Tipo));
+                            H.ShowDialog();
+                            return;
+
+                        case "FI":
+                            Historial_Medico_3 H2 = new Historial_Medico_3(Admition,
+                                                                          Servicio,
+                                                                          "FI",
+                                                                          Convert.ToInt32(Tipo));
+                            H2.ShowDialog();
+                            return;
+
+                        case "Notas":
+                            Medicina.NotasReportPrevio A = new Medicina.NotasReportPrevio();
+                            A.Adm_Nota_Export = Admition;
+                            A.ShowDialog();
+                            break;
+
+                        case "HisMG":
+                            var H_HCMG = repoReportes.MedicinaGeneral(Admition);
+                            if (H_HCMG == null)
+                            {
+                                MG.Mensaje = "No se logro exportar, posiblemente halla una falla al exportar o la historia no existe";
+                                MG.TipoImagen = 1000;
+                                MG.ShowDialog();
+                                return;
+                            }
+
+                            ConfigForm.GenerarReportViewer("DataSet_HCMG",
+                                          "ZamenisHealth.Reportes.RDLC_HCMG.rdlc",
+                                          H_HCMG);
+                            break;
+
+                        case "HisMGDiametro":
+                            var H_HCMGDIA = repoReportes.DiametrosHeridas(Admition);
+                            if (H_HCMGDIA == null)
+                            {
+                                MG.Mensaje = "No se logro exportar, posiblemente halla una falla al exportar o la historia no existe";
+                                MG.TipoImagen = 1000;
+                                MG.ShowDialog();
+                                return;
+                            }
+
+                            ConfigForm.GenerarReportViewer("DataSet_HCMG", "ZamenisHealth.Reportes.RDLC_HCMGDIA.rdlc", H_HCMGDIA);
+
+                            break;
+
+                        case "CMan":
+                            var H_HCCMAN = repoReportes.CambiosManejo(Admition);
+                            if (H_HCCMAN == null)
+                            {
+                                MG.Mensaje = "No se logro exportar, posiblemente halla una falla al exportar o la historia no existe";
+                                MG.TipoImagen = 1000;
+                                MG.ShowDialog();
+                                return;
+                            }
+
+                            ConfigForm.GenerarReportViewer("DataSet_CMAN", "ZamenisHealth.Reportes.RDLC_CMAN.rdlc", H_HCCMAN);
+
+                            break;
+
+                        case "HFI":
+                            var H_HCFI = repoReportes.ReporteFisiatria(Admition);
+                            if (H_HCFI == null)
+                            {
+                                MG.Mensaje = "No se logro exportar, posiblemente halla una falla al exportar o la historia no existe";
+                                MG.TipoImagen = 1000;
+                                MG.ShowDialog();
+                                return;
+                            }
+
+                            ConfigForm.GenerarReportViewer("DataSet_HCFI", "ZamenisHealth.Reportes.RDLC_HCFI.rdlc", H_HCFI);
+
+                            break;
+
+                        case "PSIQ":
+                            var H_HCPSIQ = repoReportes.ReportePsiquiatria(Admition);
+                            if (H_HCPSIQ == null)
+                            {
+                                MG.Mensaje = "No se logro exportar, posiblemente halla una falla al exportar o la historia no existe";
+                                MG.TipoImagen = 1000;
+                                MG.ShowDialog();
+                                return;
+                            }
+
+                            ConfigForm.GenerarReportViewer("DataSet_Psiquiatria", "ZamenisHealth.Reportes.RDLC_HCPsiquiatria.rdlc", H_HCPSIQ);
+
+                            break;
+
+                        case "PSIQ2":
+                            var H_HCPSIQ2 = repoReportes.ReportePsiquiatria(Admition);
+                            if (H_HCPSIQ2 == null)
+                            {
+                                MG.Mensaje = "No se logro exportar, posiblemente halla una falla al exportar o la historia no existe";
+                                MG.TipoImagen = 1000;
+                                MG.ShowDialog();
+                                return;
+                            }
+
+                            ConfigForm.GenerarReportViewer("DataSet_Psiquiatria", "ZamenisHealth.Reportes.RDLC_HCPsiquiatria2.rdlc", H_HCPSIQ2);
+
+                            break;
+
+                        case "PSIQ3":
+                            var H_HCPSIQ3 = repoReportes.ReportePsiquiatria(Admition);
+                            if (H_HCPSIQ3 == null)
+                            {
+                                MG.Mensaje = "No se logro exportar, posiblemente halla una falla al exportar o la historia no existe";
+                                MG.TipoImagen = 1000;
+                                MG.ShowDialog();
+                                return;
+                            }
+
+                            ConfigForm.GenerarReportViewer("DataSetPsiquiatria", "ZamenisHealth.Reportes.RDLC_HCPsiquiatria3.rdlc", H_HCPSIQ3);
+
+                            break;
+
+                        case "PSI":
+                            var H_HCPSI = repoReportes.ReportePsicologia(Admition);
+                            if (H_HCPSI == null)
+                            {
+                                MG.Mensaje = "No se logro exportar, posiblemente halla una falla al exportar o la historia no existe";
+                                MG.TipoImagen = 1000;
+                                MG.ShowDialog();
+                                return;
+                            }
+
+                            ConfigForm.GenerarReportViewer("DataSet_HCPSI", "ZamenisHealth.Reportes.RDLC_HCPSI.rdlc", H_HCPSI);
+
+                            break;
+
+                        case "HEVO":
+                            var H_HCEVO = repoReportes.ReporteEvoluciones(this.Paciente,
+                                                                                      Admition,
+                                                                                      Tipo);
+                            if (H_HCEVO == null)
+                            {
+                                MG.Mensaje = "No se logro exportar, posiblemente halla una falla al exportar o la historia no existe";
+                                MG.TipoImagen = 1000;
+                                MG.ShowDialog();
+                                return;
+                            }
+
+                            ConfigForm.GenerarReportViewer("DataSet_HCEVO", "ZamenisHealth.Reportes.RDLC_HCEVO.rdlc", H_HCEVO);
+
+                            break;
+
+                        case "HJ2":
+                            var H_HCJUN2 = repoReportes.ReporteJuntas(Admition, "Junta2");
+                            if (H_HCJUN2 == null)
+                            {
+                                MG.Mensaje = "No se logro exportar, posiblemente halla una falla al exportar o la historia no existe";
+                                MG.TipoImagen = 1000;
+                                MG.ShowDialog();
+                                return;
+                            }
+
+                            ConfigForm.GenerarReportViewer("DataSet_JUNTAS", "ZamenisHealth.Reportes.RDLC_JUNTA2.rdlc", H_HCJUN2);
+
+                            break;
+
+                        case "HJ1":
+                            var H_HCJUN1 = repoReportes.ReporteJuntas(Admition, "Junta1");
+                            if (H_HCJUN1 == null)
+                            {
+                                MG.Mensaje = "No se logro exportar, posiblemente halla una falla al exportar o la historia no existe";
+                                MG.TipoImagen = 1000;
+                                MG.ShowDialog();
+                                return;
+                            }
+
+                            ConfigForm.GenerarReportViewer("DataSet_JUNTAS", "ZamenisHealth.Reportes.RDLC_JUNTA1.rdlc", H_HCJUN1);
+
+                            break;
+
+                        case "TF":
+                            var H_HCTF = repoReportes.ReporteTerapiaFisica(Admition);
+                            if (H_HCTF == null)
+                            {
+                                MG.Mensaje = "No se logro exportar, posiblemente halla una falla al exportar o la historia no existe";
+                                MG.TipoImagen = 1000;
+                                MG.ShowDialog();
+                                return;
+                            }
+
+                            ConfigForm.GenerarReportViewer("DataSet_HCTF", "ZamenisHealth.Reportes.RDLC_HCFT.rdlc", H_HCTF);
+
+                            break;
+
+                        case "TO":
+                            var H_HCTO = repoReportes.ReporteTerapiaOcupacional(Admition);
+                            if (H_HCTO == null)
+                            {
+                                MG.Mensaje = "No se logro exportar, posiblemente halla una falla al exportar o la historia no existe";
+                                MG.TipoImagen = 1000;
+                                MG.ShowDialog();
+                                return;
+                            }
+
+                            ConfigForm.GenerarReportViewer("DataSet_HCTO", "ZamenisHealth.Reportes.RDLC_HCTO.rdlc", H_HCTO);
+
+                            break;
+
+                        case "Adjuntos":
+                            return;
+
+                        default:
+                            MG.Mensaje = "Seleccione una opcion de reporte valida";
+                            MG.TipoImagen = 1000;
+                            MG.ShowDialog();
+                            return;
+                    }
+
+                    if (SeleccionReporte == "HisMG")
+                    {
+                        DialogResult result = MessageBox.Show("¿Desea generar el reporte de medidas de esta admision?",
+                                                      "Zamenis Health - Diametros de Heridas",
+                                                      MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Question);
+
+                        if (result == DialogResult.Yes)
+                        {
+                            var Diametros = repoReportes.DiametrosHeridas(Admition);
+                            if (Diametros == null)
+                            {
+                                MG.Mensaje = "No se encontraron reportes de medidas ingresados por el medico";
+                                MG.TipoImagen = 3;
+                                MG.ShowDialog();
+                                return;
+                            }
+
+                            ConfigForm.GenerarReportViewer("DataSet_HCMG", "ZamenisHealth.Reportes.RDLC_HCMGDIA.rdlc", Diametros);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+        }
+        private void dateTimePicker3_ValueChanged(object sender, EventArgs e)
+        {
+            Filtrar();
+        }
+        private void dateTimePicker4_ValueChanged(object sender, EventArgs e)
+        {
+            Filtrar();
+        }
+        void Filtrar()
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(NodoPrincipal2) || !string.IsNullOrEmpty(TittleSelected2))
+                {
+                    if (NodoPrincipal2 == "MEDICINA GENERAL")
+                    {
+                        switch (TittleSelected2)
+                        {
+                            case "Historia Clinica Individual":
+                                SeleccionReporte = "HisMG";
+                                BuscarH(SeleccionReporte);
+                                panel1.Visible = false;
+                                break;
+
+                            case "Medidas de Heridas":
+                                SeleccionReporte = "HisMGDiametro";
+                                BuscarH("HisMG");
+                                panel1.Visible = false;
+                                break;
+
+                            case "Historia Clinica Agrupada":
+                                TipoNodoGrupal = "MEDGEN";
+                                SeleccionReporte = "";
+                                BuscarH("HisMG");
+                                panel1.Visible = true;
+                                break;
+
+                            case "Ordenes Medicas Medicina General":
+                                SeleccionReporte = "MG";
+                                BuscarOM("MG");
+                                panel1.Visible = false;
+                                break;
+                        }
+                    }
+                    else if (NodoPrincipal2 == "MEDICINA FISICA Y REHABILITACION")
+                    {
+                        switch (TittleSelected2)
+                        {
+                            case "Historia Clinica Individual":
+                                SeleccionReporte = "HFI";
+                                BuscarH(SeleccionReporte);
+                                panel1.Visible = false;
+                                break;
+
+                            case "Historia Clinica Agrupada":
+                                TipoNodoGrupal = "FISIATRIA";
+                                SeleccionReporte = "";
+                                BuscarH("HFI");
+                                panel1.Visible = true;
+                                break;
+
+                            case "Ordenes Medicas Fisiatria":
+                                SeleccionReporte = "FI";
+                                BuscarOM("FI");
+                                panel1.Visible = false;
+                                break;
+                        }
+                    }
+                    else if (NodoPrincipal2 == "PSIQUIATRIA")
+                    {
+                        switch (TittleSelected2)
+                        {
+                            case "Historia Clinica":
+                                SeleccionReporte = "PSIQ";
+                                BuscarH(SeleccionReporte);
+                                panel1.Visible = false;
+                                break;
+
+                            case "Seguimiento":
+                                SeleccionReporte = "PSIQ2";
+                                BuscarH(SeleccionReporte);
+                                panel1.Visible = false;
+                                break;
+
+                            case "Evolucion":
+                                SeleccionReporte = "PSIQ3";
+                                BuscarH(SeleccionReporte);
+                                panel1.Visible = false;
+                                break;
+                        }
+                    }
+                    else if (NodoPrincipal2 == "ENFERMERIA")
+                    {
+                        switch (TittleSelected2)
+                        {
+                            case "Notas de Enfermeria":
+                                SeleccionReporte = "Notas";
+                                BuscarH(SeleccionReporte);
+                                panel1.Visible = false;
+                                break;
+
+                            case "Notas Enfermeria Agrupada":
+                                TipoNodoGrupal = "NOTAS";
+                                SeleccionReporte = "";
+                                BuscarH("Notas");
+                                panel1.Visible = true;
+                                break;
+
+                            case "Cambios de Manejo":
+                                SeleccionReporte = "CMan";
+                                BuscarH(SeleccionReporte);
+                                panel1.Visible = false;
+                                break;
+                        }
+                    }
+                    else if (NodoPrincipal2 == "PSICOLOGIA")
+                    {
+                        switch (TittleSelected2)
+                        {
+                            case "Historia Clinica Individual":
+                                SeleccionReporte = "PSI";
+                                BuscarH(SeleccionReporte);
+                                panel1.Visible = false;
+                                break;
+
+                            case "Historia Clinica Agrupada":
+                                TipoNodoGrupal = "PSI";
+                                SeleccionReporte = "";
+                                BuscarH("HEVO");
+                                panel1.Visible = true;
+                                break;
+                        }
+                    }
+                    else if (NodoPrincipal2 == "TERAPIA FISICA")
+                    {
+                        switch (TittleSelected2)
+                        {
+                            case "Historia Clinica Individual":
+                                SeleccionReporte = "TF";
+                                BuscarH(SeleccionReporte);
+                                panel1.Visible = false;
+                                break;
+
+                            case "Historia Clinica Agrupada":
+                                TipoNodoGrupal = "TF";
+                                SeleccionReporte = "";
+                                BuscarH("HEVO");
+                                panel1.Visible = true;
+                                break;
+                        }
+                    }
+                    else if (NodoPrincipal2 == "TERAPIA OCUPACIONAL")
+                    {
+                        switch (TittleSelected2)
+                        {
+                            case "Historia Clinica Individual":
+                                SeleccionReporte = "TO";
+                                BuscarH(SeleccionReporte);
+                                panel1.Visible = false;
+                                break;
+
+                            case "Historia Clinica Agrupada":
+                                TipoNodoGrupal = "TO";
+                                SeleccionReporte = "";
+                                BuscarH("HEVO");
+                                panel1.Visible = true;
+                                break;
+                        }
+                    }
+                    else if (NodoPrincipal2 == "EVOLUCIONES Y JUNTAS MEDICAS")
+                    {
+                        switch (TittleSelected2)
+                        {
+                            case "Junta Medica 1":
+                                SeleccionReporte = "HJ1";
+                                BuscarH(SeleccionReporte);
+                                panel1.Visible = false;
+                                break;
+
+                            case "Junta Medica 2":
+                                SeleccionReporte = "HJ2";
+                                BuscarH(SeleccionReporte);
+                                panel1.Visible = false;
+                                break;
+
+                            case "Evoluciones":
+                                SeleccionReporte = "HEVO";
+                                BuscarH(SeleccionReporte);
+                                panel1.Visible = false;
+                                break;
+                        }
+                    }
+                    else if (NodoPrincipal2 == "OTROS SOPORTES")
+                    {
+                        switch (TittleSelected2)
+                        {
+                            case "Soportes Adicionales Cargados":
+                                SeleccionReporte = "Adjuntos";
+                                BuscarAdjuntos();
+                                panel1.Visible = false;
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        if (flow != null)
+                            flow.Dispose();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                if (flow != null)
+                    flow.Dispose();
             }
         }
     }

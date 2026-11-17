@@ -23,5 +23,6 @@ namespace Persistence.CXN.Interfaces
                                             string estado,
                                             DateTime desde,
                                             DateTime hasta);
+        string GetCUFE(int Cia, string Homologo, string Tipo);
     }
 }

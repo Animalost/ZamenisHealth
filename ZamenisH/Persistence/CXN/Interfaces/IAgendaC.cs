@@ -1,6 +1,7 @@
 ﻿using Domain.CXN;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Persistence.CXN.Interfaces
 {
@@ -43,5 +44,6 @@ namespace Persistence.CXN.Interfaces
         (string Autorizacion, string Cantidad, string Estado) CitaMismoDiaGetAutorizacion(int PacId, DateTime fecha, int Bodega);
         List<CXN_PACIENTES> ListarTiposPaciente(string Criterio, string Tipo);
         int UpdateTipoPaciente(int Paciente, string Tipo, bool Estado);
+        Task<List<CXN_HISTORIAL_ADMISION>> HistorialAdmision();
     }
 }

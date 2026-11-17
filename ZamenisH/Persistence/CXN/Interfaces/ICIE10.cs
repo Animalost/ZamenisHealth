@@ -15,5 +15,8 @@ namespace Persistence.CXN.Interfaces
         CXN_OM CargaDXByAdmitionHCMG(int Admision);
         List<CXN_CUP> GetLista(string Servicio);
         string GetDXName(string Code);
+        bool InsertaCIE11(CXN_CIE11 C);
+        bool UpdateCIE11(CXN_CIE11 C);
+        CXN_CIE11 GetCIE11ByAdm(int Admision);
     }
 }

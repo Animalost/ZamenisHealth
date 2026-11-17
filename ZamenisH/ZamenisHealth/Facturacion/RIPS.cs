@@ -29,18 +29,21 @@ namespace ZamenisHealth.Facturacion
         string Tip, combo5;
         string consub, tipoDoc;
 
+        public RIPS()
+        {
+            InitializeComponent();
+        }
+
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             var A = repoAse.getInfoFromAsebyName(comboBox1.Text);
             Ase = Convert.ToInt32(A.Ase_Identificador);
         }
-
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
             var C = repoCom.getPrestadorbyName(comboBox2.Text);
             Cia = Convert.ToInt32(C.Com_Identificador);
         }
-
         void GenerarRIPSEvento()
         {
             try
@@ -52,19 +55,16 @@ namespace ZamenisHealth.Facturacion
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         void Shows()
         {
             E = new Espera();
             E.Show();
         }
-
         void Hides()
         {
             if (E != null)
                 E.Close();
-        }        
-         
+        }                
         void GenerarRIPS_2275_2023()
         {
             try
@@ -136,7 +136,6 @@ namespace ZamenisHealth.Facturacion
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }             
-
         private void RIPS_Load(object sender, EventArgs e)
         {
             try
@@ -169,13 +168,6 @@ namespace ZamenisHealth.Facturacion
                 btn3275 = createToolButton("Res 2275/2024");
                 MenuLateral.Items.Add(btn3275);
                 btn3275.Click += btnZamenis3_ButtonClick;
-
-                ToolStripButton btnDocker = new ToolStripButton();
-                btnDocker = createToolButton("Docker");
-                MenuLateral.Items.Add(btnDocker);
-                btnDocker.Click += btnZamenis7_ButtonClick;
-                btnDocker.Enabled = false;
-
                 
                 var Ases = repoAse.getAseguradoras();
                 if (Ases != null)
@@ -208,19 +200,12 @@ namespace ZamenisHealth.Facturacion
             {
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
-        }        
-     
-        public RIPS()
-        {
-            InitializeComponent();
-        }
-
+        }           
         private void btnZamenis1_ButtonClick(object sender, EventArgs e)
         {
             RIPS_IND R = new RIPS_IND();
             R.ShowDialog();
         }
-
         private async void btnZamenis2_ButtonClick(object sender, EventArgs e)
         {
             try
@@ -276,7 +261,6 @@ namespace ZamenisHealth.Facturacion
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         private async void btnZamenis6_ButtonClick(object sender, EventArgs e)
         {
             try
@@ -312,21 +296,7 @@ namespace ZamenisHealth.Facturacion
             {
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
-        }
-
-        private void btnZamenis7_ButtonClick(object sender, EventArgs e)
-        {
-            try
-            {
-                RIPS_Docker rD = new RIPS_Docker();
-                rD.ShowDialog();
-            }
-            catch (Exception ex)
-            {
-                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
-            }
-        }     
-
+        } 
         void GenerarRIPS_2275_2023_txt()
         {
             try
@@ -521,19 +491,6 @@ namespace ZamenisHealth.Facturacion
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
-        private void pictureBox2_Click(object sender, EventArgs e)
-        {
-            this.Dispose();
-            this.Close();
-        }
-
-        private void panel3_MouseDown(object sender, MouseEventArgs e)
-        {
-            ConfigForm.ReleaseCapturing();
-            ConfigForm.SendMessageMove(this.Handle, 0x112, 0xf012, 0);
-        }
-
         private async void btnZamenis3_ButtonClick(object sender, EventArgs e)
         {
             try
@@ -570,7 +527,6 @@ namespace ZamenisHealth.Facturacion
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         private void btnZamenis4_ButtonClick(object sender, EventArgs e)
         {
             try

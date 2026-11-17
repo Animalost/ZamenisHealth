@@ -36,6 +36,7 @@ namespace Domain.CXN
         public string Com_Prefijo_Electron_NC { get; set; }
         public int Com_ConsContable { get; set; }
         public string Com_DVerifica { get; set; }
+        public string CUCON { get; set; }
 
         public string Com_Resolucion_Soporte { get; set; }
         public int Com_Doc_Soporte { get; set; }

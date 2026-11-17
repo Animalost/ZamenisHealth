@@ -273,25 +273,87 @@ namespace Persistence.CXN.Metodos
 
                     String Query = "SELECT TOP 1 HC_Patologia, HC_DX1, HC_DX2, HC_DX3, HC_Imp_Dx " +
                                    "FROM CXN_HCMG " +
-                                   "WHERE HC_PacId = '" + Paciente + "' " +
+                                   "WHERE HC_PacId = @param1 " +
                                    "ORDER BY HC_Fecha DESC";
-                    SqlCommand Commando = new SqlCommand(Query, con);
-                    SqlDataReader Reader = (Commando.ExecuteReader());
-                    if (Reader.Read() == true)
+
+                    using (SqlCommand Commando = new SqlCommand(Query, con))
                     {
-                        Dictionary<string, string> D = new Dictionary<string, string>();
+                        Commando.Parameters.AddWithValue("@param1", Paciente);
 
-                        D.Add("DX1", Reader["HC_DX1"].ToString());
-                        D.Add("DX2", Reader["HC_DX2"].ToString());
-                        D.Add("DX3", Reader["HC_DX3"].ToString());
-                        D.Add("Impresion", Reader["HC_Imp_Dx"].ToString());
-                        D.Add("Patologia", Reader["HC_Patologia"].ToString());
+                        using (SqlDataReader Reader = (Commando.ExecuteReader()))
+                        {
+                            if (Reader.Read() == true)
+                            {
+                                Dictionary<string, string> D = new Dictionary<string, string>();
 
-                        return D;
+                                D.Add("DX1", Reader["HC_DX1"].ToString());
+                                D.Add("DX2", Reader["HC_DX2"].ToString());
+                                D.Add("DX3", Reader["HC_DX3"].ToString());
+                                D.Add("Impresion", Reader["HC_Imp_Dx"].ToString());
+                                D.Add("Patologia", Reader["HC_Patologia"].ToString());
+
+                                return D;
+                            }
+                            else
+                            {
+                                return null;
+                            }
+                        }
+                    }                    
+                }
+            }
+            catch (Exception ex)
+            {
+                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
+                return null;
+            }
+        }
+        CXN_CIE11 INotasCuracion.DiagnosticosCIE11(int Paciente)
+        {
+            try
+            {
+                Dictionary<string, string> getData = Conexion.Conection();
+
+                using (SqlConnection con = new SqlConnection(getData["Conexion"]))
+                {
+                    if (con != null && con.State == ConnectionState.Closed)
+                    {
+                        con.Open();
                     }
-                    else
+
+                    String Query = "SELECT TOP 1 * " +
+                                   "FROM CXN_CIE11 " +
+                                   "WHERE Paciente = @param1 " +
+                                   "ORDER BY IdCIE11 DESC";
+
+                    using (SqlCommand Commando = new SqlCommand(Query, con))
                     {
-                        return null;
+                        Commando.Parameters.AddWithValue("@param1", Paciente);
+
+                        using (SqlDataReader Reader = (Commando.ExecuteReader()))
+                        {
+                            if (Reader.Read() == true)
+                            {
+                                CXN_CIE11 C = new CXN_CIE11
+                                {
+                                    Admision = Convert.ToInt32(Reader["Admision"]),
+                                    Capitulo = Reader["Capitulo"].ToString(),
+                                    Codigo = Reader["Codigo"].ToString(),
+                                    Descripcion = Reader["Descripcion"].ToString(),
+                                    IdCIE11 = Convert.ToInt32(Reader["IdCIE11"]),
+                                    Identificador = Reader["Identificador"].ToString(),
+                                    Paciente = Convert.ToInt32(Reader["Paciente"]),
+                                    Puntacion = Reader["Puntacion"].ToString(),
+                                    Terminal = Reader["Terminal"].ToString()
+                                };
+
+                                return C;
+                            }
+                            else
+                            {
+                                return null;
+                            }
+                        }
                     }
                 }
             }

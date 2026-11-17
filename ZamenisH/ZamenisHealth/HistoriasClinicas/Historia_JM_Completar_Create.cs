@@ -363,6 +363,16 @@ namespace ZamenisHealth.HistoriasClinicas
                             MessageBoxIcon.Information);
                     }
 
+                    CXN_HISTORIAL_ADMISION HistorialAdmision = new CXN_HISTORIAL_ADMISION
+                    {
+                        Admision = KeyAgenda,
+                        Fecha = DateTime.Now,
+                        Usuario = Contenedor.UsuarioLogueado,
+                        Gestion = "HISTORIA CREADA"
+                    };
+
+                    repositorioAgendar.AddHistorialAdmision(HistorialAdmision);
+
                     MG = new MensajesGeneral();
                     MG.TipoImagen = 3;
                     MG.Mensaje = "Junta Creada con el numero de Admision " + KeyAgenda.ToString();

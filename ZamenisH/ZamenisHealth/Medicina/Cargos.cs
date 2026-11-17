@@ -7,7 +7,6 @@ using Persistence.CXN.Metodos;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -23,13 +22,11 @@ namespace ZamenisHealth.Medicina
         List<CXN_HORARIO> getListas;
         MensajesGeneral MG;
 
-        DataTable dt = new DataTable();
-        DataColumn POS;
+        DataTable dt;
         DataColumn Admision;
         DataColumn Paciente;
         DataColumn Profesional;
         DataColumn Fecha;
-        DataColumn Estado;
 
         private ToolStripButton toolStripButton5;
 
@@ -38,7 +35,7 @@ namespace ZamenisHealth.Medicina
         int Id;
         int Cia;
         int Bod;
-        bool Hecho, facturar;
+        bool facturar;
 
         public Cargos(bool ActiveFacturar)
         {
@@ -122,7 +119,7 @@ namespace ZamenisHealth.Medicina
                 dataGridView2.Rows.Add();
             }
         }
-        private void Cargos_Load(object sender, EventArgs e)
+        private async void Cargos_Load(object sender, EventArgs e)
         {
             Titulo.Text = "Cargos";
             LogoMain.Image = Properties.Resources.Splash;
@@ -162,20 +159,13 @@ namespace ZamenisHealth.Medicina
             toolStripButton5.Click += btnZamenis5_ButtonClick;
             toolStripButton5.Enabled = false;
 
-            panel3.Size = new Size(926, 711);
-            panel3.Location = new Point(138, 53);
-
-            
+            await Carga_Grilla();
             Grid();
         }
         void btnBar_ButtonClick(object sender, EventArgs e)
         {
             Cargos2 C = new Cargos2();
             C.ShowDialog();
-        }
-        public void HidePanel3()
-        {
-            panel3.Visible = false;
         }
         private void Buscar_Cargo()
         {
@@ -281,46 +271,36 @@ namespace ZamenisHealth.Medicina
         void EncabezadosGrilla()
         {
             dt = new DataTable();
-            POS = dt.Columns.Add("POS", typeof(int));
             Admision = dt.Columns.Add("Admision", typeof(int));
             Paciente = dt.Columns.Add("Paciente", typeof(string));
             Fecha = dt.Columns.Add("Fecha", typeof(DateTime));
             Profesional = dt.Columns.Add("Profesional", typeof(string));
-            Estado = dt.Columns.Add("Estado", typeof(string));
         }             
         async Task Carga_Grilla()
         {
             try
             {
                 getListas = new List<CXN_HORARIO>();
-                getListas = await repoCargos.ListaCargos(Convert.ToDateTime(dateTimePicker1.Value.Date), Hecho);
-                if (getListas != null)
+                getListas = await repoCargos.ListaCargos(Convert.ToDateTime(dateTimePicker1.Value.Date));
+                if (getListas.Count > 0)
                 {
                     EncabezadosGrilla();
-
-                    int Contador = 1;
 
                     foreach (CXN_HORARIO h in getListas)
                     {
                         DataRow row = dt.NewRow();
 
-                        row["POS"] = Contador;
                         row["Admision"] = Convert.ToInt32(h.Hor_Id);
                         row["Paciente"] = h.Hor_Imp_Age.ToString();
                         row["Fecha"] = Convert.ToDateTime(h.Hor_Pac_Fecha_Cita).ToString(Conexion.ConectionDictionary["Format_Fecha"]);
-                        row["Profesional"] = h.Hor_Observacion.ToString();                        
-                        row["Estado"] = h.Hor_Estado.ToString();                    
+                        row["Profesional"] = h.Hor_Observacion.ToString();
 
                         dt.Rows.Add(row);
                         dt.AcceptChanges();
-
-                        Contador = Contador + 1;
                     }
 
-                    Contador = 1;
-                    Estilos();
+                    gridZH1.dataGridView1.DataSource = dt;
                 }
-
                 else
                 {
                     EncabezadosGrilla();
@@ -330,32 +310,7 @@ namespace ZamenisHealth.Medicina
             {
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
-        }
-        void Estilos()
-        {
-            gridZH1.dataGridView1.DataSource = dt;
-            gridZH1.dataGridView1.Columns["POS"].Visible = false;
-        }
-        void Shows()
-        {
-            pictureBox1.Visible = true;
-        }
-        void Hides()
-        {
-            pictureBox1.Visible = false;
-        }       
-        private void AbrirFormEnPanel(object Formhijo)
-        {
-            if (this.panel3.Controls.Count > 0)
-                this.panel3.Controls.RemoveAt(0);
-            Form fh = Formhijo as Form;
-            fh.TopLevel = false;
-            fh.Dock = DockStyle.Fill;
-            this.panel3.Controls.Add(fh);
-            this.panel3.Tag = fh;
-            panel3.Visible = true;
-            fh.Show();
-        }
+        }        
         private void label13_Click(object sender, EventArgs e)
         {
             try
@@ -370,7 +325,8 @@ namespace ZamenisHealth.Medicina
                     return;
                 }
 
-                AbrirFormEnPanel(new Extras.CargosAnterior(Id));
+                Extras.CargosAnterior C = new Extras.CargosAnterior(Id);
+                C.ShowDialog();
             }
             catch (Exception ex)
             {
@@ -530,7 +486,6 @@ namespace ZamenisHealth.Medicina
         {
             try
             {
-                Shows();
                 await Carga_Grilla();
 
                 textBox1.Enabled = true;
@@ -561,8 +516,6 @@ namespace ZamenisHealth.Medicina
                 dataGridView2.Enabled = false;                
 
                 textBox1.Focus();
-
-                Hides();
             }
             catch (Exception ex)
             {
@@ -571,31 +524,13 @@ namespace ZamenisHealth.Medicina
         }          
         private async void dateTimePicker1_ValueChanged(object sender, EventArgs e)
         {
-            Shows();
             await Carga_Grilla();           
-            Hides();
         }        
-        private async void label14_Click(object sender, EventArgs e)
-        {
-            Hecho = false;
-            
-            Shows();
-            await Carga_Grilla();
-            Hides();
-        }
-        private async void label24_Click(object sender, EventArgs e)
-        {
-            Hecho = true;        
-
-            Shows();
-            await Carga_Grilla();
-            Hides();
-        }
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             try
             {
-                textBox1.Text = gridZH1.dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString();
+                textBox1.Text = gridZH1.dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString();
             }
             catch (Exception ex)
             {

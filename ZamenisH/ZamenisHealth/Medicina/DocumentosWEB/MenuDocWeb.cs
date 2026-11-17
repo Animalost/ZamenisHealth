@@ -1,12 +1,20 @@
 ﻿using APIController.Services.SignDocuments;
+
 using Domain.CXN;
+
 using FormAndControls;
+
+using Persistence;
 using Persistence.CXN.Interfaces;
 using Persistence.CXN.Metodos;
+
 using ShortLink.SDK.Clases;
+
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
+
 using ZamenisHealth.Clases;
 using ZamenisHealth.Comunes;
 
@@ -58,27 +66,35 @@ namespace ZamenisHealth.Medicina.DocumentosWEB
         }
         void LoadTipos()
         {
-            Dictionary<string,string> getT = repoConf.getListado();
-            if (getT == null)
+            List<CXN_IMAGEN_SYSTEM> d = repoConf.getConfSystem();
+            if (d != null)
+            {
+                CXN_IMAGEN_SYSTEM d2 = d.FirstOrDefault(x => x.Tab_Nombre == "ConsentimientosWEB");
+                if (d2 != null)
+                {
+                    if (d2.Tab_Clave == "A")
+                    {
+                        comboBox1.Items.Add("Consentimiento Informado Curaciones");
+                    }                    
+                }
+                CXN_IMAGEN_SYSTEM d3 = d.FirstOrDefault(x => x.Tab_Nombre == "ConsentimientosWEBPSI");
+                if (d3 != null)
+                {
+                    if (d3.Tab_Clave == "A")
+                    {
+                        comboBox1.Items.Add("Consentimiento Informado Fibromialgia");
+                    }
+                }
+            }
+            else
             {
                 MG = new MensajesGeneral();
-                MG.Mensaje = "Nohay tipos de consentimeintos";
+                MG.Mensaje = "No hay tipos de consentimeintos";
                 MG.TipoImagen = 1000;
                 MG.ShowDialog();
 
                 this.Dispose();
                 this.Close();
-            }
-            else
-            {
-                if (getT.ContainsKey("ConsentimientosWEB1"))
-                {
-                    comboBox1.Items.Add("Consentimiento Informado Curaciones");
-                }
-                if (getT.ContainsKey("ConsentimientosWEBPSI1"))
-                {
-                    comboBox1.Items.Add("Consentimiento Informado Fibromialgia");
-                }
             }
         }
         void CargarDatoDoc()
@@ -264,7 +280,17 @@ namespace ZamenisHealth.Medicina.DocumentosWEB
                     NIT = repoGeneral.Base64Encode(this.NIT)
                 };
 
-                string url = repoConf.getURLConsentimientos(TipoCon);
+                string url = "";
+
+                List <CXN_IMAGEN_SYSTEM> d = repoConf.getConfSystem();
+                if (d != null)
+                {
+                    CXN_IMAGEN_SYSTEM d2 = d.FirstOrDefault(x => x.Tab_Nombre == TipoCon);
+                    if (d2 != null)
+                    {
+                        url = d2.Tab_Config;
+                    }
+                }
 
                 (string URL, string CODE) response = await repoSign.GenerarLink(datos, url);
                 

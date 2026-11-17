@@ -19,7 +19,7 @@ namespace Persistence.CXN.Interfaces
         bool InsertarCargoHistorias(CXN_CARGOS c);
         void deleteHistoria(int Admision);
         CXN_HORARIO BuscarCargo(int Admision);
-        Task<List<CXN_HORARIO>> ListaCargos(DateTime fecha, bool Hecho);
+        Task<List<CXN_HORARIO>> ListaCargos(DateTime fecha);
         List<CXN_CARGOS> CargosAnt(int Admi);
         bool deleteCargo(int Admision);
         ListaProd DatoProd(int Ase, string Cod);

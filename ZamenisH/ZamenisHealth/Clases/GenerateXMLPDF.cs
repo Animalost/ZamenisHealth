@@ -1,15 +1,20 @@
 ﻿using DocumentosElectronicos.Controlador;
 using DocumentosElectronicos.Servicio;
+
 using Domain;
 using Domain.CXN;
+
 using Microsoft.Reporting.WinForms;
+
 using Persistence;
 using Persistence.CXN.Interfaces;
 using Persistence.CXN.Metodos;
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 
 namespace ZamenisHealth.Clases
@@ -157,14 +162,30 @@ namespace ZamenisHealth.Clases
 
                     R.LocalReport.DataSources.Add(new ReportDataSource("DataSet_Facturacion", FacturaAseguradoraOtras));
 
-                    if (repoConfSystem.getListado()["ReportarImpuestosDIAN"] == "A")
+                    List<CXN_IMAGEN_SYSTEM> d = repoConfSystem.getConfSystem();
+                    if (d != null)
                     {
-                        R.LocalReport.ReportEmbeddedResource = "ZamenisHealth.Reportes.FacElectron.FacturaElectronicaSaludIMPUESTOS.rdlc";
+                        CXN_IMAGEN_SYSTEM d2 = d.FirstOrDefault(x => x.Tab_Nombre == "ReportarImpuestosDIAN");
+                        if (d2 != null)
+                        {
+                            if (d2.Tab_Clave == "A")
+                            {
+                                R.LocalReport.ReportEmbeddedResource = "ZamenisHealth.Reportes.FacElectron.FacturaElectronicaSaludIMPUESTOS.rdlc";
+                            }
+                            else
+                            {
+                                R.LocalReport.ReportEmbeddedResource = "ZamenisHealth.Reportes.FacElectron.FacturaElectronicaSalud.rdlc";
+                            }
+                        }
+                        else
+                        {
+                            R.LocalReport.ReportEmbeddedResource = "ZamenisHealth.Reportes.FacElectron.FacturaElectronicaSalud.rdlc";
+                        }
                     }
                     else
                     {
                         R.LocalReport.ReportEmbeddedResource = "ZamenisHealth.Reportes.FacElectron.FacturaElectronicaSalud.rdlc";
-                    }                    
+                    }
                 }
                 else if (Tipo == "Caja")
                 {
@@ -181,18 +202,38 @@ namespace ZamenisHealth.Clases
 
                     R.LocalReport.DataSources.Add(new ReportDataSource("DataSet_Facturacion", Ventas));
 
-                    if (repoConfSystem.getListado()["ReportarImpuestosDIAN"] == "A")
+                    List<CXN_IMAGEN_SYSTEM> d = repoConfSystem.getConfSystem();
+                    if (d != null)
                     {
-                        R.LocalReport.ReportEmbeddedResource = "ZamenisHealth.Reportes.FacElectron.FacturaElectronicaSaludIMPUESTOS.rdlc";
+                        CXN_IMAGEN_SYSTEM d2 = d.FirstOrDefault(x => x.Tab_Nombre == "ReportarImpuestosDIAN");
+                        if (d2 != null)
+                        {
+                            if (d2.Tab_Clave == "A")
+                            {
+                                R.LocalReport.ReportEmbeddedResource = "ZamenisHealth.Reportes.FacElectron.FacturaElectronicaSaludIMPUESTOS.rdlc";
+                            }
+                            else
+                            {
+                                R.LocalReport.ReportEmbeddedResource = "ZamenisHealth.Reportes.FacElectron.FacturaElectronicaSalud.rdlc";
+                            }
+                        }
+                        else
+                        {
+                            R.LocalReport.ReportEmbeddedResource = "ZamenisHealth.Reportes.FacElectron.FacturaElectronicaSalud.rdlc";
+                        }
                     }
                     else
                     {
                         R.LocalReport.ReportEmbeddedResource = "ZamenisHealth.Reportes.FacElectron.FacturaElectronicaSalud.rdlc";
-                    }                   
+                    }                                       
                 }
                 else if (Tipo == "SaludNC")
                 {
                     List<FacturasR> GenerarDocumentoGraficoNC = ExportarPDF.ExportarFacturaAseguradorasNC(Factura, Prestador); 
+                    if (GenerarDocumentoGraficoNC == null)
+                    {
+                        return;
+                    }
 
                     R.LocalReport.DataSources.Add(new ReportDataSource("DataSet_Facturacion", GenerarDocumentoGraficoNC));
                     R.LocalReport.ReportEmbeddedResource = "ZamenisHealth.Reportes.FacElectron.FacturaElectronicaSaludNC.rdlc";
@@ -200,6 +241,11 @@ namespace ZamenisHealth.Clases
                 else if (Tipo == "VentasNC")
                 {
                     int Doc = repoFac.GetFacZam(Prestador, Factura, "NC");
+                    if (Doc == 0)
+                    {
+                        return;
+                    }
+
                     List<FacturacionRpt> Exportar = ExportarPDF.ExportarFacturaVentasNC(Doc, Prestador, "OP", Factura);
 
                     R.LocalReport.DataSources.Add(new ReportDataSource("DataSet_Facturacion", Exportar));
@@ -208,6 +254,10 @@ namespace ZamenisHealth.Clases
                 else if (Tipo == "CajaNC")
                 {
                     int Doc = repoFac.GetFacZam(Prestador, Factura, "NC");
+                    if (Doc == 0)
+                    {
+                        return;
+                    }
                     List<RCCAJA> Exportar = ExportarPDF.ExportarReciboCajaNC(Doc);
 
                     R.LocalReport.DataSources.Add(new ReportDataSource("ReciboCajaDataset", Exportar));
@@ -219,14 +269,20 @@ namespace ZamenisHealth.Clases
                 }
                                         
                 string GetCUFE = "";
+                string facTemp = "";
 
                 if (Tipo == "Salud")
                 {
-                    GetCUFE = ActualizarDocumentos.GetCUFE(Factura, Prestador, "AseguraOtras");
+                    GetCUFE = ActualizarDocumentos.GetCUFE(Factura, Prestador, "AseguraOtras"); 
                 }
                 else if (Tipo == "Caja")
                 {
                     GetCUFE = ActualizarDocumentos.GetCUFE(Factura, Prestador, "Caja");
+                }
+                else if (Tipo == "CajaNC")
+                {
+                    facTemp = repoFac.GetCUFE(Prestador, Factura, "CajaNC"); //me da la factura electronica real
+                    GetCUFE = repoFac.GetCUFE(Prestador, facTemp, "Caja"); //me da el cufe de la factura electronica real
                 }
                 else if (Tipo == "Ventas")
                 {
@@ -251,7 +307,7 @@ namespace ZamenisHealth.Clases
 
                 byte[] bytes = R.LocalReport.Render("PDF");
 
-                GenerarBase64PDF(bytes, Prestador, GetCUFE, Factura, Token); 
+                GenerarBase64PDF(bytes, Prestador, GetCUFE, facTemp, Token); 
             }
             catch (Exception ex)
             {

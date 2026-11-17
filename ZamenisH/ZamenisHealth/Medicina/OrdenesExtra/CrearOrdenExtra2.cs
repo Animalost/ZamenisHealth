@@ -554,26 +554,34 @@ namespace ZamenisHealth.Medicina.OrdenesExtra
         {
             try
             {
-                if (confController.getListado()["IHCE"] == "A")
+                List<CXN_IMAGEN_SYSTEM> d = confController.getConfSystem();
+                if (d != null)
                 {
-                    // 5. Generar Token MinSalud
-                    await Autoriza();
-
-                    // 5. Radicar RDA Paciente
-                    RDAPaciente RDA = new RDAPaciente();
-                    RDA.EnviarRDAPaciente(Admition);
-
-                    // 5. Radicar RDA Consulta Ambulatoria Externa
-                    RDAConsultaExterna RDACE = new RDAConsultaExterna();
-                    if (TServicio == "MG")
+                    CXN_IMAGEN_SYSTEM d2 = d.FirstOrDefault(x => x.Tab_Nombre == "IHCE");
+                    if (d2 != null)
                     {
-                        await RDACE.RadicarRDA(Admition, "Medicina General");
+                        if (d2.Tab_Clave == "A")
+                        {
+                            // 5. Generar Token MinSalud
+                            await Autoriza();
+
+                            // 5. Radicar RDA Paciente
+                            RDAPaciente RDA = new RDAPaciente();
+                            RDA.EnviarRDAPaciente(Admition);
+
+                            // 5. Radicar RDA Consulta Ambulatoria Externa
+                            RDAConsultaExterna RDACE = new RDAConsultaExterna();
+                            if (TServicio == "MG")
+                            {
+                                await RDACE.RadicarRDA(Admition, "Medicina General");
+                            }
+                            if (TServicio == "FI")
+                            {
+                                await RDACE.RadicarRDA(Admition, "Fisiatria");
+                            }
+                        }
                     }
-                    if (TServicio == "FI")
-                    {
-                        await RDACE.RadicarRDA(Admition, "Fisiatria");
-                    }                    
-                }                
+                }
 
                 MG = new MensajesGeneral()
                 {

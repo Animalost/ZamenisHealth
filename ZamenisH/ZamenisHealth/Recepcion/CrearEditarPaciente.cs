@@ -6,6 +6,7 @@ using Persistence.CXN.Interfaces;
 using Persistence.CXN.Metodos;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using ZamenisHealth.Clases;
@@ -29,6 +30,7 @@ namespace ZamenisHealth.Recepcion
         ToolStripButton btnZamenis1 = new ToolStripButton();
         ToolStripButton btnZamenis2 = new ToolStripButton();
         ToolStripButton button1 = new ToolStripButton();
+        ToolTip T = new ToolTip();
 
         public CrearEditarPaciente()
         {
@@ -170,6 +172,15 @@ namespace ZamenisHealth.Recepcion
                 }
             }
 
+            T = new ToolTip();
+            T.SetToolTip(label24, "Clic para expandir o contraer");
+            T.SetToolTip(label1, "Clic para expandir o contraer");
+            T.SetToolTip(label2, "Clic para expandir o contraer");
+            T.SetToolTip(label11, "Clic para expandir o contraer");
+            T.SetToolTip(label25, "Clic para expandir o contraer");
+            T.SetToolTip(label24, "Clic para expandir o contraer");
+            T.ShowAlways = true;
+
             Titulo.Text = "Crear / Editar Paciente";
             LogoMain.Image = Properties.Resources.Splash;
             SubTitulo.Text = $"Zamenis Health {Conexion.VersionApp}";
@@ -180,7 +191,7 @@ namespace ZamenisHealth.Recepcion
             CargarRegimen();
 
             textBox6.MaxLength = 10;
-            panel1.Enabled = false;
+            flowLayoutPanel1.Enabled = false;
 
             if (!string.IsNullOrEmpty(tdoc) && !string.IsNullOrEmpty(doc))
             {
@@ -189,6 +200,20 @@ namespace ZamenisHealth.Recepcion
 
                 BuscarPaciente();
             }
+
+            comboBox1.MouseWheel += CancelaScroll;
+            comboBox2.MouseWheel += CancelaScroll;
+            comboBox3.MouseWheel += CancelaScroll;
+            comboBox4.MouseWheel += CancelaScroll;
+            comboBox5.MouseWheel += CancelaScroll;
+            comboBox6.MouseWheel += CancelaScroll;
+            comboBox7.MouseWheel += CancelaScroll;
+            comboBox8.MouseWheel += CancelaScroll;
+            comboBox9.MouseWheel += CancelaScroll;
+        }
+        void CancelaScroll(object sender, MouseEventArgs e)
+        {
+            ((HandledMouseEventArgs)e).Handled = true;
         }
         private void Limpiar()
         {
@@ -242,7 +267,7 @@ namespace ZamenisHealth.Recepcion
                 CXN_PACIENTES DatosPac =  repositorioPacientes.LlamarPacienteDOC(comboBox1.Text, textBox1.Text);
                 Limpiar();
 
-                panel1.Enabled = true;
+                flowLayoutPanel1.Enabled = true;
                 if (DatosPac == null)
                 {
                     //Crear Paciente
@@ -661,6 +686,61 @@ namespace ZamenisHealth.Recepcion
             Comunes.BuscarPacientes buscarPacientes = new Comunes.BuscarPacientes();
             buscarPacientes.Tipo_Busca_Pac = "Pacientes";
             buscarPacientes.ShowDialog();
+        }
+        private void label24_Click(object sender, EventArgs e)
+        {
+            if (panel2.Size == new Size(806, 267))
+            {
+                panel2.Size = new Size(806, 33);
+            }
+            else
+            {
+                panel2.Size = new Size(806, 267);
+            }
+        }
+        private void label1_Click(object sender, EventArgs e)
+        {
+            if (panel3.Size == new Size(806, 534))
+            {
+                panel3.Size = new Size(806, 33);
+            }
+            else
+            {
+                panel3.Size = new Size(806, 534);
+            }
+        }
+        private void label2_Click(object sender, EventArgs e)
+        {
+            if (panel4.Size == new Size(806, 201))
+            {
+                panel4.Size = new Size(806, 33);
+            }
+            else
+            {
+                panel4.Size = new Size(806, 201);
+            }
+        }
+        private void label11_Click(object sender, EventArgs e)
+        {
+            if (panel5.Size == new Size(806, 215))
+            {
+                panel5.Size = new Size(806, 33);
+            }
+            else
+            {
+                panel5.Size = new Size(806, 215);
+            }
+        }
+        private void label25_Click(object sender, EventArgs e)
+        {
+            if (panel6.Size == new Size(806, 308))
+            {
+                panel6.Size = new Size(806, 33);
+            }
+            else
+            {
+                panel6.Size = new Size(806, 308);
+            }
         }
         private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
         {

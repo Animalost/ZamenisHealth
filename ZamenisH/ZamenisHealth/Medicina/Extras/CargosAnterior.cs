@@ -1,11 +1,11 @@
-﻿using System;
-using System.Linq;
-using System.Windows.Forms;
-using Domain;
+﻿using Domain;
 using FormAndControls;
 using Persistence;
 using Persistence.CXN.Interfaces;
 using Persistence.CXN.Metodos;
+using System;
+using System.Data;
+using System.Windows.Forms;
 using ZamenisHealth.Comunes;
 
 namespace ZamenisHealth.Medicina.Extras
@@ -13,75 +13,40 @@ namespace ZamenisHealth.Medicina.Extras
     public partial class CargosAnterior : Forma2
     {
         private static readonly ICargos repoCargos = new MCargos();
-
         private int Admi, IdPaciente;
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                label14.Text = "";
-                listView2.Clear();
+        DataTable dt;
+        DataColumn Admision;
+        DataColumn Fecha;
+        DataColumn Servicio;
+        DataColumn Profesional;
 
-                Cargos f29 = Application.OpenForms.OfType<Cargos>().SingleOrDefault();
-                f29.HidePanel3();
+        DataTable dt2;
+        DataColumn Codigo;
+        DataColumn Item;
+        DataColumn Cantidad;
 
-                this.Dispose();
-                this.Close();
-            }
-            catch (Exception ex)
-            {
-                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
-            }
-        }
         public CargosAnterior(int _idPaciente)
         {
             InitializeComponent();
             this.IdPaciente = _idPaciente;
         }
-        private void listView2_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                Comunes.MensajesGeneral MG = new Comunes.MensajesGeneral();
-
-                Admi = Convert.ToInt32(listView2.SelectedItems[0].SubItems[0].Text);
-
-                var getLista = repoCargos.CargosAnt(Admi);
-                if (getLista != null)
-                {
-                    EncabezadosLv1();
-
-                    foreach (var i in getLista)
-                    {
-                        listView1.Items.Add(new ListViewItem(new string[]
-                        {
-                            i.Car_Cod.ToString(),
-                            i.Car_Item.ToString(),
-                            i.Car_Cant.ToString()
-                        }));
-                    }
-                }
-                else
-                {
-                    EncabezadosLv1();
-                }
-            }
-            catch (Exception ex)
-            {
-                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
-            }
-        }
         void EncabezadosLv2()
         {
-            listView2.Clear();
-            listView2.View = View.Details;
-            listView2.GridLines = true;
-            listView2.FullRowSelect = true;
-            listView2.Columns.Add("Admision", 100, HorizontalAlignment.Left);
-            listView2.Columns.Add("Fecha", 100, HorizontalAlignment.Left);
-            listView2.Columns.Add("Servicio", 250, HorizontalAlignment.Left);
-            listView2.Columns.Add("Profesional", 250, HorizontalAlignment.Left);
+            gridZH1.dataGridView1.DataSource = null;
+            dt = new DataTable();
+            Admision = dt.Columns.Add("Admision", typeof(int));
+            Fecha = dt.Columns.Add("Fecha", typeof(DateTime));
+            Servicio = dt.Columns.Add("Servicio", typeof(string));
+            Profesional = dt.Columns.Add("Profesional", typeof(string));
+        }
+        void Encabezados()
+        {
+            gridZH2.dataGridView1.DataSource = null;
+            dt2 = new DataTable();
+            Codigo = dt2.Columns.Add("Codigo", typeof(string));
+            Item = dt2.Columns.Add("Item", typeof(string));
+            Cantidad = dt2.Columns.Add("Cantidad", typeof(int));
         }
         private void CargosAnterior_Load(object sender, EventArgs e)
         {
@@ -89,10 +54,10 @@ namespace ZamenisHealth.Medicina.Extras
             {
                 Titulo.Text = "Historial Cargos Anteriores";
                 SubTitulo.Text = $"Zamenis Health {Conexion.VersionApp}";
-                PanelTitulo.Dock = DockStyle.Top;
 
-                ImageClose.Visible = false;
-                ImageMinimize.Visible = false;
+                gridZH1.CeldaHeight = true;
+                gridZH2.CeldaHeight = true;
+                gridZH1.dataGridView1.CellClick += DataGridView1_CellClick;
 
                 var getLista = repoCargos.getCargosPrevios(this.IdPaciente);
                 if (getLista != null)
@@ -103,14 +68,18 @@ namespace ZamenisHealth.Medicina.Extras
                     {
                         label14.Text = i.Car_Usr_Graba.ToString();
 
-                        listView2.Items.Add(new ListViewItem(new string[]
-                        {
-                            i.Car_Adm_Id.ToString(),
-                            Convert.ToDateTime(i.Car_Fecha).ToString(Conexion.ConectionDictionary["Format_Fecha"]),
-                            i.Car_Item.ToString(),
-                            i.Car_Detalle.ToString()
-                        }));
+                        DataRow row = dt.NewRow();
+
+                        row[Admision] = i.Car_Adm_Id;
+                        row[Fecha] = Convert.ToDateTime(i.Car_Fecha).ToString(Conexion.ConectionDictionary["Format_Fecha"]);
+                        row[Servicio] = i.Car_Item.ToString();
+                        row[Profesional] = i.Car_Detalle.ToString();
+
+                        dt.Rows.Add(row);
+                        dt.AcceptChanges();
                     }
+
+                    gridZH1.dataGridView1.DataSource = dt;
                 }
                 else
                 {
@@ -121,9 +90,6 @@ namespace ZamenisHealth.Medicina.Extras
                     MG.Mensaje = "Este paciente no tiene historial de curaciones";
                     MG.ShowDialog();
 
-                    Cargos f29 = Application.OpenForms.OfType<Cargos>().SingleOrDefault();
-                    f29.HidePanel3();
-
                     this.Dispose();
                     this.Close();
                 }
@@ -133,15 +99,42 @@ namespace ZamenisHealth.Medicina.Extras
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-        void EncabezadosLv1()
+        private void DataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            listView1.Clear();
-            listView1.View = View.Details;
-            listView1.GridLines = true;
-            listView1.FullRowSelect = true;
-            listView1.Columns.Add("Codigo", 80, HorizontalAlignment.Left);
-            listView1.Columns.Add("Item", 500, HorizontalAlignment.Left);
-            listView1.Columns.Add("Cantidad", 80, HorizontalAlignment.Left);
+            try
+            {
+                Comunes.MensajesGeneral MG = new Comunes.MensajesGeneral();
+
+                Admi = Convert.ToInt32(gridZH1.dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString());
+
+                var getLista = repoCargos.CargosAnt(Admi);
+                if (getLista != null)
+                {
+                    Encabezados();
+
+                    foreach (var i in getLista)
+                    {
+                        DataRow row = dt2.NewRow();
+
+                        row[Codigo] = i.Car_Cod.ToString();
+                        row[Item] = i.Car_Item.ToString();
+                        row[Cantidad] = i.Car_Cant;
+
+                        dt2.Rows.Add(row);
+                        dt2.AcceptChanges();
+                    }
+
+                    gridZH2.dataGridView1.DataSource = dt2;
+                }
+                else
+                {
+                    Encabezados();
+                }
+            }
+            catch (Exception ex)
+            {
+                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
+            }
         }
     }
 }

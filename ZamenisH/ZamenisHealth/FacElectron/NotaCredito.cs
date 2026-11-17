@@ -1,9 +1,9 @@
-﻿using DocumentosElectronicos.Controlador;
-using DocumentosElectronicos.Request;
+﻿using DocumentosElectronicos.Request;
 using DocumentosElectronicos.Servicio;
 using Domain;
 using Domain.CXN;
 using FormAndControls;
+using Microsoft.Reporting.WinForms;
 using Persistence;
 using Persistence.CXN.Interfaces;
 using Persistence.CXN.Metodos;
@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Globalization;
+using System.IO;
 using System.Windows.Forms;
 using ZamenisHealth.Clases;
 using ZamenisHealth.Comunes;
@@ -465,7 +466,7 @@ namespace ZamenisHealth.FacElectron
                             nitreceptor = temp[0].DocReceptor,
                             digitoverificacion = "",
                             nombrereceptor = temp[0].PacienteNombre,
-                            mailreceptor = string.IsNullOrEmpty(temp[0].Correo) ? "administrador@slsoft.net" : temp[0].Correo,
+                            mailreceptor = string.IsNullOrEmpty(temp[0].Correo) ? Conexion.EmailDestinoDefecto : temp[0].Correo,
                             tipocomprobante = "91", // nota credito
 
                             noresolucion = getDataFacElectron.Com_Resolucion_Electron,
@@ -612,25 +613,44 @@ namespace ZamenisHealth.FacElectron
                             int NueCons = getDataFacElectron.Com_Doc_Electron_NC + 1;
                             repoCia.ConsecutivoActualiza(Cia, "CONSELECTRONNC", NueCons);
 
-                            List<RCCAJA> Exportar = ExportarPDF.ExportarReciboCajaNC(Convert.ToInt32(NFacZ));
+                            List<RCCAJA> Exportar = ExportarPDF.ExportarReciboCajaNC(datosNuevosFacElectron.NumeroNC, Cia);
                             if (Exportar == null)
                             {
                                 MessageBox.Show(factura.Encabezado.ordenCompra + ": ESTADO 18 ZAMENIS: Factura Generada Exitosamente pero no se logro generar el PDF, genere una copia del recibo de caja");
                             }
                             else
                             {
-                                GeneradorXML.DocPrestadorTemp = "";
-                                GeneradorXML.PrefElectronTemp = "";
-                                GeneradorXML.NumElectronTemp = "";
+                                ReportViewer R = new ReportViewer();
 
-                                GeneradorXML.DocPrestadorTemp = getDataFacElectron.Com_Identificacion;
-                                GeneradorXML.PrefElectronTemp = getDataFacElectron.Com_Prefijo_Electron_NC;
-                                GeneradorXML.NumElectronTemp = getDataFacElectron.Com_Doc_Electron_NC.ToString();
+                                R.LocalReport.DataSources.Clear();
+                                R.LocalReport.DataSources.Add(new ReportDataSource("ReciboCajaDataset", Exportar));
+                                R.LocalReport.ReportEmbeddedResource = "ZamenisHealth.Reportes.FacElectron.FacturaElectronicaCajaNC.rdlc";
+                                R.SetDisplayMode(DisplayMode.PrintLayout);
+                                R.ZoomMode = ZoomMode.Percent;
+                                R.ZoomPercent = 100;
+                                R.Font = new System.Drawing.Font("Arial", 7);
+                                R.LocalReport.EnableExternalImages = true;
+                                R.RefreshReport();
+                                R.Dock = System.Windows.Forms.DockStyle.Fill;
 
-                                GeneradorXML.rTempCaja = new List<RCCAJA>();
-                                GeneradorXML.rTempCaja = Exportar;
+                                byte[] bytes = R.LocalReport.Render("PDF");
+                                string CUFEFACElectron = datosNuevosFacElectron.Cufe; //CUFE DE LA NC
+                                if (string.IsNullOrEmpty(CUFEFACElectron))
+                                {
+                                    MessageBox.Show("Nota credito generada correctamente, pero no se logro radicar el PDF", "Hecho pero con Novedad", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                }
+                                else
+                                {
+                                    FileStream fss = new FileStream("C:\\CXN\\RespuestasDIAN\\RespuestaPDF\\NC_" + getDataFacElectron.Com_Identificacion + "_" + NumeroNCActual + ".pdf", FileMode.Create);
+                                    fss.Write(bytes, 0, bytes.Length);
+                                    fss.Close();
 
-                                GenerateXMLPDF.GeneratePDFCajaNC(Cia, sendXML.ClaveTecnica);
+                                    string Conversion = Convert.ToBase64String(bytes);
+                                    RadicarPDF radicarPDF = new RadicarPDF();
+                                    radicarPDF.SendPDF(sendXML.ClaveTecnica, Program.URLApiConexion, sendXML.Usuario, sendXML.Contraseña, Cia, Conversion, CUFEFACElectron, NumeroNCActual).GetAwaiter().GetResult();
+
+                                    MessageBox.Show("Nota credito generada correctamente", "Exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                }
                             }
                         }
                         else
@@ -681,7 +701,7 @@ namespace ZamenisHealth.FacElectron
                             nitreceptor = temp[0].PacienteAseguradora,
                             digitoverificacion = "",
                             nombrereceptor = temp[0].PacienteNombre,
-                            mailreceptor = string.IsNullOrEmpty(temp[0].ProfesionalNombre) ? "administrador@slsoft.net" : temp[0].ProfesionalNombre,
+                            mailreceptor = string.IsNullOrEmpty(temp[0].ProfesionalNombre) ? Conexion.EmailDestinoDefecto : temp[0].ProfesionalNombre,
                             tipocomprobante = "91", // nota credito
 
                             noresolucion = getDataFacElectron.Com_Resolucion_Electron,
@@ -830,74 +850,44 @@ namespace ZamenisHealth.FacElectron
                             int NueCons = getDataFacElectron.Com_Doc_Electron_NC + 1;
                             repoCia.ConsecutivoActualiza(Cia, "CONSELECTRONNC", NueCons);
 
-                            List<FacturacionRpt> Exportar = ExportarPDF.ExportarFacturaVentasNC(Convert.ToInt32(factura.Encabezado.ordenCompra), Cia, "OP", factura.Encabezado.llaveComprobante);
-                            if (Exportar == null)
+                            List<FacturacionRpt> ExportarNCV = ExportarPDF.ExportarFacturaVentasNC(Cia, "OP", datosNuevosFacElectron.NumeroNC);
+                            if (ExportarNCV == null)
                             {
                                 MessageBox.Show(factura.Encabezado.ordenCompra + ": ESTADO 18 ZAMENIS: Factura Generada Exitosamente pero no se logro generar el PDF, genere una copia del recibo de caja");
                             }
                             else
                             {
-                                GeneradorXML.rTemp = new List<FacturasR>();
+                                ReportViewer R = new ReportViewer();
 
-                                foreach (var item in Exportar)
+                                R.LocalReport.DataSources.Clear();
+                                R.LocalReport.DataSources.Add(new ReportDataSource("DataSet_Facturacion", ExportarNCV));
+                                R.LocalReport.ReportEmbeddedResource = "ZamenisHealth.Reportes.FacElectron.FacturaElectronicaSaludNC.rdlc";
+                                R.SetDisplayMode(DisplayMode.PrintLayout);
+                                R.ZoomMode = ZoomMode.Percent;
+                                R.ZoomPercent = 100;
+                                R.Font = new System.Drawing.Font("Arial", 7);
+                                R.LocalReport.EnableExternalImages = true;
+                                R.RefreshReport();
+                                R.Dock = System.Windows.Forms.DockStyle.Fill;
+
+                                byte[] bytes = R.LocalReport.Render("PDF");
+                                string CUFEFACElectron = datosNuevosFacElectron.Cufe; //CUFE DE LA NC
+                                if (string.IsNullOrEmpty(CUFEFACElectron))
                                 {
-                                    GeneradorXML.rTemp.Add(new FacturasR
-                                    {
-                                        Letras = item.ValorLetras,
-                                        Car_Cod = item.CodigoProd,
-                                        Car_Item = item.ItemProd,
-                                        Cantidad = Convert.ToInt32(item.CantidadProd),
-                                        Car_Val_Un = Convert.ToInt32(item.VrUnitarioProd),
-                                        Total = Convert.ToInt32(item.VrTotalProd),
-                                        EmpresaDireccion = item.EmpresaDireccion,
-                                        EmpresaTelefono = item.EmpresaTelefono,
-                                        EmpresaIdentificacion = item.EmpresaIdentificacion,
-                                        Fac_Num_Fac = 0,
-                                        PacienteNombre = item.PacienteNombre,
-                                        PacienteDireccion = item.PacienteDireccion,
-                                        PacienteIdentificacion = item.PacienteIdentificacion,
-                                        PacienteTelefono = item.PacienteTelefono,
-                                        PacienteAseguradora = item.PacienteNombre,
-                                        Ase_NitCia = item.PacienteIdentificacion,
-                                        Ase_DVNitCia = "",
-                                        FechaBase = item.FechaBase,
-                                        Fac_Fecha_Des = Convert.ToDateTime(item.FechaBase),
-                                        Fac_Fecha_Has = Convert.ToDateTime(item.FechaBase),
-                                        Fac_Num_Aut = "",
-                                        Ase_Telefono = item.PacienteTelefono,
-                                        Ase_Direccion = item.PacienteDireccion,
-                                        Fac_Res = item.Resolucion,
-                                        Fac_Observa = "",
-                                        Fac_Descuento = 0,
-                                        Fac_Total = Convert.ToInt32(item.VrNetoaPagar),
-                                        Fac_Neto = Convert.ToInt32(item.VrNetoaPagar),
-                                        Usuario = item.UsuarioFactura,
-                                        Com_Logo = item.Logo,
-                                        Cufe = item.CUFE,
-                                        QRCufe = item.QRLogo,
-                                        EmpresaNombre = item.NumFac.ToString(),
-
-                                        Com_Direccion = item.Com_Direccion, //TID
-                                        DocE_1 = item.PacienteAseguradora, //Idnum
-                                        DocE_2 = item.ProfesionalNombre, //pacemail
-                                        DocE_3 = item.ProfesionalNombre, //pacemail
-                                        DocE_4 = item.Com_Resolucion_Electron, //res
-                                        ProfesionalNombre = factura.Encabezado.prefijo, //prefijoi
-                                        DocE_5 = Convert.ToInt32(factura.Encabezado.folio), //num
-
-                                        NombrePrestador = item.EmpresaNombre
-                                    });
+                                    MessageBox.Show("Nota credito generada correctamente, pero no se logro radicar el PDF", "Hecho pero con Novedad", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                                 }
+                                else
+                                {
+                                    FileStream fss = new FileStream("C:\\CXN\\RespuestasDIAN\\RespuestaPDF\\NC_" + getDataFacElectron.Com_Identificacion + "_" + NumeroNCActual + ".pdf", FileMode.Create);
+                                    fss.Write(bytes, 0, bytes.Length);
+                                    fss.Close();
 
-                                GeneradorXML.DocPrestadorTemp = "";
-                                GeneradorXML.PrefElectronTemp = "";
-                                GeneradorXML.NumElectronTemp = "";
+                                    string Conversion = Convert.ToBase64String(bytes);
+                                    RadicarPDF radicarPDF = new RadicarPDF();
+                                    radicarPDF.SendPDF(sendXML.ClaveTecnica, Program.URLApiConexion, sendXML.Usuario, sendXML.Contraseña, Cia, Conversion, CUFEFACElectron, NumeroNCActual).GetAwaiter().GetResult();
 
-                                GeneradorXML.DocPrestadorTemp = getDataFacElectron.Com_Identificacion;
-                                GeneradorXML.PrefElectronTemp = getDataFacElectron.Com_Prefijo_Electron_NC;
-                                GeneradorXML.NumElectronTemp = getDataFacElectron.Com_Doc_Electron_NC.ToString();
-
-                                GenerateXMLPDF.GeneratePDFVentasNC(Cia, sendXML.ClaveTecnica);
+                                    MessageBox.Show("Nota credito generada correctamente", "Exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                }
                             }
                         }
                         else
@@ -947,7 +937,7 @@ namespace ZamenisHealth.FacElectron
                             nitreceptor = temp[0].Admision == 99 || temp[0].Admision == 88 ? temp[0].DocE_1 : temp[0].Ase_NitCia,
                             digitoverificacion = temp[0].Admision == 99 || temp[0].Admision == 88 ? "" : temp[0].Ase_DVNitCia,
                             nombrereceptor = temp[0].Admision == 99 || temp[0].Admision == 88 ? temp[0].PacienteAseguradora : temp[0].PacienteNombre,
-                            mailreceptor = temp[0].Admision == 99 || temp[0].Admision == 88 ? string.IsNullOrEmpty(temp[0].DocE_2) ? "administrador@slsoft.net" : temp[0].DocE_2 : string.IsNullOrEmpty(temp[0].DocE_3) ? "administrador@slsoft.net" : temp[0].DocE_3,
+                            mailreceptor = temp[0].Admision == 99 || temp[0].Admision == 88 ? string.IsNullOrEmpty(temp[0].DocE_2) ? Conexion.EmailDestinoDefecto : temp[0].DocE_2 : string.IsNullOrEmpty(temp[0].DocE_3) ? Conexion.EmailDestinoDefecto : temp[0].DocE_3,
                             tipocomprobante = "91", // nota credito
 
                             noresolucion = getDataFacElectron.Com_Resolucion_Electron,
@@ -1119,25 +1109,44 @@ namespace ZamenisHealth.FacElectron
                             int NueCons = getDataFacElectron.Com_Doc_Electron_NC + 1;
                             repoCia.ConsecutivoActualiza(Cia, "CONSELECTRONNC", NueCons);
 
-                            List<FacturasR> Exportar = ExportarPDF.ExportarFacturaAseguradorasNC(factura.Encabezado.llaveComprobante, Cia);
-                            if (Exportar == null)
+                            List<FacturasR> ExportarNCA = ExportarPDF.ExportarFacturaAseguradorasNC(datosNuevosFacElectron.NumeroNC, Cia);
+                            if (ExportarNCA == null)
                             {
                                 MessageBox.Show(factura.Encabezado.ordenCompra + ": ESTADO 18 ZAMENIS: Factura Generada Exitosamente pero no se logro generar el PDF, genere una copia del recibo de caja");
                             }
                             else
                             {
-                                GeneradorXML.DocPrestadorTemp = "";
-                                GeneradorXML.PrefElectronTemp = "";
-                                GeneradorXML.NumElectronTemp = "";
+                                ReportViewer R = new ReportViewer();
 
-                                GeneradorXML.DocPrestadorTemp = getDataFacElectron.Com_Identificacion;
-                                GeneradorXML.PrefElectronTemp = getDataFacElectron.Com_Prefijo_Electron_NC;
-                                GeneradorXML.NumElectronTemp = getDataFacElectron.Com_Doc_Electron_NC.ToString();
+                                R.LocalReport.DataSources.Clear();
+                                R.LocalReport.DataSources.Add(new ReportDataSource("DataSet_Facturacion", ExportarNCA));
+                                R.LocalReport.ReportEmbeddedResource = "ZamenisHealth.Reportes.FacElectron.FacturaElectronicaSaludNC.rdlc";
+                                R.SetDisplayMode(DisplayMode.PrintLayout);
+                                R.ZoomMode = ZoomMode.Percent;
+                                R.ZoomPercent = 100;
+                                R.Font = new System.Drawing.Font("Arial", 7);
+                                R.LocalReport.EnableExternalImages = true;
+                                R.RefreshReport();
+                                R.Dock = System.Windows.Forms.DockStyle.Fill;
 
-                                GeneradorXML.rTemp = new List<FacturasR>();
-                                GeneradorXML.rTemp = Exportar;
+                                byte[] bytes = R.LocalReport.Render("PDF");
+                                string CUFEFACElectron = datosNuevosFacElectron.Cufe; //CUFE DE LA NC
+                                if (string.IsNullOrEmpty(CUFEFACElectron))
+                                {
+                                    MessageBox.Show("Nota credito generada correctamente, pero no se logro radicar el PDF", "Hecho pero con Novedad", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                }
+                                else
+                                {
+                                    FileStream fss = new FileStream("C:\\CXN\\RespuestasDIAN\\RespuestaPDF\\NC_" + getDataFacElectron.Com_Identificacion + "_" + datosNuevosFacElectron.NumeroNC + ".pdf", FileMode.Create);
+                                    fss.Write(bytes, 0, bytes.Length);
+                                    fss.Close();
 
-                                GenerateXMLPDF.GeneratePDFSaludNC(Cia, sendXML.ClaveTecnica);
+                                    string Conversion = Convert.ToBase64String(bytes);
+                                    RadicarPDF radicarPDF = new RadicarPDF();
+                                    radicarPDF.SendPDF(sendXML.ClaveTecnica, Program.URLApiConexion, sendXML.Usuario, sendXML.Contraseña, Cia, Conversion, CUFEFACElectron, datosNuevosFacElectron.NumeroNC).GetAwaiter().GetResult();
+
+                                    MessageBox.Show("Nota credito generada correctamente", "Exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                }
                             }
                         }
                         else

@@ -965,6 +965,17 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
                 {
                     repoAgenda2.anularAdmision(Convert.ToInt32(Admision), Contenedor.UsuarioLogueado);
                     f7.EventoInicial();
+
+                    CXN_HISTORIAL_ADMISION HistorialAdmision = new CXN_HISTORIAL_ADMISION
+                    {
+                        Admision = Convert.ToInt32(Admision),
+                        Fecha = DateTime.Now,
+                        Usuario = Contenedor.UsuarioLogueado,
+                        Gestion = "ADMISION ANULADA"
+                    };
+
+                    repoAgenda2.AddHistorialAdmision(HistorialAdmision);
+
                     this.Close();
                 }
                 else
@@ -1036,6 +1047,7 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
             {
                 NovedadesAdmision f = new NovedadesAdmision(Convert.ToInt32(Admision), "Cancela");
                 f.ShowDialog();
+
                 this.Close();
             }
             else
@@ -1076,7 +1088,7 @@ namespace ZamenisHealth.Recepcion.AgendaDiaria
                     {
                         int conteo = 0;
 
-                        foreach (DataGridViewRow row in f7.dataGridView1.Rows)
+                        foreach (DataGridViewRow row in f7.gridZH1.dataGridView1.Rows)
                         {
                             conteo++;
                         }

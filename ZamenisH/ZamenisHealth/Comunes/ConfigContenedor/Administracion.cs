@@ -1,11 +1,17 @@
 ﻿using Domain;
+using Domain.CXN;
+
 using Newtonsoft.Json.Linq;
+
 using Persistence;
 using Persistence.CXN.Interfaces;
 using Persistence.CXN.Metodos;
+
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+
 using ZamenisHealth.AdminSystem;
 using ZamenisHealth.Consumos;
 using ZamenisHealth.Facturacion;
@@ -110,15 +116,26 @@ namespace ZamenisHealth.Comunes.ConfigContenedor
                                         obj2["Administracion"]["Autorizaciones"].ToString() == "A" ? true : false : false;
                         panel13.Visible = obj2["Administracion"]["RDA"] != null ?
                                         obj2["Administracion"]["RDA"].ToString() == "A" ? true : false : false;
+                        panel1.Visible = obj2["Administracion"]["Noticias"] != null ?
+                                        obj2["Administracion"]["Noticias"].ToString() == "A" ? true : false : false;
                     }
                     else
                     {
                         flowLayoutPanel1.Visible = false;
                     }
                 }
-                if (repoConfSystem.getListado()["IHCE"] == "A")
+
+                List<CXN_IMAGEN_SYSTEM> d = repoConfSystem.getConfSystem();
+                if (d != null)
                 {
-                    panel10.Visible = true;
+                    CXN_IMAGEN_SYSTEM d2 = d.FirstOrDefault(x => x.Tab_Nombre == "IHCE");
+                    if (d2 != null)
+                    {
+                        if (d2.Tab_Clave == "A")
+                        {
+                            panel10.Visible = true;
+                        }
+                    }
                 }
             }
             catch (Exception ex)
@@ -145,6 +162,12 @@ namespace ZamenisHealth.Comunes.ConfigContenedor
         {
             BarCodesForm F = new BarCodesForm();
             F.ShowDialog();
+        }
+
+        private void label7_Click(object sender, EventArgs e)
+        {
+            NoticiasMenu Nm = new NoticiasMenu();
+            Nm.ShowDialog();
         }
     }
 }

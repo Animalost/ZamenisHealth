@@ -418,6 +418,7 @@ namespace Persistence.CXN.Metodos
 
                                     Class_FacServ1.Add(new FacturasR
                                     {
+                                        DocE_6 = Convert.ToInt32(Lectura_Hora["Fac_Pac"]),
                                         Letras = Letra,
                                         Car_Cod = Lectura_Hora["Car_Cod"].ToString(),
                                         Car_Item = Lectura_Hora["Car_Item"].ToString(),

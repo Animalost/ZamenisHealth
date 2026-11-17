@@ -1,11 +1,17 @@
 ﻿using Domain;
 using Domain.CXN;
+
 using FormAndControls;
+
+using Persistence;
 using Persistence.CXN.Interfaces;
 using Persistence.CXN.Metodos;
+
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
+
 using ZamenisHealth.Clases;
 using ZamenisHealth.Comunes;
 
@@ -35,7 +41,16 @@ namespace ZamenisHealth.Recepcion.Extras
             try
             {                
                 this.Titulo.Text = "Generar Encuesta QR";
-                URLCita = repoConf.getListado()["URLEncuestaQR"] + "?a=" + repogen.Base64Encode(this.Admision.ToString().Trim());                              
+
+                List<CXN_IMAGEN_SYSTEM> d = repoConf.getConfSystem();
+                if (d != null)
+                {
+                    CXN_IMAGEN_SYSTEM d2 = d.FirstOrDefault(x => x.Tab_Nombre == "URLEncuestaQR");
+                    if (d2 != null)
+                    {
+                        URLCita = d2.Tab_Clave + "?a=" + repogen.Base64Encode(this.Admision.ToString().Trim());
+                    }
+                }
 
                 pictureBox1.Image = FormAndControls.ClasesExtra.Generales.GenerateQRCode(URLCita);
 
@@ -47,11 +62,7 @@ namespace ZamenisHealth.Recepcion.Extras
                     idPac = data.Hor_Pac_Id;
 
                     string Mes = Capitalize(Convert.ToDateTime(data.Hor_Pac_Fecha_Cita).Month);
-                    bool CantActualEncCU = false;
-
-                    
-                        CantActualEncCU = repoEncu.getCantEncuestaCU("CU", Mes, Convert.ToDateTime(data.Hor_Pac_Fecha_Cita).Year);
-                    
+                    bool CantActualEncCU = repoEncu.getCantEncuestaCU("CU", Mes, Convert.ToDateTime(data.Hor_Pac_Fecha_Cita).Year);                    
                    
                     if (CantActualEncCU == true) 
                     {

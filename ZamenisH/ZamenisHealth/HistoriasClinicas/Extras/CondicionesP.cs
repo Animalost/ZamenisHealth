@@ -1,15 +1,22 @@
 ﻿using Domain;
 using Domain.CXN;
+
 using FormAndControls;
+
 using Persistence;
 using Persistence.CXN.Interfaces;
 using Persistence.CXN.Metodos;
+
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
+
 using ZamenisHealth.Comunes;
+
+using static Org.BouncyCastle.Utilities.Test.FixedSecureRandom;
 
 namespace ZamenisHealth.HistoriasClinicas.Extras
 {
@@ -110,12 +117,19 @@ namespace ZamenisHealth.HistoriasClinicas.Extras
 
                 if (CondicionSelected == "INFECCION")
                 {
-                    var data = repoConf.getListado()["INFECCIONES"];
-                    if (data != "X")
+                    List<CXN_IMAGEN_SYSTEM> d = repoConf.getConfSystem();
+                    if (d != null)
                     {
-                        UrlInfeccion = data;
-                        linkLabel1.Visible = true;
-                    }                    
+                        CXN_IMAGEN_SYSTEM d2 = d.FirstOrDefault(x => x.Tab_Nombre == "INFECCIONES");
+                        if (d2 != null)
+                        {
+                            if (d2.Tab_Config == "A")
+                            {
+                                UrlInfeccion = d2.Tab_Clave;
+                                linkLabel1.Visible = true;
+                            }
+                        }
+                    }
                 }
             }
             catch (Exception ex)

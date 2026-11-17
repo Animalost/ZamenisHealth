@@ -2724,7 +2724,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox13</rd:DefaultName>
-        <Top>35.51032cm</Top>
+        <Top>36.46282cm</Top>
         <Left>0.19295cm</Left>
         <Height>0.38833cm</Height>
         <Width>6.12479cm</Width>
@@ -2754,7 +2754,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox13</rd:DefaultName>
-        <Top>35.93393cm</Top>
+        <Top>36.88643cm</Top>
         <Left>0.19295cm</Left>
         <Height>0.38833cm</Height>
         <Width>18.12189cm</Width>
@@ -2784,7 +2784,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox13</rd:DefaultName>
-        <Top>36.49865cm</Top>
+        <Top>37.45115cm</Top>
         <Left>0.19295cm</Left>
         <Height>0.38833cm</Height>
         <Width>8.98639cm</Width>
@@ -2814,7 +2814,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox13</rd:DefaultName>
-        <Top>36.88699cm</Top>
+        <Top>37.83949cm</Top>
         <Left>0.19295cm</Left>
         <Height>0.38833cm</Height>
         <Width>18.12189cm</Width>
@@ -2844,7 +2844,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox13</rd:DefaultName>
-        <Top>38.68643cm</Top>
+        <Top>39.63893cm</Top>
         <Left>0.19295cm</Left>
         <Height>0.38833cm</Height>
         <Width>3.90229cm</Width>
@@ -2874,7 +2874,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox13</rd:DefaultName>
-        <Top>39.11004cm</Top>
+        <Top>40.06254cm</Top>
         <Left>0.19295cm</Left>
         <Height>0.38833cm</Height>
         <Width>18.12188cm</Width>
@@ -2904,7 +2904,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox13</rd:DefaultName>
-        <Top>41.50039cm</Top>
+        <Top>42.45289cm</Top>
         <Left>10.69741cm</Left>
         <Height>0.38833cm</Height>
         <Width>3.90229cm</Width>
@@ -2920,7 +2920,7 @@
         <Value>=First(Fields!Firma.Value, "DataSet_HCMG")</Value>
         <MIMEType>image/jpeg</MIMEType>
         <Sizing>FitProportional</Sizing>
-        <Top>40.28067cm</Top>
+        <Top>41.23317cm</Top>
         <Left>10.69741cm</Left>
         <Height>1.21972cm</Height>
         <Width>4.00186cm</Width>
@@ -2950,7 +2950,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox13</rd:DefaultName>
-        <Top>37.45171cm</Top>
+        <Top>38.40421cm</Top>
         <Left>0.19296cm</Left>
         <Height>0.38833cm</Height>
         <Width>6.42257cm</Width>
@@ -2980,7 +2980,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox13</rd:DefaultName>
-        <Top>37.87532cm</Top>
+        <Top>38.82782cm</Top>
         <Left>0.19296cm</Left>
         <Height>0.38833cm</Height>
         <Width>18.12188cm</Width>
@@ -3171,8 +3171,68 @@
           </Border>
         </Style>
       </Textbox>
+      <Textbox Name="Textbox187">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>Homologacion CIE11</Value>
+                <Style>
+                  <FontFamily>Times New Roman</FontFamily>
+                  <FontSize>8pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox13</rd:DefaultName>
+        <Top>35.47616cm</Top>
+        <Left>0.19293cm</Left>
+        <Height>0.38833cm</Height>
+        <Width>5.3378cm</Width>
+        <ZIndex>71</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Textbox>
+      <Textbox Name="Textbox188">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>=First(Fields!DXCIE11.Value, "DataSet_HCMG")</Value>
+                <Style>
+                  <FontFamily>Times New Roman</FontFamily>
+                  <FontSize>8pt</FontSize>
+                  <FontWeight>Normal</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox13</rd:DefaultName>
+        <Top>35.8645cm</Top>
+        <Left>0.19293cm</Left>
+        <Height>0.38833cm</Height>
+        <Width>18.12189cm</Width>
+        <ZIndex>72</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Textbox>
     </ReportItems>
-    <Height>16.49162in</Height>
+    <Height>16.86662in</Height>
     <Style />
   </Body>
   <Width>7.28653in</Width>
@@ -4961,7 +5021,7 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox13</rd:DefaultName>
-          <Top>0.63499cm</Top>
+          <Top>0.63498cm</Top>
           <Left>0.08627cm</Left>
           <Height>0.38833cm</Height>
           <Width>3.90229cm</Width>
@@ -4990,7 +5050,7 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox13</rd:DefaultName>
-          <Top>0.63499cm</Top>
+          <Top>0.63498cm</Top>
           <Left>4.02384cm</Left>
           <Height>0.38833cm</Height>
           <Width>3.50542cm</Width>
@@ -5020,7 +5080,7 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox13</rd:DefaultName>
-          <Top>1.02304cm</Top>
+          <Top>1.02303cm</Top>
           <Left>0.08628cm</Left>
           <Height>0.38833cm</Height>
           <Width>3.90229cm</Width>
@@ -5050,7 +5110,7 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox13</rd:DefaultName>
-          <Top>1.02304cm</Top>
+          <Top>1.02303cm</Top>
           <Left>4.02385cm</Left>
           <Height>0.38833cm</Height>
           <Width>7.75874cm</Width>
@@ -5080,7 +5140,7 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox13</rd:DefaultName>
-          <Top>0.63499cm</Top>
+          <Top>0.63498cm</Top>
           <Left>9.11676cm</Left>
           <Height>0.38833cm</Height>
           <Width>2.95687cm</Width>
@@ -5110,7 +5170,7 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox13</rd:DefaultName>
-          <Top>0.63499cm</Top>
+          <Top>0.63498cm</Top>
           <Left>12.14419cm</Left>
           <Height>0.38833cm</Height>
           <Width>5.95983cm</Width>
@@ -5140,7 +5200,7 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox13</rd:DefaultName>
-          <Top>1.05833cm</Top>
+          <Top>1.05832cm</Top>
           <Left>12.10891cm</Left>
           <Height>0.38833cm</Height>
           <Width>2.38386cm</Width>
@@ -5170,7 +5230,7 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox13</rd:DefaultName>
-          <Top>1.05833cm</Top>
+          <Top>1.05832cm</Top>
           <Left>14.5986cm</Left>
           <Height>0.38833cm</Height>
           <Width>3.50542cm</Width>
@@ -5182,7 +5242,7 @@
           </Style>
         </Textbox>
         <Line Name="Line7">
-          <Top>0.31749cm</Top>
+          <Top>0.31748cm</Top>
           <Left>0.00652cm</Left>
           <Height>0cm</Height>
           <Width>18.49474cm</Width>
@@ -5214,7 +5274,7 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox8</rd:DefaultName>
-          <Top>1.77271cm</Top>
+          <Top>1.7727cm</Top>
           <Left>5.59618cm</Left>
           <Height>0.44125cm</Height>
           <Width>7.31542cm</Width>
@@ -5568,6 +5628,10 @@
         </Field>
         <Field Name="Med_Determinacion">
           <DataField>Med_Determinacion</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DXCIE11">
+          <DataField>DXCIE11</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>

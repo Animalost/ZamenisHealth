@@ -13,11 +13,11 @@ using ZamenisHealth.Comunes;
 
 namespace ZamenisHealth.Medicina
 {
-    public partial class CIE10 : Forma
+    public partial class CIE10 : Forma2
     {
         private static readonly ICIE10 repositorioCIE10 = new MCIE10();
         private static readonly IBodegas repositorioBodegas = new MBodegas();
-
+        
         private string Tipo_His_CIE = "";
         DataTable dt = new DataTable();
         DataColumn POS;
@@ -62,18 +62,12 @@ namespace ZamenisHealth.Medicina
         {
             Titulo.Text = "Seleccion de CIE10";
 
-            LogoMain.Image = Properties.Resources.Splash;
-
-            ToolStripButton btnBuscar = new ToolStripButton();
-            btnBuscar = createToolButton("Buscar");
-            MenuLateral.Items.Add(btnBuscar);
-            btnBuscar.Click += button1_Click;
-
-            gridZH1.dataGridView1.CellClick += dataGridView1_CellClick;
             gridZH1.CeldaHeight = true;
-
-            gridZH2.dataGridView1.CellClick += dataGridView2_CellClick;
             gridZH2.CeldaHeight = true;
+           
+            gridZH1.dataGridView1.CellClick += dataGridView1_CellClick;
+            gridZH2.dataGridView1.CellClick += dataGridView2_CellClick;
+           
 
             CargarUltimos();
         }
@@ -220,31 +214,7 @@ namespace ZamenisHealth.Medicina
             {
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
-        }
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                switch (comboBox1.Text)
-                {
-                    case "Codigo CIE10":
-                        label3.Text = "Digite el codigo CIE10 completo y haga click en buscar";
-                        break;
-
-                    case "Descripcion":
-                        label3.Text = "Escriba una parte del nombre del diagnostico y haga click en buscar";
-                        break;
-
-                    default:
-                        label3.Text = "Seleccione un metodo de busqueda";
-                        break;
-                }
-            }
-            catch (Exception ex)
-            {
-                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
-            }
-        }
+        } 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             try
@@ -722,6 +692,6 @@ namespace ZamenisHealth.Medicina
             {
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
-        }
+        }        
     }
 }

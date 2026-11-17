@@ -1,4 +1,5 @@
 ﻿using Domain;
+using FormAndControls;
 using Persistence;
 using Persistence.CXN.Interfaces;
 using Persistence.CXN.Metodos;
@@ -10,7 +11,7 @@ using ZamenisHealth.Comunes;
 
 namespace ZamenisHealth.Medicina
 {
-    public partial class NotasReportPrevio : ConfigForm.BaseForm
+    public partial class NotasReportPrevio : Forma
     {
         private static readonly INotasCuracion repoNotas = new MNotasCuracion();
         private static readonly IReportes repoReportes = new MReportes();
@@ -24,19 +25,24 @@ namespace ZamenisHealth.Medicina
         DataColumn Cantidad;
         DataColumn Graba;
 
-        public NotasReportPrevio()
+        public NotasReportPrevio() 
         {
-            InitializeComponent();     
-            ConfigForm.MoverForma(panel2, this);
+            InitializeComponent();
         }
 
         private void NotasReportPrevio_Load(object sender, EventArgs e)
         {
             try
             {
-                Titulo.Visible = false;
-                ImageClose.Visible = false;
-               
+                Titulo.Text = "Nota de Enfermeria";
+                LogoMain.Image = Properties.Resources.Splash;
+                SubTitulo.Text = $"Zamenis Health {Conexion.VersionApp}";
+
+                ToolStripButton btnGenerar = new ToolStripButton();
+                btnGenerar = createToolButton("Exportar");
+                MenuLateral.Items.Add(btnGenerar);
+                btnGenerar.Click += toolStripButton2_Click;
+
                 textBox2.ContextMenu = new ContextMenu();
                 textBox3.ContextMenu = new ContextMenu();
                 textBox9.ContextMenu = new ContextMenu();

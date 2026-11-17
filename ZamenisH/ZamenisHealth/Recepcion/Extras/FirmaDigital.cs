@@ -17,6 +17,7 @@ namespace ZamenisHealth.Recepcion.Extras
     public partial class FirmaDigital : Forma2
     {
         private IFirmasDigitales oController;
+        private IAgenda oController2;
         private int Admision, IdPaciente;
         private string Tipo;
 
@@ -34,6 +35,7 @@ namespace ZamenisHealth.Recepcion.Extras
             Tipo = tipo;
 
             oController = new MFirmasDigitales();
+            oController2 = new MAgenda();
         }
         private void FirmaDigital_Load(object sender, EventArgs e)
         {
@@ -203,6 +205,16 @@ namespace ZamenisHealth.Recepcion.Extras
                         MG.ShowDialog();
                         return;
                     }
+
+                    CXN_HISTORIAL_ADMISION HistorialAdmision = new CXN_HISTORIAL_ADMISION
+                    {
+                        Admision = cXN_FIRMASDIGITALES.Admision,
+                        Fecha = DateTime.Now,
+                        Usuario = Contenedor.UsuarioLogueado,
+                        Gestion = "FIRMA AGREGADA"
+                    };
+
+                    oController2.AddHistorialAdmision(HistorialAdmision);
 
                     MG = new MensajesGeneral()
                     {

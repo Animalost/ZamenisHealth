@@ -363,48 +363,47 @@ namespace Persistence.CXN.Metodos
                 switch (Tipo)
                 {
                     case "Curaciones":
-                        string Busqueda = "UPDATE CXN_NOTAS " +
-                                          "SET Not_NotaAcla = '" + Dato_Grabar + "' " +
-                                          "WHERE Not_Adm = '" + Admision + "'";
-                        SqlCommand Accion = new SqlCommand(Busqueda, con);
-                        int Guarda;
-                        Guarda = Accion.ExecuteNonQuery();
-                        return true;
+                        string Busqueda = @"UPDATE CXN_NOTAS 
+                                          SET Not_NotaAcla = @Dato 
+                                          WHERE Not_Adm = @Admision";
+
+                        using (SqlCommand Accion = new SqlCommand(Busqueda, con))
+                        {
+                            Accion.Parameters.AddWithValue("@Dato", Dato_Grabar);
+                            Accion.Parameters.AddWithValue("@Admision", Admision);
+                            return Accion.ExecuteNonQuery() > 0 ? true : false;
+                        }                            
 
                     case "MedGen":
-                        string Busqueda2 = "UPDATE CXN_HCMG " +
-                                           "SET HC_Nota_Acl = '" + Dato_Grabar + "' " +
-                                           "WHERE HC_Adm = '" + Admision + "'";
-                        SqlCommand Accion2 = new SqlCommand(Busqueda2, con);
-                        int Guarda2;
-                        Guarda2 = Accion2.ExecuteNonQuery();
-                        return true;
+                        string Busqueda2 = @"UPDATE CXN_HCMG 
+                                           SET HC_Nota_Acl = @Dato
+                                           WHERE HC_Adm = @Admision";
+
+                        using (SqlCommand Accion2 = new SqlCommand(Busqueda2, con))
+                        {
+                            Accion2.Parameters.AddWithValue("@Dato", Dato_Grabar);
+                            Accion2.Parameters.AddWithValue("@Admision", Admision);
+                            return Accion2.ExecuteNonQuery() > 0 ? true : false;
+                        }                            
 
                     case "Fisiatria":
-                        string Busqueda3 = "UPDATE CXN_HCFI " +
-                                          "SET HC_NotaA = '" + Dato_Grabar + "' " +
-                                          "WHERE HC_Adm = '" + Admision + "'";
-                        SqlCommand Accion3 = new SqlCommand(Busqueda3, con);
-                        int Guarda3;
-                        Guarda3 = Accion3.ExecuteNonQuery();
-                        return true;
-
-                    case "Radiologia":
-                        string Busqueda4 = "UPDATE CXN_HCRADIOLOGIA " +
-                                           "SET NotaAclaratoria = '" + Dato_Grabar + "' " +
-                                           "WHERE HCAdm = '" + Admision + "'";
-                        SqlCommand Accion4 = new SqlCommand(Busqueda4, con);
-                        int Guarda4;
-                        Guarda4 = Accion4.ExecuteNonQuery();
-                        return true;
+                        string Busqueda3 = @"UPDATE CXN_HCFI 
+                                           SET HC_NotaA = @Dato 
+                                           WHERE HC_Adm = @Admision";
+                        
+                        using (SqlCommand Accion3 = new SqlCommand(Busqueda3, con))
+                        {
+                            Accion3.Parameters.AddWithValue("@Dato", Dato_Grabar);
+                            Accion3.Parameters.AddWithValue("@Admision", Admision);
+                            return Accion3.ExecuteNonQuery() > 0 ? true : false;
+                        }                            
 
                     default:
                         return false;
                 }
             }
         }
-        string Buscar_Anterior(int Admision,
-                               string Tipo)
+        string Buscar_Anterior(int Admision, string Tipo)
         {
             try
             {
@@ -422,21 +421,21 @@ namespace Persistence.CXN.Metodos
                     switch (Tipo)
                     {
                         case "Curaciones":
-                            Cargar_Hora = "SELECT Not_NotaAcla AS NOTAANTERIOR " +
-                                          "FROM CXN_NOTAS " +
-                                          "WHERE Not_Adm = '" + Admision + "'";
+                            Cargar_Hora = @"SELECT Not_NotaAcla AS NOTAANTERIOR 
+                                           FROM CXN_NOTAS 
+                                           WHERE Not_Adm = @Admision";
                             break;
 
                         case "MedGen":
-                            Cargar_Hora = "SELECT HC_Nota_Acl " +
-                                         " FROM CXN_HCMG " +
-                                         " WHERE HC_Adm = '" + Admision + "'";
+                            Cargar_Hora = @"SELECT HC_Nota_Acl AS NOTAANTERIOR 
+                                           FROM CXN_HCMG 
+                                           WHERE HC_Adm = @Admision";
                             break;
 
                         case "Fisiatria":
-                            Cargar_Hora = "SELECT HC_NotaA " +
-                                          " FROM CXN_HCFI " +
-                                          " WHERE HC_Adm = '" + Admision + "'";
+                            Cargar_Hora = @"SELECT HC_NotaA AS NOTAANTERIOR 
+                                           FROM CXN_HCFI 
+                                           WHERE HC_Adm = @Admision";
                             break;
 
                         default:
@@ -444,20 +443,27 @@ namespace Persistence.CXN.Metodos
                             break;
                     }
 
-                    SqlCommand Carga_Command = new SqlCommand(Cargar_Hora, con);
-                    SqlDataReader Lectura_Hora = (Carga_Command.ExecuteReader());
-                    if (Lectura_Hora.Read() == true)
+                    using (SqlCommand Carga_Command = new SqlCommand(Cargar_Hora, con))
                     {
-                        return Lectura_Hora["NOTAANTERIOR"].ToString();
-                    }
-                    else
-                    {
-                        return "";
-                    }
+                        Carga_Command.Parameters.AddWithValue("@Admision", Admision);
+
+                        using (SqlDataReader Lectura_Hora = (Carga_Command.ExecuteReader()))
+                        {
+                            if (Lectura_Hora.Read() == true)
+                            {
+                                return Lectura_Hora["NOTAANTERIOR"].ToString();
+                            }
+                            else
+                            {
+                                return "";
+                            }
+                        }
+                    }                    
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 return "";
             }
         }

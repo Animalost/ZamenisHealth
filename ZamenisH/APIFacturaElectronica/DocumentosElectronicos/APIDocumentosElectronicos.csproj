@@ -90,7 +90,9 @@
     <Compile Include="Servicio\RadicarPDF.cs" />
     <Compile Include="SqlServerTypes\Loader.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="estetoscopio.ico" />
     <Content Include="SqlServerTypes\readme.htm" />

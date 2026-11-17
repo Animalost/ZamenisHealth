@@ -280,13 +280,14 @@
             // 
             // label4
             // 
+            this.label4.BackColor = System.Drawing.Color.WhiteSmoke;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.label4.Location = new System.Drawing.Point(36, 32);
+            this.label4.Location = new System.Drawing.Point(0, -1);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(744, 31);
+            this.label4.Size = new System.Drawing.Size(903, 40);
             this.label4.TabIndex = 83;
-            this.label4.Text = "Facturacion";
+            this.label4.Text = "Facturación";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // flowLayoutPanel1
@@ -299,9 +300,9 @@
             this.flowLayoutPanel1.Controls.Add(this.panel6);
             this.flowLayoutPanel1.Controls.Add(this.panel7);
             this.flowLayoutPanel1.Controls.Add(this.panel8);
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(36, 69);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(79, 56);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(744, 204);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(738, 146);
             this.flowLayoutPanel1.TabIndex = 87;
             // 
             // panel2
@@ -371,13 +372,12 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(823, 304);
+            this.ClientSize = new System.Drawing.Size(903, 516);
             this.ControlBox = false;
-            this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.label4);
+            this.Controls.Add(this.flowLayoutPanel1);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.KeyPreview = true;

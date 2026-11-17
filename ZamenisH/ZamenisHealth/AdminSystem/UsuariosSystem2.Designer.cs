@@ -73,8 +73,6 @@
             this.checkBox47 = new System.Windows.Forms.CheckBox();
             this.checkBox48 = new System.Windows.Forms.CheckBox();
             this.checkBox49 = new System.Windows.Forms.CheckBox();
-            this.boton1 = new FormAndControls.Controles.Boton();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.checkBox8 = new System.Windows.Forms.CheckBox();
             this.checkBox14 = new System.Windows.Forms.CheckBox();
@@ -89,6 +87,10 @@
             this.checkBox29 = new System.Windows.Forms.CheckBox();
             this.checkBox30 = new System.Windows.Forms.CheckBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.checkBox66 = new System.Windows.Forms.CheckBox();
+            this.checkBox65 = new System.Windows.Forms.CheckBox();
+            this.checkBox64 = new System.Windows.Forms.CheckBox();
+            this.checkBox62 = new System.Windows.Forms.CheckBox();
             this.checkBox31 = new System.Windows.Forms.CheckBox();
             this.checkBox38 = new System.Windows.Forms.CheckBox();
             this.checkBox53 = new System.Windows.Forms.CheckBox();
@@ -100,10 +102,6 @@
             this.checkBox59 = new System.Windows.Forms.CheckBox();
             this.checkBox60 = new System.Windows.Forms.CheckBox();
             this.checkBox61 = new System.Windows.Forms.CheckBox();
-            this.checkBox62 = new System.Windows.Forms.CheckBox();
-            this.checkBox64 = new System.Windows.Forms.CheckBox();
-            this.checkBox65 = new System.Windows.Forms.CheckBox();
-            this.checkBox66 = new System.Windows.Forms.CheckBox();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.checkBox72 = new System.Windows.Forms.CheckBox();
             this.checkBox74 = new System.Windows.Forms.CheckBox();
@@ -118,16 +116,19 @@
             this.checkBox79 = new System.Windows.Forms.CheckBox();
             this.checkBox80 = new System.Windows.Forms.CheckBox();
             this.checkBox81 = new System.Windows.Forms.CheckBox();
+            this.boton1 = new FormAndControls.Controles.Boton();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.checkBox63 = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.groupBox5.SuspendLayout();
-            this.panel1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox6.SuspendLayout();
             this.groupBox7.SuspendLayout();
             this.groupBox8.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // comboBox1
@@ -267,6 +268,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.checkBox63);
             this.groupBox2.Controls.Add(this.checkBox41);
             this.groupBox2.Controls.Add(this.checkBox39);
             this.groupBox2.Controls.Add(this.checkBox19);
@@ -282,7 +284,7 @@
             this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox2.Location = new System.Drawing.Point(3, 109);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(613, 121);
+            this.groupBox2.Size = new System.Drawing.Size(613, 142);
             this.groupBox2.TabIndex = 100;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Administracion";
@@ -441,7 +443,7 @@
             this.groupBox4.Controls.Add(this.checkBox36);
             this.groupBox4.Controls.Add(this.checkBox37);
             this.groupBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox4.Location = new System.Drawing.Point(3, 236);
+            this.groupBox4.Location = new System.Drawing.Point(3, 257);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(613, 107);
             this.groupBox4.TabIndex = 11;
@@ -565,7 +567,7 @@
             this.groupBox5.Controls.Add(this.checkBox48);
             this.groupBox5.Controls.Add(this.checkBox49);
             this.groupBox5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox5.Location = new System.Drawing.Point(3, 349);
+            this.groupBox5.Location = new System.Drawing.Point(3, 370);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(613, 123);
             this.groupBox5.TabIndex = 101;
@@ -704,31 +706,6 @@
             this.checkBox49.Text = "Compañias";
             this.checkBox49.UseVisualStyleBackColor = true;
             // 
-            // boton1
-            // 
-            this.boton1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(55)))), ((int)(((byte)(90)))));
-            this.boton1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.boton1.FlatAppearance.BorderSize = 3;
-            this.boton1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.boton1.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
-            this.boton1.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.boton1.Location = new System.Drawing.Point(275, 645);
-            this.boton1.Name = "boton1";
-            this.boton1.Size = new System.Drawing.Size(124, 32);
-            this.boton1.TabIndex = 103;
-            this.boton1.Text = "Grabar";
-            this.boton1.UseVisualStyleBackColor = false;
-            this.boton1.Click += new System.EventHandler(this.btnZamenis1_ButtonClick);
-            // 
-            // panel1
-            // 
-            this.panel1.AutoScroll = true;
-            this.panel1.Controls.Add(this.flowLayoutPanel1);
-            this.panel1.Location = new System.Drawing.Point(12, 108);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(647, 531);
-            this.panel1.TabIndex = 105;
-            // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.checkBox8);
@@ -744,7 +721,7 @@
             this.groupBox3.Controls.Add(this.checkBox29);
             this.groupBox3.Controls.Add(this.checkBox30);
             this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox3.Location = new System.Drawing.Point(3, 478);
+            this.groupBox3.Location = new System.Drawing.Point(3, 499);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(613, 121);
             this.groupBox3.TabIndex = 102;
@@ -913,12 +890,60 @@
             this.groupBox6.Controls.Add(this.checkBox60);
             this.groupBox6.Controls.Add(this.checkBox61);
             this.groupBox6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox6.Location = new System.Drawing.Point(3, 605);
+            this.groupBox6.Location = new System.Drawing.Point(3, 626);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Size = new System.Drawing.Size(613, 151);
             this.groupBox6.TabIndex = 103;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Medicina General";
+            // 
+            // checkBox66
+            // 
+            this.checkBox66.AutoSize = true;
+            this.checkBox66.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBox66.ForeColor = System.Drawing.Color.Blue;
+            this.checkBox66.Location = new System.Drawing.Point(22, 124);
+            this.checkBox66.Name = "checkBox66";
+            this.checkBox66.Size = new System.Drawing.Size(73, 21);
+            this.checkBox66.TabIndex = 16;
+            this.checkBox66.Text = "Salidas";
+            this.checkBox66.UseVisualStyleBackColor = true;
+            // 
+            // checkBox65
+            // 
+            this.checkBox65.AutoSize = true;
+            this.checkBox65.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBox65.ForeColor = System.Drawing.Color.Blue;
+            this.checkBox65.Location = new System.Drawing.Point(469, 126);
+            this.checkBox65.Name = "checkBox65";
+            this.checkBox65.Size = new System.Drawing.Size(131, 21);
+            this.checkBox65.TabIndex = 15;
+            this.checkBox65.Text = "Consentimientos";
+            this.checkBox65.UseVisualStyleBackColor = true;
+            // 
+            // checkBox64
+            // 
+            this.checkBox64.AutoSize = true;
+            this.checkBox64.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBox64.ForeColor = System.Drawing.Color.Blue;
+            this.checkBox64.Location = new System.Drawing.Point(255, 124);
+            this.checkBox64.Name = "checkBox64";
+            this.checkBox64.Size = new System.Drawing.Size(136, 21);
+            this.checkBox64.TabIndex = 14;
+            this.checkBox64.Text = "Buscar Imagenes";
+            this.checkBox64.UseVisualStyleBackColor = true;
+            // 
+            // checkBox62
+            // 
+            this.checkBox62.AutoSize = true;
+            this.checkBox62.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBox62.ForeColor = System.Drawing.Color.Blue;
+            this.checkBox62.Location = new System.Drawing.Point(469, 99);
+            this.checkBox62.Name = "checkBox62";
+            this.checkBox62.Size = new System.Drawing.Size(95, 21);
+            this.checkBox62.TabIndex = 12;
+            this.checkBox62.Text = "Solicitudes";
+            this.checkBox62.UseVisualStyleBackColor = true;
             // 
             // checkBox31
             // 
@@ -1052,54 +1077,6 @@
             this.checkBox61.Text = "Crear Historias";
             this.checkBox61.UseVisualStyleBackColor = true;
             // 
-            // checkBox62
-            // 
-            this.checkBox62.AutoSize = true;
-            this.checkBox62.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBox62.ForeColor = System.Drawing.Color.Blue;
-            this.checkBox62.Location = new System.Drawing.Point(469, 99);
-            this.checkBox62.Name = "checkBox62";
-            this.checkBox62.Size = new System.Drawing.Size(95, 21);
-            this.checkBox62.TabIndex = 12;
-            this.checkBox62.Text = "Solicitudes";
-            this.checkBox62.UseVisualStyleBackColor = true;
-            // 
-            // checkBox64
-            // 
-            this.checkBox64.AutoSize = true;
-            this.checkBox64.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBox64.ForeColor = System.Drawing.Color.Blue;
-            this.checkBox64.Location = new System.Drawing.Point(255, 124);
-            this.checkBox64.Name = "checkBox64";
-            this.checkBox64.Size = new System.Drawing.Size(136, 21);
-            this.checkBox64.TabIndex = 14;
-            this.checkBox64.Text = "Buscar Imagenes";
-            this.checkBox64.UseVisualStyleBackColor = true;
-            // 
-            // checkBox65
-            // 
-            this.checkBox65.AutoSize = true;
-            this.checkBox65.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBox65.ForeColor = System.Drawing.Color.Blue;
-            this.checkBox65.Location = new System.Drawing.Point(469, 126);
-            this.checkBox65.Name = "checkBox65";
-            this.checkBox65.Size = new System.Drawing.Size(131, 21);
-            this.checkBox65.TabIndex = 15;
-            this.checkBox65.Text = "Consentimientos";
-            this.checkBox65.UseVisualStyleBackColor = true;
-            // 
-            // checkBox66
-            // 
-            this.checkBox66.AutoSize = true;
-            this.checkBox66.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBox66.ForeColor = System.Drawing.Color.Blue;
-            this.checkBox66.Location = new System.Drawing.Point(22, 124);
-            this.checkBox66.Name = "checkBox66";
-            this.checkBox66.Size = new System.Drawing.Size(73, 21);
-            this.checkBox66.TabIndex = 16;
-            this.checkBox66.Text = "Salidas";
-            this.checkBox66.UseVisualStyleBackColor = true;
-            // 
             // groupBox7
             // 
             this.groupBox7.Controls.Add(this.checkBox72);
@@ -1107,7 +1084,7 @@
             this.groupBox7.Controls.Add(this.checkBox76);
             this.groupBox7.Controls.Add(this.checkBox77);
             this.groupBox7.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox7.Location = new System.Drawing.Point(3, 762);
+            this.groupBox7.Location = new System.Drawing.Point(3, 783);
             this.groupBox7.Name = "groupBox7";
             this.groupBox7.Size = new System.Drawing.Size(613, 76);
             this.groupBox7.TabIndex = 104;
@@ -1173,7 +1150,7 @@
             this.groupBox8.Controls.Add(this.checkBox80);
             this.groupBox8.Controls.Add(this.checkBox81);
             this.groupBox8.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox8.Location = new System.Drawing.Point(3, 844);
+            this.groupBox8.Location = new System.Drawing.Point(3, 865);
             this.groupBox8.Name = "groupBox8";
             this.groupBox8.Size = new System.Drawing.Size(613, 98);
             this.groupBox8.TabIndex = 105;
@@ -1276,6 +1253,43 @@
             this.checkBox81.Text = "Crear Historia";
             this.checkBox81.UseVisualStyleBackColor = true;
             // 
+            // boton1
+            // 
+            this.boton1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(55)))), ((int)(((byte)(90)))));
+            this.boton1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.boton1.FlatAppearance.BorderSize = 3;
+            this.boton1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.boton1.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
+            this.boton1.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.boton1.Location = new System.Drawing.Point(275, 645);
+            this.boton1.Name = "boton1";
+            this.boton1.Size = new System.Drawing.Size(124, 32);
+            this.boton1.TabIndex = 103;
+            this.boton1.Text = "Grabar";
+            this.boton1.UseVisualStyleBackColor = false;
+            this.boton1.Click += new System.EventHandler(this.btnZamenis1_ButtonClick);
+            // 
+            // panel1
+            // 
+            this.panel1.AutoScroll = true;
+            this.panel1.Controls.Add(this.flowLayoutPanel1);
+            this.panel1.Location = new System.Drawing.Point(12, 108);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(647, 531);
+            this.panel1.TabIndex = 105;
+            // 
+            // checkBox63
+            // 
+            this.checkBox63.AutoSize = true;
+            this.checkBox63.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBox63.ForeColor = System.Drawing.Color.Blue;
+            this.checkBox63.Location = new System.Drawing.Point(22, 119);
+            this.checkBox63.Name = "checkBox63";
+            this.checkBox63.Size = new System.Drawing.Size(77, 21);
+            this.checkBox63.TabIndex = 14;
+            this.checkBox63.Text = "Noticias";
+            this.checkBox63.UseVisualStyleBackColor = true;
+            // 
             // UsuariosSystem2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1297,7 +1311,6 @@
             this.flowLayoutPanel1.ResumeLayout(false);
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
-            this.panel1.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.groupBox6.ResumeLayout(false);
@@ -1306,6 +1319,7 @@
             this.groupBox7.PerformLayout();
             this.groupBox8.ResumeLayout(false);
             this.groupBox8.PerformLayout();
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1403,5 +1417,6 @@
         private System.Windows.Forms.CheckBox checkBox79;
         private System.Windows.Forms.CheckBox checkBox80;
         private System.Windows.Forms.CheckBox checkBox81;
+        private System.Windows.Forms.CheckBox checkBox63;
     }
 }

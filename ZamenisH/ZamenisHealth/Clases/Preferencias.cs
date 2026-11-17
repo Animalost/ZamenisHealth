@@ -12,6 +12,8 @@ namespace ZamenisHealth.Clases
         public static int Bloqueo { get; set; }
         public static string CargosEnfermeros { get; set; }
         public static string TabletaFirmas { get; set; }
+        public static string DatosCitaMouseMove { get; set; }
+        
 
         public static void GetPreferences(string key, string value)
         {
@@ -42,6 +44,10 @@ namespace ZamenisHealth.Clases
             if (key == "TabletaFirmas")
             {
                 TabletaFirmas = value;
+            }
+            if (key == "DatosCitaMouseMove")
+            {
+                DatosCitaMouseMove = value;
             }
         }
         public static void SetPreferences(string key, string value)
@@ -83,6 +89,11 @@ namespace ZamenisHealth.Clases
             {
                 iniFile.Write("PreferenciasConfig", key, value);
                 TabletaFirmas = value;
+            }
+            if (key == "DatosCitaMouseMove")
+            {
+                iniFile.Write("PreferenciasConfig", key, value);
+                DatosCitaMouseMove = value;
             }
         }
     }

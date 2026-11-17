@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Threading.Tasks;
 
 namespace Persistence.CXN.Metodos
 {
@@ -513,16 +514,17 @@ namespace Persistence.CXN.Metodos
                         con.Open();
                     }
 
-                    String Cargar_Hora = "SELECT A.Ase_Descripcion, H.Hor_Pac_Id_Hora, H.Hor_Estado, H.Hor_Id, " +
-                                         "H.Hor_Pac_Id, H.Hor_Pac_Tipo_Serv, H.Hor_Color, H.Hor_BloqEspaces, H.Hor_Imp_Age, " +
-                                         "P.Pac_Doble, P.Pac_PrimerA + ' ' + P.Pac_SegundoA + ' ' + P.Pac_PrimerN + ' ' + P.Pac_SegundoN AS PacNombre " +
-                                         "FROM CXN_HORARIO H " +
-                                         "INNER JOIN CXN_ASEGURADORA A ON H.Hor_Pac_Ase = A.Ase_Identificador " +
-                                         "INNER JOIN CXN_PACIENTES P ON H.Hor_Pac_Id = P.Pac_Id " +
-                                         "WHERE H.Hor_Pac_Cia = @param1 " +
-                                         "AND H.Hor_Pac_Bod = @param2 " +
-                                         "AND H.Hor_Estado <> @param3 " +
-                                         "AND H.Hor_Pac_Fecha_Cita BETWEEN @param4 AND @param5";
+                    String Cargar_Hora = @"SELECT A.Ase_Descripcion, H.Hor_Pac_Id_Hora, H.Hor_Estado, H.Hor_Id, H.Hor_Pac_Cup, H.Hor_Pac_Ase, 
+                                         H.Hor_Pac_Id, H.Hor_Pac_Tipo_Serv, H.Hor_Color, H.Hor_BloqEspaces, H.Hor_Imp_Age, H.Hor_Pac_UsrGraba, H.Hor_Usr_Admisiona, 
+                                         P.Pac_Doble, P.Pac_PrimerA + ' ' + P.Pac_SegundoA + ' ' + P.Pac_PrimerN + ' ' + P.Pac_SegundoN AS PacNombre, 
+                                         P.Pac_Telefono, P.Pac_TelefonoAux, P.Pac_Email, P.Pac_tipoId, P.Pac_IdNum 
+                                         FROM CXN_HORARIO H 
+                                         INNER JOIN CXN_ASEGURADORA A ON H.Hor_Pac_Ase = A.Ase_Identificador 
+                                         INNER JOIN CXN_PACIENTES P ON H.Hor_Pac_Id = P.Pac_Id 
+                                         WHERE H.Hor_Pac_Cia = @param1 
+                                         AND H.Hor_Pac_Bod = @param2 
+                                         AND H.Hor_Estado <> @param3 
+                                         AND H.Hor_Pac_Fecha_Cita BETWEEN @param4 AND @param5";
 
                     using (SqlCommand Carga_Command = new SqlCommand(Cargar_Hora, con))
                     {
@@ -540,6 +542,12 @@ namespace Persistence.CXN.Metodos
 
                                 while (Lectura_Hora.Read() == true)
                                 {
+                                    string service = Lectura_Hora["Hor_Pac_Cup"] != null && !string.IsNullOrEmpty(Lectura_Hora["Hor_Pac_Cup"].ToString()) ?  
+                                        repoConvenios.ServicioNombre(Lectura_Hora["Hor_Pac_Cup"].ToString(), 
+                                                                     Convert.ToInt32(Lectura_Hora["Hor_Pac_Ase"]), 
+                                                                     Lectura_Hora["Hor_Pac_Tipo_Serv"].ToString()).Con_Nombre
+                                        : "";
+
                                     Lista.Add(new CXN_HORARIO
                                     {
                                         PacienteNombre = Lectura_Hora["Hor_Imp_Age"] == DBNull.Value ? "" : Lectura_Hora["Hor_Imp_Age"].ToString(),
@@ -553,6 +561,17 @@ namespace Persistence.CXN.Metodos
                                         Hor_Color = Lectura_Hora["Hor_Color"] == DBNull.Value ? "" : Lectura_Hora["Hor_Color"].ToString(),
                                         Hor_BloqEspaces = Lectura_Hora["Hor_BloqEspaces"] == DBNull.Value ? 0 : Convert.ToInt32(Lectura_Hora["Hor_BloqEspaces"]),
                                         Hor_Valida = Lectura_Hora["Pac_Doble"] == DBNull.Value ? "" : Lectura_Hora["Pac_Doble"].ToString(),
+                                        Hor_GrupoServicios = service,
+                                        PacienteTelefono = Lectura_Hora["Pac_Telefono"] == DBNull.Value ? "" : Lectura_Hora["Pac_Telefono"].ToString(),
+                                        Hor_Pac_UsrGraba = Lectura_Hora["Hor_Pac_UsrGraba"] == DBNull.Value ? "" : Lectura_Hora["Hor_Pac_UsrGraba"].ToString(),
+                                        Hor_Usr_Admisiona = Lectura_Hora["Hor_Usr_Admisiona"] == DBNull.Value ? "" : Lectura_Hora["Hor_Usr_Admisiona"].ToString(),
+                                        DatosPaciente = new CXN_PACIENTES 
+                                        { 
+                                            Pac_Telefono = Lectura_Hora["Pac_Telefono"] == DBNull.Value ? "" : Lectura_Hora["Pac_Telefono"].ToString(),
+                                            Pac_TelefonoAux = Lectura_Hora["Pac_TelefonoAux"] == DBNull.Value ? "" : Lectura_Hora["Pac_TelefonoAux"].ToString(),
+                                            Pac_TipoId = Lectura_Hora["Pac_TipoId"] == DBNull.Value ? "" : Lectura_Hora["Pac_TipoId"].ToString(),
+                                            Pac_IdNum = Lectura_Hora["Pac_IdNum"] == DBNull.Value ? "" : Lectura_Hora["Pac_IdNum"].ToString()
+                                        }
                                     });
                                 }
 
@@ -1899,6 +1918,67 @@ namespace Persistence.CXN.Metodos
             {
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
                 return 0;
+            }
+        }
+        async Task<List<CXN_HISTORIAL_ADMISION>> IAgendaC.HistorialAdmision()
+        {
+            try
+            {
+                var gtData = Conexion.Conection();
+
+                using (SqlConnection con = new SqlConnection(gtData["Conexion"]))
+                {
+                    if (con != null && con.State == ConnectionState.Closed)
+                    {
+                        await con.OpenAsync();
+                    }
+
+                    String Query = @"SELECT TOP 1000 
+                                     HA.Admision, HA.Fecha, HA.Id, HA.Gestion, HA.Usuario, 
+                                     H.Hor_Imp_Age, H.Hor_Pac_Fecha_Cita 
+                                     FROM CXN_HISTORIAL_ADMISION HA 
+                                     INNER JOIN CXN_HORARIO H ON HA.Admision = H.Hor_Id
+                                     ORDER BY HA.Fecha, HA.Admision DESC";
+
+                    using (SqlCommand Commando = new SqlCommand(Query, con))
+                    {
+                        using (SqlDataReader Reader = (await Commando.ExecuteReaderAsync()))
+                        {
+                            if (Reader.HasRows)
+                            {
+                                List<CXN_HISTORIAL_ADMISION> L = new List<CXN_HISTORIAL_ADMISION>();
+
+                                while (await Reader.ReadAsync() == true)
+                                {
+                                    L.Add(new CXN_HISTORIAL_ADMISION
+                                    {
+                                        Admision = Convert.ToInt32(Reader["Admision"]),
+                                        Fecha = Convert.ToDateTime(Reader["Fecha"]),
+                                        Id = Convert.ToInt32(Reader["Id"]),
+                                        Gestion = Reader["Gestion"].ToString(),
+                                        Usuario = Reader["Usuario"].ToString(),
+                                        Horario = new CXN_HORARIO 
+                                        { 
+                                            Hor_Imp_Age = Reader["Hor_Imp_Age"].ToString(),
+                                            Hor_Pac_Fecha_Cita = Convert.ToDateTime(Reader["Hor_Pac_Fecha_Cita"]),
+                                        }
+                                    });
+                                }
+
+                                return L;
+                            }
+                            else
+                            {
+                                return null;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
+                return null;
             }
         }
     }

@@ -3171,7 +3171,7 @@
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="HC_AntAle3">
+                    <Textbox Name="Diagnostico_Rel3">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
@@ -3179,6 +3179,94 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!Diagnostico_Rel3.Value</Value>
+                              <Style>
+                                <FontFamily>Times New Roman</FontFamily>
+                                <FontSize>8pt</FontSize>
+                                <FontWeight>Normal</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Diagnostico_Rel3</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>None</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <ColSpan>5</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.6cm</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox14">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Homologacion CIE11</Value>
+                              <Style>
+                                <FontFamily>Times New Roman</FontFamily>
+                                <FontSize>8pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox14</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>None</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <ColSpan>5</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.6cm</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="HC_AntAle3">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!DXCIE11.Value</Value>
                               <Style>
                                 <FontFamily>Times New Roman</FontFamily>
                                 <FontSize>8pt</FontSize>
@@ -3424,14 +3512,16 @@
                 <TablixMember />
                 <TablixMember />
                 <TablixMember />
+                <TablixMember />
+                <TablixMember />
               </TablixMembers>
             </TablixMember>
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>DataSet_HCMG</DataSetName>
-        <Top>52.57576cm</Top>
+        <Top>54.79826cm</Top>
         <Left>0.16729cm</Left>
-        <Height>6.6cm</Height>
+        <Height>7.8cm</Height>
         <Width>18.16016cm</Width>
         <ZIndex>5</ZIndex>
         <Style>
@@ -3799,7 +3889,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>DataSet_HCMG</DataSetName>
-        <Top>67.05371cm</Top>
+        <Top>71.49871cm</Top>
         <Left>0.16729cm</Left>
         <Height>2.4cm</Height>
         <Width>18.16016cm</Width>
@@ -3831,7 +3921,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox314</rd:DefaultName>
-        <Top>72.04287cm</Top>
+        <Top>76.80537cm</Top>
         <Left>1.4771cm</Left>
         <Height>0.52062cm</Height>
         <Width>4.74946cm</Width>
@@ -3851,7 +3941,7 @@
         <Value>=First(Fields!Firma.Value, "DataSet_HCMG")</Value>
         <MIMEType>image/jpeg</MIMEType>
         <Sizing>Fit</Sizing>
-        <Top>70.71044cm</Top>
+        <Top>75.47294cm</Top>
         <Left>1.73973cm</Left>
         <Height>1.15604cm</Height>
         <Width>3.9902cm</Width>
@@ -3883,7 +3973,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox314</rd:DefaultName>
-        <Top>72.04287cm</Top>
+        <Top>76.80537cm</Top>
         <Left>12.2562cm</Left>
         <Height>0.52062cm</Height>
         <Width>4.74946cm</Width>
@@ -3903,7 +3993,7 @@
         <Value>=First(Fields!Logo.Value, "DataSet_HCMG")</Value>
         <MIMEType>image/jpeg</MIMEType>
         <Sizing>Fit</Sizing>
-        <Top>69.76703cm</Top>
+        <Top>74.52953cm</Top>
         <Left>13.32745cm</Left>
         <Height>2.16146cm</Height>
         <Width>2.50542cm</Width>
@@ -7131,7 +7221,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>DataSet_HCMG</DataSetName>
-        <Top>59.35159cm</Top>
+        <Top>62.84409cm</Top>
         <Left>0.1673cm</Left>
         <Height>1.8cm</Height>
         <Width>18.16016cm</Width>
@@ -7400,7 +7490,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>DataSet_HCMG</DataSetName>
-        <Top>61.22214cm</Top>
+        <Top>65.03214cm</Top>
         <Left>0.16729cm</Left>
         <Height>1.8cm</Height>
         <Width>18.16016cm</Width>
@@ -7669,7 +7759,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>DataSet_HCMG</DataSetName>
-        <Top>63.0927cm</Top>
+        <Top>67.2202cm</Top>
         <Left>0.1673cm</Left>
         <Height>1.8cm</Height>
         <Width>18.16016cm</Width>
@@ -7938,7 +8028,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>DataSet_HCMG</DataSetName>
-        <Top>64.99853cm</Top>
+        <Top>69.44353cm</Top>
         <Left>0.16729cm</Left>
         <Height>1.8cm</Height>
         <Width>18.16016cm</Width>
@@ -9880,7 +9970,7 @@
         </Style>
       </Tablix>
     </ReportItems>
-    <Height>28.76622in</Height>
+    <Height>30.5683in</Height>
     <Style />
   </Body>
   <Width>7.2814in</Width>
@@ -11089,6 +11179,10 @@
         </Field>
         <Field Name="RegistroMedico">
           <DataField>RegistroMedico</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DXCIE11">
+          <DataField>DXCIE11</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>

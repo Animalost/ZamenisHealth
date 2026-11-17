@@ -77,7 +77,8 @@ namespace Persistence.CXN.Metodos
                                     Com_Prefijo_Soporte_NC = Reader["Com_Prefijo_Soporte"].ToString(),
                                     Com_Resolucion_Soporte = Reader["Com_Resolucion_Soporte"].ToString(),
                                     Diferenciador = Reader["Diferenciador"].ToString(),
-                                    Com_Cierres = Convert.ToInt32(Reader["Com_Cierres"])
+                                    Com_Cierres = Convert.ToInt32(Reader["Com_Cierres"]),
+                                    CUCON = Reader["CUCON"].ToString()
                                 };
 
                                 return L;
@@ -164,6 +165,7 @@ namespace Persistence.CXN.Metodos
                                     Com_Resolucion_Soporte = Reader["Com_Resolucion_Soporte"].ToString(),
                                     Diferenciador = Reader["Diferenciador"].ToString(),
                                     Com_Cierres = Convert.ToInt32(Reader["Com_Cierres"]),
+                                    CUCON = Reader["CUCON"].ToString()
                                 };
 
                                 return L;

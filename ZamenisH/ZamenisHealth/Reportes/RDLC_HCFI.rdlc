@@ -2515,7 +2515,7 @@
   <Width>7.2667in</Width>
   <Page>
     <PageHeader>
-      <Height>6.82625cm</Height>
+      <Height>7.48771cm</Height>
       <PrintOnFirstPage>true</PrintOnFirstPage>
       <PrintOnLastPage>true</PrintOnLastPage>
       <ReportItems>
@@ -3515,7 +3515,7 @@
           </Style>
         </Textbox>
         <Line Name="Line1">
-          <Top>6.57365cm</Top>
+          <Top>7.20865cm</Top>
           <Left>0.0325cm</Left>
           <Height>0cm</Height>
           <Width>18.39391cm</Width>
@@ -3640,6 +3640,44 @@
           <Height>0.38833cm</Height>
           <Width>15.39812cm</Width>
           <ZIndex>37</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+          </Style>
+        </Textbox>
+        <Textbox Name="Textbox148">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>Homologacion CIE11: </Value>
+                  <Style>
+                    <FontFamily>Times New Roman</FontFamily>
+                    <FontSize>8pt</FontSize>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
+                </TextRun>
+                <TextRun>
+                  <Value>=First(Fields!DXCIE11.Value, "DataSet_HCFI")</Value>
+                  <Style>
+                    <FontFamily>Times New Roman</FontFamily>
+                    <FontSize>8pt</FontSize>
+                    <FontWeight>Normal</FontWeight>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style />
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>Textbox19</rd:DefaultName>
+          <Top>6.46838cm</Top>
+          <Left>0.0325cm</Left>
+          <Height>0.38833cm</Height>
+          <Width>18.18677cm</Width>
+          <ZIndex>38</ZIndex>
           <Style>
             <Border>
               <Style>None</Style>
@@ -4200,6 +4238,10 @@
         </Field>
         <Field Name="RegistroMedico">
           <DataField>RegistroMedico</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DXCIE11">
+          <DataField>DXCIE11</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>

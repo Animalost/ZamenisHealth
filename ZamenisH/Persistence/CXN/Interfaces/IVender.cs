@@ -23,7 +23,6 @@ namespace Persistence.CXN.Interfaces
         List<CXN_VENTAS> getPrevios(int idPac);
         bool ConsecutivoActualiza(int Cia, string TipoDoc, int NuevoCons);
         List<CXN_INVENTARIO> getProductbyName(string Name);
-        Dictionary<string, string> getListado();
         string getTipoDoc(string Tipo);
         bool ValidaEmail(string Val_Email);
         Dictionary<string, string> Claves(string nameClient, int Prestador);

@@ -27,7 +27,7 @@ namespace Persistence.CXN.Interfaces
         bool updateRadicar(int Orden, int Cia);
         string SearchTypeOrden(int Orden, int Cia);
         void consumirAutorizacion(int Paciente, string Autorizacion, string Estado);
-        List<CXN_OM> getOrdenes(int Paciente, string Especialidad);
+        List<CXN_OM> getOrdenes(int Paciente, string Especialidad, DateTime Desde, DateTime Hasta);
         int getIdOMFHIR(int Paciente, DateTime Fecha);
     }
 }

@@ -22,5 +22,6 @@ namespace Persistence.CXN.Interfaces
         List<CXN_NOTASMED> VerCitas(int Paciente);
         CXN_NOTASMED VerPosisionHerida(int Id);
         List<CXN_NOTASMED> LoadHistorialHeridas(int Paciente);
+        CXN_CIE11 DiagnosticosCIE11(int Paciente);
     }
 }

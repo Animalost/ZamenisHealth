@@ -98,18 +98,22 @@
             this.label20 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
             this.panel6 = new System.Windows.Forms.Panel();
-            this.panel7 = new System.Windows.Forms.Panel();
-            this.panel8 = new System.Windows.Forms.Panel();
-            this.panel9 = new System.Windows.Forms.Panel();
-            this.panel10 = new System.Windows.Forms.Panel();
             this.label22 = new System.Windows.Forms.Label();
             this.label33 = new System.Windows.Forms.Label();
+            this.panel8 = new System.Windows.Forms.Panel();
             this.label34 = new System.Windows.Forms.Label();
             this.label35 = new System.Windows.Forms.Label();
+            this.panel7 = new System.Windows.Forms.Panel();
             this.label37 = new System.Windows.Forms.Label();
             this.label39 = new System.Windows.Forms.Label();
+            this.panel9 = new System.Windows.Forms.Panel();
             this.label40 = new System.Windows.Forms.Label();
             this.label41 = new System.Windows.Forms.Label();
+            this.panel10 = new System.Windows.Forms.Panel();
+            this.boton6 = new FormAndControls.Controles.Boton();
+            this.label95 = new System.Windows.Forms.Label();
+            this.textBox53 = new System.Windows.Forms.TextBox();
+            this.textBox54 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -120,8 +124,8 @@
             this.panel4.SuspendLayout();
             this.panel5.SuspendLayout();
             this.panel6.SuspendLayout();
-            this.panel7.SuspendLayout();
             this.panel8.SuspendLayout();
+            this.panel7.SuspendLayout();
             this.panel9.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -873,6 +877,10 @@
             // 
             // panel5
             // 
+            this.panel5.Controls.Add(this.boton6);
+            this.panel5.Controls.Add(this.label95);
+            this.panel5.Controls.Add(this.textBox53);
+            this.panel5.Controls.Add(this.textBox54);
             this.panel5.Controls.Add(this.label20);
             this.panel5.Controls.Add(this.label21);
             this.panel5.Controls.Add(this.textBox20);
@@ -884,7 +892,7 @@
             this.panel5.Controls.Add(this.label23);
             this.panel5.Location = new System.Drawing.Point(3, 601);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(872, 114);
+            this.panel5.Size = new System.Drawing.Size(872, 170);
             this.panel5.TabIndex = 2;
             // 
             // label20
@@ -921,56 +929,10 @@
             this.panel6.Controls.Add(this.label5);
             this.panel6.Controls.Add(this.label6);
             this.panel6.Controls.Add(this.richTextBox2);
-            this.panel6.Location = new System.Drawing.Point(3, 721);
+            this.panel6.Location = new System.Drawing.Point(3, 777);
             this.panel6.Name = "panel6";
             this.panel6.Size = new System.Drawing.Size(872, 354);
             this.panel6.TabIndex = 3;
-            // 
-            // panel7
-            // 
-            this.panel7.Controls.Add(this.label37);
-            this.panel7.Controls.Add(this.label39);
-            this.panel7.Controls.Add(this.richTextBox5);
-            this.panel7.Controls.Add(this.label10);
-            this.panel7.Controls.Add(this.label9);
-            this.panel7.Controls.Add(this.richTextBox6);
-            this.panel7.Location = new System.Drawing.Point(3, 1441);
-            this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(872, 354);
-            this.panel7.TabIndex = 4;
-            // 
-            // panel8
-            // 
-            this.panel8.Controls.Add(this.label34);
-            this.panel8.Controls.Add(this.label35);
-            this.panel8.Controls.Add(this.richTextBox4);
-            this.panel8.Controls.Add(this.label8);
-            this.panel8.Controls.Add(this.label7);
-            this.panel8.Controls.Add(this.richTextBox3);
-            this.panel8.Location = new System.Drawing.Point(3, 1081);
-            this.panel8.Name = "panel8";
-            this.panel8.Size = new System.Drawing.Size(872, 354);
-            this.panel8.TabIndex = 5;
-            // 
-            // panel9
-            // 
-            this.panel9.Controls.Add(this.label40);
-            this.panel9.Controls.Add(this.richTextBox7);
-            this.panel9.Controls.Add(this.label41);
-            this.panel9.Controls.Add(this.label11);
-            this.panel9.Controls.Add(this.richTextBox8);
-            this.panel9.Controls.Add(this.label12);
-            this.panel9.Location = new System.Drawing.Point(3, 1801);
-            this.panel9.Name = "panel9";
-            this.panel9.Size = new System.Drawing.Size(872, 354);
-            this.panel9.TabIndex = 6;
-            // 
-            // panel10
-            // 
-            this.panel10.Location = new System.Drawing.Point(3, 2161);
-            this.panel10.Name = "panel10";
-            this.panel10.Size = new System.Drawing.Size(872, 22);
-            this.panel10.TabIndex = 7;
             // 
             // label22
             // 
@@ -998,6 +960,19 @@
             this.label33.Text = "Diagnostico Junta Medica";
             this.label33.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // panel8
+            // 
+            this.panel8.Controls.Add(this.label34);
+            this.panel8.Controls.Add(this.label35);
+            this.panel8.Controls.Add(this.richTextBox4);
+            this.panel8.Controls.Add(this.label8);
+            this.panel8.Controls.Add(this.label7);
+            this.panel8.Controls.Add(this.richTextBox3);
+            this.panel8.Location = new System.Drawing.Point(3, 1137);
+            this.panel8.Name = "panel8";
+            this.panel8.Size = new System.Drawing.Size(872, 354);
+            this.panel8.TabIndex = 5;
+            // 
             // label34
             // 
             this.label34.BackColor = System.Drawing.Color.DarkGray;
@@ -1023,6 +998,19 @@
             this.label35.TabIndex = 221;
             this.label35.Text = "Conducta Junta Medica";
             this.label35.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // panel7
+            // 
+            this.panel7.Controls.Add(this.label37);
+            this.panel7.Controls.Add(this.label39);
+            this.panel7.Controls.Add(this.richTextBox5);
+            this.panel7.Controls.Add(this.label10);
+            this.panel7.Controls.Add(this.label9);
+            this.panel7.Controls.Add(this.richTextBox6);
+            this.panel7.Location = new System.Drawing.Point(3, 1497);
+            this.panel7.Name = "panel7";
+            this.panel7.Size = new System.Drawing.Size(872, 354);
+            this.panel7.TabIndex = 4;
             // 
             // label37
             // 
@@ -1050,6 +1038,19 @@
             this.label39.Text = "Observaciones Junta Medica";
             this.label39.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // panel9
+            // 
+            this.panel9.Controls.Add(this.label40);
+            this.panel9.Controls.Add(this.richTextBox7);
+            this.panel9.Controls.Add(this.label41);
+            this.panel9.Controls.Add(this.label11);
+            this.panel9.Controls.Add(this.richTextBox8);
+            this.panel9.Controls.Add(this.label12);
+            this.panel9.Location = new System.Drawing.Point(3, 1857);
+            this.panel9.Name = "panel9";
+            this.panel9.Size = new System.Drawing.Size(872, 354);
+            this.panel9.TabIndex = 6;
+            // 
             // label40
             // 
             this.label40.BackColor = System.Drawing.Color.DarkGray;
@@ -1075,6 +1076,63 @@
             this.label41.TabIndex = 225;
             this.label41.Text = "Pronostico Junta Medica";
             this.label41.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // panel10
+            // 
+            this.panel10.Location = new System.Drawing.Point(3, 2217);
+            this.panel10.Name = "panel10";
+            this.panel10.Size = new System.Drawing.Size(872, 22);
+            this.panel10.TabIndex = 7;
+            // 
+            // boton6
+            // 
+            this.boton6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(55)))), ((int)(((byte)(90)))));
+            this.boton6.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.boton6.FlatAppearance.BorderSize = 3;
+            this.boton6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.boton6.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
+            this.boton6.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.boton6.Location = new System.Drawing.Point(738, 127);
+            this.boton6.Name = "boton6";
+            this.boton6.Size = new System.Drawing.Size(124, 32);
+            this.boton6.TabIndex = 344;
+            this.boton6.Text = "Borrar";
+            this.boton6.UseVisualStyleBackColor = false;
+            this.boton6.Click += new System.EventHandler(this.boton6_Click);
+            // 
+            // label95
+            // 
+            this.label95.AutoSize = true;
+            this.label95.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label95.Location = new System.Drawing.Point(8, 110);
+            this.label95.Name = "label95";
+            this.label95.Size = new System.Drawing.Size(304, 17);
+            this.label95.TabIndex = 345;
+            this.label95.Text = "Diagnostico Principal Clasificacion CIE11";
+            // 
+            // textBox53
+            // 
+            this.textBox53.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.textBox53.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.textBox53.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox53.ForeColor = System.Drawing.Color.Purple;
+            this.textBox53.Location = new System.Drawing.Point(11, 130);
+            this.textBox53.Name = "textBox53";
+            this.textBox53.ReadOnly = true;
+            this.textBox53.Size = new System.Drawing.Size(131, 26);
+            this.textBox53.TabIndex = 346;
+            this.textBox53.DoubleClick += new System.EventHandler(this.textBox53_DoubleClick);
+            // 
+            // textBox54
+            // 
+            this.textBox54.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.textBox54.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox54.ForeColor = System.Drawing.Color.Purple;
+            this.textBox54.Location = new System.Drawing.Point(148, 130);
+            this.textBox54.Name = "textBox54";
+            this.textBox54.ReadOnly = true;
+            this.textBox54.Size = new System.Drawing.Size(584, 26);
+            this.textBox54.TabIndex = 347;
             // 
             // Historia_JM_Completar
             // 
@@ -1106,10 +1164,10 @@
             this.panel5.PerformLayout();
             this.panel6.ResumeLayout(false);
             this.panel6.PerformLayout();
-            this.panel7.ResumeLayout(false);
-            this.panel7.PerformLayout();
             this.panel8.ResumeLayout(false);
             this.panel8.PerformLayout();
+            this.panel7.ResumeLayout(false);
+            this.panel7.PerformLayout();
             this.panel9.ResumeLayout(false);
             this.panel9.PerformLayout();
             this.ResumeLayout(false);
@@ -1199,5 +1257,9 @@
         private System.Windows.Forms.Label label39;
         private System.Windows.Forms.Label label40;
         private System.Windows.Forms.Label label41;
+        private FormAndControls.Controles.Boton boton6;
+        private System.Windows.Forms.Label label95;
+        public System.Windows.Forms.TextBox textBox53;
+        public System.Windows.Forms.TextBox textBox54;
     }
 }

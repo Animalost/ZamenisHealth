@@ -24,6 +24,7 @@ namespace Domain.CXN
 
     public class ComplementPsiquiatria : CXN_CIA
     {
+        public string DXCIE11 { get; set; }        
         public string Profesional { get; set; }
         public string IddProfesional { get; set; }
         public DateTime FechaNtoPac { get; set; }

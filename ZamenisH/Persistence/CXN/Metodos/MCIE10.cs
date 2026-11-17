@@ -445,5 +445,150 @@ namespace Persistence.CXN.Metodos
                 return null;
             }
         }
+
+        //CIE 11 - OMS
+        bool ICIE10.InsertaCIE11(CXN_CIE11 C)
+        {
+            try
+            {
+                Dictionary<string, string> getData = Conexion.Conection();
+
+                using (SqlConnection con = new SqlConnection(getData["Conexion"]))
+                {
+                    if (con != null && con.State == ConnectionState.Closed)
+                    {
+                        con.Open();
+                    }
+
+                    SqlCommand cmd = new SqlCommand(@"INSERT INTO CXN_CIE11 (Admision, " +
+                                                                  "Paciente, " +
+                                                                  "Codigo, " +
+                                                                  "Descripcion, " +
+                                                                  "Identificador, " +
+                                                                  "Capitulo, " +
+                                                                  "Terminal, " +
+                                                                  "Puntacion) " +
+                                         "values                  (@param1, " +
+                                                                  "@param2, " +
+                                                                  "@param3, " +
+                                                                  "@param4, " +
+                                                                  "@param5, " +
+                                                                  "@param6, " +
+                                                                  "@param7, " +
+                                                                  "@param8)", con);
+
+                    cmd.Parameters.AddWithValue("@param1", C.Admision);
+                    cmd.Parameters.AddWithValue("@param2", C.Paciente);
+                    cmd.Parameters.AddWithValue("@param3", C.Codigo);
+                    cmd.Parameters.AddWithValue("@param4", C.Descripcion);
+                    cmd.Parameters.AddWithValue("@param5", C.Identificador);
+                    cmd.Parameters.AddWithValue("@param6", C.Capitulo);
+                    cmd.Parameters.AddWithValue("@param7", C.Terminal);
+                    cmd.Parameters.AddWithValue("@param8", C.Puntacion);
+                    return cmd.ExecuteNonQuery() > 0 ? true : false;
+                }
+            }
+            catch (Exception ex)
+            {
+                TXTException T = new TXTException { FechaHora = System.DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
+                return false;
+            }
+        }
+        bool ICIE10.UpdateCIE11(CXN_CIE11 C)
+        {
+            try
+            {
+                Dictionary<string, string> getData = Conexion.Conection();
+
+                using (SqlConnection con = new SqlConnection(getData["Conexion"]))
+                {
+                    if (con != null && con.State == ConnectionState.Closed)
+                    {
+                        con.Open();
+                    }
+
+                    string Busqueda = @"UPDATE CXN_CIE11 
+                                        SET Codigo = @param1, 
+                                          Descripcion = @param2, 
+                                          Identificador = @param3, 
+                                          Capitulo = @param4, 
+                                          Terminal = @param5, 
+                                          Puntacion = @param6 
+                                        WHERE Admision = @param7";
+
+                    using (SqlCommand Accion = new SqlCommand(Busqueda, con))
+                    {
+                        Accion.Parameters.AddWithValue("@param1", C.Codigo);
+                        Accion.Parameters.AddWithValue("@param2", C.Descripcion);
+                        Accion.Parameters.AddWithValue("@param3", C.Identificador);
+                        Accion.Parameters.AddWithValue("@param4", C.Capitulo);
+                        Accion.Parameters.AddWithValue("@param5", C.Terminal);
+                        Accion.Parameters.AddWithValue("@param6", C.Puntacion);
+                        Accion.Parameters.AddWithValue("@param7", C.Admision);
+
+                        return Accion.ExecuteNonQuery() > 0 ? true : false;
+                    }                    
+                }
+            }
+            catch (Exception ex)
+            {
+                TXTException T = new TXTException { FechaHora = System.DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
+                return false;
+            }
+        }
+        CXN_CIE11 ICIE10.GetCIE11ByAdm(int Admision)
+        {
+            try
+            {
+                Dictionary<string, string> getData = Conexion.Conection();
+
+                using (SqlConnection con = new SqlConnection(getData["Conexion"]))
+                {
+                    if (con != null && con.State == ConnectionState.Closed)
+                    {
+                        con.Open();
+                    }
+                    String Cargar_Hora = "SELECT TOP 1 * " +
+                                         "FROM CXN_CIE11 " +
+                                         "WHERE Admision = @param1 " +
+                                         "ORDER BY IdCIE11 DESC";
+
+                    using (SqlCommand Carga_Command = new SqlCommand(Cargar_Hora, con))
+                    {
+                        Carga_Command.Parameters.AddWithValue("@param1", Admision);
+
+                        using (SqlDataReader Lectura_Hora = (Carga_Command.ExecuteReader()))
+                        {
+                            if (Lectura_Hora.Read() == true)
+                            {
+                                CXN_CIE11 HC = new CXN_CIE11
+                                {
+                                    Admision = Convert.ToInt32(Lectura_Hora["Admision"]),
+                                    Capitulo = Lectura_Hora["Capitulo"] == DBNull.Value ? "" : Lectura_Hora["Capitulo"].ToString(),
+                                    Codigo = Lectura_Hora["Codigo"] == DBNull.Value ? "" : Lectura_Hora["Codigo"].ToString(),
+                                    Descripcion = Lectura_Hora["Descripcion"] == DBNull.Value ? "" : Lectura_Hora["Descripcion"].ToString(),
+                                    IdCIE11 = Convert.ToInt32(Lectura_Hora["IdCIE11"]),
+                                    Identificador = Lectura_Hora["Identificador"] == DBNull.Value ? "" : Lectura_Hora["Identificador"].ToString(),
+                                    Paciente = Convert.ToInt32(Lectura_Hora["Paciente"]),
+                                    Puntacion = Lectura_Hora["Puntacion"] == DBNull.Value ? "" : Lectura_Hora["Puntacion"].ToString(),
+                                    Terminal = Lectura_Hora["Terminal"] == DBNull.Value ? "" : Lectura_Hora["Terminal"].ToString()
+                                };
+
+                                return HC;
+                            }
+                            else
+                            {
+                                return null;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                TXTException T = new TXTException { FechaHora = System.DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
+                return null;
+            }
+        }
     }
 }

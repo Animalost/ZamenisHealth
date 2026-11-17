@@ -1058,6 +1058,16 @@ namespace ZamenisHealth.Recepcion.Admision
 
                 bool _updateCita = horarioController.updateCitaAdmisionar(H);
 
+                CXN_HISTORIAL_ADMISION HistorialAdmision = new CXN_HISTORIAL_ADMISION
+                {
+                    Admision = H.Hor_Id,
+                    Fecha = DateTime.Now,
+                    Usuario = Contenedor.UsuarioLogueado,
+                    Gestion = "CITA ADMISIONADA"
+                };
+
+                horarioController.AddHistorialAdmision(HistorialAdmision);
+
                 #region 2 AUTORIACIONES
                 //Actualizo si es inicio o nuevo
                 if (comboBox12.Text == "Paciente Nuevo" && comboBox12.Visible == true)

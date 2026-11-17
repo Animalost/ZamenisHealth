@@ -73,6 +73,9 @@
             this.label25 = new System.Windows.Forms.Label();
             this.comboBox17 = new System.Windows.Forms.ComboBox();
             this.label26 = new System.Windows.Forms.Label();
+            this.label27 = new System.Windows.Forms.Label();
+            this.comboBox18 = new System.Windows.Forms.ComboBox();
+            this.label28 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label2
@@ -581,12 +584,49 @@
             this.label26.TabIndex = 66;
             this.label26.Text = "Reporte IHCE";
             // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label27.ForeColor = System.Drawing.Color.Blue;
+            this.label27.Location = new System.Drawing.Point(571, 541);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(32, 13);
+            this.label27.TabIndex = 70;
+            this.label27.Text = "Local";
+            // 
+            // comboBox18
+            // 
+            this.comboBox18.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox18.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.comboBox18.FormattingEnabled = true;
+            this.comboBox18.Items.AddRange(new object[] {
+            "",
+            "SI",
+            "NO"});
+            this.comboBox18.Location = new System.Drawing.Point(383, 557);
+            this.comboBox18.Name = "comboBox18";
+            this.comboBox18.Size = new System.Drawing.Size(220, 28);
+            this.comboBox18.TabIndex = 69;
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.Location = new System.Drawing.Point(380, 541);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(83, 13);
+            this.label28.TabIndex = 68;
+            this.label28.Text = "ToolTip Agenda";
+            // 
             // ConfigGen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(612, 591);
+            this.Controls.Add(this.label27);
+            this.Controls.Add(this.comboBox18);
+            this.Controls.Add(this.label28);
             this.Controls.Add(this.comboBox17);
             this.Controls.Add(this.label26);
             this.Controls.Add(this.label24);
@@ -685,5 +725,8 @@
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.ComboBox comboBox17;
         private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.ComboBox comboBox18;
+        private System.Windows.Forms.Label label28;
     }
 }

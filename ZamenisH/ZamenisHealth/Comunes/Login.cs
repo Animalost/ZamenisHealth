@@ -18,7 +18,6 @@ namespace ZamenisHealth.Comunes
         private static readonly ILogin repositorioLogin = new MLogin();                
 
         private MensajesGeneral MG;
-        private string destiny;
         int Contador = 0;        
 
         public Login()
@@ -77,7 +76,6 @@ namespace ZamenisHealth.Comunes
 
             textBox1.Focus();
         }       
-
         private void button2_Click(object sender, EventArgs e)
         {
             try
@@ -90,7 +88,6 @@ namespace ZamenisHealth.Comunes
                 Application.Exit();
             }
         }
-
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
             try
@@ -109,12 +106,10 @@ namespace ZamenisHealth.Comunes
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         private void button1_Click(object sender, EventArgs e)
         {            
             Acceder();            
         }
-
         void Acceder()
         {
             try
@@ -134,19 +129,8 @@ namespace ZamenisHealth.Comunes
                         Contenedor Content = new Contenedor();
                         Content.UsuarioLogueado1 = textBox1.Text;
                         Content.PassChange = textBox2.Text;
-                        Content.label1.Text = LogAdminForUser.Log_PrimerA + " " + LogAdminForUser.Log_SegundoA + " " + LogAdminForUser.Log_PrimerN + " " + LogAdminForUser.Log_SegundoN;
-                        Content.label6.Text = "Usuario, " + Content.UsuarioLogueado1 + ": SUPERADMIN";
-
-                        if (LogAdminForUser.Log_Rol_Admin.Equals("A")) { Content.toolStripButton2.Visible = true; } else { Content.toolStripButton2.Visible = false; }
-                        if (LogAdminForUser.Log_Rol_Recepcion.Equals("A")) { Content.toolStripButton10.Visible = true; } else { Content.toolStripButton10.Visible = false; }
-                        if (LogAdminForUser.Log_Rol_Enfermero.Equals("A")) { Content.toolStripButton8.Visible = true; } else { Content.toolStripButton8.Visible = false; }
-                        if (LogAdminForUser.Log_Rol_AdminI.Equals("A")) { Content.toolStripButton11.Visible = true; } else { Content.toolStripButton11.Visible = false; }
-                        if (LogAdminForUser.Log_Rol_MedGen.Equals("A")) { Content.toolStripButton7.Visible = true; } else { Content.toolStripButton7.Visible = false; }
-                        if (LogAdminForUser.Log_Rol_Gerencial.Equals("A")) { Content.toolStripButton9.Visible = true; } else { Content.toolStripButton9.Visible = false; }
-                        if (LogAdminForUser.Log_Rol_Psicologia.Equals("A")) { Content.toolStripButton3.Visible = true; } else { Content.toolStripButton3.Visible = false; }
-                        if (LogAdminForUser.Log_Rol_TO.Equals("A")) { Content.toolStripButton5.Visible = true; } else { Content.toolStripButton5.Visible = false; }
-                        if (LogAdminForUser.Log_Rol_TF.Equals("A")) { Content.toolStripButton4.Visible = true; } else { Content.toolStripButton4.Visible = false; }
-                        if (LogAdminForUser.Log_Rol_FI.Equals("A")) { Content.toolStripButton6.Visible = true; } else { Content.toolStripButton6.Visible = false; }
+                        Content.Tittle = LogAdminForUser.Log_PrimerA + " " + LogAdminForUser.Log_SegundoA + " " + LogAdminForUser.Log_PrimerN + " " + LogAdminForUser.Log_SegundoN;
+                        Content.SubTittle = "Usuario, " + Content.UsuarioLogueado1 + ": SUPERADMIN";
 
                         this.Dispose();
                         this.Close();
@@ -186,19 +170,8 @@ namespace ZamenisHealth.Comunes
                             Contenedor Content = new Contenedor();
                             Content.UsuarioLogueado1 = textBox1.Text;
                             Content.PassChange = textBox2.Text;
-                            Content.label1.Text = LogAdminForUser.Log_PrimerA + " " + LogAdminForUser.Log_SegundoA + " " + LogAdminForUser.Log_PrimerN + " " + LogAdminForUser.Log_SegundoN;
-                            Content.label6.Text = "Usuario, " + Content.UsuarioLogueado1;
-
-                            if (Log.Log_Rol_Admin.Equals("A")) { Content.toolStripButton2.Visible = true; } else { Content.toolStripButton2.Visible = false; }
-                            if (Log.Log_Rol_Recepcion.Equals("A")) { Content.toolStripButton10.Visible = true; } else { Content.toolStripButton10.Visible = false; }
-                            if (Log.Log_Rol_Enfermero.Equals("A")) { Content.toolStripButton8.Visible = true; } else { Content.toolStripButton8.Visible = false; }
-                            if (Log.Log_Rol_AdminI.Equals("A")) { Content.toolStripButton11.Visible = true; } else { Content.toolStripButton11.Visible = false; }
-                            if (Log.Log_Rol_MedGen.Equals("A")) { Content.toolStripButton7.Visible = true; } else { Content.toolStripButton7.Visible = false; }
-                            if (Log.Log_Rol_Gerencial.Equals("A")) { Content.toolStripButton9.Visible = true; } else { Content.toolStripButton9.Visible = false; }
-                            if (Log.Log_Rol_Psicologia.Equals("A")) { Content.toolStripButton3.Visible = true; } else { Content.toolStripButton3.Visible = false; }
-                            if (Log.Log_Rol_TO.Equals("A")) { Content.toolStripButton5.Visible = true; } else { Content.toolStripButton5.Visible = false; }
-                            if (Log.Log_Rol_TF.Equals("A")) { Content.toolStripButton4.Visible = true; } else { Content.toolStripButton4.Visible = false; }
-                            if (Log.Log_Rol_FI.Equals("A")) { Content.toolStripButton6.Visible = true; } else { Content.toolStripButton6.Visible = false; }
+                            Content.Tittle = LogAdminForUser.Log_PrimerA + " " + LogAdminForUser.Log_SegundoA + " " + LogAdminForUser.Log_PrimerN + " " + LogAdminForUser.Log_SegundoN;
+                            Content.SubTittle = "Usuario, " + Content.UsuarioLogueado1;
 
                             DateTime Hoy = DateTime.Now.Date;
 
@@ -259,7 +232,6 @@ namespace ZamenisHealth.Comunes
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = Contenedor.UsuarioLogueado }; OverridesExtern.GenerarTXTException(T);
             }
         }
-
         private async void label6_Click(object sender, EventArgs e)
         {           
             try
@@ -285,7 +257,6 @@ namespace ZamenisHealth.Comunes
                 MG.ShowDialog();
             }            
         }       
-
         private void Login_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyData == Keys.Enter)
@@ -293,7 +264,6 @@ namespace ZamenisHealth.Comunes
                 Acceder();
             }
         }
-
         private void label7_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(textBox1.Text))

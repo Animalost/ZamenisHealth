@@ -170,6 +170,7 @@
     <Compile Include="CXN\CXN_CATEGORIA.cs" />
     <Compile Include="CXN\CXN_CIA.cs" />
     <Compile Include="CXN\CXN_CIE10.cs" />
+    <Compile Include="CXN\CXN_CIE11.cs" />
     <Compile Include="CXN\CXN_CMAN.cs" />
     <Compile Include="CXN\CXN_COD_CAR.cs" />
     <Compile Include="CXN\CXN_CONDICIONES.cs" />
@@ -211,6 +212,7 @@
     <Compile Include="CXN\CXN_HCRADIOLOGIA.cs" />
     <Compile Include="CXN\CXN_HCTF.cs" />
     <Compile Include="CXN\CXN_HCTO.cs" />
+    <Compile Include="CXN\CXN_HISTORIAL_ADMISION.cs" />
     <Compile Include="CXN\CXN_HISTORYIA.cs" />
     <Compile Include="CXN\CXN_HORARIO.cs" />
     <Compile Include="CXN\CXN_IMAGENES.cs" />
@@ -228,6 +230,7 @@
     <Compile Include="CXN\CXN_MESSENGER.cs" />
     <Compile Include="CXN\CXN_NOTAS.cs" />
     <Compile Include="CXN\CXN_NOTASMED.cs" />
+    <Compile Include="CXN\CXN_NOTICIAS.cs" />
     <Compile Include="CXN\CXN_OCUPACION.cs" />
     <Compile Include="CXN\CXN_OM.cs" />
     <Compile Include="CXN\CXN_OPEND.cs" />

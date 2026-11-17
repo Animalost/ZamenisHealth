@@ -1,19 +1,26 @@
 ﻿using Domain;
 using Domain.CXN;
+
 using FormAndControls;
+
 using Microsoft.Reporting.WinForms;
+
 using Persistence;
 using Persistence.CXN.Interfaces;
 using Persistence.CXN.Metodos;
+
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Drawing.Printing;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+
 using ZamenisHealth.Comunes;
+
 using ZXing;
 using ZXing.Common;
 
@@ -96,7 +103,18 @@ namespace ZamenisHealth.Recepcion.Extras
                     _datosAdmision.ExtraLogo = adm;
                     _datosAdmision.ExtraLogo2 = doc;
 
-                    string urlPQR = repositorioConfiguracion.getListado()["URLPQRSF"];
+                    string urlPQR = "";
+
+                    List <CXN_IMAGEN_SYSTEM> d = repositorioConfiguracion.getConfSystem();
+                    if (d != null)
+                    {
+                        CXN_IMAGEN_SYSTEM d2 = d.FirstOrDefault(x => x.Tab_Nombre == "URLPQRSF");
+                        if (d2 != null)
+                        {
+                            urlPQR = d2.Tab_Clave;
+                        }
+                    }
+
                     Image PQR = FormAndControls.ClasesExtra.Generales.GenerateQRCode(urlPQR);
 
                     //Cancelar Citas Web

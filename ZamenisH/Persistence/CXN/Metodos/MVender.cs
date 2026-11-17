@@ -573,10 +573,6 @@ namespace Persistence.CXN.Metodos
         {
             return repoInventario.getProductbyName(Name);
         }
-        Dictionary<string, string> IVender.getListado()
-        {
-            return repoSystem.getListado();
-        }
         string IVender.getTipoDoc(string Tipo)
         {
             return repoPacientes.getTipoDoc(Tipo);

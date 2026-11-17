@@ -37,7 +37,7 @@
     <SuiteName>Zamenis</SuiteName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>8</ApplicationRevision>
+    <ApplicationRevision>24</ApplicationRevision>
     <ApplicationVersion>5.2.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -558,6 +558,12 @@
     <Compile Include="Clases\Controles\ModernPanel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Clases\Controles\PanelCSS.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Clases\Controles\ToolTipRiq.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Clases\Controles\UIUtils.cs" />
     <Compile Include="Clases\ConvertirDecimal.cs" />
     <Compile Include="Clases\DatosAPI.cs" />
@@ -765,6 +771,18 @@
     </Compile>
     <Compile Include="Comunes\Noticias.Designer.cs">
       <DependentUpon>Noticias.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Comunes\NoticiasHistorial.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Comunes\NoticiasHistorial.Designer.cs">
+      <DependentUpon>NoticiasHistorial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Comunes\NoticiasMenu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Comunes\NoticiasMenu.Designer.cs">
+      <DependentUpon>NoticiasMenu.cs</DependentUpon>
     </Compile>
     <Compile Include="Comunes\TyC.cs">
       <SubType>Form</SubType>
@@ -1019,6 +1037,12 @@
     <Compile Include="Facturacion\ReportesCopias3.Designer.cs">
       <DependentUpon>ReportesCopias3.cs</DependentUpon>
     </Compile>
+    <Compile Include="Facturacion\ReportesCopias4.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Facturacion\ReportesCopias4.Designer.cs">
+      <DependentUpon>ReportesCopias4.cs</DependentUpon>
+    </Compile>
     <Compile Include="Facturacion\ReportesPagos.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1030,24 +1054,6 @@
     </Compile>
     <Compile Include="Facturacion\RIPS.Designer.cs">
       <DependentUpon>RIPS.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Facturacion\RIPS_Docker.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Facturacion\RIPS_Docker.Designer.cs">
-      <DependentUpon>RIPS_Docker.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Facturacion\RIPS_Docker_2.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Facturacion\RIPS_Docker_2.Designer.cs">
-      <DependentUpon>RIPS_Docker_2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Facturacion\RIPS_Docker_3.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Facturacion\RIPS_Docker_3.Designer.cs">
-      <DependentUpon>RIPS_Docker_3.cs</DependentUpon>
     </Compile>
     <Compile Include="Facturacion\RIPS_IND.cs">
       <SubType>Form</SubType>
@@ -1344,18 +1350,6 @@
       <DependentUpon>NotasAclaratorias.cs</DependentUpon>
     </Compile>
     <Compile Include="Clases\Inactividad.cs" />
-    <Compile Include="IAS\Historial.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="IAS\Historial.Designer.cs">
-      <DependentUpon>Historial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="IAS\Perplexity.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="IAS\Perplexity.Designer.cs">
-      <DependentUpon>Perplexity.cs</DependentUpon>
-    </Compile>
     <Compile Include="Inicial.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1463,6 +1457,18 @@
     </Compile>
     <Compile Include="Medicina\CIE10.Designer.cs">
       <DependentUpon>CIE10.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Medicina\CIE11.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Medicina\CIE11.Designer.cs">
+      <DependentUpon>CIE11.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Medicina\CIE11New.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Medicina\CIE11New.Designer.cs">
+      <DependentUpon>CIE11New.cs</DependentUpon>
     </Compile>
     <Compile Include="Medicina\DocumentosWEB\Historico.cs">
       <SubType>Form</SubType>
@@ -1746,6 +1752,12 @@
     </Compile>
     <Compile Include="Recepcion\AgendaDiaria\Agendamiento.Designer.cs">
       <DependentUpon>Agendamiento.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Recepcion\AgendaDiaria\HistorialAdmisiones.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Recepcion\AgendaDiaria\HistorialAdmisiones.Designer.cs">
+      <DependentUpon>HistorialAdmisiones.cs</DependentUpon>
     </Compile>
     <Compile Include="Recepcion\AgendaDiaria\MenuOpcionesAgenda.cs">
       <SubType>Form</SubType>
@@ -2194,6 +2206,12 @@
     <EmbeddedResource Include="Comunes\Noticias.resx">
       <DependentUpon>Noticias.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Comunes\NoticiasHistorial.resx">
+      <DependentUpon>NoticiasHistorial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Comunes\NoticiasMenu.resx">
+      <DependentUpon>NoticiasMenu.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Comunes\TyC.resx">
       <DependentUpon>TyC.cs</DependentUpon>
     </EmbeddedResource>
@@ -2320,20 +2338,14 @@
     <EmbeddedResource Include="Facturacion\ReportesCopias3.resx">
       <DependentUpon>ReportesCopias3.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Facturacion\ReportesCopias4.resx">
+      <DependentUpon>ReportesCopias4.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Facturacion\ReportesPagos.resx">
       <DependentUpon>ReportesPagos.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Facturacion\RIPS.resx">
       <DependentUpon>RIPS.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Facturacion\RIPS_Docker.resx">
-      <DependentUpon>RIPS_Docker.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Facturacion\RIPS_Docker_2.resx">
-      <DependentUpon>RIPS_Docker_2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Facturacion\RIPS_Docker_3.resx">
-      <DependentUpon>RIPS_Docker_3.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Facturacion\RIPS_IND.resx">
       <DependentUpon>RIPS_IND.cs</DependentUpon>
@@ -2479,12 +2491,6 @@
     <EmbeddedResource Include="HistoriasClinicas\NotasAclaratorias.resx">
       <DependentUpon>NotasAclaratorias.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="IAS\Historial.resx">
-      <DependentUpon>Historial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="IAS\Perplexity.resx">
-      <DependentUpon>Perplexity.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Inicial.resx">
       <DependentUpon>Inicial.cs</DependentUpon>
     </EmbeddedResource>
@@ -2540,6 +2546,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Medicina\CIE10.resx">
       <DependentUpon>CIE10.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Medicina\CIE11.resx">
+      <DependentUpon>CIE11.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Medicina\CIE11New.resx">
+      <DependentUpon>CIE11New.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Medicina\DocumentosWEB\Historico.resx">
       <DependentUpon>Historico.cs</DependentUpon>
@@ -2685,6 +2697,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Recepcion\AgendaDiaria\Agendamiento.resx">
       <DependentUpon>Agendamiento.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Recepcion\AgendaDiaria\HistorialAdmisiones.resx">
+      <DependentUpon>HistorialAdmisiones.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Recepcion\AgendaDiaria\MenuOpcionesAgenda.resx">
       <DependentUpon>MenuOpcionesAgenda.cs</DependentUpon>
@@ -2992,13 +3007,13 @@
       <Project>{96aa9a39-89b9-48cd-9d05-65651d1c5790}</Project>
       <Name>Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ICD11\ICD11.csproj">
+      <Project>{9a838ae5-b068-4ef7-8725-c0a2925e2e5c}</Project>
+      <Name>ICD11</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Licence\LicenceZH\LicenceZH.csproj">
       <Project>{9aff61fe-2274-4fa5-b938-54c86e05df9c}</Project>
       <Name>LicenceZH</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MinSalud\APIRips\APIRips.csproj">
-      <Project>{0defaaed-2b3e-4b57-a18c-150db94a62a7}</Project>
-      <Name>APIRips</Name>
     </ProjectReference>
     <ProjectReference Include="..\Persistence\Persistence.csproj">
       <Project>{caa3bcaa-05ff-454f-ae92-8f8d357de428}</Project>
@@ -3014,6 +3029,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="LICENCE.txt" />
+    <None Include="Resources\eye.png" />
+    <None Include="Resources\woman.png" />
+    <None Include="Resources\man.png" />
     <Content Include="SqlServerTypes\readme.htm" />
     <Content Include="SqlServerTypes\x64\msvcr120.dll" />
     <Content Include="SqlServerTypes\x64\SqlServerSpatial140.dll" />

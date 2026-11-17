@@ -1,12 +1,13 @@
 ﻿using Domain.CXN;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Persistence.CXN.Interfaces
 {
     public interface IFHIR
     {
-        List<CXN_HORARIO> FiltrarEspecialidad(DateTime Fecha, string Especialidad);
+        Task<List<CXN_HORARIO>> FiltrarEspecialidad(DateTime Fecha, string Especialidad);
         void InsertarEnvio_RDAAmbulatorio(CXN_RDA Respuesta);
         string Gender(string Tipo);
         List<string> GetConsumos();

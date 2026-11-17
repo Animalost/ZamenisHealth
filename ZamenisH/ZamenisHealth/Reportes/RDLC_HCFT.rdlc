@@ -10526,7 +10526,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox13</rd:DefaultName>
-        <Top>63.27829cm</Top>
+        <Top>64.23079cm</Top>
         <Left>0.27712cm</Left>
         <Height>0.38833cm</Height>
         <Width>18.10725cm</Width>
@@ -10556,7 +10556,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox13</rd:DefaultName>
-        <Top>62.81941cm</Top>
+        <Top>63.77191cm</Top>
         <Left>0.27712cm</Left>
         <Height>0.38833cm</Height>
         <Width>3.87614cm</Width>
@@ -10586,7 +10586,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox13</rd:DefaultName>
-        <Top>64.30189cm</Top>
+        <Top>65.25439cm</Top>
         <Left>0.27712cm</Left>
         <Height>0.38833cm</Height>
         <Width>18.10725cm</Width>
@@ -10616,7 +10616,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox13</rd:DefaultName>
-        <Top>63.84301cm</Top>
+        <Top>64.79551cm</Top>
         <Left>0.27712cm</Left>
         <Height>0.38833cm</Height>
         <Width>3.87614cm</Width>
@@ -10646,7 +10646,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox13</rd:DefaultName>
-        <Top>65.32548cm</Top>
+        <Top>66.27798cm</Top>
         <Left>0.27711cm</Left>
         <Height>0.38833cm</Height>
         <Width>18.10725cm</Width>
@@ -10676,7 +10676,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox13</rd:DefaultName>
-        <Top>64.8666cm</Top>
+        <Top>65.8191cm</Top>
         <Left>0.27711cm</Left>
         <Height>0.38833cm</Height>
         <Width>3.87614cm</Width>
@@ -10687,8 +10687,68 @@
           </Border>
         </Style>
       </Textbox>
+      <Textbox Name="Textbox347">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>=First(Fields!DXCIE11.Value, "DataSet_HCTF")</Value>
+                <Style>
+                  <FontFamily>Times New Roman</FontFamily>
+                  <FontSize>8pt</FontSize>
+                  <FontWeight>Normal</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox13</rd:DefaultName>
+        <Top>63.24301cm</Top>
+        <Left>0.27708cm</Left>
+        <Height>0.38833cm</Height>
+        <Width>18.06682cm</Width>
+        <ZIndex>62</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Textbox>
+      <Textbox Name="Textbox349">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>Homologacion CIE11</Value>
+                <Style>
+                  <FontFamily>Times New Roman</FontFamily>
+                  <FontSize>8pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox13</rd:DefaultName>
+        <Top>62.8194cm</Top>
+        <Left>0.27708cm</Left>
+        <Height>0.38833cm</Height>
+        <Width>3.87614cm</Width>
+        <ZIndex>63</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Textbox>
     </ReportItems>
-    <Height>26.27457in</Height>
+    <Height>26.37158in</Height>
     <Style />
   </Body>
   <Width>7.27443in</Width>
@@ -13061,6 +13121,10 @@
         </Field>
         <Field Name="RegistroMedico">
           <DataField>RegistroMedico</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DXCIE11">
+          <DataField>DXCIE11</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>

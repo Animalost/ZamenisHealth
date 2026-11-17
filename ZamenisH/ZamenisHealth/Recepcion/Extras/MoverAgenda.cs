@@ -144,6 +144,16 @@ namespace ZamenisHealth.Recepcion.Extras
                         Agendamiento f7 = Application.OpenForms.OfType<Agendamiento>().FirstOrDefault();
                         f7.EventoInicial();
 
+                        CXN_HISTORIAL_ADMISION HistorialAdmision = new CXN_HISTORIAL_ADMISION
+                        {
+                            Admision = Admision,
+                            Fecha = DateTime.Now,
+                            Usuario = Contenedor.UsuarioLogueado,
+                            Gestion = $"CITA MOVIDA DE { label9.Text } A { repositorioBodegas.getDatosCode(NumeroBodega).Bod_Responsable }"
+                        };
+
+                        repositorioHorario2.AddHistorialAdmision(HistorialAdmision);
+
                         this.Dispose();
                         this.Close();
                     }

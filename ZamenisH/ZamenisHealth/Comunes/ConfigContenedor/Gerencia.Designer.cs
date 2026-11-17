@@ -40,8 +40,8 @@
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.panel7 = new System.Windows.Forms.Panel();
             this.panel6 = new System.Windows.Forms.Panel();
+            this.panel7 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -49,8 +49,8 @@
             this.flowLayoutPanel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
-            this.panel7.SuspendLayout();
             this.panel6.SuspendLayout();
+            this.panel7.SuspendLayout();
             this.SuspendLayout();
             // 
             // pictureBox3
@@ -167,11 +167,12 @@
             // 
             // label5
             // 
+            this.label5.BackColor = System.Drawing.Color.WhiteSmoke;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.label5.Location = new System.Drawing.Point(39, 26);
+            this.label5.Location = new System.Drawing.Point(0, -1);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(744, 31);
+            this.label5.Size = new System.Drawing.Size(903, 40);
             this.label5.TabIndex = 93;
             this.label5.Text = "Gerencia";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -183,9 +184,9 @@
             this.flowLayoutPanel1.Controls.Add(this.panel3);
             this.flowLayoutPanel1.Controls.Add(this.panel6);
             this.flowLayoutPanel1.Controls.Add(this.panel7);
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(39, 71);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(80, 53);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(744, 204);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(738, 96);
             this.flowLayoutPanel1.TabIndex = 95;
             // 
             // panel2
@@ -206,15 +207,6 @@
             this.panel3.Size = new System.Drawing.Size(240, 41);
             this.panel3.TabIndex = 86;
             // 
-            // panel7
-            // 
-            this.panel7.Controls.Add(this.label6);
-            this.panel7.Controls.Add(this.pictureBox5);
-            this.panel7.Location = new System.Drawing.Point(3, 50);
-            this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(240, 41);
-            this.panel7.TabIndex = 88;
-            // 
             // panel6
             // 
             this.panel6.Controls.Add(this.pictureBox3);
@@ -224,12 +216,21 @@
             this.panel6.Size = new System.Drawing.Size(240, 41);
             this.panel6.TabIndex = 88;
             // 
+            // panel7
+            // 
+            this.panel7.Controls.Add(this.label6);
+            this.panel7.Controls.Add(this.pictureBox5);
+            this.panel7.Location = new System.Drawing.Point(3, 50);
+            this.panel7.Name = "panel7";
+            this.panel7.Size = new System.Drawing.Size(240, 41);
+            this.panel7.TabIndex = 88;
+            // 
             // Gerencia
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(823, 304);
+            this.ClientSize = new System.Drawing.Size(903, 516);
             this.ControlBox = false;
             this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.label5);
@@ -244,8 +245,8 @@
             this.flowLayoutPanel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
-            this.panel7.ResumeLayout(false);
             this.panel6.ResumeLayout(false);
+            this.panel7.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

@@ -91,6 +91,19 @@ namespace Domain
         public int valorPagoModerador { get; set; }
         public string numFEVPagoModerador { get; set; }
         public int consecutivo { get; set; }
+
+        //cie11
+        public string codDiagnosticoPrincipalCIE11 { get; set; }
+        public string nomCodDiagnosticoPrincipalCIE11 { get; set; }
+
+        public string codDiagnosticoRelacionado1CIE11 { get; set; }
+        public string nomCodDiagnosticoRelacionado1CIE11 { get; set; }
+
+        public string codDiagnosticoRelacionado2CIE11 { get; set; }
+        public string nomCodDiagnosticoRelacionado2CIE11 { get; set; }
+
+        public string codDiagnosticoRelacionado3CIE11 { get; set; }
+        public string nomCodDiagnosticoRelacionado3CIE11 { get; set; }
     }
     public class Procedimientos
     {
@@ -114,6 +127,15 @@ namespace Domain
         public int valorPagoModerador { get; set; }
         public string numFEVPagoModerador { get; set; }
         public int consecutivo { get; set; }
+        //cie11
+        public string codDiagnosticoPrincipalCIE11 { get; set; }
+        public string nomCodDiagnosticoPrincipalCIE11 { get; set; }
+
+        public string codDiagnosticoRelacionadoCIE11 { get; set; }
+        public string nomCodDiagnosticoRelacionadoCIE11 { get; set; }
+
+        public string codComplicacionCIE11 { get; set; }
+        public string nomComplicacionCIE11 { get; set; }
     }
     public class OtrosServicios
     {

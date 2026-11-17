@@ -2,6 +2,7 @@
 using Domain;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Persistence.CXN.Interfaces
 {
@@ -33,7 +34,7 @@ namespace Persistence.CXN.Interfaces
                                           int Ase,
                                           string Tipos);
         List<CXN_CIA> ActasMedicos(int Admision, string Tipos);
-        List<CXN_HORARIO> BuscarHistorias(int Paciente, string Tipo);
+        Task<List<CXN_HORARIO>> BuscarHistorias(int Paciente, string Tipo, DateTime Desde, DateTime Hasta);
         List<HCMG> MedicinaGeneralCompleto(int PacienteHCCompleto, DateTime Desde, DateTime Hasta, string userGenera);
         List<ReportHCFI> ReportefisiatriaCompleto(int PacienteCom, DateTime Desde, DateTime Hasta, string user);
         List<ReportEVO> ReporteEvoluciones(int Paciente,

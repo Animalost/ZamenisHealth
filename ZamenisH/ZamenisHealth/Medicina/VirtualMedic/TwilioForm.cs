@@ -1,24 +1,32 @@
 ﻿using APIController;
+
 using Domain.CXN;
+
 using FormAndControls;
+
+using Persistence;
 using Persistence.CXN.Interfaces;
 using Persistence.CXN.Metodos;
+
 using ShortLink.SDK.Clases;
+
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+
 using ZamenisHealth.Clases;
 using ZamenisHealth.Comunes;
 
 namespace ZamenisHealth.Medicina.VirtualMedic
 {
-    public partial class TwilioForm : Forma
+    public partial class TwilioForm : Forma2
     {
         private string roomName = "";
         private int Admision, Cia;
-
+        private string Medico, Paciente, URLSALA;
         private MensajesGeneral MG;
 
         private readonly ILogin repoLogin = new MLogin();
@@ -29,13 +37,6 @@ namespace ZamenisHealth.Medicina.VirtualMedic
         private readonly IPacientes repoPac = new MPacientes();
         private readonly ITwilio repoTwi = new MTwilio();
 
-        private string Medico, Paciente, URLSALA;
-
-        ToolStripButton btnSendSMS;
-        ToolStripButton btnCrear;
-        ToolStripButton btnSendEmail;
-        ToolStripButton btnIngresar;
-        ToolStripButton btnHistorialTwilio;
 
         public TwilioForm(int admision)
         {
@@ -144,35 +145,7 @@ namespace ZamenisHealth.Medicina.VirtualMedic
             try
             {
                 Titulo.Text = "Adherencia";
-                LogoMain.Image = Properties.Resources.Splash;
-
-                btnCrear = new ToolStripButton();
-                btnCrear = createToolButton("Crear Reunion");
-                MenuLateral.Items.Add(btnCrear);
-                btnCrear.Click += button1_Click;
-
-                btnSendSMS = new ToolStripButton();
-                btnSendSMS = createToolButton("Enviar SMS");
-                MenuLateral.Items.Add(btnSendSMS);
-                btnSendSMS.Click += button4_Click;
-                btnSendSMS.Enabled = false;
-
-                btnSendEmail = new ToolStripButton();
-                btnSendEmail = createToolButton("Enviar Email");
-                MenuLateral.Items.Add(btnSendEmail);
-                btnSendEmail.Click += button3_Click;
-                btnSendEmail.Enabled = false;
-
-                btnIngresar = new ToolStripButton();
-                btnIngresar = createToolButton("INGRESAR");
-                MenuLateral.Items.Add(btnIngresar);
-                btnIngresar.Click += button2_Click;
-                btnIngresar.Enabled = false;
-
-                btnHistorialTwilio = new ToolStripButton();
-                btnHistorialTwilio = createToolButton("Historial URLS");
-                MenuLateral.Items.Add(btnHistorialTwilio);
-                btnHistorialTwilio.Click += His_Click;
+                SubTitulo.Text = $"Zamenis Health {Conexion.VersionApp}";
 
                 textBox3.MaxLength = 10;
 
@@ -181,26 +154,54 @@ namespace ZamenisHealth.Medicina.VirtualMedic
                 {
                     Medico = login.Log_PrimerN + " " + login.Log_PrimerA;
 
-                    otrosDatosPacienteHorario paciente = repoAgenda.cargarAdmision(Admision, "'P'");
-                    if (paciente != null)
+                    List<CXN_IMAGEN_SYSTEM> d = repoConf.getConfSystem();
+                    if (d != null)
                     {
-                        URLSALA = repoConf.getListado()["VideoconferenciaTwilio1"];
-                        Paciente = paciente.Pac_PrimerN + "_" + paciente.Pac_PrimerA;
-                        Cia = paciente.Hor_Pac_Cia;
-                        textBox4.Text = paciente.Pac_Email;
-                        textBox3.Text = paciente.Pac_Telefono;
-                        this.BringToFront();
+                        CXN_IMAGEN_SYSTEM d2 = d.FirstOrDefault(x => x.Tab_Nombre == "VideoconferenciaTwilio");
+                        if (d2 != null)
+                        {
+                            otrosDatosPacienteHorario paciente = repoAgenda.cargarAdmision(Admision, "'P'");
+                            if (paciente != null)
+                            {
+                                URLSALA = d2.Tab_Config;
+                                Paciente = paciente.Pac_PrimerN + "_" + paciente.Pac_PrimerA;
+                                Cia = paciente.Hor_Pac_Cia;
+                                textBox4.Text = paciente.Pac_Email;
+                                textBox3.Text = paciente.Pac_Telefono;
+                                this.BringToFront();
+                            }
+                            else
+                            {
+                                MG = new MensajesGeneral();
+                                MG.Mensaje = "Error al cargar los datos del paciente o esta cita ya esta generada y no puede establecer sala virtual";
+                                MG.TipoImagen = 1000;
+                                MG.ShowDialog();
+
+                                this.Dispose();
+                                this.Close();
+                            }
+                        }
+                        else
+                        {
+                            MG = new MensajesGeneral();
+                            MG.Mensaje = "Error al cargar los datos del usuario";
+                            MG.TipoImagen = 1000;
+                            MG.ShowDialog();
+
+                            this.Dispose();
+                            this.Close();
+                        }
                     }
                     else
                     {
                         MG = new MensajesGeneral();
-                        MG.Mensaje = "Error al cargar los datos del paciente o esta cita ya esta generada y no puede establecer sala virtual";
+                        MG.Mensaje = "Error al cargar los datos del usuario";
                         MG.TipoImagen = 1000;
                         MG.ShowDialog();
 
                         this.Dispose();
                         this.Close();
-                    }
+                    }                    
                 }
                 else
                 {
@@ -226,11 +227,6 @@ namespace ZamenisHealth.Medicina.VirtualMedic
         private void button2_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start(textBox2.Text);
-        }
-        private void pictureBox2_Click(object sender, EventArgs e)
-        {
-            this.Dispose();
-            this.Close();
         }
         public async Task<string> GenerarLinkAsync(string Name, string Rol, string Room)
         {
@@ -322,25 +318,29 @@ namespace ZamenisHealth.Medicina.VirtualMedic
         }
         private async void button1_Click(object sender, EventArgs e)
         {
-            roomName = Guid.NewGuid().ToString();
-            Console.WriteLine("Este es el GUID --> " + roomName);
-            GenerarLinkAsync(Medico, "moderador", roomName).Wait();
-            GenerarLinkAsync(Paciente, "cliente", roomName).Wait();
-
-            CXN_LINKSCORTOS c = new CXN_LINKSCORTOS()
+            try
             {
-                Admision = Admision,
-                Cliente = textBox1.Text.Trim(),
-                Fecha = DateTime.Now,
-                Servidor = textBox2.Text.Trim(),
-                Usuario = Contenedor.UsuarioLogueado
-            };
+                roomName = Guid.NewGuid().ToString();
+                Console.WriteLine("Este es el GUID --> " + roomName);
+                GenerarLinkAsync(Medico, "moderador", roomName).Wait();
+                GenerarLinkAsync(Paciente, "cliente", roomName).Wait();
 
-            repoTwi.Insertar(c);
+                CXN_LINKSCORTOS c = new CXN_LINKSCORTOS()
+                {
+                    Admision = Admision,
+                    Cliente = textBox1.Text.Trim(),
+                    Fecha = DateTime.Now,
+                    Servidor = textBox2.Text.Trim(),
+                    Usuario = Contenedor.UsuarioLogueado
+                };
 
-            btnCrear.Enabled = true;
-            btnSendEmail.Enabled = true;
-            btnIngresar.Enabled = true;
+                repoTwi.Insertar(c);
+                panel2.Visible = true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }            
         }
     }
 }

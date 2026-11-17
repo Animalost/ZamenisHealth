@@ -44,99 +44,7 @@ namespace Persistence.CXN.Metodos
                 return false;
             }
         }
-        Dictionary<string, string> IConfSystem.getListado()
-        {
-            try
-            {
-                Dictionary<string,string> getData = Conexion.Conection();
-
-                using (SqlConnection con = new SqlConnection(getData["Conexion"]))
-                {
-                    if (con != null && con.State == ConnectionState.Closed)
-                    {
-                        con.Open();
-                    }
-
-                    String Cargar_Hora = "Select * from CXN_IMAGEN_SYSTEM";
-
-                    using (SqlCommand Carga_Command = new SqlCommand(Cargar_Hora, con))
-                    {
-                        using (SqlDataReader Lectura_Hora = (Carga_Command.ExecuteReader()))
-                        {
-                            if (Lectura_Hora.HasRows)
-                            {
-                                Dictionary<string, string> D = new Dictionary<string, string>();
-
-                                while (Lectura_Hora.Read() == true)
-                                {
-                                    if (Lectura_Hora["Tab_Nombre"].ToString() == "INFECCIONES")
-                                    {
-                                        D.Add(Lectura_Hora["Tab_Nombre"].ToString(), 
-                                              Lectura_Hora["Tab_Config"].ToString() == "A" ? 
-                                              Lectura_Hora["Tab_Clave"].ToString() : 
-                                              "X");
-                                        continue;
-                                    }
-                                    if (Lectura_Hora["Tab_Nombre"].ToString() == "EVENTOSADVERSOS")
-                                    {
-                                        D.Add(Lectura_Hora["Tab_Nombre"].ToString(), 
-                                              Lectura_Hora["Tab_Config"].ToString() == "A" ? 
-                                              Lectura_Hora["Tab_Clave"].ToString() : 
-                                              "X");
-                                        continue;
-                                    }                                    
-
-                                    //debe ser en este orden
-                                    if (Lectura_Hora["Tab_Nombre"].ToString() == "RellenarVaciosMG" && Lectura_Hora["Tab_Clave"].ToString() == "A")
-                                    {
-                                        D.Add(Lectura_Hora["Tab_Nombre"].ToString() + "1", Lectura_Hora["Tab_Config"].ToString());
-                                    }
-
-                                    D.Add(Lectura_Hora["Tab_Nombre"].ToString(), Lectura_Hora["Tab_Clave"].ToString()); //aqui agrego los originales
-
-                                    if (Lectura_Hora["Tab_Nombre"].ToString() == "Videoconferencia" && Lectura_Hora["Tab_Clave"].ToString() == "A")
-                                    {
-                                        D.Add(Lectura_Hora["Tab_Nombre"].ToString() + "1", Lectura_Hora["Tab_Config"].ToString());
-                                    }
-
-                                    if (Lectura_Hora["Tab_Nombre"].ToString() == "VideoconferenciaTwilio" && Lectura_Hora["Tab_Clave"].ToString() == "A")
-                                    {
-                                        D.Add(Lectura_Hora["Tab_Nombre"].ToString() + "1", Lectura_Hora["Tab_Config"].ToString());
-                                    }
-
-                                    if (Lectura_Hora["Tab_Nombre"].ToString() == "ConsentimientosWEB" && Lectura_Hora["Tab_Clave"].ToString() == "A")
-                                    {
-                                        D.Add(Lectura_Hora["Tab_Nombre"].ToString() + "1", Lectura_Hora["Tab_Config"].ToString());
-                                    }
-
-                                    if (Lectura_Hora["Tab_Nombre"].ToString() == "ConsentimientosWEBPSI" && Lectura_Hora["Tab_Clave"].ToString() == "A")
-                                    {
-                                        D.Add(Lectura_Hora["Tab_Nombre"].ToString() + "1", Lectura_Hora["Tab_Config"].ToString());
-                                    }
-
-                                    if (Lectura_Hora["Tab_Nombre"].ToString() == "URLIHCEVisor")
-                                    {
-                                        D.Add(Lectura_Hora["Tab_Nombre"].ToString() + "1", Lectura_Hora["Tab_Config"].ToString());
-                                    }
-                                }
-
-                                return D;
-                            }
-                            else
-                            {
-                                return null;
-                            }
-                        }
-                    }                   
-                }
-            }
-            catch (Exception ex)
-            {
-                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
-                return null;
-            }
-        }
-        string IConfSystem.getURLConsentimientos(string TipoCon)
+        List<CXN_IMAGEN_SYSTEM> IConfSystem.getConfSystem()
         {
             try
             {
@@ -149,64 +57,42 @@ namespace Persistence.CXN.Metodos
                         con.Open();
                     }
 
-                    String Cargar_Hora  = "Select Tab_Config FROM CXN_IMAGEN_SYSTEM WHERE Tab_Nombre = @param1";                    
+                    String Cargar_Hora = "SELECT * FROM CXN_IMAGEN_SYSTEM";
 
                     using (SqlCommand Carga_Command = new SqlCommand(Cargar_Hora, con))
                     {
-                        Carga_Command.Parameters.AddWithValue("@param1", TipoCon);
-
                         using (SqlDataReader Lectura_Hora = (Carga_Command.ExecuteReader()))
                         {
-                            if (Lectura_Hora.Read() == true)
+                            if (Lectura_Hora.HasRows)
                             {
-                                return Lectura_Hora["Tab_Config"].ToString();
+                                List<CXN_IMAGEN_SYSTEM> L = new List<CXN_IMAGEN_SYSTEM>();
+
+                                while (Lectura_Hora.Read() == true)
+                                {
+                                    L.Add(new CXN_IMAGEN_SYSTEM 
+                                    {
+                                        Tab_Clave = Lectura_Hora["Tab_Clave"] == DBNull.Value ? "" : Lectura_Hora["Tab_Clave"].ToString(),
+                                        Tab_Config = Lectura_Hora["Tab_Config"] == DBNull.Value ? "" : Lectura_Hora["Tab_Config"].ToString(),
+                                        Tab_Nombre = Lectura_Hora["Tab_Nombre"] == DBNull.Value ? "" : Lectura_Hora["Tab_Nombre"].ToString(),
+                                        Tab_Id = Convert.ToInt32(Lectura_Hora["Tab_Id"])
+                                    });                                    
+                                }                                
+
+                                return L;
                             }
                             else
                             {
-                                return "";
+                                return null;
                             }
                         }
-                    }                   
-                }
-            }
-            catch (Exception ex)
-            {
-                TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
-                return "";
-            }
-        }
-        (bool Noticia, string Ruta) IConfSystem.getDatoNoticias()
-        {
-            try
-            {
-                Dictionary<string,string> getData = Conexion.Conection();
-
-                using (SqlConnection con = new SqlConnection(getData["Conexion"]))
-                {
-                    if (con != null && con.State == ConnectionState.Closed)
-                    {
-                        con.Open();
-                    }
-
-                    String Cargar_Hora = "Select Tab_Clave, Tab_Config from CXN_IMAGEN_SYSTEM WHERE Tab_Nombre = 'Noticia'";
-                    SqlCommand Carga_Command = new SqlCommand(Cargar_Hora, con);
-                    SqlDataReader Lectura_Hora = (Carga_Command.ExecuteReader());
-                    if (Lectura_Hora.Read() == true)
-                    {
-                        string s = Lectura_Hora["Tab_Config"].ToString();
-                        return ((Lectura_Hora["Tab_Clave"].ToString() == "A" ? true : false), Lectura_Hora["Tab_Config"].ToString());
-                    }
-                    else
-                    {
-                        return (false, "");
                     }
                 }
             }
             catch (Exception ex)
             {
                 TXTException T = new TXTException { FechaHora = DateTime.Now, Error = ex.Message, Formulario = this.GetType().Name, Metodo = OverridesExtern.GetCurrentMethodName(), Usuario = "BackEnd" }; OverridesExtern.GenerarTXTException(T);
-                return (false, "");
+                return null;
             }
-        }
+        }               
     }
 }

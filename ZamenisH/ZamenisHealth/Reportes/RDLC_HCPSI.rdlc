@@ -1016,7 +1016,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox13</rd:DefaultName>
-        <Top>17.03377cm</Top>
+        <Top>18.30377cm</Top>
         <Left>0.419cm</Left>
         <Height>0.38833cm</Height>
         <Width>4.03458cm</Width>
@@ -1046,7 +1046,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox13</rd:DefaultName>
-        <Top>17.45738cm</Top>
+        <Top>18.72738cm</Top>
         <Left>0.419cm</Left>
         <Height>0.38833cm</Height>
         <Width>17.998cm</Width>
@@ -1076,7 +1076,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox13</rd:DefaultName>
-        <Top>17.98682cm</Top>
+        <Top>19.25682cm</Top>
         <Left>0.419cm</Left>
         <Height>0.38833cm</Height>
         <Width>4.03458cm</Width>
@@ -1106,7 +1106,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox13</rd:DefaultName>
-        <Top>18.41043cm</Top>
+        <Top>19.68043cm</Top>
         <Left>0.419cm</Left>
         <Height>0.38833cm</Height>
         <Width>17.998cm</Width>
@@ -1136,7 +1136,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox13</rd:DefaultName>
-        <Top>18.93987cm</Top>
+        <Top>20.20987cm</Top>
         <Left>0.419cm</Left>
         <Height>0.38833cm</Height>
         <Width>4.03458cm</Width>
@@ -1166,7 +1166,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox13</rd:DefaultName>
-        <Top>19.36348cm</Top>
+        <Top>20.63348cm</Top>
         <Left>0.419cm</Left>
         <Height>0.38833cm</Height>
         <Width>17.998cm</Width>
@@ -1196,7 +1196,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox13</rd:DefaultName>
-        <Top>19.85765cm</Top>
+        <Top>21.12765cm</Top>
         <Left>0.419cm</Left>
         <Height>0.38833cm</Height>
         <Width>4.03458cm</Width>
@@ -1226,7 +1226,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox13</rd:DefaultName>
-        <Top>20.28126cm</Top>
+        <Top>21.55126cm</Top>
         <Left>0.419cm</Left>
         <Height>0.38833cm</Height>
         <Width>17.998cm</Width>
@@ -1256,7 +1256,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox13</rd:DefaultName>
-        <Top>20.8107cm</Top>
+        <Top>22.0807cm</Top>
         <Left>0.419cm</Left>
         <Height>0.38833cm</Height>
         <Width>4.03458cm</Width>
@@ -1286,7 +1286,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox13</rd:DefaultName>
-        <Top>21.23431cm</Top>
+        <Top>22.50431cm</Top>
         <Left>0.419cm</Left>
         <Height>0.38833cm</Height>
         <Width>17.998cm</Width>
@@ -1316,7 +1316,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox13</rd:DefaultName>
-        <Top>21.79903cm</Top>
+        <Top>23.06903cm</Top>
         <Left>0.419cm</Left>
         <Height>0.38833cm</Height>
         <Width>4.405cm</Width>
@@ -1346,7 +1346,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox13</rd:DefaultName>
-        <Top>22.22264cm</Top>
+        <Top>23.49264cm</Top>
         <Left>0.419cm</Left>
         <Height>0.38833cm</Height>
         <Width>17.998cm</Width>
@@ -1671,7 +1671,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>DataSet_HCPSI</DataSetName>
-        <Top>23.22724cm</Top>
+        <Top>24.49724cm</Top>
         <Left>0.42741cm</Left>
         <Height>3cm</Height>
         <Width>17.92299cm</Width>
@@ -2464,7 +2464,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>DataSet_HCPSI</DataSetName>
-        <Top>26.67565cm</Top>
+        <Top>27.94565cm</Top>
         <Left>0.419cm</Left>
         <Height>7.8cm</Height>
         <Width>17.92719cm</Width>
@@ -3023,7 +3023,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>DataSet_HCPSI</DataSetName>
-        <Top>34.77961cm</Top>
+        <Top>36.04961cm</Top>
         <Left>0.419cm</Left>
         <Height>5.4cm</Height>
         <Width>17.93142cm</Width>
@@ -3582,7 +3582,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>DataSet_HCPSI</DataSetName>
-        <Top>40.53044cm</Top>
+        <Top>41.80044cm</Top>
         <Left>0.41478cm</Left>
         <Height>5.4cm</Height>
         <Width>17.93142cm</Width>
@@ -6465,6 +6465,66 @@
           </Border>
         </Style>
       </Tablix>
+      <Textbox Name="Textbox81">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>HOMOLOGACION CIE11</Value>
+                <Style>
+                  <FontFamily>Times New Roman</FontFamily>
+                  <FontSize>8pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox13</rd:DefaultName>
+        <Top>17.03377cm</Top>
+        <Left>0.41478cm</Left>
+        <Height>0.38833cm</Height>
+        <Width>4.03458cm</Width>
+        <ZIndex>56</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Textbox>
+      <Textbox Name="Textbox82">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>=First(Fields!DXCIE11.Value, "DataSet_HCPSI")</Value>
+                <Style>
+                  <FontFamily>Times New Roman</FontFamily>
+                  <FontSize>8pt</FontSize>
+                  <FontWeight>Normal</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox13</rd:DefaultName>
+        <Top>17.45738cm</Top>
+        <Left>0.41478cm</Left>
+        <Height>0.38833cm</Height>
+        <Width>17.998cm</Width>
+        <ZIndex>57</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Textbox>
     </ReportItems>
     <Height>30.97722in</Height>
     <Style />
@@ -7817,6 +7877,10 @@
         </Field>
         <Field Name="RegistroMedico">
           <DataField>RegistroMedico</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DXCIE11">
+          <DataField>DXCIE11</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>

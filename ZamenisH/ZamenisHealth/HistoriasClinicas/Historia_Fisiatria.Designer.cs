@@ -206,6 +206,11 @@
             this.label87 = new System.Windows.Forms.Label();
             this.tabPage6 = new System.Windows.Forms.TabPage();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.boton6 = new FormAndControls.Controles.Boton();
+            this.label95 = new System.Windows.Forms.Label();
+            this.textBox67 = new System.Windows.Forms.TextBox();
+            this.textBox68 = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -2223,6 +2228,11 @@
             // 
             this.tabPage5.AutoScroll = true;
             this.tabPage5.BackColor = System.Drawing.Color.White;
+            this.tabPage5.Controls.Add(this.label8);
+            this.tabPage5.Controls.Add(this.boton6);
+            this.tabPage5.Controls.Add(this.label95);
+            this.tabPage5.Controls.Add(this.textBox67);
+            this.tabPage5.Controls.Add(this.textBox68);
             this.tabPage5.Controls.Add(this.boton5);
             this.tabPage5.Controls.Add(this.boton4);
             this.tabPage5.Controls.Add(this.comboBox9);
@@ -2269,7 +2279,7 @@
             this.boton5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.boton5.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
             this.boton5.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.boton5.Location = new System.Drawing.Point(869, 333);
+            this.boton5.Location = new System.Drawing.Point(869, 392);
             this.boton5.Name = "boton5";
             this.boton5.Size = new System.Drawing.Size(124, 32);
             this.boton5.TabIndex = 348;
@@ -2285,7 +2295,7 @@
             this.boton4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.boton4.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
             this.boton4.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.boton4.Location = new System.Drawing.Point(869, 386);
+            this.boton4.Location = new System.Drawing.Point(869, 445);
             this.boton4.Name = "boton4";
             this.boton4.Size = new System.Drawing.Size(124, 32);
             this.boton4.TabIndex = 347;
@@ -2305,7 +2315,7 @@
             "Sustancia que entran en contacto con la piel",
             "Picadura de insectos",
             "Otra"});
-            this.comboBox9.Location = new System.Drawing.Point(12, 390);
+            this.comboBox9.Location = new System.Drawing.Point(12, 449);
             this.comboBox9.Name = "comboBox9";
             this.comboBox9.Size = new System.Drawing.Size(396, 28);
             this.comboBox9.TabIndex = 346;
@@ -2314,7 +2324,7 @@
             // 
             this.label91.AutoSize = true;
             this.label91.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label91.Location = new System.Drawing.Point(11, 368);
+            this.label91.Location = new System.Drawing.Point(11, 427);
             this.label91.Name = "label91";
             this.label91.Size = new System.Drawing.Size(377, 17);
             this.label91.TabIndex = 345;
@@ -2327,7 +2337,7 @@
             this.dataGridView4.BackgroundColor = System.Drawing.Color.White;
             this.dataGridView4.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView4.GridColor = System.Drawing.Color.Blue;
-            this.dataGridView4.Location = new System.Drawing.Point(12, 449);
+            this.dataGridView4.Location = new System.Drawing.Point(12, 508);
             this.dataGridView4.Name = "dataGridView4";
             this.dataGridView4.ReadOnly = true;
             this.dataGridView4.Size = new System.Drawing.Size(988, 132);
@@ -2338,7 +2348,7 @@
             // 
             this.label92.AutoSize = true;
             this.label92.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label92.Location = new System.Drawing.Point(13, 426);
+            this.label92.Location = new System.Drawing.Point(13, 485);
             this.label92.Name = "label92";
             this.label92.Size = new System.Drawing.Size(316, 17);
             this.label92.TabIndex = 343;
@@ -2348,7 +2358,7 @@
             // 
             this.label93.AutoSize = true;
             this.label93.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label93.Location = new System.Drawing.Point(428, 368);
+            this.label93.Location = new System.Drawing.Point(428, 427);
             this.label93.Name = "label93";
             this.label93.Size = new System.Drawing.Size(488, 17);
             this.label93.TabIndex = 342;
@@ -2357,7 +2367,7 @@
             // textBox66
             // 
             this.textBox66.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox66.Location = new System.Drawing.Point(429, 390);
+            this.textBox66.Location = new System.Drawing.Point(429, 449);
             this.textBox66.Name = "textBox66";
             this.textBox66.Size = new System.Drawing.Size(426, 26);
             this.textBox66.TabIndex = 341;
@@ -2367,7 +2377,7 @@
             this.label87.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(55)))), ((int)(((byte)(90)))));
             this.label87.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label87.ForeColor = System.Drawing.Color.White;
-            this.label87.Location = new System.Drawing.Point(9, 335);
+            this.label87.Location = new System.Drawing.Point(9, 394);
             this.label87.Name = "label87";
             this.label87.Size = new System.Drawing.Size(846, 25);
             this.label87.TabIndex = 340;
@@ -2393,6 +2403,66 @@
             // 
             this.timer1.Interval = 5000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick_1);
+            // 
+            // boton6
+            // 
+            this.boton6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(55)))), ((int)(((byte)(90)))));
+            this.boton6.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.boton6.FlatAppearance.BorderSize = 3;
+            this.boton6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.boton6.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
+            this.boton6.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.boton6.Location = new System.Drawing.Point(881, 353);
+            this.boton6.Name = "boton6";
+            this.boton6.Size = new System.Drawing.Size(124, 32);
+            this.boton6.TabIndex = 349;
+            this.boton6.Text = "Borrar";
+            this.boton6.UseVisualStyleBackColor = false;
+            this.boton6.Click += new System.EventHandler(this.boton6_Click);
+            // 
+            // label95
+            // 
+            this.label95.AutoSize = true;
+            this.label95.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label95.Location = new System.Drawing.Point(3, 337);
+            this.label95.Name = "label95";
+            this.label95.Size = new System.Drawing.Size(304, 17);
+            this.label95.TabIndex = 350;
+            this.label95.Text = "Diagnostico Principal Clasificacion CIE11";
+            // 
+            // textBox67
+            // 
+            this.textBox67.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.textBox67.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.textBox67.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox67.ForeColor = System.Drawing.Color.Purple;
+            this.textBox67.Location = new System.Drawing.Point(6, 357);
+            this.textBox67.Name = "textBox67";
+            this.textBox67.ReadOnly = true;
+            this.textBox67.Size = new System.Drawing.Size(131, 26);
+            this.textBox67.TabIndex = 351;
+            this.textBox67.DoubleClick += new System.EventHandler(this.textBox67_DoubleClick);
+            // 
+            // textBox68
+            // 
+            this.textBox68.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.textBox68.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox68.ForeColor = System.Drawing.Color.Purple;
+            this.textBox68.Location = new System.Drawing.Point(143, 357);
+            this.textBox68.Name = "textBox68";
+            this.textBox68.ReadOnly = true;
+            this.textBox68.Size = new System.Drawing.Size(732, 26);
+            this.textBox68.TabIndex = 352;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Location = new System.Drawing.Point(11, 642);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(12, 17);
+            this.label8.TabIndex = 353;
+            this.label8.Text = ".";
             // 
             // Historia_Fisiatria
             // 
@@ -2642,5 +2712,10 @@
         private System.Windows.Forms.TextBox textBox66;
         private System.Windows.Forms.Label label87;
         private System.Windows.Forms.Timer timer1;
+        private FormAndControls.Controles.Boton boton6;
+        private System.Windows.Forms.Label label95;
+        public System.Windows.Forms.TextBox textBox67;
+        public System.Windows.Forms.TextBox textBox68;
+        private System.Windows.Forms.Label label8;
     }
 }

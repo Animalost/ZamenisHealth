@@ -28,6 +28,7 @@ namespace ZamenisHealth.FrontFHIR
         private CXN_CIA DatosPrestador;
         private MensajesGeneral MG;
 
+        private DataView vistaHistorial;
         DataTable dt;
         DataColumn POS;
         DataColumn CheckForSend;
@@ -90,8 +91,9 @@ namespace ZamenisHealth.FrontFHIR
             MenuLateral.Items.Add(btnLog);
             btnLog.Click += btnLog_Click;
 
-            gridZH1.CeldaHeight = true;
+            gridZH1.DisableRowsAdded();
             gridZH1.dataGridView1.BorderStyle = BorderStyle.None;
+            gridZH1.dataGridView1.CellClick += DataGridView1_CellClick;
 
             comboBox2.Items.Add("Medicina General");
             comboBox2.Items.Add("Fisiatria");
@@ -100,7 +102,35 @@ namespace ZamenisHealth.FrontFHIR
 
             comboBox1.SelectedIndex = 0;
             comboBox2.SelectedIndex = 0;
-        } 
+        }
+        private void DataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                int PosRow = e.RowIndex;
+                int PosCol = e.ColumnIndex;
+
+                DataGridViewRow row = gridZH1.dataGridView1.Rows[PosRow];
+
+                object valor = row.Cells["✔"].Value;
+                bool isChecked = valor != null && Convert.ToBoolean(valor);
+
+                if (isChecked == true)
+                {
+                    isChecked = false;
+                }
+                else
+                {
+                    isChecked = true;
+                }
+
+                row.Cells["✔"].Value = isChecked;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
         void btnLog_Click(object sender, EventArgs e)
         {
             Logs log = new Logs();
@@ -204,15 +234,21 @@ namespace ZamenisHealth.FrontFHIR
         {
             Consultar();
         }
-        void Estilos(DataGridView D, DataTable t)
+        void Estilos(DataGridView D)
         {
+            D.Columns["✔"].Width = 20;
+            D.Columns["Admision"].Width = 110;
+            D.Columns["Paciente"].Width = 320;
+            D.Columns["FechaRDAPaciente"].Width = 130;
+            D.Columns["FechaRDAAmbulatorio"].Width = 130;
+            D.Columns["PersonaRDAPaciente"].Width = 130;
+            D.Columns["PersonaRDAAmbulatorio"].Width = 130;
+
             D.EnableHeadersVisualStyles = false;
             D.ScrollBars = ScrollBars.Both;
 
-            D.DataSource = t;
-
             D.ReadOnly = false;
-            D.Columns["CheckForSend"].ReadOnly = false;
+            D.Columns["✔"].ReadOnly = false;
 
             D.Columns["Admision"].ReadOnly = true;
             D.Columns["Paciente"].ReadOnly = true;
@@ -227,62 +263,99 @@ namespace ZamenisHealth.FrontFHIR
 
             gridZH1.dataGridView1.ClearSelection();
         }
-        void Encabezados()
+        async Task Filtrar(string Especialidad)
         {
-            gridZH1.dataGridView1.DataSource = null;
-            dt = new DataTable();
-            POS = dt.Columns.Add("POS", typeof(int));
-            CheckForSend = dt.Columns.Add("CheckForSend", typeof(bool));
-            Admision = dt.Columns.Add("Admision", typeof(int));
-            Paciente = dt.Columns.Add("Paciente", typeof(string));
-            FechaRDAPaciente = dt.Columns.Add("FechaRDAPaciente", typeof(string));
-            FechaRDAAmbulatorio = dt.Columns.Add("FechaRDAAmbulatorio", typeof(string));
-            PersonaRDAPaciente = dt.Columns.Add("PersonaRDAPaciente", typeof(string));
-            PersonaRDAAmbulatorio = dt.Columns.Add("PersonaRDAAmbulatorio", typeof(string));
-        }
-        void Filtrar(string Especialidad)
-        {
+            pictureBox1.Visible = true;
+
             try
             {
-                List<CXN_HORARIO> getRDA = repoFHIR.FiltrarEspecialidad(dateTimePicker1.Value.Date, Especialidad);
+                List<CXN_HORARIO> getRDA = await repoFHIR.FiltrarEspecialidad(dateTimePicker1.Value.Date, Especialidad);
                 if (getRDA == null)
                 {
-                    Encabezados();
+                    gridZH1.dataGridView1.DataSource = null;
+                    dt = new DataTable();
+                    POS = dt.Columns.Add("POS", typeof(int));
+                    CheckForSend = dt.Columns.Add("✔", typeof(bool));
+                    Admision = dt.Columns.Add("Admision", typeof(int));
+                    Paciente = dt.Columns.Add("Paciente", typeof(string));
+                    FechaRDAPaciente = dt.Columns.Add("FechaRDAPaciente", typeof(string));
+                    FechaRDAAmbulatorio = dt.Columns.Add("FechaRDAAmbulatorio", typeof(string));
+                    PersonaRDAPaciente = dt.Columns.Add("PersonaRDAPaciente", typeof(string));
+                    PersonaRDAAmbulatorio = dt.Columns.Add("PersonaRDAAmbulatorio", typeof(string));
                 }
                 else
                 {
-                    Encabezados();
+                    gridZH1.dataGridView1.DataSource = null;
+                    dt = new DataTable();
+                    POS = dt.Columns.Add("POS", typeof(int));
+                    CheckForSend = dt.Columns.Add("✔", typeof(bool));
+                    Admision = dt.Columns.Add("Admision", typeof(int));
+                    Paciente = dt.Columns.Add("Paciente", typeof(string));
+                    FechaRDAPaciente = dt.Columns.Add("FechaRDAPaciente", typeof(string));
+                    FechaRDAAmbulatorio = dt.Columns.Add("FechaRDAAmbulatorio", typeof(string));
+                    PersonaRDAPaciente = dt.Columns.Add("PersonaRDAPaciente", typeof(string));
+                    PersonaRDAAmbulatorio = dt.Columns.Add("PersonaRDAAmbulatorio", typeof(string));
+
+                    dt.BeginLoadData();
 
                     int Contador = 1;
 
-                    foreach (CXN_HORARIO i in getRDA)
+                    try
                     {
-                        DataRow row = dt.NewRow();
+                        foreach (CXN_HORARIO i in getRDA)
+                        {
+                            DataRow row = dt.NewRow();
 
-                        row["POS"] = Contador;
-                        row["CheckForSend"] = false;
-                        row["Admision"] = i.Hor_Id;
-                        row["Paciente"] = i.Hor_Imp_Age.ToString();
-                        row["FechaRDAPaciente"] = i.Hor_Autoriza;
-                        row["FechaRDAAmbulatorio"] = i.Hor_RegAtn;
-                        row["PersonaRDAPaciente"] = i.Hor_Usr_Admisiona;
-                        row["PersonaRDAAmbulatorio"] = i.PacienteAseguradora;
+                            row["POS"] = Contador;
+                            row["✔"] = false;
+                            row["Admision"] = i.Hor_Id;
+                            row["Paciente"] = i.Hor_Imp_Age.ToString();
+                            row["FechaRDAPaciente"] = i.Hor_Autoriza;
+                            row["FechaRDAAmbulatorio"] = i.Hor_RegAtn;
+                            row["PersonaRDAPaciente"] = i.Hor_Usr_Admisiona;
+                            row["PersonaRDAAmbulatorio"] = i.PacienteAseguradora;
 
-                        dt.Rows.Add(row);
-                        dt.AcceptChanges();
+                            dt.Rows.Add(row);
+                            //dt.AcceptChanges();
 
-                        Contador = Contador + 1;
+                            Contador = Contador + 1;
+                        }
+
+                        Contador = 1;
+                    }
+                    finally
+                    {
+                        dt.EndLoadData();
                     }
 
-                    Contador = 1;
-                    Estilos(gridZH1.dataGridView1, dt);
+                    vistaHistorial = new DataView(dt);
+                    var grid = gridZH1.dataGridView1;
+
+                    grid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+                    grid.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+                    grid.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+                    grid.DataSource = vistaHistorial;
+
+                    Estilos(grid);
+
+                    if (grid.Rows.Count > 0 && !gridZH1.CeldaHeight)
+                    {
+                        grid.AutoResizeRows(DataGridViewAutoSizeRowsMode.AllCells);
+                    }
+
+                    grid.ClearSelection();
+
+                    //Estilos(gridZH1.dataGridView1, dt);
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
-
+            finally
+            {
+                pictureBox1.Visible = false;
+            }
         }
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -315,12 +388,12 @@ namespace ZamenisHealth.FrontFHIR
             {
                 foreach (DataGridViewRow row in gridZH1.dataGridView1.Rows)
                 {
-                    object valor = row.Cells["CheckForSend"].Value;
+                    object valor = row.Cells["✔"].Value;
                     bool isChecked = valor != null && Convert.ToBoolean(valor);
 
                     if (!isChecked)
                     {
-                        row.Cells["CheckForSend"].Value = true;
+                        row.Cells["✔"].Value = true;
                     }
                 }
             }
@@ -335,12 +408,12 @@ namespace ZamenisHealth.FrontFHIR
             {
                 foreach (DataGridViewRow row in gridZH1.dataGridView1.Rows)
                 {
-                    object valor = row.Cells["CheckForSend"].Value;
+                    object valor = row.Cells["✔"].Value;
                     bool isChecked = valor != null && Convert.ToBoolean(valor);
 
                     if (isChecked)
                     {
-                        row.Cells["CheckForSend"].Value = false;
+                        row.Cells["✔"].Value = false;
                     }
                 }
             }
@@ -359,7 +432,7 @@ namespace ZamenisHealth.FrontFHIR
 
                 foreach (DataGridViewRow row in gridZH1.dataGridView1.Rows)
                 {
-                    object valor = row.Cells["CheckForSend"].Value;
+                    object valor = row.Cells["✔"].Value;
                     bool isChecked = valor != null && Convert.ToBoolean(valor);
 
                     int admision = Convert.ToInt32(row.Cells["Admision"].Value);    
@@ -454,7 +527,7 @@ namespace ZamenisHealth.FrontFHIR
 
                 foreach (DataGridViewRow row in gridZH1.dataGridView1.Rows)
                 {
-                    object valor = row.Cells["CheckForSend"].Value;
+                    object valor = row.Cells["✔"].Value;
                     bool isChecked = valor != null && Convert.ToBoolean(valor);
 
                     int admision = Convert.ToInt32(row.Cells["Admision"].Value);
